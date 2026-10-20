@@ -19,7 +19,7 @@ static func create(id: String, look: Dictionary, dialogue: String) -> NPC:
 	npc.dialogue_id = dialogue
 	npc.model = CharacterModel.new().build(look)
 	npc.add_child(npc.model)
-	MeshKit.solid(npc, Vector3(0.6, 1.6, 0.6), Vector3(0, 0.8, 0))
+	MeshKit.solid(npc, Vector3(0.6, 1.6, 0.6), Vector3(0, 0.8, 0), 0.0, MeshKit.LAYER_CHARACTER)
 	npc.talk = Interactable.create(npc, Vector3.ZERO, "Talk to %s" % Dialogue.character_name(id), npc._on_talk, 0.7, 1.95 * float(look.get("height", 1.0)))
 	npc.talk.reach = 2.2
 	return npc

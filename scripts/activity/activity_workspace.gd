@@ -215,6 +215,21 @@ func current_step() -> ActivityStep:
 	return step
 
 
+## Test/automation hook: presses the main button on the prompt card
+## (Next/Begin/Continue). Returns false when there is none.
+func press_primary() -> bool:
+	for i in range(_prompt_buttons.get_child_count() - 1, -1, -1):
+		var b := _prompt_buttons.get_child(i) as Button
+		if b and not b.is_queued_for_deletion():
+			b.pressed.emit()
+			return true
+	return false
+
+
+func prompt_text() -> String:
+	return _prompt.text
+
+
 func _update_controls() -> void:
 	var active := step != null and not step.is_done
 	_restart_button.visible = active and step.supports_reset()

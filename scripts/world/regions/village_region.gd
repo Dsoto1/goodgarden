@@ -88,6 +88,6 @@ func _villager(id: String, look: Dictionary, at: Vector3, wander_radius: float) 
 	w.pause_range = Vector2(3, 7)
 	w.talk_dialogue_id = id
 	add_child(w)
-	MeshKit.solid(w, Vector3(0.5, 1.6, 0.5), Vector3(0, 0.8, 0))
+	MeshKit.solid(w, Vector3(0.5, 1.6, 0.5), Vector3(0, 0.8, 0), 0.0, MeshKit.LAYER_CHARACTER)
 	var talk := Interactable.create(w, Vector3.ZERO, "Talk to %s" % Dialogue.character_name(id), func() -> void: Dialogue.start(id), 0.7, 1.95 * float(look.get("height", 1.0)))
 	talk.reach = 2.2

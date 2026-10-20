@@ -10,7 +10,8 @@ const ARRIVE_DISTANCE := 0.25
 
 var model: CharacterModel
 var camera: Camera3D
-var _walk_target: Variant = null # Vector3 or null
+var _walk_target: Variant = null # Vector3 or null: the current waypoint
+var _path: PackedVector3Array = [] # remaining waypoints after the current one
 var _pending_use: Interactable
 var _pointer_held := false
 var _stuck_time := 0.0
@@ -49,14 +50,20 @@ func facing() -> Vector3:
 
 func stop() -> void:
 	_walk_target = null
+	_path.clear()
 	_pending_use = null
 	_pointer_held = false
 	_dest_marker.visible = false
 	velocity = Vector3.ZERO
 
 
+## Walks around obstacles using the world's navigation mesh when it's ready,
+## otherwise straight toward the point.
 func walk_to(point: Vector3, use: Interactable = null) -> void:
-	_walk_target = Vector3(point.x, global_position.y, point.z)
+	_path = _navigation_path(point)
+	if _path.is_empty():
+		_path = PackedVector3Array([point])
+	_walk_target = _next_waypoint()
 	_pending_use = use
 	_stuck_time = 0.0
 	_dest_marker.visible = use == null
@@ -121,10 +128,13 @@ func _physics_process(delta: float) -> void:
 		elif _walk_target != null:
 			var to: Vector3 = _walk_target - global_position
 			to.y = 0.0
-			if to.length() < ARRIVE_DISTANCE:
+			if to.length() < ARRIVE_DISTANCE and not _path.is_empty():
+				_walk_target = _next_waypoint()
+			elif to.length() < ARRIVE_DISTANCE:
 				_arrive()
 			else:
-				desired = to.normalized() * SPEED * clampf(to.length() / 0.8, 0.35, 1.0)
+				var slow := 1.0 if not _path.is_empty() else clampf(to.length() / 0.8, 0.35, 1.0)
+				desired = to.normalized() * SPEED * slow
 	var horizontal := Vector3(velocity.x, 0, velocity.z).move_toward(desired, ACCEL * delta)
 	velocity = Vector3(horizontal.x, velocity.y - 20.0 * delta, horizontal.z)
 	move_and_slide()
@@ -138,6 +148,25 @@ func _physics_process(delta: float) -> void:
 		Interaction.update_focus(global_position, facing())
 	elif Interaction.focused:
 		Interaction.clear_focus()
+
+
+func _navigation_path(point: Vector3) -> PackedVector3Array:
+	var map := get_world_3d().navigation_map
+	if NavigationServer3D.map_get_iteration_id(map) == 0:
+		return PackedVector3Array()
+	var path := NavigationServer3D.map_get_path(map, global_position, point, true)
+	if path.size() > 0:
+		path.remove_at(0) # our own position
+		# Finish exactly at the requested point (e.g. in front of a shelf) when it is reachable.
+		if path.size() > 0 and path[path.size() - 1].distance_to(point) < 0.6:
+			path[path.size() - 1] = point
+	return path
+
+
+func _next_waypoint() -> Vector3:
+	var p := _path[0]
+	_path.remove_at(0)
+	return Vector3(p.x, global_position.y, p.z)
 
 
 func _arrive() -> void:

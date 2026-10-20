@@ -1,0 +1,4 @@
+{
+	"comment": "Every third-party file under assets/third_party must be listed here before it is used (see docs/design/THIRD_PARTY_ASSETS.md). The vertical slice currently uses no third-party assets: all geometry, UI art and sound are procedural.",
+	"assets": []
+}

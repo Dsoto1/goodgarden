@@ -1,3 +1,4 @@
+class_name ValleyRegion
 extends Region
 ## The shared valley floor: ground, river and bridge, the roads that connect
 ## the places, a meadow with sheep, and the trees that frame the playable area.

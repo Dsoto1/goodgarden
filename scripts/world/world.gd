@@ -24,6 +24,7 @@ func _ready() -> void:
 	_build_environment()
 	for entry: Dictionary in Content.get_world("regions").get("regions", []):
 		_load_region(entry)
+	_bake_navigation()
 	player = Player.new()
 	player.name = "Player"
 	add_child(player)
@@ -75,6 +76,29 @@ func _build_environment() -> void:
 	sun.shadow_enabled = true
 	sun.directional_shadow_max_distance = 45.0
 	add_child(sun)
+
+
+## Bakes walkable ground from the static colliders of every region, so tap-to-walk
+## goes around fences and walls and through doors and gates.
+func _bake_navigation() -> void:
+	var nav := NavigationMesh.new()
+	nav.geometry_parsed_geometry_type = NavigationMesh.PARSED_GEOMETRY_STATIC_COLLIDERS
+	nav.geometry_collision_mask = MeshKit.LAYER_GROUND | MeshKit.LAYER_OBSTACLE
+	nav.geometry_source_geometry_mode = NavigationMesh.SOURCE_GEOMETRY_GROUPS_WITH_CHILDREN
+	nav.geometry_source_group_name = &"navigation_source"
+	add_to_group("navigation_source")
+	nav.agent_radius = 0.25
+	nav.agent_height = 1.25
+	nav.agent_max_climb = 0.25
+	nav.cell_size = 0.25
+	nav.cell_height = 0.25
+	var b := ValleyRegion.BOUNDS
+	nav.filter_baking_aabb = AABB(Vector3(b.position.x, -1, b.position.y), Vector3(b.size.x, 4, b.size.y))
+	var region := NavigationRegion3D.new()
+	region.name = "Navigation"
+	region.navigation_mesh = nav
+	add_child(region)
+	region.bake_navigation_mesh(false)
 
 
 func _load_region(entry: Dictionary) -> void:

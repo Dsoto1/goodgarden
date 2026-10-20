@@ -61,8 +61,8 @@ func _update(delta: float, instant: bool) -> void:
 	for key: String in ["pitch", "distance", "yaw", "fov"]:
 		_params[key] = lerpf(_params[key], goal[key], k)
 	_look = _look.lerp(look_goal, 1.0 if instant else 1.0 - exp(-delta * 6.0))
-	var pitch := deg_to_rad(_params["pitch"])
-	var offset := Vector3(0, sin(pitch), cos(pitch)) * _params["distance"]
+	var pitch: float = deg_to_rad(_params["pitch"])
+	var offset: Vector3 = Vector3(0, sin(pitch), cos(pitch)) * float(_params["distance"])
 	camera.global_position = _look + offset.rotated(Vector3.UP, deg_to_rad(_params["yaw"]))
 	camera.fov = _params["fov"]
 	camera.look_at(_look, Vector3.UP)

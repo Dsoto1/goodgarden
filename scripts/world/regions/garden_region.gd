@@ -1,3 +1,4 @@
+class_name GardenRegion
 extends Region
 ## Miriam's garden: three raised beds inside a fence. Bed 1 is the child's
 ## bean row. Its look is derived entirely from the "garden.bed_1" fact and
@@ -48,6 +49,10 @@ func build() -> void:
 	var bed_use := Interactable.create(self, Vector3(BED_X, 0, z1 + 1.2), "Look at the bean row", _on_bed_used, 0.9, 1.1)
 	bed_use.reach = 2.2
 	bed_use.focus_point = position + Vector3(BED_X, 0.3, z1)
+	var focus := Marker3D.new()
+	focus.position = Vector3(BED_X, 0.3, z1)
+	focus.add_to_group("activity_focus")
+	add_child(focus)
 
 	# Shed, barrel and tools.
 	MeshKit.box(self, Vector3(2.0, 2.0, 1.6), Vector3(4.6, 1.0, -4.3), "wood_dark", true)

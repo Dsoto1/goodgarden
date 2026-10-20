@@ -12,6 +12,8 @@ const LAYER_OBSTACLE := 2
 const LAYER_INTERACTABLE := 4
 const LAYER_PLAYER := 8
 const LAYER_TRIGGER := 16
+## Characters block the avatar but are not baked into the navigation mesh.
+const LAYER_CHARACTER := 32
 
 static var _meshes := {}
 
@@ -73,10 +75,10 @@ static func cone(parent: Node3D, radius: float, height: float, pos: Vector3, mat
 	return cylinder(parent, 0.001, radius, height, pos, material, sides)
 
 
-## Invisible collider on the obstacle layer.
-static func solid(parent: Node3D, size: Vector3, pos: Vector3, rot_y := 0.0) -> StaticBody3D:
+## Invisible collider on the obstacle layer (or another layer, e.g. characters).
+static func solid(parent: Node3D, size: Vector3, pos: Vector3, rot_y := 0.0, layer := LAYER_OBSTACLE) -> StaticBody3D:
 	var body := StaticBody3D.new()
-	body.collision_layer = LAYER_OBSTACLE
+	body.collision_layer = layer
 	body.collision_mask = 0
 	body.position = pos
 	body.rotation.y = rot_y
