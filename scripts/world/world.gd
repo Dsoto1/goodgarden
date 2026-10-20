@@ -21,10 +21,15 @@ var mood := "outdoor"
 
 func _ready() -> void:
 	add_to_group("mood_listeners")
+	Style.apply_settings()
+	Settings.changed.connect(func(key: String) -> void:
+		if key == "reduced_motion":
+			Style.apply_settings())
 	_build_environment()
 	for entry: Dictionary in Content.get_world("regions").get("regions", []):
 		_load_region(entry)
 	_bake_navigation()
+	_grow_ground_cover()
 	player = Player.new()
 	player.name = "Player"
 	add_child(player)
@@ -75,6 +80,19 @@ func _build_environment() -> void:
 	sun.shadow_enabled = true
 	sun.directional_shadow_max_distance = 45.0
 	add_child(sun)
+
+
+func _grow_ground_cover() -> void:
+	var clearings: Array[Dictionary] = []
+	for region: Region in regions.values():
+		clearings.append_array(region.clearings)
+	var cover := GroundCover.new()
+	cover.name = "GroundCover"
+	add_child(cover)
+	var area := ValleyRegion.BOUNDS.grow(10.0)
+	var density := 1.0 if Settings.get_value("lush_detail") else 0.4
+	cover.build(area, clearings, density, 2024)
+	cover.fringe_paths(clearings, density, 2025)
 
 
 ## Bakes walkable ground from the static colliders of every region, so tap-to-walk

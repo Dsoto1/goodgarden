@@ -8,7 +8,6 @@ const CATALOG := "res://assets/props.json"
 
 static var _catalog: Dictionary
 static var _scenes := {}
-static var _tinted := {} # "<prop id>:<material id>" -> shared tinted copy
 
 
 static func catalog() -> Dictionary:
@@ -47,8 +46,7 @@ static func place(parent: Node3D, id: String, pos: Vector3, rot_y := 0.0, scale_
 	model.scale = Vector3.ONE * s
 	model.position = _vec3(p.get("offset", [0, 0, 0])) * s
 	root.add_child(model)
-	if p.has("tint"):
-		_apply_tint(model, id, _vec3(p["tint"]))
+	Style.apply(model, grade_for(id), float(p.get("sway", 0.0)), id)
 	if p.get("shadow", true) == false:
 		for mi in model.find_children("*", "GeometryInstance3D", true, false):
 			(mi as GeometryInstance3D).cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
@@ -60,22 +58,14 @@ static func place(parent: Node3D, id: String, pos: Vector3, rot_y := 0.0, scale_
 	return root
 
 
-## Multiplies albedo of every material so imported art sits in the shared
-## palette. Tinted copies are cached per prop so instances still share materials.
-static func _apply_tint(model: Node, id: String, tint: Vector3) -> void:
-	for node in model.find_children("*", "MeshInstance3D", true, false):
-		var mi := node as MeshInstance3D
-		for i in mi.mesh.get_surface_count():
-			var source := mi.get_active_material(i) as BaseMaterial3D
-			if source == null:
-				continue
-			var key := "%s:%d" % [id, source.get_instance_id()]
-			if not _tinted.has(key):
-				var copy := source.duplicate() as BaseMaterial3D
-				var c := copy.albedo_color
-				copy.albedo_color = Color(c.r * tint.x, c.g * tint.y, c.b * tint.z, c.a)
-				_tinted[key] = copy
-			mi.set_surface_override_material(i, _tinted[key])
+## Colour grade for a prop: its pack's grade, overridden by the prop's own.
+static func grade_for(id: String) -> Dictionary:
+	var p: Dictionary = catalog()["props"][id]
+	var g: Dictionary = catalog().get("grades", {}).get(p["pack"], {}).duplicate()
+	for key: String in ["saturation", "tint", "wrap", "rim_strength", "up_normals", "root_shade"]:
+		if p.has(key):
+			g[key] = p[key]
+	return g
 
 
 ## Places a row of fence panels from a to b using the prop's "length".
@@ -98,13 +88,13 @@ static func bounds(node: Node3D) -> AABB:
 	var first := true
 	for mi in node.find_children("*", "MeshInstance3D", true, false):
 		var m := mi as MeshInstance3D
-		var b := _relative(m, node) * m.get_aabb()
+		var b := relative_transform(m, node) * m.get_aabb()
 		box = b if first else box.merge(b)
 		first = false
 	return box
 
 
-static func _relative(n: Node3D, ancestor: Node3D) -> Transform3D:
+static func relative_transform(n: Node3D, ancestor: Node3D) -> Transform3D:
 	var t := Transform3D.IDENTITY
 	var cur: Node = n
 	while cur != ancestor and cur is Node3D:

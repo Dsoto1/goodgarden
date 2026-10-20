@@ -5,7 +5,8 @@ extends Region
 
 func build() -> void:
 	# A cozy plaza: buildings close around the well so they share the frame.
-	MeshKit.cylinder(self, 4.5, 4.5, 0.04, Vector3(0, 0.02, 0), "path", 16)
+	MeshKit.cylinder(self, 4.5, 4.5, 0.04, Vector3(0, 0.02, 0), "cobble", 24)
+	add_clearing(Vector3.ZERO, Vector2(9.4, 9.4))
 	Props.place(self, "well", Vector3(0, 0, 0), 0.0)
 	_building("market", Vector3(-4.8, 0, -5.2), 0.0, "Bakery", 3.2)
 	_building("workshop", Vector3(5.0, 0, -5.6), 0.0, "Workshop", 3.6)
@@ -22,8 +23,9 @@ func build() -> void:
 	Props.place(self, "bucket", Vector3(1.2, 0, 0.9))
 
 	# North road to the overlook.
-	MeshKit.path(self, Vector3(0, 0, -4.0), Vector3(0, 0, -13), 2.0)
+	road(Vector3(0, 0, -4.0), Vector3(0, 0, -13), 2.0, "cobble")
 	MeshKit.box(self, Vector3(12, 0.7, 0.6), Vector3(0, 0.35, -15.2), "stone", true)
+	add_clearing(Vector3(0, 0, -13.6), Vector2(8, 2.6))
 	MeshKit.box(self, Vector3(1.6, 0.45, 0.5), Vector3(-2.5, 0.22, -13.8), "wood", true)
 	var sign_post := MeshKit.box(self, Vector3(0.12, 1.8, 0.12), Vector3(2.0, 0.9, -12.2), "wood")
 	sign_post.name = "SignPost"
@@ -61,6 +63,9 @@ func build() -> void:
 ## A KayKit building with an optional painted sign over its front.
 func _building(prop: String, at: Vector3, rot: float, sign_text: String, sign_height := 3.0) -> void:
 	var b := Props.place(self, prop, at, rot)
+	var box := Props.bounds(b)
+	var span := maxf(box.size.x, box.size.z) + 0.6
+	add_clearing(at, Vector2(span, span))
 	if sign_text.is_empty():
 		return
 	var front := Props.bounds(b).end.z + 0.08

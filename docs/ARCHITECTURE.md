@@ -62,6 +62,18 @@ Every step runs on a 1000×560 design-unit board that the workspace scales to fi
 - **Camera:** `CameraRig` follows at a fixed elevated three-quarter angle. Zones and focus requests reframe it (conversation, activity close-up, chapel, vista); with reduced motion it cuts instead of gliding.
 - **Mood:** `World.set_mood()` tweens light and ambience between outdoor, home and chapel, and quiets the HUD in the chapel.
 
+## Look: one style for every source
+
+- **Shaders (`shaders/`):** all world surfaces use the storybook shaders. That covers procedural pieces, KayKit, Quaternius and the characters. `storybook_common.gdshaderinc` is the shared lighting: a soft two-tone terminator, cool-tinted shade and a faint rim light. Variants:
+  - `storybook.gdshader`: solid surfaces.
+  - `storybook_foliage.gdshader`: alpha-cut, two-sided, wind sway.
+  - `ground.gdshader`: patchy meadow greens.
+  - `water.gdshader`: drifting ripples.
+- **Global uniforms (`project.godot` `[shader_globals]`):** `gg_wind` is set to 0 by "Less motion", `gg_shadow_tint` controls shade colour, and `gg_light_scale` is 1/π because Godot passes LIGHT_COLOR to custom light functions with π folded in.
+- **Painted patterns (`patterns.gdshaderinc`):** world-space patterns give procedural pieces texture without photo textures: wood planks, stone blocks, shingles, thatch, plaster, earth paths, cobbles, soil and cloth. `Palette.PATTERNS` maps palette colours to patterns.
+- **`Style`:** converts imported glTF materials to the storybook shaders once and caches them. `assets/props.json` `grades` pull each pack toward the shared palette (saturation, tint, light wrap). Quaternius vertex colours are shader masks, not colour, so that pack sets `ignore_vertex_color`. Grass sets `up_normals` and `root_shade` so it lights like the ground it grows from.
+- **`GroundCover`:** grass, clover and wildflower meadows instanced with MultiMesh in 10 m chunks (drawn to 34 m, no shadows). It grows everywhere except each region's `clearings` (floors, paths, beds, plaza), clusters by noise, and fringes path edges with tufts and pebbles. "Less scenery detail" lowers density to 40%: about 1.7M → 0.67M triangles map-wide, of which only nearby chunks in view are drawn.
+
 ## Input
 
 All pointer input is ordinary mouse events (touch is emulated as mouse). `DragPiece` reads positions from the event, not the hardware cursor, so the gamepad's `VirtualCursor` drives every primitive by pushing the same events.
@@ -72,6 +84,7 @@ All pointer input is ordinary mouse events (touch is emulated as mouse). `DragPi
 
 ## Known gaps and next steps
 
+- **Tablet performance of the lush pass is unmeasured.** Every check so far has used a software renderer. Profile on baseline hardware and tune the `GroundCover.LAYERS` densities or the default for "Less scenery detail".
 - **Art is partly placeholder.** KayKit and Quaternius CC0 props dress the world through `Props` and `assets/props.json`. The Quaternius foliage uses alpha-cut leaf cards, so it is more detailed than the flat-coloured custom buildings; the paid Source edition's stylized shader, or a custom toon shader, would bring them closer together. The custom hero assets named in ART_DIRECTION/ASSET_STRATEGY are still primitive-built: protagonist, Miriam and villagers, cottage shell, Chapel, Scripture figures. The KayKit hex pack's hills and mountains are map tiles with cliff sides, so distant hills stay procedural.
 - **Narration** uses system text-to-speech when available. Recorded narration needs an `audio` field (the validator already checks that the file exists) and playback in `AudioService`.
 - **Localization:** strings pass through `tr()` but no translation tables exist yet.

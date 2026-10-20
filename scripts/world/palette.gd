@@ -1,13 +1,14 @@
 class_name Palette
 extends RefCounted
-## The shared storybook palette. Every world mesh uses one of these few
-## materials, which keeps the look cohesive and draw-call friendly (materials
-## are created once and shared).
+## The shared storybook palette. Every procedural mesh uses one of these few
+## materials (created once and shared), drawn with the storybook shader so it
+## matches imported art.
 
 const COLORS := {
 	"grass": Color("8fb867"),
 	"grass_dark": Color("6f9a52"),
-	"path": Color("d9c49a"),
+	"path": Color("c9a97c"),
+	"cobble": Color("c2b8a6"),
 	"soil": Color("7a5236"),
 	"soil_dark": Color("5c3d28"),
 	"wood": Color("a8774f"),
@@ -28,6 +29,10 @@ const COLORS := {
 	"trunk": Color("7a5a3e"),
 	"water": Color("6fa8c7"),
 	"glass": Color("f7e7a8"),
+	"glass_blue": Color("8fb2e8"),
+	"glass_red": Color("e89a8f"),
+	"glass_gold": Color("f2cf6e"),
+	"smoke": Color("eef0f2"),
 	"cloth_blue": Color("6d8fc0"),
 	"cloth_red": Color("c96f5a"),
 	"cloth_green": Color("7aa36a"),
@@ -56,6 +61,19 @@ const COLORS := {
 	"marker": Color("ffd76a"),
 }
 
+## Painted surface pattern per palette colour (see shaders/patterns.gdshaderinc).
+const PATTERNS := {
+	"wood": 1, "wood_dark": 1, "wood_light": 1, "trunk": 1,
+	"stone": 2, "stone_dark": 2,
+	"roof_red": 3, "roof_blue": 3, "roof_slate": 3,
+	"roof_thatch": 4,
+	"plaster": 5, "plaster_warm": 5,
+	"path": 6,
+	"cobble": 9,
+	"soil": 7, "soil_dark": 7,
+	"cloth_cream": 8, "cloth_blue": 8, "cloth_red": 8, "cloth_green": 8, "cloth_gold": 8, "cloth_purple": 8, "felt_blue": 8,
+}
+
 static var _materials := {}
 
 
@@ -63,23 +81,36 @@ static func color(name: String) -> Color:
 	return COLORS.get(name, Color.MAGENTA)
 
 
-static func mat(name: String) -> StandardMaterial3D:
+## Shared material for a palette colour. Most use the storybook shader; a few
+## need special handling (glowing windows, the unlit marker, distant haze).
+static func mat(name: String) -> Material:
 	if _materials.has(name):
 		return _materials[name]
-	var m := StandardMaterial3D.new()
-	m.albedo_color = color(name)
-	m.roughness = 0.9
+	var m: Material
 	match name:
 		"water":
-			m.roughness = 0.2
-			m.metallic_specular = 0.6
-		"glass":
-			m.emission_enabled = true
-			m.emission = color(name)
-			m.emission_energy_multiplier = 0.35
+			m = Style.material("water")
+		"glass", "glass_blue", "glass_red", "glass_gold":
+			m = Style.flat(color(name), {"emission_color": color(name) * 0.45})
 		"marker":
-			m.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+			var s := StandardMaterial3D.new()
+			s.albedo_color = color(name)
+			s.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+			m = s
 		"distant", "distant_dark":
-			m.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+			var d := StandardMaterial3D.new()
+			d.albedo_color = color(name)
+			d.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+			m = d
+		"leaf", "leaf_light", "leaf_autumn", "pine", "sprout", "grass_dark":
+			# Soft materials let light wrap around, like foliage.
+			m = Style.flat(color(name), {"wrap": 0.5})
+		_:
+			var params := {}
+			if PATTERNS.has(name):
+				params["pattern"] = PATTERNS[name]
+			if name.begins_with("cloth") or name == "white":
+				params["wrap"] = 0.5
+			m = Style.flat(color(name), params)
 	_materials[name] = m
 	return m

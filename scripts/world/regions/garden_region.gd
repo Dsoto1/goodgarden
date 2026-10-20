@@ -23,7 +23,6 @@ func build() -> void:
 		MeshKit.box(self, Vector3(0.2, 2.3, 0.2), Vector3(-6, 1.15, z), "wood")
 	MeshKit.box(self, Vector3(0.3, 0.2, 2.8), Vector3(-6, 2.3, 0), "wood")
 	MeshKit.roof(self, 0.9, 0.4, 3.0, Vector3(-6, 2.6, 0), "roof_thatch")
-	MeshKit.box(self, Vector3(12, 0.03, 11), Vector3(0, 0.015, 0), "grass_dark")
 
 	for bed_name: String in BED_ROWS:
 		_bed_frame(BED_ROWS[bed_name])
@@ -68,6 +67,10 @@ func build() -> void:
 	Props.place(self, "mushroom", Vector3(7.4, 0, 7.3), 0.4)
 	Props.place(self, "fern", Vector3(-7.4, 0, -3.6), 0.2)
 
+	for z: float in BED_ROWS.values():
+		add_clearing(Vector3(BED_X, 0, z), Vector2(BED_LENGTH + 0.6, 1.8))
+	add_clearing(Vector3(4.6, 0, -4.3), Vector2(2.6, 2.2))
+	road(Vector3(-6.5, 0, 0), Vector3(-3.2, 0, 0), 1.4)
 	add_anchor("garden_gate", Vector3(-7.6, 0, 0), -PI / 2.0)
 	add_anchor("garden_miriam", Vector3(-4.3, 0, 3.6), -PI / 2.0)
 	add_discovery_zone(Vector3(0, 1, 0), Vector3(12, 3, 11))

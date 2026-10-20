@@ -16,6 +16,11 @@ func show_settings() -> void:
 	easy.button_pressed = Settings.get_value("snap_tolerance") > 60.0
 	easy.toggled.connect(func(on: bool) -> void: Settings.set_value("snap_tolerance", 90.0 if on else 56.0))
 	content.add_child(easy)
+	var detail := CheckButton.new()
+	detail.text = tr("Less scenery detail (for older tablets; applies next time the world loads)")
+	detail.button_pressed = not Settings.get_value("lush_detail")
+	detail.toggled.connect(func(on: bool) -> void: Settings.set_value("lush_detail", not on))
+	content.add_child(detail)
 	_slider(tr("All sound"), "volume_master", 0.0, 1.0, 0.05)
 	_slider(tr("Nature and music"), "volume_ambience", 0.0, 1.0, 0.05)
 	_slider(tr("Little sounds"), "volume_effects", 0.0, 1.0, 0.05)

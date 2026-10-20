@@ -123,10 +123,10 @@ static func fence(parent: Node3D, a: Vector3, b: Vector3, material := "wood_ligh
 
 
 ## Flat walkable strip for paths (purely visual; the ground is walkable everywhere).
-static func path(parent: Node3D, a: Vector3, b: Vector3, width := 1.6, material := "path") -> void:
+static func path(parent: Node3D, a: Vector3, b: Vector3, width := 1.6, material := "path") -> MeshInstance3D:
 	var span := b - a
 	var length := span.length()
-	box(parent, Vector3(width, 0.04, length + width * 0.5), a + span * 0.5 + Vector3(0, 0.02, 0), material, false, atan2(span.x, span.z))
+	return box(parent, Vector3(width, 0.04, length + width * 0.5), a + span * 0.5 + Vector3(0, 0.02, 0), material, false, atan2(span.x, span.z))
 
 
 static func flowers(parent: Node3D, center: Vector3, radius: float, count: int, seed_value: int) -> void:

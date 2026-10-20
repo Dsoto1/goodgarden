@@ -17,10 +17,12 @@ func build() -> void:
 	shape.position.y = -0.5
 	ground.add_child(shape)
 	add_child(ground)
-	MeshKit.box(self, Vector3(400, 0.1, 400), Vector3(0, -0.05, 0), "grass")
+	var ground_mesh := MeshKit.box(self, Vector3(400, 0.1, 400), Vector3(0, -0.05, 0), "grass")
+	ground_mesh.material_override = Style.material("ground", {"wrap": 0.3})
 	_patches()
 
 	# River with a single bridge crossing.
+	add_clearing(Vector3(0, 0, -14), Vector2(200, 5.0))
 	MeshKit.box(self, Vector3(200, 0.06, 4), Vector3(0, 0.0, -14), "water")
 	for z: float in [-16.2, -11.8]:
 		MeshKit.box(self, Vector3(200, 0.08, 0.5), Vector3(0, 0.01, z), "soil")
@@ -33,11 +35,11 @@ func build() -> void:
 	MeshKit.fence(self, Vector3(7.0, 0, -17.2), Vector3(7.0, 0, -10.8), "wood")
 
 	# Roads.
-	MeshKit.path(self, Vector3(0, 0, 4.4), Vector3(5.5, 0, 4.4))
-	MeshKit.path(self, Vector3(5.5, 0, 6), Vector3(5.5, 0, -11))
-	MeshKit.path(self, Vector3(5.5, 0, 3), Vector3(8, 0, 3))
-	MeshKit.path(self, Vector3(5.5, 0, -17), Vector3(6, 0, -21.5))
-	MeshKit.path(self, Vector3(5.5, 0, -21), Vector3(-9, 0, -21))
+	road(Vector3(0, 0, 4.4), Vector3(5.5, 0, 4.4))
+	road(Vector3(5.5, 0, 6), Vector3(5.5, 0, -11))
+	road(Vector3(5.5, 0, 3), Vector3(8, 0, 3))
+	road(Vector3(5.5, 0, -17), Vector3(6, 0, -21.5))
+	road(Vector3(5.5, 0, -21), Vector3(-9, 0, -21))
 
 	# Meadow with sheep east of the village.
 	for i in 3:
@@ -55,11 +57,6 @@ func build() -> void:
 func _patches() -> void:
 	var rng := RandomNumberGenerator.new()
 	rng.seed = 99
-	for i in 70:
-		var p := Vector3(rng.randf_range(-36, 40), 0.0, rng.randf_range(-50, 18))
-		if absf(p.z + 14) < 3.5:
-			continue
-		MeshKit.sphere(self, rng.randf_range(0.8, 2.2), p, "grass_dark", Vector3(1.0, 0.03, rng.randf_range(0.6, 1.2)), 7, 2)
 	# Undergrowth: bushes, ferns, grass and wildflowers, kept off paths and buildings.
 	var cover := ["bush", "bush_flowers", "fern", "grass_tuft", "grass_wispy", "grass_wispy", "flowers_a", "flowers_b", "clover", "plant"]
 	for i in 90:
@@ -89,7 +86,7 @@ func _trees() -> void:
 		Props.place(self, "mushroom", Vector3(m[0], 0, m[1]), rng.randf() * TAU)
 	# Working buildings and fields that make the valley feel lived in.
 	Props.place(self, "windmill", Vector3(28, 0, -29), -0.4)
-	Props.place(self, "watermill", Vector3(-11, 0, -10.2), PI)
+	Props.place(self, "watermill", Vector3(-21, 0, -10.4), PI)
 	Props.place(self, "grain_field", Vector3(25, 0, 6), 0.3)
 	Props.place(self, "grain_field", Vector3(29, 0, 0), -0.2)
 	var rocks := ["rock", "rock_b", "rock_c"]

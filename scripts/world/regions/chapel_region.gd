@@ -13,13 +13,22 @@ func build() -> void:
 	MeshKit.box(self, Vector3(7.2, 3.4, 0.25), Vector3(0, 1.7, -5), "stone", true)
 	for side: float in [-1.0, 1.0]:
 		MeshKit.box(self, Vector3(0.25, 3.4, 10), Vector3(side * 3.5, 1.7, 0), "stone", true)
+		MeshKit.box(self, Vector3(0.4, 0.45, 10.2), Vector3(side * 3.6, 0.22, 0), "stone_dark")
 		for z: float in [-2.8, 0.2, 3.0]:
-			MeshKit.box(self, Vector3(0.08, 1.6, 0.6), Vector3(side * 3.64, 1.9, z), "glass")
-			MeshKit.box(self, Vector3(0.08, 0.3, 0.3), Vector3(side * 3.64, 2.85, z), "glass")
+			_lancet_window(Vector3(side * 3.64, 0, z), side)
+		for z: float in [-4.3, -1.3, 1.6, 4.4]:
+			MeshKit.box(self, Vector3(0.5, 2.6, 0.55), Vector3(side * 3.85, 1.3, z), "stone_dark")
+			MeshKit.box(self, Vector3(0.42, 0.5, 0.5), Vector3(side * 3.8, 2.75, z), "stone_dark").rotation.z = side * 0.5
 	var cutaway := group_node("Cutaway")
 	for x: float in [-2.2, 2.2]:
 		MeshKit.box(cutaway, Vector3(2.6, 3.4, 0.25), Vector3(x, 1.7, 5), "stone", true)
 	MeshKit.box(cutaway, Vector3(1.8, 1.0, 0.25), Vector3(0, 2.9, 5), "stone")
+	# Arched door surround.
+	for x: float in [-1.0, 1.0]:
+		MeshKit.box(cutaway, Vector3(0.24, 2.4, 0.4), Vector3(x, 1.2, 5.05), "stone_dark")
+	var arch := MeshKit.cylinder(cutaway, 1.12, 1.12, 0.4, Vector3(0, 2.4, 5.05), "stone_dark", 16)
+	arch.rotation.x = PI / 2.0
+	arch.scale = Vector3(1.0, 1.0, 0.55)
 	MeshKit.roof(cutaway, 7.8, 2.6, 10.8, Vector3(0, 4.7, 0), "roof_slate")
 	MeshKit.cylinder(cutaway, 0.5, 0.5, 0.06, Vector3(0, 4.2, 5.2), "glass", 12).rotation.x = PI / 2.0
 	# Bell tower behind the nave, visible over the roof from the village.
@@ -69,10 +78,26 @@ func build() -> void:
 	Props.place(self, "tree_b", Vector3(-6.5, 0, -4), 0.2)
 	MeshKit.box(self, Vector3(1.6, 0.45, 0.5), Vector3(4.5, 0.22, 5.5), "wood", true)
 
+	add_clearing(Vector3(0, 0, 0), Vector2(7.8, 10.8))
+	add_clearing(Vector3(0, 0, -6.2), Vector2(2.8, 2.8))
+	road(Vector3(0, 0, 5.6), Vector3(0, 0, 6.2), 2.4)
+	clearings.append({"a": Vector2(position.x, position.z + 6.5), "b": Vector2(position.x, position.z + 10.0), "width": 1.6})
 	add_anchor("chapel_door", Vector3(0, 0, 7.2), 0.0)
 	add_discovery_zone(Vector3(0, 1, 2), Vector3(12, 3, 16))
 	add_interior("chapel", Vector3(0, 1.5, -0.2), Vector3(6.6, 3, 9.4), [cutaway])
 	add_camera_zone(Vector3(0, 1.5, -0.2), Vector3(6.6, 3, 9.4), {"pitch": 56.0, "distance": 9.5, "fov": 40.0})
+
+
+## Tall pointed window with three bands of coloured glass and a stone surround.
+func _lancet_window(at: Vector3, side: float) -> void:
+	var bands := ["glass_blue", "glass_gold", "glass_red"]
+	for i in 3:
+		MeshKit.box(self, Vector3(0.08, 0.5, 0.56), at + Vector3(0, 1.3 + i * 0.52, 0), bands[i])
+	var tip := MeshKit.box(self, Vector3(0.08, 0.38, 0.38), at + Vector3(0, 2.95, 0), "glass_gold")
+	tip.rotation.x = PI / 4.0
+	for dz: float in [-0.34, 0.34]:
+		MeshKit.box(self, Vector3(0.12, 1.75, 0.1), at + Vector3(side * 0.02, 1.83, dz), "stone_dark")
+	MeshKit.box(self, Vector3(0.16, 0.1, 0.8), at + Vector3(side * 0.03, 1.0, 0), "stone_dark")
 
 
 func _shelf(at: Vector3, length: float) -> void:

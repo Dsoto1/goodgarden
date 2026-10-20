@@ -17,6 +17,7 @@ const DEFAULTS := {
 	"volume_effects": 0.7,
 	"volume_voice": 1.0,
 	"snap_tolerance": 56.0, # pixels; generous by default for small fingers
+	"lush_detail": true, # dense grass and flowers; off for older tablets
 	"real_world_invitations": true,
 	"session_minutes": 0, # 0 = no gentle rest reminder
 }

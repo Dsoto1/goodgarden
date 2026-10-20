@@ -64,6 +64,7 @@ Art is mid-transition from placeholder to final:
 
 - **KayKit (CC0)** models dress the built world: village buildings, mills, fields, fences, everyday props, cottage and Atrium furniture, tableware, and the distant Bellhaven skyline. They're a subset of three packs by Kay Lousberg.
 - **Quaternius Stylized Nature MegaKit (CC0, free Standard edition)** provides the greenery: trees, pines, twisted landmark trees, bushes, ferns, grass, flowers, mushrooms, rocks and stepping stones. Large textures are downscaled to 1024 px for tablets, and foliage gets a palette tint (`tint` in `assets/props.json`).
+- **Blending and lushness:** a shared storybook shader set lights every source the same way and grades each pack toward one palette. Procedural buildings, paths and soil get painted world-space patterns. Dense instanced meadows (grass, clover, wildflowers) grow everywhere except floors and paths, and leaves, grass and the river move gently unless "Less motion" is on. "Less scenery detail" in Settings thins the meadows for older tablets.
 - Every imported file is listed in `assets/third_party/manifest.json` and summarized in `docs/design/THIRD_PARTY_ASSETS.md`.
 - `assets/props.json` normalizes every imported model (scale to metres, pivot, collision). Regions place props by name with `Props.place()`, so swapping a model is a data change.
 - **Still custom or procedural** (the identity pieces ART_DIRECTION.md says should be custom): the cottage shell, Chapel and Atrium shelves, the child's raised beds, the characters, the activity boards and UI art, and all sound.
@@ -89,3 +90,7 @@ Rendered with the software renderer by `tools/screenshot_tour.tscn`. Art pass: K
 | Home | The village |
 |---|---|
 | ![](docs/screenshots/02_home_start.png) | ![](docs/screenshots/10_village.png) |
+
+| The cottage | The chapel |
+|---|---|
+| ![](docs/screenshots/11c_cottage_outside.png) | ![](docs/screenshots/11b_chapel_outside.png) |

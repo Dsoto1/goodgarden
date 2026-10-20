@@ -10,6 +10,9 @@ extends Node3D
 
 var region_id := ""
 var display_name := ""
+## Areas (world space) where ground cover must not grow: floors, paths, beds.
+## Each is {"rect": Rect2} in x/z, or {"a": Vector2, "b": Vector2, "width": float}.
+var clearings: Array[Dictionary] = []
 
 
 func _ready() -> void:
@@ -74,6 +77,18 @@ func add_camera_zone(center: Vector3, size: Vector3, framing: Dictionary) -> Zon
 	z.player_entered.connect(func() -> void: get_tree().call_group("camera_rig", "push_zone", framing))
 	z.player_exited.connect(func() -> void: get_tree().call_group("camera_rig", "pop_zone", framing))
 	return z
+
+
+## Keeps grass and flowers off a rectangle (local centre and x/z size).
+func add_clearing(center: Vector3, size: Vector2) -> void:
+	var c := position + center
+	clearings.append({"rect": Rect2(c.x - size.x / 2.0, c.z - size.y / 2.0, size.x, size.y)})
+
+
+## A path strip that also keeps ground cover off itself.
+func road(a: Vector3, b: Vector3, width := 1.6, material := "path") -> void:
+	MeshKit.path(self, a, b, width, material)
+	clearings.append({"a": Vector2(position.x + a.x, position.z + a.z), "b": Vector2(position.x + b.x, position.z + b.z), "width": width + 0.4})
 
 
 ## Group node that can be shown/hidden together (roofs, crops, table settings).

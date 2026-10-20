@@ -59,6 +59,21 @@ pointing/emulate_mouse_from_touch=true
 3d_physics/layer_5="triggers"
 3d_physics/layer_6="characters"
 
+[shader_globals]
+
+gg_wind={
+"type": "float",
+"value": 1.0
+}
+gg_shadow_tint={
+"type": "vec3",
+"value": Vector3(0.55, 0.62, 0.9)
+}
+gg_light_scale={
+"type": "float",
+"value": 0.3183
+}
+
 [rendering]
 
 renderer/rendering_method="gl_compatibility"
