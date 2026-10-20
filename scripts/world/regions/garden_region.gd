@@ -28,9 +28,8 @@ func build() -> void:
 	for bed_name: String in BED_ROWS:
 		_bed_frame(BED_ROWS[bed_name])
 	_cabbages(BED_ROWS["cabbages"])
-	MeshKit.flowers(self, Vector3(BED_X, 0.3, BED_ROWS["flowers"]), 0.5, 4, 5)
-	for i in 6:
-		MeshKit.flowers(self, Vector3(BED_X - 3.0 + i * 1.2, 0.3, BED_ROWS["flowers"]), 0.35, 4, 10 + i)
+	for i in 7:
+		Props.place(self, "flowers_a" if i % 2 == 0 else "flowers_b", Vector3(BED_X - 3.0 + i * 1.0, 0.28, BED_ROWS["flowers"]), i * 1.3, 0.8)
 	for i in 3:
 		var b := Wanderer.new().setup(AnimalModel.make("butterfly"), 40 + i)
 		b.gait = "flutter"
@@ -66,6 +65,8 @@ func build() -> void:
 	Props.place(self, "sack", Vector3(-4.9, 0, 4.6), 0.5)
 	Props.place(self, "tree_b", Vector3(-8.5, 0, -4.5), 0.3)
 	Props.place(self, "tree_a", Vector3(8.0, 0, 6.5), 1.1)
+	Props.place(self, "mushroom", Vector3(7.4, 0, 7.3), 0.4)
+	Props.place(self, "fern", Vector3(-7.4, 0, -3.6), 0.2)
 
 	add_anchor("garden_gate", Vector3(-7.6, 0, 0), -PI / 2.0)
 	add_anchor("garden_miriam", Vector3(-4.3, 0, 3.6), -PI / 2.0)

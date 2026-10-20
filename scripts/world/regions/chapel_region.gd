@@ -60,8 +60,11 @@ func build() -> void:
 	add_child(light)
 
 	# Outside.
-	MeshKit.flowers(self, Vector3(-2.5, 0, 6.5), 0.8, 8, 50)
-	MeshKit.flowers(self, Vector3(2.5, 0, 6.5), 0.8, 8, 51)
+	for f: Array in [[-2.6, 6.2, "flowers_a"], [-2.0, 7.0, "flowers_b"], [2.4, 6.3, "flowers_b"], [3.0, 7.0, "flowers_a"], [-3.6, 5.6, "bush_flowers"], [3.6, 5.4, "bush"]]:
+		Props.place(self, f[2], Vector3(f[0], 0, f[1]), f[0])
+	# Stepping stones from the village path up to the door.
+	for i in 3:
+		Props.place(self, "stepping_stone" if i % 2 == 0 else "stepping_stone_b", Vector3(0.1 * (i % 2), 0, 7.2 + i * 1.0), i * 0.7)
 	Props.place(self, "tree_a", Vector3(-6, 0, 3), 0.7)
 	Props.place(self, "tree_b", Vector3(-6.5, 0, -4), 0.2)
 	MeshKit.box(self, Vector3(1.6, 0.45, 0.5), Vector3(4.5, 0.22, 5.5), "wood", true)

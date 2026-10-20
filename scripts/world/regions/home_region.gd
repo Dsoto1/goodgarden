@@ -74,8 +74,8 @@ func build() -> void:
 	Props.place(self, "rug_stripes", Vector3(-0.6, 0.1, 0.6))
 
 	# Yard.
-	MeshKit.flowers(self, Vector3(-2.5, 0, 4.3), 1.0, 10, 1)
-	MeshKit.flowers(self, Vector3(2.5, 0, 4.3), 1.0, 10, 2)
+	for f: Array in [[-3.2, 4.0, "flowers_a"], [-2.0, 4.4, "flowers_b"], [-3.6, 3.6, "bush_flowers"], [2.2, 4.3, "flowers_b"], [3.3, 4.0, "flowers_a"], [3.7, 3.6, "bush"]]:
+		Props.place(self, f[2], Vector3(f[0], 0, f[1]), f[0])
 	Props.place(self, "tree_a", Vector3(-6.5, 0, -1.5), 0.2, 1.1)
 	Props.place(self, "tree_b", Vector3(-6, 0, 4.5), 1.0)
 	Props.place(self, "lumber", Vector3(-5.6, 0, 1.2), PI / 2.0, 0.7)

@@ -31,7 +31,7 @@ tests/               Headless test runner (unit + end-to-end)
 | ActivityRunner | `ActivityRunner` | Owns the activity lifecycle: prerequisites, workspace, observations, world effects, journal, real-world invitation, autosave. |
 | ActivityDefinition | `scripts/activity/activity_definition.gd` | Typed view over the JSON. |
 | Manipulative components | `DragPiece`, `DropSlot`, `PieceArt`, `ActivityStep` | Shared by every primitive. |
-| Asset normalization | `Props` + `assets/props.json` | Imported models placed by id with scale, pivot offset and collision from data. |
+| Asset normalization | `Props` + `assets/props.json` | Imported models placed by id with scale, pivot offset, collision and an optional palette `tint` from data. Changing an id's model (e.g. KayKit trees to Quaternius) is a data-only change. |
 | LearningObservationService | `Observations` | Local log; `summarize()` gives plain sentences. Reflection activities only report that a material was chosen and time spent retelling. |
 | JournalService | `Journal` | Letters, work, optional real-world invitations (a "We tried it" tick that costs nothing when left blank). |
 | Map/DiscoveryService | `Discovery` | Places walked to; the map unlocks after three and offers travel only there. |
@@ -72,7 +72,7 @@ All pointer input is ordinary mouse events (touch is emulated as mouse). `DragPi
 
 ## Known gaps and next steps
 
-- **Art is partly placeholder.** KayKit CC0 props dress the world through `Props` and `assets/props.json`. The custom hero assets named in ART_DIRECTION/ASSET_STRATEGY are still primitive-built: protagonist, Miriam and villagers, cottage shell, Chapel, Scripture figures. The KayKit hex pack's hills and mountains are map tiles with cliff sides, so distant hills stay procedural.
+- **Art is partly placeholder.** KayKit and Quaternius CC0 props dress the world through `Props` and `assets/props.json`. The Quaternius foliage uses alpha-cut leaf cards, so it is more detailed than the flat-coloured custom buildings; the paid Source edition's stylized shader, or a custom toon shader, would bring them closer together. The custom hero assets named in ART_DIRECTION/ASSET_STRATEGY are still primitive-built: protagonist, Miriam and villagers, cottage shell, Chapel, Scripture figures. The KayKit hex pack's hills and mountains are map tiles with cliff sides, so distant hills stay procedural.
 - **Narration** uses system text-to-speech when available. Recorded narration needs an `audio` field (the validator already checks that the file exists) and playback in `AudioService`.
 - **Localization:** strings pass through `tr()` but no translation tables exist yet.
 - **Performance** has only been checked on a software renderer. Profiling on baseline tablet hardware is still to do, as is evaluating mobile/web export.

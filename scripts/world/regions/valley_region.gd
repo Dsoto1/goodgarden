@@ -60,11 +60,13 @@ func _patches() -> void:
 		if absf(p.z + 14) < 3.5:
 			continue
 		MeshKit.sphere(self, rng.randf_range(0.8, 2.2), p, "grass_dark", Vector3(1.0, 0.03, rng.randf_range(0.6, 1.2)), 7, 2)
-	for i in 40:
+	# Undergrowth: bushes, ferns, grass and wildflowers, kept off paths and buildings.
+	var cover := ["bush", "bush_flowers", "fern", "grass_tuft", "grass_wispy", "grass_wispy", "flowers_a", "flowers_b", "clover", "plant"]
+	for i in 90:
 		var p := Vector3(rng.randf_range(-28, 32), 0, rng.randf_range(-44, 12))
-		if _near_built(p):
+		if _near_built(p) or _on_path(p):
 			continue
-		MeshKit.sphere(self, 0.35, p + Vector3(0, 0.15, 0), "leaf_light", Vector3(1.0, 0.7, 1.0), 6, 3)
+		Props.place(self, cover[rng.randi() % cover.size()], p, rng.randf() * TAU, rng.randf_range(0.8, 1.2))
 
 
 func _trees() -> void:
@@ -79,13 +81,22 @@ func _trees() -> void:
 	rng.seed = 12
 	for s: Array in spots:
 		Props.place(self, s[3], Vector3(s[0], 0, s[1]), rng.randf() * TAU, s[2])
+	# A few old twisted trees as landmarks the child can steer by.
+	Props.place(self, "twisted_tree", Vector3(-17, 0, -21), 0.6)
+	Props.place(self, "twisted_tree_b", Vector3(-10, 0, 8), 2.4)
+	Props.place(self, "twisted_tree", Vector3(20, 0, -40), 4.0, 0.9)
+	for m: Array in [[-16, -19], [-15.2, -20.4], [-9, 9.5], [-11, 6.8]]:
+		Props.place(self, "mushroom", Vector3(m[0], 0, m[1]), rng.randf() * TAU)
 	# Working buildings and fields that make the valley feel lived in.
 	Props.place(self, "windmill", Vector3(28, 0, -29), -0.4)
 	Props.place(self, "watermill", Vector3(-11, 0, -10.2), PI)
 	Props.place(self, "grain_field", Vector3(25, 0, 6), 0.3)
 	Props.place(self, "grain_field", Vector3(29, 0, 0), -0.2)
+	var rocks := ["rock", "rock_b", "rock_c"]
 	for r: Array in [[-7, 9], [14, -9], [-19, -24], [20, -12], [-26, 6], [2, -42]]:
-		Props.place(self, "rock", Vector3(r[0], 0, r[1]), rng.randf() * TAU, rng.randf_range(0.8, 1.4))
+		Props.place(self, rocks[rng.randi() % 3], Vector3(r[0], 0, r[1]), rng.randf() * TAU, rng.randf_range(0.7, 1.2))
+	for i in 12:
+		Props.place(self, "pebble", Vector3(rng.randf_range(-25, 30), 0, -11.6 - rng.randf() * 0.4 if i % 2 == 0 else -16.4 + rng.randf() * 0.4), rng.randf() * TAU)
 	for i in 5:
 		Props.place(self, "waterlily", Vector3(-20 + i * 9.0 + rng.randf_range(-2, 2), 0.04, -14 + rng.randf_range(-1.2, 1.2)), rng.randf() * TAU)
 		Props.place(self, "waterplant", Vector3(-17 + i * 9.0, 0.0, -12.0 + (i % 2) * -4.0), rng.randf() * TAU)
@@ -120,6 +131,15 @@ func _boundary() -> void:
 	# mountains are map tiles with cliff sides, which read as mesas at this scale.)
 	for h: Array in [[-60, -10, 30], [-55, -60, 25], [70, -20, 28], [60, -70, 22], [-10, 50, 30], [40, 45, 26], [-45, 30, 22]]:
 		MeshKit.sphere(self, float(h[2]), Vector3(h[0], -float(h[2]) * 0.55, h[1]), "grass_dark", Vector3(1.6, 1.0, 1.0), 10, 5)
+
+
+## Roughly the road network, so undergrowth never sits on a path.
+static func _on_path(p: Vector3) -> bool:
+	var roads := [Rect2(-1, 3.4, 7.5, 2), Rect2(4.5, -21, 2, 27), Rect2(-10, -22, 16, 2), Rect2(5, -46, 2, 26)]
+	for r: Rect2 in roads:
+		if r.grow(0.8).has_point(Vector2(p.x, p.z)):
+			return true
+	return false
 
 
 static func _near_built(p: Vector3) -> bool:

@@ -62,7 +62,9 @@ xvfb-run godot --path . --rendering-driver opengl3 --resolution 1280x720 \
 
 Art is mid-transition from placeholder to final:
 
-- **KayKit (CC0)** models now dress the world: trees, rocks, village buildings, mills, fences, everyday props, cottage and Atrium furniture, tableware, and the distant Bellhaven skyline. They're a subset of three packs by Kay Lousberg, listed per file in `assets/third_party/manifest.json` and in `docs/design/THIRD_PARTY_ASSETS.md`.
+- **KayKit (CC0)** models dress the built world: village buildings, mills, fields, fences, everyday props, cottage and Atrium furniture, tableware, and the distant Bellhaven skyline. They're a subset of three packs by Kay Lousberg.
+- **Quaternius Stylized Nature MegaKit (CC0, free Standard edition)** provides the greenery: trees, pines, twisted landmark trees, bushes, ferns, grass, flowers, mushrooms, rocks and stepping stones. Large textures are downscaled to 1024 px for tablets, and foliage gets a palette tint (`tint` in `assets/props.json`).
+- Every imported file is listed in `assets/third_party/manifest.json` and summarized in `docs/design/THIRD_PARTY_ASSETS.md`.
 - `assets/props.json` normalizes every imported model (scale to metres, pivot, collision). Regions place props by name with `Props.place()`, so swapping a model is a data change.
 - **Still custom or procedural** (the identity pieces ART_DIRECTION.md says should be custom): the cottage shell, Chapel and Atrium shelves, the child's raised beds, the characters, the activity boards and UI art, and all sound.
 
@@ -74,7 +76,7 @@ The Good Samaritan retelling and wondering questions are an **original draft** w
 
 ## Screenshots
 
-Rendered with the software renderer by `tools/screenshot_tour.tscn`. First art pass: KayKit props, custom characters and buildings still placeholder.
+Rendered with the software renderer by `tools/screenshot_tour.tscn`. Art pass: KayKit props and Quaternius greenery; characters and identity buildings are still placeholder.
 
 | Miriam's garden | Spacing the bean row | Bellhaven from the overlook |
 |---|---|---|

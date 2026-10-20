@@ -3,18 +3,68 @@
 	"packs": {
 		"hex": "res://assets/third_party/kaykit/medieval_hexagon/",
 		"furniture": "res://assets/third_party/kaykit/furniture_bits/",
-		"restaurant": "res://assets/third_party/kaykit/restaurant_bits/"
+		"restaurant": "res://assets/third_party/kaykit/restaurant_bits/",
+		"nature": "res://assets/third_party/quaternius/stylized_nature_standard/"
 	},
 	"props": {
-		"tree_a": {"pack": "hex", "model": "tree_single_A", "scale": 3.2, "collide": true, "footprint": 0.35},
-		"tree_b": {"pack": "hex", "model": "tree_single_B", "scale": 3.2, "collide": true, "footprint": 0.35},
-		"grove_a_small": {"pack": "hex", "model": "trees_A_small", "scale": 2.6, "collide": true, "footprint": 0.6},
-		"grove_a_medium": {"pack": "hex", "model": "trees_A_medium", "scale": 2.6, "collide": true, "footprint": 0.6},
-		"grove_a_large": {"pack": "hex", "model": "trees_A_large", "scale": 2.6, "collide": true, "footprint": 0.6},
-		"grove_b_small": {"pack": "hex", "model": "trees_B_small", "scale": 2.6, "collide": true, "footprint": 0.6},
-		"grove_b_medium": {"pack": "hex", "model": "trees_B_medium", "scale": 2.6, "collide": true, "footprint": 0.6},
-		"rock_flat": {"pack": "hex", "model": "rock_single_A", "scale": 3.0},
-		"rock": {"pack": "hex", "model": "rock_single_C", "scale": 3.0, "collide": true, "footprint": 0.8},
+		"tree_a": {
+			"pack": "nature",
+			"model": "CommonTree_1",
+			"scale": 0.5,
+			"collide": true,
+			"footprint": 0.15,
+			"tint": [1.45, 1.55, 1.15]
+		},
+		"tree_b": {
+			"pack": "nature",
+			"model": "CommonTree_3",
+			"scale": 0.45,
+			"collide": true,
+			"footprint": 0.15,
+			"tint": [1.45, 1.55, 1.15]
+		},
+		"grove_a_small": {
+			"pack": "nature",
+			"model": "CommonTree_2",
+			"scale": 0.5,
+			"collide": true,
+			"footprint": 0.15,
+			"tint": [1.45, 1.55, 1.15]
+		},
+		"grove_a_medium": {
+			"pack": "nature",
+			"model": "CommonTree_5",
+			"scale": 0.55,
+			"collide": true,
+			"footprint": 0.15,
+			"tint": [1.45, 1.55, 1.15]
+		},
+		"grove_a_large": {
+			"pack": "nature",
+			"model": "CommonTree_4",
+			"scale": 0.5,
+			"collide": true,
+			"footprint": 0.15,
+			"tint": [1.45, 1.55, 1.15]
+		},
+		"grove_b_small": {
+			"pack": "nature",
+			"model": "Pine_3",
+			"scale": 0.55,
+			"collide": true,
+			"footprint": 0.15,
+			"tint": [1.45, 1.55, 1.15]
+		},
+		"grove_b_medium": {
+			"pack": "nature",
+			"model": "Pine_1",
+			"scale": 0.6,
+			"collide": true,
+			"footprint": 0.15,
+			"tint": [1.45, 1.55, 1.15]
+		},
+		"rock_flat": {"pack": "nature", "model": "Pebble_Round_1", "scale": 1.5},
+		"rock": {"pack": "nature", "model": "Rock_Medium_1", "scale": 0.45, "collide": true, "footprint": 0.7},
 		"cloud_big": {"pack": "hex", "model": "cloud_big", "scale": 4.0, "shadow": false},
 		"cloud_small": {"pack": "hex", "model": "cloud_small", "scale": 4.0, "shadow": false},
 		"waterlily": {"pack": "hex", "model": "waterlily_A", "scale": 4.0},
@@ -47,7 +97,13 @@
 		"table_low": {"pack": "furniture", "model": "table_low", "scale": 0.65, "collide": true},
 		"stool": {"pack": "furniture", "model": "chair_stool_wood", "scale": 0.7},
 		"chair": {"pack": "furniture", "model": "chair_A_wood", "scale": 0.75},
-		"bookshelf": {"pack": "furniture", "model": "shelf_B_small_decorated", "scale": 1.1, "offset": [0.0, 0.1, -0.28], "collide": true},
+		"bookshelf": {
+			"pack": "furniture",
+			"model": "shelf_B_small_decorated",
+			"scale": 1.1,
+			"offset": [0.0, 0.1, -0.28],
+			"collide": true
+		},
 		"wall_shelf_long": {"pack": "furniture", "model": "shelf_B_large", "scale": 1.0, "offset": [0.0, 0.1, -0.25]},
 		"wall_shelf": {"pack": "furniture", "model": "shelf_A_small", "scale": 0.9, "offset": [0.0, 0.3, -0.25]},
 		"books": {"pack": "furniture", "model": "book_set", "scale": 0.5, "offset": [0.0, 0.25, 0.0]},
@@ -63,6 +119,49 @@
 		"crate_carrots": {"pack": "restaurant", "model": "crate_carrots", "scale": 0.35, "collide": true},
 		"crate_lettuce": {"pack": "restaurant", "model": "crate_lettuce", "scale": 0.35, "collide": true},
 		"cutting_board": {"pack": "restaurant", "model": "cuttingboard", "scale": 0.3},
-		"stew_pot": {"pack": "restaurant", "model": "pot_A_stew", "scale": 0.4}
+		"stew_pot": {"pack": "restaurant", "model": "pot_A_stew", "scale": 0.4},
+		"pine_wide": {
+			"pack": "nature",
+			"model": "Pine_2",
+			"scale": 0.55,
+			"collide": true,
+			"footprint": 0.15,
+			"tint": [1.45, 1.55, 1.15]
+		},
+		"twisted_tree": {
+			"pack": "nature",
+			"model": "TwistedTree_1",
+			"scale": 0.3,
+			"collide": true,
+			"footprint": 0.08,
+			"tint": [1.45, 1.55, 1.15]
+		},
+		"twisted_tree_b": {
+			"pack": "nature",
+			"model": "TwistedTree_2",
+			"scale": 0.28,
+			"collide": true,
+			"footprint": 0.08,
+			"tint": [1.45, 1.55, 1.15]
+		},
+		"rock_b": {"pack": "nature", "model": "Rock_Medium_2", "scale": 0.45, "collide": true, "footprint": 0.7},
+		"rock_c": {"pack": "nature", "model": "Rock_Medium_3", "scale": 0.4, "collide": true, "footprint": 0.7},
+		"pebble": {"pack": "nature", "model": "Pebble_Round_2", "scale": 1.2},
+		"bush": {"pack": "nature", "model": "Bush_Common", "scale": 0.5, "tint": [1.45, 1.55, 1.15]},
+		"bush_flowers": {"pack": "nature", "model": "Bush_Common_Flowers", "scale": 0.5, "tint": [1.45, 1.55, 1.15]},
+		"fern": {"pack": "nature", "model": "Fern_1", "scale": 0.6, "tint": [1.45, 1.55, 1.15]},
+		"plant": {"pack": "nature", "model": "Plant_1", "scale": 0.5, "tint": [1.45, 1.55, 1.15]},
+		"ground_cover": {"pack": "nature", "model": "Plant_7", "scale": 0.8, "tint": [1.45, 1.55, 1.15]},
+		"flowers_a": {"pack": "nature", "model": "Flower_3_Group", "scale": 0.28},
+		"flowers_b": {"pack": "nature", "model": "Flower_4_Group", "scale": 0.25},
+		"flower_a": {"pack": "nature", "model": "Flower_3_Single", "scale": 0.28},
+		"flower_b": {"pack": "nature", "model": "Flower_4_Single", "scale": 0.25},
+		"clover": {"pack": "nature", "model": "Clover_1", "scale": 0.35, "tint": [1.45, 1.55, 1.15]},
+		"grass_tuft": {"pack": "nature", "model": "Grass_Common_Short", "scale": 0.35, "tint": [1.45, 1.55, 1.15]},
+		"grass_wispy": {"pack": "nature", "model": "Grass_Wispy_Short", "scale": 0.4, "tint": [1.45, 1.55, 1.15]},
+		"mushroom": {"pack": "nature", "model": "Mushroom_Common", "scale": 0.5},
+		"stepping_stone": {"pack": "nature", "model": "RockPath_Round_Small_1", "scale": 0.7},
+		"stepping_stone_b": {"pack": "nature", "model": "RockPath_Round_Small_2", "scale": 0.7},
+		"stone_pad": {"pack": "nature", "model": "RockPath_Round_Wide", "scale": 0.8}
 	}
 }

@@ -8,6 +8,7 @@ const CATALOG := "res://assets/props.json"
 
 static var _catalog: Dictionary
 static var _scenes := {}
+static var _tinted := {} # "<prop id>:<material id>" -> shared tinted copy
 
 
 static func catalog() -> Dictionary:
@@ -46,6 +47,8 @@ static func place(parent: Node3D, id: String, pos: Vector3, rot_y := 0.0, scale_
 	model.scale = Vector3.ONE * s
 	model.position = _vec3(p.get("offset", [0, 0, 0])) * s
 	root.add_child(model)
+	if p.has("tint"):
+		_apply_tint(model, id, _vec3(p["tint"]))
 	if p.get("shadow", true) == false:
 		for mi in model.find_children("*", "GeometryInstance3D", true, false):
 			(mi as GeometryInstance3D).cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
@@ -55,6 +58,24 @@ static func place(parent: Node3D, id: String, pos: Vector3, rot_y := 0.0, scale_
 		var size := Vector3(box.size.x * f, box.size.y, box.size.z * f)
 		MeshKit.solid(root, size, box.get_center())
 	return root
+
+
+## Multiplies albedo of every material so imported art sits in the shared
+## palette. Tinted copies are cached per prop so instances still share materials.
+static func _apply_tint(model: Node, id: String, tint: Vector3) -> void:
+	for node in model.find_children("*", "MeshInstance3D", true, false):
+		var mi := node as MeshInstance3D
+		for i in mi.mesh.get_surface_count():
+			var source := mi.get_active_material(i) as BaseMaterial3D
+			if source == null:
+				continue
+			var key := "%s:%d" % [id, source.get_instance_id()]
+			if not _tinted.has(key):
+				var copy := source.duplicate() as BaseMaterial3D
+				var c := copy.albedo_color
+				copy.albedo_color = Color(c.r * tint.x, c.g * tint.y, c.b * tint.z, c.a)
+				_tinted[key] = copy
+			mi.set_surface_override_material(i, _tinted[key])
 
 
 ## Places a row of fence panels from a to b using the prop's "length".

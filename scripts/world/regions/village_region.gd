@@ -50,7 +50,9 @@ func build() -> void:
 		add_child(bird)
 	Props.place(self, "tree_b", Vector3(10.5, 0, -6.0), 1.2)
 	Props.place(self, "tree_a", Vector3(10.0, 0, 5.0), 0.5)
-	MeshKit.flowers(self, Vector3(-2.5, 0, -5.0), 0.6, 6, 30)
+	Props.place(self, "flowers_a", Vector3(-3.2, 0, 3.4), 0.3)
+	Props.place(self, "flowers_b", Vector3(3.4, 0, 3.6), 1.1)
+	Props.place(self, "bush_flowers", Vector3(-6.2, 0, -2.4), 0.5)
 
 	add_anchor("village_plaza", Vector3(0, 0, 4.0), 0.0)
 	add_discovery_zone(Vector3(0, 1, -1), Vector3(20, 3, 14))
