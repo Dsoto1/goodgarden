@@ -1,0 +1,11 @@
+{
+	"id": "day_001",
+	"day": 1,
+	"week": 1,
+	"arc": "Creation & Home",
+	"invitation": "inv_day_001",
+	"npcs": {"miriam": "garden_miriam"},
+	"primary_activity": "garden_bean_row",
+	"free_work": ["home_set_table"],
+	"chapel": ["good_samaritan"]
+}

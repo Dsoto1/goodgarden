@@ -1,0 +1,8 @@
+{
+	"id": "day_free",
+	"day": 0,
+	"comment": "Template for days beyond authored content: no letter, free work, Miriam in her garden.",
+	"npcs": {"miriam": "garden_miriam"},
+	"free_work": ["home_set_table"],
+	"chapel": ["good_samaritan"]
+}

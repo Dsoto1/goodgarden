@@ -1,0 +1,13 @@
+{
+	"id": "tobias",
+	"speaker": "tobias",
+	"entries": [
+		{"when": [{"fact": "npc.tobias.met", "exists": true}], "start": "again"},
+		{"when": [], "start": "hello"}
+	],
+	"nodes": {
+		"hello": {"text": "Good day! I'm Tobias. I bake the bread for the whole village.", "next": "bellhaven", "actions": [{"op": "set_fact", "fact": "npc.tobias.met", "value": true}]},
+		"bellhaven": {"text": "See the road going north, past the hill? It goes all the way to Bellhaven. Someday you'll see the city up close."},
+		"again": {"text": "Hello again! The bread is rising. Good things take a little time, don't they?"}
+	}
+}

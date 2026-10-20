@@ -1,0 +1,9 @@
+{
+	"id": "characters",
+	"characters": {
+		"miriam": {"name": "Miriam", "role": "Neighbor and gardener; the child's primary guide."},
+		"tobias": {"name": "Tobias", "role": "The village baker."},
+		"ruth": {"name": "Ruth", "role": "A neighbor often found at the well."},
+		"narrator": {"name": ""}
+	}
+}

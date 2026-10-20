@@ -1,0 +1,142 @@
+extends Region
+## Miriam's garden: three raised beds inside a fence. Bed 1 is the child's
+## bean row. Its look is derived entirely from the "garden.bed_1" fact and
+## the current day, so the row grows across days and survives reloads.
+
+const BED_X := 0.5
+const BED_LENGTH := 7.0
+const BED_ROWS := {"cabbages": -3.2, "flowers": 0.0, "bed_1": 3.2}
+
+var _bed_1_plants: Node3D
+var _bed_1_ready: Node3D
+
+
+func build() -> void:
+	# Fence with a gate gap on the west side, facing the home path.
+	MeshKit.fence(self, Vector3(-6, 0, -5.5), Vector3(6, 0, -5.5))
+	MeshKit.fence(self, Vector3(-6, 0, 5.5), Vector3(6, 0, 5.5))
+	MeshKit.fence(self, Vector3(6, 0, -5.5), Vector3(6, 0, 5.5))
+	MeshKit.fence(self, Vector3(-6, 0, -5.5), Vector3(-6, 0, -1.2))
+	MeshKit.fence(self, Vector3(-6, 0, 1.2), Vector3(-6, 0, 5.5))
+	for z: float in [-1.2, 1.2]:
+		MeshKit.box(self, Vector3(0.2, 2.3, 0.2), Vector3(-6, 1.15, z), "wood")
+	MeshKit.box(self, Vector3(0.3, 0.2, 2.8), Vector3(-6, 2.3, 0), "wood")
+	MeshKit.roof(self, 0.9, 0.4, 3.0, Vector3(-6, 2.6, 0), "roof_thatch")
+	MeshKit.box(self, Vector3(12, 0.03, 11), Vector3(0, 0.015, 0), "grass_dark")
+
+	for bed_name: String in BED_ROWS:
+		_bed_frame(BED_ROWS[bed_name])
+	_cabbages(BED_ROWS["cabbages"])
+	MeshKit.flowers(self, Vector3(BED_X, 0.3, BED_ROWS["flowers"]), 0.5, 4, 5)
+	for i in 6:
+		MeshKit.flowers(self, Vector3(BED_X - 3.0 + i * 1.2, 0.3, BED_ROWS["flowers"]), 0.35, 4, 10 + i)
+	for i in 3:
+		var b := Wanderer.new().setup(AnimalModel.make("butterfly"), 40 + i)
+		b.gait = "flutter"
+		b.radius = 1.5 + i * 0.5
+		b.position = Vector3(BED_X - 2.0 + i * 2.0, 0.3, BED_ROWS["flowers"])
+		add_child(b)
+
+	# The child's bed: plants are rebuilt from world facts in sync_with_world().
+	_bed_1_plants = group_node("Bed1Plants")
+	_bed_1_ready = group_node("Bed1Ready")
+	var z1: float = BED_ROWS["bed_1"]
+	for i in 6:
+		MeshKit.box(_bed_1_ready, Vector3(BED_LENGTH - 0.4, 0.02, 0.06), Vector3(BED_X, 0.31, z1 - 0.4 + i * 0.16), "soil_dark")
+	MeshKit.box(_bed_1_ready, Vector3(0.3, 0.12, 0.2), Vector3(BED_X - 3.8, 0.06, z1 + 0.9), "cloth_cream")
+	MeshKit.box(_bed_1_ready, Vector3(0.9, 0.04, 0.06), Vector3(BED_X - 2.9, 0.33, z1 + 0.7), "wood_light")
+	var bed_use := Interactable.create(self, Vector3(BED_X, 0, z1 + 1.2), "Look at the bean row", _on_bed_used, 0.9, 1.1)
+	bed_use.reach = 2.2
+	bed_use.focus_point = position + Vector3(BED_X, 0.3, z1)
+
+	# Shed, barrel and tools.
+	MeshKit.box(self, Vector3(2.0, 2.0, 1.6), Vector3(4.6, 1.0, -4.3), "wood_dark", true)
+	MeshKit.roof(self, 2.4, 0.8, 2.0, Vector3(4.6, 2.4, -4.3), "roof_red", PI / 2.0)
+	MeshKit.box(self, Vector3(0.7, 1.5, 0.06), Vector3(4.6, 0.75, -3.48), "wood")
+	MeshKit.cylinder(self, 0.4, 0.35, 0.9, Vector3(-5.0, 0.45, -4.6), "wood", 10, true)
+	MeshKit.cylinder(self, 0.36, 0.36, 0.02, Vector3(-5.0, 0.9, -4.6), "water", 10)
+	MeshKit.box(self, Vector3(0.05, 1.1, 0.05), Vector3(5.5, 0.55, 4.8), "wood")
+
+	add_anchor("garden_gate", Vector3(-7.6, 0, 0), -PI / 2.0)
+	add_anchor("garden_miriam", Vector3(-4.3, 0, 3.6), -PI / 2.0)
+	add_discovery_zone(Vector3(0, 1, 0), Vector3(12, 3, 11))
+
+
+func _bed_frame(z: float) -> void:
+	MeshKit.box(self, Vector3(BED_LENGTH, 0.28, 1.3), Vector3(BED_X, 0.14, z), "soil", false)
+	for dz: float in [-0.7, 0.7]:
+		MeshKit.box(self, Vector3(BED_LENGTH + 0.2, 0.35, 0.12), Vector3(BED_X, 0.17, z + dz), "wood")
+	for dx: float in [-1.0, 1.0]:
+		MeshKit.box(self, Vector3(0.12, 0.35, 1.5), Vector3(BED_X + dx * BED_LENGTH / 2.0, 0.17, z), "wood")
+	MeshKit.solid(self, Vector3(BED_LENGTH + 0.2, 0.8, 1.5), Vector3(BED_X, 0.4, z))
+
+
+func _cabbages(z: float) -> void:
+	for i in 7:
+		var x := BED_X - 3.0 + i
+		MeshKit.sphere(self, 0.28, Vector3(x, 0.38, z), "leaf_light", Vector3(1.0, 0.7, 1.0), 7, 4)
+		MeshKit.sphere(self, 0.18, Vector3(x, 0.45, z), "leaf", Vector3.ONE, 6, 3)
+
+
+func _on_bed_used() -> void:
+	if ActivityRunner.can_start("garden_bean_row"):
+		# Planting is offered through Miriam, who explains what the row needs.
+		var miriam := get_tree().get_first_node_in_group("npc_miriam") as NPC
+		if miriam and miriam.visible:
+			miriam.talk.trigger()
+			return
+	get_tree().call_group("main", "show_caption", _describe_bed())
+
+
+func _describe_bed() -> String:
+	var bed: Variant = WorldState.get_fact("garden.bed_1")
+	if bed == null:
+		return tr("The soil is raked and ready. A little bag of bean seeds sits at the end of the row.")
+	match growth_stage(bed):
+		0: return tr("Little mounds of soil cover the seeds. They're resting.")
+		1: return tr("Tiny green loops are pushing up through the soil!")
+		2: return tr("The bean seedlings have opened their first leaves.")
+		_: return tr("The bean plants are climbing their poles.")
+
+
+## 0 = just sown, 1 = sprouts, 2 = seedlings, 3 = climbing plants.
+static func growth_stage(bed: Dictionary) -> int:
+	return clampi(Days.current_day - int(bed.get("planted_day", Days.current_day)), 0, 3)
+
+
+func sync_with_world() -> void:
+	for c in _bed_1_plants.get_children():
+		c.queue_free()
+	var bed: Variant = WorldState.get_fact("garden.bed_1")
+	_bed_1_ready.visible = bed == null
+	if bed == null:
+		return
+	var z1: float = BED_ROWS["bed_1"]
+	var stage := growth_stage(bed)
+	var positions: Array = bed.get("positions", [])
+	if positions.is_empty():
+		for i in int(bed.get("holes", 4)):
+			positions.append((i + 1.0) / (int(bed.get("holes", 4)) + 1.0))
+	# Board row 80..940 maps onto the soil from the west end to the east end.
+	for f: Variant in positions:
+		var x := BED_X - BED_LENGTH / 2.0 + 0.2 + float(f) * (BED_LENGTH - 0.4)
+		var at := Vector3(x, 0.28, z1)
+		match stage:
+			0:
+				MeshKit.sphere(_bed_1_plants, 0.16, at, "soil_dark", Vector3(1.0, 0.35, 1.0), 6, 3)
+			1:
+				for k in 2:
+					var sprout := MeshKit.cylinder(_bed_1_plants, 0.02, 0.025, 0.18, at + Vector3(k * 0.1 - 0.05, 0.08, 0), "sprout", 4)
+					sprout.rotation.z = 0.5 - k
+			2:
+				MeshKit.cylinder(_bed_1_plants, 0.025, 0.03, 0.35, at + Vector3(0, 0.17, 0), "sprout", 5)
+				MeshKit.sphere(_bed_1_plants, 0.1, at + Vector3(-0.08, 0.36, 0), "leaf_light", Vector3(1.0, 0.4, 0.7), 6, 3)
+				MeshKit.sphere(_bed_1_plants, 0.1, at + Vector3(0.08, 0.36, 0), "leaf_light", Vector3(1.0, 0.4, 0.7), 6, 3)
+			_:
+				MeshKit.cylinder(_bed_1_plants, 0.025, 0.03, 1.6, at + Vector3(0, 0.8, 0), "wood_light", 4)
+				for h in 4:
+					MeshKit.sphere(_bed_1_plants, 0.14, at + Vector3(0.08 * (1 - (h % 2) * 2), 0.35 + h * 0.3, 0.05), "leaf", Vector3(1.0, 0.6, 0.8), 6, 3)
+				MeshKit.sphere(_bed_1_plants, 0.05, at + Vector3(0.1, 1.2, 0.1), "bean_flower", Vector3.ONE, 5, 3)
+	# A little wooden label at the row's end, the child's mark on the garden.
+	MeshKit.box(_bed_1_plants, Vector3(0.04, 0.4, 0.04), Vector3(BED_X - BED_LENGTH / 2.0 + 0.1, 0.45, z1 + 0.5), "wood_light")
+	MeshKit.box(_bed_1_plants, Vector3(0.22, 0.14, 0.03), Vector3(BED_X - BED_LENGTH / 2.0 + 0.1, 0.62, z1 + 0.5), "cloth_cream")

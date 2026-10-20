@@ -1,0 +1,12 @@
+{
+	"id": "regions",
+	"comment": "World layout. Each region is an independent scene placed at its origin. map_pos is a 0..1 position on the illustrated map. Regions with reachable=false are seen but not yet visitable.",
+	"regions": [
+		{"id": "valley", "name": "The Valley", "scene": "res://scenes/world/regions/valley.tscn", "origin": [0, 0, 0], "on_map": false},
+		{"id": "home", "name": "Home", "scene": "res://scenes/world/regions/home.tscn", "origin": [0, 0, 0], "on_map": true, "map_pos": [0.3, 0.8], "arrive": "home_door"},
+		{"id": "garden", "name": "Miriam's Garden", "scene": "res://scenes/world/regions/garden.tscn", "origin": [14, 0, 3], "on_map": true, "map_pos": [0.62, 0.78], "arrive": "garden_gate"},
+		{"id": "village", "name": "The Village", "scene": "res://scenes/world/regions/village.tscn", "origin": [6, 0, -27], "on_map": true, "map_pos": [0.5, 0.38], "arrive": "village_plaza"},
+		{"id": "chapel", "name": "The Chapel", "scene": "res://scenes/world/regions/chapel.tscn", "origin": [-9, 0, -27], "on_map": true, "map_pos": [0.2, 0.36], "arrive": "chapel_door"},
+		{"id": "bellhaven", "name": "Bellhaven", "scene": "res://scenes/world/regions/bellhaven_vista.tscn", "origin": [26, 0, -175], "on_map": true, "reachable": false, "map_pos": [0.72, 0.06]}
+	]
+}

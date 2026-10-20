@@ -1,0 +1,137 @@
+class_name PieceArt
+extends RefCounted
+## Draws every manipulative and its matching outline ("shadow") from code, so
+## pieces and outlines always agree. Shapes are distinct in silhouette, not
+## only in colour, so matching never depends on colour vision alone.
+
+const OUTLINE := Color(0.25, 0.18, 0.12, 0.55)
+const INK := Color("3b3430")
+
+
+static func draw(ci: CanvasItem, kind: String, size: Vector2, outline: bool, data: Dictionary = {}) -> void:
+	var c := size / 2.0
+	if kind.begins_with("figure:"):
+		_figure(ci, size, outline, data)
+		return
+	match kind:
+		"bean_seed":
+			_shape(ci, _ellipse(c, Vector2(size.x * 0.45, size.y * 0.4), 14), Color("8a3b2e"), outline)
+			if not outline:
+				ci.draw_circle(c + Vector2(-size.x * 0.12, -size.y * 0.05), size.y * 0.12, Color("f3e6d2"))
+		"marker_peg":
+			_shape(ci, PackedVector2Array([Vector2(c.x - 5, size.y * 0.25), Vector2(c.x + 5, size.y * 0.25), Vector2(c.x + 5, size.y * 0.85), Vector2(c.x, size.y), Vector2(c.x - 5, size.y * 0.85)]), Color("c49a6c"), outline)
+			_shape(ci, PackedVector2Array([Vector2(c.x - 5, 0), Vector2(c.x + size.x * 0.45, size.y * 0.1), Vector2(c.x - 5, size.y * 0.22)]), Color("e8c15a"), outline)
+		"spacing_stick":
+			_shape(ci, _rect(Rect2(0, size.y * 0.2, size.x, size.y * 0.6)), Color("d6ad7a"), outline)
+			if not outline:
+				for x: float in [2.0, size.x - 2.0]:
+					ci.draw_line(Vector2(x, 0), Vector2(x, size.y), INK, 3.0)
+				for i in range(1, 4):
+					ci.draw_line(Vector2(size.x * i / 4.0, size.y * 0.25), Vector2(size.x * i / 4.0, size.y * 0.45), Color(INK, 0.5), 1.5)
+		"plate":
+			_shape(ci, _ellipse(c, c * 0.95, 28), Color("f5efe2"), outline)
+			if not outline:
+				ci.draw_arc(c, size.x * 0.32, 0, TAU, 28, Color("c9b99c"), 2.0)
+		"bowl_small":
+			_shape(ci, _ellipse(c, c * 0.9, 22), Color("8fb0d8"), outline)
+			if not outline:
+				ci.draw_arc(c, size.x * 0.3, 0, TAU, 22, Color("6d8fc0"), 2.0)
+		"cup":
+			_shape(ci, _rect(Rect2(size.x * 0.12, size.y * 0.15, size.x * 0.62, size.y * 0.75)), Color("6d8fc0"), outline)
+			var handle := _ellipse(Vector2(size.x * 0.78, size.y * 0.5), Vector2(size.x * 0.16, size.y * 0.18), 10)
+			if outline:
+				_dashed(ci, handle)
+			else:
+				ci.draw_polyline(handle + PackedVector2Array([handle[0]]), Color("6d8fc0"), 5.0)
+		"fork":
+			_utensil(ci, size, outline, "fork")
+		"spoon":
+			_utensil(ci, size, outline, "spoon")
+		"knife":
+			_utensil(ci, size, outline, "knife")
+		"napkin":
+			_shape(ci, PackedVector2Array([Vector2(size.x * 0.1, size.y * 0.05), Vector2(size.x * 0.9, size.y * 0.05), Vector2(size.x * 0.9, size.y * 0.95), Vector2(size.x * 0.1, size.y * 0.95)]), Color("c96f5a"), outline)
+			if not outline:
+				ci.draw_line(Vector2(size.x * 0.1, size.y * 0.05), Vector2(size.x * 0.9, size.y * 0.95), Color("a85646"), 2.0)
+		"coin":
+			_shape(ci, _ellipse(c, c * 0.9, 16), Color("e0b64c"), outline)
+		_:
+			_shape(ci, _rect(Rect2(Vector2.ZERO, size)), Color("cccccc"), outline)
+
+
+static func _figure(ci: CanvasItem, size: Vector2, outline: bool, data: Dictionary) -> void:
+	var body_color: Color = Palette.color(str(data.get("color", "cloth_cream")))
+	var label := str(data.get("label", ""))
+	var label_h := 18.0 if not label.is_empty() else 0.0
+	var h := size.y - label_h
+	var cx := size.x / 2.0
+	if data.get("shape", "") == "donkey":
+		var body := _ellipse(Vector2(cx, h * 0.55), Vector2(size.x * 0.38, h * 0.18), 16)
+		_shape(ci, body, Color("9a9088"), outline)
+		_shape(ci, _ellipse(Vector2(cx - size.x * 0.36, h * 0.35), Vector2(size.x * 0.13, h * 0.1), 12), Color("9a9088"), outline)
+		for x: float in [-0.25, -0.1, 0.12, 0.27]:
+			_shape(ci, _rect(Rect2(cx + size.x * x - 3, h * 0.65, 6, h * 0.3)), Color("7d746d"), outline)
+	elif data.get("shape", "") == "building":
+		_shape(ci, _rect(Rect2(size.x * 0.12, h * 0.4, size.x * 0.76, h * 0.58)), body_color, outline)
+		_shape(ci, PackedVector2Array([Vector2(size.x * 0.05, h * 0.42), Vector2(cx, h * 0.08), Vector2(size.x * 0.95, h * 0.42)]), Palette.color("roof_red"), outline)
+	else:
+		# Wooden peg figure: rounded body and a round head.
+		var body := PackedVector2Array()
+		var top := h * 0.38
+		for i in 9:
+			var a := PI + PI * i / 8.0
+			body.append(Vector2(cx + cos(a) * size.x * 0.3, top + 6 + sin(a) * 10))
+		body.append(Vector2(cx + size.x * 0.36, h * 0.98))
+		body.append(Vector2(cx - size.x * 0.36, h * 0.98))
+		_shape(ci, body, body_color, outline)
+		_shape(ci, _ellipse(Vector2(cx, h * 0.2), Vector2(h * 0.16, h * 0.16), 16), Color("e9c9a4"), outline)
+		if not outline and data.has("accent"):
+			ci.draw_rect(Rect2(cx - size.x * 0.3, h * 0.6, size.x * 0.6, 6), Palette.color(str(data["accent"])))
+	if not label.is_empty():
+		var font := ThemeDB.fallback_font
+		var col := Color(INK, 0.6) if outline else Color("f6f1e4")
+		ci.draw_string(font, Vector2(0, size.y - 3), label, HORIZONTAL_ALIGNMENT_CENTER, size.x, 14, col)
+
+
+static func _utensil(ci: CanvasItem, size: Vector2, outline: bool, kind: String) -> void:
+	var cx := size.x / 2.0
+	var metal := Color("b9bec6")
+	_shape(ci, _rect(Rect2(cx - 3, size.y * 0.4, 6, size.y * 0.58)), metal, outline)
+	match kind:
+		"fork":
+			_shape(ci, _rect(Rect2(cx - size.x * 0.32, size.y * 0.3, size.x * 0.64, size.y * 0.12)), metal, outline)
+			for i in 4:
+				var x := cx - size.x * 0.32 + i * size.x * 0.64 / 3.0
+				_shape(ci, _rect(Rect2(x - 1.5, size.y * 0.02, 3, size.y * 0.3)), metal, outline)
+		"spoon":
+			_shape(ci, _ellipse(Vector2(cx, size.y * 0.2), Vector2(size.x * 0.36, size.y * 0.2), 14), metal, outline)
+		"knife":
+			_shape(ci, PackedVector2Array([Vector2(cx - 4, size.y * 0.42), Vector2(cx - 4, size.y * 0.08), Vector2(cx + 5, size.y * 0.02), Vector2(cx + 5, size.y * 0.42)]), metal, outline)
+
+
+static func _shape(ci: CanvasItem, pts: PackedVector2Array, fill: Color, outline: bool) -> void:
+	if outline:
+		ci.draw_colored_polygon(pts, Color(OUTLINE, 0.12))
+		_dashed(ci, pts)
+	else:
+		ci.draw_colored_polygon(pts, fill)
+		var closed := pts.duplicate()
+		closed.append(pts[0])
+		ci.draw_polyline(closed, fill.darkened(0.3), 1.5, true)
+
+
+static func _dashed(ci: CanvasItem, pts: PackedVector2Array) -> void:
+	for i in pts.size():
+		ci.draw_dashed_line(pts[i], pts[(i + 1) % pts.size()], OUTLINE, 2.0, 6.0)
+
+
+static func _ellipse(c: Vector2, r: Vector2, n: int) -> PackedVector2Array:
+	var pts := PackedVector2Array()
+	for i in n:
+		var a := TAU * i / n
+		pts.append(c + Vector2(cos(a) * r.x, sin(a) * r.y))
+	return pts
+
+
+static func _rect(r: Rect2) -> PackedVector2Array:
+	return PackedVector2Array([r.position, Vector2(r.end.x, r.position.y), r.end, Vector2(r.position.x, r.end.y)])

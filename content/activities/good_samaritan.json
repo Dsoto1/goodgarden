@@ -1,0 +1,129 @@
+{
+	"id": "good_samaritan",
+	"title": "The Good Samaritan",
+	"mode": "reflection",
+	"location": "chapel",
+	"surface": "atrium_felt",
+	"review_status": "DRAFT: retelling and wondering questions require theological and editorial review before release.",
+	"source": {
+		"reference": "Luke 10:25-37",
+		"note": "Original child-friendly retelling written for this prototype; not a quotation of any translation."
+	},
+	"readiness": {"ages": [5, 10], "reading": "narration provided; text optional"},
+	"concepts": ["listening to a parable", "sequencing a story", "retelling in one's own words"],
+	"formation_themes": ["compassion", "love of neighbor"],
+	"prerequisites": [],
+	"intro": [
+		{
+			"speaker": "narrator",
+			"text": "This is a story Jesus told. Let's carry the material to the table, and listen.",
+			"button": "Listen"
+		}
+	],
+	"steps": [
+		{
+			"id": "story",
+			"primitive": "story_figures",
+			"reference": "Luke 10:25-37",
+			"box": [220, 380, 560, 150],
+			"road": [[150, 110], [380, 165], [600, 235], [850, 285]],
+			"places": [
+				{"label": "Jerusalem", "pos": [110, 95], "kind": "city"},
+				{"label": "Jericho", "pos": [890, 270], "kind": "city"},
+				{"label": "The inn", "pos": [745, 115], "kind": "inn"}
+			],
+			"figures": [
+				{"id": "traveler", "label": "Traveler", "color": "cloth_cream"},
+				{"id": "priest", "label": "Priest", "color": "white", "accent": "cloth_gold"},
+				{"id": "levite", "label": "Levite", "color": "cloth_blue"},
+				{"id": "samaritan", "label": "Samaritan", "color": "cloth_red"},
+				{"id": "donkey", "label": "Donkey", "color": "stone", "shape": "donkey"},
+				{"id": "innkeeper", "label": "Innkeeper", "color": "cloth_green"}
+			],
+			"segments": [
+				{
+					"text": "One day, a man who knew God's law very well asked Jesus, \"Who is my neighbor?\" Jesus answered by telling a story."
+				},
+				{
+					"text": "A man was walking along the road, down from Jerusalem toward Jericho.",
+					"reveal": ["traveler"],
+					"show": {"traveler": {"pos": [190, 135]}}
+				},
+				{
+					"text": "On the way, robbers came. They took his things, hurt him, and left him lying beside the road.",
+					"show": {"traveler": {"pos": [420, 220], "lying": true}}
+				},
+				{
+					"text": "A priest came walking down that same road. When he saw the hurt man, he passed by on the other side.",
+					"reveal": ["priest"],
+					"show": {"priest": {"pos": [560, 120]}}
+				},
+				{
+					"text": "Then a Levite, a helper at the temple, came by. He looked at the man, and he passed by on the other side, too.",
+					"reveal": ["levite"],
+					"show": {"levite": {"pos": [640, 160]}}
+				},
+				{
+					"text": "Then a Samaritan came traveling with his donkey. Samaritans and the hurt man's people did not usually get along. But when the Samaritan saw him, his heart was filled with compassion.",
+					"reveal": ["samaritan", "donkey"],
+					"show": {"samaritan": {"pos": [480, 185]}, "donkey": {"pos": [540, 230]}}
+				},
+				{
+					"text": "He knelt down, cleaned and bandaged the man's wounds, lifted him onto his own donkey, and brought him to an inn, where he took care of him.",
+					"reveal": ["innkeeper"],
+					"show": {
+						"traveler": {"pos": [745, 215], "lying": true},
+						"samaritan": {"pos": [670, 200]},
+						"donkey": {"pos": [600, 225]},
+						"innkeeper": {"pos": [830, 175]}
+					}
+				},
+				{
+					"text": "The next day, the Samaritan gave the innkeeper two coins and said, \"Please take care of him. If it costs more, I will pay you when I come back.\""
+				},
+				{
+					"text": "Then Jesus asked, \"Which of these three was a neighbor to the man who was hurt?\" The man answered, \"The one who showed him mercy.\" And Jesus said, \"Go and do the same.\""
+				}
+			],
+			"wonderings": [
+				"I wonder how the man felt, lying beside the road.",
+				"I wonder what the Samaritan was thinking when he stopped.",
+				"I wonder who is a neighbor.",
+				"I wonder who might need a neighbor near you."
+			]
+		},
+		{
+			"id": "put_away",
+			"primitive": "match_to_outline",
+			"prompt": "When you're ready, return each figure to its place in the box.",
+			"pieces_from_previous": true,
+			"box": [220, 380, 560, 150],
+			"slots": [
+				{"kind": "figure:traveler", "pos": [266.7, 455]},
+				{"kind": "figure:priest", "pos": [360, 455]},
+				{"kind": "figure:levite", "pos": [453.3, 455]},
+				{"kind": "figure:samaritan", "pos": [546.7, 455]},
+				{"kind": "figure:donkey", "pos": [640, 455]},
+				{"kind": "figure:innkeeper", "pos": [733.3, 455]}
+			],
+			"feedback": {
+				"mismatch": "That place is shaped for a different figure.",
+				"all_good": "Each figure is resting in its place."
+			}
+		}
+	],
+	"outro": [
+		{
+			"speaker": "narrator",
+			"text": "The material is back on the shelf. It will be here whenever you want to return to it.",
+			"button": "Stand up"
+		}
+	],
+	"world_effects": [
+		{"op": "increment", "fact": "chapel.good_samaritan.visits"},
+		{"op": "set", "fact": "chapel.good_samaritan.last_day", "value": "$day"}
+	],
+	"replay": "free",
+	"real_world_invitation": "rw_neighbors",
+	"journal_line": "I listened to the story of the Good Samaritan and told it with the figures."
+}

@@ -1,0 +1,56 @@
+{
+	"id": "home_set_table",
+	"title": "Setting the Table",
+	"mode": "task",
+	"location": "home",
+	"surface": "wood_table",
+	"readiness": {"ages": [4, 7], "math": "matching; one-to-one correspondence; left and right", "reading": "none required"},
+	"concepts": ["matching shapes", "one-to-one correspondence", "left and right", "care of the environment"],
+	"formation_themes": ["hospitality", "service"],
+	"prerequisites": [
+		{"not": {"fact": "home.table_set_day", "is_today": true}}
+	],
+	"intro": [
+		{"speaker": "narrator", "text": "Supper is coming soon. Let's set the table for two."}
+	],
+	"steps": [
+		{
+			"id": "place_settings",
+			"primitive": "match_to_outline",
+			"prompt": "Each thing has a place on the placemat. Find the shape it fits.",
+			"hint": "Watch: this one goes here. Can you find the next?",
+			"mats": [[110, 40, 360, 250], [530, 40, 360, 250]],
+			"tray": [90, 330, 820, 210],
+			"slots": [
+				{"kind": "napkin", "pos": [160, 170]},
+				{"kind": "fork", "pos": [218, 170]},
+				{"kind": "plate", "pos": [300, 170]},
+				{"kind": "spoon", "pos": [380, 170]},
+				{"kind": "cup", "pos": [425, 85]},
+				{"kind": "napkin", "pos": [580, 170]},
+				{"kind": "fork", "pos": [638, 170]},
+				{"kind": "plate", "pos": [720, 170]},
+				{"kind": "spoon", "pos": [800, 170]},
+				{"kind": "cup", "pos": [845, 85]}
+			],
+			"feedback": {
+				"mismatch": "Hmm, that doesn't fit there. Look closely at the shape.",
+				"all_good": "Everything has found its place."
+			}
+		}
+	],
+	"outro": [
+		{
+			"speaker": "narrator",
+			"text": "The table is ready. Setting a table is a way of saying, \"You are welcome here.\"",
+			"button": "Done"
+		}
+	],
+	"world_effects": [
+		{"op": "set", "fact": "home.table_set_day", "value": "$day"}
+	],
+	"replay": "free",
+	"real_world_invitation": "rw_set_table",
+	"journal_line": "I set the table for supper: a napkin, fork, plate, spoon and cup for each place.",
+	"unavailable_text": "The table is already set for today. Supper will be lovely."
+}

@@ -1,0 +1,91 @@
+{
+	"id": "garden_bean_row",
+	"title": "Planting the Bean Row",
+	"mode": "task",
+	"location": "garden",
+	"surface": "soil_bed",
+	"readiness": {
+		"ages": [5, 8],
+		"math": "counting to 3; comparing lengths with a non-standard unit",
+		"reading": "pre-reader friendly; all text can be read aloud"
+	},
+	"concepts": [
+		"one-to-one correspondence",
+		"counting to 3",
+		"equal groups",
+		"measuring with a non-standard unit",
+		"plants need space to grow"
+	],
+	"formation_themes": ["stewardship", "patience"],
+	"prerequisites": [
+		{"fact": "garden.bed_1", "exists": false}
+	],
+	"intro": [
+		{
+			"speaker": "miriam",
+			"text": "Here is our bean row. Bean plants grow big and leafy, so each one needs room."
+		},
+		{
+			"speaker": "miriam",
+			"text": "This stick is our helper. We'll make a hole every stick-length, starting from the stone."
+		}
+	],
+	"steps": [
+		{
+			"id": "space_holes",
+			"primitive": "space_along_line",
+			"speaker": "miriam",
+			"prompt": "Put a peg in the row every stick-length, starting from the stone. You can lay the stick down to measure.",
+			"hint": "Lay the stick against the stone. Where does its other end reach? A peg goes there.",
+			"markers": 4,
+			"stick_length": 170,
+			"tolerance": 22,
+			"feedback": {
+				"placed_all": "Now let's check with the stick. Does it fit each space?",
+				"crowded": "Look where the stick lies over a peg. Those beans would be crowded.",
+				"far": "Look where there's bare ground past the end of the stick. Can that peg move closer?",
+				"all_good": "Every space is one stick long. The beans will have room to grow."
+			}
+		},
+		{
+			"id": "sow",
+			"primitive": "count_into_slots",
+			"speaker": "miriam",
+			"prompt": "Now three seeds in each hole. Count as you drop them in: one, two, three.",
+			"hint": "Find a hole with an empty little dip and put a seed there.",
+			"slots_from": "space_holes",
+			"per_slot": 3,
+			"piece": "bean_seed",
+			"spare": 2,
+			"feedback": {
+				"full": "That hole already has three seeds. Try a hole with an empty dip.",
+				"all_good": "Three, three, three, three. Every hole has its seeds."
+			}
+		}
+	],
+	"outro": [
+		{
+			"speaker": "miriam",
+			"text": "Now we tuck them in with soil, like a warm blanket. Sun and rain will do the rest."
+		},
+		{"speaker": "miriam", "text": "Come, let's look at our row.", "button": "Back to the garden"}
+	],
+	"world_effects": [
+		{
+			"op": "set",
+			"fact": "garden.bed_1",
+			"value": {
+				"crop": "beans",
+				"holes": "$space_holes.count",
+				"positions": "$space_holes.positions",
+				"seeds_per_hole": "$sow.per_slot",
+				"planted_day": "$day"
+			}
+		},
+		{"op": "set", "fact": "npc.miriam.planted_with_child", "value": true}
+	],
+	"replay": "once",
+	"real_world_invitation": "rw_seed_look",
+	"journal_line": "I planted a row of beans with Miriam. I measured the spaces with a stick and put three seeds in each hole.",
+	"unavailable_text": "The bean row is already planted. Now it needs sun, rain and time."
+}
