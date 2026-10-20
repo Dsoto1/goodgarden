@@ -71,6 +71,8 @@ func summarize() -> PackedStringArray:
 			parts.append("chosen %d time%s" % [s["started"], _plural(s["started"])])
 			if s["retell_seconds"] > 0:
 				parts.append("about %d min spent retelling with the figures" % ceili(s["retell_seconds"] / 60.0))
+		elif s["completed"] == 0:
+			parts.append("started %d time%s" % [s["started"], _plural(s["started"])])
 		else:
 			parts.append("completed %d time%s" % [s["completed"], _plural(s["completed"])])
 			if s["completed"] > 1:

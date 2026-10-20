@@ -10,7 +10,7 @@ var _mode_pushed := false
 
 
 func open(width := 680.0, fill := UiStyle.PAPER) -> VBoxContainer:
-	set_anchors_preset(Control.PRESET_FULL_RECT)
+	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	mouse_filter = Control.MOUSE_FILTER_STOP
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	content = UiStyle.modal(self, width, fill)

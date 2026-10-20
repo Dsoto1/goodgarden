@@ -56,26 +56,26 @@
 				{
 					"text": "A priest came walking down that same road. When he saw the hurt man, he passed by on the other side.",
 					"reveal": ["priest"],
-					"show": {"priest": {"pos": [560, 120]}}
+					"show": {"priest": {"pos": [480, 95]}}
 				},
 				{
 					"text": "Then a Levite, a helper at the temple, came by. He looked at the man, and he passed by on the other side, too.",
 					"reveal": ["levite"],
-					"show": {"levite": {"pos": [640, 160]}}
+					"show": {"levite": {"pos": [290, 85]}}
 				},
 				{
 					"text": "Then a Samaritan came traveling with his donkey. Samaritans and the hurt man's people did not usually get along. But when the Samaritan saw him, his heart was filled with compassion.",
 					"reveal": ["samaritan", "donkey"],
-					"show": {"samaritan": {"pos": [480, 185]}, "donkey": {"pos": [540, 230]}}
+					"show": {"samaritan": {"pos": [500, 200]}, "donkey": {"pos": [575, 225]}}
 				},
 				{
 					"text": "He knelt down, cleaned and bandaged the man's wounds, lifted him onto his own donkey, and brought him to an inn, where he took care of him.",
 					"reveal": ["innkeeper"],
 					"show": {
-						"traveler": {"pos": [745, 215], "lying": true},
-						"samaritan": {"pos": [670, 200]},
-						"donkey": {"pos": [600, 225]},
-						"innkeeper": {"pos": [830, 175]}
+						"traveler": {"pos": [765, 220], "lying": true},
+						"samaritan": {"pos": [665, 195]},
+						"donkey": {"pos": [590, 235]},
+						"innkeeper": {"pos": [860, 150]}
 					}
 				},
 				{

@@ -112,10 +112,10 @@ static func label(text: String, variation := "") -> Label:
 static func modal(parent: Control, width := 640.0, fill := PAPER) -> VBoxContainer:
 	var dim := ColorRect.new()
 	dim.color = Color(0.1, 0.08, 0.06, 0.45)
-	dim.set_anchors_preset(Control.PRESET_FULL_RECT)
+	dim.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	parent.add_child(dim)
 	var center := CenterContainer.new()
-	center.set_anchors_preset(Control.PRESET_FULL_RECT)
+	center.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	parent.add_child(center)
 	var card_panel := PanelContainer.new()
 	card_panel.add_theme_stylebox_override("panel", card(fill, 22))

@@ -12,6 +12,7 @@ const KEYS := {
 	"journal": [KEY_J],
 	"map": [KEY_M],
 	"pause": [KEY_ESCAPE, KEY_P],
+	"grab": [KEY_G],
 }
 
 const JOY_BUTTONS := {
@@ -19,6 +20,7 @@ const JOY_BUTTONS := {
 	"journal": [JOY_BUTTON_Y],
 	"map": [JOY_BUTTON_BACK],
 	"pause": [JOY_BUTTON_START],
+	"grab": [JOY_BUTTON_X],
 	"move_up": [JOY_BUTTON_DPAD_UP],
 	"move_down": [JOY_BUTTON_DPAD_DOWN],
 	"move_left": [JOY_BUTTON_DPAD_LEFT],

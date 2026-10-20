@@ -20,6 +20,8 @@ var definition: ActivityDefinition
 var results: Dictionary = {}
 var step: ActivityStep
 var step_index := -1
+## Gamepad pointer; idle until a stick or the grab button is used.
+var cursor: VirtualCursor
 
 var _board: Control
 var _board_holder: Control
@@ -36,7 +38,7 @@ var _handed: Array[DragPiece] = []
 
 
 func _ready() -> void:
-	set_anchors_preset(Control.PRESET_FULL_RECT)
+	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	mouse_filter = Control.MOUSE_FILTER_STOP
 	resized.connect(_fit_board)
 
@@ -57,12 +59,12 @@ func _build_layout() -> void:
 	var reflective := definition.is_reflection()
 	var dim := ColorRect.new()
 	dim.color = Color(0.08, 0.07, 0.12, 0.55) if reflective else Color(0.1, 0.08, 0.05, 0.35)
-	dim.set_anchors_preset(Control.PRESET_FULL_RECT)
+	dim.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	dim.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(dim)
 
 	var column := VBoxContainer.new()
-	column.set_anchors_preset(Control.PRESET_FULL_RECT)
+	column.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	column.add_theme_constant_override("separation", 10)
 	column.offset_left = 16
 	column.offset_right = -16
@@ -115,6 +117,9 @@ func _build_layout() -> void:
 	var bar := HBoxContainer.new()
 	bar.add_theme_constant_override("separation", 12)
 	column.add_child(bar)
+	var pause := UiStyle.button(tr("Pause"))
+	pause.pressed.connect(func() -> void: get_tree().call_group("main", "open_pause"))
+	bar.add_child(pause)
 	_restart_button = UiStyle.button(tr("Start over"))
 	_restart_button.pressed.connect(_on_restart_pressed)
 	bar.add_child(_restart_button)
@@ -128,6 +133,8 @@ func _build_layout() -> void:
 	_leave_button.pressed.connect(_on_leave_pressed)
 	bar.add_child(_leave_button)
 	_update_controls()
+	cursor = VirtualCursor.new()
+	add_child(cursor)
 
 
 func _fit_board() -> void:

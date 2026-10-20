@@ -1,0 +1,23 @@
+name: Tests
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  godot-tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Godot 4.3
+        run: |
+          curl -sSL -o godot.zip https://github.com/godotengine/godot/releases/download/4.3-stable/Godot_v4.3-stable_linux.x86_64.zip
+          unzip -q godot.zip
+          mv Godot_v4.3-stable_linux.x86_64 /usr/local/bin/godot
+      - name: Import project
+        run: godot --headless --path . --editor --quit
+      - name: Validate content
+        run: godot --headless --path . res://tools/validate_content.tscn
+      - name: Run tests
+        run: godot --headless --path . res://tests/test_runner.tscn

@@ -171,7 +171,7 @@ func _draw() -> void:
 		draw_circle(Vector2(_from + 12 + i * 21.5, _row_y + ((i * 37) % 50) - 25), 3, Color("5a3a27"))
 	draw_circle(Vector2(_start_x, _row_y), 20, Color("b7aea0"))
 	draw_circle(Vector2(_start_x - 5, _row_y - 5), 8, Color("cfc7ba"))
-	draw_string(ThemeDB.fallback_font, Vector2(_start_x - 60, _row_y + 56), tr("start"), HORIZONTAL_ALIGNMENT_CENTER, 120, 18, Color("f3e6d2"))
+	draw_string(ThemeDB.fallback_font, Vector2(_start_x - 60, _row_y - 44), tr("start"), HORIZONTAL_ALIGNMENT_CENTER, 120, 18, Color("f3e6d2"))
 	draw_string(ThemeDB.fallback_font, Vector2(_tray.x - 40, _tray.y + 62), tr("pegs"), HORIZONTAL_ALIGNMENT_LEFT, 200, 18, Color("f3e6d2"))
 	if _hint_ghost > 0.0:
 		draw_dashed_line(Vector2(_hint_ghost, _row_y - 50), Vector2(_hint_ghost, _row_y + 30), Color(1, 0.95, 0.7), 4.0, 8.0)

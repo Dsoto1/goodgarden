@@ -16,13 +16,10 @@ var _caption_timer: SceneTreeTimer
 
 func _ready() -> void:
 	add_to_group("hud")
-	set_anchors_preset(Control.PRESET_FULL_RECT)
+	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
 
 	_buttons = VBoxContainer.new()
-	_buttons.set_anchors_preset(Control.PRESET_TOP_RIGHT)
-	_buttons.position = Vector2(-16, 16)
-	_buttons.grow_horizontal = Control.GROW_DIRECTION_BEGIN
 	_buttons.add_theme_constant_override("separation", 10)
 	add_child(_buttons)
 	var journal := UiStyle.button(tr("Journal"))
@@ -39,7 +36,7 @@ func _ready() -> void:
 	_buttons.add_child(pause)
 
 	_prompt_panel = PanelContainer.new()
-	_prompt_panel.set_anchors_preset(Control.PRESET_CENTER_BOTTOM)
+	_prompt_panel.set_anchors_and_offsets_preset(Control.PRESET_CENTER_BOTTOM)
 	_prompt_panel.grow_horizontal = Control.GROW_DIRECTION_BOTH
 	_prompt_panel.grow_vertical = Control.GROW_DIRECTION_BEGIN
 	_prompt_panel.position.y = -24
@@ -51,7 +48,7 @@ func _ready() -> void:
 	_prompt_panel.add_child(_prompt_button)
 
 	_caption = PanelContainer.new()
-	_caption.set_anchors_preset(Control.PRESET_CENTER_BOTTOM)
+	_caption.set_anchors_and_offsets_preset(Control.PRESET_CENTER_BOTTOM)
 	_caption.grow_horizontal = Control.GROW_DIRECTION_BOTH
 	_caption.grow_vertical = Control.GROW_DIRECTION_BEGIN
 	_caption.position.y = -110
@@ -61,8 +58,11 @@ func _ready() -> void:
 	add_child(_caption)
 	_caption_label = UiStyle.label("")
 	_caption_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_caption_label.custom_minimum_size.x = 480 # autowrap needs a width to measure height
 	_caption.add_child(_caption_label)
 
+	_buttons.grow_horizontal = Control.GROW_DIRECTION_BEGIN
+	_buttons.set_anchors_and_offsets_preset(Control.PRESET_TOP_RIGHT, Control.PRESET_MODE_MINSIZE, 16)
 	Interaction.focus_changed.connect(func(_t: Interactable) -> void: refresh())
 	GameState.mode_changed.connect(func(_m: GameState.Mode) -> void: refresh())
 	Discovery.discovered.connect(func(_id: String) -> void: refresh())
@@ -94,6 +94,7 @@ func set_quiet(quiet: bool) -> void:
 func show_caption(text: String, seconds := 4.5) -> void:
 	_caption_label.text = text
 	_caption.visible = true
+	_caption.size = Vector2.ZERO
 	_caption.reset_size()
 	_caption.position = Vector2((size.x - _caption.size.x) / 2.0, size.y - _caption.size.y - 110)
 	AudioService.narrate(text)

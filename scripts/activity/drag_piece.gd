@@ -56,12 +56,14 @@ func _draw() -> void:
 func _gui_input(event: InputEvent) -> void:
 	if not draggable:
 		return
+	# Positions come from the event (not the hardware mouse) so touch, mouse and
+	# the gamepad's virtual cursor all drive pieces the same way.
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
 		if event.pressed:
 			dragging = true
 			_moved = false
-			_press_pos = get_global_mouse_position()
-			_grab_offset = get_parent().get_local_mouse_position() - position
+			_press_pos = event.global_position
+			_grab_offset = _to_parent(event.global_position) - position
 			z_index = 10
 			move_to_front()
 			AudioService.play("place")
@@ -75,9 +77,13 @@ func _gui_input(event: InputEvent) -> void:
 				tapped.emit(self)
 		accept_event()
 	elif event is InputEventMouseMotion and dragging:
-		if get_global_mouse_position().distance_to(_press_pos) > 6.0:
+		if event.global_position.distance_to(_press_pos) > 6.0:
 			_moved = true
 		var parent_size: Vector2 = get_parent().size if get_parent() is Control else ActivityStep.BOARD_SIZE
-		var p: Vector2 = get_parent().get_local_mouse_position() - _grab_offset
+		var p: Vector2 = _to_parent(event.global_position) - _grab_offset
 		position = p.clamp(-size / 2.0, parent_size - size / 2.0)
 		accept_event()
+
+
+func _to_parent(viewport_point: Vector2) -> Vector2:
+	return (get_parent() as CanvasItem).get_global_transform_with_canvas().affine_inverse() * viewport_point

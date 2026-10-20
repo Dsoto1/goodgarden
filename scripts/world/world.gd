@@ -5,9 +5,9 @@ extends Node3D
 ## by the day definition. Also owns the world's mood (outdoor, home, chapel).
 
 const MOODS := {
-	"outdoor": {"sun": 1.15, "ambient": 0.55, "ambient_color": Color("dfe7f0"), "chapel_light": 0.0, "sound": "outdoor"},
-	"home": {"sun": 0.75, "ambient": 0.6, "ambient_color": Color("f3e3cc"), "chapel_light": 0.0, "sound": "interior"},
-	"chapel": {"sun": 0.3, "ambient": 0.35, "ambient_color": Color("e8cfa8"), "chapel_light": 1.6, "sound": "chapel"},
+	"outdoor": {"sun": 0.85, "ambient": 0.32, "ambient_color": Color("dfe7f0"), "chapel_light": 0.0, "sound": "outdoor"},
+	"home": {"sun": 0.6, "ambient": 0.38, "ambient_color": Color("f3e3cc"), "chapel_light": 0.0, "sound": "interior"},
+	"chapel": {"sun": 0.25, "ambient": 0.25, "ambient_color": Color("e8cfa8"), "chapel_light": 1.6, "sound": "chapel"},
 }
 
 var regions: Dictionary = {} # id -> Region
@@ -60,8 +60,7 @@ func _build_environment() -> void:
 	environment.ambient_light_source = Environment.AMBIENT_SOURCE_COLOR
 	environment.ambient_light_color = MOODS["outdoor"]["ambient_color"]
 	environment.ambient_light_energy = MOODS["outdoor"]["ambient"]
-	environment.tonemap_mode = Environment.TONE_MAPPER_FILMIC
-	environment.tonemap_white = 6.0
+	environment.tonemap_mode = Environment.TONE_MAPPER_LINEAR
 	environment.fog_enabled = true
 	environment.fog_light_color = Color("dfe6ee")
 	environment.fog_density = 0.0035

@@ -59,7 +59,9 @@ func _show_page() -> void:
 	content.add_child(rw)
 	var row := HBoxContainer.new()
 	content.add_child(row)
-	row.add_child(UiStyle.label(tr("Gentle rest reminder:")))
+	var reminder := UiStyle.label(tr("Gentle rest reminder:"))
+	reminder.autowrap_mode = TextServer.AUTOWRAP_OFF
+	row.add_child(reminder)
 	var opt := OptionButton.new()
 	for m: int in [0, 15, 30, 45]:
 		opt.add_item(tr("Off") if m == 0 else tr("%d minutes") % m, m)

@@ -17,6 +17,7 @@ var _activity_focus: Variant = null # Vector3 or null
 var _talk_target: Node3D
 var _play_seconds := 0.0
 var _rest_reminded := false
+var _theme: Theme
 
 
 func _ready() -> void:
@@ -32,7 +33,7 @@ func _ready() -> void:
 	var fade_root := _layer(10, Node.PROCESS_MODE_ALWAYS)
 	_fade = ColorRect.new()
 	_fade.color = Color(0.06, 0.05, 0.04, 0.0)
-	_fade.set_anchors_preset(Control.PRESET_FULL_RECT)
+	_fade.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	_fade.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	fade_root.add_child(_fade)
 	ActivityRunner.host = _activity_root
@@ -50,14 +51,19 @@ func _layer(index: int, mode: Node.ProcessMode) -> Control:
 	layer.process_mode = mode
 	add_child(layer)
 	var root := Control.new()
-	root.set_anchors_preset(Control.PRESET_FULL_RECT)
 	root.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	layer.add_child(root)
+	root.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	root.add_to_group("ui_roots")
+	root.theme = _theme
 	return root
 
 
+## Themes don't cross CanvasLayers, so every layer's root gets the theme.
 func _apply_theme() -> void:
-	get_tree().root.theme = UiStyle.build_theme(Settings.get_value("text_scale"))
+	_theme = UiStyle.build_theme(Settings.get_value("text_scale"))
+	for root in get_tree().get_nodes_in_group("ui_roots"):
+		(root as Control).theme = _theme
 
 
 # --- Title and game start -----------------------------------------------------
@@ -184,12 +190,11 @@ func sit_quietly(focus: Vector3) -> void:
 	GameState.push_mode(GameState.Mode.REFLECTION)
 	world.rig.focus_on(focus, 3.2, 12.0)
 	var stand := UiStyle.button(tr("Stand up"))
-	stand.set_anchors_preset(Control.PRESET_CENTER_BOTTOM)
+	stand.modulate.a = 0.75
 	stand.grow_horizontal = Control.GROW_DIRECTION_BOTH
 	stand.grow_vertical = Control.GROW_DIRECTION_BEGIN
-	stand.position.y -= 30
-	stand.modulate.a = 0.75
 	_overlay_root.add_child(stand)
+	stand.set_anchors_and_offsets_preset(Control.PRESET_CENTER_BOTTOM, Control.PRESET_MODE_MINSIZE, 30)
 	stand.pressed.connect(func() -> void:
 		stand.queue_free()
 		world.rig.release_focus()
@@ -242,7 +247,14 @@ func open_parents() -> void:
 
 
 func _unhandled_input(event: InputEvent) -> void:
-	if world == null or not GameState.is_exploring():
+	if world == null:
+		return
+	# Pause anywhere outside protected transitions.
+	if event.is_action_pressed("pause") and GameState.mode() in [GameState.Mode.EXPLORE, GameState.Mode.ACTIVITY, GameState.Mode.REFLECTION, GameState.Mode.DIALOGUE]:
+		open_pause()
+		get_viewport().set_input_as_handled()
+		return
+	if not GameState.is_exploring():
 		return
 	if event.is_action_pressed("pause"):
 		open_pause()

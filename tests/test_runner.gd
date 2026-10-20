@@ -24,7 +24,7 @@ func _ready() -> void:
 		test_content_is_valid, test_validator_catches_errors, test_conditions_and_tokens,
 		test_save_round_trip_and_migration, test_space_along_line, test_count_into_slots,
 		test_match_to_outline_self_correction, test_story_handoff_and_put_away,
-		test_observations_never_score_reflection, test_vertical_slice_end_to_end,
+		test_observations_never_score_reflection, test_pointer_events_drag_pieces, test_vertical_slice_end_to_end,
 	]
 	for t: Callable in tests:
 		_current = t.get_method()
@@ -218,6 +218,44 @@ func test_observations_never_score_reflection() -> void:
 	check(text.contains("chosen 1 time"), "reports that the material was chosen")
 	check(not text.contains("completed"), "does not report Scripture work as completion")
 	check(not text.contains("%"), "no percentages")
+
+
+## Real pointer events (as sent by mouse, touch emulation and the gamepad
+## cursor) pick up a piece and drop it on its outline.
+func test_pointer_events_drag_pieces() -> void:
+	var main: Main = load("res://scenes/main.tscn").instantiate()
+	add_child(main)
+	await frames()
+	main.start_new_game()
+	await frames(3)
+	check(ActivityRunner.start("home_set_table"), "table setting starts")
+	var ws := ActivityRunner.workspace
+	await _play_intro(ws)
+	await frames(2)
+	var step := ws.current_step()
+	var slot: DropSlot = step.slots[2]
+	var piece: DragPiece
+	for p: DragPiece in step.pieces:
+		if p.kind == slot.accepts:
+			piece = p
+	var to_screen := func(c: CanvasItem, local: Vector2) -> Vector2: return c.get_global_transform_with_canvas() * local
+	var cursor := ws.cursor
+	cursor.move_to(to_screen.call(step, piece.center()))
+	cursor.press()
+	await frames()
+	check(piece.dragging, "virtual cursor press grabs the piece")
+	var dest: Vector2 = to_screen.call(step, slot.center())
+	for i in 6:
+		cursor.move_to(cursor.pointer.lerp(dest, 0.5 if i < 5 else 1.0))
+		await frames(1)
+	cursor.release()
+	await frames()
+	check(piece.placed_in == slot, "dropped on its outline through real input events")
+	ActivityRunner.set_aside()
+	main.quit_to_title()
+	await frames(2)
+	main.queue_free()
+	await frames(2)
 
 
 # --- End to end -------------------------------------------------------------------

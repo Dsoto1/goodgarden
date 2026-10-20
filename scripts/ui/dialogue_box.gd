@@ -10,10 +10,10 @@ var _choices: HBoxContainer
 
 
 func _ready() -> void:
-	set_anchors_preset(Control.PRESET_FULL_RECT)
+	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_panel = PanelContainer.new()
-	_panel.set_anchors_preset(Control.PRESET_BOTTOM_WIDE)
+	_panel.set_anchors_and_offsets_preset(Control.PRESET_BOTTOM_WIDE)
 	_panel.offset_left = 24
 	_panel.offset_right = -24
 	_panel.offset_bottom = -20
