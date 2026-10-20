@@ -31,14 +31,9 @@ func build() -> void:
 	MeshKit.box(self, Vector3(2.4, 0.2, 1.4), Vector3(0, 0.1, 5.9), "stone")
 
 	# Atrium: rug, child-height work table, shelves.
-	MeshKit.box(self, Vector3(3.4, 0.02, 2.6), Vector3(0, 0.11, 0.6), "cloth_gold")
-	MeshKit.box(self, Vector3(3.1, 0.025, 2.3), Vector3(0, 0.12, 0.6), "cloth_cream")
-	MeshKit.box(self, Vector3(1.6, 0.06, 0.9), Vector3(0, 0.48, 0.6), "wood")
-	MeshKit.box(self, Vector3(1.5, 0.01, 0.8), Vector3(0, 0.515, 0.6), "felt_blue")
-	for dx: float in [-0.7, 0.7]:
-		for dz: float in [-0.35, 0.35]:
-			MeshKit.box(self, Vector3(0.06, 0.45, 0.06), Vector3(dx, 0.23, 0.6 + dz), "wood_dark")
-	MeshKit.solid(self, Vector3(1.7, 0.8, 1.0), Vector3(0, 0.4, 0.6))
+	Props.place(self, "rug_oval", Vector3(0, 0.1, 0.6))
+	Props.place(self, "table_low", Vector3(0, 0.1, 0.6))
+	MeshKit.box(self, Vector3(1.2, 0.01, 0.75), Vector3(0, 0.44, 0.6), "felt_blue")
 	_shelf(Vector3(-2.95, 0, -0.6), 4.0)
 	_shelf(Vector3(2.95, 0, -0.6), 4.0)
 	_decor_shelf_items(Vector3(2.95, 0, -0.6))
@@ -51,7 +46,7 @@ func build() -> void:
 	MeshKit.cylinder(self, 0.04, 0.04, 0.22, Vector3(0.35, 0.75, -4.1), "white", 8)
 	MeshKit.box(self, Vector3(0.12, 1.3, 0.06), Vector3(0, 2.2, -4.82), "wood_dark")
 	MeshKit.box(self, Vector3(0.7, 0.12, 0.06), Vector3(0, 2.45, -4.82), "wood_dark")
-	MeshKit.cylinder(self, 0.32, 0.34, 0.12, Vector3(0, 0.16, -3.0), "cloth_purple", 10)
+	Props.place(self, "cushion", Vector3(0, 0.1, -3.0))
 	var sit := Interactable.create(self, Vector3(0, 0, -2.8), "Sit quietly", func() -> void:
 		get_tree().call_group("main", "sit_quietly", position + Vector3(0, 1.2, -4.3)), 0.5, 1.2)
 	sit.reach = 1.5
@@ -67,8 +62,8 @@ func build() -> void:
 	# Outside.
 	MeshKit.flowers(self, Vector3(-2.5, 0, 6.5), 0.8, 8, 50)
 	MeshKit.flowers(self, Vector3(2.5, 0, 6.5), 0.8, 8, 51)
-	MeshKit.tree(self, Vector3(-6, 0, 3), 1.0)
-	MeshKit.tree(self, Vector3(6, 0, -2), 1.1, "pine")
+	Props.place(self, "tree_a", Vector3(-6, 0, 3), 0.7)
+	Props.place(self, "tree_b", Vector3(-6.5, 0, -4), 0.2)
 	MeshKit.box(self, Vector3(1.6, 0.45, 0.5), Vector3(4.5, 0.22, 5.5), "wood", true)
 
 	add_anchor("chapel_door", Vector3(0, 0, 7.2), 0.0)
@@ -85,8 +80,8 @@ func _shelf(at: Vector3, length: float) -> void:
 func _decor_shelf_items(at: Vector3) -> void:
 	MeshKit.cylinder(self, 0.12, 0.1, 0.2, at + Vector3(0, 0.95, -1.4), "roof_red", 8)
 	MeshKit.sphere(self, 0.2, at + Vector3(0, 1.15, -1.4), "leaf", Vector3.ONE, 7, 4)
-	MeshKit.box(self, Vector3(0.35, 0.25, 0.5), at + Vector3(0, 0.98, 0.2), "cloth_blue")
-	MeshKit.box(self, Vector3(0.35, 0.2, 0.5), at + Vector3(0, 0.95, 1.2), "cloth_green")
+	Props.place(self, "books", at + Vector3(0, 0.87, 0.2), -PI / 2.0)
+	Props.place(self, "jar", at + Vector3(0, 0.87, 1.2))
 
 
 ## One tray per material listed in content/world/atrium_shelf.json.

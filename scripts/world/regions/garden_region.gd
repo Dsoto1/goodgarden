@@ -14,11 +14,11 @@ var _bed_1_ready: Node3D
 
 func build() -> void:
 	# Fence with a gate gap on the west side, facing the home path.
-	MeshKit.fence(self, Vector3(-6, 0, -5.5), Vector3(6, 0, -5.5))
-	MeshKit.fence(self, Vector3(-6, 0, 5.5), Vector3(6, 0, 5.5))
-	MeshKit.fence(self, Vector3(6, 0, -5.5), Vector3(6, 0, 5.5))
-	MeshKit.fence(self, Vector3(-6, 0, -5.5), Vector3(-6, 0, -1.2))
-	MeshKit.fence(self, Vector3(-6, 0, 1.2), Vector3(-6, 0, 5.5))
+	Props.fence(self, "fence_wood", Vector3(-6, 0, -5.5), Vector3(6, 0, -5.5))
+	Props.fence(self, "fence_wood", Vector3(-6, 0, 5.5), Vector3(6, 0, 5.5))
+	Props.fence(self, "fence_wood", Vector3(6, 0, -5.5), Vector3(6, 0, 5.5))
+	Props.fence(self, "fence_wood", Vector3(-6, 0, -5.5), Vector3(-6, 0, -1.2))
+	Props.fence(self, "fence_wood", Vector3(-6, 0, 1.2), Vector3(-6, 0, 5.5))
 	for z: float in [-1.2, 1.2]:
 		MeshKit.box(self, Vector3(0.2, 2.3, 0.2), Vector3(-6, 1.15, z), "wood")
 	MeshKit.box(self, Vector3(0.3, 0.2, 2.8), Vector3(-6, 2.3, 0), "wood")
@@ -58,9 +58,14 @@ func build() -> void:
 	MeshKit.box(self, Vector3(2.0, 2.0, 1.6), Vector3(4.6, 1.0, -4.3), "wood_dark", true)
 	MeshKit.roof(self, 2.4, 0.8, 2.0, Vector3(4.6, 2.4, -4.3), "roof_red", PI / 2.0)
 	MeshKit.box(self, Vector3(0.7, 1.5, 0.06), Vector3(4.6, 0.75, -3.48), "wood")
-	MeshKit.cylinder(self, 0.4, 0.35, 0.9, Vector3(-5.0, 0.45, -4.6), "wood", 10, true)
-	MeshKit.cylinder(self, 0.36, 0.36, 0.02, Vector3(-5.0, 0.9, -4.6), "water", 10)
-	MeshKit.box(self, Vector3(0.05, 1.1, 0.05), Vector3(5.5, 0.55, 4.8), "wood")
+	Props.place(self, "barrel", Vector3(-5.0, 0, -4.6), 0.0, 1.2)
+	Props.place(self, "bucket", Vector3(-4.3, 0, -4.8), 0.4)
+	Props.place(self, "wheelbarrow", Vector3(3.2, 0, -4.4), 1.4)
+	Props.place(self, "crate_lettuce", Vector3(5.2, 0, -1.8), 0.2)
+	Props.place(self, "crate_carrots", Vector3(5.2, 0, -0.8), -0.1)
+	Props.place(self, "sack", Vector3(-4.9, 0, 4.6), 0.5)
+	Props.place(self, "tree_b", Vector3(-8.5, 0, -4.5), 0.3)
+	Props.place(self, "tree_a", Vector3(8.0, 0, 6.5), 1.1)
 
 	add_anchor("garden_gate", Vector3(-7.6, 0, 0), -PI / 2.0)
 	add_anchor("garden_miriam", Vector3(-4.3, 0, 3.6), -PI / 2.0)

@@ -24,7 +24,7 @@ func _ready() -> void:
 		test_content_is_valid, test_validator_catches_errors, test_conditions_and_tokens,
 		test_save_round_trip_and_migration, test_space_along_line, test_count_into_slots,
 		test_match_to_outline_self_correction, test_story_handoff_and_put_away,
-		test_observations_never_score_reflection, test_pointer_events_drag_pieces, test_vertical_slice_end_to_end,
+		test_observations_never_score_reflection, test_pointer_events_drag_pieces, test_props_catalog, test_vertical_slice_end_to_end,
 	]
 	for t: Callable in tests:
 		_current = t.get_method()
@@ -256,6 +256,20 @@ func test_pointer_events_drag_pieces() -> void:
 	await frames(2)
 	main.queue_free()
 	await frames(2)
+
+
+## Every catalogued third-party prop loads and lands at a sensible game size.
+func test_props_catalog() -> void:
+	var holder := Node3D.new()
+	add_child(holder)
+	for id: String in Props.catalog()["props"]:
+		var prop := Props.place(holder, id, Vector3.ZERO)
+		check(prop != null, "prop '%s' instantiates" % id)
+		if prop:
+			var size := Props.bounds(prop).size
+			check(size.length() > 0.05 and maxf(size.x, maxf(size.y, size.z)) < 60.0, "prop '%s' has a sensible size %s" % [id, size])
+	holder.queue_free()
+	await frames()
 
 
 # --- End to end -------------------------------------------------------------------

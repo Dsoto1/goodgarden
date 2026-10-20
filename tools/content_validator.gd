@@ -164,12 +164,29 @@ func _check_third_party() -> void:
 		for field: String in ["path", "source", "license", "creator"]:
 			if str(a.get(field, "")).is_empty():
 				errors.append("third-party manifest entry %s is missing '%s'" % [a.get("path", "?"), field])
-		listed[str(a.get("path", ""))] = true
+		var base := str(a.get("path", ""))
+		var files: Array = a.get("files", [])
+		if files.is_empty():
+			listed[base] = true # a single-file entry
+		for f: Variant in files:
+			var full := base.path_join(str(f))
+			listed[full] = true
+			if not FileAccess.file_exists(full):
+				errors.append("third-party manifest lists a missing file: %s" % full)
 	for file in _files_under(THIRD_PARTY_DIR):
 		if file.get_file() == "manifest.json" or file.ends_with(".import"):
 			continue
 		if not listed.has(file):
 			errors.append("untracked third-party asset: %s" % file)
+	_check_props()
+
+
+## Every catalogued prop must point at a model that exists and is tracked.
+func _check_props() -> void:
+	for id: String in Props.catalog().get("props", {}):
+		var path := Props.scene_path(id)
+		if not ResourceLoader.exists(path):
+			errors.append("prop '%s': model %s not found" % [id, path])
 
 
 func _files_under(dir_path: String) -> PackedStringArray:

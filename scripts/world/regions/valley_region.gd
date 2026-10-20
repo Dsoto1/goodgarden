@@ -69,14 +69,28 @@ func _patches() -> void:
 
 func _trees() -> void:
 	var spots := [
-		[-12, 4, 1.1, "round"], [-15, -4, 1.3, "pine"], [-20, 8, 1.0, "round"], [-18, -9, 1.2, "leaf_light"],
-		[12, 11, 1.0, "round"], [20, 11, 1.2, "pine"], [25, -1, 1.1, "round"], [26, -8, 1.3, "pine"],
-		[-4, -8, 0.9, "round"], [-15, -18, 1.1, "pine"], [17, -19, 1.0, "leaf_autumn"], [24, -33, 1.2, "round"],
-		[-21, -31, 1.3, "pine"], [-23, -40, 1.1, "round"], [-16, -37, 1.0, "leaf_light"], [-4, -35, 1.2, "pine"],
-		[17, -36, 1.1, "round"], [-25, -2, 1.2, "round"], [29, -15, 1.0, "pine"], [-1, -18.5, 0.8, "leaf_light"],
+		[-12, 4, 1.0, "tree_a"], [-15, -4, 1.0, "grove_b_small"], [-20, 8, 1.1, "tree_b"], [-18, -9, 1.0, "grove_a_small"],
+		[12, 11, 1.0, "tree_a"], [20, 11, 1.0, "grove_b_small"], [25, -1, 1.1, "tree_b"], [26, -8, 1.0, "grove_a_medium"],
+		[-4, -8, 0.9, "tree_a"], [-15, -18, 1.0, "grove_b_medium"], [17, -19, 1.0, "tree_b"], [24, -33, 1.0, "grove_a_small"],
+		[-21, -31, 1.0, "grove_b_medium"], [-23, -40, 1.0, "tree_a"], [-16, -37, 1.1, "tree_b"], [-4, -35, 1.0, "grove_a_small"],
+		[17, -36, 1.0, "tree_a"], [-25, -2, 1.0, "grove_a_medium"], [29, -15, 1.0, "tree_b"], [-1, -18.5, 0.8, "tree_a"],
 	]
+	var rng := RandomNumberGenerator.new()
+	rng.seed = 12
 	for s: Array in spots:
-		MeshKit.tree(self, Vector3(s[0], 0, s[1]), s[2], s[3])
+		Props.place(self, s[3], Vector3(s[0], 0, s[1]), rng.randf() * TAU, s[2])
+	# Working buildings and fields that make the valley feel lived in.
+	Props.place(self, "windmill", Vector3(28, 0, -29), -0.4)
+	Props.place(self, "watermill", Vector3(-11, 0, -10.2), PI)
+	Props.place(self, "grain_field", Vector3(25, 0, 6), 0.3)
+	Props.place(self, "grain_field", Vector3(29, 0, 0), -0.2)
+	for r: Array in [[-7, 9], [14, -9], [-19, -24], [20, -12], [-26, 6], [2, -42]]:
+		Props.place(self, "rock", Vector3(r[0], 0, r[1]), rng.randf() * TAU, rng.randf_range(0.8, 1.4))
+	for i in 5:
+		Props.place(self, "waterlily", Vector3(-20 + i * 9.0 + rng.randf_range(-2, 2), 0.04, -14 + rng.randf_range(-1.2, 1.2)), rng.randf() * TAU)
+		Props.place(self, "waterplant", Vector3(-17 + i * 9.0, 0.0, -12.0 + (i % 2) * -4.0), rng.randf() * TAU)
+	for c: Array in [[-40, 34, -110, "cloud_big"], [10, 40, -150, "cloud_small"], [60, 30, -120, "cloud_big"], [-80, 38, -160, "cloud_small"]]:
+		Props.place(self, c[3], Vector3(c[0], c[1], c[2]), 0.0, 2.5)
 
 
 func _boundary() -> void:
@@ -87,21 +101,23 @@ func _boundary() -> void:
 	MeshKit.solid(self, Vector3(b.size.x, 6, 1), Vector3(b.position.x + b.size.x / 2.0, 3, b.position.y))
 	var rng := RandomNumberGenerator.new()
 	rng.seed = 5
+	var groves := ["grove_a_medium", "grove_b_medium", "grove_a_small", "grove_b_small"]
 	var x := b.position.x
 	while x <= b.end.x:
-		MeshKit.tree(self, Vector3(x + rng.randf_range(-1, 1), 0, b.end.y + 2 + rng.randf_range(0, 3)), rng.randf_range(1.0, 1.5), "pine")
+		Props.place(self, groves[rng.randi() % 4], Vector3(x + rng.randf_range(-1, 1), 0, b.end.y + 2.5 + rng.randf_range(0, 2)), rng.randf() * TAU)
 		# Keep the north edge low so the overlook can see Bellhaven.
 		if x < -6 or x > 22:
-			MeshKit.tree(self, Vector3(x + rng.randf_range(-1, 1), 0, b.position.y - 2 - rng.randf_range(0, 3)), rng.randf_range(1.0, 1.5), "pine")
+			Props.place(self, groves[rng.randi() % 4], Vector3(x + rng.randf_range(-1, 1), 0, b.position.y - 2.5 - rng.randf_range(0, 2)), rng.randf() * TAU)
 		else:
-			MeshKit.sphere(self, 0.9, Vector3(x, 0.3, b.position.y - 1.5), "leaf", Vector3(1.4, 0.7, 1.0), 7, 3)
-		x += 3.5
+			Props.place(self, "fence_stone", Vector3(x, 0, b.position.y - 0.8), PI / 2.0, 1.0).scale.z = 3.5 / 1.6
+		x += 4.0
 	var z := b.position.y
 	while z <= b.end.y:
 		for side_x: float in [b.position.x - 2.5, b.end.x + 2.5]:
-			MeshKit.tree(self, Vector3(side_x + rng.randf_range(-1, 1), 0, z + rng.randf_range(-1, 1)), rng.randf_range(1.0, 1.6), "pine" if rng.randf() < 0.6 else "round")
-		z += 3.5
-	# Rolling hills beyond the edges for silhouette.
+			Props.place(self, groves[rng.randi() % 4], Vector3(side_x + rng.randf_range(-1, 1), 0, z + rng.randf_range(-1, 1)), rng.randf() * TAU)
+		z += 4.0
+	# Rolling hills beyond the edges for silhouette. (The hex pack's hills and
+	# mountains are map tiles with cliff sides, which read as mesas at this scale.)
 	for h: Array in [[-60, -10, 30], [-55, -60, 25], [70, -20, 28], [60, -70, 22], [-10, 50, 30], [40, 45, 26], [-45, 30, 22]]:
 		MeshKit.sphere(self, float(h[2]), Vector3(h[0], -float(h[2]) * 0.55, h[1]), "grass_dark", Vector3(1.6, 1.0, 1.0), 10, 5)
 

@@ -33,36 +33,27 @@ func build() -> void:
 	MeshKit.box(self, Vector3(1.6, 0.12, 0.8), Vector3(0, 0.06, 3.5), "stone")
 
 	# Bed (end the day).
-	MeshKit.box(self, Vector3(1.2, 0.4, 2.1), Vector3(-3.0, 0.3, -1.85), "wood")
-	MeshKit.box(self, Vector3(1.1, 0.2, 1.9), Vector3(-3.0, 0.58, -1.8), "white")
-	MeshKit.box(self, Vector3(1.14, 0.08, 1.3), Vector3(-3.0, 0.7, -1.4), "cloth_blue")
-	MeshKit.box(self, Vector3(0.7, 0.15, 0.4), Vector3(-3.0, 0.75, -2.55), "cloth_cream")
-	MeshKit.box(self, Vector3(1.2, 1.0, 0.1), Vector3(-3.0, 0.6, -2.9), "wood_dark")
-	MeshKit.solid(self, Vector3(1.2, 1.0, 2.1), Vector3(-3.0, 0.5, -1.85))
+	Props.place(self, "bed", Vector3(-3.0, 0.1, -1.9))
 	var bed := Interactable.create(self, Vector3(-2.9, 0, -0.5), "Rest until morning", func() -> void:
 		get_tree().call_group("main", "request_rest"), 0.6, 1.4)
 	bed.reach = 1.6
 
 	# Supper table (practical life) with two stools.
-	MeshKit.box(self, Vector3(1.8, 0.08, 1.1), Vector3(1.6, 0.74, -1.2), "wood")
-	for dx: float in [-0.8, 0.8]:
-		for dz: float in [-0.45, 0.45]:
-			MeshKit.box(self, Vector3(0.08, 0.7, 0.08), Vector3(1.6 + dx, 0.35, -1.2 + dz), "wood_dark")
-	MeshKit.solid(self, Vector3(1.9, 1.0, 1.2), Vector3(1.6, 0.5, -1.2))
-	for dx: float in [-0.5, 0.5]:
-		MeshKit.cylinder(self, 0.22, 0.22, 0.45, Vector3(1.6 + dx, 0.23, -0.35), "wood_light", 8)
+	Props.place(self, "table", Vector3(1.6, 0.1, -1.2))
+	for dx: float in [-1.05, 1.05]:
+		Props.place(self, "stool", Vector3(1.6 + dx, 0.1, -1.2))
 	var table := Interactable.create(self, Vector3(1.6, 0, -0.4), "Set the table", func() -> void:
 		get_tree().call_group("main", "start_activity_here", "home_set_table", Vector3(1.6, 0.8, -1.2) + position), 0.7, 1.5)
 	table.conditions = [{"not": {"fact": "home.table_set_day", "is_today": true}}]
 	table.reach = 1.8
 	_table_settings = group_node("TableSettings")
-	for dx: float in [-0.45, 0.45]:
-		MeshKit.cylinder(_table_settings, 0.17, 0.15, 0.03, Vector3(1.6 + dx, 0.8, -1.05), "white", 12)
-		MeshKit.cylinder(_table_settings, 0.05, 0.045, 0.12, Vector3(1.6 + dx + 0.22, 0.84, -1.3), "cloth_blue", 8)
-		MeshKit.box(_table_settings, Vector3(0.12, 0.01, 0.18), Vector3(1.6 + dx - 0.25, 0.79, -1.05), "cloth_red")
+	for dx: float in [-0.4, 0.4]:
+		Props.place(_table_settings, "plate", Vector3(1.6 + dx, 0.86, -0.9))
+		Props.place(_table_settings, "bowl", Vector3(1.6 + dx + 0.22, 0.86, -1.15))
+		MeshKit.box(_table_settings, Vector3(0.12, 0.01, 0.18), Vector3(1.6 + dx - 0.25, 0.86, -0.9), "cloth_red")
 	_vase = group_node("Vase")
-	MeshKit.cylinder(_vase, 0.06, 0.08, 0.2, Vector3(1.6, 0.88, -1.45), "cloth_blue", 8)
-	MeshKit.flowers(_vase, Vector3(1.6, 0.68, -1.45), 0.05, 4, 3)
+	MeshKit.cylinder(_vase, 0.06, 0.08, 0.2, Vector3(1.6, 0.96, -1.45), "cloth_blue", 8)
+	MeshKit.flowers(_vase, Vector3(1.6, 0.76, -1.45), 0.05, 4, 3)
 
 	# Today's letter on a little stand by the door.
 	MeshKit.box(self, Vector3(0.6, 0.6, 0.4), Vector3(-1.3, 0.3, 2.5), "wood")
@@ -74,18 +65,20 @@ func build() -> void:
 	_letter_use.reach = 1.6
 
 	# Shelf, stove and rug for a lived-in feel.
-	MeshKit.box(self, Vector3(1.6, 1.2, 0.4), Vector3(-0.5, 0.6, -2.7), "wood")
-	for i in 3:
-		MeshKit.sphere(self, 0.12, Vector3(-1.0 + i * 0.45, 1.3, -2.7), ["cloth_red", "cloth_gold", "cloth_green"][i], Vector3.ONE, 6, 3)
+	Props.place(self, "bookshelf", Vector3(-0.6, 0.1, -2.85))
+	Props.place(self, "jar", Vector3(2.6, 0.1, -2.6))
+	Props.place(self, "picture", Vector3(1.6, 1.4, -2.88))
+	Props.place(self, "cutting_board", Vector3(3.3, 0.92, -2.4))
 	MeshKit.box(self, Vector3(0.9, 0.9, 0.7), Vector3(3.3, 0.45, -2.4), "dark", true)
 	MeshKit.cylinder(self, 0.1, 0.1, 1.8, Vector3(3.5, 1.8, -2.6), "dark", 6)
-	MeshKit.box(self, Vector3(2.4, 0.02, 1.6), Vector3(-0.6, 0.11, 0.6), "cloth_green")
+	Props.place(self, "rug_stripes", Vector3(-0.6, 0.1, 0.6))
 
 	# Yard.
 	MeshKit.flowers(self, Vector3(-2.5, 0, 4.3), 1.0, 10, 1)
 	MeshKit.flowers(self, Vector3(2.5, 0, 4.3), 1.0, 10, 2)
-	MeshKit.tree(self, Vector3(-6.5, 0, -1.5), 1.2)
-	MeshKit.tree(self, Vector3(-6, 0, 4.5), 0.9, "leaf_light")
+	Props.place(self, "tree_a", Vector3(-6.5, 0, -1.5), 0.2, 1.1)
+	Props.place(self, "tree_b", Vector3(-6, 0, 4.5), 1.0)
+	Props.place(self, "lumber", Vector3(-5.6, 0, 1.2), PI / 2.0, 0.7)
 	_build_coop(Vector3(-6.5, 0, 8.5))
 	var cat := Wanderer.new().setup(AnimalModel.make("cat"), 3)
 	cat.position = Vector3(1.8, 0, 5.2)

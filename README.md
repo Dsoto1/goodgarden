@@ -60,7 +60,13 @@ xvfb-run godot --path . --rendering-driver opengl3 --resolution 1280x720 \
 
 ## Assets
 
-The slice ships **no third-party assets**. All geometry is assembled from primitive meshes (`scripts/world/mesh_kit.gd`), all UI art is drawn in code, and all sound is synthesized at runtime. The machine-readable manifest at `assets/third_party/manifest.json` is checked by the content validator: any file added under `assets/third_party/` without a complete entry fails validation. This follows the CC0-first policy in `docs/design/ASSET_STRATEGY.md`.
+Art is mid-transition from placeholder to final:
+
+- **KayKit (CC0)** models now dress the world: trees, rocks, village buildings, mills, fences, everyday props, cottage and Atrium furniture, tableware, and the distant Bellhaven skyline. They're a subset of three packs by Kay Lousberg, listed per file in `assets/third_party/manifest.json` and in `docs/design/THIRD_PARTY_ASSETS.md`.
+- `assets/props.json` normalizes every imported model (scale to metres, pivot, collision). Regions place props by name with `Props.place()`, so swapping a model is a data change.
+- **Still custom or procedural** (the identity pieces ART_DIRECTION.md says should be custom): the cottage shell, Chapel and Atrium shelves, the child's raised beds, the characters, the activity boards and UI art, and all sound.
+
+The content validator fails if any file under `assets/third_party/` is missing from the manifest, or if a catalogued prop's model is missing.
 
 ## Review status
 
@@ -68,7 +74,7 @@ The Good Samaritan retelling and wondering questions are an **original draft** w
 
 ## Screenshots
 
-Rendered with the software renderer by `tools/screenshot_tour.tscn`; art is placeholder.
+Rendered with the software renderer by `tools/screenshot_tour.tscn`. First art pass: KayKit props, custom characters and buildings still placeholder.
 
 | Miriam's garden | Spacing the bean row | Bellhaven from the overlook |
 |---|---|---|
@@ -77,3 +83,7 @@ Rendered with the software renderer by `tools/screenshot_tour.tscn`; art is plac
 | The Good Samaritan (Atrium) | Day 2: the beans have sprouted |
 |---|---|
 | ![](docs/screenshots/13_story.png) | ![](docs/screenshots/16_day2_sprouts.png) |
+
+| Home | The village |
+|---|---|
+| ![](docs/screenshots/02_home_start.png) | ![](docs/screenshots/10_village.png) |
