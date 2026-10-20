@@ -3,3 +3,5 @@
 *.glb binary
 *.wav binary
 *.ogg binary
+# Keep third-party files byte-for-byte as downloaded.
+assets/third_party/** -text
