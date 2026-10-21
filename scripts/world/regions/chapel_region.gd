@@ -206,15 +206,17 @@ func _shelf(at: Vector3, length: float) -> void:
 ## shelf running north-south and centred on `base`.
 func _material_trays(base: Vector3) -> void:
 	var items: Array = Content.get_world("atrium_shelf").get("items", [])
+	# Trays share the shelf's length, closer together as more are added.
+	var spacing := minf(1.0, 3.7 / items.size())
 	for i in items.size():
 		var item: Dictionary = items[i]
-		var at := base + Vector3(0, 0, (i - (items.size() - 1) / 2.0) * 1.0)
-		MeshKit.box(self, Vector3(0.5, 0.06, 0.8), at, "wood_light")
-		MeshKit.box(self, Vector3(0.44, 0.02, 0.7), at + Vector3(0, 0.04, 0), item.get("tray_color", "cloth_cream"))
+		var at := base + Vector3(0, 0, (i - (items.size() - 1) / 2.0) * spacing)
+		MeshKit.box(self, Vector3(0.5, 0.06, spacing * 0.8), at, "wood_light")
+		MeshKit.box(self, Vector3(0.44, 0.02, spacing * 0.7), at + Vector3(0, 0.04, 0), item.get("tray_color", "cloth_cream"))
 		for k in 3:
-			MeshKit.cylinder(self, 0.04, 0.05, 0.16, at + Vector3(-0.1 + k * 0.1, 0.13, -0.15 + k * 0.12), ["cloth_cream", "cloth_red", "cloth_blue"][k], 6)
+			MeshKit.cylinder(self, 0.04, 0.05, 0.16, at + Vector3(-0.1 + k * 0.1, 0.13, (-0.15 + k * 0.12) * spacing), ["cloth_cream", "cloth_red", "cloth_blue"][k], 6)
 		var activity_id := str(item["activity"])
 		var use := Interactable.create(self, at + Vector3(-0.9, -0.88, 0), "Choose %s" % tr(str(item.get("label", activity_id))), func() -> void:
 			# The work happens at the Atrium's low table.
-			get_tree().call_group("main", "start_activity_here", activity_id, position + Vector3(4.6, 0.6, 1.45)), 0.5, 1.5)
+			get_tree().call_group("main", "start_activity_here", activity_id, position + Vector3(4.6, 0.6, 1.45)), spacing * 0.48, 1.5)
 		use.reach = 1.5

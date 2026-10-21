@@ -167,7 +167,7 @@ func _trees() -> void:
 		var x := -24 + i * 9.0 + rng.randf_range(-2, 2)
 		if absf(x - 5.5) < 4.0:
 			x += 6.0
-		Props.place(self, "waterlily", Vector3(x, 0.04, Terrain.river_z(x) + rng.randf_range(-1.2, 1.2)), rng.randf() * TAU)
+		Props.place(self, "waterlily", Vector3(x, Terrain.RIVER_LEVEL + 0.01, Terrain.river_z(x) + rng.randf_range(-1.2, 1.2)), rng.randf() * TAU)
 
 	for c: Array in [[-40, 34, -110, "cloud_big"], [10, 40, -150, "cloud_small"], [60, 30, -120, "cloud_big"], [-80, 38, -160, "cloud_small"]]:
 		Props.place(self, c[3], Vector3(c[0], c[1], c[2]), 0.0, 2.5)
@@ -219,14 +219,28 @@ func _river() -> void:
 ## A quiet fishing spot on the north bank west of the chapel, reached by a
 ## path from the chapel porch. Sitting to fish is like sitting quietly in the
 ## chapel: the view settles on the float, and nothing is counted.
+## The child sits on the crate and takes up the rod; standing puts it back.
+func _sit_and_fish(spot: Node3D, bob: Vector3) -> void:
+	var player := get_tree().get_first_node_in_group("player") as Player
+	var resting := spot.get_node("RestingRod") as Node3D
+	var seat := spot.global_transform * Vector3(0.1, 0, 0.62)
+	player.teleport(seat, spot.global_rotation.y)
+	player.model.sit(0.44)
+	player.model.hold(FishingRod.create(Terrain.RIVER_LEVEL))
+	resting.visible = false
+	get_tree().call_group("main", "sit_quietly", bob + Vector3(0, 0.4, 0), 5.0, 16.0, 200.0, func() -> void:
+		player.model.sit(0.0)
+		player.model.hold(null)
+		resting.visible = true)
+
+
 func _fishing_spot() -> void:
 	var x := -32.5
 	var bank := Terrain.river_z(x) - Terrain.river_half_width(x, true)
 	var at := Vector3(x, 0, bank - 0.15)
 	var spot := CraftedProps.fishing_spot(self, at, PI, Terrain.RIVER_LEVEL)
 	var bob: Vector3 = spot.transform * (spot.get_meta("float") as Vector3)
-	var fish := Interactable.create(self, at + Vector3(0.1, 0, -0.55), "Sit and fish", func() -> void:
-		get_tree().call_group("main", "sit_quietly", bob + Vector3(0, 0.4, 0), 5.0, 16.0, 200.0), 0.5, 1.2)
+	var fish := Interactable.create(self, at + Vector3(0.1, 0, -0.55), "Sit and fish", _sit_and_fish.bind(spot, bob), 0.5, 1.2)
 	fish.reach = 1.6
 	path([Vector3(-21.8, 0, -22.4), Vector3(-25.5, 0, -22.6), Vector3(-29.0, 0, -21.6), Vector3(-31.6, 0, bank - 1.4)], 1.3)
 	add_clearing(at + Vector3(0, 0, -0.6), Vector2(3.2, 2.6))
@@ -281,7 +295,7 @@ func _reeds_on_bends() -> void:
 			var lx := x + rng.randf_range(-1.0, 1.0)
 			var lc := Terrain.river_z(lx)
 			var lily_off := Terrain.river_half_width(lx, not inner_south) - 1.1
-			Props.place(self, "waterlily", Vector3(lx, 0.04, lc + (lily_off if inner_south else -lily_off)), rng.randf() * TAU)
+			Props.place(self, "waterlily", Vector3(lx, Terrain.RIVER_LEVEL + 0.01, lc + (lily_off if inner_south else -lily_off)), rng.randf() * TAU)
 			x += 4.0
 		x += 1.0
 

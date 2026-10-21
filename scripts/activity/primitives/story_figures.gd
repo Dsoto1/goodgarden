@@ -8,7 +8,7 @@ extends ActivityStep
 ## again, sit with the wondering questions, and retell freely.
 ##
 ## Config:
-##   places: [{"label", "pos": [x,y], "kind": "city"|"inn"|"field"|"house"|"fold"|"hills"}]  fixed scenery
+##   places: [{"label", "pos": [x,y], "kind": "city"|"inn"|"field"|"house"|"fold"|"hills"|"sea"}]  fixed scenery
 ##   road: [[x,y], ...]                 path drawn on the felt
 ##   figures: [{"id", "label", "color", "shape"?, "accent"?}]
 ##   box: [x, y, w, h]                  material box where figures rest
@@ -202,12 +202,27 @@ func _draw() -> void:
 					if k == 5:
 						continue
 					draw_circle(c + Vector2(cos(a) * 62, sin(a) * 38), 9.0, Color("c9bfae"))
+			"sea":
+				# A lake with gentle waves, and a sandy shore along its edge.
+				var water := PackedVector2Array()
+				for k in 25:
+					var t := k / 24.0
+					water.append(Vector2(c.x - 260 + t * 510, c.y + 32 + sin(t * TAU * 2.0) * 6))
+				for k in 25:
+					var t := 1.0 - k / 24.0
+					water.append(Vector2(c.x - 260 + t * 510, c.y - 66 - sin(t * PI) * 10 + sin(t * TAU * 3.0) * 3))
+				draw_rect(Rect2(c.x - 266, c.y + 20, 522, 30), Color("e2cf9e"))
+				draw_colored_polygon(water, Color("6f9fc0"))
+				for p: Vector2 in [Vector2(-200, -30), Vector2(-120, 6), Vector2(40, -45), Vector2(-20, 12), Vector2(220, -40)]:
+					draw_arc(c + p, 14.0, PI * 1.15, PI * 1.85, 8, Color("a9c8dc"), 2.0)
 			"hills":
 				# The wilderness: rocky hills with a few thorny shrubs.
 				draw_colored_polygon(PackedVector2Array([c + Vector2(-110, 40), c + Vector2(-50, -40), c + Vector2(0, 10), c + Vector2(50, -55), c + Vector2(120, 40)]), Color("a89a7c"))
 				for p: Vector2 in [Vector2(-70, 28), Vector2(30, 26), Vector2(80, 30)]:
 					draw_circle(c + p, 10.0, Color("7f8a55"))
 		var label_y := 70.0 if place.get("kind", "") in ["field", "fold", "hills"] else 54.0
+		if place.get("kind", "") == "sea":
+			label_y = -48.0
 		draw_string(UiStyle.font(), c + Vector2(-80, label_y), tr(str(place.get("label", ""))), HORIZONTAL_ALIGNMENT_CENTER, 160, 18, Color("f6f1e4"))
 	var box := _box_rect()
 	draw_rect(box.grow(8), Color("7b5338"))

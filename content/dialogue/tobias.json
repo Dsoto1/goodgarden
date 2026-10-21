@@ -11,6 +11,13 @@
 		},
 		{
 			"when": [
+				{"fact": "chapel.fishers.visits", "exists": true},
+				{"fact": "npc.tobias.fishers_wonder", "exists": false}
+			],
+			"start": "fishers_wonder"
+		},
+		{
+			"when": [
 				{"fact": "village.bread_day", "is_today": true}
 			],
 			"start": "bread_thanks"
@@ -81,6 +88,13 @@
 			"text": "Do you know the story Jesus told about leaven? I think of it every morning when I mix the dough. Such a little bit, and the whole bowl rises. I still wonder how.",
 			"actions": [
 				{"op": "set_fact", "fact": "npc.tobias.leaven_wonder", "value": true}
+			]
+		},
+		"fishers_wonder": {
+			"mood": "wonder",
+			"text": "My grandfather mended nets down by the river every evening. Sometimes I think about the brothers who put their nets down and went with Jesus, just like that. I wonder if they looked back at the boat.",
+			"actions": [
+				{"op": "set_fact", "fact": "npc.tobias.fishers_wonder", "value": true}
 			]
 		}
 	}

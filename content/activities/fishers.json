@@ -1,0 +1,114 @@
+{
+	"id": "fishers",
+	"title": "The Calling of the Fishermen",
+	"mode": "reflection",
+	"location": "chapel",
+	"surface": "atrium_felt",
+	"review_status": "DRAFT: retelling and wondering questions require theological and editorial review before release.",
+	"source": {
+		"reference": "Mark 1:16-20",
+		"note": "Original child-friendly retelling written for this prototype; not a quotation of any translation. See also Matthew 4:18-22 and Luke 5:1-11. This is a Gospel narrative rather than a parable."
+	},
+	"readiness": {"ages": [3, 10], "reading": "narration provided; text optional"},
+	"concepts": ["listening to a Gospel story", "sequencing a story", "pairs of brothers"],
+	"formation_themes": ["Jesus calls each one", "following Jesus", "trust"],
+	"prerequisites": [],
+	"intro": [
+		{
+			"speaker": "narrator",
+			"text": "This is a story about something that really happened, when Jesus was walking by the sea. Let's carry the material to the table, and listen.",
+			"button": "Listen"
+		}
+	],
+	"steps": [
+		{
+			"id": "story",
+			"primitive": "story_figures",
+			"reference": "Mark 1:16-20",
+			"box": [220, 380, 560, 150],
+			"places": [
+				{"label": "The Sea of Galilee", "pos": [600, 140], "kind": "sea"}
+			],
+			"figures": [
+				{"id": "jesus", "label": "Jesus", "color": "cloth_cream", "accent": "cloth_red"},
+				{"id": "simon", "label": "Simon", "color": "cloth_brown", "accent": "cloth_tan"},
+				{"id": "andrew", "label": "Andrew", "color": "cloth_tan", "accent": "cloth_brown"},
+				{"id": "net", "label": "The net", "color": "cloth_tan", "shape": "net"},
+				{"id": "james", "label": "James", "color": "cloth_blue", "accent": "cloth_cream"},
+				{"id": "john", "label": "John", "color": "cloth_green", "accent": "cloth_cream"},
+				{"id": "boat", "label": "Zebedee's boat", "color": "wood", "shape": "boat"}
+			],
+			"segments": [
+				{
+					"text": "One day, Jesus was walking along the shore of the Sea of Galilee.",
+					"reveal": ["jesus"],
+					"show": {"jesus": {"pos": [250, 215]}}
+				},
+				{
+					"text": "He saw two brothers, Simon and Andrew. They were fishermen, and they were throwing their net out into the water.",
+					"reveal": ["simon", "andrew", "net"],
+					"show": {"simon": {"pos": [450, 220]}, "andrew": {"pos": [505, 222]}, "net": {"pos": [520, 130]}}
+				},
+				{
+					"text": "Jesus said to them, \"Come, follow me, and I will make you fishers of people.\"",
+					"show": {"jesus": {"pos": [370, 215]}}
+				},
+				{
+					"text": "And right away, they left their nets, and they followed him.",
+					"show": {"jesus": {"pos": [250, 215]}, "simon": {"pos": [310, 220]}, "andrew": {"pos": [365, 222]}}
+				},
+				{
+					"text": "A little farther on, Jesus saw two more brothers, James and John. They were in their boat with their father, Zebedee, mending their nets.",
+					"reveal": ["boat", "james", "john"],
+					"show": {"boat": {"pos": [750, 150]}, "james": {"pos": [728, 128]}, "john": {"pos": [772, 128]}}
+				},
+				{
+					"text": "Jesus called them too. And they left their father in the boat with the workers, and they went with Jesus.",
+					"show": {"james": {"pos": [420, 222]}, "john": {"pos": [475, 220]}}
+				},
+				{"text": "And from that day on, the four friends went with Jesus, wherever he went."}
+			],
+			"wonderings": [
+				"I wonder what it was like to hear Jesus say, \"Come, follow me.\"",
+				"I wonder why the brothers left their nets so quickly.",
+				"I wonder how Zebedee felt, watching his sons go.",
+				"I wonder what it means to be a fisher of people.",
+				"I wonder where Jesus might be calling you to follow him."
+			]
+		},
+		{
+			"id": "put_away",
+			"primitive": "match_to_outline",
+			"prompt": "When you're ready, return each figure to its place in the box.",
+			"pieces_from_previous": true,
+			"box": [220, 380, 560, 150],
+			"slots": [
+				{"kind": "figure:jesus", "pos": [260.0, 455]},
+				{"kind": "figure:simon", "pos": [340.0, 455]},
+				{"kind": "figure:andrew", "pos": [420.0, 455]},
+				{"kind": "figure:net", "pos": [500.0, 455]},
+				{"kind": "figure:james", "pos": [580.0, 455]},
+				{"kind": "figure:john", "pos": [660.0, 455]},
+				{"kind": "figure:boat", "pos": [740.0, 455]}
+			],
+			"feedback": {
+				"mismatch": "That place is shaped for a different figure.",
+				"all_good": "Each figure is resting in its place."
+			}
+		}
+	],
+	"outro": [
+		{
+			"speaker": "narrator",
+			"text": "The material is back on the shelf. It will be here whenever you want to return to it.",
+			"button": "Stand up"
+		}
+	],
+	"world_effects": [
+		{"op": "increment", "fact": "chapel.fishers.visits"},
+		{"op": "set", "fact": "chapel.fishers.last_day", "value": "$day"}
+	],
+	"replay": "free",
+	"real_world_invitation": "rw_follow_me",
+	"journal_line": "I listened to the story of the fishermen who left their nets when Jesus said, \"Come, follow me.\""
+}

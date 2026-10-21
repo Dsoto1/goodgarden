@@ -185,7 +185,7 @@ func start_activity_here(activity_id: String, focus: Vector3) -> void:
 	ActivityRunner.start(activity_id)
 
 
-func sit_quietly(focus: Vector3, distance := 3.2, pitch := 12.0, yaw := 0.0) -> void:
+func sit_quietly(focus: Vector3, distance := 3.2, pitch := 12.0, yaw := 0.0, on_stand := Callable()) -> void:
 	# Deliberately unrecorded: quiet time is the child's own.
 	GameState.push_mode(GameState.Mode.REFLECTION)
 	world.rig.focus_on(focus, distance, pitch, yaw)
@@ -197,6 +197,8 @@ func sit_quietly(focus: Vector3, distance := 3.2, pitch := 12.0, yaw := 0.0) -> 
 	stand.set_anchors_and_offsets_preset(Control.PRESET_CENTER_BOTTOM, Control.PRESET_MODE_MINSIZE, 30)
 	stand.pressed.connect(func() -> void:
 		stand.queue_free()
+		if on_stand.is_valid():
+			on_stand.call()
 		world.rig.release_focus()
 		GameState.pop_mode(GameState.Mode.REFLECTION))
 	stand.call_deferred("grab_focus")

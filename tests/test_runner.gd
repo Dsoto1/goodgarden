@@ -25,7 +25,7 @@ func _ready() -> void:
 	var tests := [
 		test_content_is_valid, test_validator_catches_errors, test_conditions_and_tokens,
 		test_save_round_trip_and_migration, test_space_along_line, test_count_into_slots,
-		test_match_to_outline_self_correction, test_story_handoff_and_put_away, test_parable_growth_and_put_away, test_chapel_library_books,
+		test_match_to_outline_self_correction, test_story_handoff_and_put_away, test_parable_growth_and_put_away, test_chapel_library_books, test_calling_of_the_fishermen, test_sit_and_hold_rod,
 		test_observations_never_score_reflection, test_pointer_events_drag_pieces, test_props_catalog,
 		test_scenery_quality_and_batching, test_vertical_slice_end_to_end,
 	]
@@ -224,7 +224,7 @@ func test_story_handoff_and_put_away() -> void:
 ## The Mustard Seed: the seed gives way to the sprout and the grown plant,
 ## and figures the story set back in the box count as already put away.
 func test_parable_growth_and_put_away() -> void:
-	for id: String in ["mustard_seed", "leaven", "lost_sheep"]:
+	for id: String in ["mustard_seed", "leaven", "lost_sheep", "fishers"]:
 		check(Content.get_activity(id) != null, "%s is authored" % id)
 	var def := Content.get_activity("mustard_seed")
 	var opening := PrimitiveRegistry.create("story_figures")
@@ -253,9 +253,54 @@ func test_parable_growth_and_put_away() -> void:
 				_drop(p, slot.center())
 	eq(done.size(), 1, "the rest go back and the material is put away")
 	var shelf: Array = Content.get_world("atrium_shelf").get("items", [])
-	eq(shelf.size(), 4, "four materials on the Atrium shelf")
+	eq(shelf.size(), 5, "five materials on the Atrium shelf")
 	story.queue_free()
 	put_away.queue_free()
+
+
+## The Calling of the Fishermen: every figure the story brings out can be
+## returned to its own place in the box.
+func test_calling_of_the_fishermen() -> void:
+	var def := Content.get_activity("fishers")
+	var story := _make_step("story_figures", def.steps[0])
+	for i in def.steps[0]["segments"].size():
+		story._next_segment()
+	for id: String in ["jesus", "simon", "andrew", "james", "john", "boat", "net"]:
+		check(story.figures[id].visible, "%s is out on the felt" % id)
+	story.put_away()
+	var put_away := _make_step("match_to_outline", def.steps[1], {"pieces": story.handoff()})
+	var done := []
+	put_away.completed.connect(func(r: Dictionary) -> void: done.append(r))
+	for slot in put_away.slots:
+		for p in put_away.pieces:
+			if p.kind == slot.accepts and p.placed_in == null:
+				_drop(p, slot.center())
+	eq(done.size(), 1, "the fishermen's figures all go back in the box")
+	story.queue_free()
+	put_away.queue_free()
+
+
+## Fishing: the child sits and holds a rod whose float rests on the water,
+## and standing up puts it away.
+func test_sit_and_hold_rod() -> void:
+	var model := CharacterModel.new()
+	add_child(model)
+	model.build(Content.get_world("characters")["characters"]["player"]["look"])
+	model.animate(0.1, 0.0)
+	var standing := model._skeleton.get_bone_pose_position(BodyMesh.Bone.HIPS).y
+	model.sit(0.44)
+	var rod := FishingRod.create(-0.25)
+	model.hold(rod)
+	model.animate(0.1, 0.0)
+	rod._process(0.1)
+	check(model._skeleton.get_bone_pose_position(BodyMesh.Bone.HIPS).y < standing - 0.1, "sitting lowers the hips")
+	check(absf(rod._float.global_position.y - (-0.25 + 0.02)) < 0.02, "the float rests on the water")
+	check(rod.global_position.distance_to(model._r_hand.global_position) < 0.01, "the rod is in the child's hand")
+	model.hold(null)
+	model.sit(0.0)
+	model.animate(0.1, 0.0)
+	check(absf(model._skeleton.get_bone_pose_position(BodyMesh.Bone.HIPS).y - standing) < 0.05, "standing up again")
+	model.queue_free()
 
 
 ## The chapel library: every book has pages, and the reader turns them

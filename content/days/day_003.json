@@ -7,6 +7,6 @@
 	"npcs": {"miriam": "garden_miriam"},
 	"primary_activity": "bakery_baskets",
 	"free_work": ["home_set_table"],
-	"chapel": ["good_samaritan", "mustard_seed", "leaven", "lost_sheep"],
+	"chapel": ["good_samaritan", "mustard_seed", "leaven", "lost_sheep", "fishers"],
 	"season": "Spring"
 }

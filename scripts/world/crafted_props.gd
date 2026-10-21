@@ -460,6 +460,22 @@ static func stepping_stone(parent: Node3D, pos: Vector3, seed_value: int) -> Nod
 ## creel, a coil of rope, a bucket and an upturned crate to sit on. Faces -Z
 ## (toward the water). Returns the root; the float's local position is in
 ## its "float" meta, for framing the view while the child sits and fishes.
+## A rod along -Z from the node's origin (the butt), with a reel near the grip.
+static func fishing_rod_mesh(rod: Node3D, length: float) -> void:
+	MeshKit.cylinder(rod, 0.012, 0.025, length, Vector3(0, 0, -length / 2.0), "wood", 6).rotation.x = PI / 2.0
+	MeshKit.cylinder(rod, 0.035, 0.035, 0.08, Vector3(0.03, 0, -0.2), "dark", 8).rotation.z = PI / 2.0
+
+
+## A red-and-white float resting on the water at `at`.
+static func fishing_float(parent: Node3D, at: Vector3) -> Node3D:
+	var f := Node3D.new()
+	f.position = at
+	parent.add_child(f)
+	MeshKit.sphere(f, 0.045, Vector3(0, 0.02, 0), "cloth_red", Vector3(1, 0.8, 1), 8, 4)
+	MeshKit.sphere(f, 0.03, Vector3(0, 0.06, 0), "white", Vector3.ONE, 6, 3)
+	return f
+
+
 static func fishing_spot(parent: Node3D, pos: Vector3, rot_y: float, water_y: float) -> Node3D:
 	var r := _root(parent, "FishingSpot", pos, rot_y)
 	var deck := 0.12
@@ -474,19 +490,22 @@ static func fishing_spot(parent: Node3D, pos: Vector3, rot_y: float, water_y: fl
 	for side: float in [-1.0, 1.0]:
 		var prong := MeshKit.box(r, Vector3(0.03, 0.14, 0.03), Vector3(-0.35 + side * 0.04, deck + 0.53, -1.3), "wood_dark")
 		prong.rotation.z = side * 0.4
+	# The rod rests with its butt on the planks and its shaft in the fork; it is
+	# live so it can be put away while the child fishes with it.
+	var resting := Node3D.new()
+	resting.name = "RestingRod"
+	StaticBatch.mark_live(resting)
+	r.add_child(resting)
 	var rod_len := 2.4
 	var rod := Node3D.new()
-	rod.position = Vector3(-0.35, deck + 0.42, -0.6)
-	rod.rotation = Vector3(0.45, 0.25, 0)
-	r.add_child(rod)
-	MeshKit.cylinder(rod, 0.012, 0.025, rod_len, Vector3(0, 0, -rod_len / 2.0), "wood", 6).rotation.x = PI / 2.0
-	MeshKit.cylinder(rod, 0.035, 0.035, 0.08, Vector3(0.03, 0, -0.2), "dark", 8).rotation.z = PI / 2.0
+	rod.position = Vector3(-0.35, deck + 0.04, -0.25)
+	rod.rotation.x = 0.45
+	resting.add_child(rod)
+	fishing_rod_mesh(rod, rod_len)
 	var tip := rod.transform * Vector3(0, 0, -rod_len)
 	var bob := Vector3(tip.x, water_y - pos.y + 0.02, tip.z)
-	var line := MeshKit.box(r, Vector3(0.006, tip.y - bob.y, 0.006), (tip + bob) / 2.0, "white")
-	line.name = "Line"
-	MeshKit.sphere(r, 0.045, bob + Vector3(0, 0.02, 0), "cloth_red", Vector3(1, 0.8, 1), 8, 4)
-	MeshKit.sphere(r, 0.03, bob + Vector3(0, 0.06, 0), "white", Vector3.ONE, 6, 3)
+	MeshKit.box(resting, Vector3(0.006, tip.y - bob.y, 0.006), (tip + bob) / 2.0, "white")
+	fishing_float(resting, bob)
 	r.set_meta("float", bob)
 	creel_and_rope(r, Vector3(0.3, deck, -0.55), 0.6)
 	# An upturned crate to sit on, on the bank, and a bucket for the catch.

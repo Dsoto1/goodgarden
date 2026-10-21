@@ -25,6 +25,10 @@ const MOODS := {
 }
 
 const B := BodyMesh.Bone
+## Sitting and holding poses (radians).
+const SIT_THIGH := 1.45
+const SIT_KNEE := -1.45
+const HOLD_ARM := 0.75
 
 var _skeleton: Skeleton3D
 var _head: Node3D
@@ -45,6 +49,10 @@ var _gesture := 0.0
 var _look_target: Variant = null # Vector3 in world space, or null
 var _carrying := false
 var _head_yaw := 0.0
+var _height := 1.0
+var _seat := 0.0 # hip height above the feet while sitting, in metres; 0 = standing
+var _held: Node3D
+var _r_hand: Node3D
 var _head_pitch := 0.0
 
 
@@ -54,6 +62,7 @@ func build(look: Dictionary) -> CharacterModel:
 	var child := h < 0.92
 	var body := Node3D.new()
 	body.scale = Vector3.ONE * h
+	_height = h
 	add_child(body)
 	var skin: String = look.get("skin", "skin_1")
 
@@ -76,8 +85,9 @@ func build(look: Dictionary) -> CharacterModel:
 		apron.rotation.x = 0.08
 	if look.has("backpack"):
 		_backpack(_attach("chest"), look["backpack"])
+	_r_hand = _attach("r_hand")
 	if look.get("carry", "") == "basket":
-		_basket(_attach("r_hand"))
+		_basket(_r_hand)
 
 	# Head: big and friendly (bigger still for children), riding the head bone.
 	_head = Node3D.new()
@@ -236,6 +246,24 @@ func _basket(hand: Node3D) -> void:
 		MeshKit.sphere(basket, 0.05, Vector3(-0.06 + i * 0.06, 0.02, 0.0), ["cloth_red", "leaf_light", "flower_yellow"][i], Vector3.ONE, 6, 3)
 
 
+## Sits down with the hips `seat_height` metres above the feet (e.g. on a
+## crate), or stands up again with 0.
+func sit(seat_height: float) -> void:
+	_seat = seat_height
+
+
+## Holds `item` in the right hand, pointing forward (null puts it away). The
+## item keeps its own orientation relative to the body, so a long thing such
+## as a rod stays steady while the hand moves it.
+func hold(item: Node3D) -> void:
+	if _held and is_instance_valid(_held):
+		_held.queue_free()
+	_held = item
+	if item:
+		item.top_level = true
+		add_child(item)
+
+
 ## Turns the head toward a world point (e.g. the child during conversation).
 func look_at_point(point: Variant) -> void:
 	_look_target = point
@@ -270,6 +298,12 @@ func animate(delta: float, speed: float, reduced_motion := false) -> void:
 		_pose(thigh, Vector3(s * 0.55 * walk * dir, 0, 0))
 		_pose(thigh + 1, Vector3(-maxf(0.0, -s * dir) * 0.9 * walk - 0.04, 0, 0))
 		_pose(thigh + 2, Vector3(maxf(0.0, s * dir) * 0.3 * walk, 0, 0))
+	if _seat > 0.0:
+		for thigh: int in [B.L_THIGH, B.R_THIGH]:
+			var splay := 0.12 if thigh == B.L_THIGH else -0.12
+			_pose(thigh, Vector3(SIT_THIGH, 0, splay))
+			_pose(thigh + 1, Vector3(SIT_KNEE, 0, 0))
+			_pose(thigh + 2, Vector3(0.1, 0, 0))
 	# Arms swing opposite the legs with soft elbows; the right arm may gesture or carry.
 	for i in 2:
 		var dir := -1.0 if i == 0 else 1.0
@@ -281,6 +315,9 @@ func animate(delta: float, speed: float, reduced_motion := false) -> void:
 		if i == 1 and _gesture > 0.01:
 			arm_x = lerpf(swing, 0.9 + sin(_time * 3.0) * 0.12, _gesture)
 			elbow = lerpf(elbow, 1.0, _gesture)
+		elif i == 1 and _held:
+			arm_x = HOLD_ARM
+			elbow = 0.7
 		elif i == 1 and _carrying:
 			arm_x = 0.12
 			elbow = 0.55
@@ -291,7 +328,10 @@ func animate(delta: float, speed: float, reduced_motion := false) -> void:
 		bob = absf(s) * 0.035 * walk + sin(_time * 1.8) * 0.005
 		_pose(B.SPINE, Vector3(0.05 * walk, s * 0.08 * walk, 0))
 		_pose(B.CHEST, Vector3(sin(_time * 1.8) * 0.01, 0, 0))
-	_skeleton.set_bone_pose_position(B.HIPS, Vector3(0, 0.8 + bob, 0))
+	var hip_y := 0.8 + bob if _seat <= 0.0 else _seat / _height
+	_skeleton.set_bone_pose_position(B.HIPS, Vector3(0, hip_y, 0))
+	if _held:
+		_held.global_transform = Transform3D(global_transform.basis * Basis.from_euler(Vector3(0.38, 0, 0)), _r_hand.global_position)
 	# Head: gentle idle look-around, or toward a target.
 	var yaw := sin(_time * 0.37) * 0.25 * (1.0 - walk)
 	var pitch := 0.0

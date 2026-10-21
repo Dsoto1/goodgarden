@@ -148,6 +148,26 @@ static func _parable_shape(ci: CanvasItem, shape: String, size: Vector2, h: floa
 			# The whole bowl, risen: the dough swells high above the rim.
 			_shape(ci, _ellipse(Vector2(cx, h * 0.52), Vector2(size.x * 0.44, h * 0.26), 20), Color("f1e2c4"), outline)
 			_bowl(ci, cx, h, size, outline)
+		"net":
+			# A fishing net, gathered in a heap, with cork floats along its edge.
+			var heap := _ellipse(Vector2(cx, h * 0.7), Vector2(size.x * 0.44, h * 0.2), 18)
+			_shape(ci, heap, color, outline)
+			if not outline:
+				var mesh := color.darkened(0.35)
+				for k in 7:
+					var x := cx - size.x * 0.36 + k * size.x * 0.12
+					ci.draw_line(Vector2(x, h * 0.54), Vector2(x + size.x * 0.1, h * 0.86), mesh, 1.2)
+					ci.draw_line(Vector2(x + size.x * 0.1, h * 0.54), Vector2(x, h * 0.86), mesh, 1.2)
+				for k in 5:
+					ci.draw_circle(Vector2(cx - size.x * 0.3 + k * size.x * 0.15, h * 0.53), 3.0, Color("e0a73a"))
+		"boat":
+			# A small fishing boat of the lake, with its mast and furled sail.
+			_shape(ci, _rect(Rect2(cx - 1.5, h * 0.1, 3, h * 0.55)), Color("6b4a2e"), outline)
+			_shape(ci, PackedVector2Array([Vector2(cx + 2, h * 0.16), Vector2(cx + size.x * 0.3, h * 0.56), Vector2(cx + 2, h * 0.56)]), Color("efe6d2"), outline)
+			var hull := PackedVector2Array([Vector2(size.x * 0.02, h * 0.58), Vector2(size.x * 0.98, h * 0.58), Vector2(size.x * 0.82, h * 0.84), Vector2(size.x * 0.18, h * 0.84)])
+			_shape(ci, hull, color, outline)
+			if not outline:
+				ci.draw_line(Vector2(size.x * 0.06, h * 0.66), Vector2(size.x * 0.94, h * 0.66), color.darkened(0.3), 2.0)
 		_:
 			return false
 	return true
