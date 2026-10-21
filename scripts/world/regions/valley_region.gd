@@ -3,6 +3,9 @@ extends Region
 ## The shared valley floor: ground, river and bridge, the roads that connect
 ## the places, a meadow with sheep, and the trees that frame the playable area.
 
+## Where stepping stones cross the river, between the mill and the bridge.
+const FORD_X := -12.5
+
 const BOUNDS := Rect2(-30, -46, 64, 59) # x, z, width, depth of the walkable area
 
 
@@ -27,13 +30,17 @@ func build() -> void:
 	# The river winds through the valley from the waterfall in the west, with
 	# a single bridge crossing.
 	_river()
+	_ford()
+	_reeds_on_bends()
 	Waterfall.build(self)
 	StoneBridge.build(self, Vector3(5.5, 0, -14))
 	# A riverbank seat east of the bridge, where the view turns west along the
 	# river: the arch in front, the waterfall far off.
 	MeshKit.box(self, Vector3(1.6, 0.45, 0.5), Vector3(11.5, 0.22, -9.4), "wood", true)
 	for i in 3:
-		Props.place(self, "stepping_stone" if i % 2 == 0 else "stepping_stone_b", Vector3(7.4 + i * 1.2, 0.0, -9.6 + (i % 2) * 0.3), i * 0.9)
+		var sx := 7.4 + i * 1.2
+		var sz := -9.3 + (i % 2) * 0.3
+		Props.place(self, "stepping_stone" if i % 2 == 0 else "stepping_stone_b", Vector3(sx, Terrain.height(sx, sz), sz), i * 0.9)
 	add_clearing(Vector3(9.6, 0, -9.6), Vector2(5.2, 2.0))
 	add_anchor("riverbank", Vector3(10.6, 0, -9.0), PI / 2.0)
 	add_place_zone("river", Vector3(7.0, 1, -12.5), Vector3(16, 3, 9))
@@ -72,7 +79,7 @@ func build() -> void:
 	CraftedProps.jetty(self, Vector3(15.2, 0, shore.call(15.2) + 0.2), 0.0, 3.0)
 	CraftedProps.rowboat(self, Vector3(16.9, Terrain.RIVER_LEVEL - 0.05, shore.call(16.9) - 1.9), 1.45)
 	CraftedProps.creel_and_rope(self, Vector3(15.0, 0.21, shore.call(15.2) - 1.8), 0.4)
-	CraftedProps.net_rack(self, Vector3(17.8, 0, shore.call(17.8) + 0.9), -0.15)
+	CraftedProps.net_rack(self, Vector3(17.8, 0, shore.call(17.8) + 1.7), -0.15)
 	CraftedProps.signpost(self, Vector3(6.9, 0, 5.8), [["Village", 0.0], ["Home", PI / 2.0], ["Garden", -PI / 2.0]])
 	CraftedProps.signpost(self, Vector3(3.2, 0, -18.6), [["Village", -0.3], ["Chapel", PI / 2.0], ["Home", PI]])
 	for i in 3:
@@ -144,8 +151,8 @@ func _trees() -> void:
 	Props.place(self, "grain_field", Vector3(25, 0, 6), 0.3)
 	Props.place(self, "grain_field", Vector3(29, 0, 0), -0.2)
 	var rocks := ["rock", "rock_b", "rock_c"]
-	for r: Array in [[-7, 9], [17, -6], [-25, -28], [20, -11], [-26, 6], [2, -45]]:
-		Props.place(self, rocks[rng.randi() % 3], Vector3(r[0], 0, r[1]), rng.randf() * TAU, rng.randf_range(0.7, 1.2))
+	for r: Array in [[-7, 9], [17, -6], [-25, -28], [22, -8.5], [-26, 6], [2, -45]]:
+		Props.place(self, rocks[rng.randi() % 3], Vector3(r[0], Terrain.height(r[0], r[1]), r[1]), rng.randf() * TAU, rng.randf_range(0.7, 1.2))
 	# Pebbles at the water's edge, lilies in the slow water, reeds on the banks.
 	for i in 14:
 		var x := rng.randf_range(-30, 34)
@@ -153,16 +160,14 @@ func _trees() -> void:
 			continue
 		var north := i % 2 == 1
 		var edge := Terrain.river_half_width(x, north) - 0.25 - rng.randf() * 0.4
-		Props.place(self, "pebble", Vector3(x, 0, Terrain.river_z(x) + (-edge if north else edge)), rng.randf() * TAU)
+		var pz := Terrain.river_z(x) + (-edge if north else edge)
+		Props.place(self, "pebble", Vector3(x, maxf(Terrain.height(x, pz), Terrain.RIVER_LEVEL - 0.06), pz), rng.randf() * TAU)
 	for i in 6:
 		var x := -24 + i * 9.0 + rng.randf_range(-2, 2)
 		if absf(x - 5.5) < 4.0:
 			x += 6.0
 		Props.place(self, "waterlily", Vector3(x, 0.04, Terrain.river_z(x) + rng.randf_range(-1.2, 1.2)), rng.randf() * TAU)
-		var reed_x := x + 3.0
-		var north := i % 2 == 0
-		var reed_edge := Terrain.river_half_width(reed_x, north) - 0.6
-		Props.place(self, "waterplant", Vector3(reed_x, 0.0, Terrain.river_z(reed_x) + (-reed_edge if north else reed_edge)), rng.randf() * TAU)
+
 	for c: Array in [[-40, 34, -110, "cloud_big"], [10, 40, -150, "cloud_small"], [60, 30, -120, "cloud_big"], [-80, 38, -160, "cloud_small"]]:
 		Props.place(self, c[3], Vector3(c[0], c[1], c[2]), 0.0, 2.5)
 
@@ -195,8 +200,9 @@ func _river() -> void:
 	water.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 	add_child(water)
 	# Walls a little inside each bank, in short pieces that turn with the river,
-	# stopping exactly at the bridge's ends (x 4 to 7) so it is the way across.
-	for span: Vector2 in [Vector2(Terrain.FALLS_X, 4.0), Vector2(7.0, 150.0)]:
+	# stopping exactly at the bridge's ends (x 4 to 7) and at the stepping
+	# stones, the two ways across.
+	for span: Vector2 in [Vector2(Terrain.FALLS_X, FORD_X - 1.0), Vector2(FORD_X + 1.0, 4.0), Vector2(7.0, 150.0)]:
 		x = span.x
 		while x < span.y - 0.01:
 			var piece := minf(3.0, span.y - x)
@@ -207,6 +213,59 @@ func _river() -> void:
 			MeshKit.solid(self, Vector3(piece + 0.2, 2, half * 2.0), Vector3(mid, 1, c), -heading, MeshKit.LAYER_INVISIBLE)
 			add_clearing(Vector3(mid, 0, c), Vector2(piece + 0.2, 2.0 * (half + 1.3) + 1.2))
 			x += piece
+
+
+## Stepping stones across a narrow bend: flat rocks just above the water,
+## close enough for small legs, from one bank to the other.
+func _ford() -> void:
+	var c := Terrain.river_z(FORD_X)
+	var south := c + Terrain.river_half_width(FORD_X, false) + 0.3
+	var north := c - Terrain.river_half_width(FORD_X, true) - 0.3
+	var rng := RandomNumberGenerator.new()
+	rng.seed = 31
+	var z := south
+	var i := 0
+	while z >= north:
+		var at := Vector3(FORD_X + (0.18 if i % 2 == 0 else -0.18) + rng.randf_range(-0.08, 0.08), Terrain.RIVER_LEVEL + 0.12, z)
+		# On the banks a stone sits on the ground rather than at water level.
+		at.y = maxf(at.y, Terrain.height(at.x, at.z) - 0.02)
+		CraftedProps.stepping_stone(self, at, 60 + i)
+		z -= 0.78
+		i += 1
+	add_clearing(Vector3(FORD_X, 0, c), Vector2(2.4, south - north + 1.0))
+
+
+## Reeds gather on the inside of each bend, where the water slows, with a
+## lily or two in the calm water beside them.
+func _reeds_on_bends() -> void:
+	var rng := RandomNumberGenerator.new()
+	rng.seed = 47
+	var keep_clear := [5.5, FORD_X, 15.2, -21.0, Terrain.FALLS_X]
+	var bend := func(x: float) -> float:
+		return Terrain.river_z(x + 1.0) - 2.0 * Terrain.river_z(x) + Terrain.river_z(x - 1.0)
+	var x := Terrain.FALLS_X + 4.0
+	while x < 70.0:
+		var k: float = bend.call(x)
+		var is_apex := absf(k) > 0.035 and absf(k) >= absf(bend.call(x - 1.0)) and absf(k) >= absf(bend.call(x + 1.0))
+		var near_thing := false
+		for t: float in keep_clear:
+			if absf(x - t) < 3.5:
+				near_thing = true
+		if is_apex and not near_thing:
+			# The river curves toward the side its centre of curvature lies on.
+			var inner_south := k > 0.0
+			for j in 3:
+				var rx := x + (j - 1) * rng.randf_range(0.9, 1.4)
+				var c := Terrain.river_z(rx)
+				var edge := Terrain.river_half_width(rx, not inner_south) - 0.15
+				var rz := c + (edge if inner_south else -edge)
+				CraftedProps.reeds(self, Vector3(rx, Terrain.height(rx, rz), rz), int(rx * 13.0) + j, rng.randf_range(0.7, 1.1))
+			var lx := x + rng.randf_range(-1.0, 1.0)
+			var lc := Terrain.river_z(lx)
+			var lily_off := Terrain.river_half_width(lx, not inner_south) - 1.1
+			Props.place(self, "waterlily", Vector3(lx, 0.04, lc + (lily_off if inner_south else -lily_off)), rng.randf() * TAU)
+			x += 4.0
+		x += 1.0
 
 
 func _boundary() -> void:

@@ -88,7 +88,7 @@ func build() -> void:
 	CraftedProps.flower_pot(self, Vector3(1.8, 0, 4.05), "flower_yellow", 0.8)
 	CraftedProps.flower_pot(self, Vector3(-3.6, 0, 4.0), "flower_blue", 1.1)
 	CraftedProps.woodpile(self, Vector3(-4.75, 0, -1.9), PI / 2.0)
-	CraftedProps.chopping_block(self, Vector3(-5.2, 0, -0.1), 0.6)
+	CraftedProps.chopping_block(self, Vector3(-5.5, 0, -3.6), 0.6)
 	CraftedProps.clothesline(self, Vector3(-1.0, 0, 8.2), Vector3(3.2, 0, 8.6))
 	var cat := Wanderer.new().setup(AnimalModel.make("cat"), 3)
 	cat.position = Vector3(1.8, 0, 5.2)

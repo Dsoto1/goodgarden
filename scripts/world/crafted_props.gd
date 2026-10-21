@@ -422,3 +422,34 @@ static func bookcase(parent: Node3D, pos: Vector3, rot_y := 0.0, seed_value := 1
 	MeshKit.box(r, Vector3(1.3, 0.05, 0.42), Vector3(0, 1.92, 0), "wood_dark")
 	MeshKit.solid(r, Vector3(1.3, 1.9, 0.45), Vector3(0, 0.95, 0))
 	return r
+
+
+## A clump of reeds at the water's edge: slender blades leaning every way,
+## a few with brown cattail heads. Sized by `spread` (metres across).
+static func reeds(parent: Node3D, pos: Vector3, seed_value: int, spread := 0.9) -> Node3D:
+	var r := _root(parent, "Reeds", pos, 0.0)
+	var rng := RandomNumberGenerator.new()
+	rng.seed = seed_value
+	var greens := ["leaf", "leaf_light", "sprout", "grass_dark"]
+	for i in rng.randi_range(9, 14):
+		var at := Vector3(rng.randf_range(-spread, spread) * 0.5, 0, rng.randf_range(-spread, spread) * 0.5)
+		var h := rng.randf_range(0.7, 1.35)
+		var blade := MeshKit.box(r, Vector3(0.035, h, 0.02), at + Vector3(0, h / 2.0 - 0.05, 0), greens[rng.randi() % greens.size()])
+		blade.rotation = Vector3(rng.randf_range(-0.22, 0.22), rng.randf() * TAU, rng.randf_range(-0.22, 0.22))
+		if rng.randf() < 0.3:
+			var head := MeshKit.capsule(r, 0.035, 0.22, Vector3.ZERO, "leather")
+			head.position = blade.position + blade.transform.basis * Vector3(0, h / 2.0, 0)
+			head.rotation = blade.rotation
+	return r
+
+
+## One flat, rounded stepping stone, its top just above the water.
+static func stepping_stone(parent: Node3D, pos: Vector3, seed_value: int) -> Node3D:
+	var r := _root(parent, "SteppingStone", pos, float(seed_value) * 1.7)
+	var rng := RandomNumberGenerator.new()
+	rng.seed = seed_value
+	var w := rng.randf_range(0.5, 0.62)
+	var d := w * rng.randf_range(0.75, 0.95)
+	MeshKit.sphere(r, 0.5, Vector3(0, -0.04, 0), "stone_dark", Vector3(w * 1.08, 0.3, d * 1.08), 10, 5)
+	MeshKit.sphere(r, 0.5, Vector3(0, 0.0, 0), "stone", Vector3(w, 0.22, d), 12, 6)
+	return r

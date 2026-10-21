@@ -24,7 +24,9 @@ func _ready() -> void:
 	collision_mask = MeshKit.LAYER_GROUND | MeshKit.LAYER_OBSTACLE | MeshKit.LAYER_CHARACTER | MeshKit.LAYER_INVISIBLE
 	var shape := CollisionShape3D.new()
 	var capsule := CapsuleShape3D.new()
-	capsule.radius = 0.28
+	# A little narrower than the navigation mesh's agent (0.25 m), so any gap
+	# the path-finder lets the child through, the body really fits.
+	capsule.radius = 0.22
 	capsule.height = 1.1
 	shape.shape = capsule
 	shape.position.y = 0.56

@@ -42,10 +42,10 @@ func build(area: Rect2, clearings: Array[Dictionary], density: float, seed_value
 					# Meadows: accept more where the noise is high, fewer elsewhere.
 					if (noise.get_noise_2dv(p) + 1.0) * 0.5 < float(layer[2]) * rng.randf_range(0.6, 1.4):
 						continue
-					if _cleared(p, clearings):
+					if _cleared(p, clearings) or Terrain.river_bank_distance(p.x, p.y) < 0.9:
 						continue
 					var s := rng.randf_range(layer[3].x, layer[3].y)
-					var place := Transform3D(Basis(Vector3.UP, rng.randf() * TAU).scaled(Vector3.ONE * s), Vector3(p.x, 0.0, p.y))
+					var place := Transform3D(Basis(Vector3.UP, rng.randf() * TAU).scaled(Vector3.ONE * s), Vector3(p.x, Terrain.height(p.x, p.y), p.y))
 					transforms.append(place * (parts["local"] as Transform3D))
 				if transforms.size() > 0:
 					_add_chunk(parts["mesh"], transforms)
@@ -78,13 +78,13 @@ func fringe_paths(clearings: Array[Dictionary], density: float, seed_value: int)
 		while t < length:
 			for s: float in [-1.0, 1.0]:
 				var p := a + dir * (t + rng.randf_range(-0.15, 0.15)) + side * s * (half + rng.randf_range(-0.12, 0.25))
-				if _cleared_except(p, clearings, c):
+				if _cleared_except(p, clearings, c) or Terrain.river_bank_distance(p.x, p.y) < 0.9:
 					continue
 				var basis := Basis(Vector3.UP, rng.randf() * TAU)
 				if rng.randf() < 0.05:
-					pebbles.append(Transform3D(basis.scaled(Vector3.ONE * rng.randf_range(0.35, 0.6)), Vector3(p.x, 0.0, p.y)) * (pebble["local"] as Transform3D))
+					pebbles.append(Transform3D(basis.scaled(Vector3.ONE * rng.randf_range(0.35, 0.6)), Vector3(p.x, Terrain.height(p.x, p.y), p.y)) * (pebble["local"] as Transform3D))
 				else:
-					tufts.append(Transform3D(basis.scaled(Vector3.ONE * rng.randf_range(0.6, 1.0)), Vector3(p.x, 0.0, p.y)) * (tuft["local"] as Transform3D))
+					tufts.append(Transform3D(basis.scaled(Vector3.ONE * rng.randf_range(0.6, 1.0)), Vector3(p.x, Terrain.height(p.x, p.y), p.y)) * (tuft["local"] as Transform3D))
 			t += step
 	_add_chunked(tuft["mesh"], tufts)
 	_add_chunked(pebble["mesh"], pebbles)

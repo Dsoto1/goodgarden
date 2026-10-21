@@ -395,13 +395,16 @@ func test_vertical_slice_end_to_end() -> void:
 	eq(Days.current_day, 1, "day 1")
 	check(Invitations.has_unread(), "day 1 letter waiting")
 	check(world.player.global_position.distance_to(world.anchor("home_spawn").global_position) < 0.5, "child begins at home")
-	# The river winds, but the only way over it is the bridge.
-	var crossing := NavigationServer3D.map_get_path(world.get_world_3d().navigation_map, Vector3(-3, 0, -6), Vector3(-3, 0, -22), true)
-	var wet_off_bridge := 0
-	for p: Vector3 in crossing:
-		if Terrain.river_bank_distance(p.x, p.z) < -0.5 and (p.x < 3.5 or p.x > 7.5):
-			wet_off_bridge += 1
-	check(crossing.size() > 1 and wet_off_bridge == 0, "the way across the river is the bridge")
+	# The river winds, but the only ways over it are the bridge and the stepping stones.
+	for route: Array in [[Vector3(-3, 0, -6), Vector3(-3, 0, -22)], [Vector3(-14, 0, -6), Vector3(-14, 0, -23)], [Vector3(20, 0, -7), Vector3(20, 0, -21)]]:
+		var crossing := NavigationServer3D.map_get_path(world.get_world_3d().navigation_map, route[0], route[1], true)
+		var wet := 0
+		for p: Vector3 in crossing:
+			var on_bridge := p.x > 3.5 and p.x < 7.5
+			var on_stones := absf(p.x - ValleyRegion.FORD_X) < 1.5
+			if Terrain.river_bank_distance(p.x, p.z) < -0.5 and not on_bridge and not on_stones:
+				wet += 1
+		check(crossing.size() > 1 and wet == 0, "the river is crossed only by the bridge or the stepping stones")
 
 	# 1-2. Read the invitation at home.
 	var letter := _interactable("Read the letter")
