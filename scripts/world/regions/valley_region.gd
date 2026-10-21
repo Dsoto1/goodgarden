@@ -6,7 +6,7 @@ extends Region
 ## Where stepping stones cross the river, between the mill and the bridge.
 const FORD_X := -12.5
 
-const BOUNDS := Rect2(-30, -46, 64, 59) # x, z, width, depth of the walkable area
+const BOUNDS := Rect2(-36, -46, 70, 59) # x, z, width, depth of the walkable area
 
 
 func build() -> void:
@@ -32,6 +32,7 @@ func build() -> void:
 	_river()
 	_ford()
 	_reeds_on_bends()
+	_fishing_spot()
 	Waterfall.build(self)
 	StoneBridge.build(self, Vector3(5.5, 0, -14))
 	# A riverbank seat east of the bridge, where the view turns west along the
@@ -143,7 +144,7 @@ func _trees() -> void:
 	Props.place(self, "twisted_tree", Vector3(-33, 0, -25), 0.6)
 	Props.place(self, "twisted_tree_b", Vector3(-10, 0, 8), 2.4)
 	Props.place(self, "twisted_tree", Vector3(25, 0, -42), 4.0, 0.9)
-	for m: Array in [[-31, -22], [-30.4, -23.4], [-9, 9.5], [-11, 6.8]]:
+	for m: Array in [[-34.6, -21.4], [-35.2, -22.6], [-9, 9.5], [-11, 6.8]]:
 		Props.place(self, "mushroom", Vector3(m[0], 0, m[1]), rng.randf() * TAU)
 	# Working buildings and fields that make the valley feel lived in.
 	Props.place(self, "windmill", Vector3(28, 0, -29), -0.4)
@@ -213,6 +214,23 @@ func _river() -> void:
 			MeshKit.solid(self, Vector3(piece + 0.2, 2, half * 2.0), Vector3(mid, 1, c), -heading, MeshKit.LAYER_INVISIBLE)
 			add_clearing(Vector3(mid, 0, c), Vector2(piece + 0.2, 2.0 * (half + 1.3) + 1.2))
 			x += piece
+
+
+## A quiet fishing spot on the north bank west of the chapel, reached by a
+## path from the chapel porch. Sitting to fish is like sitting quietly in the
+## chapel: the view settles on the float, and nothing is counted.
+func _fishing_spot() -> void:
+	var x := -32.5
+	var bank := Terrain.river_z(x) - Terrain.river_half_width(x, true)
+	var at := Vector3(x, 0, bank - 0.15)
+	var spot := CraftedProps.fishing_spot(self, at, PI, Terrain.RIVER_LEVEL)
+	var bob: Vector3 = spot.transform * (spot.get_meta("float") as Vector3)
+	var fish := Interactable.create(self, at + Vector3(0.1, 0, -0.55), "Sit and fish", func() -> void:
+		get_tree().call_group("main", "sit_quietly", bob + Vector3(0, 0.4, 0), 5.0, 16.0, 200.0), 0.5, 1.2)
+	fish.reach = 1.6
+	path([Vector3(-21.8, 0, -22.4), Vector3(-25.5, 0, -22.6), Vector3(-29.0, 0, -21.6), Vector3(-31.6, 0, bank - 1.4)], 1.3)
+	add_clearing(at + Vector3(0, 0, -0.6), Vector2(3.2, 2.6))
+	add_place_zone("fishing_spot", at + Vector3(0, 1, -0.8), Vector3(5, 3, 4))
 
 
 ## Stepping stones across a narrow bend: flat rocks just above the water,
@@ -299,7 +317,7 @@ func _boundary() -> void:
 
 ## Roughly the road network, so undergrowth never sits on a path.
 static func _on_path(p: Vector3) -> bool:
-	var roads := [Rect2(-1, 3.4, 7.5, 2.4), Rect2(4.0, -21, 2.9, 27), Rect2(-22, -23.0, 25, 4.0), Rect2(5, -46, 2, 26)]
+	var roads := [Rect2(-1, 3.4, 7.5, 2.4), Rect2(4.0, -21, 2.9, 27), Rect2(-22, -23.0, 25, 4.0), Rect2(-32, -23.5, 11, 3.5), Rect2(5, -46, 2, 26)]
 	for r: Rect2 in roads:
 		if r.grow(0.8).has_point(Vector2(p.x, p.z)):
 			return true
@@ -307,7 +325,7 @@ static func _on_path(p: Vector3) -> bool:
 
 
 static func _near_built(p: Vector3) -> bool:
-	var areas := [Rect2(-6, -4, 12, 14), Rect2(7, -3, 14, 12), Rect2(-13, -48, 40, 34), Rect2(-30, -35, 17, 16), Rect2(3.5, -20, 4, 28)]
+	var areas := [Rect2(-6, -4, 12, 14), Rect2(7, -3, 14, 12), Rect2(-13, -48, 40, 34), Rect2(-30, -35, 17, 16), Rect2(-35, -22, 6, 4.5), Rect2(3.5, -20, 4, 28)]
 	for r: Rect2 in areas:
 		if r.has_point(Vector2(p.x, p.z)):
 			return true

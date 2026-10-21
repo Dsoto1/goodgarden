@@ -453,3 +453,45 @@ static func stepping_stone(parent: Node3D, pos: Vector3, seed_value: int) -> Nod
 	MeshKit.sphere(r, 0.5, Vector3(0, -0.04, 0), "stone_dark", Vector3(w * 1.08, 0.3, d * 1.08), 10, 5)
 	MeshKit.sphere(r, 0.5, Vector3(0, 0.0, 0), "stone", Vector3(w, 0.22, d), 12, 6)
 	return r
+
+
+## A quiet fishing spot on a riverbank: a little plank landing over the
+## water, a rod propped on a forked stick with its line down to a float, a
+## creel, a coil of rope, a bucket and an upturned crate to sit on. Faces -Z
+## (toward the water). Returns the root; the float's local position is in
+## its "float" meta, for framing the view while the child sits and fishes.
+static func fishing_spot(parent: Node3D, pos: Vector3, rot_y: float, water_y: float) -> Node3D:
+	var r := _root(parent, "FishingSpot", pos, rot_y)
+	var deck := 0.12
+	for i in 5:
+		MeshKit.box(r, Vector3(1.3, 0.06, 0.27), Vector3(0, deck, -0.15 - i * 0.3), "wood_light" if i % 2 else "wood")
+	for z: float in [-0.2, -1.35]:
+		for x: float in [-0.58, 0.58]:
+			MeshKit.cylinder(r, 0.06, 0.07, 0.8, Vector3(x, deck - 0.4, z), "wood_dark", 6)
+	# The rod, propped in a forked stick at the end of the landing.
+	var stick := MeshKit.box(r, Vector3(0.04, 0.5, 0.04), Vector3(-0.35, deck + 0.25, -1.25), "wood_dark")
+	stick.rotation.x = -0.15
+	for side: float in [-1.0, 1.0]:
+		var prong := MeshKit.box(r, Vector3(0.03, 0.14, 0.03), Vector3(-0.35 + side * 0.04, deck + 0.53, -1.3), "wood_dark")
+		prong.rotation.z = side * 0.4
+	var rod_len := 2.4
+	var rod := Node3D.new()
+	rod.position = Vector3(-0.35, deck + 0.42, -0.6)
+	rod.rotation = Vector3(0.45, 0.25, 0)
+	r.add_child(rod)
+	MeshKit.cylinder(rod, 0.012, 0.025, rod_len, Vector3(0, 0, -rod_len / 2.0), "wood", 6).rotation.x = PI / 2.0
+	MeshKit.cylinder(rod, 0.035, 0.035, 0.08, Vector3(0.03, 0, -0.2), "dark", 8).rotation.z = PI / 2.0
+	var tip := rod.transform * Vector3(0, 0, -rod_len)
+	var bob := Vector3(tip.x, water_y - pos.y + 0.02, tip.z)
+	var line := MeshKit.box(r, Vector3(0.006, tip.y - bob.y, 0.006), (tip + bob) / 2.0, "white")
+	line.name = "Line"
+	MeshKit.sphere(r, 0.045, bob + Vector3(0, 0.02, 0), "cloth_red", Vector3(1, 0.8, 1), 8, 4)
+	MeshKit.sphere(r, 0.03, bob + Vector3(0, 0.06, 0), "white", Vector3.ONE, 6, 3)
+	r.set_meta("float", bob)
+	creel_and_rope(r, Vector3(0.3, deck, -0.55), 0.6)
+	# An upturned crate to sit on, on the bank, and a bucket for the catch.
+	MeshKit.box(r, Vector3(0.45, 0.36, 0.38), Vector3(0.1, 0.18, 0.55), "wood")
+	MeshKit.box(r, Vector3(0.47, 0.04, 0.4), Vector3(0.1, 0.36, 0.55), "wood_dark")
+	MeshKit.cylinder(r, 0.14, 0.12, 0.26, Vector3(-0.55, 0.13, 0.5), "stone", 10)
+	MeshKit.cylinder(r, 0.12, 0.12, 0.02, Vector3(-0.55, 0.24, 0.5), "water", 10)
+	return r

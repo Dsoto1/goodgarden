@@ -185,10 +185,10 @@ func start_activity_here(activity_id: String, focus: Vector3) -> void:
 	ActivityRunner.start(activity_id)
 
 
-func sit_quietly(focus: Vector3) -> void:
+func sit_quietly(focus: Vector3, distance := 3.2, pitch := 12.0, yaw := 0.0) -> void:
 	# Deliberately unrecorded: quiet time is the child's own.
 	GameState.push_mode(GameState.Mode.REFLECTION)
-	world.rig.focus_on(focus, 3.2, 12.0)
+	world.rig.focus_on(focus, distance, pitch, yaw)
 	var stand := UiStyle.button(tr("Stand up"))
 	stand.modulate.a = 0.75
 	stand.grow_horizontal = Control.GROW_DIRECTION_BOTH
