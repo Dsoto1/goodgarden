@@ -501,14 +501,14 @@ func test_vertical_slice_end_to_end() -> void:
 			return
 		var baskets: Array[DropSlot] = fill.holes
 		eq(baskets.size(), 3, "three neighbors' baskets")
-		var k := 0
+		var roll := 0
 		for b in baskets.size():
 			for i in [2, 4, 3][b]:
-				_drop(fill.pieces[k], baskets[b].center())
-				k += 1
+				_drop(fill.pieces[roll], baskets[b].center())
+				roll += 1
 			if b == 0:
-				_drop(fill.pieces[k], baskets[0].center()) # one too many: it goes back
-				check(fill.pieces[k].placed_in == null, "a full basket refuses an extra roll")
+				_drop(fill.pieces[roll], baskets[0].center()) # one too many: it goes back
+				check(fill.pieces[roll].placed_in == null, "a full basket refuses an extra roll")
 		check(fill.is_done, "every basket has its number of rolls")
 		await wait(1.6)
 		await _play_outro(ws)
