@@ -17,6 +17,13 @@
 		},
 		{
 			"when": [
+				{"fact": "chapel.good_shepherd.visits", "exists": true},
+				{"fact": "npc.ruth.shepherd_wonder", "exists": false}
+			],
+			"start": "shepherd_wonder"
+		},
+		{
+			"when": [
 				{"fact": "garden.bed_1", "exists": true}
 			],
 			"start": "beans"
@@ -42,6 +49,13 @@
 			"text": "When I was a girl, my grandmother kept sheep. She knew every one of them by name. If even one wandered off, she would go out looking until she found it, and she always sang on the way home.",
 			"actions": [
 				{"op": "set_fact", "fact": "npc.ruth.sheep_wonder", "value": true}
+			]
+		},
+		"shepherd_wonder": {
+			"mood": "gentle",
+			"text": "When I was small and couldn't sleep, my mother would sit by me and say, \"The Lord is my shepherd.\" I still say it at night. It's good to be known by name.",
+			"actions": [
+				{"op": "set_fact", "fact": "npc.ruth.shepherd_wonder", "value": true}
 			]
 		}
 	}

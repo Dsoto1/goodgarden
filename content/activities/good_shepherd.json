@@ -1,0 +1,109 @@
+{
+	"id": "good_shepherd",
+	"title": "The Good Shepherd",
+	"mode": "reflection",
+	"location": "chapel",
+	"surface": "atrium_felt",
+	"review_status": "DRAFT: retelling and wondering questions require theological and editorial review before release.",
+	"source": {
+		"reference": "John 10:3-4, 11, 14",
+		"note": "Original child-friendly retelling written for this prototype; not a quotation of any translation. Follows the shape of the Good Shepherd presentation used with young children: the sheep are known and called by name, they know the shepherd's voice, and he leads them out to pasture. See also Psalm 23."
+	},
+	"readiness": {"ages": [3, 10], "reading": "narration provided; text optional"},
+	"concepts": ["listening to a parable", "sequencing a story", "one by one"],
+	"formation_themes": ["the Good Shepherd", "being known and called by name", "belonging", "being cared for"],
+	"prerequisites": [],
+	"intro": [
+		{
+			"speaker": "narrator",
+			"text": "Jesus once said something very important about himself, using a picture of a shepherd and his sheep. Let's carry the material to the table, and listen.",
+			"button": "Listen"
+		}
+	],
+	"steps": [
+		{
+			"id": "story",
+			"primitive": "story_figures",
+			"reference": "John 10:3-4, 11, 14",
+			"box": [220, 380, 560, 150],
+			"places": [
+				{"label": "The sheepfold", "pos": [300, 200], "kind": "fold"},
+				{"label": "Green pasture", "pos": [700, 205], "kind": "pasture"}
+			],
+			"figures": [
+				{"id": "shepherd", "label": "Good Shepherd", "color": "cloth_cream", "accent": "cloth_gold"},
+				{"id": "sheep_1", "label": "", "color": "white", "shape": "sheep", "kind": "sheep"},
+				{"id": "sheep_2", "label": "", "color": "white", "shape": "sheep", "kind": "sheep"},
+				{"id": "sheep_3", "label": "", "color": "white", "shape": "sheep", "kind": "sheep"},
+				{"id": "sheep_4", "label": "", "color": "white", "shape": "sheep", "kind": "sheep"},
+				{"id": "sheep_5", "label": "", "color": "white", "shape": "sheep", "kind": "sheep"}
+			],
+			"segments": [
+				{
+					"text": "Jesus told about a shepherd and his sheep. At night, the sheep rest safely inside the sheepfold.",
+					"reveal": ["sheep_1", "sheep_2", "sheep_3", "sheep_4", "sheep_5"],
+					"show": {"sheep_1": {"pos": [256, 182]}, "sheep_2": {"pos": [300, 174]}, "sheep_3": {"pos": [344, 182]}, "sheep_4": {"pos": [276, 208]}, "sheep_5": {"pos": [324, 208]}}
+				},
+				{
+					"text": "In the morning, the shepherd comes to the gate of the sheepfold. Jesus said, \"I am the Good Shepherd.\"",
+					"reveal": ["shepherd"],
+					"show": {"shepherd": {"pos": [398, 218]}}
+				},
+				{"text": "The Good Shepherd knows each one of his sheep. He calls his own sheep by name."},
+				{
+					"text": "And the sheep know his voice. When they hear him calling, they come to him.",
+					"show": {"sheep_1": {"pos": [262, 212]}, "sheep_2": {"pos": [298, 204]}, "sheep_3": {"pos": [334, 214]}, "sheep_4": {"pos": [284, 232]}, "sheep_5": {"pos": [322, 236]}}
+				},
+				{
+					"text": "He leads them out. He walks ahead of them, and the sheep follow him, because they know his voice.",
+					"show": {"shepherd": {"pos": [560, 205]}, "sheep_1": {"pos": [500, 222]}, "sheep_2": {"pos": [462, 214]}, "sheep_3": {"pos": [424, 224]}, "sheep_4": {"pos": [386, 216]}, "sheep_5": {"pos": [348, 226]}}
+				},
+				{
+					"text": "He brings them to green pasture and fresh water, where they have everything they need.",
+					"show": {"shepherd": {"pos": [632, 168]}, "sheep_1": {"pos": [700, 190]}, "sheep_2": {"pos": [752, 184]}, "sheep_3": {"pos": [722, 220]}, "sheep_4": {"pos": [778, 218]}, "sheep_5": {"pos": [672, 232]}}
+				},
+				{"text": "Jesus said, \"I know my own, and my own know me.\" The Good Shepherd loves his sheep so much that he gives his life for them."}
+			],
+			"wonderings": [
+				"I wonder who the Good Shepherd is.",
+				"I wonder who the sheep might be.",
+				"I wonder how it feels to hear someone call your name.",
+				"I wonder how the sheep know the shepherd's voice.",
+				"I wonder what the green pasture is like."
+			]
+		},
+		{
+			"id": "put_away",
+			"primitive": "match_to_outline",
+			"prompt": "When you're ready, return each figure to its place in the box.",
+			"pieces_from_previous": true,
+			"box": [220, 380, 560, 150],
+			"slots": [
+				{"kind": "figure:shepherd", "pos": [266.7, 455]},
+				{"kind": "figure:sheep", "pos": [360.0, 455]},
+				{"kind": "figure:sheep", "pos": [453.3, 455]},
+				{"kind": "figure:sheep", "pos": [546.7, 455]},
+				{"kind": "figure:sheep", "pos": [640.0, 455]},
+				{"kind": "figure:sheep", "pos": [733.3, 455]}
+			],
+			"feedback": {
+				"mismatch": "That place is shaped for a different figure.",
+				"all_good": "Each figure is resting in its place."
+			}
+		}
+	],
+	"outro": [
+		{
+			"speaker": "narrator",
+			"text": "The material is back on the shelf. It will be here whenever you want to return to it.",
+			"button": "Stand up"
+		}
+	],
+	"world_effects": [
+		{"op": "increment", "fact": "chapel.good_shepherd.visits"},
+		{"op": "set", "fact": "chapel.good_shepherd.last_day", "value": "$day"}
+	],
+	"replay": "free",
+	"real_world_invitation": "rw_called_by_name",
+	"journal_line": "I listened to Jesus' words about the Good Shepherd, who knows each of his sheep and calls them by name."
+}

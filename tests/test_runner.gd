@@ -224,7 +224,7 @@ func test_story_handoff_and_put_away() -> void:
 ## The Mustard Seed: the seed gives way to the sprout and the grown plant,
 ## and figures the story set back in the box count as already put away.
 func test_parable_growth_and_put_away() -> void:
-	for id: String in ["mustard_seed", "leaven", "lost_sheep", "fishers", "five_thousand"]:
+	for id: String in ["mustard_seed", "leaven", "lost_sheep", "fishers", "five_thousand", "good_shepherd"]:
 		check(Content.get_activity(id) != null, "%s is authored" % id)
 	var def := Content.get_activity("mustard_seed")
 	var opening := PrimitiveRegistry.create("story_figures")
@@ -253,7 +253,7 @@ func test_parable_growth_and_put_away() -> void:
 				_drop(p, slot.center())
 	eq(done.size(), 1, "the rest go back and the material is put away")
 	var shelf: Array = Content.get_world("atrium_shelf").get("items", [])
-	eq(shelf.size(), 6, "six materials on the Atrium shelf")
+	eq(shelf.size(), 7, "seven materials on the Atrium shelf")
 	story.queue_free()
 	put_away.queue_free()
 
@@ -261,7 +261,7 @@ func test_parable_growth_and_put_away() -> void:
 ## The Calling of the Fishermen and the Feeding of the Five Thousand: every
 ## figure the story brings out can be returned to its own place in the box.
 func test_calling_of_the_fishermen() -> void:
-	for id: String in ["fishers", "five_thousand"]:
+	for id: String in ["fishers", "five_thousand", "good_shepherd"]:
 		_story_round_trip(id)
 	var def := Content.get_activity("five_thousand")
 	var story := _make_step("story_figures", def.steps[0])

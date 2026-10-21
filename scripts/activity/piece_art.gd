@@ -101,7 +101,7 @@ static func _figure(ci: CanvasItem, size: Vector2, outline: bool, data: Dictiona
 		# Labels may be wider than the figure; centre them under it in the storybook serif.
 		var font := UiStyle.font()
 		var col := Color(INK, 0.6) if outline else Color("f6f1e4")
-		ci.draw_string(font, Vector2(-30, size.y - 2), label, HORIZONTAL_ALIGNMENT_CENTER, size.x + 60, 15, col)
+		ci.draw_string(font, Vector2(-45, size.y - 2), label, HORIZONTAL_ALIGNMENT_CENTER, size.x + 90, 15, col)
 
 
 ## Objects from the parables, drawn on the same figure card as the people.

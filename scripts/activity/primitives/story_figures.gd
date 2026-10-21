@@ -8,9 +8,9 @@ extends ActivityStep
 ## again, sit with the wondering questions, and retell freely.
 ##
 ## Config:
-##   places: [{"label", "pos": [x,y], "kind": "city"|"inn"|"field"|"house"|"fold"|"hills"|"sea"|"hillside"}]  fixed scenery
+##   places: [{"label", "pos": [x,y], "kind": "city"|"inn"|"field"|"house"|"fold"|"hills"|"sea"|"hillside"|"pasture"}]  fixed scenery
 ##   road: [[x,y], ...]                 path drawn on the felt
-##   figures: [{"id", "label", "color", "shape"?, "accent"?}]
+##   figures: [{"id", "label", "color", "shape"?, "accent"?, "kind"?}]  kind: shared by look-alike figures
 ##   box: [x, y, w, h]                  material box where figures rest
 ##   segments: [{"text", "reveal": [ids], "hide": [ids], "show": {id: {"pos": [x,y], "lying": bool}}}]
 ##                                      "hide" returns a figure to the box (the seed
@@ -47,7 +47,9 @@ func _build() -> void:
 			data["shape"] = f["shape"]
 		if f.has("accent"):
 			data["accent"] = f["accent"]
-		var p := DragPiece.create("figure:%s" % f["id"], match_size(), data)
+		# Figures that look alike (a flock's sheep) may share a kind, so any of
+		# them fits any of their places in the box.
+		var p := DragPiece.create("figure:%s" % f.get("kind", f["id"]), match_size(), data)
 		p.home = box.position + Vector2((i + 0.5) * box.size.x / defs.size(), box.size.y / 2.0) - p.size / 2.0
 		p.position = p.home
 		p.visible = false
@@ -232,12 +234,27 @@ func _draw() -> void:
 				for p: Vector2 in [Vector2(-190, 40), Vector2(-120, 5), Vector2(-60, -25), Vector2(50, -20), Vector2(130, 10), Vector2(200, 42), Vector2(-20, 30), Vector2(90, 40)]:
 					for k in 3:
 						draw_line(c + p + Vector2(k * 4 - 4, 0), c + p + Vector2(k * 5 - 5, -9), Color("5f8a3f"), 2.0)
+			"pasture":
+				# Green pasture with a pool of fresh water at one side.
+				var meadow := PackedVector2Array()
+				for k in 24:
+					var a := TAU * k / 24.0
+					meadow.append(c + Vector2(cos(a) * (130 + sin(a * 3.0) * 6), sin(a) * 62))
+				draw_colored_polygon(meadow, Color("8db562"))
+				var pool := PackedVector2Array()
+				for k in 16:
+					var a := TAU * k / 16.0
+					pool.append(c + Vector2(95 + cos(a) * 30, -32 + sin(a) * 13))
+				draw_colored_polygon(pool, Color("6f9fc0"))
+				for p: Vector2 in [Vector2(-100, 30), Vector2(-60, -30), Vector2(20, 40), Vector2(60, -20), Vector2(-20, 5), Vector2(100, 25)]:
+					for k in 3:
+						draw_line(c + p + Vector2(k * 4 - 4, 0), c + p + Vector2(k * 5 - 5, -8), Color("5f8a3f"), 2.0)
 			"hills":
 				# The wilderness: rocky hills with a few thorny shrubs.
 				draw_colored_polygon(PackedVector2Array([c + Vector2(-110, 40), c + Vector2(-50, -40), c + Vector2(0, 10), c + Vector2(50, -55), c + Vector2(120, 40)]), Color("a89a7c"))
 				for p: Vector2 in [Vector2(-70, 28), Vector2(30, 26), Vector2(80, 30)]:
 					draw_circle(c + p, 10.0, Color("7f8a55"))
-		var label_y := 70.0 if place.get("kind", "") in ["field", "fold", "hills", "hillside"] else 54.0
+		var label_y := 70.0 if place.get("kind", "") in ["field", "fold", "hills", "hillside", "pasture"] else 54.0
 		if place.get("kind", "") == "sea":
 			label_y = -48.0
 		elif place.get("kind", "") == "hillside":
