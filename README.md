@@ -79,6 +79,10 @@ The Good Samaritan retelling and wondering questions are an **original draft** w
 
 Rendered with the software renderer by `tools/screenshot_tour.tscn`. Art pass: KayKit props and Quaternius greenery; characters and identity buildings are still placeholder.
 
+| The stone bridge and the waterfall |
+|---|
+| ![](docs/screenshots/09b_bridge_waterfall.png) |
+
 | Miriam's garden | Spacing the bean row | Bellhaven from the overlook |
 |---|---|---|
 | ![](docs/screenshots/04_garden_miriam.png) | ![](docs/screenshots/06_spacing_check.png) | ![](docs/screenshots/11_bellhaven_vista.png) |

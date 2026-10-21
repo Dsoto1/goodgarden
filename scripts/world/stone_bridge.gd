@@ -105,7 +105,9 @@ static func _colliders(root: Node3D, inner: float) -> void:
 		var b := Vector3(inner, deck_y(z0), z0)
 		var c := Vector3(inner, deck_y(z1), z1)
 		var d := Vector3(-inner, deck_y(z1), z1)
-		faces.append_array([a, c, b, a, d, c])
+		# Both windings: the navmesh baker only keeps upward-facing triangles,
+		# and which winding counts as "up" differs between physics and baking.
+		faces.append_array([a, c, b, a, d, c, a, b, c, a, c, d])
 	var shape := ConcavePolygonShape3D.new()
 	shape.set_faces(faces)
 	shape.backface_collision = true
