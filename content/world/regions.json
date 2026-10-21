@@ -58,8 +58,8 @@
 	],
 	"places": [
 		{"id": "river", "name": "The River"},
-		{"id": "chapel_hall", "name": "The Main Hall"},
-		{"id": "atrium", "name": "The Atrium"},
+		{"id": "chapel_hall", "name": "The Big Room"},
+		{"id": "atrium", "name": "The Story Room"},
 		{"id": "library", "name": "The Library"},
 		{"id": "fishing_spot", "name": "The Fishing Spot"}
 	]

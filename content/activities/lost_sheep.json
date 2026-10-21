@@ -16,7 +16,7 @@
 	"intro": [
 		{
 			"speaker": "narrator",
-			"text": "This is a story Jesus told. Let's carry the material to the table, and listen.",
+			"text": "This is a story Jesus told. Let's carry the story box to the table, and listen.",
 			"button": "Listen"
 		}
 	],
@@ -28,18 +28,18 @@
 			"box": [220, 380, 560, 150],
 			"places": [
 				{"label": "The sheepfold", "pos": [230, 205], "kind": "fold"},
-				{"label": "The wilderness", "pos": [790, 175], "kind": "hills"}
+				{"label": "The wild hills", "pos": [790, 175], "kind": "hills"}
 			],
 			"figures": [
 				{"id": "shepherd", "label": "Shepherd", "color": "cloth_brown", "accent": "cloth_tan"},
-				{"id": "flock", "label": "The ninety-nine", "color": "white", "shape": "flock"},
+				{"id": "flock", "label": "The flock", "color": "white", "shape": "flock"},
 				{"id": "lost", "label": "Lost sheep", "color": "white", "shape": "sheep"},
 				{"id": "friend_a", "label": "Friend", "color": "cloth_green"},
 				{"id": "friend_b", "label": "Neighbor", "color": "cloth_blue"}
 			],
 			"segments": [
 				{
-					"text": "Jesus told a story about a shepherd. The shepherd had one hundred sheep, and he knew every one of them.",
+					"text": "Jesus told a story about a shepherd. The shepherd had one hundred sheep. That's lots and lots of sheep, and he knew every one of them.",
 					"reveal": ["shepherd", "flock"],
 					"show": {"shepherd": {"pos": [340, 190]}, "flock": {"pos": [440, 205]}}
 				},
@@ -50,7 +50,7 @@
 				},
 				{"text": "The shepherd counted his sheep: ninety-seven, ninety-eight, ninety-nine... One was missing!"},
 				{
-					"text": "So he left the ninety-nine together, and he went out into the wilderness to look for the one that was lost. He searched and searched until he found it.",
+					"text": "So he left the other sheep safe together, and he went out into the wild hills to look for the lost one. He looked and looked until he found it.",
 					"show": {"shepherd": {"pos": [690, 185]}}
 				},
 				{
@@ -65,7 +65,7 @@
 				{"text": "And Jesus said that there is joy like this in heaven over one who is found."}
 			],
 			"wonderings": [
-				"I wonder how the lost sheep felt, far away all by itself.",
+				"I wonder how the lost sheep felt when the shepherd found it.",
 				"I wonder how the shepherd knew that one was missing.",
 				"I wonder how the sheep felt, carried home on the shepherd's shoulders.",
 				"I wonder who the shepherd might be."
@@ -74,7 +74,7 @@
 		{
 			"id": "put_away",
 			"primitive": "match_to_outline",
-			"prompt": "When you're ready, return each figure to its place in the box.",
+			"prompt": "When you're ready, put each piece back in its place in the box.",
 			"pieces_from_previous": true,
 			"box": [220, 380, 560, 150],
 			"slots": [
@@ -85,15 +85,15 @@
 				{"kind": "figure:friend_b", "pos": [724.0, 455]}
 			],
 			"feedback": {
-				"mismatch": "That place is shaped for a different figure.",
-				"all_good": "Each figure is resting in its place."
+				"mismatch": "That spot is for a different piece.",
+				"all_good": "Every piece is back in its place."
 			}
 		}
 	],
 	"outro": [
 		{
 			"speaker": "narrator",
-			"text": "The material is back on the shelf. It will be here whenever you want to return to it.",
+			"text": "The story box is back on the shelf. You can come back to it whenever you like.",
 			"button": "Stand up"
 		}
 	],

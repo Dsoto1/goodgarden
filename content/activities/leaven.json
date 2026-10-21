@@ -16,7 +16,7 @@
 	"intro": [
 		{
 			"speaker": "narrator",
-			"text": "This is a story Jesus told. Let's carry the material to the table, and listen.",
+			"text": "This is a story Jesus told. Let's carry the story box to the table, and listen.",
 			"button": "Listen"
 		}
 	],
@@ -37,7 +37,7 @@
 			],
 			"segments": [
 				{
-					"text": "Jesus told another story about the Kingdom of God. He said it is like leaven, the yeast that makes bread dough rise."
+					"text": "Jesus told another story about the Kingdom of God. He said it is like leaven: a little bit of special dough that makes a whole bowl of bread dough puff up and rise."
 				},
 				{
 					"text": "A woman took a little leaven, just a small piece.",
@@ -45,7 +45,7 @@
 					"show": {"woman": {"pos": [380, 215]}, "leaven": {"pos": [455, 240]}}
 				},
 				{
-					"text": "She put it into three big measures of flour, enough to make bread for a great many people.",
+					"text": "She put it into three big bowls of flour, enough to make bread for lots and lots of people.",
 					"reveal": ["flour"],
 					"show": {"flour": {"pos": [570, 235]}}
 				},
@@ -72,7 +72,7 @@
 		{
 			"id": "put_away",
 			"primitive": "match_to_outline",
-			"prompt": "When you're ready, return each figure to its place in the box.",
+			"prompt": "When you're ready, put each piece back in its place in the box.",
 			"pieces_from_previous": true,
 			"box": [220, 380, 560, 150],
 			"slots": [
@@ -82,15 +82,15 @@
 				{"kind": "figure:dough", "pos": [710.0, 455]}
 			],
 			"feedback": {
-				"mismatch": "That place is shaped for a different figure.",
-				"all_good": "Each figure is resting in its place."
+				"mismatch": "That spot is for a different piece.",
+				"all_good": "Every piece is back in its place."
 			}
 		}
 	],
 	"outro": [
 		{
 			"speaker": "narrator",
-			"text": "The material is back on the shelf. It will be here whenever you want to return to it.",
+			"text": "The story box is back on the shelf. You can come back to it whenever you like.",
 			"button": "Stand up"
 		}
 	],

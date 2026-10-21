@@ -75,7 +75,7 @@
 		},
 		"plant_go": {"mood": "joy", "text": "Wonderful. Come, kneel down here beside me."},
 		"later": {"mood": "gentle", "text": "That's all right. The seeds will wait. Come back whenever you're ready."},
-		"after_planting": {"text": "Look at that tidy row. Now the beans need sun, rain, and time.", "next": "after_planting_2"},
+		"after_planting": {"text": "Look at our neat row! Now the beans need sun, rain, and time.", "next": "after_planting_2"},
 		"after_planting_2": {"text": "If you'd like a quiet place, the chapel is just over the bridge, beside the village."},
 		"growing": {
 			"mood": "wonder",
@@ -105,14 +105,14 @@
 		},
 		"mustard_wonder": {
 			"mood": "wonder",
-			"text": "Every seed in this garden reminds me of the story of the mustard seed. Something so small that you can hardly see it, and look at what it becomes!",
+			"text": "Every seed in this garden makes me think of the mustard seed story. It starts so tiny, and look how big it grows!",
 			"actions": [
 				{"op": "set_fact", "fact": "npc.miriam.mustard_wonder", "value": true}
 			]
 		},
 		"loaves_wonder": {
 			"mood": "gentle",
-			"text": "Whenever I pack my basket, I think of the boy with five loaves and two fish. Such a small lunch, and he gave it all to Jesus. I wonder if he knew what would happen.",
+			"text": "When I pack my basket, I think of the boy with five loaves and two fish. It was a small lunch, and he gave it all to Jesus! I wonder what he thought.",
 			"actions": [
 				{"op": "set_fact", "fact": "npc.miriam.loaves_wonder", "value": true}
 			]

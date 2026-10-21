@@ -1,6 +1,6 @@
 {
 	"id": "fishers",
-	"title": "The Calling of the Fishermen",
+	"title": "Jesus Calls the Fishermen",
 	"mode": "reflection",
 	"location": "chapel",
 	"surface": "atrium_felt",
@@ -16,7 +16,7 @@
 	"intro": [
 		{
 			"speaker": "narrator",
-			"text": "This is a story about something that really happened, when Jesus was walking by the sea. Let's carry the material to the table, and listen.",
+			"text": "This is a true story about Jesus, by the sea. Let's carry the story box to the table, and listen.",
 			"button": "Listen"
 		}
 	],
@@ -58,12 +58,12 @@
 					"show": {"jesus": {"pos": [250, 215]}, "simon": {"pos": [310, 220]}, "andrew": {"pos": [365, 222]}}
 				},
 				{
-					"text": "A little farther on, Jesus saw two more brothers, James and John. They were in their boat with their father, Zebedee, mending their nets.",
+					"text": "Then Jesus saw two more brothers, James and John. They were in their boat with their father, Zebedee, fixing their nets.",
 					"reveal": ["boat", "james", "john"],
 					"show": {"boat": {"pos": [750, 150]}, "james": {"pos": [728, 128]}, "john": {"pos": [772, 128]}}
 				},
 				{
-					"text": "Jesus called them too. And they left their father in the boat with the workers, and they went with Jesus.",
+					"text": "Jesus called them too. They left their father in the boat with his helpers, and they went with Jesus.",
 					"show": {"james": {"pos": [420, 222]}, "john": {"pos": [475, 220]}}
 				},
 				{"text": "And from that day on, the four friends went with Jesus, wherever he went."}
@@ -71,7 +71,7 @@
 			"wonderings": [
 				"I wonder what it was like to hear Jesus say, \"Come, follow me.\"",
 				"I wonder why the brothers left their nets so quickly.",
-				"I wonder how Zebedee felt, watching his sons go.",
+				"I wonder what it was like to walk with Jesus every day.",
 				"I wonder what it means to be a fisher of people.",
 				"I wonder where Jesus might be calling you to follow him."
 			]
@@ -79,7 +79,7 @@
 		{
 			"id": "put_away",
 			"primitive": "match_to_outline",
-			"prompt": "When you're ready, return each figure to its place in the box.",
+			"prompt": "When you're ready, put each piece back in its place in the box.",
 			"pieces_from_previous": true,
 			"box": [220, 380, 560, 150],
 			"slots": [
@@ -92,15 +92,15 @@
 				{"kind": "figure:boat", "pos": [740.0, 455]}
 			],
 			"feedback": {
-				"mismatch": "That place is shaped for a different figure.",
-				"all_good": "Each figure is resting in its place."
+				"mismatch": "That spot is for a different piece.",
+				"all_good": "Every piece is back in its place."
 			}
 		}
 	],
 	"outro": [
 		{
 			"speaker": "narrator",
-			"text": "The material is back on the shelf. It will be here whenever you want to return to it.",
+			"text": "The story box is back on the shelf. You can come back to it whenever you like.",
 			"button": "Stand up"
 		}
 	],

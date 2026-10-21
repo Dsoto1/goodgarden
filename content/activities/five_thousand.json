@@ -1,6 +1,6 @@
 {
 	"id": "five_thousand",
-	"title": "The Feeding of the Five Thousand",
+	"title": "Bread and Fish for Everyone",
 	"mode": "reflection",
 	"location": "chapel",
 	"surface": "atrium_felt",
@@ -16,7 +16,7 @@
 	"intro": [
 		{
 			"speaker": "narrator",
-			"text": "This is a story about something that really happened, on a grassy hillside by the sea. Let's carry the material to the table, and listen.",
+			"text": "This is a true story about Jesus, on a grassy hill by the sea. Let's carry the story box to the table, and listen.",
 			"button": "Listen"
 		}
 	],
@@ -27,7 +27,7 @@
 			"reference": "John 6:1-14",
 			"box": [220, 380, 560, 150],
 			"places": [
-				{"label": "The hillside", "pos": [560, 190], "kind": "hillside"}
+				{"label": "The grassy hill", "pos": [560, 190], "kind": "hillside"}
 			],
 			"figures": [
 				{"id": "jesus", "label": "Jesus", "color": "cloth_cream", "accent": "cloth_red"},
@@ -46,15 +46,15 @@
 					"show": {"jesus": {"pos": [420, 170]}, "philip": {"pos": [350, 190]}, "andrew": {"pos": [490, 190]}}
 				},
 				{
-					"text": "A great crowd of people came to be with him. There were five thousand men, and women and children too.",
+					"text": "A great crowd of people came to be with him: men, women and children. There were more than five thousand people!",
 					"reveal": ["crowd"],
 					"show": {"crowd": {"pos": [720, 180]}}
 				},
 				{
-					"text": "Jesus asked Philip, \"Where can we buy bread, so that all these people can eat?\" Philip said, \"Even if we worked for months, we couldn't buy enough for each one to have even a little!\""
+					"text": "Jesus asked Philip, \"Where can we get bread for all these people?\" Philip said, \"We could never buy that much bread!\""
 				},
 				{
-					"text": "Then Andrew said, \"Here is a boy who has five barley loaves and two small fish. But what are they, among so many?\"",
+					"text": "Then Andrew said, \"Here is a boy with five little loaves of bread and two small fish. But that's not enough for so many people!\"",
 					"reveal": ["boy", "loaves", "fish"],
 					"show": {"boy": {"pos": [580, 205]}, "loaves": {"pos": [545, 258]}, "fish": {"pos": [625, 258]}}
 				},
@@ -62,7 +62,7 @@
 					"text": "Jesus said, \"Have the people sit down.\" There was plenty of green grass in that place, and everyone sat down."
 				},
 				{
-					"text": "Jesus took the loaves, and he gave thanks to God. Then he shared them out with everyone who was sitting there, and the fish too, as much as they wanted.",
+					"text": "Jesus took the bread and thanked God for it. Then he shared the bread and the fish with everyone, as much as they wanted.",
 					"show": {"loaves": {"pos": [385, 255]}, "fish": {"pos": [465, 255]}}
 				},
 				{
@@ -87,7 +87,7 @@
 		{
 			"id": "put_away",
 			"primitive": "match_to_outline",
-			"prompt": "When you're ready, return each figure to its place in the box.",
+			"prompt": "When you're ready, put each piece back in its place in the box.",
 			"pieces_from_previous": true,
 			"box": [220, 380, 560, 150],
 			"slots": [
@@ -101,15 +101,15 @@
 				{"kind": "figure:baskets", "pos": [745.0, 455]}
 			],
 			"feedback": {
-				"mismatch": "That place is shaped for a different figure.",
-				"all_good": "Each figure is resting in its place."
+				"mismatch": "That spot is for a different piece.",
+				"all_good": "Every piece is back in its place."
 			}
 		}
 	],
 	"outro": [
 		{
 			"speaker": "narrator",
-			"text": "The material is back on the shelf. It will be here whenever you want to return to it.",
+			"text": "The story box is back on the shelf. You can come back to it whenever you like.",
 			"button": "Stand up"
 		}
 	],

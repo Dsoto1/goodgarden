@@ -53,7 +53,7 @@
 		},
 		"bellhaven": {
 			"mood": "wonder",
-			"text": "See the road going north, past the hill? It goes all the way to Bellhaven. Someday you'll see the city up close."
+			"text": "See that road, going past the hill? It goes all the way to the big city, Bellhaven. It's too far to walk there today."
 		},
 		"again": {"mood": "gentle", "text": "Hello again! The bread is rising. Good things take a little time, don't they?"},
 		"hello_bread": {
@@ -85,14 +85,14 @@
 		},
 		"leaven_wonder": {
 			"mood": "thinking",
-			"text": "Do you know the story Jesus told about leaven? I think of it every morning when I mix the dough. Such a little bit, and the whole bowl rises. I still wonder how.",
+			"text": "Every morning I mix a little leaven into my dough. Then the whole bowl puffs up big! It makes me think of the story Jesus told.",
 			"actions": [
 				{"op": "set_fact", "fact": "npc.tobias.leaven_wonder", "value": true}
 			]
 		},
 		"fishers_wonder": {
 			"mood": "wonder",
-			"text": "My grandfather mended nets down by the river every evening. Sometimes I think about the brothers who put their nets down and went with Jesus, just like that. I wonder if they looked back at the boat.",
+			"text": "My grandpa fixed fishing nets by the river every evening. I think about the brothers who put down their nets and went with Jesus. I wonder what that was like.",
 			"actions": [
 				{"op": "set_fact", "fact": "npc.tobias.fishers_wonder", "value": true}
 			]

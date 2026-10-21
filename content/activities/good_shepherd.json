@@ -16,7 +16,7 @@
 	"intro": [
 		{
 			"speaker": "narrator",
-			"text": "Jesus once said something very important about himself, using a picture of a shepherd and his sheep. Let's carry the material to the table, and listen.",
+			"text": "Jesus told us something important about himself. He said he is like a shepherd. Let's carry the story box to the table, and listen.",
 			"button": "Listen"
 		}
 	],
@@ -28,7 +28,7 @@
 			"box": [220, 380, 560, 150],
 			"places": [
 				{"label": "The sheepfold", "pos": [300, 200], "kind": "fold"},
-				{"label": "Green pasture", "pos": [700, 205], "kind": "pasture"}
+				{"label": "Green fields", "pos": [700, 205], "kind": "pasture"}
 			],
 			"figures": [
 				{"id": "shepherd", "label": "Good Shepherd", "color": "cloth_cream", "accent": "cloth_gold"},
@@ -40,7 +40,7 @@
 			],
 			"segments": [
 				{
-					"text": "Jesus told about a shepherd and his sheep. At night, the sheep rest safely inside the sheepfold.",
+					"text": "Jesus told about a shepherd and his sheep. At night, the sheep rest safely in the sheepfold, a safe place with a wall all around.",
 					"reveal": ["sheep_1", "sheep_2", "sheep_3", "sheep_4", "sheep_5"],
 					"show": {"sheep_1": {"pos": [256, 182]}, "sheep_2": {"pos": [300, 174]}, "sheep_3": {"pos": [344, 182]}, "sheep_4": {"pos": [276, 208]}, "sheep_5": {"pos": [324, 208]}}
 				},
@@ -59,23 +59,23 @@
 					"show": {"shepherd": {"pos": [560, 205]}, "sheep_1": {"pos": [500, 222]}, "sheep_2": {"pos": [462, 214]}, "sheep_3": {"pos": [424, 224]}, "sheep_4": {"pos": [386, 216]}, "sheep_5": {"pos": [348, 226]}}
 				},
 				{
-					"text": "He brings them to green pasture and fresh water, where they have everything they need.",
+					"text": "He brings them to green fields and fresh water, where they have everything they need.",
 					"show": {"shepherd": {"pos": [632, 168]}, "sheep_1": {"pos": [700, 190]}, "sheep_2": {"pos": [752, 184]}, "sheep_3": {"pos": [722, 220]}, "sheep_4": {"pos": [778, 218]}, "sheep_5": {"pos": [672, 232]}}
 				},
-				{"text": "Jesus said, \"I know my own, and my own know me.\" The Good Shepherd loves his sheep so much that he gives his life for them."}
+				{"text": "Jesus said, \"I know my own, and my own know me.\" The Good Shepherd loves his sheep so much that he would even give his life to keep them safe."}
 			],
 			"wonderings": [
 				"I wonder who the Good Shepherd is.",
 				"I wonder who the sheep might be.",
 				"I wonder how it feels to hear someone call your name.",
 				"I wonder how the sheep know the shepherd's voice.",
-				"I wonder what the green pasture is like."
+				"I wonder what the green fields are like."
 			]
 		},
 		{
 			"id": "put_away",
 			"primitive": "match_to_outline",
-			"prompt": "When you're ready, return each figure to its place in the box.",
+			"prompt": "When you're ready, put each piece back in its place in the box.",
 			"pieces_from_previous": true,
 			"box": [220, 380, 560, 150],
 			"slots": [
@@ -87,15 +87,15 @@
 				{"kind": "figure:sheep", "pos": [733.3, 455]}
 			],
 			"feedback": {
-				"mismatch": "That place is shaped for a different figure.",
-				"all_good": "Each figure is resting in its place."
+				"mismatch": "That spot is for a different piece.",
+				"all_good": "Every piece is back in its place."
 			}
 		}
 	],
 	"outro": [
 		{
 			"speaker": "narrator",
-			"text": "The material is back on the shelf. It will be here whenever you want to return to it.",
+			"text": "The story box is back on the shelf. You can come back to it whenever you like.",
 			"button": "Stand up"
 		}
 	],

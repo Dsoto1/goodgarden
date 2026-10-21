@@ -16,7 +16,7 @@
 	"intro": [
 		{
 			"speaker": "narrator",
-			"text": "This is a story Jesus told. Let's carry the material to the table, and listen.",
+			"text": "This is a story Jesus told. Let's carry the story box to the table, and listen.",
 			"button": "Listen"
 		}
 	],
@@ -42,7 +42,7 @@
 			],
 			"segments": [
 				{
-					"text": "One day, a man who knew God's law very well asked Jesus, \"Who is my neighbor?\" Jesus answered by telling a story."
+					"text": "One day, a man asked Jesus, \"Who is my neighbor?\" Jesus answered by telling a story."
 				},
 				{
 					"text": "A man was walking along the road, down from Jerusalem toward Jericho.",
@@ -50,26 +50,26 @@
 					"show": {"traveler": {"pos": [190, 135]}}
 				},
 				{
-					"text": "On the way, robbers came. They took his things, hurt him, and left him lying beside the road.",
+					"text": "On the way, some robbers took his things and hurt him. They left him by the side of the road.",
 					"show": {"traveler": {"pos": [420, 220], "lying": true}}
 				},
 				{
-					"text": "A priest came walking down that same road. When he saw the hurt man, he passed by on the other side.",
+					"text": "A priest, who served at God's house, came down the same road. He saw the hurt man, but he walked past on the other side.",
 					"reveal": ["priest"],
 					"show": {"priest": {"pos": [480, 95]}}
 				},
 				{
-					"text": "Then a Levite, a helper at the temple, came by. He looked at the man, and he passed by on the other side, too.",
+					"text": "Then a Levite, another helper at God's house, came by. He looked at the man, and he walked past on the other side, too.",
 					"reveal": ["levite"],
 					"show": {"levite": {"pos": [290, 85]}}
 				},
 				{
-					"text": "Then a Samaritan came traveling with his donkey. Samaritans and the hurt man's people did not usually get along. But when the Samaritan saw him, his heart was filled with compassion.",
+					"text": "Then a man from Samaria came by with his donkey. His people and the hurt man's people were not friends. But when he saw the hurt man, he felt very sorry for him.",
 					"reveal": ["samaritan", "donkey"],
 					"show": {"samaritan": {"pos": [500, 200]}, "donkey": {"pos": [575, 225]}}
 				},
 				{
-					"text": "He knelt down, cleaned and bandaged the man's wounds, lifted him onto his own donkey, and brought him to an inn, where he took care of him.",
+					"text": "He knelt down and put bandages on the man's hurts. He lifted him onto his donkey and took him to an inn, a house where travelers sleep. There he looked after him.",
 					"reveal": ["innkeeper"],
 					"show": {
 						"traveler": {"pos": [765, 220], "lying": true},
@@ -79,14 +79,14 @@
 					}
 				},
 				{
-					"text": "The next day, the Samaritan gave the innkeeper two coins and said, \"Please take care of him. If it costs more, I will pay you when I come back.\""
+					"text": "The next day, he gave the innkeeper two coins and said, \"Please look after him. If you need more, I will pay you when I come back.\""
 				},
 				{
-					"text": "Then Jesus asked, \"Which of these three was a neighbor to the man who was hurt?\" The man answered, \"The one who showed him mercy.\" And Jesus said, \"Go and do the same.\""
+					"text": "Then Jesus asked, \"Which one was a neighbor to the hurt man?\" The man said, \"The one who was kind to him.\" And Jesus said, \"Go and do the same.\""
 				}
 			],
 			"wonderings": [
-				"I wonder how the man felt, lying beside the road.",
+				"I wonder how the man felt when the Samaritan stopped to help him.",
 				"I wonder what the Samaritan was thinking when he stopped.",
 				"I wonder who is a neighbor.",
 				"I wonder who might need a neighbor near you."
@@ -95,7 +95,7 @@
 		{
 			"id": "put_away",
 			"primitive": "match_to_outline",
-			"prompt": "When you're ready, return each figure to its place in the box.",
+			"prompt": "When you're ready, put each piece back in its place in the box.",
 			"pieces_from_previous": true,
 			"box": [220, 380, 560, 150],
 			"slots": [
@@ -107,15 +107,15 @@
 				{"kind": "figure:innkeeper", "pos": [733.3, 455]}
 			],
 			"feedback": {
-				"mismatch": "That place is shaped for a different figure.",
-				"all_good": "Each figure is resting in its place."
+				"mismatch": "That spot is for a different piece.",
+				"all_good": "Every piece is back in its place."
 			}
 		}
 	],
 	"outro": [
 		{
 			"speaker": "narrator",
-			"text": "The material is back on the shelf. It will be here whenever you want to return to it.",
+			"text": "The story box is back on the shelf. You can come back to it whenever you like.",
 			"button": "Stand up"
 		}
 	],

@@ -31,10 +31,10 @@
 		{"when": [], "start": "hello"}
 	],
 	"nodes": {
-		"hello": {"mood": "gentle", "text": "Hello, little one. I'm drawing water from the well.", "next": "bridge"},
+		"hello": {"mood": "gentle", "text": "Hello, little one. I'm getting water from the well.", "next": "bridge"},
 		"bridge": {
 			"mood": "concern",
-			"text": "The river is high this week. I'm glad we have a strong bridge to keep us all together."
+			"text": "Listen to the river splashing along! I'm glad we have a strong bridge, so we can all visit each other."
 		},
 		"beans": {
 			"mood": "joy",
@@ -46,14 +46,14 @@
 		},
 		"sheep_wonder": {
 			"mood": "gentle",
-			"text": "When I was a girl, my grandmother kept sheep. She knew every one of them by name. If even one wandered off, she would go out looking until she found it, and she always sang on the way home.",
+			"text": "When I was little, my grandma had sheep. She knew all their names. If one got lost, she looked until she found it. Then she sang all the way home.",
 			"actions": [
 				{"op": "set_fact", "fact": "npc.ruth.sheep_wonder", "value": true}
 			]
 		},
 		"shepherd_wonder": {
 			"mood": "gentle",
-			"text": "When I was small and couldn't sleep, my mother would sit by me and say, \"The Lord is my shepherd.\" I still say it at night. It's good to be known by name.",
+			"text": "When I was little and couldn't sleep, my mother would sit by me and say, \"The Lord is my shepherd.\" I still say it at night.",
 			"actions": [
 				{"op": "set_fact", "fact": "npc.ruth.shepherd_wonder", "value": true}
 			]
