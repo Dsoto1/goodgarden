@@ -6,8 +6,8 @@
 		{"when": [], "start": "hello"}
 	],
 	"nodes": {
-		"hello": {"text": "Hello, little one. I'm drawing water from the well.", "next": "bridge"},
-		"bridge": {"text": "The river is high this week. I'm glad we have a strong bridge to keep us all together."},
-		"beans": {"text": "Miriam tells me you planted beans with her. When they come in, maybe we'll all share a supper."}
+		"hello": {"mood": "gentle", "text": "Hello, little one. I'm drawing water from the well.", "next": "bridge"},
+		"bridge": {"mood": "concern", "text": "The river is high this week. I'm glad we have a strong bridge to keep us all together."},
+		"beans": {"mood": "joy", "text": "Miriam tells me you planted beans with her. When they come in, maybe we'll all share a supper."}
 	}
 }

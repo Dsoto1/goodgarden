@@ -12,6 +12,17 @@ extends Node3D
 ##   skirt, apron, vest, belt, collar, shoes, hat (straw|cap|scarf|hood),
 ##   hat_color, hat_band, backpack, carry (basket), height (1.0 = adult),
 ##   head_scale, build (width), age (child|adult|elder)
+##
+## Expressions are named moods (see MOODS); dialogue lines may set one.
+
+const MOODS := {
+	"smile": {"curve": 1.0, "open": 0.0, "lift": 0.0, "tilt": 0.0, "squint": 0.0, "narrow": 0.0},
+	"joy": {"curve": 1.6, "open": 0.35, "lift": 0.01, "tilt": 0.0, "squint": 0.45, "narrow": 0.0},
+	"gentle": {"curve": 0.6, "open": 0.0, "lift": 0.004, "tilt": 0.12, "squint": 0.2, "narrow": 0.1},
+	"concern": {"curve": -0.6, "open": 0.0, "lift": 0.006, "tilt": 0.35, "squint": 0.0, "narrow": 0.15},
+	"wonder": {"curve": 0.2, "open": 0.7, "lift": 0.018, "tilt": 0.0, "squint": 0.0, "narrow": 0.45},
+	"thinking": {"curve": 0.2, "open": 0.0, "lift": 0.004, "tilt": -0.2, "squint": 0.15, "narrow": 0.3},
+}
 
 const B := BodyMesh.Bone
 
@@ -19,6 +30,13 @@ var _skeleton: Skeleton3D
 var _head: Node3D
 var _eyes: Node3D
 var _mouth: Node3D
+var _mouth_dots: Array[Node3D] = []
+var _mouth_inside: Node3D
+var _brows: Array[Node3D] = []
+## Current and target expression: mouth curve and openness, brow lift and
+## tilt (inner ends up = concern), and a happy squint.
+var _expr := {"curve": 1.0, "open": 0.0, "lift": 0.0, "tilt": 0.0, "squint": 0.0, "narrow": 0.0}
+var _expr_target := _expr.duplicate()
 var _phase := 0.0
 var _time := 0.0
 var _blink := 2.0
@@ -51,8 +69,6 @@ func build(look: Dictionary) -> CharacterModel:
 	mesh.skin = _skeleton.create_skin_from_rest_transforms()
 
 	var hips := _attach("hips")
-	if look.has("skirt"):
-		MeshKit.cylinder(hips, 0.19 * w, 0.34 * w, 0.5 if not child else 0.36, Vector3(0, -0.14 if not child else -0.08, 0), look["skirt"], 14)
 	if look.has("apron"):
 		# A soft, slightly curved apron rather than a flat board.
 		var apron := MeshKit.capsule(hips, 0.15 * w, 0.62, Vector3(0, -0.02, -0.12 * w), look["apron"])
@@ -105,8 +121,13 @@ func _face(look: Dictionary, skin: String, child: bool) -> void:
 		MeshKit.sphere(eye, eye_size * 0.66, Vector3(0, -0.003, -0.012), iris, Vector3(1.0, 1.1, 0.4), 8, 5)
 		MeshKit.sphere(eye, eye_size * 0.32, Vector3(0, -0.003, -0.018), "dark", Vector3(1.0, 1.0, 0.4), 6, 4)
 		MeshKit.sphere(eye, eye_size * 0.2, Vector3(side * -0.008, 0.01, -0.022), "white", Vector3.ONE, 5, 3)
-		var brow := MeshKit.capsule(_head, 0.008, 0.07, Vector3(side * 0.064, 0.205, -0.15), look.get("brows", look.get("hair", "hair_brown")), Vector3(0, 0, PI / 2.0 + side * 0.15))
-		brow.name = "Brow"
+		var brow_pivot := Node3D.new()
+		brow_pivot.name = "Brow"
+		brow_pivot.position = Vector3(side * 0.064, 0.205, -0.15)
+		brow_pivot.set_meta("side", side)
+		_head.add_child(brow_pivot)
+		MeshKit.capsule(brow_pivot, 0.008, 0.07, Vector3.ZERO, look.get("brows", look.get("hair", "hair_brown")), Vector3(0, 0, PI / 2.0))
+		_brows.append(brow_pivot)
 		MeshKit.sphere(_head, 0.03, Vector3(side * 0.1, 0.07, -0.13), "cheek", Vector3(1.0, 0.65, 0.4), 6, 4)
 	MeshKit.sphere(_head, 0.026, Vector3(0, 0.09, -0.17), skin, Vector3(1.0, 0.9, 1.0), 6, 4)
 	# A gentle smile: a few dots on an arc. Scaled open while talking.
@@ -114,8 +135,15 @@ func _face(look: Dictionary, skin: String, child: bool) -> void:
 	_mouth.position = Vector3(0, 0.035, -0.152)
 	_head.add_child(_mouth)
 	for i in 5:
-		var t := (i - 2) / 2.0
-		MeshKit.sphere(_mouth, 0.011, Vector3(t * 0.03, absf(t) * 0.008, 0), "lips", Vector3.ONE, 5, 3)
+		var dot := Node3D.new()
+		dot.set_meta("t", (i - 2) / 2.0)
+		_mouth.add_child(dot)
+		MeshKit.sphere(dot, 0.011, Vector3.ZERO, "lips", Vector3.ONE, 5, 3)
+		_mouth_dots.append(dot)
+	# Dark inside of the mouth, shown only while it is open.
+	_mouth_inside = MeshKit.sphere(_mouth, 0.016, Vector3(0, 0.002, -0.004), "dark", Vector3(1.5, 0.55, 0.4), 8, 4)
+	_mouth_inside.visible = false
+	_apply_expression()
 
 
 func _hair(look: Dictionary) -> void:
@@ -202,6 +230,11 @@ func set_talking(amount: float) -> void:
 	_talk = amount
 
 
+## Sets the facial expression by mood name (see MOODS); eases into it.
+func set_expression(mood: String) -> void:
+	_expr_target = MOODS.get(mood, MOODS["smile"]).duplicate()
+
+
 ## Raises the near arm in a small greeting or explaining gesture (0..1).
 func gesture(amount: float) -> void:
 	_gesture = clampf(amount, 0.0, 1.0)
@@ -260,9 +293,27 @@ func animate(delta: float, speed: float, reduced_motion := false) -> void:
 	var closed := _blink < 0.0 and _blink > -0.12
 	if _blink < -0.12:
 		_blink = randf_range(2.0, 5.0)
-	_eyes.scale.y = 0.1 if closed else 1.0
+	for k: String in _expr:
+		_expr[k] = lerpf(float(_expr[k]), float(_expr_target[k]), minf(delta * 5.0, 1.0))
+	_eyes.scale.y = 0.1 if closed else 1.0 - _expr["squint"] * 0.55
 	var open := 0.0 if _talk <= 0.0 else (0.5 + 0.5 * sin(_time * 14.0)) * _talk
+	open = maxf(open, _expr["open"] * 0.6)
 	_mouth.scale = Vector3(1.0 - open * 0.25, 1.0 + open * 2.2, 1.0)
+	_mouth_inside.visible = open > 0.08
+	_apply_expression()
+
+
+## Places the mouth dots on a curve and tilts the brows for the current expression.
+func _apply_expression() -> void:
+	for dot in _mouth_dots:
+		var t: float = dot.get_meta("t")
+		var width := 0.03 * (1.0 - float(_expr["narrow"]) * 0.5)
+		dot.position = Vector3(t * width, t * t * 0.008 * _expr["curve"], 0)
+	for brow in _brows:
+		var side: float = brow.get_meta("side")
+		brow.position.y = 0.205 + _expr["lift"]
+		# Base tilt slopes the outer ends down; positive tilt raises the inner ends.
+		brow.rotation.z = side * (0.15 - _expr["tilt"])
 
 
 func _pose(bone: int, euler: Vector3) -> void:

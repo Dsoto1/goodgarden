@@ -26,7 +26,12 @@ static func create(id: String, look: Dictionary, dialogue: String) -> NPC:
 
 
 func _ready() -> void:
-	Dialogue.conversation_ended.connect(func(_id: String) -> void: _face_target = null)
+	Dialogue.conversation_ended.connect(func(_id: String) -> void:
+		_face_target = null
+		model.set_expression("smile"))
+	Dialogue.line_shown.connect(func(line: Dictionary) -> void:
+		if Dialogue.active_id == dialogue_id and line.get("speaker", "") == npc_id:
+			model.set_expression(str(line.get("mood", "smile"))))
 
 
 func _on_talk() -> void:

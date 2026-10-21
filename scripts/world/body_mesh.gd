@@ -6,6 +6,8 @@ extends RefCounted
 ## so knees and elbows bend smoothly instead of hinging like separate parts.
 ## Clothing is painted as colour regions on the same surface (trousers,
 ## shirt, cuffs, belt, vest, shoes), so there are no seams between pieces.
+## A skirt is a flared tube on the same skeleton whose hem is partly weighted
+## to the thighs, so it sways with each step instead of staying rigid.
 
 const SIDES := 14
 
@@ -99,6 +101,9 @@ static func build(look: Dictionary, w: float) -> ArrayMesh:
 		rings.append({"c": Vector3(0, y, cz), "rx": rx, "rz": rz, "bones": bones, "color": c, "vest": vest != null and y >= 0.92 and y < 1.3})
 		y += 0.025
 	_tube(st, rings, true, true, vest)
+	if look.has("skirt"):
+		var apron: Variant = Palette.color(look["apron"]) if look.has("apron") else null
+		_skirt(st, Palette.color(look["skirt"]), apron, w, float(look.get("height", 1.0)) < 0.92)
 
 	# Legs: hip -> knee -> ankle, then a foot.
 	for side: int in [-1, 1]:
@@ -161,11 +166,69 @@ static func build(look: Dictionary, w: float) -> ArrayMesh:
 				r *= 1.0 - (t - 0.85) / 0.15 * 0.8
 			hand_rings.append({"c": p, "rx": r * 0.62, "rz": r * 1.05, "bones": _blend([[arm + 1, -1.0], [arm + 2, 0.02]], t * 0.14, 0.02), "color": skin})
 		_tube(st, hand_rings, true, true)
+		# Thumb: a short tube on the front edge of the hand, angled forward.
+		var thumb_rings: Array = []
+		for i in 6:
+			var t := i / 5.0
+			var p := wrist + Vector3(-side * 0.004 * t, -0.035 - 0.06 * t, -0.03 - 0.03 * t)
+			var r := lerpf(0.017, 0.012, t)
+			thumb_rings.append({"c": p, "rx": r, "rz": r, "bones": [[arm + 2, 1.0]], "color": skin})
+		_tube(st, thumb_rings, true, true)
 
 	# Weld shared vertices first so normals are smooth across the whole body.
 	st.index()
 	st.generate_normals()
 	return st.commit()
+
+
+## Flared skirt from the waist to the hem. Weights move from the hips toward
+## the thigh on the same side as the hem gets lower (front and back follow
+## both thighs a little), so the cloth swings with the stride.
+## An apron, if worn, is painted as a panel down the front of the skirt.
+static func _skirt(st: SurfaceTool, color: Color, apron: Variant, w: float, child: bool) -> void:
+	var top := 0.9
+	var hem := 0.5 if child else 0.4
+	var rows: Array = []
+	var steps := 12
+	for k in steps + 1:
+		var t := float(k) / steps
+		var y := lerpf(top, hem, t)
+		var r := lerpf(0.188, 0.33, pow(t, 0.8)) * w
+		var row: Array = []
+		for i in SIDES:
+			var a := TAU * i / SIDES
+			var x := cos(a)
+			var follow := smoothstep(0.1, 1.0, t) * 0.55
+			var wl := follow * (0.5 - 0.5 * x)
+			var wr := follow * (0.5 + 0.5 * x)
+			# Soft folds: the radius ripples a little toward the hem.
+			var rr := r * (1.0 + 0.04 * t * sin(a * 6.0))
+			var c := color
+			if apron != null and sin(a) < -0.35 and t < 0.92:
+				c = apron
+			if k == steps:
+				c = c.darkened(0.12)
+			row.append({"p": Vector3(x * rr, y, sin(a) * rr * 0.92), "color": c,
+				"bones": [[Bone.HIPS, 1.0 - wl - wr], [Bone.L_THIGH, wl], [Bone.R_THIGH, wr]]})
+		rows.append(row)
+	# Turn the hem under so the inside is not visible from a low camera.
+	var inner: Array = []
+	for v: Dictionary in rows.back():
+		var p: Vector3 = v["p"]
+		inner.append({"p": Vector3(p.x * 0.6, p.y + 0.02, p.z * 0.6), "color": color.darkened(0.3), "bones": v["bones"]})
+	rows.append(inner)
+	for r in rows.size() - 1:
+		for i in SIDES:
+			var a: Dictionary = rows[r][i]
+			var b: Dictionary = rows[r][(i + 1) % SIDES]
+			var c: Dictionary = rows[r + 1][i]
+			var d: Dictionary = rows[r + 1][(i + 1) % SIDES]
+			var outward: Vector3 = (a["p"] + d["p"]) * 0.5
+			outward.y = 0.0
+			if r == rows.size() - 2:
+				outward = Vector3.DOWN
+			_tri(st, a, c, b, outward)
+			_tri(st, b, c, d, outward)
 
 
 ## Piecewise-smooth radius along a limb: points are [t, radius].

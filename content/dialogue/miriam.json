@@ -10,7 +10,7 @@
 		{"when": [], "start": "greet"}
 	],
 	"nodes": {
-		"no_letter": {"text": "Oh! Good morning! I left a letter for you at your house, but here you are anyway.", "next": "plant_offer"},
+		"no_letter": {"mood": "joy", "text": "Oh! Good morning! I left a letter for you at your house, but here you are anyway.", "next": "plant_offer"},
 		"greet": {"text": "Good morning, my friend! You found my letter.", "next": "plant_offer"},
 		"plant_offer": {
 			"text": "The soil is warm, and these bean seeds are waiting for a home. Will you plant the row with me?",
@@ -19,13 +19,13 @@
 				{"text": "Not yet.", "next": "later"}
 			]
 		},
-		"plant_go": {"text": "Wonderful. Come, kneel down here beside me."},
-		"later": {"text": "That's all right. The seeds will wait. Come back whenever you're ready."},
+		"plant_go": {"mood": "joy", "text": "Wonderful. Come, kneel down here beside me."},
+		"later": {"mood": "gentle", "text": "That's all right. The seeds will wait. Come back whenever you're ready."},
 		"after_planting": {"text": "Look at that tidy row. Now the beans need sun, rain, and time.", "next": "after_planting_2"},
 		"after_planting_2": {"text": "If you'd like a quiet place, the chapel is just over the bridge, beside the village."},
-		"growing": {"text": "Come and look! Do you see the little green loops pushing up? Bean sprouts come up bent over, as if they're bowing.", "next": "growing_2"},
-		"growing_2": {"text": "Each day they'll stretch a little taller. I wonder how tall they'll be by summer."},
-		"table": {
+		"growing": {"mood": "wonder", "text": "Come and look! Do you see the little green loops pushing up? Bean sprouts come up bent over, as if they're bowing.", "next": "growing_2"},
+		"growing_2": {"mood": "thinking", "text": "Each day they'll stretch a little taller. I wonder how tall they'll be by summer."},
+		"table": {"mood": "joy", 
 			"text": "I passed your house and saw the table all set for supper. What a lovely welcome!",
 			"actions": [{"op": "set_fact", "fact": "npc.miriam.noticed_table", "value": true}],
 			"next": ""

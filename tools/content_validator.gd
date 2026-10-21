@@ -138,6 +138,8 @@ func _check_dialogue(d: Dictionary) -> void:
 	for node_id: String in nodes:
 		var n: Dictionary = nodes[node_id]
 		_require_text(n, "text", "%s/%s" % [where, node_id])
+		if n.has("mood") and not CharacterModel.MOODS.has(str(n["mood"])):
+			errors.append("%s/%s: unknown mood '%s'" % [where, node_id, n["mood"]])
 		var nexts := [str(n.get("next", ""))]
 		var actions: Array = n.get("actions", []).duplicate()
 		for c: Dictionary in n.get("choices", []):

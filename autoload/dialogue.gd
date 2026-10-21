@@ -111,6 +111,7 @@ func _line_for(node: Dictionary) -> Dictionary:
 		"speaker": speaker,
 		"name": character_name(speaker),
 		"text": tr(str(node.get("text", ""))),
+		"mood": str(node.get("mood", "smile")),
 		"choices": choices,
 	}
 

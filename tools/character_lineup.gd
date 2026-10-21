@@ -58,6 +58,24 @@ func _ready() -> void:
 	cam.position = Vector3(-3.0, 1.0, 4.0)
 	cam.look_at(Vector3(-3.0, 0.8, 0))
 	await shot("lineup_walk")
+	# Expressions: each model in turn shows one mood, front on.
+	var moods := CharacterModel.MOODS.keys()
+	for i in models.size():
+		models[i].rotation.y = PI
+		models[i].set_expression(moods[i % moods.size()])
+		for f in 4:
+			models[i].animate(0.3, 0.0)
+	await _frames(3)
+	cam.fov = 30
+	cam.position = Vector3(-2.4, 1.55, 3.2)
+	cam.look_at(Vector3(-2.4, 1.5, 0))
+	await shot("lineup_moods")
+	cam.position = Vector3(0.0, 1.45, 3.2)
+	cam.look_at(Vector3(0.0, 1.4, 0))
+	await shot("lineup_moods_2")
+	cam.position = Vector3(-1.75, 0.8, 0.8)
+	cam.look_at(Vector3(-2.16, 0.7, 0))
+	await shot("lineup_hands")
 	get_tree().quit()
 
 
