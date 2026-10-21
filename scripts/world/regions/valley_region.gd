@@ -50,21 +50,21 @@ func build() -> void:
 	path([Vector3(0.0, 0, 3.9), Vector3(0.6, 0, 5.0), Vector3(2.8, 0, 5.5), Vector3(4.9, 0, 5.0), Vector3(5.7, 0, 4.0)], 1.5)
 	path([Vector3(5.6, 0, 5.4), Vector3(5.8, 0, 2.6), Vector3(5.3, 0, -1.8), Vector3(5.9, 0, -6.2), Vector3(5.5, 0, -9.6), Vector3(5.5, 0, -10.9)], 1.7)
 	path([Vector3(5.5, 0, -18.1), Vector3(5.8, 0, -19.6)], 2.0)
-	path([Vector3(0.6, 0, -21.4), Vector3(-2.5, 0, -20.2), Vector3(-6.5, 0, -19.6), Vector3(-10.5, 0, -19.8), Vector3(-13.4, 0, -20.5), Vector3(-15.6, 0, -21.2)], 1.6)
+	path([Vector3(0.6, 0, -21.4), Vector3(-2.5, 0, -20.2), Vector3(-6.5, 0, -19.6), Vector3(-10.5, 0, -19.8), Vector3(-14.5, 0, -20.3), Vector3(-18.5, 0, -21.4), Vector3(-21.6, 0, -22.2)], 1.6)
 
 	# Meadow with sheep east of the village, in a fold whose gate faces the village.
-	_sheepfold(Rect2(23.0, -26.2, 7.0, 7.4))
-	CraftedProps.water_trough(self, Vector3(28.4, 0, -20.0))
+	_sheepfold(Rect2(24.0, -26.2, 7.0, 7.4))
+	CraftedProps.water_trough(self, Vector3(29.4, 0, -20.0))
 	for i in 2:
 		var lamb := Wanderer.new().setup(AnimalModel.make("lamb"), 90 + i)
-		lamb.position = Vector3(25.8 + i * 1.2, 0, -22.6 - i * 0.8)
+		lamb.position = Vector3(26.8 + i * 1.2, 0, -22.6 - i * 0.8)
 		lamb.radius = 1.8
 		lamb.speed = 0.4
 		lamb.pause_range = Vector2(2, 6)
 		add_child(lamb)
-	CraftedProps.hay_bale(self, Vector3(31.6, 0, -21.4), 0.3)
-	CraftedProps.hay_bale(self, Vector3(31.9, 0, -19.6), -0.2)
-	CraftedProps.haystack(self, Vector3(32.4, 0, -25.6))
+	CraftedProps.hay_bale(self, Vector3(32.6, 0, -21.4), 0.3)
+	CraftedProps.hay_bale(self, Vector3(32.9, 0, -19.6), -0.2)
+	CraftedProps.haystack(self, Vector3(33.4, 0, -25.6))
 	# Life along the road and river.
 	CraftedProps.hand_cart(self, Vector3(7.6, 0, -6.4), 0.25)
 	CraftedProps.jetty(self, Vector3(15.2, 0, -10.2), 0.0, 3.0)
@@ -75,7 +75,7 @@ func build() -> void:
 	CraftedProps.signpost(self, Vector3(3.2, 0, -18.6), [["Village", -0.3], ["Chapel", PI / 2.0], ["Home", PI]])
 	for i in 3:
 		var sheep := Wanderer.new().setup(AnimalModel.make("sheep"), 80 + i)
-		sheep.position = Vector3(25 + i * 1.3, 0, -23.5 + i)
+		sheep.position = Vector3(26 + i * 1.3, 0, -23.5 + i)
 		sheep.radius = 2.2
 		sheep.speed = 0.3
 		sheep.pause_range = Vector2(4, 10)
@@ -116,19 +116,19 @@ func _trees() -> void:
 	var spots := [
 		[-12, 4, 1.0, "tree_a"], [-15, -4, 1.0, "grove_b_small"], [-20, 8, 1.1, "tree_b"], [-18, -9, 1.0, "grove_a_small"],
 		[12, 11, 1.0, "tree_a"], [20, 11, 1.0, "grove_b_small"], [25, -1, 1.1, "tree_b"], [26, -8, 1.0, "grove_a_medium"],
-		[-4, -8, 0.9, "tree_a"], [-28, -20, 1.0, "grove_b_medium"], [19, -17.5, 1.0, "tree_b"], [24, -33, 1.0, "grove_a_small"],
-		[-24, -31, 1.0, "grove_b_medium"], [-23, -40, 1.0, "tree_a"], [-16, -37, 1.1, "tree_b"], [-9, -41, 1.0, "grove_a_small"],
-		[22, -40, 1.0, "tree_a"], [-25, -2, 1.0, "grove_a_medium"], [29, -15, 1.0, "tree_b"],
+		[-4, -8, 0.9, "tree_a"], [-33, -19, 1.0, "grove_b_medium"], [19, -17.5, 1.0, "tree_b"], [24, -33, 1.0, "grove_a_small"],
+		[-33, -31, 1.0, "grove_b_medium"], [-23, -40, 1.0, "tree_a"], [-16, -37, 1.1, "tree_b"], [-12, -45, 1.0, "grove_a_small"],
+		[26, -43, 1.0, "tree_a"], [-25, -2, 1.0, "grove_a_medium"], [29, -15, 1.0, "tree_b"],
 	]
 	var rng := RandomNumberGenerator.new()
 	rng.seed = 12
 	for s: Array in spots:
 		Props.place(self, s[3], Vector3(s[0], 0, s[1]), rng.randf() * TAU, s[2])
 	# A few old twisted trees as landmarks the child can steer by.
-	Props.place(self, "twisted_tree", Vector3(-27.5, 0, -25.5), 0.6)
+	Props.place(self, "twisted_tree", Vector3(-33, 0, -25), 0.6)
 	Props.place(self, "twisted_tree_b", Vector3(-10, 0, 8), 2.4)
 	Props.place(self, "twisted_tree", Vector3(25, 0, -42), 4.0, 0.9)
-	for m: Array in [[-25.5, -22], [-24.8, -23.4], [-9, 9.5], [-11, 6.8]]:
+	for m: Array in [[-31, -22], [-30.4, -23.4], [-9, 9.5], [-11, 6.8]]:
 		Props.place(self, "mushroom", Vector3(m[0], 0, m[1]), rng.randf() * TAU)
 	# Working buildings and fields that make the valley feel lived in.
 	Props.place(self, "windmill", Vector3(28, 0, -29), -0.4)
@@ -178,7 +178,7 @@ func _boundary() -> void:
 
 ## Roughly the road network, so undergrowth never sits on a path.
 static func _on_path(p: Vector3) -> bool:
-	var roads := [Rect2(-1, 3.4, 7.5, 2.4), Rect2(4.0, -21, 2.9, 27), Rect2(-16, -21.8, 19, 2.8), Rect2(5, -46, 2, 26)]
+	var roads := [Rect2(-1, 3.4, 7.5, 2.4), Rect2(4.0, -21, 2.9, 27), Rect2(-22, -23.0, 25, 4.0), Rect2(5, -46, 2, 26)]
 	for r: Rect2 in roads:
 		if r.grow(0.8).has_point(Vector2(p.x, p.z)):
 			return true
@@ -186,7 +186,7 @@ static func _on_path(p: Vector3) -> bool:
 
 
 static func _near_built(p: Vector3) -> bool:
-	var areas := [Rect2(-6, -4, 12, 14), Rect2(7, -3, 14, 12), Rect2(-9, -46, 32, 30), Rect2(-24, -34, 17, 16), Rect2(3.5, -20, 4, 28)]
+	var areas := [Rect2(-6, -4, 12, 14), Rect2(7, -3, 14, 12), Rect2(-13, -48, 40, 34), Rect2(-30, -35, 17, 16), Rect2(3.5, -20, 4, 28)]
 	for r: Rect2 in areas:
 		if r.has_point(Vector2(p.x, p.z)):
 			return true

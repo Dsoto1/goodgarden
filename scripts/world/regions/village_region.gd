@@ -30,25 +30,27 @@ func build() -> void:
 		var a := deg_to_rad(deg)
 		_lantern(Vector3(cos(a), 0, sin(a)) * 8.7)
 
-	_building("market", Vector3(-6.5, 0, -10.5), 0.0, "Bakery", 3.2)
+	_building("market", Vector3(-7.5, 0, -12.5), 0.0, "Bakery", 3.2)
 	# Tobias's work outside the bakery: the kneading trough, and the
 	# neighbours' bread baskets waiting on a plank table.
-	CraftedProps.kneading_trough(self, Vector3(-8.4, 0, -7.3), 0.0)
-	MeshKit.box(self, Vector3(1.9, 0.06, 0.6), Vector3(-3.9, 0.62, -8.0), "wood", false, -0.2)
+	CraftedProps.kneading_trough(self, Vector3(-9.6, 0, -9.4), 0.0)
+	var table := Vector3(-4.7, 0, -9.7)
+	MeshKit.box(self, Vector3(1.9, 0.06, 0.6), table + Vector3(0, 0.62, 0), "wood", false, -0.2)
 	for x: float in [-0.75, 0.75]:
-		MeshKit.box(self, Vector3(0.08, 0.6, 0.5), Vector3(-3.9, 0.3, -8.0) + Vector3(x, 0, 0).rotated(Vector3.UP, -0.2), "wood_dark", false, -0.2)
-	MeshKit.solid(self, Vector3(1.9, 0.7, 0.6), Vector3(-3.9, 0.35, -8.0), -0.2)
+		MeshKit.box(self, Vector3(0.08, 0.6, 0.5), table + Vector3(0, 0.3, 0) + Vector3(x, 0, 0).rotated(Vector3.UP, -0.2), "wood_dark", false, -0.2)
+	MeshKit.solid(self, Vector3(1.9, 0.7, 0.6), table + Vector3(0, 0.35, 0), -0.2)
 	for i in 3:
-		CraftedProps.bread_basket(self, Vector3(-3.9, 0.65, -8.0) + Vector3(-0.62 + i * 0.62, 0, 0).rotated(Vector3.UP, -0.2), i * 0.9).scale = Vector3.ONE * 0.62
-	_building("workshop", Vector3(7.0, 0, -11.0), 0.0, "Workshop", 3.6)
-	_building("house_yellow", Vector3(-11.6, 0, -0.5), PI / 2.0, "")
-	_building("house_blue", Vector3(13.2, 0, -0.5), -PI / 2.0, "")
-	_building("house_tall_red", Vector3(-12.0, 0, -9.8), PI / 4.0, "")
-	_building("house_yellow", Vector3(12.6, 0, -9.6), -PI / 4.0, "")
-	_bunting(Vector3(-3.0, 3.7, -7.9), Vector3(4.2, 3.7, -8.3))
-	_bunting(Vector3(-10.2, 3.4, -3.0), Vector3(-10.2, 3.4, 2.4))
-	_bunting(Vector3(10.8, 3.4, -3.0), Vector3(10.8, 3.4, 2.4))
-	for p: Array in [[-9.6, 3.2], [10.2, 3.2], [-10.6, -4.4], [8.8, -6.6]]:
+		CraftedProps.bread_basket(self, table + Vector3(0, 0.65, 0) + Vector3(-0.62 + i * 0.62, 0, 0).rotated(Vector3.UP, -0.2), i * 0.9).scale = Vector3.ONE * 0.62
+	# Buildings stand back from the square, so there is a little stroll to each door.
+	_building("workshop", Vector3(8.0, 0, -13.0), 0.0, "Workshop", 3.6)
+	_building("house_yellow", Vector3(-14.0, 0, -0.5), PI / 2.0, "")
+	_building("house_blue", Vector3(14.7, 0, -0.5), -PI / 2.0, "")
+	_building("house_tall_red", Vector3(-14.5, 0, -11.8), PI / 4.0, "")
+	_building("house_yellow", Vector3(15.0, 0, -11.8), -PI / 4.0, "")
+	_bunting(Vector3(-3.0, 3.7, -9.4), Vector3(4.2, 3.7, -9.8))
+	_bunting(Vector3(-11.4, 3.4, -3.0), Vector3(-11.4, 3.4, 2.4))
+	_bunting(Vector3(12.0, 3.4, -3.0), Vector3(12.0, 3.4, 2.4))
+	for p: Array in [[-9.6, 3.2], [10.2, 3.2], [-11.8, -3.6], [9.6, -7.4]]:
 		_planter(Vector3(p[0], 0, p[1]))
 	Props.place(self, "lumber", Vector3(12.6, 0, -5.0), 0.4, 0.8)
 	Props.place(self, "wheelbarrow", Vector3(13.8, 0, -5.6), 2.2)
@@ -60,12 +62,12 @@ func build() -> void:
 
 	# Short paths from the square to every door.
 	for door: Array in [
-		[Vector3(-4.9, 0, -6.0), Vector3(-5.9, 0, -7.2), Vector3(-6.4, 0, -8.4)], # bakery
-		[Vector3(5.0, 0, -6.4), Vector3(6.2, 0, -7.2), Vector3(7.0, 0, -8.1)], # workshop
-		[Vector3(-8.0, 0, -0.3), Vector3(-8.9, 0, -0.6), Vector3(-9.6, 0, -0.5)], # yellow house
-		[Vector3(8.0, 0, -0.3), Vector3(9.6, 0, -0.6), Vector3(11.2, 0, -0.5)], # blue house
-		[Vector3(-7.6, 0, -3.0), Vector3(-9.3, 0, -5.2), Vector3(-10.4, 0, -6.8), Vector3(-10.3, 0, -8.0)], # tall red house
-		[Vector3(7.6, 0, -3.2), Vector3(9.4, 0, -5.0), Vector3(10.6, 0, -7.0), Vector3(11.2, 0, -8.2)], # corner house
+		[Vector3(-4.9, 0, -6.0), Vector3(-6.4, 0, -8.2), Vector3(-7.4, 0, -10.3)], # bakery
+		[Vector3(5.0, 0, -6.4), Vector3(6.8, 0, -8.2), Vector3(8.0, 0, -10.1)], # workshop
+		[Vector3(-8.0, 0, -0.3), Vector3(-10.2, 0, -0.7), Vector3(-12.0, 0, -0.5)], # yellow house
+		[Vector3(8.0, 0, -0.3), Vector3(10.4, 0, -0.7), Vector3(12.7, 0, -0.5)], # blue house
+		[Vector3(-7.6, 0, -3.0), Vector3(-10.0, 0, -5.6), Vector3(-12.0, 0, -8.0), Vector3(-12.7, 0, -9.9)], # tall red house
+		[Vector3(7.6, 0, -3.2), Vector3(10.0, 0, -5.4), Vector3(12.4, 0, -8.2), Vector3(13.5, 0, -10.2)], # corner house
 	]:
 		path(door, 1.3)
 
@@ -88,7 +90,7 @@ func build() -> void:
 	add_camera_zone(Vector3(0, 1, -14.5), Vector3(11, 3, 4.5), {"pitch": 9.0, "distance": 7.0, "height": 1.8, "fov": 52.0})
 	add_anchor("village_overlook", Vector3(0, 0, -14.5), 0.0)
 
-	_villager("tobias", World.look_for("tobias"), Vector3(-6.5, 0, -6.2), 1.2)
+	_villager("tobias", World.look_for("tobias"), Vector3(-8.4, 0, -8.2), 1.2)
 	_villager("ruth", World.look_for("ruth"), Vector3(5.2, 0, 5.4), 1.2)
 	# Neighbours going about their day (ambient, no conversation yet).
 	var folk: Array = Content.get_world("characters").get("villagers", [])
@@ -110,7 +112,7 @@ func build() -> void:
 		add_child(bird)
 
 	add_anchor("village_plaza", Vector3(0, 0, 7.0), 0.0)
-	add_discovery_zone(Vector3(0, 1, -2), Vector3(30, 3, 24))
+	add_discovery_zone(Vector3(0, 1, -3), Vector3(36, 3, 28))
 
 
 func _bench(at: Vector3, yaw: float) -> void:

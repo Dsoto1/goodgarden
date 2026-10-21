@@ -40,9 +40,9 @@
 			"id": "chapel",
 			"name": "The Chapel",
 			"scene": "res://scenes/world/regions/chapel.tscn",
-			"origin": [-16, 0, -27],
+			"origin": [-22, 0, -28],
 			"on_map": true,
-			"map_pos": [0.2, 0.36],
+			"map_pos": [0.15, 0.37],
 			"arrive": "chapel_door"
 		},
 		{
