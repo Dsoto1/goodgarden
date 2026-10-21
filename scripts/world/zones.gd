@@ -21,6 +21,18 @@ static func create(parent: Node3D, center: Vector3, size: Vector3) -> Zone:
 	return z
 
 
+## Extends the zone with another box (centre in the parent's space), for
+## rooms that are not one rectangle. Entering any part counts as entering.
+func add_box(center: Vector3, size: Vector3) -> Zone:
+	var shape := CollisionShape3D.new()
+	var box := BoxShape3D.new()
+	box.size = size
+	shape.shape = box
+	shape.position = center - position
+	add_child(shape)
+	return self
+
+
 func _ready() -> void:
 	collision_layer = MeshKit.LAYER_TRIGGER
 	collision_mask = MeshKit.LAYER_PLAYER

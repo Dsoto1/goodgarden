@@ -207,6 +207,13 @@ func show_caption(text: String, seconds := 4.5) -> void:
 		hud.show_caption(text, seconds)
 
 
+## The chapel library's book shelf.
+func open_library() -> void:
+	var p := BookPanel.new()
+	_overlay_root.add_child(p)
+	p.show_shelf()
+
+
 func open_journal() -> void:
 	var p := JournalPanel.new()
 	_overlay_root.add_child(p)

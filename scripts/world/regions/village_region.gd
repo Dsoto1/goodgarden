@@ -41,7 +41,7 @@ func build() -> void:
 	for i in 3:
 		CraftedProps.bread_basket(self, Vector3(-3.9, 0.65, -8.0) + Vector3(-0.62 + i * 0.62, 0, 0).rotated(Vector3.UP, -0.2), i * 0.9).scale = Vector3.ONE * 0.62
 	_building("workshop", Vector3(7.0, 0, -11.0), 0.0, "Workshop", 3.6)
-	_building("house_yellow", Vector3(-12.6, 0, -0.5), PI / 2.0, "")
+	_building("house_yellow", Vector3(-11.6, 0, -0.5), PI / 2.0, "")
 	_building("house_blue", Vector3(13.2, 0, -0.5), -PI / 2.0, "")
 	_building("house_tall_red", Vector3(-12.0, 0, -9.8), PI / 4.0, "")
 	_building("house_yellow", Vector3(12.6, 0, -9.6), -PI / 4.0, "")
@@ -62,7 +62,7 @@ func build() -> void:
 	for door: Array in [
 		[Vector3(-4.9, 0, -6.0), Vector3(-5.9, 0, -7.2), Vector3(-6.4, 0, -8.4)], # bakery
 		[Vector3(5.0, 0, -6.4), Vector3(6.2, 0, -7.2), Vector3(7.0, 0, -8.1)], # workshop
-		[Vector3(-8.0, 0, -0.3), Vector3(-9.3, 0, -0.6), Vector3(-10.6, 0, -0.5)], # yellow house
+		[Vector3(-8.0, 0, -0.3), Vector3(-8.9, 0, -0.6), Vector3(-9.6, 0, -0.5)], # yellow house
 		[Vector3(8.0, 0, -0.3), Vector3(9.6, 0, -0.6), Vector3(11.2, 0, -0.5)], # blue house
 		[Vector3(-7.6, 0, -3.0), Vector3(-9.3, 0, -5.2), Vector3(-10.4, 0, -6.8), Vector3(-10.3, 0, -8.0)], # tall red house
 		[Vector3(7.6, 0, -3.2), Vector3(9.4, 0, -5.0), Vector3(10.6, 0, -7.0), Vector3(11.2, 0, -8.2)], # corner house

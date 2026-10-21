@@ -1,0 +1,53 @@
+{
+	"id": "library",
+	"comment": "Books on the chapel library shelf. Short pages, read aloud on request. Scripture books are paraphrases and need theological review before release.",
+	"books": [
+		{
+			"id": "psalm_23",
+			"title": "The Lord Is My Shepherd",
+			"cover": "cloth_green",
+			"source": "Psalm 23",
+			"review_status": "DRAFT: child-friendly paraphrase; requires theological and editorial review before release.",
+			"pages": [
+				"The Lord is my shepherd. I have everything I need.",
+				"He lets me rest in green meadows. He leads me beside quiet waters.",
+				"He makes me strong again, and he shows me the right paths to walk.",
+				"Even when the way is dark, I will not be afraid, because you are close beside me.",
+				"You set a table for me, and my cup is so full it spills over.",
+				"Your goodness and your love will follow me all my life, and I will live in your house forever."
+			]
+		},
+		{
+			"id": "creation",
+			"title": "In the Beginning",
+			"cover": "cloth_blue",
+			"source": "Genesis 1:1-2:3",
+			"review_status": "DRAFT: child-friendly retelling; requires theological and editorial review before release.",
+			"pages": [
+				"In the beginning, God made the heavens and the earth.",
+				"God said, \"Let there be light,\" and there was light. God called the light day, and the darkness night.",
+				"God made the wide sky above, and gathered the waters below.",
+				"God made dry land appear, and filled it with plants and trees, each with its own seeds.",
+				"God made the sun to shine by day, and the moon and stars to shine by night.",
+				"God filled the waters with fish and the sky with birds.",
+				"God made the animals of the land, and then God made people, a man and a woman, to be like him and to care for all he had made.",
+				"God saw everything he had made, and it was very good. On the seventh day, God rested."
+			]
+		},
+		{
+			"id": "seed_journey",
+			"title": "A Seed's Journey",
+			"cover": "cloth_gold",
+			"source": "",
+			"pages": [
+				"A seed lies asleep in the dark, cool soil.",
+				"Rain soaks into the ground, and the sun warms the earth. The seed wakes up.",
+				"A tiny root pushes down into the soil, to drink and to hold on tight.",
+				"A little shoot pushes up, bent like a loop, until it reaches the light.",
+				"Leaves open wide to catch the sun. Day by day, the plant grows taller.",
+				"Flowers bloom, and bees come visiting.",
+				"And inside each flower, new seeds are growing, ready for next spring."
+			]
+		}
+	]
+}

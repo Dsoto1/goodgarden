@@ -391,3 +391,34 @@ static func bread_stall_goods(parent: Node3D, pos: Vector3, rot_y := 0.0) -> Nod
 		loaf.scale = Vector3(1.0, 1.0, 0.85)
 	MeshKit.box(r, Vector3(0.36, 0.03, 0.22), Vector3(0, 0.015, 0.25), "wood_light")
 	return r
+
+
+## A tall bookcase full of books: four shelves of coloured spines, some
+## leaning, one lying flat. Faces -Z.
+static func bookcase(parent: Node3D, pos: Vector3, rot_y := 0.0, seed_value := 1) -> Node3D:
+	var r := _root(parent, "Bookcase", pos, rot_y)
+	MeshKit.box(r, Vector3(1.3, 1.9, 0.06), Vector3(0, 0.95, 0.17), "wood_dark")
+	for x: float in [-0.62, 0.62]:
+		MeshKit.box(r, Vector3(0.06, 1.9, 0.4), Vector3(x, 0.95, 0), "wood_dark")
+	var rng := RandomNumberGenerator.new()
+	rng.seed = seed_value
+	var spines := ["cloth_red", "cloth_blue", "cloth_green", "cloth_gold", "cloth_cream", "cloth_purple", "leather", "cloth_tan"]
+	for row in 4:
+		var y := 0.06 + row * 0.46
+		MeshKit.box(r, Vector3(1.24, 0.04, 0.38), Vector3(0, y, 0), "wood")
+		var x := -0.56
+		while x < 0.5:
+			var w := rng.randf_range(0.04, 0.08)
+			var h := rng.randf_range(0.26, 0.38)
+			if rng.randf() < 0.08 and x < 0.3:
+				# A book lying flat.
+				MeshKit.box(r, Vector3(0.24, w, 0.26), Vector3(x + 0.12, y + 0.02 + w / 2.0, 0.02), spines[rng.randi() % spines.size()])
+				x += 0.27
+				continue
+			var book := MeshKit.box(r, Vector3(w, h, 0.26), Vector3(x + w / 2.0, y + 0.02 + h / 2.0, 0.02), spines[rng.randi() % spines.size()])
+			if rng.randf() < 0.1:
+				book.rotation.z = -0.25
+			x += w + 0.008
+	MeshKit.box(r, Vector3(1.3, 0.05, 0.42), Vector3(0, 1.92, 0), "wood_dark")
+	MeshKit.solid(r, Vector3(1.3, 1.9, 0.45), Vector3(0, 0.95, 0))
+	return r

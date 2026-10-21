@@ -57,6 +57,9 @@
 		}
 	],
 	"places": [
-		{"id": "river", "name": "The River"}
+		{"id": "river", "name": "The River"},
+		{"id": "chapel_hall", "name": "The Main Hall"},
+		{"id": "atrium", "name": "The Atrium"},
+		{"id": "library", "name": "The Library"}
 	]
 }

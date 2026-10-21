@@ -25,7 +25,7 @@ func _ready() -> void:
 	var tests := [
 		test_content_is_valid, test_validator_catches_errors, test_conditions_and_tokens,
 		test_save_round_trip_and_migration, test_space_along_line, test_count_into_slots,
-		test_match_to_outline_self_correction, test_story_handoff_and_put_away, test_parable_growth_and_put_away,
+		test_match_to_outline_self_correction, test_story_handoff_and_put_away, test_parable_growth_and_put_away, test_chapel_library_books,
 		test_observations_never_score_reflection, test_pointer_events_drag_pieces, test_props_catalog,
 		test_scenery_quality_and_batching, test_vertical_slice_end_to_end,
 	]
@@ -256,6 +256,32 @@ func test_parable_growth_and_put_away() -> void:
 	eq(shelf.size(), 4, "four materials on the Atrium shelf")
 	story.queue_free()
 	put_away.queue_free()
+
+
+## The chapel library: every book has pages, and the reader turns them
+## without running past either end.
+func test_chapel_library_books() -> void:
+	var books: Array = Content.get_world("library").get("books", [])
+	check(books.size() >= 3, "the library has books")
+	for b: Dictionary in books:
+		check(not str(b.get("title", "")).is_empty() and b.get("pages", []).size() > 0, "%s has a title and pages" % b.get("id", "?"))
+	var panel := BookPanel.new()
+	add_child(panel)
+	panel.show_shelf()
+	panel.open_book(books[0])
+	eq(panel.page(), 0, "a book opens at its first page")
+	panel.turn(-1)
+	eq(panel.page(), 0, "no page before the first")
+	for i in 20:
+		panel.turn(1)
+	eq(panel.page(), panel.page_count() - 1, "no page after the last")
+	panel.close()
+	await frames(2)
+	var names := {}
+	for place: Dictionary in Content.get_world("regions").get("places", []):
+		names[place["id"]] = place["name"]
+	for id: String in ["chapel_hall", "atrium", "library"]:
+		check(names.has(id), "the chapel's %s has a name for the HUD" % id)
 
 
 func test_observations_never_score_reflection() -> void:

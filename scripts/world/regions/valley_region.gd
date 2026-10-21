@@ -116,7 +116,7 @@ func _trees() -> void:
 	var spots := [
 		[-12, 4, 1.0, "tree_a"], [-15, -4, 1.0, "grove_b_small"], [-20, 8, 1.1, "tree_b"], [-18, -9, 1.0, "grove_a_small"],
 		[12, 11, 1.0, "tree_a"], [20, 11, 1.0, "grove_b_small"], [25, -1, 1.1, "tree_b"], [26, -8, 1.0, "grove_a_medium"],
-		[-4, -8, 0.9, "tree_a"], [-26, -21, 1.0, "grove_b_medium"], [19, -17.5, 1.0, "tree_b"], [24, -33, 1.0, "grove_a_small"],
+		[-4, -8, 0.9, "tree_a"], [-28, -20, 1.0, "grove_b_medium"], [19, -17.5, 1.0, "tree_b"], [24, -33, 1.0, "grove_a_small"],
 		[-24, -31, 1.0, "grove_b_medium"], [-23, -40, 1.0, "tree_a"], [-16, -37, 1.1, "tree_b"], [-9, -41, 1.0, "grove_a_small"],
 		[22, -40, 1.0, "tree_a"], [-25, -2, 1.0, "grove_a_medium"], [29, -15, 1.0, "tree_b"],
 	]
@@ -125,10 +125,10 @@ func _trees() -> void:
 	for s: Array in spots:
 		Props.place(self, s[3], Vector3(s[0], 0, s[1]), rng.randf() * TAU, s[2])
 	# A few old twisted trees as landmarks the child can steer by.
-	Props.place(self, "twisted_tree", Vector3(-24, 0, -24), 0.6)
+	Props.place(self, "twisted_tree", Vector3(-27.5, 0, -25.5), 0.6)
 	Props.place(self, "twisted_tree_b", Vector3(-10, 0, 8), 2.4)
 	Props.place(self, "twisted_tree", Vector3(25, 0, -42), 4.0, 0.9)
-	for m: Array in [[-23, -22], [-22.2, -23.4], [-9, 9.5], [-11, 6.8]]:
+	for m: Array in [[-25.5, -22], [-24.8, -23.4], [-9, 9.5], [-11, 6.8]]:
 		Props.place(self, "mushroom", Vector3(m[0], 0, m[1]), rng.randf() * TAU)
 	# Working buildings and fields that make the valley feel lived in.
 	Props.place(self, "windmill", Vector3(28, 0, -29), -0.4)
@@ -186,7 +186,7 @@ static func _on_path(p: Vector3) -> bool:
 
 
 static func _near_built(p: Vector3) -> bool:
-	var areas := [Rect2(-6, -4, 12, 14), Rect2(7, -3, 14, 12), Rect2(-9, -46, 32, 30), Rect2(-22, -34, 12, 16), Rect2(3.5, -20, 4, 28)]
+	var areas := [Rect2(-6, -4, 12, 14), Rect2(7, -3, 14, 12), Rect2(-9, -46, 32, 30), Rect2(-24, -34, 17, 16), Rect2(3.5, -20, 4, 28)]
 	for r: Rect2 in areas:
 		if r.has_point(Vector2(p.x, p.z)):
 			return true
