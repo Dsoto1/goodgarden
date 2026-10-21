@@ -9,7 +9,7 @@
 		"reference": "John 10:3-4, 11, 14",
 		"note": "Original child-friendly retelling written for this prototype; not a quotation of any translation. Follows the shape of the Good Shepherd presentation used with young children: the sheep are known and called by name, they know the shepherd's voice, and he leads them out to pasture. See also Psalm 23."
 	},
-	"readiness": {"ages": [4, 10], "reading": "narration provided; text optional"},
+	"readiness": {"ages": [5, 10], "reading": "narration provided; text optional"},
 	"concepts": ["listening to a parable", "sequencing a story", "one by one"],
 	"formation_themes": ["the Good Shepherd", "being known and called by name", "belonging", "being cared for"],
 	"prerequisites": [],

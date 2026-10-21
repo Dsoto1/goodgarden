@@ -5,7 +5,7 @@
 	"location": "village",
 	"surface": "wood_table",
 	"readiness": {
-		"ages": [4, 7],
+		"ages": [5, 7],
 		"math": "reading the numerals 2 to 4; counting out a set of that many",
 		"reading": "numerals only; all text can be read aloud"
 	},

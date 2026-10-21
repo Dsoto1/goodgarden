@@ -4,7 +4,7 @@
 	"mode": "task",
 	"location": "home",
 	"surface": "wood_table",
-	"readiness": {"ages": [4, 7], "math": "matching; one-to-one correspondence; left and right", "reading": "none required"},
+	"readiness": {"ages": [5, 7], "math": "matching; one-to-one correspondence; left and right", "reading": "none required"},
 	"concepts": ["matching shapes", "one-to-one correspondence", "left and right", "care of the environment"],
 	"formation_themes": ["hospitality", "service"],
 	"prerequisites": [

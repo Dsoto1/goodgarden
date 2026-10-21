@@ -10,7 +10,7 @@ signal changed(key: String)
 const PATH := "user://settings.json"
 const DEFAULTS := {
 	"text_scale": 1.0, # 1.0 .. 1.6
-	"read_aloud": true, # speak prompts and narration with the system voice when available (on by default: the youngest players are pre-readers)
+	"read_aloud": true, # speak prompts and narration with the system voice when available (on by default: the youngest players are beginning readers)
 	"reduced_motion": false,
 	"volume_master": 0.8,
 	"volume_ambience": 0.7,

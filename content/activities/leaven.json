@@ -9,7 +9,7 @@
 		"reference": "Matthew 13:33",
 		"note": "Original child-friendly retelling written for this prototype; not a quotation of any translation. See also Luke 13:20-21."
 	},
-	"readiness": {"ages": [4, 10], "reading": "narration provided; text optional"},
+	"readiness": {"ages": [5, 10], "reading": "narration provided; text optional"},
 	"concepts": ["listening to a parable", "sequencing a change", "a little changes the whole"],
 	"formation_themes": ["wonder", "patience", "the Kingdom of God"],
 	"prerequisites": [],
