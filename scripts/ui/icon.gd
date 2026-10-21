@@ -1,7 +1,8 @@
 class_name Icon
 extends RefCounted
-## Small hand-drawn interface icons (book, map, gear, sun, letter, seedling),
-## drawn in code so they scale crisply at any text size.
+## Small hand-drawn interface icons, drawn in code so they scale crisply at
+## any text size. Buttons carry one beside their words (see IconButton), so a
+## child who can't read yet can still tell "yes" from "not yet".
 
 const INK := Color("5a3d28")
 
@@ -65,6 +66,145 @@ static func draw(ci: CanvasItem, kind: String, r: Rect2, color := INK) -> void:
 					leaf.append(c + Vector2(side * (0.05 + 0.32 * t), -0.05 - 0.22 * t + 0.06 * sin(t * PI)) * s)
 				ci.draw_colored_polygon(leaf, Color("7fb35a"))
 			ci.draw_rect(Rect2(c + Vector2(-0.22, 0.3) * s, Vector2(0.44, 0.12) * s), Color("8a5a3a"))
+		"yes":
+			# A green tick.
+			ci.draw_circle(c, 0.44 * s, Color("dcebc8"))
+			ci.draw_polyline(PackedVector2Array([c + Vector2(-0.22, 0.0) * s, c + Vector2(-0.06, 0.17) * s, c + Vector2(0.24, -0.18) * s]), Color("4f7a3a"), maxf(2.5, s * 0.12))
+		"back":
+			# A soft arrow curling back: "not yet", "go back".
+			ci.draw_circle(c, 0.44 * s, Color("efe4cf"))
+			_arrow(ci, c, s, -1.0, color)
+		"next":
+			ci.draw_circle(c, 0.44 * s, Color("dcebc8"))
+			_arrow(ci, c, s, 1.0, Color("4f7a3a"))
+		"speaker":
+			var cone := PackedVector2Array([c + Vector2(-0.36, -0.1) * s, c + Vector2(-0.2, -0.1) * s, c + Vector2(0.0, -0.3) * s, c + Vector2(0.0, 0.3) * s, c + Vector2(-0.2, 0.1) * s, c + Vector2(-0.36, 0.1) * s])
+			ci.draw_colored_polygon(cone, color)
+			for k in 2:
+				ci.draw_arc(c + Vector2(0.02, 0) * s, (0.16 + k * 0.14) * s, -0.9, 0.9, 10, color, maxf(1.5, s * 0.06))
+		"pause":
+			for x: float in [-0.14, 0.14]:
+				ci.draw_rect(Rect2(c + Vector2(x - 0.07, -0.26) * s, Vector2(0.14, 0.52) * s), color)
+		"restart":
+			ci.draw_arc(c, 0.28 * s, 0.6, TAU - 0.3, 20, color, maxf(2.0, s * 0.09))
+			var tip := c + Vector2(cos(0.6), sin(0.6)) * 0.28 * s
+			ci.draw_colored_polygon(PackedVector2Array([tip + Vector2(0.14, -0.04) * s, tip + Vector2(-0.12, -0.08) * s, tip + Vector2(0.02, 0.16) * s]), color)
+		"hint":
+			# A lightbulb: "show me".
+			ci.draw_circle(c + Vector2(0, -0.08) * s, 0.26 * s, Color("f2c14e"))
+			ci.draw_arc(c + Vector2(0, -0.08) * s, 0.26 * s, 0, TAU, 20, color, 1.5)
+			ci.draw_rect(Rect2(c + Vector2(-0.12, 0.18) * s, Vector2(0.24, 0.18) * s), Color("b9a07a"))
+			ci.draw_rect(Rect2(c + Vector2(-0.12, 0.18) * s, Vector2(0.24, 0.18) * s), color, false, 1.5)
+		"door":
+			# A door with a knob: "finish later", "go to the title".
+			var d := Rect2(c - Vector2(0.24, 0.4) * s, Vector2(0.48, 0.8) * s)
+			ci.draw_rect(d, Color("b07a4f"))
+			ci.draw_rect(d, color, false, 2.0)
+			ci.draw_circle(c + Vector2(0.12, 0.04) * s, 0.05 * s, Color("f2c14e"))
+		"box":
+			# A wooden box with its lid: "put the story away".
+			ci.draw_rect(Rect2(c + Vector2(-0.38, -0.08) * s, Vector2(0.76, 0.44) * s), Color("c49a6c"))
+			ci.draw_rect(Rect2(c + Vector2(-0.38, -0.08) * s, Vector2(0.76, 0.44) * s), color, false, 2.0)
+			ci.draw_rect(Rect2(c + Vector2(-0.44, -0.26) * s, Vector2(0.88, 0.16) * s), Color("7b5338"))
+		"wonder":
+			# A little sparkle for wondering questions.
+			var star := PackedVector2Array()
+			for i in 8:
+				var a := TAU * i / 8.0 - PI / 2.0
+				star.append(c + Vector2(cos(a), sin(a)) * (0.42 if i % 2 == 0 else 0.14) * s)
+			ci.draw_colored_polygon(star, Color("f2c14e"))
+			ci.draw_polyline(star + PackedVector2Array([star[0]]), color, 1.5)
+		"talk":
+			# A speech bubble: "tell it myself", "talk".
+			var bubble := Rect2(c - Vector2(0.4, 0.3) * s, Vector2(0.8, 0.5) * s)
+			ci.draw_rect(bubble, Color("fbf5e8"))
+			ci.draw_rect(bubble, color, false, 2.0)
+			ci.draw_colored_polygon(PackedVector2Array([c + Vector2(-0.18, 0.2) * s, c + Vector2(-0.02, 0.2) * s, c + Vector2(-0.26, 0.4) * s]), color)
+		"hand":
+			# A pointing hand: "do this".
+			ci.draw_circle(c + Vector2(-0.08, 0.1) * s, 0.24 * s, Color("e9c9a4"))
+			ci.draw_rect(Rect2(c + Vector2(-0.06, -0.42) * s, Vector2(0.14, 0.42) * s), Color("e9c9a4"))
+			ci.draw_arc(c + Vector2(-0.08, 0.1) * s, 0.24 * s, 0, TAU, 18, color, 1.5)
+		"up":
+			ci.draw_circle(c, 0.44 * s, Color("efe4cf"))
+			ci.draw_colored_polygon(PackedVector2Array([c + Vector2(0, -0.28) * s, c + Vector2(0.22, 0.0) * s, c + Vector2(-0.22, 0.0) * s]), color)
+			ci.draw_rect(Rect2(c + Vector2(-0.07, -0.02) * s, Vector2(0.14, 0.28) * s), color)
+		"lock":
+			# For grown-ups.
+			ci.draw_arc(c + Vector2(0, -0.08) * s, 0.16 * s, PI, TAU, 12, color, maxf(2.0, s * 0.07))
+			ci.draw_rect(Rect2(c + Vector2(-0.24, -0.08) * s, Vector2(0.48, 0.42) * s), Color("b9a07a"))
+			ci.draw_rect(Rect2(c + Vector2(-0.24, -0.08) * s, Vector2(0.48, 0.42) * s), color, false, 2.0)
+		"home":
+			ci.draw_rect(Rect2(c + Vector2(-0.28, -0.04) * s, Vector2(0.56, 0.4) * s), Color("f2e6cf"))
+			ci.draw_colored_polygon(PackedVector2Array([c + Vector2(-0.4, -0.02) * s, c + Vector2(0, -0.4) * s, c + Vector2(0.4, -0.02) * s]), Color("b8584a"))
+			ci.draw_rect(Rect2(c + Vector2(-0.07, 0.14) * s, Vector2(0.14, 0.22) * s), Color("7b5338"))
+		"chapel":
+			ci.draw_rect(Rect2(c + Vector2(-0.24, -0.06) * s, Vector2(0.48, 0.42) * s), Color("e3d6bd"))
+			ci.draw_colored_polygon(PackedVector2Array([c + Vector2(-0.3, -0.04) * s, c + Vector2(0, -0.3) * s, c + Vector2(0.3, -0.04) * s]), Color("8a7f8e"))
+			ci.draw_line(c + Vector2(0, -0.46) * s, c + Vector2(0, -0.28) * s, Color("e0a73a"), 2.0)
+			ci.draw_line(c + Vector2(-0.07, -0.4) * s, c + Vector2(0.07, -0.4) * s, Color("e0a73a"), 2.0)
+			ci.draw_rect(Rect2(c + Vector2(-0.07, 0.14) * s, Vector2(0.14, 0.22) * s), Color("7b5338"))
+		"village":
+			for k in 2:
+				var o := Vector2(-0.18 + k * 0.34, 0.06 - k * 0.1)
+				ci.draw_rect(Rect2(c + (o + Vector2(-0.15, -0.02)) * s, Vector2(0.3, 0.3) * s), Color("f2e6cf"))
+				ci.draw_colored_polygon(PackedVector2Array([c + (o + Vector2(-0.2, 0.0)) * s, c + (o + Vector2(0, -0.22)) * s, c + (o + Vector2(0.2, 0.0)) * s]), Color("d07a3a") if k == 0 else Color("4f8a5a"))
+		"river":
+			for k in 3:
+				var y := -0.2 + k * 0.2
+				var wave := PackedVector2Array()
+				for i in 9:
+					wave.append(c + Vector2(-0.38 + i * 0.095, y + sin(i * 1.2) * 0.05) * s)
+				ci.draw_polyline(wave, Color("5f93b8"), maxf(2.0, s * 0.07))
+		"moon":
+			ci.draw_circle(c, 0.32 * s, Color("f2c14e"))
+			ci.draw_circle(c + Vector2(0.14, -0.1) * s, 0.28 * s, Color("fbf5e8"))
+		"book":
+			ci.draw_rect(Rect2(c - Vector2(0.3, 0.38) * s, Vector2(0.6, 0.76) * s), Color("b8584a"))
+			ci.draw_rect(Rect2(c - Vector2(0.3, 0.38) * s, Vector2(0.6, 0.76) * s), color, false, 2.0)
+			ci.draw_line(c + Vector2(-0.2, -0.38) * s, c + Vector2(-0.2, 0.38) * s, color, 1.5)
+		"sheep":
+			for p: Vector3 in [Vector3(-0.15, 0, 0.18), Vector3(0.1, -0.06, 0.2), Vector3(0.2, 0.06, 0.17), Vector3(-0.02, 0.08, 0.18)]:
+				ci.draw_circle(c + Vector2(p.x, p.y) * s, p.z * s, Color("f6f1e4"))
+			ci.draw_circle(c + Vector2(-0.32, -0.04) * s, 0.1 * s, Color("3b3430"))
+			for x: float in [-0.12, 0.14]:
+				ci.draw_line(c + Vector2(x, 0.2) * s, c + Vector2(x, 0.36) * s, Color("3b3430"), 2.0)
+		"sun_book":
+			ci.draw_rect(Rect2(c - Vector2(0.3, 0.38) * s, Vector2(0.6, 0.76) * s), Color("5f93b8"))
+			ci.draw_circle(c + Vector2(0, -0.04) * s, 0.16 * s, Color("f2c14e"))
+
+
+static func _arrow(ci: CanvasItem, c: Vector2, s: float, dir: float, color: Color) -> void:
+	var tail_from := c + Vector2(-0.24 * dir, 0) * s
+	var tail_to := c + Vector2(0.04 * dir, 0) * s
+	ci.draw_line(tail_from, tail_to, color, maxf(2.5, s * 0.12))
+	ci.draw_colored_polygon(PackedVector2Array([c + Vector2(0.28 * dir, 0) * s, c + Vector2(0.0, -0.22) * s, c + Vector2(0.0, 0.22) * s]), color)
+
+
+## A button with an icon drawn to the left of its words. A clear placeholder
+## texture reserves the icon's space in the button's own layout; the icon is
+## then drawn over it.
+class IconButton:
+	extends Button
+	const EDGE := 30
+	static var _blank: ImageTexture
+	var kind := ""
+
+	func _init(icon_kind: String, label: String) -> void:
+		kind = icon_kind
+		text = label
+		if _blank == null:
+			var img := Image.create(EDGE, EDGE, false, Image.FORMAT_RGBA8)
+			img.fill(Color(0, 0, 0, 0))
+			_blank = ImageTexture.create_from_image(img)
+		icon = _blank
+		icon_alignment = HORIZONTAL_ALIGNMENT_LEFT
+		add_theme_constant_override("h_separation", 10)
+
+	func _draw() -> void:
+		var box := get_theme_stylebox("normal")
+		var left := box.get_margin(SIDE_LEFT) if box else 12.0
+		Icon.draw(self, kind, Rect2(Vector2(left, (size.y - EDGE) / 2.0), Vector2(EDGE, EDGE)))
 
 
 ## A square, labelled icon button like the mockup's Journal / Map / Settings tiles.

@@ -25,7 +25,7 @@ func _ready() -> void:
 	var tests := [
 		test_content_is_valid, test_validator_catches_errors, test_conditions_and_tokens,
 		test_save_round_trip_and_migration, test_space_along_line, test_count_into_slots,
-		test_match_to_outline_self_correction, test_story_handoff_and_put_away, test_parable_growth_and_put_away, test_chapel_library_books, test_calling_of_the_fishermen, test_sit_and_hold_rod,
+		test_match_to_outline_self_correction, test_story_handoff_and_put_away, test_parable_growth_and_put_away, test_chapel_library_books, test_calling_of_the_fishermen, test_sit_and_hold_rod, test_young_child_access,
 		test_observations_never_score_reflection, test_pointer_events_drag_pieces, test_props_catalog,
 		test_scenery_quality_and_batching, test_vertical_slice_end_to_end,
 	]
@@ -312,6 +312,41 @@ func test_sit_and_hold_rod() -> void:
 	model.animate(0.1, 0.0)
 	check(absf(model._skeleton.get_bone_pose_position(BodyMesh.Bone.HIPS).y - standing) < 0.05, "standing up again")
 	model.queue_free()
+
+
+## Help for a five-year-old who can't read yet: questions start on the safe
+## answer and are read out with their choices, every button can be heard,
+## small pieces are easy to pick up, and counting is spoken.
+func test_young_child_access() -> void:
+	var card := ConfirmCard.new()
+	add_child(card)
+	card.ask("Stop now?", "Yes, stop", "Keep going", func() -> void: pass)
+	await frames(2)
+	var focus := get_viewport().gui_get_focus_owner()
+	check(focus is Button and (focus as Button).text == "Keep going", "a question starts on the safe answer")
+	card.close()
+	var box := DialogueBox.new()
+	add_child(box)
+	box._on_line({"name": "Miriam", "text": "Will you plant?", "choices": ["Yes, let's plant!", "Not yet."]})
+	var spoken := box._spoken_line()
+	check(spoken.contains("Yes, let's plant!") and spoken.contains("Not yet."), "the choices are read out with the question")
+	box.queue_free()
+	var b := UiStyle.button("Show me", false, "hint")
+	add_child(b)
+	await frames(2)
+	check(b.has_meta(&"spoken_button"), "every button can be heard")
+	eq(SpokenButton.words(b), "Show me", "a button is heard by its words")
+	var tile := Icon.Tile.new("map", "Map")
+	eq(SpokenButton.words(tile), "Map", "a picture tile is heard by its caption")
+	tile.free()
+	b.queue_free()
+	var seed := DragPiece.create("bean_seed", Vector2(30, 22))
+	check(seed._has_point(Vector2(-14, 30)), "a small piece can be picked up from just beside it")
+	check(not seed._has_point(Vector2(-40, 11)), "but not from far away")
+	seed.free()
+	var counter := PrimitiveRegistry.create("count_into_slots")
+	eq(counter.count_word(4), "four", "counting is spoken in words")
+	counter.free()
 
 
 ## The chapel library: every book has pages, and the reader turns them

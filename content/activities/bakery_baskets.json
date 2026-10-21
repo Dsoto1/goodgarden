@@ -6,7 +6,7 @@
 	"surface": "wood_table",
 	"readiness": {
 		"ages": [5, 7],
-		"math": "reading the numerals 2 to 4; counting out a set of that many",
+		"math": "numerals 2 to 4, with dots to count; counting out a set of that many",
 		"reading": "numerals only; all text can be read aloud"
 	},
 	"concepts": ["reading numerals", "counting out a set", "one-to-one correspondence", "comparing more and fewer"],
@@ -18,15 +18,15 @@
 	"intro": [
 		{
 			"speaker": "tobias",
-			"text": "Here are the baskets for our neighbors. Look at the number on each one: that's how many people live in that house."
+			"text": "These baskets are for our neighbors. Each basket has a number, and little dots to count. That's how many people live in that house."
 		}
 	],
 	"steps": [
 		{
 			"id": "fill_baskets",
 			"primitive": "count_into_slots",
-			"prompt": "Read the number on each basket. Put that many rolls inside.",
-			"hint": "Touch each roll as you count: one, two... Stop when you reach the number on the basket.",
+			"prompt": "Look at the number on each basket. Put in that many rolls, one for each dot.",
+			"hint": "Put one roll on each dot. When every dot has a roll, that basket is full.",
 			"counts": [2, 4, 3],
 			"container": "basket",
 			"piece": "bread_roll",
@@ -41,7 +41,7 @@
 	"outro": [
 		{
 			"speaker": "tobias",
-			"text": "Look at that! Every family will have bread today. And look: two rolls are left over. Those are for you and Miriam.",
+			"text": "Every family has bread now! Two rolls are left over. One for you, and one for Miriam.",
 			"button": "Thank you, Tobias"
 		}
 	],

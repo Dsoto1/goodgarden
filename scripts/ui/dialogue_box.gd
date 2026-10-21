@@ -7,6 +7,7 @@ var _panel: PanelContainer
 var _name: Label
 var _text: Label
 var _choices: HBoxContainer
+var _choice_words: Array = []
 
 
 func _ready() -> void:
@@ -39,11 +40,11 @@ func _ready() -> void:
 	var spacer := Control.new()
 	spacer.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	top.add_child(spacer)
-	var hear := UiStyle.button(tr("Hear it"))
+	var hear := UiStyle.button(tr("Hear it"), false, "speaker")
 	hear.focus_mode = Control.FOCUS_NONE
 	hear.pressed.connect(func() -> void:
 		Observations.record("read_aloud_requested", "", {"dialogue": Dialogue.active_id})
-		AudioService.narrate(_text.text, true))
+		AudioService.narrate(_spoken_line(), true))
 	top.add_child(hear)
 	_text = UiStyle.label("", "PromptLabel")
 	col.add_child(_text)
@@ -62,22 +63,35 @@ func _on_line(line: Dictionary) -> void:
 	visible = true
 	_name.text = line["name"]
 	_text.text = line["text"]
-	AudioService.narrate(line["text"])
+	var choices: Array = line["choices"]
+	_choice_words = choices.duplicate()
+	AudioService.narrate(_spoken_line())
 	for c in _choices.get_children():
 		c.queue_free()
-	var choices: Array = line["choices"]
 	if choices.is_empty():
-		var next := UiStyle.button(tr("Next"), true)
+		var next := UiStyle.button(tr("Next"), true, "next")
 		next.pressed.connect(Dialogue.advance)
 		_choices.add_child(next)
 		next.call_deferred("grab_focus")
 	else:
 		for i in choices.size():
-			var b := UiStyle.button(choices[i], i == 0)
+			# Two answers are always "yes" then "not yet"; their pictures say so.
+			var icon := "talk"
+			if choices.size() == 2:
+				icon = "yes" if i == 0 else "back"
+			var b := UiStyle.button(choices[i], i == 0, icon)
 			b.pressed.connect(Dialogue.choose.bind(i))
 			_choices.add_child(b)
 			if i == 0:
 				b.call_deferred("grab_focus")
+
+
+## The line, followed by the answers the child can pick, so a child who can't
+## read hears the choices as well as the question.
+func _spoken_line() -> String:
+	if _choice_words.is_empty():
+		return _text.text
+	return "%s  %s" % [_text.text, tr(" Or: ").join(_choice_words.map(func(c: Variant) -> String: return str(c)))]
 
 
 func _on_panel_input(event: InputEvent) -> void:

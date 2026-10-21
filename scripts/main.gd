@@ -78,7 +78,7 @@ func show_title() -> void:
 		if SaveService.has_save():
 			var c := ConfirmCard.new()
 			_overlay_root.add_child(c)
-			c.ask(tr("Begin a new garden? Your current garden will be replaced."), tr("Begin anew"), tr("Go back"), start_new_game)
+			c.ask(tr("Start a brand new garden? Your old garden will be gone."), tr("Yes, start over"), tr("Go back"), start_new_game)
 		else:
 			start_new_game())
 	title.settings_pressed.connect(open_settings)
@@ -189,7 +189,7 @@ func sit_quietly(focus: Vector3, distance := 3.2, pitch := 12.0, yaw := 0.0, on_
 	# Deliberately unrecorded: quiet time is the child's own.
 	GameState.push_mode(GameState.Mode.REFLECTION)
 	world.rig.focus_on(focus, distance, pitch, yaw)
-	var stand := UiStyle.button(tr("Stand up"))
+	var stand := UiStyle.button(tr("Stand up"), false, "up")
 	stand.modulate.a = 0.75
 	stand.grow_horizontal = Control.GROW_DIRECTION_BOTH
 	stand.grow_vertical = Control.GROW_DIRECTION_BEGIN
@@ -300,7 +300,7 @@ func _on_activity_started(_def: ActivityDefinition) -> void:
 	_activity_focus = focus
 
 
-func _on_activity_finished(_def: ActivityDefinition, completed: bool) -> void:
+func _on_activity_finished(def: ActivityDefinition, completed: bool) -> void:
 	if world == null:
 		return
 	if completed and _activity_focus != null:
@@ -312,6 +312,11 @@ func _on_activity_finished(_def: ActivityDefinition, completed: bool) -> void:
 	if world:
 		world.rig.release_focus()
 	_activity_focus = null
+	# Say the at-home invitation out loud too; it is also kept in the journal.
+	if completed and not def.real_world_invitation.is_empty() and Settings.get_value("real_world_invitations"):
+		var rwi := Content.get_real_world(def.real_world_invitation)
+		if not rwi.is_empty():
+			show_caption(tr("Something to try at home: %s It's in your journal too.") % tr(str(rwi.get("text", ""))), 10.0)
 
 
 func _nearest_focus_point() -> Vector3:
@@ -343,4 +348,4 @@ func _process(delta: float) -> void:
 		_rest_reminded = true
 		var c := ConfirmCard.new()
 		_overlay_root.add_child(c)
-		c.ask(tr("You've done good work today. This might be a nice time to rest your eyes and go outside."), tr("Save and rest"), tr("Keep playing"), quit_to_title)
+		c.ask(tr("Good work today! Time to rest your eyes and play outside."), tr("Save and rest"), tr("Keep playing"), quit_to_title)

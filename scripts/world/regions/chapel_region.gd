@@ -202,6 +202,51 @@ func _shelf(at: Vector3, length: float) -> void:
 	MeshKit.box(self, Vector3(0.62, 0.04, length), at + Vector3(0, 0.45, 0), "wood_dark")
 
 
+## A little model on each tray showing its story, so a child who can't read
+## can still find the one they want.
+func _tray_picture(at: Vector3, kind: String) -> void:
+	var r := Node3D.new()
+	r.position = at
+	add_child(r)
+	match kind:
+		"donkey":
+			MeshKit.box(r, Vector3(0.2, 0.09, 0.08), Vector3(0, 0.13, 0), "stone")
+			MeshKit.box(r, Vector3(0.07, 0.1, 0.06), Vector3(-0.12, 0.2, 0), "stone")
+			for x: float in [-0.07, 0.07]:
+				for z: float in [-0.03, 0.03]:
+					MeshKit.box(r, Vector3(0.025, 0.09, 0.025), Vector3(x, 0.045, z), "dark")
+		"mustard":
+			MeshKit.cylinder(r, 0.008, 0.012, 0.28, Vector3(0, 0.14, 0), "leaf", 5)
+			for p: Vector3 in [Vector3(0, 0.3, 0), Vector3(-0.06, 0.25, 0.02), Vector3(0.06, 0.24, -0.02), Vector3(0.03, 0.28, 0.04)]:
+				MeshKit.sphere(r, 0.035, p, "flower_yellow", Vector3.ONE, 6, 3)
+		"bowl":
+			MeshKit.cylinder(r, 0.12, 0.08, 0.08, Vector3(0, 0.04, 0), "roof_red", 10)
+			MeshKit.sphere(r, 0.11, Vector3(0, 0.1, 0), "cloth_cream", Vector3(1, 0.55, 1), 10, 5)
+		"sheep":
+			_little_sheep(r, Vector3.ZERO)
+		"boat":
+			MeshKit.box(r, Vector3(0.28, 0.06, 0.12), Vector3(0, 0.05, 0), "wood")
+			MeshKit.cylinder(r, 0.008, 0.008, 0.24, Vector3(0, 0.18, 0), "wood_dark", 4)
+			MeshKit.box(r, Vector3(0.01, 0.14, 0.1), Vector3(0.02, 0.2, 0), "white")
+		"loaves":
+			MeshKit.cylinder(r, 0.13, 0.1, 0.07, Vector3(0, 0.035, 0), "roof_thatch", 10)
+			for p: Vector3 in [Vector3(-0.05, 0.08, -0.03), Vector3(0.05, 0.08, -0.02), Vector3(0, 0.08, 0.05), Vector3(-0.02, 0.11, 0), Vector3(0.06, 0.1, 0.05)]:
+				MeshKit.sphere(r, 0.04, p, "roof_thatch", Vector3(1, 0.7, 1), 6, 3)
+		"shepherd":
+			MeshKit.cylinder(r, 0.04, 0.06, 0.2, Vector3(-0.06, 0.1, 0), "cloth_cream", 8)
+			MeshKit.sphere(r, 0.035, Vector3(-0.06, 0.23, 0), "skin_2", Vector3.ONE, 8, 4)
+			MeshKit.cylinder(r, 0.006, 0.006, 0.26, Vector3(-0.12, 0.13, 0), "wood_dark", 4)
+			_little_sheep(r, Vector3(0.08, 0, 0.02), 0.7)
+
+
+func _little_sheep(r: Node3D, at: Vector3, s := 1.0) -> void:
+	for p: Vector3 in [Vector3(-0.04, 0.09, 0), Vector3(0.04, 0.09, 0), Vector3(0, 0.11, 0)]:
+		MeshKit.sphere(r, 0.055 * s, at + p * s, "white", Vector3.ONE, 8, 4)
+	MeshKit.sphere(r, 0.03 * s, at + Vector3(-0.09, 0.11, 0) * s, "dark", Vector3.ONE, 6, 3)
+	for x: float in [-0.04, 0.04]:
+		MeshKit.cylinder(r, 0.008 * s, 0.008 * s, 0.06 * s, at + Vector3(x, 0.03, 0) * s, "dark", 4)
+
+
 ## One tray per material listed in content/world/atrium_shelf.json, along a
 ## shelf running north-south and centred on `base`.
 func _material_trays(base: Vector3) -> void:
@@ -213,8 +258,7 @@ func _material_trays(base: Vector3) -> void:
 		var at := base + Vector3(0, 0, (i - (items.size() - 1) / 2.0) * spacing)
 		MeshKit.box(self, Vector3(0.5, 0.06, spacing * 0.8), at, "wood_light")
 		MeshKit.box(self, Vector3(0.44, 0.02, spacing * 0.7), at + Vector3(0, 0.04, 0), item.get("tray_color", "cloth_cream"))
-		for k in 3:
-			MeshKit.cylinder(self, 0.04, 0.05, 0.16, at + Vector3(-0.1 + k * 0.1, 0.13, (-0.15 + k * 0.12) * spacing), ["cloth_cream", "cloth_red", "cloth_blue"][k], 6)
+		_tray_picture(at + Vector3(0, 0.05, 0), str(item.get("picture", "")))
 		var activity_id := str(item["activity"])
 		var use := Interactable.create(self, at + Vector3(-0.9, -0.88, 0), "Choose %s" % tr(str(item.get("label", activity_id))), func() -> void:
 			# The work happens at the Atrium's low table.

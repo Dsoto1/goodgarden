@@ -18,19 +18,25 @@ func show_shelf() -> void:
 func _render_shelf() -> void:
 	_clear()
 	content.add_child(UiStyle.label(tr("Choose a book"), "HeadingLabel"))
+	AudioService.narrate(tr("Choose a book."))
 	for b: Dictionary in _books:
 		var row := HBoxContainer.new()
 		row.add_theme_constant_override("separation", 14)
 		content.add_child(row)
+		# A coloured cover with a picture, so a book can be found without reading.
 		var cover := ColorRect.new()
 		cover.color = Palette.color(str(b.get("cover", "cloth_cream")))
-		cover.custom_minimum_size = Vector2(40, 56)
+		cover.custom_minimum_size = Vector2(52, 64)
+		cover.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		var picture := Icon.Glyph.new(str(b.get("picture", "book")), 44)
+		picture.position = Vector2(4, 10)
+		cover.add_child(picture)
 		row.add_child(cover)
 		var pick := UiStyle.button(tr(str(b.get("title", ""))))
 		pick.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		pick.pressed.connect(func() -> void: open_book(b))
 		row.add_child(pick)
-	var done := UiStyle.button(tr("Put the books back"), true)
+	var done := UiStyle.button(tr("Put the books back"), true, "yes")
 	done.pressed.connect(close)
 	add_buttons([done])
 
@@ -66,17 +72,17 @@ func _render_page() -> void:
 		foot += "    " + str(_book["source"])
 	content.add_child(UiStyle.label(foot, "SmallLabel"))
 	AudioService.narrate(text)
-	var shelf := UiStyle.button(tr("Shelf"))
+	var shelf := UiStyle.button(tr("Shelf"), false, "book")
 	shelf.pressed.connect(func() -> void:
 		AudioService.stop_narration()
 		_render_shelf())
-	var read := UiStyle.button(tr("Read to me"))
+	var read := UiStyle.button(tr("Read to me"), false, "speaker")
 	read.pressed.connect(func() -> void: AudioService.narrate(text, true))
-	var back := UiStyle.button(tr("Back"))
+	var back := UiStyle.button(tr("Back"), false, "back")
 	back.disabled = _page == 0
 	back.pressed.connect(func() -> void: turn(-1))
 	var last := _page == page_count() - 1
-	var next := UiStyle.button(tr("The end") if last else tr("Turn the page"), true)
+	var next := UiStyle.button(tr("The end") if last else tr("Turn the page"), true, "yes" if last else "next")
 	next.pressed.connect(func() -> void:
 		if last:
 			_render_shelf()

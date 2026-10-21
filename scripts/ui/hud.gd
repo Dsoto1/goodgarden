@@ -19,6 +19,9 @@ var _map_tile: Button
 var _caption: PanelContainer
 var _caption_label: Label
 var _caption_timer: SceneTreeTimer
+var _invite: Button
+var _spoken_target: Interactable
+var _spoken_places := {}
 
 
 func _ready() -> void:
@@ -47,6 +50,7 @@ func _ready() -> void:
 	day_chip.add_child(day_row)
 	_right.add_child(day_chip)
 	var invite := Button.new()
+	_invite = invite
 	invite.flat = true
 	invite.focus_mode = Control.FOCUS_NONE
 	invite.custom_minimum_size = Vector2(330, 0)
@@ -94,7 +98,7 @@ func _ready() -> void:
 	_prompt_panel = PanelContainer.new()
 	_prompt_panel.add_theme_stylebox_override("panel", StyleBoxEmpty.new())
 	add_child(_prompt_panel)
-	_prompt_button = UiStyle.button("", true)
+	_prompt_button = UiStyle.button("", true, "hand")
 	_prompt_button.focus_mode = Control.FOCUS_NONE
 	_prompt_button.pressed.connect(func() -> void: Interaction.interact_focused())
 	_prompt_panel.add_child(_prompt_button)
@@ -109,13 +113,21 @@ func _ready() -> void:
 	_caption_label.custom_minimum_size.x = 480 # autowrap needs a width to measure height
 	_caption.add_child(_caption_label)
 
-	Interaction.focus_changed.connect(func(_t: Interactable) -> void: refresh())
+	Interaction.focus_changed.connect(func(t: Interactable) -> void:
+		refresh()
+		_speak_prompt_soon(t))
 	GameState.mode_changed.connect(func(_m: GameState.Mode) -> void: refresh())
 	Discovery.discovered.connect(func(_id: String) -> void: refresh())
-	Discovery.entered.connect(func(_id: String) -> void: refresh())
+	Discovery.entered.connect(func(id: String) -> void:
+		refresh()
+		_speak_place(id))
 	Invitations.opened.connect(func(_id: String) -> void: refresh())
 	Invitations.delivered.connect(func(_id: String) -> void: refresh())
-	Days.day_started.connect(func(_d: int) -> void: refresh())
+	Days.day_started.connect(func(_d: int) -> void:
+		_spoken_places.clear()
+		refresh())
+	AudioService.narration_unavailable.connect(func() -> void:
+		show_caption(tr("This device has no reading voice, so words can't be read aloud. A grown-up can add a voice in the device's settings."), 9.0))
 	Journal.changed.connect(refresh)
 	refresh()
 
@@ -141,6 +153,7 @@ func refresh() -> void:
 	_invite_text.text = _invitation_summary()
 	_invite_glyph.kind = "letter" if Invitations.has_unread() else "seedling"
 	_invite_glyph.queue_redraw()
+	_invite.set_meta(&"spoken", tr("Today's Invitation") + ". " + _invite_text.text)
 	_map_tile.visible = Discovery.map_unlocked()
 	var target := Interaction.focused
 	_prompt_panel.visible = exploring and target != null
@@ -149,6 +162,29 @@ func refresh() -> void:
 	# Keep the prompt centered as its text changes width.
 	_prompt_panel.reset_size()
 	_prompt_panel.position = Vector2((size.x - _prompt_panel.size.x) / 2.0, size.y - _prompt_panel.size.y - 24)
+
+
+## Says what the prompt button will do once the child has paused by something,
+## so a child who can't read knows what is in reach.
+func _speak_prompt_soon(target: Interactable) -> void:
+	if target == null or target == _spoken_target:
+		if target == null:
+			_spoken_target = null
+		return
+	await get_tree().create_timer(0.6).timeout
+	if Interaction.focused == target and GameState.is_exploring() and is_instance_valid(target):
+		_spoken_target = target
+		AudioService.narrate(tr(target.prompt))
+
+
+## Names a place the first time the child walks into it each day.
+func _speak_place(id: String) -> void:
+	if _spoken_places.has(id) or not GameState.is_exploring():
+		return
+	_spoken_places[id] = true
+	var place := _place_name()
+	if not place.is_empty() and not AudioService.is_speaking():
+		AudioService.narrate(place)
 
 
 func _place_name() -> String:
@@ -190,6 +226,8 @@ func show_caption(text: String, seconds := 4.5) -> void:
 	_caption.reset_size()
 	_caption.position = Vector2((size.x - _caption.size.x) / 2.0, size.y - _caption.size.y - 110)
 	AudioService.narrate(text)
+	# Long enough to listen to as well as read.
+	seconds = maxf(seconds, 1.5 + text.split(" ").size() * 0.4)
 	_caption_timer = get_tree().create_timer(seconds)
 	var this_timer := _caption_timer
 	this_timer.timeout.connect(func() -> void:

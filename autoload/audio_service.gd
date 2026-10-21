@@ -18,6 +18,9 @@ var _effects: Array[AudioStreamPlayer] = []
 var _next_effect := 0
 var _cache := {}
 var _voice_id := ""
+var _last_nav_msec := -10000
+var _pointer_is_mouse := true
+var _told_no_voice := false
 
 
 func _ready() -> void:
@@ -44,6 +47,30 @@ func _ready() -> void:
 	var voices := DisplayServer.tts_get_voices_for_language(TranslationServer.get_locale().left(2)) if _tts_supported() else PackedStringArray()
 	if voices.size() > 0:
 		_voice_id = voices[0]
+	# Every button can be heard: hold it, rest the mouse on it, or move to it.
+	get_tree().node_added.connect(func(n: Node) -> void:
+		if n is BaseButton:
+			SpokenButton.attach(n))
+
+
+func _input(event: InputEvent) -> void:
+	if event is InputEventMouse:
+		_pointer_is_mouse = event.device != InputEvent.DEVICE_ID_EMULATION
+	elif event is InputEventScreenTouch:
+		_pointer_is_mouse = false
+	for action: String in ["ui_left", "ui_right", "ui_up", "ui_down", "ui_focus_next", "ui_focus_prev"]:
+		if event.is_action_pressed(action):
+			_last_nav_msec = Time.get_ticks_msec()
+
+
+## True when the pointer is a real mouse (not a finger on a touch screen).
+func pointer_is_mouse() -> bool:
+	return _pointer_is_mouse
+
+
+## True just after the child moved between buttons with keys or a gamepad.
+func navigated_recently() -> bool:
+	return Time.get_ticks_msec() - _last_nav_msec < 400
 
 
 # --- Ambience -------------------------------------------------------------
@@ -91,7 +118,9 @@ func narrate(text: String, force: bool = false) -> bool:
 	if not (force or Settings.get_value("read_aloud")):
 		return false
 	if _voice_id.is_empty():
-		narration_unavailable.emit()
+		if not _told_no_voice:
+			_told_no_voice = true
+			narration_unavailable.emit()
 		return false
 	DisplayServer.tts_stop()
 	DisplayServer.tts_speak(text, _voice_id, int(Settings.get_value("volume_voice") * Settings.get_value("volume_master") * 100.0))
@@ -101,6 +130,11 @@ func narrate(text: String, force: bool = false) -> bool:
 func stop_narration() -> void:
 	if _tts_supported():
 		DisplayServer.tts_stop()
+
+
+## True while the voice is still speaking.
+func is_speaking() -> bool:
+	return _tts_supported() and not _voice_id.is_empty() and DisplayServer.tts_is_speaking()
 
 
 func can_narrate() -> bool:

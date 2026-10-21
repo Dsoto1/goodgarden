@@ -14,16 +14,20 @@ func show_journal() -> void:
 	open(720, Color("fbf3dc"))
 	var top := HBoxContainer.new()
 	content.add_child(top)
-	_prev = UiStyle.button(tr("Earlier"))
+	_prev = UiStyle.button(tr("Earlier"), false, "back")
 	_prev.pressed.connect(func() -> void: _turn(-1))
 	top.add_child(_prev)
 	_heading = UiStyle.label("", "HeadingLabel")
 	_heading.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_heading.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	top.add_child(_heading)
-	_next = UiStyle.button(tr("Later"))
+	_next = UiStyle.button(tr("Later"), false, "next")
 	_next.pressed.connect(func() -> void: _turn(1))
 	top.add_child(_next)
+	var hear := UiStyle.button(tr("Hear it"), false, "speaker")
+	hear.focus_mode = Control.FOCUS_NONE
+	hear.pressed.connect(func() -> void: AudioService.narrate(_spoken_page(), true))
+	top.add_child(hear)
 	var scroll := ScrollContainer.new()
 	scroll.custom_minimum_size.y = 360
 	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
@@ -32,11 +36,12 @@ func show_journal() -> void:
 	_page.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	_page.add_theme_constant_override("separation", 14)
 	scroll.add_child(_page)
-	var done := UiStyle.button(tr("Close the journal"), true)
+	var done := UiStyle.button(tr("Close the journal"), true, "yes")
 	done.pressed.connect(close)
 	add_buttons([done])
 	_day = Days.current_day
 	_render()
+	AudioService.narrate(_spoken_page())
 
 
 func _turn(delta: int) -> void:
@@ -48,6 +53,24 @@ func _turn(delta: int) -> void:
 	_day = days[i]
 	AudioService.play("page")
 	_render()
+	AudioService.narrate(_spoken_page())
+
+
+## Everything on the page, in order, for reading aloud.
+func _spoken_page() -> String:
+	var parts: Array[String] = [_heading.text + "."]
+	var entries := Journal.entries_for_day(_day)
+	if entries.is_empty():
+		parts.append(tr("This page is waiting for today's work."))
+	for e in entries:
+		match e["kind"]:
+			"invitation":
+				parts.append(tr("A letter from Miriam:") + " " + str(e["text"]))
+			"work":
+				parts.append(str(e["text"]))
+			"real_world":
+				parts.append(tr("Something to try at home:") + " " + str(e["text"]))
+	return " ".join(parts)
 
 
 func _render() -> void:
@@ -79,7 +102,7 @@ func _add_real_world(e: Dictionary) -> void:
 	_page.add_child(box)
 	var col := VBoxContainer.new()
 	box.add_child(col)
-	col.add_child(UiStyle.label(tr("Something to try away from the screen:"), "SmallLabel"))
+	col.add_child(UiStyle.label(tr("Something to try at home:"), "SmallLabel"))
 	col.add_child(UiStyle.label(e["text"]))
 	if Content.get_real_world(e["ref"]).get("checkable", true):
 		var tried := CheckButton.new()

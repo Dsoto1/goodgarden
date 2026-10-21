@@ -116,11 +116,11 @@ func _on_bed_used() -> void:
 func _describe_bed() -> String:
 	var bed: Variant = WorldState.get_fact("garden.bed_1")
 	if bed == null:
-		return tr("The soil is raked and ready. A little bag of bean seeds sits at the end of the row.")
+		return tr("The soil is smooth and ready. A little bag of bean seeds sits at the end of the row.")
 	match growth_stage(bed):
 		0: return tr("Little mounds of soil cover the seeds. They're resting.")
 		1: return tr("Tiny green loops are pushing up through the soil!")
-		2: return tr("The bean seedlings have opened their first leaves.")
+		2: return tr("The baby bean plants have opened their first leaves.")
 		_: return tr("The bean plants are climbing their poles.")
 
 

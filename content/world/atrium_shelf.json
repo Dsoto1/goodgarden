@@ -1,13 +1,13 @@
 {
 	"id": "atrium_shelf",
-	"comment": "Materials on the Chapel/Atrium shelf. Each item opens a reflection-mode activity. Add presentations here as they pass review.",
+	"comment": "Materials on the Chapel/Atrium shelf. Each item opens a reflection-mode activity; its picture (see ChapelRegion._tray_picture) lets a child find it without reading. Add presentations here as they pass review.",
 	"items": [
-		{"activity": "good_samaritan", "label": "The Good Samaritan", "tray_color": "cloth_cream"},
-		{"activity": "mustard_seed", "label": "The Mustard Seed", "tray_color": "cloth_green"},
-		{"activity": "leaven", "label": "The Leaven", "tray_color": "cloth_gold"},
-		{"activity": "lost_sheep", "label": "The Lost Sheep", "tray_color": "cloth_blue"},
-		{"activity": "fishers", "label": "The Calling of the Fishermen", "tray_color": "cloth_purple"},
-		{"activity": "five_thousand", "label": "The Feeding of the Five Thousand", "tray_color": "cloth_red"},
-		{"activity": "good_shepherd", "label": "The Good Shepherd", "tray_color": "cloth_tan"}
+		{"activity": "good_samaritan", "picture": "donkey", "label": "The Good Samaritan", "tray_color": "cloth_cream"},
+		{"activity": "mustard_seed", "picture": "mustard", "label": "The Mustard Seed", "tray_color": "cloth_green"},
+		{"activity": "leaven", "picture": "bowl", "label": "The Leaven", "tray_color": "cloth_gold"},
+		{"activity": "lost_sheep", "picture": "sheep", "label": "The Lost Sheep", "tray_color": "cloth_blue"},
+		{"activity": "fishers", "picture": "boat", "label": "Jesus Calls the Fishermen", "tray_color": "cloth_purple"},
+		{"activity": "five_thousand", "picture": "loaves", "label": "Bread and Fish for Everyone", "tray_color": "cloth_red"},
+		{"activity": "good_shepherd", "picture": "shepherd", "label": "The Good Shepherd", "tray_color": "cloth_tan"}
 	]
 }

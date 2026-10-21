@@ -135,6 +135,8 @@ func _on_dropped(p: DragPiece) -> void:
 		observed.emit("self_correction", {"step": config.get("id", "")})
 	target.put(p)
 	AudioService.play("place")
+	# Count along out loud: "one", "two", "three"...
+	AudioService.narrate(count_word(target.contents.size()))
 	_hint_slot = null
 	_layout_hole_contents()
 	queue_redraw()
@@ -160,6 +162,11 @@ func _dimple(i: int, n: int) -> Vector2:
 		return Vector2.ZERO
 	var a := -PI / 2.0 + TAU * i / n
 	return Vector2(cos(a), sin(a)) * 17.0
+
+
+func count_word(n: int) -> String:
+	var words := ["zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "eleven", "twelve"]
+	return tr(words[n]) if n < words.size() else str(n)
 
 
 func say_count(key: String, fallback: String, n: int) -> void:

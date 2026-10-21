@@ -96,7 +96,7 @@ func _build_layout() -> void:
 	var right := VBoxContainer.new()
 	right.alignment = BoxContainer.ALIGNMENT_CENTER
 	card_row.add_child(right)
-	var hear := UiStyle.button(tr("Hear it"))
+	var hear := UiStyle.button(tr("Hear it"), false, "speaker")
 	hear.pressed.connect(_on_hear_pressed)
 	right.add_child(hear)
 	_prompt_buttons = HBoxContainer.new()
@@ -117,19 +117,19 @@ func _build_layout() -> void:
 	var bar := HBoxContainer.new()
 	bar.add_theme_constant_override("separation", 12)
 	column.add_child(bar)
-	var pause := UiStyle.button(tr("Pause"))
+	var pause := UiStyle.button(tr("Pause"), false, "pause")
 	pause.pressed.connect(func() -> void: get_tree().call_group("main", "open_pause"))
 	bar.add_child(pause)
-	_restart_button = UiStyle.button(tr("Start over"))
+	_restart_button = UiStyle.button(tr("Start over"), false, "restart")
 	_restart_button.pressed.connect(_on_restart_pressed)
 	bar.add_child(_restart_button)
 	var spacer := Control.new()
 	spacer.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	bar.add_child(spacer)
-	_hint_button = UiStyle.button(tr("Show me"))
+	_hint_button = UiStyle.button(tr("Show me"), false, "hint")
 	_hint_button.pressed.connect(_on_hint_pressed)
 	bar.add_child(_hint_button)
-	_leave_button = UiStyle.button(tr("Return to the shelf") if reflective else tr("Finish later"))
+	_leave_button = UiStyle.button(tr("Return to the shelf") if reflective else tr("Finish later"), false, "box" if reflective else "door")
 	_leave_button.pressed.connect(_on_leave_pressed)
 	bar.add_child(_leave_button)
 	_update_controls()
@@ -173,7 +173,8 @@ func _show_line() -> void:
 	_speaker.text = Dialogue.character_name(speaker) if not speaker.is_empty() else ""
 	_set_prompt(tr(str(line.get("text", ""))))
 	var last := _line_index == _lines.size() - 1
-	_set_prompt_buttons([{"label": tr(str(line.get("button", "Begin" if last and step_index < 0 else ("Done" if last else "Next")))), "primary": true, "callback": func() -> void:
+	var label := str(line.get("button", "Begin" if last and step_index < 0 else ("Done" if last else "Next")))
+	_set_prompt_buttons([{"label": tr(label), "primary": true, "icon": "up" if label == "Stand up" else "next", "callback": func() -> void:
 		_line_index += 1
 		_show_line()}])
 
@@ -213,6 +214,11 @@ func _on_step_completed(result: Dictionary) -> void:
 	results[str(definition.steps[step_index].get("id", step_index))] = result
 	_update_controls()
 	await get_tree().create_timer(1.4).timeout
+	# Let the "well done" words finish before the next step speaks over them.
+	var waited := 0.0
+	while is_inside_tree() and AudioService.is_speaking() and waited < 8.0:
+		await get_tree().create_timer(0.2).timeout
+		waited += 0.2
 	if is_inside_tree():
 		_next_step()
 
@@ -252,7 +258,8 @@ func _set_prompt_buttons(actions: Array) -> void:
 	for c in _prompt_buttons.get_children():
 		c.queue_free()
 	for a: Dictionary in actions:
-		var b := UiStyle.button(str(a.get("label", "")), a.get("primary", false))
+		var primary: bool = a.get("primary", false)
+		var b := UiStyle.button(str(a.get("label", "")), primary, str(a.get("icon", "next" if primary else "")))
 		b.pressed.connect(a["callback"])
 		_prompt_buttons.add_child(b)
 	if actions.size() > 0:
@@ -281,9 +288,15 @@ func _on_restart_pressed() -> void:
 		step.reset_step()
 
 
+## Leaving asks first, so a stray tap doesn't sweep the child's work away.
 func _on_leave_pressed() -> void:
-	AudioService.stop_narration()
-	ActivityRunner.set_aside()
+	var card := ConfirmCard.new()
+	get_parent().add_child(card)
+	var reflective := definition.is_reflection()
+	var question := tr("Put the story away for now?") if reflective else tr("Stop for now? Next time, this work starts from the beginning.")
+	card.ask(question, tr("Yes, stop"), tr("Keep going"), func() -> void:
+		AudioService.stop_narration()
+		ActivityRunner.set_aside())
 
 
 func _unhandled_input(event: InputEvent) -> void:

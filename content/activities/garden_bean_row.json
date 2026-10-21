@@ -27,7 +27,7 @@
 		},
 		{
 			"speaker": "miriam",
-			"text": "This stick is our helper. We'll make a hole every stick-length, starting from the stone."
+			"text": "This stick is our helper. Each bean needs one stick of space, starting from the stone."
 		}
 	],
 	"steps": [
@@ -35,15 +35,15 @@
 			"id": "space_holes",
 			"primitive": "space_along_line",
 			"speaker": "miriam",
-			"prompt": "Put a peg in the row every stick-length, starting from the stone. You can lay the stick down to measure.",
-			"hint": "Lay the stick against the stone. Where does its other end reach? A peg goes there.",
+			"prompt": "Put a peg one stick away from the stone. Then one stick away from that peg, and so on. Lay the stick down to measure.",
+			"hint": "Lay the stick next to the stone. Where does the other end reach? Put a peg there.",
 			"markers": 4,
 			"stick_length": 170,
-			"tolerance": 22,
+			"tolerance": 34,
 			"feedback": {
 				"placed_all": "Now let's check with the stick. Does it fit each space?",
-				"crowded": "Look where the stick lies over a peg. Those beans would be crowded.",
-				"far": "Look where there's bare ground past the end of the stick. Can that peg move closer?",
+				"crowded": "Look: the stick covers a peg there. Those beans would be too close. Can that peg move further away?",
+				"far": "Look: there's a gap past the end of the stick. Can that peg move closer?",
 				"all_good": "Every space is one stick long. The beans will have room to grow."
 			}
 		},

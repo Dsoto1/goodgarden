@@ -26,16 +26,16 @@ func _ready() -> void:
 	spacer.custom_minimum_size.y = 20
 	col.add_child(spacer)
 	if SaveService.has_save():
-		var cont := UiStyle.button(tr("Continue my garden"), true)
+		var cont := UiStyle.button(tr("Continue my garden"), true, "next")
 		cont.pressed.connect(func() -> void: continue_pressed.emit())
 		col.add_child(cont)
 		cont.call_deferred("grab_focus")
-	var fresh := UiStyle.button(tr("Begin a new garden"), not SaveService.has_save())
+	var fresh := UiStyle.button(tr("Begin a new garden"), not SaveService.has_save(), "seedling")
 	fresh.pressed.connect(func() -> void: new_pressed.emit())
 	col.add_child(fresh)
 	if not SaveService.has_save():
 		fresh.call_deferred("grab_focus")
-	var settings := UiStyle.button(tr("Settings"))
+	var settings := UiStyle.button(tr("Settings"), false, "settings")
 	settings.pressed.connect(func() -> void: settings_pressed.emit())
 	col.add_child(settings)
 

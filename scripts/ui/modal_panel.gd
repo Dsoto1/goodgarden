@@ -29,7 +29,8 @@ func close() -> void:
 	queue_free()
 
 
-func add_buttons(buttons: Array) -> HBoxContainer:
+## Adds a row of buttons; the one at `focus_index` (default: the last) starts selected.
+func add_buttons(buttons: Array, focus_index := -1) -> HBoxContainer:
 	var row := HBoxContainer.new()
 	row.alignment = BoxContainer.ALIGNMENT_END
 	row.add_theme_constant_override("separation", 12)
@@ -37,7 +38,7 @@ func add_buttons(buttons: Array) -> HBoxContainer:
 	for b: Button in buttons:
 		row.add_child(b)
 	if buttons.size() > 0:
-		(buttons.back() as Button).call_deferred("grab_focus")
+		(buttons[focus_index] as Button).call_deferred("grab_focus")
 	return row
 
 

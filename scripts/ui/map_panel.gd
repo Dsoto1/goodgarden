@@ -4,9 +4,14 @@ extends ModalPanel
 ## travelled to; Bellhaven appears as a far-off promise.
 
 
+## A picture for each place, so places can be found without reading.
+const PLACE_ICONS := {"home": "home", "garden": "seedling", "village": "village", "chapel": "chapel"}
+
+
 func show_map() -> void:
 	open(820, Color("f3e6c4"))
 	content.add_child(UiStyle.label(tr("The Valley"), "HeadingLabel"))
+	AudioService.narrate(tr("The map. Choose a place to go."))
 	var drawing := MapDrawing.new()
 	drawing.custom_minimum_size = Vector2(760, 420)
 	content.add_child(drawing)
@@ -22,7 +27,7 @@ func show_map() -> void:
 			far.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 			drawing.add_child(far)
 		elif Discovery.is_discovered(id):
-			var b := UiStyle.button(tr(str(entry["name"])))
+			var b := UiStyle.button(tr(str(entry["name"])), false, PLACE_ICONS.get(id, "hand"))
 			b.pressed.connect(func() -> void:
 				close()
 				get_tree().call_group("main", "travel_to", id))
@@ -33,7 +38,7 @@ func show_map() -> void:
 			var q := UiStyle.label("?", "HeadingLabel")
 			q.position = pos - Vector2(8, 20)
 			drawing.add_child(q)
-	var done := UiStyle.button(tr("Close the map"), true)
+	var done := UiStyle.button(tr("Close the map"), true, "yes")
 	done.pressed.connect(close)
 	add_buttons([done])
 

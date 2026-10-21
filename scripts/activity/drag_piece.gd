@@ -22,7 +22,14 @@ var lying := false
 
 var _grab_offset := Vector2.ZERO
 var _press_pos := Vector2.ZERO
+var _press_position := Vector2.ZERO
 var _moved := false
+
+## Small pieces (a seed, a fork) can be picked up from a little around them:
+## at least this many board units across, for small fingers.
+const MIN_TOUCH := 64.0
+## A press that moves less than this (in pixels) is a tap, not a drag.
+const TAP_SLOP := 16.0
 
 
 static func create(piece_kind: String, piece_size: Vector2, piece_data: Dictionary = {}) -> DragPiece:
@@ -49,6 +56,11 @@ func set_lying(value: bool) -> void:
 	rotation = PI / 2.0 if lying else 0.0
 
 
+func _has_point(point: Vector2) -> bool:
+	var grow := (Vector2(MIN_TOUCH, MIN_TOUCH) - size).max(Vector2.ZERO) / 2.0
+	return Rect2(-grow, size + grow * 2.0).has_point(point)
+
+
 func _draw() -> void:
 	PieceArt.draw(self, kind, size, false, data)
 
@@ -63,6 +75,7 @@ func _gui_input(event: InputEvent) -> void:
 			dragging = true
 			_moved = false
 			_press_pos = event.global_position
+			_press_position = position
 			_grab_offset = _to_parent(event.global_position) - position
 			z_index = 10
 			move_to_front()
@@ -74,10 +87,12 @@ func _gui_input(event: InputEvent) -> void:
 			if _moved:
 				dropped.emit(self)
 			else:
+				# A tap that wobbled a little doesn't nudge the piece.
+				position = _press_position
 				tapped.emit(self)
 		accept_event()
 	elif event is InputEventMouseMotion and dragging:
-		if event.global_position.distance_to(_press_pos) > 6.0:
+		if event.global_position.distance_to(_press_pos) > TAP_SLOP:
 			_moved = true
 		var parent_size: Vector2 = get_parent().size if get_parent() is Control else ActivityStep.BOARD_SIZE
 		var p: Vector2 = _to_parent(event.global_position) - _grab_offset

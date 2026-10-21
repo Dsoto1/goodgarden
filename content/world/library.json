@@ -6,6 +6,7 @@
 			"id": "psalm_23",
 			"title": "The Lord Is My Shepherd",
 			"cover": "cloth_green",
+			"picture": "sheep",
 			"source": "Psalm 23",
 			"review_status": "DRAFT: child-friendly paraphrase; requires theological and editorial review before release.",
 			"pages": [
@@ -21,6 +22,7 @@
 			"id": "creation",
 			"title": "In the Beginning",
 			"cover": "cloth_blue",
+			"picture": "sun",
 			"source": "Genesis 1:1-2:3",
 			"review_status": "DRAFT: child-friendly retelling; requires theological and editorial review before release.",
 			"pages": [
@@ -38,6 +40,7 @@
 			"id": "seed_journey",
 			"title": "A Seed's Journey",
 			"cover": "cloth_gold",
+			"picture": "seedling",
 			"source": "",
 			"pages": [
 				"A seed lies asleep in the dark, cool soil.",

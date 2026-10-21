@@ -105,8 +105,9 @@ static func card(fill: Color, radius := 18) -> StyleBoxFlat:
 	return s
 
 
-static func button(text: String, primary := false) -> Button:
-	var b := Button.new()
+## A button; `icon_kind` (see Icon.draw) adds a picture beside the words.
+static func button(text: String, primary := false, icon_kind := "") -> Button:
+	var b: Button = Button.new() if icon_kind.is_empty() else Icon.IconButton.new(icon_kind, text)
 	b.text = text
 	b.custom_minimum_size = Vector2(64, 60)
 	if primary:

@@ -101,8 +101,8 @@ func _next_segment() -> void:
 	_tell(str(seg.get("text", "")))
 	var last := _segment == _segments().size() - 1
 	actions_changed.emit([
-		{"label": tr("Hear again"), "callback": func() -> void: _tell(str(seg.get("text", "")), true)},
-		{"label": tr("Continue") if not last else tr("Wonder"), "callback": _next_segment, "primary": true},
+		{"label": tr("Hear again"), "icon": "speaker", "callback": func() -> void: _tell(str(seg.get("text", "")), true)},
+		{"label": tr("Continue") if not last else tr("Wonder"), "icon": "next" if not last else "wonder", "callback": _next_segment, "primary": true},
 	])
 
 
@@ -125,8 +125,8 @@ func _show_wondering() -> void:
 		return
 	_tell(str(wonderings[_wonder]))
 	actions_changed.emit([
-		{"label": tr("Hear again"), "callback": func() -> void: _tell(str(wonderings[_wonder]), true)},
-		{"label": tr("Next wondering") if _wonder < wonderings.size() - 1 else tr("Tell it myself"), "callback": func() -> void:
+		{"label": tr("Hear again"), "icon": "speaker", "callback": func() -> void: _tell(str(wonderings[_wonder]), true)},
+		{"label": tr("Wonder some more") if _wonder < wonderings.size() - 1 else tr("Tell it myself"), "icon": "wonder" if _wonder < wonderings.size() - 1 else "talk", "callback": func() -> void:
 			_wonder += 1
 			_show_wondering(), "primary": true},
 	])
@@ -138,21 +138,24 @@ func _begin_retell() -> void:
 	_retell_part = 0
 	for id: String in figures:
 		figures[id].visible = true
-	say("retell", "Now the figures are yours. Move them and tell the story your way. You can hear any part again.")
+	say("retell", "Now the story pieces are yours. Move them and tell the story your way. You can hear any part again.")
 	_retell_actions()
 
 
 func _retell_actions() -> void:
 	var segs := _segments()
 	actions_changed.emit([
-		{"label": tr("Back"), "callback": func() -> void:
+		# Stepping back or on reads that part aloud, so the parts can be found by ear.
+		{"label": tr("Back"), "icon": "back", "callback": func() -> void:
 			_retell_part = posmod(_retell_part - 1, segs.size())
+			_tell(str(segs[_retell_part].get("text", "")), true)
 			_retell_actions()},
-		{"label": tr("Hear part %d") % (_retell_part + 1), "callback": func() -> void: _tell(str(segs[_retell_part].get("text", "")), true)},
-		{"label": tr("Next part"), "callback": func() -> void:
+		{"label": tr("Hear part %d") % (_retell_part + 1), "icon": "speaker", "callback": func() -> void: _tell(str(segs[_retell_part].get("text", "")), true)},
+		{"label": tr("Next part"), "icon": "next", "callback": func() -> void:
 			_retell_part = (_retell_part + 1) % segs.size()
+			_tell(str(segs[_retell_part].get("text", "")), true)
 			_retell_actions()},
-		{"label": tr("Put the material away"), "callback": put_away, "primary": true},
+		{"label": tr("Put the story away"), "icon": "box", "callback": put_away, "primary": true},
 	])
 
 
