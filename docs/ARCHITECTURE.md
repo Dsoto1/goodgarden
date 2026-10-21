@@ -82,6 +82,18 @@ Every step runs on a 1000×560 design-unit board that the workspace scales to fi
 - **Light:** golden-afternoon sun with longer shadows and blue aerial haze.
 - **HUD:** the place name (from `Discovery.entered`), "Day N • Season" (`Days.season()`), a Today's Invitation card (each invitation's `summary`), and Journal / Map / Settings icon tiles (`scripts/ui/icon.gd`). The serif font is EB Garamond (OFL).
 
+## Characters
+
+`CharacterModel` builds storybook people from rounded primitives:
+- **Proportions:** big friendly heads; children are clearly child-sized.
+- **Joints:** hinged knees and elbows.
+- **Faces:** eyes with irises and highlights, brows, nose, cheeks and a smile.
+- **Variety:** hairstyles, beards, hats and scarves, plus clothing layers (shirt, vest, skirt, apron, belt) and props (backpack, basket).
+
+Animation is procedural: a walk with knee bend and arm swing, breathing, blinking, idle glances, a mouth that moves while talking, and gestures. NPCs and talking villagers turn toward the child. Looks are data in `content/world/characters.json` (named characters, the player, and ambient `villagers`), and the validator checks every colour they name against the palette.
+
+I evaluated Quaternius's free Universal Base Characters (CC0) and didn't use them: they are realistic, muscular adult bodies in underwear, with no children, and would clash with the storybook style. The CC0 Universal Animation Library could drive a rigged custom character later.
+
 ## Input
 
 All pointer input is ordinary mouse events (touch is emulated as mouse). `DragPiece` reads positions from the event, not the hardware cursor, so the gamepad's `VirtualCursor` drives every primitive by pushing the same events.

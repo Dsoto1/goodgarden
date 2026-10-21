@@ -146,7 +146,7 @@ float pat_soil(vec3 wp, vec3 wn) {
 // Cloth: a soft weave.
 float pat_cloth(vec3 wp, vec3 wn) {
 	vec3 c = p_plane(wp, wn);
-	float weave = sin(c.x * 140.0) * sin(c.y * 140.0);
+	float weave = sin(c.x * 260.0) * sin(c.y * 260.0);
 	return 0.97 + 0.04 * weave + 0.05 * p_noise(c.xy * 4.0);
 }
 

@@ -29,11 +29,7 @@ func _ready() -> void:
 	shape.shape = capsule
 	shape.position.y = 0.56
 	add_child(shape)
-	model = CharacterModel.new().build({
-		"skin": "skin_2", "hair": "hair_dark", "hair_style": "tousled",
-		"shirt": "cloth_cream", "pants": "wood", "height": 0.86, "head_scale": 1.18,
-		"backpack": "wood_light",
-	})
+	model = CharacterModel.new().build(World.look_for("player"))
 	add_child(model)
 	# Child of the player but top-level, so it stays where it was placed in the world.
 	_dest_marker = MeshKit.cylinder(self, 0.35, 0.35, 0.02, Vector3.ZERO, "marker", 16)

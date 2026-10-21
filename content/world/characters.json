@@ -1,9 +1,128 @@
 {
 	"id": "characters",
 	"characters": {
-		"miriam": {"name": "Miriam", "role": "Neighbor and gardener; the child's primary guide."},
-		"tobias": {"name": "Tobias", "role": "The village baker."},
-		"ruth": {"name": "Ruth", "role": "A neighbor often found at the well."},
-		"narrator": {"name": ""}
-	}
+		"miriam": {
+			"name": "Miriam",
+			"role": "Neighbor and gardener; the child's primary guide.",
+			"look": {
+				"skin": "skin_1",
+				"hair": "hair_grey",
+				"hair_style": "bun",
+				"eyes": "iris_green",
+				"shirt": "cloth_green",
+				"skirt": "cloth_blue",
+				"pants": "cloth_blue",
+				"apron": "cloth_cream",
+				"hat": "straw",
+				"hat_band": "cloth_red",
+				"height": 0.96,
+				"carry": "basket"
+			}
+		},
+		"tobias": {
+			"name": "Tobias",
+			"role": "The village baker.",
+			"look": {
+				"skin": "skin_4",
+				"hair": "hair_dark",
+				"hair_style": "cropped",
+				"beard": "hair_dark",
+				"shirt": "white",
+				"pants": "cloth_blue",
+				"apron": "cloth_cream",
+				"belt": "leather",
+				"height": 1.0,
+				"build": 1.2
+			}
+		},
+		"ruth": {
+			"name": "Ruth",
+			"role": "A neighbor often found at the well.",
+			"look": {
+				"skin": "skin_3",
+				"hair": "hair_black",
+				"hair_style": "braid",
+				"shirt": "cloth_purple",
+				"skirt": "cloth_blue",
+				"pants": "cloth_blue",
+				"hat": "scarf",
+				"hat_color": "cloth_gold",
+				"height": 0.95
+			}
+		},
+		"narrator": {"name": ""},
+		"player": {
+			"name": "",
+			"role": "The child (the player's avatar).",
+			"look": {
+				"skin": "skin_2",
+				"hair": "hair_dark",
+				"hair_style": "tousled",
+				"eyes": "iris_brown",
+				"shirt": "cloth_cream",
+				"sleeves": "short",
+				"pants": "cloth_brown",
+				"vest": "leather",
+				"shoes": "shoe",
+				"height": 0.72,
+				"backpack": "cloth_tan"
+			}
+		}
+	},
+	"villagers": [
+		{
+			"skin": "skin_2",
+			"hair": "hair_blond",
+			"hair_style": "long",
+			"shirt": "cloth_red",
+			"skirt": "cloth_cream",
+			"pants": "cloth_cream",
+			"apron": "white",
+			"height": 0.95,
+			"carry": "basket"
+		},
+		{
+			"skin": "skin_1",
+			"hair": "hair_brown",
+			"hair_style": "short",
+			"beard": "hair_brown",
+			"shirt": "cloth_green",
+			"vest": "leather",
+			"pants": "cloth_brown",
+			"height": 1.0,
+			"build": 1.1
+		},
+		{
+			"skin": "skin_3",
+			"hair": "hair_black",
+			"hair_style": "curly",
+			"shirt": "cloth_gold",
+			"sleeves": "short",
+			"pants": "cloth_blue",
+			"height": 0.7
+		},
+		{
+			"skin": "skin_4",
+			"hair": "hair_grey",
+			"hair_style": "bun",
+			"shirt": "cloth_blue",
+			"skirt": "cloth_purple",
+			"pants": "cloth_purple",
+			"hat": "scarf",
+			"hat_color": "cloth_green",
+			"height": 0.92
+		},
+		{
+			"skin": "skin_1",
+			"hair": "hair_red",
+			"hair_style": "tousled",
+			"shirt": "white",
+			"sleeves": "short",
+			"pants": "cloth_green",
+			"hat": "cap",
+			"hat_color": "cloth_red",
+			"height": 0.68
+		}
+	],
+	"comment": "Names, roles and looks. A look is plain data for CharacterModel (see scripts/world/character_model.gd for keys). 'player' is the child; 'villagers' are ambient neighbours."
 }

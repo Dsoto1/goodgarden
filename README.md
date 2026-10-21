@@ -87,6 +87,10 @@ Rendered with the software renderer by `tools/screenshot_tour.tscn`. Art pass: K
 |---|---|
 | ![](docs/screenshots/13_story.png) | ![](docs/screenshots/16_day2_sprouts.png) |
 
+| The child and Miriam | Neighbours at the fountain |
+|---|---|
+| ![](docs/screenshots/04b_characters_closeup.png) | ![](docs/screenshots/10b_village_people.png) |
+
 | Talking with Miriam | The village |
 |---|---|
 | ![](docs/screenshots/05_dialogue.png) | ![](docs/screenshots/10_village.png) |

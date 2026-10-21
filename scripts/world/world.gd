@@ -178,14 +178,15 @@ func travel_to(region_id: String) -> bool:
 
 
 func _spawn_npcs() -> void:
-	var miriam := NPC.create("miriam", {
-		"skin": "skin_1", "hair": "hair_grey", "hair_style": "bun", "shirt": "cloth_green",
-		"skirt": "cloth_blue", "pants": "cloth_blue", "apron": "cloth_cream", "hat": "straw",
-		"hat_band": "cloth_red", "height": 1.08,
-	}, "miriam")
+	var miriam := NPC.create("miriam", look_for("miriam"), "miriam")
 	add_child(miriam)
 	npcs["miriam"] = miriam
 	_place_npcs()
+
+
+## A character's look from content/world/characters.json.
+static func look_for(character_id: String) -> Dictionary:
+	return Content.get_world("characters").get("characters", {}).get(character_id, {}).get("look", {})
 
 
 func _place_npcs() -> void:

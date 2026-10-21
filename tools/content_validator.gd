@@ -35,8 +35,25 @@ func run() -> PackedStringArray:
 			errors.append("atrium shelf lists unknown activity '%s'" % item.get("activity", ""))
 		elif not def.is_reflection():
 			errors.append("atrium shelf item '%s' must be a reflection-mode activity" % def.id)
+	_check_looks()
 	_check_third_party()
 	return errors
+
+
+## Every colour named in a character look must exist in the palette.
+func _check_looks() -> void:
+	var looks := []
+	var chars: Dictionary = Content.get_world("characters").get("characters", {})
+	for id: String in chars:
+		if chars[id].has("look"):
+			looks.append([id, chars[id]["look"]])
+	for i in Content.get_world("characters").get("villagers", []).size():
+		looks.append(["villager %d" % i, Content.get_world("characters")["villagers"][i]])
+	const COLOR_KEYS := ["skin", "hair", "beard", "eyes", "shirt", "pants", "skirt", "apron", "vest", "belt", "collar", "shoes", "hat_color", "hat_band", "backpack", "brows"]
+	for entry: Array in looks:
+		for key: String in COLOR_KEYS:
+			if entry[1].has(key) and not Palette.COLORS.has(str(entry[1][key])):
+				errors.append("look %s: '%s' uses unknown palette colour '%s'" % [entry[0], key, entry[1][key]])
 
 
 func _check_regions() -> Array:

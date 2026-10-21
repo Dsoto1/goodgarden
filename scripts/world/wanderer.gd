@@ -43,8 +43,15 @@ func _process(delta: float) -> void:
 			var to_player := player.global_position - global_position
 			rotation.y = lerp_angle(rotation.y, atan2(-to_player.x, -to_player.z), minf(delta * 6.0, 1.0))
 		if model is CharacterModel:
+			model.look_at_point(player.global_position + Vector3(0, 1.0, 0) if player else null)
+			model.set_talking(1.0)
+			model.gesture(0.6)
 			model.animate(delta, 0.0)
 		return
+	if model is CharacterModel:
+		model.set_talking(0.0)
+		model.gesture(0.0)
+		model.look_at_point(null)
 	if _wait > 0.0:
 		_wait -= delta
 		if model is CharacterModel:

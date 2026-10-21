@@ -38,8 +38,16 @@ func _on_talk() -> void:
 
 func _process(delta: float) -> void:
 	var talking: bool = Dialogue.active_id == dialogue_id
+	var player := get_tree().get_first_node_in_group("player") as Node3D
+	# Look at the child when they come near, as a friendly neighbour would.
+	var near := player != null and player.global_position.distance_to(global_position) < 4.5
+	model.look_at_point(player.global_position + Vector3(0, 1.0, 0) if near else null)
+	if near and _face_target == null:
+		var to := player.global_position - global_position
+		rotation.y = lerp_angle(rotation.y, atan2(-to.x, -to.z), minf(delta * 2.0, 1.0))
+	model.set_talking(1.0 if talking else 0.0)
+	model.gesture(0.5 + 0.5 * sin(Time.get_ticks_msec() / 900.0) if talking else 0.0)
 	model.animate(delta, 0.0, Settings.get_value("reduced_motion"))
-	model.gesture(0.15 + sin(Time.get_ticks_msec() / 400.0) * 0.08 if talking else 0.0)
 	if _face_target != null:
 		var to: Vector3 = _face_target - global_position
 		rotation.y = lerp_angle(rotation.y, atan2(-to.x, -to.z), minf(delta * 6.0, 1.0))

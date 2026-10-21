@@ -43,9 +43,23 @@ const COLORS := {
 	"cloth_cream": Color("efe3c6"),
 	"cloth_gold": Color("d9a944"),
 	"cloth_purple": Color("8c6fa8"),
-	"skin_1": Color("f1c8a5"),
+	"skin_1": Color("e3b08a"),
 	"skin_2": Color("c99a72"),
 	"skin_3": Color("8d5f42"),
+	"skin_4": Color("d9a07a"),
+	"cheek": Color("f0a79a"),
+	"lips": Color("b8574f"),
+	"eye_white": Color("fbf8f2"),
+	"iris_brown": Color("5a3a22"),
+	"iris_blue": Color("4b78b4"),
+	"iris_green": Color("4f8a4a"),
+	"hair_red": Color("b5582e"),
+	"hair_black": Color("2a201c"),
+	"monk_brown": Color("6e4b33"),
+	"shoe": Color("4a3326"),
+	"cloth_brown": Color("8a6244"),
+	"cloth_tan": Color("c9a77c"),
+	"leather": Color("6b4730"),
 	"hair_brown": Color("6b4430"),
 	"hair_dark": Color("3a2a22"),
 	"hair_grey": Color("c9c3bb"),
@@ -76,6 +90,7 @@ const PATTERNS := {
 	"cobble": 9,
 	"awning_red": 10, "awning_blue": 10, "awning_green": 10,
 	"soil": 7, "soil_dark": 7,
+	"cloth_brown": 8, "cloth_tan": 8,
 	"cloth_cream": 8, "cloth_blue": 8, "cloth_red": 8, "cloth_green": 8, "cloth_gold": 8, "cloth_purple": 8, "felt_blue": 8,
 }
 
@@ -107,6 +122,11 @@ static func mat(name: String) -> Material:
 			d.albedo_color = color(name)
 			d.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
 			m = d
+		"skin_1", "skin_2", "skin_3", "skin_4":
+			# Skin: light wraps softly around the form, like a painted face.
+			m = Style.flat(color(name), {"wrap": 0.4, "rim_strength": 0.08})
+		"eye_white", "lips", "cheek":
+			m = Style.flat(color(name), {"wrap": 0.8})
 		"leaf", "leaf_light", "leaf_autumn", "pine", "sprout", "grass_dark":
 			# Soft materials let light wrap around, like foliage.
 			m = Style.flat(color(name), {"wrap": 0.5})
@@ -114,6 +134,8 @@ static func mat(name: String) -> Material:
 			var params := {}
 			if PATTERNS.has(name):
 				params["pattern"] = PATTERNS[name]
+				if PATTERNS[name] == 8:
+					params["pattern_strength"] = 0.35 # cloth: a hint of weave, not gingham
 			if name.begins_with("cloth") or name == "white":
 				params["wrap"] = 0.5
 			m = Style.flat(color(name), params)

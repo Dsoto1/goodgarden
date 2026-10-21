@@ -64,6 +64,21 @@ static func sphere(parent: Node3D, radius: float, pos: Vector3, material: String
 	return mi
 
 
+## Rounded capsule along local Y (limbs, torsos, fingers of hair).
+static func capsule(parent: Node3D, radius: float, height: float, pos: Vector3, material: String, rot := Vector3.ZERO) -> MeshInstance3D:
+	var key := "cap%s_%s" % [radius, height]
+	if not _meshes.has(key):
+		var m := CapsuleMesh.new()
+		m.radius = radius
+		m.height = maxf(height, radius * 2.0)
+		m.radial_segments = 10
+		m.rings = 4
+		_meshes[key] = m
+	var mi := _instance(parent, _meshes[key], pos, material)
+	mi.rotation = rot
+	return mi
+
+
 ## Gable roof: a triangular prism whose ridge runs along local Z.
 static func roof(parent: Node3D, width: float, height: float, depth: float, pos: Vector3, material: String, rot_y := 0.0) -> MeshInstance3D:
 	var key := "roof%s_%s_%s" % [width, height, depth]

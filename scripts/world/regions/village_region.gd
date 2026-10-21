@@ -51,19 +51,14 @@ func build() -> void:
 	add_camera_zone(Vector3(0, 1, -12.5), Vector3(11, 3, 4.5), {"pitch": 9.0, "distance": 7.0, "height": 1.8, "fov": 52.0})
 	add_anchor("village_overlook", Vector3(0, 0, -12.5), 0.0)
 
-	_villager("tobias", {"skin": "skin_1", "hair": "hair_dark", "shirt": "white", "pants": "cloth_blue", "apron": "cloth_cream", "height": 1.12, "build": 1.2}, Vector3(-4.8, 0, -2.6), 1.0)
-	_villager("ruth", {"skin": "skin_3", "hair": "hair_dark", "hair_style": "bun", "shirt": "cloth_purple", "skirt": "cloth_blue", "pants": "cloth_blue", "height": 1.05}, Vector3(2.6, 0, 1.6), 1.0)
+	_villager("tobias", World.look_for("tobias"), Vector3(-4.8, 0, -2.6), 1.0)
+	_villager("ruth", World.look_for("ruth"), Vector3(2.6, 0, 1.6), 1.0)
 	# Neighbours going about their day (ambient, no conversation yet).
-	var folk := [
-		[{"skin": "skin_2", "hair": "hair_blond", "hair_style": "long", "shirt": "cloth_red", "skirt": "cloth_cream", "pants": "cloth_cream", "apron": "white", "height": 1.0}, Vector3(-3.0, 0, 1.4)],
-		[{"skin": "skin_1", "hair": "hair_brown", "shirt": "cloth_green", "pants": "wood_dark", "height": 1.1, "build": 1.1}, Vector3(3.2, 0, -2.4)],
-		[{"skin": "skin_3", "hair": "hair_dark", "hair_style": "curly", "shirt": "cloth_gold", "pants": "cloth_blue", "height": 0.8}, Vector3(-1.2, 0, -2.6)],
-		[{"skin": "skin_2", "hair": "hair_grey", "hair_style": "bun", "shirt": "cloth_blue", "skirt": "cloth_purple", "pants": "cloth_purple", "height": 1.0}, Vector3(1.0, 0, 3.6)],
-		[{"skin": "skin_1", "hair": "hair_dark", "hair_style": "short", "shirt": "white", "pants": "cloth_green", "height": 0.78}, Vector3(5.6, 0, 2.6)],
-	]
+	var folk: Array = Content.get_world("characters").get("villagers", [])
+	var spots := [Vector3(-3.0, 0, 1.4), Vector3(3.2, 0, -2.4), Vector3(-1.2, 0, -2.6), Vector3(1.0, 0, 3.6), Vector3(5.6, 0, 2.6)]
 	for i in folk.size():
-		var w := Wanderer.new().setup(CharacterModel.new().build(folk[i][0]), 300 + i)
-		w.position = folk[i][1]
+		var w := Wanderer.new().setup(CharacterModel.new().build(folk[i]), 300 + i)
+		w.position = spots[i % spots.size()]
 		w.radius = 2.2
 		w.speed = 0.55
 		w.pause_range = Vector2(2, 6)
