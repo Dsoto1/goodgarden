@@ -37,8 +37,10 @@ func _init() -> void:
 func begin(step_config: Dictionary, step_context: Dictionary) -> void:
 	config = step_config
 	context = step_context
-	_build()
+	# The step's prompt first, so anything the step says while building (a
+	# story's opening line) is what the child sees, not an empty prompt.
 	prompt_changed.emit(tr(str(config.get("prompt", ""))))
+	_build()
 
 
 ## Override: construct pieces and slots.

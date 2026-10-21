@@ -138,6 +138,12 @@ static func _parable_shape(ci: CanvasItem, shape: String, size: Vector2, h: floa
 		"leaven":
 			_shape(ci, _ellipse(Vector2(cx, h * 0.84), Vector2(size.x * 0.26, h * 0.05), 14), Color("b9a07a"), outline)
 			_shape(ci, _ellipse(Vector2(cx, h * 0.78), Vector2(size.x * 0.12, h * 0.05), 12), Color("d8c39a"), outline)
+		"sheep":
+			_sheep(ci, Vector2(cx, h * 0.62), size.x * 0.34, outline)
+		"flock":
+			# The ninety-nine, shown as a little huddle of sheep.
+			for p: Vector3 in [Vector3(-0.2, 0.5, 0.2), Vector3(0.2, 0.52, 0.2), Vector3(0.0, 0.66, 0.24), Vector3(-0.24, 0.78, 0.2), Vector3(0.24, 0.8, 0.2)]:
+				_sheep(ci, Vector2(cx + size.x * p.x, h * p.y), size.x * p.z, outline)
 		"dough":
 			# The whole bowl, risen: the dough swells high above the rim.
 			_shape(ci, _ellipse(Vector2(cx, h * 0.52), Vector2(size.x * 0.44, h * 0.26), 20), Color("f1e2c4"), outline)
@@ -145,6 +151,15 @@ static func _parable_shape(ci: CanvasItem, shape: String, size: Vector2, h: floa
 		_:
 			return false
 	return true
+
+
+## A woolly sheep: a cloud of a body, a dark face and legs, facing left.
+static func _sheep(ci: CanvasItem, at: Vector2, r: float, outline: bool) -> void:
+	for x: float in [-0.35, 0.35]:
+		_shape(ci, _rect(Rect2(at.x + r * x - 1.5, at.y + r * 0.3, 3, r * 0.7)), Color("3b3430"), outline)
+	for c: Vector3 in [Vector3(-0.35, 0.0, 0.55), Vector3(0.0, -0.15, 0.6), Vector3(0.38, 0.0, 0.55), Vector3(0.0, 0.18, 0.6)]:
+		_shape(ci, _ellipse(at + Vector2(c.x, c.y) * r, Vector2(c.z, c.z * 0.85) * r, 12), Color("f6f1e4"), outline)
+	_shape(ci, _ellipse(at + Vector2(-0.85, -0.2) * r, Vector2(0.3, 0.36) * r, 10), Color("3b3430"), outline)
 
 
 static func _bowl(ci: CanvasItem, cx: float, h: float, size: Vector2, outline: bool) -> void:

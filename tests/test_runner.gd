@@ -224,9 +224,17 @@ func test_story_handoff_and_put_away() -> void:
 ## The Mustard Seed: the seed gives way to the sprout and the grown plant,
 ## and figures the story set back in the box count as already put away.
 func test_parable_growth_and_put_away() -> void:
-	for id: String in ["mustard_seed", "leaven"]:
+	for id: String in ["mustard_seed", "leaven", "lost_sheep"]:
 		check(Content.get_activity(id) != null, "%s is authored" % id)
 	var def := Content.get_activity("mustard_seed")
+	var opening := PrimitiveRegistry.create("story_figures")
+	opening.reduced_motion = true
+	add_child(opening)
+	var seen := []
+	opening.prompt_changed.connect(func(t: String) -> void: seen.append(t))
+	opening.begin(def.steps[0], {})
+	check(not seen.is_empty() and str(seen.back()).begins_with("Jesus wanted"), "a story opens with its first line showing, not an empty prompt")
+	opening.queue_free()
 	var story := _make_step("story_figures", def.steps[0])
 	for i in def.steps[0]["segments"].size():
 		story._next_segment()
@@ -245,7 +253,7 @@ func test_parable_growth_and_put_away() -> void:
 				_drop(p, slot.center())
 	eq(done.size(), 1, "the rest go back and the material is put away")
 	var shelf: Array = Content.get_world("atrium_shelf").get("items", [])
-	eq(shelf.size(), 3, "three materials on the Atrium shelf")
+	eq(shelf.size(), 4, "four materials on the Atrium shelf")
 	story.queue_free()
 	put_away.queue_free()
 

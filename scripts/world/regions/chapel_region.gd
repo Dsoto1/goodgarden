@@ -120,7 +120,7 @@ func _material_trays() -> void:
 	var items: Array = Content.get_world("atrium_shelf").get("items", [])
 	for i in items.size():
 		var item: Dictionary = items[i]
-		var at := Vector3(-2.95, 0.88, -2.0 + i * 1.3)
+		var at := Vector3(-2.95, 0.88, -2.2 + i * 1.0)
 		MeshKit.box(self, Vector3(0.5, 0.06, 0.8), at, "wood_light")
 		MeshKit.box(self, Vector3(0.44, 0.02, 0.7), at + Vector3(0, 0.04, 0), item.get("tray_color", "cloth_cream"))
 		for k in 3:

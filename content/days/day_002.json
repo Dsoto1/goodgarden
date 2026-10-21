@@ -6,6 +6,6 @@
 	"invitation": "inv_day_002",
 	"npcs": {"miriam": "garden_miriam"},
 	"free_work": ["home_set_table"],
-	"chapel": ["good_samaritan", "mustard_seed", "leaven"],
+	"chapel": ["good_samaritan", "mustard_seed", "leaven", "lost_sheep"],
 	"season": "Spring"
 }

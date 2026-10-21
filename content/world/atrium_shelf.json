@@ -4,6 +4,7 @@
 	"items": [
 		{"activity": "good_samaritan", "label": "The Good Samaritan", "tray_color": "cloth_cream"},
 		{"activity": "mustard_seed", "label": "The Mustard Seed", "tray_color": "cloth_green"},
-		{"activity": "leaven", "label": "The Leaven", "tray_color": "cloth_gold"}
+		{"activity": "leaven", "label": "The Leaven", "tray_color": "cloth_gold"},
+		{"activity": "lost_sheep", "label": "The Lost Sheep", "tray_color": "cloth_blue"}
 	]
 }

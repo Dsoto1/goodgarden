@@ -1,0 +1,107 @@
+{
+	"id": "lost_sheep",
+	"title": "The Lost Sheep",
+	"mode": "reflection",
+	"location": "chapel",
+	"surface": "atrium_felt",
+	"review_status": "DRAFT: retelling and wondering questions require theological and editorial review before release.",
+	"source": {
+		"reference": "Luke 15:3-7",
+		"note": "Original child-friendly retelling written for this prototype; not a quotation of any translation. See also Matthew 18:12-14."
+	},
+	"readiness": {"ages": [3, 10], "reading": "narration provided; text optional"},
+	"concepts": ["listening to a parable", "sequencing a story", "one and many"],
+	"formation_themes": ["the Good Shepherd", "being known and loved", "joy"],
+	"prerequisites": [],
+	"intro": [
+		{
+			"speaker": "narrator",
+			"text": "This is a story Jesus told. Let's carry the material to the table, and listen.",
+			"button": "Listen"
+		}
+	],
+	"steps": [
+		{
+			"id": "story",
+			"primitive": "story_figures",
+			"reference": "Luke 15:3-7",
+			"box": [220, 380, 560, 150],
+			"places": [
+				{"label": "The sheepfold", "pos": [230, 205], "kind": "fold"},
+				{"label": "The wilderness", "pos": [790, 175], "kind": "hills"}
+			],
+			"figures": [
+				{"id": "shepherd", "label": "Shepherd", "color": "cloth_brown", "accent": "cloth_tan"},
+				{"id": "flock", "label": "The ninety-nine", "color": "white", "shape": "flock"},
+				{"id": "lost", "label": "Lost sheep", "color": "white", "shape": "sheep"},
+				{"id": "friend_a", "label": "Friend", "color": "cloth_green"},
+				{"id": "friend_b", "label": "Neighbor", "color": "cloth_blue"}
+			],
+			"segments": [
+				{
+					"text": "Jesus told a story about a shepherd. The shepherd had one hundred sheep, and he knew every one of them.",
+					"reveal": ["shepherd", "flock"],
+					"show": {"shepherd": {"pos": [340, 190]}, "flock": {"pos": [440, 205]}}
+				},
+				{
+					"text": "One day, one little sheep wandered away, far from the others, until it was lost.",
+					"reveal": ["lost"],
+					"show": {"lost": {"pos": [770, 150]}}
+				},
+				{"text": "The shepherd counted his sheep: ninety-seven, ninety-eight, ninety-nine... One was missing!"},
+				{
+					"text": "So he left the ninety-nine together, and he went out into the wilderness to look for the one that was lost. He searched and searched until he found it.",
+					"show": {"shepherd": {"pos": [690, 185]}}
+				},
+				{
+					"text": "When he found it, he was so happy! He lifted the sheep onto his shoulders and carried it all the way home.",
+					"show": {"shepherd": {"pos": [330, 195]}, "lost": {"pos": [330, 140]}, "flock": {"pos": [230, 185]}}
+				},
+				{
+					"text": "He called his friends and neighbors together and said, \"Be happy with me! I have found my sheep that was lost!\"",
+					"reveal": ["friend_a", "friend_b"],
+					"show": {"friend_a": {"pos": [440, 200]}, "friend_b": {"pos": [510, 205]}}
+				},
+				{"text": "And Jesus said that there is joy like this in heaven over one who is found."}
+			],
+			"wonderings": [
+				"I wonder how the lost sheep felt, far away all by itself.",
+				"I wonder how the shepherd knew that one was missing.",
+				"I wonder how the sheep felt, carried home on the shepherd's shoulders.",
+				"I wonder who the shepherd might be."
+			]
+		},
+		{
+			"id": "put_away",
+			"primitive": "match_to_outline",
+			"prompt": "When you're ready, return each figure to its place in the box.",
+			"pieces_from_previous": true,
+			"box": [220, 380, 560, 150],
+			"slots": [
+				{"kind": "figure:shepherd", "pos": [276.0, 455]},
+				{"kind": "figure:flock", "pos": [388.0, 455]},
+				{"kind": "figure:lost", "pos": [500.0, 455]},
+				{"kind": "figure:friend_a", "pos": [612.0, 455]},
+				{"kind": "figure:friend_b", "pos": [724.0, 455]}
+			],
+			"feedback": {
+				"mismatch": "That place is shaped for a different figure.",
+				"all_good": "Each figure is resting in its place."
+			}
+		}
+	],
+	"outro": [
+		{
+			"speaker": "narrator",
+			"text": "The material is back on the shelf. It will be here whenever you want to return to it.",
+			"button": "Stand up"
+		}
+	],
+	"world_effects": [
+		{"op": "increment", "fact": "chapel.lost_sheep.visits"},
+		{"op": "set", "fact": "chapel.lost_sheep.last_day", "value": "$day"}
+	],
+	"replay": "free",
+	"real_world_invitation": "rw_find_the_one",
+	"journal_line": "I listened to the story of the shepherd who went looking for the one lost sheep, and carried it home."
+}

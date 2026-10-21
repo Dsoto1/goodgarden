@@ -8,7 +8,7 @@ extends ActivityStep
 ## again, sit with the wondering questions, and retell freely.
 ##
 ## Config:
-##   places: [{"label", "pos": [x,y], "kind": "city"|"inn"|"field"|"house"}]  fixed scenery
+##   places: [{"label", "pos": [x,y], "kind": "city"|"inn"|"field"|"house"|"fold"|"hills"}]  fixed scenery
 ##   road: [[x,y], ...]                 path drawn on the felt
 ##   figures: [{"id", "label", "color", "shape"?, "accent"?}]
 ##   box: [x, y, w, h]                  material box where figures rest
@@ -195,7 +195,19 @@ func _draw() -> void:
 				for k in 5:
 					var y := c.y - 34 + k * 17
 					draw_line(Vector2(c.x - 104, y), Vector2(c.x + 104, y), Color("6f4e35"), 3.0)
-		var label_y := 70.0 if place.get("kind", "") == "field" else 54.0
+			"fold":
+				# A sheepfold: a ring of low stone wall with a gap for the gate.
+				for k in 20:
+					var a := TAU * k / 20.0
+					if k == 5:
+						continue
+					draw_circle(c + Vector2(cos(a) * 62, sin(a) * 38), 9.0, Color("c9bfae"))
+			"hills":
+				# The wilderness: rocky hills with a few thorny shrubs.
+				draw_colored_polygon(PackedVector2Array([c + Vector2(-110, 40), c + Vector2(-50, -40), c + Vector2(0, 10), c + Vector2(50, -55), c + Vector2(120, 40)]), Color("a89a7c"))
+				for p: Vector2 in [Vector2(-70, 28), Vector2(30, 26), Vector2(80, 30)]:
+					draw_circle(c + p, 10.0, Color("7f8a55"))
+		var label_y := 70.0 if place.get("kind", "") in ["field", "fold", "hills"] else 54.0
 		draw_string(UiStyle.font(), c + Vector2(-80, label_y), tr(str(place.get("label", ""))), HORIZONTAL_ALIGNMENT_CENTER, 160, 18, Color("f6f1e4"))
 	var box := _box_rect()
 	draw_rect(box.grow(8), Color("7b5338"))

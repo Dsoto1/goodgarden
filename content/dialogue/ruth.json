@@ -10,6 +10,13 @@
 		},
 		{
 			"when": [
+				{"fact": "chapel.lost_sheep.visits", "exists": true},
+				{"fact": "npc.ruth.sheep_wonder", "exists": false}
+			],
+			"start": "sheep_wonder"
+		},
+		{
+			"when": [
 				{"fact": "garden.bed_1", "exists": true}
 			],
 			"start": "beans"
@@ -29,6 +36,13 @@
 		"bread": {
 			"mood": "joy",
 			"text": "Was it you who filled our bread basket? Two rolls, one for me and one for my husband. Thank you, little one."
+		},
+		"sheep_wonder": {
+			"mood": "gentle",
+			"text": "When I was a girl, my grandmother kept sheep. She knew every one of them by name. If even one wandered off, she would go out looking until she found it, and she always sang on the way home.",
+			"actions": [
+				{"op": "set_fact", "fact": "npc.ruth.sheep_wonder", "value": true}
+			]
 		}
 	}
 }
