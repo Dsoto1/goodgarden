@@ -67,6 +67,7 @@ func build() -> void:
 	Props.place(self, "mushroom", Vector3(7.4, 0, 7.3), 0.4)
 	Props.place(self, "fern", Vector3(-7.4, 0, -3.6), 0.2)
 	CraftedProps.watering_can(self, Vector3(-4.1, 0, -1.7), 2.4)
+	CraftedProps.scarecrow(self, Vector3(3.2, 0, 4.4), 0.3)
 	# Bees for the beans' flowers, just outside the fence.
 	CraftedProps.bee_skeps(self, Vector3(-1.2, 0, -8.4), PI)
 

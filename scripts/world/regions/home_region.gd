@@ -84,6 +84,9 @@ func build() -> void:
 	_build_coop(Vector3(-6.5, 0, 8.5))
 	# Everyday life around the house: letters, firewood, washing.
 	CraftedProps.letterbox(self, Vector3(4.4, 0, 6.0), PI)
+	CraftedProps.flower_pot(self, Vector3(0.95, 0, 4.0), "flower_pink")
+	CraftedProps.flower_pot(self, Vector3(1.45, 0, 4.15), "flower_yellow", 0.8)
+	CraftedProps.flower_pot(self, Vector3(-3.6, 0, 4.0), "flower_blue", 1.1)
 	CraftedProps.woodpile(self, Vector3(-4.75, 0, -1.9), PI / 2.0)
 	CraftedProps.chopping_block(self, Vector3(-5.2, 0, -0.1), 0.6)
 	CraftedProps.clothesline(self, Vector3(-1.0, 0, 8.2), Vector3(3.2, 0, 8.6))

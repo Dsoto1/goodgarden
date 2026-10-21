@@ -13,7 +13,7 @@ func build() -> void:
 	Props.place(self, "well", Vector3(6.4, 0, 6.0), -0.6, 0.85)
 	var stalls := [
 		[Vector3(-5.2, 0, 3.2), "awning_red", ["crate_carrots", "crate_lettuce"]],
-		[Vector3(-5.8, 0, -2.8), "awning_blue", ["crate_lettuce", "crate"]],
+		[Vector3(-5.8, 0, -2.8), "awning_blue", ["bread"]],
 		[Vector3(5.8, 0, -2.8), "awning_green", ["crate_carrots", "crate_open"]],
 		[Vector3(4.6, 0, 3.6), "awning_red", ["crate_lettuce", "crate_carrots"]],
 	]
@@ -184,6 +184,9 @@ func _stall(at: Vector3, rot: float, awning: String, goods: Array) -> void:
 	var canopy := MeshKit.box(root, Vector3(2.1, 0.06, 1.3), Vector3(0, 2.0, 0.1), awning)
 	canopy.rotation.x = -0.32
 	MeshKit.box(root, Vector3(2.1, 0.22, 0.04), Vector3(0, 1.72, 0.72), awning)
+	if goods == ["bread"]:
+		CraftedProps.bread_stall_goods(root, Vector3(0, 0.8, 0.05)) # Tobias's bread
+		return
 	for i in goods.size():
 		Props.place(root, goods[i], Vector3(-0.45 + i * 0.9, 0.8, 0.05), 0.0, 0.75)
 

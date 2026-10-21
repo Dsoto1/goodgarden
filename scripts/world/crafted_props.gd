@@ -307,3 +307,87 @@ static func birdbath(parent: Node3D, pos: Vector3) -> Node3D:
 	MeshKit.cone(r, 0.015, 0.05, Vector3(0.25, 1.06, 0.05), "flower_yellow", 4).rotation.z = PI / 2.0
 	MeshKit.solid(r, Vector3(0.9, 1.0, 0.9), Vector3(0, 0.5, 0))
 	return r
+
+
+## A clay flower pot with a little mound of leaves and blooms.
+static func flower_pot(parent: Node3D, pos: Vector3, flower := "flower_pink", size := 1.0) -> Node3D:
+	var r := _root(parent, "FlowerPot", pos, 0.0)
+	r.scale = Vector3.ONE * size
+	MeshKit.cylinder(r, 0.2, 0.15, 0.32, Vector3(0, 0.16, 0), "roof_red", 10)
+	MeshKit.cylinder(r, 0.23, 0.23, 0.06, Vector3(0, 0.32, 0), "roof_red", 10)
+	MeshKit.sphere(r, 0.22, Vector3(0, 0.42, 0), "leaf", Vector3(1.0, 0.7, 1.0), 9, 5)
+	for i in 5:
+		var a := TAU * i / 5.0
+		MeshKit.sphere(r, 0.055, Vector3(cos(a) * 0.13, 0.52 + (i % 2) * 0.04, sin(a) * 0.13), flower, Vector3.ONE, 6, 3)
+	return r
+
+
+## A friendly scarecrow on a cross of poles: straw hat, patched shirt, a
+## sack face with a stitched smile.
+static func scarecrow(parent: Node3D, pos: Vector3, rot_y := 0.0) -> Node3D:
+	var r := _root(parent, "Scarecrow", pos, rot_y)
+	MeshKit.box(r, Vector3(0.08, 1.9, 0.08), Vector3(0, 0.95, 0), "wood_dark")
+	MeshKit.box(r, Vector3(1.3, 0.07, 0.07), Vector3(0, 1.45, 0), "wood_dark")
+	var shirt := MeshKit.box(r, Vector3(0.5, 0.6, 0.26), Vector3(0, 1.3, 0), "cloth_blue")
+	shirt.rotation.z = 0.04
+	MeshKit.box(r, Vector3(0.14, 0.14, 0.02), Vector3(0.1, 1.38, -0.135), "cloth_red")
+	for side: float in [-1.0, 1.0]:
+		MeshKit.box(r, Vector3(0.36, 0.16, 0.18), Vector3(side * 0.42, 1.45, 0), "cloth_blue")
+		MeshKit.sphere(r, 0.07, Vector3(side * 0.64, 1.42, 0), "roof_thatch", Vector3(1.3, 1.0, 1.0), 6, 3)
+	MeshKit.box(r, Vector3(0.5, 0.06, 0.28), Vector3(0, 1.0, 0), "cloth_brown")
+	MeshKit.sphere(r, 0.06, Vector3(0, 0.92, 0), "roof_thatch", Vector3(2.6, 1.0, 1.4), 6, 3)
+	MeshKit.sphere(r, 0.17, Vector3(0, 1.78, 0), "cloth_tan", Vector3(1.0, 1.05, 0.95), 10, 6)
+	for side: float in [-1.0, 1.0]:
+		MeshKit.box(r, Vector3(0.05, 0.05, 0.02), Vector3(side * 0.06, 1.82, -0.16), "dark")
+	for i in 5:
+		MeshKit.box(r, Vector3(0.025, 0.012, 0.02), Vector3(-0.06 + i * 0.03, 1.72 - absf(i - 2) * -0.008, -0.165), "dark")
+	MeshKit.cylinder(r, 0.3, 0.3, 0.03, Vector3(0, 1.9, 0), "roof_thatch", 12)
+	MeshKit.cylinder(r, 0.13, 0.16, 0.14, Vector3(0, 1.98, 0), "roof_thatch", 10)
+	MeshKit.solid(r, Vector3(0.4, 1.9, 0.4), Vector3(0, 0.95, 0))
+	return r
+
+
+## A net hung to dry on a frame of poles, a fish creel and a coil of rope:
+## the fishermen's work by the river.
+static func net_rack(parent: Node3D, pos: Vector3, rot_y := 0.0) -> Node3D:
+	var r := _root(parent, "NetRack", pos, rot_y)
+	for x: float in [-0.9, 0.9]:
+		MeshKit.box(r, Vector3(0.08, 1.6, 0.08), Vector3(x, 0.8, 0), "wood_dark")
+	MeshKit.box(r, Vector3(2.0, 0.06, 0.06), Vector3(0, 1.58, 0), "wood")
+	# The net: a slack mesh of cords sagging from the pole.
+	for i in 9:
+		var x := -0.8 + i * 0.2
+		var cord := MeshKit.box(r, Vector3(0.015, 1.1, 0.015), Vector3(x, 1.02, 0.0), "cloth_tan")
+		cord.rotation.z = (i - 4) * 0.02
+	for k in 6:
+		var y := 1.5 - k * 0.19
+		var sag := 0.05 * sin(k * 0.6)
+		MeshKit.box(r, Vector3(1.6 - k * 0.04, 0.015, 0.015), Vector3(0, y - sag, 0.0), "cloth_tan")
+	for i in 4:
+		MeshKit.sphere(r, 0.04, Vector3(-0.6 + i * 0.4, 0.46, 0.0), "cloth_red", Vector3.ONE, 6, 3)
+	MeshKit.solid(r, Vector3(2.0, 1.6, 0.3), Vector3(0, 0.8, 0))
+	return r
+
+
+## A lidded fish creel and a coiled rope, to set on a jetty or the bank.
+static func creel_and_rope(parent: Node3D, pos: Vector3, rot_y := 0.0) -> Node3D:
+	var r := _root(parent, "CreelAndRope", pos, rot_y)
+	MeshKit.box(r, Vector3(0.42, 0.34, 0.3), Vector3(0, 0.17, 0), "roof_thatch")
+	MeshKit.box(r, Vector3(0.44, 0.05, 0.32), Vector3(0, 0.36, 0), "wood")
+	MeshKit.box(r, Vector3(0.04, 0.3, 0.32), Vector3(0.18, 0.5, 0), "leather").rotation.z = -0.3
+	for k in 3:
+		MeshKit.cylinder(r, 0.2 - k * 0.04, 0.2 - k * 0.04, 0.05, Vector3(0.6, 0.03 + k * 0.05, 0.05), "cloth_tan", 12)
+	return r
+
+
+## A market stall of bread: baskets of rolls and long loaves on the counter.
+static func bread_stall_goods(parent: Node3D, pos: Vector3, rot_y := 0.0) -> Node3D:
+	var r := _root(parent, "BreadGoods", pos, rot_y)
+	for x: float in [-0.55, 0.55]:
+		bread_basket(r, Vector3(x, 0, 0.08), x).scale = Vector3.ONE * 0.6
+	for i in 3:
+		var loaf := MeshKit.capsule(r, 0.08, 0.42, Vector3(-0.1 + i * 0.1, 0.07, -0.2), "bread", Vector3(0, 0, PI / 2.0))
+		loaf.rotation.y = 0.3 - i * 0.1
+		loaf.scale = Vector3(1.0, 1.0, 0.85)
+	MeshKit.box(r, Vector3(0.36, 0.03, 0.22), Vector3(0, 0.015, 0.25), "wood_light")
+	return r

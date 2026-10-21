@@ -32,6 +32,15 @@ static func make(kind: String) -> Node3D:
 			for x: float in [-0.14, 0.14]:
 				for z: float in [-0.18, 0.18]:
 					MeshKit.cylinder(root, 0.035, 0.035, 0.3, Vector3(x, 0.15, z), "dark", 4)
+		"lamb":
+			# Smaller and creamier than its mother, with a bigger head for its size.
+			MeshKit.sphere(root, 0.2, Vector3(0, 0.32, 0), "cloth_cream", Vector3(0.9, 0.85, 1.2), 8, 4)
+			MeshKit.sphere(root, 0.11, Vector3(0, 0.42, -0.25), "cloth_cream", Vector3(0.85, 0.95, 1.05), 7, 4)
+			for side: float in [-1.0, 1.0]:
+				MeshKit.sphere(root, 0.04, Vector3(side * 0.1, 0.46, -0.24), "dark", Vector3(1.4, 0.6, 0.8), 5, 3)
+			for x: float in [-0.09, 0.09]:
+				for z: float in [-0.12, 0.12]:
+					MeshKit.cylinder(root, 0.025, 0.025, 0.24, Vector3(x, 0.12, z), "dark", 4)
 		"butterfly":
 			for side: float in [-1.0, 1.0]:
 				var wing := MeshKit.box(root, Vector3(0.09, 0.005, 0.07), Vector3(0.05 * side, 0, 0), "flower_yellow")
