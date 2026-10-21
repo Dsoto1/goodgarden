@@ -10,7 +10,7 @@ extends Node
 
 const SAVE_PATH := "user://test_saves/test_garden.json"
 ## Raise this as tests are added; fewer checks means some never ran.
-const MIN_CHECKS := 270
+const MIN_CHECKS := 290
 
 var _failures := 0
 var _checks := 0
@@ -25,7 +25,7 @@ func _ready() -> void:
 	var tests := [
 		test_content_is_valid, test_validator_catches_errors, test_conditions_and_tokens,
 		test_save_round_trip_and_migration, test_space_along_line, test_count_into_slots,
-		test_match_to_outline_self_correction, test_story_handoff_and_put_away,
+		test_match_to_outline_self_correction, test_story_handoff_and_put_away, test_parable_growth_and_put_away,
 		test_observations_never_score_reflection, test_pointer_events_drag_pieces, test_props_catalog,
 		test_scenery_quality_and_batching, test_vertical_slice_end_to_end,
 	]
@@ -217,6 +217,35 @@ func test_story_handoff_and_put_away() -> void:
 			if p.kind == slot.accepts:
 				_drop(p, slot.center())
 	eq(done.size(), 1, "every figure returned to its compartment")
+	story.queue_free()
+	put_away.queue_free()
+
+
+## The Mustard Seed: the seed gives way to the sprout and the grown plant,
+## and figures the story set back in the box count as already put away.
+func test_parable_growth_and_put_away() -> void:
+	for id: String in ["mustard_seed", "leaven"]:
+		check(Content.get_activity(id) != null, "%s is authored" % id)
+	var def := Content.get_activity("mustard_seed")
+	var story := _make_step("story_figures", def.steps[0])
+	for i in def.steps[0]["segments"].size():
+		story._next_segment()
+	var seed: DragPiece = story.figures["seed"]
+	check(seed.position.distance_to(seed.home) < 1.0, "the seed returns to the box when the sprout appears")
+	check(story.figures["bush"].visible and story.figures["bird_a"].visible, "the grown plant and the birds are out")
+	story.put_away()
+	var put_away := _make_step("match_to_outline", def.steps[1], {"pieces": story.handoff()})
+	var resting: Array = put_away.slots.filter(func(sl: DropSlot) -> bool: return not sl.contents.is_empty())
+	eq(resting.size(), 2, "the seed and sprout are already in their places")
+	var done := []
+	put_away.completed.connect(func(r: Dictionary) -> void: done.append(r))
+	for slot in put_away.slots:
+		for p in put_away.pieces:
+			if p.kind == slot.accepts and p.placed_in == null:
+				_drop(p, slot.center())
+	eq(done.size(), 1, "the rest go back and the material is put away")
+	var shelf: Array = Content.get_world("atrium_shelf").get("items", [])
+	eq(shelf.size(), 3, "three materials on the Atrium shelf")
 	story.queue_free()
 	put_away.queue_free()
 

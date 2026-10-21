@@ -1,0 +1,104 @@
+{
+	"id": "leaven",
+	"title": "The Leaven",
+	"mode": "reflection",
+	"location": "chapel",
+	"surface": "atrium_felt",
+	"review_status": "DRAFT: retelling and wondering questions require theological and editorial review before release.",
+	"source": {
+		"reference": "Matthew 13:33",
+		"note": "Original child-friendly retelling written for this prototype; not a quotation of any translation. See also Luke 13:20-21."
+	},
+	"readiness": {"ages": [4, 10], "reading": "narration provided; text optional"},
+	"concepts": ["listening to a parable", "sequencing a change", "a little changes the whole"],
+	"formation_themes": ["wonder", "patience", "the Kingdom of God"],
+	"prerequisites": [],
+	"intro": [
+		{
+			"speaker": "narrator",
+			"text": "This is a story Jesus told. Let's carry the material to the table, and listen.",
+			"button": "Listen"
+		}
+	],
+	"steps": [
+		{
+			"id": "story",
+			"primitive": "story_figures",
+			"reference": "Matthew 13:33",
+			"box": [220, 380, 560, 150],
+			"places": [
+				{"label": "Her kitchen", "pos": [500, 105], "kind": "house"}
+			],
+			"figures": [
+				{"id": "woman", "label": "Woman", "color": "cloth_purple", "accent": "cloth_cream"},
+				{"id": "leaven", "label": "Leaven", "color": "cloth_tan", "shape": "leaven"},
+				{"id": "flour", "label": "Flour", "color": "cloth_cream", "shape": "flour"},
+				{"id": "dough", "label": "Risen dough", "color": "cloth_cream", "shape": "dough"}
+			],
+			"segments": [
+				{
+					"text": "Jesus told another story about the Kingdom of God. He said it is like leaven, the yeast that makes bread dough rise."
+				},
+				{
+					"text": "A woman took a little leaven, just a small piece.",
+					"reveal": ["woman", "leaven"],
+					"show": {"woman": {"pos": [380, 215]}, "leaven": {"pos": [455, 240]}}
+				},
+				{
+					"text": "She put it into three big measures of flour, enough to make bread for a great many people.",
+					"reveal": ["flour"],
+					"show": {"flour": {"pos": [570, 235]}}
+				},
+				{
+					"text": "She mixed the leaven all through the flour, until it was hidden and no one could see it anymore.",
+					"hide": ["leaven"],
+					"show": {"woman": {"pos": [455, 215]}, "flour": {"pos": [545, 235]}}
+				},
+				{"text": "Then she waited. The leaven worked quietly, where no one could see."},
+				{
+					"text": "And little by little, all of the dough rose.",
+					"hide": ["flour"],
+					"reveal": ["dough"],
+					"show": {"dough": {"pos": [545, 225]}}
+				}
+			],
+			"wonderings": [
+				"I wonder how a little leaven can change so much flour.",
+				"I wonder what the woman did while she waited.",
+				"I wonder what grows quietly, where no one can see.",
+				"I wonder what the Kingdom of God is like."
+			]
+		},
+		{
+			"id": "put_away",
+			"primitive": "match_to_outline",
+			"prompt": "When you're ready, return each figure to its place in the box.",
+			"pieces_from_previous": true,
+			"box": [220, 380, 560, 150],
+			"slots": [
+				{"kind": "figure:woman", "pos": [290.0, 455]},
+				{"kind": "figure:leaven", "pos": [430.0, 455]},
+				{"kind": "figure:flour", "pos": [570.0, 455]},
+				{"kind": "figure:dough", "pos": [710.0, 455]}
+			],
+			"feedback": {
+				"mismatch": "That place is shaped for a different figure.",
+				"all_good": "Each figure is resting in its place."
+			}
+		}
+	],
+	"outro": [
+		{
+			"speaker": "narrator",
+			"text": "The material is back on the shelf. It will be here whenever you want to return to it.",
+			"button": "Stand up"
+		}
+	],
+	"world_effects": [
+		{"op": "increment", "fact": "chapel.leaven.visits"},
+		{"op": "set", "fact": "chapel.leaven.last_day", "value": "$day"}
+	],
+	"replay": "free",
+	"real_world_invitation": "rw_watch_dough",
+	"journal_line": "I listened to the story of the leaven, and saw a little leaven make all the dough rise."
+}

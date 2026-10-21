@@ -76,6 +76,8 @@ static func _figure(ci: CanvasItem, size: Vector2, outline: bool, data: Dictiona
 		_shape(ci, _ellipse(Vector2(cx - size.x * 0.36, h * 0.35), Vector2(size.x * 0.13, h * 0.1), 12), Color("9a9088"), outline)
 		for x: float in [-0.25, -0.1, 0.12, 0.27]:
 			_shape(ci, _rect(Rect2(cx + size.x * x - 3, h * 0.65, 6, h * 0.3)), Color("7d746d"), outline)
+	elif _parable_shape(ci, str(data.get("shape", "")), size, h, outline, body_color):
+		pass
 	elif data.get("shape", "") == "building":
 		_shape(ci, _rect(Rect2(size.x * 0.12, h * 0.4, size.x * 0.76, h * 0.58)), body_color, outline)
 		_shape(ci, PackedVector2Array([Vector2(size.x * 0.05, h * 0.42), Vector2(cx, h * 0.08), Vector2(size.x * 0.95, h * 0.42)]), Palette.color("roof_red"), outline)
@@ -97,6 +99,60 @@ static func _figure(ci: CanvasItem, size: Vector2, outline: bool, data: Dictiona
 		var font := UiStyle.font()
 		var col := Color(INK, 0.6) if outline else Color("f6f1e4")
 		ci.draw_string(font, Vector2(-30, size.y - 2), label, HORIZONTAL_ALIGNMENT_CENTER, size.x + 60, 15, col)
+
+
+## Objects from the parables, drawn on the same figure card as the people.
+## Returns false when `shape` is not one of them.
+static func _parable_shape(ci: CanvasItem, shape: String, size: Vector2, h: float, outline: bool, color: Color) -> bool:
+	var cx := size.x / 2.0
+	match shape:
+		"seed":
+			# The tiniest of seeds, on a little felt mat so small hands can lift it.
+			_shape(ci, _ellipse(Vector2(cx, h * 0.8), Vector2(size.x * 0.34, h * 0.08), 16), Color("d9cbb0"), outline)
+			_shape(ci, _ellipse(Vector2(cx, h * 0.78), Vector2(3.5, 3.5), 10), Color("6b4a2e"), outline)
+		"sprout":
+			_shape(ci, _ellipse(Vector2(cx, h * 0.92), Vector2(size.x * 0.3, h * 0.06), 14), Color("6b4a2e"), outline)
+			_shape(ci, _rect(Rect2(cx - 2, h * 0.55, 4, h * 0.36)), Color("6b9a3c"), outline)
+			for side: float in [-1.0, 1.0]:
+				_shape(ci, _ellipse(Vector2(cx + side * 9, h * 0.55), Vector2(9, 5), 12), Color("7fb04a"), outline)
+		"bush":
+			# The mustard plant grown great: a thick stem, wide branches, yellow flowers.
+			_shape(ci, _rect(Rect2(cx - 4, h * 0.55, 8, h * 0.43)), Color("7a5a3a"), outline)
+			for c: Vector3 in [Vector3(-0.22, 0.42, 0.22), Vector3(0.22, 0.42, 0.22), Vector3(0.0, 0.26, 0.26), Vector3(-0.12, 0.12, 0.17), Vector3(0.14, 0.13, 0.17)]:
+				_shape(ci, _ellipse(Vector2(cx + size.x * c.x, h * c.y + 6), Vector2(size.x * c.z * 1.25, size.x * c.z), 16), color, outline)
+			if not outline:
+				for p: Vector2 in [Vector2(-0.25, 0.3), Vector2(0.2, 0.25), Vector2(0.0, 0.12), Vector2(0.3, 0.45), Vector2(-0.3, 0.5), Vector2(0.06, 0.38)]:
+					ci.draw_circle(Vector2(cx + size.x * p.x, h * p.y + 6), 2.6, Color("f0c93a"))
+		"bird":
+			_shape(ci, _ellipse(Vector2(cx, h * 0.62), Vector2(size.x * 0.28, h * 0.11), 14), color, outline)
+			_shape(ci, _ellipse(Vector2(cx - size.x * 0.24, h * 0.52), Vector2(size.x * 0.12, size.x * 0.12), 12), color, outline)
+			_shape(ci, PackedVector2Array([Vector2(cx - size.x * 0.36, h * 0.5), Vector2(cx - size.x * 0.48, h * 0.53), Vector2(cx - size.x * 0.36, h * 0.56)]), Color("e0a73a"), outline)
+			_shape(ci, PackedVector2Array([Vector2(cx + size.x * 0.22, h * 0.6), Vector2(cx + size.x * 0.46, h * 0.5), Vector2(cx + size.x * 0.3, h * 0.68)]), color.darkened(0.2), outline)
+			if not outline:
+				ci.draw_circle(Vector2(cx - size.x * 0.27, h * 0.5), 1.8, INK)
+		"flour":
+			# Three measures of flour in a wide bowl.
+			for x: float in [-0.2, 0.0, 0.2]:
+				_shape(ci, _ellipse(Vector2(cx + size.x * x, h * 0.66), Vector2(size.x * 0.16, h * 0.1), 12), Color("f4efe3"), outline)
+			_bowl(ci, cx, h, size, outline)
+		"leaven":
+			_shape(ci, _ellipse(Vector2(cx, h * 0.84), Vector2(size.x * 0.26, h * 0.05), 14), Color("b9a07a"), outline)
+			_shape(ci, _ellipse(Vector2(cx, h * 0.78), Vector2(size.x * 0.12, h * 0.05), 12), Color("d8c39a"), outline)
+		"dough":
+			# The whole bowl, risen: the dough swells high above the rim.
+			_shape(ci, _ellipse(Vector2(cx, h * 0.52), Vector2(size.x * 0.44, h * 0.26), 20), Color("f1e2c4"), outline)
+			_bowl(ci, cx, h, size, outline)
+		_:
+			return false
+	return true
+
+
+static func _bowl(ci: CanvasItem, cx: float, h: float, size: Vector2, outline: bool) -> void:
+	var pts := PackedVector2Array()
+	for i in 13:
+		var a := PI * i / 12.0
+		pts.append(Vector2(cx + cos(a) * size.x * 0.46, h * 0.7 + sin(a) * h * 0.24))
+	_shape(ci, pts, Color("b0704a"), outline)
 
 
 static func _utensil(ci: CanvasItem, size: Vector2, outline: bool, kind: String) -> void:

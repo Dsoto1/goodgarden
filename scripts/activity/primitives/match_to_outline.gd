@@ -47,6 +47,13 @@ func _build() -> void:
 			for p in pieces:
 				if slot.data.is_empty() and p.kind == slot.accepts:
 					slot.data = p.data
+		# A figure the story already set back on its outline is already put away.
+		for p in pieces:
+			for slot in slots:
+				if slot.contents.is_empty() and slot.fits(p) and slot.center().distance_to(p.center()) < 6.0:
+					slot.put(p)
+					p.position = slot.position
+					break
 	else:
 		var tray := _tray_rect()
 		var rng := RandomNumberGenerator.new()

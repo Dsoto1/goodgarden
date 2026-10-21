@@ -8,11 +8,13 @@ extends ActivityStep
 ## again, sit with the wondering questions, and retell freely.
 ##
 ## Config:
-##   places: [{"label", "pos": [x,y], "kind": "city"|"inn"}]  fixed scenery
+##   places: [{"label", "pos": [x,y], "kind": "city"|"inn"|"field"|"house"}]  fixed scenery
 ##   road: [[x,y], ...]                 path drawn on the felt
 ##   figures: [{"id", "label", "color", "shape"?, "accent"?}]
 ##   box: [x, y, w, h]                  material box where figures rest
-##   segments: [{"text", "reveal": [ids], "show": {id: {"pos": [x,y], "lying": bool}}}]
+##   segments: [{"text", "reveal": [ids], "hide": [ids], "show": {id: {"pos": [x,y], "lying": bool}}}]
+##                                      "hide" returns a figure to the box (the seed
+##                                      gives way to the grown plant)
 ##   wonderings: [String]               open questions; never answered or checked
 ##   reference: String                  e.g. "Luke 10:25-37"
 ## Result: {"retell_seconds": int}
@@ -82,6 +84,11 @@ func _next_segment() -> void:
 	for id: String in seg.get("reveal", []):
 		if figures.has(id):
 			figures[id].visible = true
+	for id: String in seg.get("hide", []):
+		if figures.has(id):
+			var gone: DragPiece = figures[id]
+			tween_to(gone, gone.home, 0.6)
+			gone.set_lying(false)
 	var show: Dictionary = seg.get("show", {})
 	for id: String in show:
 		if figures.has(id):
@@ -178,11 +185,18 @@ func _draw() -> void:
 				for x: float in [-46.0, 30.0]:
 					draw_rect(Rect2(c + Vector2(x, -44), Vector2(16, 70)), Color("d8c9ab"))
 				draw_rect(Rect2(c + Vector2(-10, 4), Vector2(20, 22)), Color("8d6b4a"))
-			"inn":
+			"inn", "house":
 				draw_rect(Rect2(c - Vector2(40, 18), Vector2(80, 50)), Color("e8dcc4"))
 				draw_colored_polygon(PackedVector2Array([c + Vector2(-50, -16), c + Vector2(0, -52), c + Vector2(50, -16)]), Color("b8584a"))
 				draw_rect(Rect2(c + Vector2(-9, 8), Vector2(18, 24)), Color("8d6b4a"))
-		draw_string(ThemeDB.fallback_font, c + Vector2(-80, 54), tr(str(place.get("label", ""))), HORIZONTAL_ALIGNMENT_CENTER, 160, 18, Color("f6f1e4"))
+			"field":
+				# A ploughed field: brown earth with furrows.
+				draw_rect(Rect2(c - Vector2(110, 44), Vector2(220, 88)), Color("8a6446"))
+				for k in 5:
+					var y := c.y - 34 + k * 17
+					draw_line(Vector2(c.x - 104, y), Vector2(c.x + 104, y), Color("6f4e35"), 3.0)
+		var label_y := 70.0 if place.get("kind", "") == "field" else 54.0
+		draw_string(UiStyle.font(), c + Vector2(-80, label_y), tr(str(place.get("label", ""))), HORIZONTAL_ALIGNMENT_CENTER, 160, 18, Color("f6f1e4"))
 	var box := _box_rect()
 	draw_rect(box.grow(8), Color("7b5338"))
 	draw_rect(box, Color("c49a6c"))

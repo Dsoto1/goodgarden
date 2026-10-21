@@ -4,6 +4,13 @@
 	"entries": [
 		{
 			"when": [
+				{"fact": "chapel.leaven.visits", "exists": true},
+				{"fact": "npc.tobias.leaven_wonder", "exists": false}
+			],
+			"start": "leaven_wonder"
+		},
+		{
+			"when": [
 				{"fact": "village.bread_day", "is_today": true}
 			],
 			"start": "bread_thanks"
@@ -68,6 +75,13 @@
 		"bread_thanks": {
 			"mood": "joy",
 			"text": "Ruth just came by for her basket. She said it was exactly right! Bread is better when it's shared."
+		},
+		"leaven_wonder": {
+			"mood": "thinking",
+			"text": "Do you know the story Jesus told about leaven? I think of it every morning when I mix the dough. Such a little bit, and the whole bowl rises. I still wonder how.",
+			"actions": [
+				{"op": "set_fact", "fact": "npc.tobias.leaven_wonder", "value": true}
+			]
 		}
 	}
 }

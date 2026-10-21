@@ -12,6 +12,13 @@
 		},
 		{
 			"when": [
+				{"fact": "chapel.mustard_seed.visits", "exists": true},
+				{"fact": "npc.miriam.mustard_wonder", "exists": false}
+			],
+			"start": "mustard_wonder"
+		},
+		{
+			"when": [
 				{"fact": "garden.bed_1", "exists": true},
 				{"day_at_least": 3},
 				{"fact": "village.bread_day", "exists": false}
@@ -88,6 +95,13 @@
 		"taller_2": {
 			"mood": "gentle",
 			"text": "I smelled fresh bread on the way here. I think Tobias could use a helper this morning."
+		},
+		"mustard_wonder": {
+			"mood": "wonder",
+			"text": "Every seed in this garden reminds me of the story of the mustard seed. Something so small that you can hardly see it, and look at what it becomes!",
+			"actions": [
+				{"op": "set_fact", "fact": "npc.miriam.mustard_wonder", "value": true}
+			]
 		}
 	}
 }

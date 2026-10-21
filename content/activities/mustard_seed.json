@@ -1,0 +1,112 @@
+{
+	"id": "mustard_seed",
+	"title": "The Mustard Seed",
+	"mode": "reflection",
+	"location": "chapel",
+	"surface": "atrium_felt",
+	"review_status": "DRAFT: retelling and wondering questions require theological and editorial review before release.",
+	"source": {
+		"reference": "Mark 4:30-32",
+		"note": "Original child-friendly retelling written for this prototype; not a quotation of any translation. See also Matthew 13:31-32 and Luke 13:18-19."
+	},
+	"readiness": {"ages": [4, 10], "reading": "narration provided; text optional"},
+	"concepts": ["listening to a parable", "sequencing growth: seed, sprout, plant", "small and great"],
+	"formation_themes": ["wonder", "hope", "the Kingdom of God"],
+	"prerequisites": [],
+	"intro": [
+		{
+			"speaker": "narrator",
+			"text": "This is a story Jesus told. Let's carry the material to the table, and listen.",
+			"button": "Listen"
+		}
+	],
+	"steps": [
+		{
+			"id": "story",
+			"primitive": "story_figures",
+			"reference": "Mark 4:30-32",
+			"box": [220, 380, 560, 150],
+			"places": [
+				{"label": "The field", "pos": [500, 215], "kind": "field"}
+			],
+			"figures": [
+				{"id": "sower", "label": "Sower", "color": "cloth_tan"},
+				{"id": "seed", "label": "Seed", "color": "cloth_brown", "shape": "seed"},
+				{"id": "sprout", "label": "Sprout", "color": "leaf", "shape": "sprout"},
+				{"id": "bush", "label": "Mustard plant", "color": "leaf", "shape": "bush"},
+				{"id": "bird_a", "label": "Bird", "color": "cloth_blue", "shape": "bird"},
+				{"id": "bird_b", "label": "Bird", "color": "cloth_gold", "shape": "bird"}
+			],
+			"segments": [
+				{
+					"text": "Jesus wanted people to know what the Kingdom of God is like. He said, \"What can we compare it to? What story shall we tell?\""
+				},
+				{
+					"text": "\"It is like a mustard seed. A mustard seed is one of the smallest of all seeds, so small you could hardly see it in your hand.\"",
+					"reveal": ["sower", "seed"],
+					"show": {"sower": {"pos": [300, 160]}, "seed": {"pos": [365, 190]}}
+				},
+				{
+					"text": "Someone took the tiny seed and planted it in the ground.",
+					"show": {"sower": {"pos": [380, 175]}, "seed": {"pos": [500, 215]}}
+				},
+				{
+					"text": "And it grew. Day and night, little by little, it grew.",
+					"hide": ["seed"],
+					"reveal": ["sprout"],
+					"show": {"sprout": {"pos": [500, 200]}}
+				},
+				{
+					"text": "It grew until it was bigger than all the other garden plants, and it put out great branches.",
+					"hide": ["sprout"],
+					"reveal": ["bush"],
+					"show": {"bush": {"pos": [500, 170]}, "sower": {"pos": [330, 185]}}
+				},
+				{
+					"text": "It grew so big that the birds of the air came and made their nests in its shade.",
+					"reveal": ["bird_a", "bird_b"],
+					"show": {"bird_a": {"pos": [455, 115]}, "bird_b": {"pos": [560, 130]}}
+				}
+			],
+			"wonderings": [
+				"I wonder how something so small can become so great.",
+				"I wonder if the seed knew what it would become.",
+				"I wonder who the birds might be.",
+				"I wonder what the Kingdom of God is like."
+			]
+		},
+		{
+			"id": "put_away",
+			"primitive": "match_to_outline",
+			"prompt": "When you're ready, return each figure to its place in the box.",
+			"pieces_from_previous": true,
+			"box": [220, 380, 560, 150],
+			"slots": [
+				{"kind": "figure:sower", "pos": [266.7, 455]},
+				{"kind": "figure:seed", "pos": [360.0, 455]},
+				{"kind": "figure:sprout", "pos": [453.3, 455]},
+				{"kind": "figure:bush", "pos": [546.7, 455]},
+				{"kind": "figure:bird_a", "pos": [640.0, 455]},
+				{"kind": "figure:bird_b", "pos": [733.3, 455]}
+			],
+			"feedback": {
+				"mismatch": "That place is shaped for a different figure.",
+				"all_good": "Each figure is resting in its place."
+			}
+		}
+	],
+	"outro": [
+		{
+			"speaker": "narrator",
+			"text": "The material is back on the shelf. It will be here whenever you want to return to it.",
+			"button": "Stand up"
+		}
+	],
+	"world_effects": [
+		{"op": "increment", "fact": "chapel.mustard_seed.visits"},
+		{"op": "set", "fact": "chapel.mustard_seed.last_day", "value": "$day"}
+	],
+	"replay": "free",
+	"real_world_invitation": "rw_mustard_seed",
+	"journal_line": "I listened to the story of the mustard seed and watched it grow into a great plant with birds in its branches."
+}
