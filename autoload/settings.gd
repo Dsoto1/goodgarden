@@ -17,7 +17,7 @@ const DEFAULTS := {
 	"volume_effects": 0.7,
 	"volume_voice": 1.0,
 	"snap_tolerance": 56.0, # pixels; generous by default for small fingers
-	"lush_detail": true, # dense grass and flowers; off for older tablets
+	"scenery_quality": "auto", # auto | high | medium | low (see Quality)
 	"real_world_invitations": true,
 	"session_minutes": 0, # 0 = no gentle rest reminder
 }
@@ -57,11 +57,20 @@ func load_settings() -> void:
 		return
 	var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string(PATH))
 	if parsed is Dictionary:
-		for key: String in DEFAULTS:
-			if parsed.has(key) and typeof(parsed[key]) == typeof(DEFAULTS[key]):
-				_values[key] = parsed[key]
-			elif parsed.has(key) and DEFAULTS[key] is float and parsed[key] is int:
-				_values[key] = float(parsed[key])
+		apply_stored(parsed)
+
+
+## Takes values from a stored settings dictionary, ignoring unknown or
+## mistyped entries and upgrading older keys.
+func apply_stored(parsed: Dictionary) -> void:
+	for key: String in DEFAULTS:
+		if parsed.has(key) and typeof(parsed[key]) == typeof(DEFAULTS[key]):
+			_values[key] = parsed[key]
+		elif parsed.has(key) and DEFAULTS[key] is float and parsed[key] is int:
+			_values[key] = float(parsed[key])
+	# Older settings files had a single "less detail" switch.
+	if not parsed.has("scenery_quality") and parsed.get("lush_detail", true) == false:
+		_values["scenery_quality"] = "low"
 
 
 func save_settings() -> void:

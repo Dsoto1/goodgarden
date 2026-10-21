@@ -1,0 +1,12 @@
+{
+	"id": "day_003",
+	"day": 3,
+	"week": 1,
+	"arc": "Creation & Home",
+	"invitation": "inv_day_003",
+	"npcs": {"miriam": "garden_miriam"},
+	"primary_activity": "bakery_baskets",
+	"free_work": ["home_set_table"],
+	"chapel": ["good_samaritan"],
+	"season": "Spring"
+}

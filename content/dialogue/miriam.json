@@ -3,19 +3,59 @@
 	"speaker": "miriam",
 	"comment": "Entries are checked top to bottom; the first whose conditions hold starts the conversation.",
 	"entries": [
-		{"when": [{"fact": "home.table_set_day", "is_today": true}, {"fact": "npc.miriam.noticed_table", "exists": false}], "start": "table"},
-		{"when": [{"fact": "garden.bed_1", "exists": true}, {"day_at_least": 2}], "start": "growing"},
-		{"when": [{"fact": "garden.bed_1", "exists": true}], "start": "after_planting"},
-		{"when": [{"fact": "invitation.inv_day_001.read", "exists": false}], "start": "no_letter"},
+		{
+			"when": [
+				{"fact": "home.table_set_day", "is_today": true},
+				{"fact": "npc.miriam.noticed_table", "exists": false}
+			],
+			"start": "table"
+		},
+		{
+			"when": [
+				{"fact": "garden.bed_1", "exists": true},
+				{"day_at_least": 3},
+				{"fact": "village.bread_day", "exists": false}
+			],
+			"start": "taller"
+		},
+		{
+			"when": [
+				{"fact": "garden.bed_1", "exists": true},
+				{"day_at_least": 2}
+			],
+			"start": "growing"
+		},
+		{
+			"when": [
+				{"fact": "garden.bed_1", "exists": true}
+			],
+			"start": "after_planting"
+		},
+		{
+			"when": [
+				{"fact": "invitation.inv_day_001.read", "exists": false}
+			],
+			"start": "no_letter"
+		},
 		{"when": [], "start": "greet"}
 	],
 	"nodes": {
-		"no_letter": {"mood": "joy", "text": "Oh! Good morning! I left a letter for you at your house, but here you are anyway.", "next": "plant_offer"},
+		"no_letter": {
+			"mood": "joy",
+			"text": "Oh! Good morning! I left a letter for you at your house, but here you are anyway.",
+			"next": "plant_offer"
+		},
 		"greet": {"text": "Good morning, my friend! You found my letter.", "next": "plant_offer"},
 		"plant_offer": {
 			"text": "The soil is warm, and these bean seeds are waiting for a home. Will you plant the row with me?",
 			"choices": [
-				{"text": "Yes, let's plant!", "next": "plant_go", "actions": [{"op": "start_activity", "id": "garden_bean_row"}]},
+				{
+					"text": "Yes, let's plant!",
+					"next": "plant_go",
+					"actions": [
+						{"op": "start_activity", "id": "garden_bean_row"}
+					]
+				},
 				{"text": "Not yet.", "next": "later"}
 			]
 		},
@@ -23,12 +63,31 @@
 		"later": {"mood": "gentle", "text": "That's all right. The seeds will wait. Come back whenever you're ready."},
 		"after_planting": {"text": "Look at that tidy row. Now the beans need sun, rain, and time.", "next": "after_planting_2"},
 		"after_planting_2": {"text": "If you'd like a quiet place, the chapel is just over the bridge, beside the village."},
-		"growing": {"mood": "wonder", "text": "Come and look! Do you see the little green loops pushing up? Bean sprouts come up bent over, as if they're bowing.", "next": "growing_2"},
-		"growing_2": {"mood": "thinking", "text": "Each day they'll stretch a little taller. I wonder how tall they'll be by summer."},
-		"table": {"mood": "joy", 
+		"growing": {
+			"mood": "wonder",
+			"text": "Come and look! Do you see the little green loops pushing up? Bean sprouts come up bent over, as if they're bowing.",
+			"next": "growing_2"
+		},
+		"growing_2": {
+			"mood": "thinking",
+			"text": "Each day they'll stretch a little taller. I wonder how tall they'll be by summer."
+		},
+		"table": {
+			"mood": "joy",
 			"text": "I passed your house and saw the table all set for supper. What a lovely welcome!",
-			"actions": [{"op": "set_fact", "fact": "npc.miriam.noticed_table", "value": true}],
+			"actions": [
+				{"op": "set_fact", "fact": "npc.miriam.noticed_table", "value": true}
+			],
 			"next": ""
+		},
+		"taller": {
+			"mood": "wonder",
+			"text": "The bean sprouts have opened their first leaves! They're standing up straight now, reaching for the light.",
+			"next": "taller_2"
+		},
+		"taller_2": {
+			"mood": "gentle",
+			"text": "I smelled fresh bread on the way here. I think Tobias could use a helper this morning."
 		}
 	}
 }

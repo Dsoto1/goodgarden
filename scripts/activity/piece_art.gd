@@ -14,6 +14,11 @@ static func draw(ci: CanvasItem, kind: String, size: Vector2, outline: bool, dat
 		_figure(ci, size, outline, data)
 		return
 	match kind:
+		"bread_roll":
+			_shape(ci, _ellipse(c, Vector2(size.x * 0.46, size.y * 0.42), 16), Color("d9963f"), outline)
+			if not outline:
+				ci.draw_circle(c + Vector2(-size.x * 0.1, -size.y * 0.12), size.y * 0.16, Color("eebd72"))
+				ci.draw_line(c + Vector2(-size.x * 0.2, size.y * 0.05), c + Vector2(size.x * 0.2, -size.y * 0.1), Color("a8662a"), 2.0)
 		"bean_seed":
 			_shape(ci, _ellipse(c, Vector2(size.x * 0.45, size.y * 0.4), 14), Color("8a3b2e"), outline)
 			if not outline:

@@ -42,7 +42,7 @@ static func build(parent: Node3D) -> Node3D:
 static func _mist(at: Vector3) -> GPUParticles3D:
 	var p := GPUParticles3D.new()
 	p.position = at
-	p.amount = 24
+	p.amount = maxi(6, int(24 * float(Quality.value("mist"))))
 	p.lifetime = 3.0
 	p.emitting = not Settings.get_value("reduced_motion")
 	var pm := ParticleProcessMaterial.new()

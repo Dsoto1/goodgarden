@@ -105,5 +105,6 @@ func road(a: Vector3, b: Vector3, width := 1.6, material := "path") -> void:
 func group_node(node_name: String) -> Node3D:
 	var n := Node3D.new()
 	n.name = node_name
+	StaticBatch.mark_live(n) # shown and hidden by the story, so never merged
 	add_child(n)
 	return n

@@ -7,6 +7,7 @@ var _letter: Node3D
 var _letter_use: Interactable
 var _table_settings: Node3D
 var _vase: Node3D
+var _smoke: GPUParticles3D
 
 
 func build() -> void:
@@ -175,10 +176,14 @@ func _chimney_smoke() -> GPUParticles3D:
 	puff.material = smoke_mat
 	p.draw_pass_1 = puff
 	p.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
-	Settings.changed.connect(func(key: String) -> void:
-		if key == "reduced_motion":
-			p.emitting = not Settings.get_value("reduced_motion"))
+	_smoke = p
+	Settings.changed.connect(_on_setting_changed)
 	return p
+
+
+func _on_setting_changed(key: String) -> void:
+	if key == "reduced_motion":
+		_smoke.emitting = not Settings.get_value("reduced_motion")
 
 
 func _build_coop(at: Vector3) -> void:

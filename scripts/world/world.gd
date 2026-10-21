@@ -22,9 +22,8 @@ var mood := "outdoor"
 func _ready() -> void:
 	add_to_group("mood_listeners")
 	Style.apply_settings()
-	Settings.changed.connect(func(key: String) -> void:
-		if key == "reduced_motion":
-			Style.apply_settings())
+	Quality.apply_viewport(get_viewport())
+	Settings.changed.connect(_on_setting_changed)
 	_build_environment()
 	for entry: Dictionary in Content.get_world("regions").get("regions", []):
 		_load_region(entry)
@@ -33,7 +32,7 @@ func _ready() -> void:
 	var forest := Forest.new()
 	forest.name = "Forest"
 	add_child(forest)
-	forest.build(77, 1.0 if Settings.get_value("lush_detail") else 0.5)
+	forest.build(77, Quality.value("forest_density"))
 	player = Player.new()
 	player.name = "Player"
 	add_child(player)
@@ -48,6 +47,15 @@ func _ready() -> void:
 	SaveService.player_provider = player.save_state
 	Days.day_started.connect(func(_d: int) -> void: _place_npcs())
 	AudioService.set_ambience("outdoor", 1.0)
+
+
+## A method rather than a lambda, so the connection ends when the world is freed.
+func _on_setting_changed(key: String) -> void:
+	if key == "reduced_motion":
+		Style.apply_settings()
+	elif key == "scenery_quality":
+		Quality.apply_viewport(get_viewport())
+		sun.directional_shadow_max_distance = Quality.value("shadow_distance")
 
 
 func _exit_tree() -> void:
@@ -86,7 +94,7 @@ func _build_environment() -> void:
 	sun.light_color = Color("ffdcae")
 	sun.light_energy = MOODS["outdoor"]["sun"]
 	sun.shadow_enabled = true
-	sun.directional_shadow_max_distance = 40.0
+	sun.directional_shadow_max_distance = Quality.value("shadow_distance")
 	sun.directional_shadow_mode = DirectionalLight3D.SHADOW_ORTHOGONAL
 	add_child(sun)
 
@@ -99,7 +107,7 @@ func _grow_ground_cover() -> void:
 	cover.name = "GroundCover"
 	add_child(cover)
 	var area := ValleyRegion.BOUNDS.grow(10.0)
-	var density := 1.0 if Settings.get_value("lush_detail") else 0.4
+	var density: float = Quality.value("cover_density")
 	cover.build(area, clearings, density, 2024)
 	cover.fringe_paths(clearings, density, 2025)
 
@@ -141,6 +149,7 @@ func _load_region(entry: Dictionary) -> void:
 		region.position.y = Terrain.height(o[0], o[2])
 	add_child(region)
 	regions[region.region_id] = region
+	StaticBatch.merge(region, 40.0)
 
 
 func anchor(anchor_id: String) -> Marker3D:

@@ -119,7 +119,7 @@ func _add_chunk(mesh: Mesh, transforms: Array[Transform3D]) -> void:
 	var mmi := MultiMeshInstance3D.new()
 	mmi.multimesh = mm
 	mmi.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
-	mmi.visibility_range_end = 34.0
+	mmi.visibility_range_end = Quality.value("cover_range")
 	add_child(mmi)
 	instance_count += transforms.size()
 

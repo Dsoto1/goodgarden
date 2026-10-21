@@ -1,0 +1,55 @@
+{
+	"id": "bakery_baskets",
+	"title": "Bread for the Neighbors",
+	"mode": "task",
+	"location": "village",
+	"surface": "wood_table",
+	"readiness": {
+		"ages": [4, 7],
+		"math": "reading the numerals 2 to 4; counting out a set of that many",
+		"reading": "numerals only; all text can be read aloud"
+	},
+	"concepts": ["reading numerals", "counting out a set", "one-to-one correspondence", "comparing more and fewer"],
+	"formation_themes": ["generosity", "service", "daily bread"],
+	"prerequisites": [
+		{"day_at_least": 3},
+		{"not": {"fact": "village.bread_day", "is_today": true}}
+	],
+	"intro": [
+		{
+			"speaker": "tobias",
+			"text": "Here are the baskets for our neighbors. Look at the number on each one: that's how many people live in that house."
+		}
+	],
+	"steps": [
+		{
+			"id": "fill_baskets",
+			"primitive": "count_into_slots",
+			"prompt": "Read the number on each basket. Put that many rolls inside.",
+			"hint": "Touch each roll as you count: one, two... Stop when you reach the number on the basket.",
+			"counts": [2, 4, 3],
+			"container": "basket",
+			"piece": "bread_roll",
+			"supply_label": "warm rolls",
+			"spare": 2,
+			"feedback": {
+				"full": "This basket already has {n} rolls. That's just right for this house.",
+				"all_good": "Every basket has the right number of rolls."
+			}
+		}
+	],
+	"outro": [
+		{
+			"speaker": "tobias",
+			"text": "Look at that! Every family will have bread today. And look: two rolls are left over. Those are for you and Miriam.",
+			"button": "Thank you, Tobias"
+		}
+	],
+	"world_effects": [
+		{"op": "set", "fact": "village.bread_day", "value": "$day"}
+	],
+	"replay": "free",
+	"real_world_invitation": "rw_share_bread",
+	"journal_line": "I helped Tobias fill the bread baskets: 2 rolls, 4 rolls and 3 rolls, one for each person.",
+	"unavailable_text": "The baskets are already on their way. Tobias says thank you!"
+}

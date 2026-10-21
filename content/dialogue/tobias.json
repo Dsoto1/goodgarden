@@ -2,12 +2,72 @@
 	"id": "tobias",
 	"speaker": "tobias",
 	"entries": [
-		{"when": [{"fact": "npc.tobias.met", "exists": true}], "start": "again"},
+		{
+			"when": [
+				{"fact": "village.bread_day", "is_today": true}
+			],
+			"start": "bread_thanks"
+		},
+		{
+			"when": [
+				{"day_at_least": 3},
+				{"fact": "npc.tobias.met", "exists": true}
+			],
+			"start": "bread_offer"
+		},
+		{
+			"when": [
+				{"day_at_least": 3}
+			],
+			"start": "hello_bread"
+		},
+		{
+			"when": [
+				{"fact": "npc.tobias.met", "exists": true}
+			],
+			"start": "again"
+		},
 		{"when": [], "start": "hello"}
 	],
 	"nodes": {
-		"hello": {"text": "Good day! I'm Tobias. I bake the bread for the whole village.", "next": "bellhaven", "actions": [{"op": "set_fact", "fact": "npc.tobias.met", "value": true}]},
-		"bellhaven": {"mood": "wonder", "text": "See the road going north, past the hill? It goes all the way to Bellhaven. Someday you'll see the city up close."},
-		"again": {"mood": "gentle", "text": "Hello again! The bread is rising. Good things take a little time, don't they?"}
+		"hello": {
+			"text": "Good day! I'm Tobias. I bake the bread for the whole village.",
+			"next": "bellhaven",
+			"actions": [
+				{"op": "set_fact", "fact": "npc.tobias.met", "value": true}
+			]
+		},
+		"bellhaven": {
+			"mood": "wonder",
+			"text": "See the road going north, past the hill? It goes all the way to Bellhaven. Someday you'll see the city up close."
+		},
+		"again": {"mood": "gentle", "text": "Hello again! The bread is rising. Good things take a little time, don't they?"},
+		"hello_bread": {
+			"mood": "joy",
+			"text": "You came! I'm Tobias, the baker. Thank you for reading my letter.",
+			"next": "bread_offer",
+			"actions": [
+				{"op": "set_fact", "fact": "npc.tobias.met", "value": true}
+			]
+		},
+		"bread_offer": {
+			"text": "The rolls are still warm. Will you help me fill the neighbors' baskets?",
+			"choices": [
+				{
+					"text": "Yes, I'll help!",
+					"next": "bread_go",
+					"actions": [
+						{"op": "start_activity", "id": "bakery_baskets"}
+					]
+				},
+				{"text": "Maybe later.", "next": "bread_later"}
+			]
+		},
+		"bread_go": {"mood": "joy", "text": "Wonderful. Come and stand by the table with me."},
+		"bread_later": {"mood": "gentle", "text": "That's all right. The baskets will wait here by the bakery."},
+		"bread_thanks": {
+			"mood": "joy",
+			"text": "Ruth just came by for her basket. She said it was exactly right! Bread is better when it's shared."
+		}
 	}
 }

@@ -9,6 +9,8 @@ extends Node
 ## through the same calls real input uses.
 
 const SAVE_PATH := "user://test_saves/test_garden.json"
+## Raise this as tests are added; fewer checks means some never ran.
+const MIN_CHECKS := 270
 
 var _failures := 0
 var _checks := 0
@@ -24,13 +26,16 @@ func _ready() -> void:
 		test_content_is_valid, test_validator_catches_errors, test_conditions_and_tokens,
 		test_save_round_trip_and_migration, test_space_along_line, test_count_into_slots,
 		test_match_to_outline_self_correction, test_story_handoff_and_put_away,
-		test_observations_never_score_reflection, test_pointer_events_drag_pieces, test_props_catalog, test_vertical_slice_end_to_end,
+		test_observations_never_score_reflection, test_pointer_events_drag_pieces, test_props_catalog,
+		test_scenery_quality_and_batching, test_vertical_slice_end_to_end,
 	]
 	for t: Callable in tests:
 		_current = t.get_method()
 		SaveService.new_game()
 		await t.call()
 	SaveService.delete_save()
+	# A script that fails to compile makes its checks vanish rather than fail.
+	check(_checks >= MIN_CHECKS, "at least %d checks ran (did a script fail to compile?)" % MIN_CHECKS)
 	print("\n%d checks, %d failure(s)" % [_checks, _failures])
 	get_tree().quit(1 if _failures > 0 else 0)
 
@@ -280,6 +285,41 @@ func test_props_catalog() -> void:
 
 # --- End to end -------------------------------------------------------------------
 
+func test_scenery_quality_and_batching() -> void:
+	Settings.set_value("scenery_quality", "auto")
+	Settings.apply_stored({"lush_detail": false})
+	eq(Settings.get_value("scenery_quality"), "low", "the old 'less detail' switch becomes the Light tier")
+	eq(Quality.tier(), "low", "an explicit tier is used as chosen")
+	Settings.set_value("scenery_quality", "auto")
+	check(Quality.tier() in ["high", "medium"], "auto picks a tier for the device")
+	for tier: String in Quality.TIERS:
+		eq(Quality.TIERS[tier].keys(), Quality.TIERS["high"].keys(), "tier %s sets every option" % tier)
+	# Two flat-coloured boxes merge into one mesh that keeps their colours;
+	# a live container is left alone.
+	var root := Node3D.new()
+	add_child(root)
+	MeshKit.box(root, Vector3.ONE, Vector3(0, 0, 0), "wood")
+	MeshKit.box(root, Vector3.ONE, Vector3(2, 0, 0), "stone")
+	var live := Node3D.new()
+	StaticBatch.mark_live(live)
+	root.add_child(live)
+	var kept := MeshKit.box(live, Vector3.ONE, Vector3(4, 0, 0), "wood")
+	var merged := StaticBatch.merge(root, INF)
+	eq(merged, 2, "static boxes merged")
+	check(kept.mesh != null, "live nodes are not merged")
+	var batches: Array[MeshInstance3D] = []
+	for c in root.get_children():
+		if c is MeshInstance3D and (c as MeshInstance3D).mesh != null:
+			batches.append(c)
+	var colors := {}
+	for b in batches:
+		var arrays := b.mesh.surface_get_arrays(0)
+		for c: Color in arrays[Mesh.ARRAY_COLOR]:
+			colors[c.to_html()] = true
+	check(colors.size() >= 2, "merged mesh keeps each piece's colour")
+	root.queue_free()
+
+
 func test_vertical_slice_end_to_end() -> void:
 	var main: Main = load("res://scenes/main.tscn").instantiate()
 	add_child(main)
@@ -435,6 +475,44 @@ func test_vertical_slice_end_to_end() -> void:
 	check(not world.regions["home"]._table_settings.visible and world.regions["home"]._vase.visible, "table cleared but a vase remembers the work")
 	check(_interactable("Set the table").is_available(), "table can be set again on a new day")
 	check(Dialogue.start("miriam") and Dialogue.current_line()["text"].contains("green loops"), "Miriam remembers and comments on the sprouts")
+	Dialogue.end()
+
+	# Day 3: Tobias's letter, and filling the neighbors' bread baskets.
+	await main.rest_until_morning()
+	await frames(3)
+	eq(Days.current_day, 3, "day 3 after resting")
+	eq(Invitations.pending_id, "inv_day_003", "Tobias's letter delivered")
+	check(Dialogue.start("miriam") and Dialogue.current_line()["text"].contains("first leaves"), "Miriam notices the beans have grown and points to Tobias")
+	Dialogue.end()
+	check(Dialogue.start("tobias"), "talk to Tobias")
+	if Dialogue.current_line()["choices"].is_empty():
+		Dialogue.advance()
+	eq(Dialogue.current_line()["choices"].size(), 2, "Tobias asks for help with the bread")
+	Dialogue.choose(0)
+	Dialogue.advance()
+	await frames(3)
+	check(ActivityRunner.is_running(), "bread activity started from conversation")
+	if ActivityRunner.is_running():
+		ws = ActivityRunner.workspace
+		ws.press_primary()
+		await frames(3)
+		var fill := ws.current_step()
+		var baskets: Array[DropSlot] = fill.holes
+		eq(baskets.size(), 3, "three neighbors' baskets")
+		var k := 0
+		for b in baskets.size():
+			for i in [2, 4, 3][b]:
+				_drop(fill.pieces[k], baskets[b].center())
+				k += 1
+			if b == 0:
+				_drop(fill.pieces[k], baskets[0].center()) # one too many: it goes back
+				check(fill.pieces[k].placed_in == null, "a full basket refuses an extra roll")
+		await wait(1.6)
+		while ActivityRunner.is_running():
+			ws.press_primary()
+			await frames(3)
+	eq(int(WorldState.get_fact("village.bread_day")), 3, "the bread was delivered today")
+	check(Dialogue.start("ruth") and Dialogue.current_line()["text"].contains("bread basket"), "Ruth thanks the child for the bread")
 	Dialogue.end()
 	main.quit_to_title()
 	await frames(2)

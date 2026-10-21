@@ -96,6 +96,22 @@ func build(look: Dictionary) -> CharacterModel:
 		beard.name = "Beard"
 		MeshKit.capsule(_head, 0.025, 0.14, Vector3(0, 0.06, -0.165), look["beard"], Vector3(0, 0, PI / 2.0))
 	_blink = randf_range(1.0, 4.0)
+	# Merge each bone's static pieces (skull, hair, hat, ...) into one mesh;
+	# the eyes, brows and mouth animate, so they stay separate.
+	StaticBatch.mark_live(_eyes)
+	StaticBatch.mark_live(_mouth)
+	for brow in _brows:
+		StaticBatch.mark_live(brow)
+	for att in _skeleton.get_children():
+		if att is BoneAttachment3D:
+			StaticBatch.merge(att, INF)
+	# The eyes blink as one, so their parts merge among themselves too.
+	StaticBatch.merge(_eyes, INF)
+	# Eyes, brows and mouth are too small to see from afar: skip drawing them there.
+	var face_range: float = Quality.value("face_range")
+	for part: Node in [_eyes, _mouth] + _brows:
+		for g in part.find_children("*", "GeometryInstance3D", true, false):
+			(g as GeometryInstance3D).visibility_range_end = face_range
 	return self
 
 

@@ -16,11 +16,8 @@ func show_settings() -> void:
 	easy.button_pressed = Settings.get_value("snap_tolerance") > 60.0
 	easy.toggled.connect(func(on: bool) -> void: Settings.set_value("snap_tolerance", 90.0 if on else 56.0))
 	content.add_child(easy)
-	var detail := CheckButton.new()
-	detail.text = tr("Less scenery detail (for older tablets; applies next time the world loads)")
-	detail.button_pressed = not Settings.get_value("lush_detail")
-	detail.toggled.connect(func(on: bool) -> void: Settings.set_value("lush_detail", not on))
-	content.add_child(detail)
+	_choice(tr("Scenery"), "scenery_quality", [["auto", tr("Automatic")], ["high", tr("Full")], ["medium", tr("Balanced")], ["low", tr("Light (older tablets)")]])
+	content.add_child(UiStyle.label(tr("Grass and trees change the next time the world loads."), "SmallLabel"))
 	_slider(tr("All sound"), "volume_master", 0.0, 1.0, 0.05)
 	_slider(tr("Nature and music"), "volume_ambience", 0.0, 1.0, 0.05)
 	_slider(tr("Little sounds"), "volume_effects", 0.0, 1.0, 0.05)
@@ -37,6 +34,24 @@ func _toggle(text: String, key: String) -> CheckButton:
 	c.toggled.connect(func(on: bool) -> void: Settings.set_value(key, on))
 	content.add_child(c)
 	return c
+
+
+## A row of options for a setting with a few named values: [value, label] pairs.
+func _choice(text: String, key: String, options: Array) -> void:
+	var row := HBoxContainer.new()
+	content.add_child(row)
+	var l := UiStyle.label(text)
+	l.custom_minimum_size.x = 220
+	row.add_child(l)
+	var pick := OptionButton.new()
+	pick.custom_minimum_size.y = 44
+	pick.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	for i in options.size():
+		pick.add_item(options[i][1], i)
+		if options[i][0] == Settings.get_value(key):
+			pick.select(i)
+	pick.item_selected.connect(func(i: int) -> void: Settings.set_value(key, options[i][0]))
+	row.add_child(pick)
 
 
 func _slider(text: String, key: String, lo: float, hi: float, step: float) -> void:

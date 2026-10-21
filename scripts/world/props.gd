@@ -47,7 +47,9 @@ static func place(parent: Node3D, id: String, pos: Vector3, rot_y := 0.0, scale_
 	model.position = _vec3(p.get("offset", [0, 0, 0])) * s
 	root.add_child(model)
 	Style.apply(model, grade_for(id), float(p.get("sway", 0.0)), id)
-	if p.get("shadow", true) == false:
+	# Small things (flowers, pebbles, crates) skip the shadow pass on lighter tiers.
+	var small: bool = not Quality.value("small_shadows") and bounds(root).size.y < 1.0
+	if p.get("shadow", true) == false or small:
 		for mi in model.find_children("*", "GeometryInstance3D", true, false):
 			(mi as GeometryInstance3D).cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 	if p.get("collide", false):

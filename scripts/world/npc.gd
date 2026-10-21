@@ -26,12 +26,19 @@ static func create(id: String, look: Dictionary, dialogue: String) -> NPC:
 
 
 func _ready() -> void:
-	Dialogue.conversation_ended.connect(func(_id: String) -> void:
-		_face_target = null
-		model.set_expression("smile"))
-	Dialogue.line_shown.connect(func(line: Dictionary) -> void:
-		if Dialogue.active_id == dialogue_id and line.get("speaker", "") == npc_id:
-			model.set_expression(str(line.get("mood", "smile"))))
+	Dialogue.conversation_ended.connect(_on_conversation_ended)
+	Dialogue.line_shown.connect(_on_line_shown)
+
+
+func _on_conversation_ended(_id: String) -> void:
+	_face_target = null
+	model.set_expression("smile")
+
+
+## Shows the mood of this character's own lines in the current conversation.
+func _on_line_shown(line: Dictionary) -> void:
+	if Dialogue.active_id == dialogue_id and line.get("speaker", "") == npc_id:
+		model.set_expression(str(line.get("mood", "smile")))
 
 
 func _on_talk() -> void:
