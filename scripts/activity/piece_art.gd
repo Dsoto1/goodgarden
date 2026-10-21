@@ -55,6 +55,11 @@ static func draw(ci: CanvasItem, kind: String, size: Vector2, outline: bool, dat
 			# A little wooden scoop heaped with flour.
 			_shape(ci, PackedVector2Array([c + Vector2(-size.x * 0.4, -size.y * 0.05), c + Vector2(size.x * 0.4, -size.y * 0.05), c + Vector2(size.x * 0.3, size.y * 0.4), c + Vector2(-size.x * 0.3, size.y * 0.4)]), Color("b07a4f"), outline)
 			_shape(ci, _ellipse(c + Vector2(0, -size.y * 0.08), Vector2(size.x * 0.4, size.y * 0.24), 14), Color("f8f3e8"), outline)
+			if not outline:
+				# One dot per small scoop it weighs, to match the dots on the stone.
+				var dots := 2 if kind == "flour_scoop_big" else 1
+				for i in dots:
+					ci.draw_circle(c + Vector2((i - (dots - 1) / 2.0) * size.x * 0.22, size.y * 0.2), size.y * 0.08, Color("f3e6d2"))
 		"loaf_round":
 			_shape(ci, _ellipse(c, Vector2(size.x * 0.46, size.y * 0.44), 20), Color("c98a3e"), outline)
 			if not outline:

@@ -8,7 +8,10 @@ extends Node
 ## after the conversation closes, so the two never overlap.
 
 signal conversation_started(dialogue_id: String)
-## {"speaker": id, "name": display name, "text": String, "choices": Array[String]}
+## {"speaker": id, "name": display name, "text": String, "choices": Array[String],
+##  "reply": String}. "reply" is what the child says to move on (the Next
+## button): a greeting the first time they meet a grown-up each day, a goodbye
+## on the last line, or a node's own "reply" ("You're welcome, Ruth!").
 signal line_shown(line: Dictionary)
 signal conversation_ended(dialogue_id: String)
 
@@ -16,6 +19,7 @@ var active_id := ""
 var _data: Dictionary
 var _node: Dictionary
 var _queued_activity := ""
+var _first_line := false
 
 
 func is_active() -> bool:
@@ -41,6 +45,7 @@ func start(dialogue_id: String) -> bool:
 	_queued_activity = ""
 	GameState.push_mode(GameState.Mode.DIALOGUE)
 	conversation_started.emit(dialogue_id)
+	_first_line = true
 	_show(start_node)
 	return true
 
@@ -51,6 +56,8 @@ func advance() -> void:
 		return
 	if _node.get("choices", []).size() > 0:
 		return
+	if _first_line:
+		_mark_greeted()
 	var next := str(_node.get("next", ""))
 	if next.is_empty():
 		end()
@@ -65,6 +72,8 @@ func choose(index: int) -> void:
 	if index < 0 or index >= choices.size():
 		return
 	var choice: Dictionary = choices[index]
+	if _first_line:
+		_mark_greeted()
 	_run_actions(choice.get("actions", []))
 	var next := str(choice.get("next", ""))
 	if next.is_empty():
@@ -102,6 +111,33 @@ func _show(node_id: String) -> void:
 	line_shown.emit(_line_for(_node))
 
 
+## Manners are part of every conversation: the child greets each grown-up the
+## first time they meet that day, and says goodbye when the talk is done.
+func _reply_for(node: Dictionary, speaker: String) -> String:
+	if speaker == "narrator" or speaker.is_empty() or not node.get("choices", []).is_empty():
+		return tr(str(node.get("reply", "")))
+	var name := character_name(speaker)
+	var greet := _first_line and not _greeted_today(speaker)
+	if node.has("reply"):
+		return (tr("Hello!") + " " if greet else "") + tr(str(node["reply"]))
+	if greet:
+		return tr("Hello, %s!") % name
+	if str(node.get("next", "")).is_empty():
+		return tr("Goodbye, %s!") % name
+	return ""
+
+
+func _greeted_today(speaker: String) -> bool:
+	return int(WorldState.get_fact("npc.%s.greeted_day" % speaker, 0)) == Days.current_day
+
+
+func _mark_greeted() -> void:
+	_first_line = false
+	var speaker := str(_node.get("speaker", _data.get("speaker", "")))
+	if speaker != "narrator" and not speaker.is_empty():
+		WorldState.set_fact("npc.%s.greeted_day" % speaker, Days.current_day)
+
+
 func _line_for(node: Dictionary) -> Dictionary:
 	var speaker := str(node.get("speaker", _data.get("speaker", "")))
 	var choices: Array[String] = []
@@ -113,6 +149,7 @@ func _line_for(node: Dictionary) -> Dictionary:
 		"text": tr(str(node.get("text", ""))),
 		"mood": str(node.get("mood", "smile")),
 		"choices": choices,
+		"reply": _reply_for(node, speaker),
 	}
 
 

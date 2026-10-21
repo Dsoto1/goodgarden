@@ -43,14 +43,14 @@ Every file has an `"id"`. All text is plain English for now and passes through `
 	"nodes": {
 		"greet": {"text": "...", "next": "offer"},
 		"offer": {"text": "...", "choices": [
-			{"text": "Yes, let's plant!", "next": "go", "actions": [{"op": "start_activity", "id": "garden_bean_row"}]},
-			{"text": "Not yet.", "next": "later"}
+			{"text": "Yes, please! Let's plant.", "next": "go", "actions": [{"op": "start_activity", "id": "garden_bean_row"}]},
+			{"text": "Not yet, thank you.", "next": "later"}
 		]}
 	}
 }
 ```
 
-The first entry whose `when` conditions all hold is used. Node and choice `actions` can `start_activity` (it starts after the conversation closes) and `set_fact` / `increment` / `clear`. Characters' display names live in `content/world/characters.json`.
+The first entry whose `when` conditions all hold is used. The child's Next button speaks for them: it greets the grown-up ("Hello, Miriam!") the first time they meet that day and says "Goodbye, Miriam!" on the last line. Give a node a `"reply"` when the child should answer something specific, e.g. `"reply": "You're welcome, Ruth!"` after a thank-you (a greeting is added in front if it's their first meeting that day). Node and choice `actions` can `start_activity` (it starts after the conversation closes) and `set_fact` / `increment` / `clear`. Characters' display names live in `content/world/characters.json`.
 
 ### Conditions (used everywhere)
 
@@ -86,9 +86,13 @@ The first entry whose `when` conditions all hold is used. Node and choice `actio
 
 **`space_along_line`**: `markers`, `stick_length`, `tolerance`, optional `row_y`, `row_from`, `row_to`. Result: `count`, `positions` (0–1 along the row). Feedback keys: `placed_all`, `crowded`, `far`, `all_good`.
 
-**`count_into_slots`**: `per_slot`, `slots` or `slots_from` (an earlier step's `positions`), `piece` (`bean_seed`, `coin`, ...), `spare`, `show_dimples`. Result: `slots`, `per_slot`, `pieces`. Feedback: `full`, `all_good`.
+**`count_into_slots`**: `per_slot` or `counts`, `slots` or `slots_from` (an earlier step's `positions`), `piece` (`bean_seed`, `bread_roll`, `water_drop`, `hay`, ...), `container` (`hole`, `plant`, `basket`, `trough`), `supply_label`, `supply_color`, `spare`, `show_dimples`. Result: `slots`, `per_slot`, `pieces`. Feedback: `full`, `all_good`.
 
-**`match_to_outline`**: `slots: [{"kind", "pos": [x, y]}]`, optional `mats`, `box`, `box_label`, `tray`, or `pieces_from_previous: true` to reuse the prior step's pieces. Kinds: `plate`, `bowl_small`, `cup`, `fork`, `spoon`, `knife`, `napkin`, `coin`, `figure:<id>`. Result: `placed`. Feedback: `mismatch`, `all_good`.
+**`sort_into_bins`**: `pieces: [{"kind", "count"}]`, `bins: [{"kind", "label", "look": "sack"|"basket", "pos"}]`, `pile`. Result: `sorted`. Feedback: `mismatch`, `all_good`.
+
+**`balance_scale`**: `weight` (in small scoops), `scoops: [{"kind", "weight", "count"}]`, `weight_label`, `supply_label`. Result: `scoops`. Feedback: `heavy`, `all_good`.
+
+**`match_to_outline`**: `slots: [{"kind", "pos": [x, y]}]`, optional `mats`, `box`, `box_label`, `tray`, or `pieces_from_previous: true` to reuse the prior step's pieces. Kinds: `plate`, `bowl_small`, `cup`, `fork`, `spoon`, `knife`, `napkin`, `coin`, `loaf_round`, `loaf_long`, `bread_roll`, `figure:<id>`. `oven: [x, y, w, h]` draws an oven mouth behind the outlines. Result: `placed`. Feedback: `mismatch`, `all_good`.
 
 **`story_figures`**: `places`, `road`, `figures` (`{"id", "label", "color", "shape"?: "donkey"|"building", "accent"?}`), `box`, `segments` (`{"text", "reveal": [ids], "show": {id: {"pos", "lying"}}}`), `wonderings`, `reference`. Result: `retell_seconds`. Follow it with a `match_to_outline` step using `pieces_from_previous` so the child puts the material away.
 
@@ -104,3 +108,9 @@ Positions are in **board units** (1000 × 560); the workspace scales the board t
 - Feedback is environmental ("the stick lies over a peg"), never "wrong".
 - Faith is never currency: no scores, streaks or rewards on prayer or Scripture, and no observation that infers spiritual growth.
 - Real-world invitations are optional and never penalized.
+- Manners and respect for elders run through everything, shown rather than preached:
+  - The child greets grown-ups, says please and thank you, and answers thanks with "You're welcome".
+  - The child's choices are always polite, including saying no ("Not yet, thank you.").
+  - Grown-ups model the same manners: they ask with "would you please", thank the child, and speak to them kindly.
+  - Elders are spoken of with warmth and respect: their stories, their work and their wisdom are worth listening to.
+  - Never a rude or cheeky option, and no lecture about manners.

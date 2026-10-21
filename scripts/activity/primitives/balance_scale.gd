@@ -39,9 +39,9 @@ func _build() -> void:
 	for spec: Dictionary in specs:
 		for k in int(spec.get("count", 1)):
 			var w := int(spec.get("weight", 1))
-			var p := DragPiece.create(str(spec.get("kind", "flour_scoop")), Vector2(34, 28) * (1.0 + (w - 1) * 0.35))
+			var p := DragPiece.create(str(spec.get("kind", "flour_scoop")), Vector2(34, 28) * (1.0 + (w - 1) * 0.6))
 			p.set_meta(&"weight", w)
-			p.home = _supply + Vector2((i % 4 - 1.5) * 42.0, -22.0 + (i / 4) * 36.0) - p.size / 2.0
+			p.home = _supply + Vector2((i % 3 - 1.0) * 56.0, -24.0 + (i / 3) * 46.0) - p.size / 2.0
 			i += 1
 			p.position = p.home
 			p.dropped.connect(_on_dropped)
@@ -67,7 +67,7 @@ func load_weight() -> int:
 
 func _target_angle() -> float:
 	# Positive turns the beam clockwise: the right (scoop) side goes down.
-	return clampf((load_weight() - _weight) * 0.07, -0.28, 0.28)
+	return clampf((load_weight() - _weight) * 0.11, -0.3, 0.3)
 
 
 func _process(delta: float) -> void:
@@ -125,7 +125,7 @@ func _on_dropped(p: DragPiece) -> void:
 func _layout() -> void:
 	var c := pan.center()
 	for i in pan.contents.size():
-		var spot := c + Vector2((i % 4 - 1.5) * 40.0, -30.0 - (i / 4) * 30.0)
+		var spot := c + Vector2((i % 3 - 1.0) * 52.0, -32.0 - (i / 3) * 40.0)
 		pan.contents[i].position = spot - pan.contents[i].size / 2.0
 
 

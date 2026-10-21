@@ -69,7 +69,9 @@ func _on_line(line: Dictionary) -> void:
 	for c in _choices.get_children():
 		c.queue_free()
 	if choices.is_empty():
-		var next := UiStyle.button(tr("Next"), true, "next")
+		# The child's own words where there are any ("Hello, Miriam!").
+		var reply := str(line.get("reply", ""))
+		var next := UiStyle.button(reply if not reply.is_empty() else tr("Next"), true, "talk" if not reply.is_empty() else "next")
 		next.pressed.connect(Dialogue.advance)
 		_choices.add_child(next)
 		next.call_deferred("grab_focus")

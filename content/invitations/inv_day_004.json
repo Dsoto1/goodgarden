@@ -1,7 +1,7 @@
 {
 	"id": "inv_day_004",
 	"from": "miriam",
-	"body": "Good morning, my friend!\n\nThe sun has been hot, and our bean plants look thirsty. Will you help me water them?\n\nThe watering can is in the garden, by the gate.",
+	"body": "Good morning, my friend!\n\nThe sun has been hot, and our bean plants look thirsty. Would you please help me water them?\n\nThe watering can is in the garden, by the gate.",
 	"signature": "Miriam",
 	"suggests": "garden_water",
 	"summary": "Water the thirsty bean plants in the garden."

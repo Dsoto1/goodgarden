@@ -113,10 +113,12 @@ func _lamb_troughs() -> void:
 	_fed = group_node("FedLambs")
 	for i in TROUGHS.size():
 		var t: Vector3 = TROUGHS[i]
-		for k in 3:
-			MeshKit.sphere(_fed, 0.16, t + Vector3(-0.35 + k * 0.35, 0.5, 0), "roof_thatch", Vector3(1.2, 0.5, 0.9), 6, 3)
+		# Loose straw heaped in the trough.
+		for k in 9:
+			var straw := MeshKit.box(_fed, Vector3(0.5, 0.04, 0.05), t + Vector3(-0.42 + (k % 5) * 0.21, 0.47 + (k / 5) * 0.04, -0.12 + (k % 3) * 0.12), "roof_thatch")
+			straw.rotation = Vector3(0, 0.4 * ((k * 7) % 5 - 2), 0.15 * ((k * 3) % 3 - 1))
 		var lamb := AnimalModel.make("lamb")
-		lamb.position = t + Vector3(0.2, 0, 0.75)
+		lamb.position = t + Vector3(0.15, 0, 1.15)
 		lamb.rotation.y = PI + (i - 1) * 0.3
 		_fed.add_child(lamb)
 	var feed := Interactable.create(self, Vector3(32.0, 0, -21.4), "Feed the lambs", func() -> void:
@@ -193,8 +195,7 @@ func _trees() -> void:
 	mill.conditions = [{"day_at_least": 6}]
 	_flour = group_node("FlourSacks")
 	for k in 3:
-		var sack := MeshKit.sphere(_flour, 0.28, mill_at + Vector3(3.3 + k * 0.5, 0.3, 2.6 + (k % 2) * 0.3), "cloth_cream", Vector3(0.9, 1.2, 0.8), 8, 5)
-		sack.rotation.y = k * 0.7
+		Props.place(_flour, "sack", mill_at + Vector3(3.3 + k * 0.55, 0, 2.6 + (k % 2) * 0.3), k * 0.7)
 	Props.place(self, "grain_field", Vector3(25, 0, 6), 0.3)
 	Props.place(self, "grain_field", Vector3(29, 0, 0), -0.2)
 	var rocks := ["rock", "rock_b", "rock_c"]

@@ -153,7 +153,7 @@ func _draw() -> void:
 			for y in range(int(r.position.y) + 12, int(r.end.y), 16):
 				draw_line(Vector2(r.position.x, y), Vector2(r.end.x, y), Color("8a5a3a"), 2.0)
 		draw_string(font, Vector2(r.position.x - 20, r.end.y + 24), str(b.data.get("label", "")), HORIZONTAL_ALIGNMENT_CENTER, r.size.x + 40, 18, Color("f3e6d2"))
-		# A sample of what belongs here, pinned to the front.
-		PieceArt.draw_at(self, b.accepts, Rect2(r.position + Vector2(r.size.x / 2.0 - 18, r.size.y - 34), Vector2(36, 28)))
+		# The outline of what belongs here, stitched on the front.
+		PieceArt.draw_at(self, b.accepts, Rect2(Vector2(r.end.x - 52, r.end.y - 40), Vector2(36, 28)), true)
 	if _hint_piece and _hint_piece.placed_in == null:
 		draw_arc(_hint_piece.center(), 30, 0, TAU, 24, Color(1, 0.95, 0.7), 4.0)

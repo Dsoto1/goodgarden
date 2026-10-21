@@ -177,7 +177,11 @@ func _draw() -> void:
 		draw_colored_polygon(brick, Color("b8584a"))
 		draw_colored_polygon(arch, Color("3a2620"))
 		draw_rect(Rect2(r.position.x + 20, r.position.y + r.size.y * 0.45, r.size.x - 40, r.size.y * 0.55 - 10), Color("8f7f70"))
-		draw_circle(r.get_center() + Vector2(0, -r.size.y * 0.1), r.size.y * 0.18, Color("e8843a", 0.35))
+		# Embers glowing along the back wall.
+		for k in 9:
+			var e := Vector2(r.position.x + r.size.x * (0.22 + k * 0.07), r.position.y + r.size.y * 0.42 + (k % 2) * 6)
+			draw_circle(e, 9.0, Color("e8843a"))
+			draw_circle(e + Vector2(0, -3), 4.0, Color("f6c35a"))
 	if config.has("box"):
 		var b: Array = config["box"]
 		var r := Rect2(b[0], b[1], b[2], b[3])

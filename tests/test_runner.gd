@@ -347,6 +347,20 @@ func test_young_child_access() -> void:
 	var counter := PrimitiveRegistry.create("count_into_slots")
 	eq(counter.count_word(4), "four", "counting is spoken in words")
 	counter.free()
+	# Manners: the child greets a grown-up, says goodbye, and answers politely.
+	check(Dialogue.start("ruth"), "talk to Ruth")
+	eq(Dialogue.current_line()["reply"], "Hello, Ruth!", "the child greets Ruth first")
+	Dialogue.advance()
+	eq(Dialogue.current_line()["reply"], "Goodbye, Ruth!", "and says goodbye at the end")
+	Dialogue.advance()
+	check(Dialogue.start("ruth"), "talk to Ruth again")
+	check(Dialogue.current_line()["reply"] != "Hello, Ruth!", "only one hello a day")
+	Dialogue.end()
+	for f in ["miriam", "tobias"]:
+		for node: Dictionary in Content.get_dialogue(f).get("nodes", {}).values():
+			for c: Dictionary in node.get("choices", []):
+				var t := str(c.get("text", ""))
+				check(t.contains("please") or t.contains("thank you") or t.contains("glad"), "a polite answer: %s" % t)
 
 
 ## The chapel library: every book has pages, and the reader turns them

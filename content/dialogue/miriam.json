@@ -70,13 +70,13 @@
 			"text": "The soil is warm, and these bean seeds are waiting for a home. Will you plant the row with me?",
 			"choices": [
 				{
-					"text": "Yes, let's plant!",
+					"text": "Yes, please! Let's plant.",
 					"next": "plant_go",
 					"actions": [
 						{"op": "start_activity", "id": "garden_bean_row"}
 					]
 				},
-				{"text": "Not yet.", "next": "later"}
+				{"text": "Not yet, thank you.", "next": "later"}
 			]
 		},
 		"plant_go": {"mood": "joy", "text": "Wonderful. Come, kneel down here beside me."},
@@ -93,6 +93,7 @@
 			"text": "Each day they'll stretch a little taller. I wonder how tall they'll be by summer."
 		},
 		"table": {
+			"reply": "Thank you, Miriam!",
 			"mood": "joy",
 			"text": "I passed your house and saw the table all set for supper. What a lovely welcome!",
 			"actions": [
@@ -124,6 +125,7 @@
 			]
 		},
 		"watered": {
+			"reply": "You're welcome, Miriam!",
 			"mood": "joy",
 			"text": "Thank you for watering the beans! Look, there are little green beans hanging down now."
 		}

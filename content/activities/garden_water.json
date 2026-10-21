@@ -41,7 +41,7 @@
 		}
 	],
 	"outro": [
-		{"speaker": "miriam", "text": "Look! They're standing up tall again. Tomorrow, they'll be even stronger.", "button": "Back to the garden"}
+		{"speaker": "miriam", "text": "Look! They're standing up tall again. Tomorrow, they'll be even stronger.", "button": "Thank you, Miriam"}
 	],
 	"world_effects": [
 		{"op": "set", "fact": "garden.watered", "value": "$day"}
