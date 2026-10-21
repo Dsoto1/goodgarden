@@ -5,6 +5,12 @@
 	"entries": [
 		{
 			"when": [
+				{"fact": "garden.watered", "is_today": true}
+			],
+			"start": "watered"
+		},
+		{
+			"when": [
 				{"fact": "home.table_set_day", "is_today": true},
 				{"fact": "npc.miriam.noticed_table", "exists": false}
 			],
@@ -116,6 +122,10 @@
 			"actions": [
 				{"op": "set_fact", "fact": "npc.miriam.loaves_wonder", "value": true}
 			]
+		},
+		"watered": {
+			"mood": "joy",
+			"text": "Thank you for watering the beans! Look, there are little green beans hanging down now."
 		}
 	}
 }

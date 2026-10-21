@@ -8,6 +8,13 @@ const OUTLINE := Color(0.25, 0.18, 0.12, 0.55)
 const INK := Color("3b3430")
 
 
+## Draws `kind` filling `r` (for samples pinned to a bin or label).
+static func draw_at(ci: CanvasItem, kind: String, r: Rect2, outline := false) -> void:
+	ci.draw_set_transform(r.position)
+	draw(ci, kind, r.size, outline)
+	ci.draw_set_transform(Vector2.ZERO)
+
+
 static func draw(ci: CanvasItem, kind: String, size: Vector2, outline: bool, data: Dictionary = {}) -> void:
 	var c := size / 2.0
 	if kind.begins_with("figure:"):
@@ -19,6 +26,47 @@ static func draw(ci: CanvasItem, kind: String, size: Vector2, outline: bool, dat
 			if not outline:
 				ci.draw_circle(c + Vector2(-size.x * 0.1, -size.y * 0.12), size.y * 0.16, Color("eebd72"))
 				ci.draw_line(c + Vector2(-size.x * 0.2, size.y * 0.05), c + Vector2(size.x * 0.2, -size.y * 0.1), Color("a8662a"), 2.0)
+		"water_drop":
+			var drop := PackedVector2Array()
+			for i in 17:
+				var a := PI * 0.15 + (PI * 1.7) * i / 16.0
+				drop.append(c + Vector2(sin(a) * size.y * 0.36, -cos(a) * size.y * 0.36 + size.y * 0.1))
+			drop.append(c + Vector2(0, -size.y * 0.48))
+			_shape(ci, drop, Color("5f9fd0"), outline)
+			if not outline:
+				ci.draw_circle(c + Vector2(-size.y * 0.1, size.y * 0.05), size.y * 0.08, Color("d6ecf8"))
+		"hay":
+			# A small bundle of hay tied in the middle.
+			for k in 5:
+				var y := c.y + (k - 2) * size.y * 0.13
+				_shape(ci, _rect(Rect2(size.x * 0.06, y - size.y * 0.08, size.x * 0.88, size.y * 0.16)), Color("e2c56f") if k % 2 else Color("d4b259"), outline)
+			if not outline:
+				ci.draw_rect(Rect2(c.x - 2, size.y * 0.15, 4, size.y * 0.7), Color("8a5a3a"))
+		"grain":
+			_shape(ci, _ellipse(c, Vector2(size.x * 0.28, size.y * 0.36), 12), Color("c9a25a"), outline)
+			if not outline:
+				ci.draw_line(c + Vector2(0, -size.y * 0.28), c + Vector2(0, size.y * 0.28), Color("a8823f"), 1.5)
+		"chaff":
+			# Light, papery husks and bits of straw.
+			_shape(ci, PackedVector2Array([c + Vector2(-size.x * 0.42, size.y * 0.1), c + Vector2(-size.x * 0.1, -size.y * 0.3), c + Vector2(size.x * 0.42, -size.y * 0.1), c + Vector2(size.x * 0.1, size.y * 0.32)]), Color("e8ddc0"), outline)
+			if not outline:
+				ci.draw_line(c + Vector2(-size.x * 0.3, size.y * 0.05), c + Vector2(size.x * 0.3, -size.y * 0.08), Color("b9a07a"), 1.5)
+		"flour_scoop", "flour_scoop_big":
+			# A little wooden scoop heaped with flour.
+			_shape(ci, PackedVector2Array([c + Vector2(-size.x * 0.4, -size.y * 0.05), c + Vector2(size.x * 0.4, -size.y * 0.05), c + Vector2(size.x * 0.3, size.y * 0.4), c + Vector2(-size.x * 0.3, size.y * 0.4)]), Color("b07a4f"), outline)
+			_shape(ci, _ellipse(c + Vector2(0, -size.y * 0.08), Vector2(size.x * 0.4, size.y * 0.24), 14), Color("f8f3e8"), outline)
+		"loaf_round":
+			_shape(ci, _ellipse(c, Vector2(size.x * 0.46, size.y * 0.44), 20), Color("c98a3e"), outline)
+			if not outline:
+				for k in 3:
+					var y := c.y + (k - 1) * size.y * 0.22
+					ci.draw_line(Vector2(c.x - size.x * 0.25, y), Vector2(c.x + size.x * 0.25, y - 4), Color("e8b874"), 3.0)
+		"loaf_long":
+			_shape(ci, _ellipse(c, Vector2(size.x * 0.48, size.y * 0.4), 20), Color("d09048"), outline)
+			if not outline:
+				for k in 4:
+					var x := c.x + (k - 1.5) * size.x * 0.2
+					ci.draw_line(Vector2(x - 6, c.y + size.y * 0.18), Vector2(x + 6, c.y - size.y * 0.18), Color("eebd72"), 3.0)
 		"bean_seed":
 			_shape(ci, _ellipse(c, Vector2(size.x * 0.45, size.y * 0.4), 14), Color("8a3b2e"), outline)
 			if not outline:

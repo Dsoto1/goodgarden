@@ -1,0 +1,52 @@
+{
+	"id": "sheepfold_hay",
+	"title": "Feeding the Lambs",
+	"mode": "task",
+	"location": "valley",
+	"surface": "wood_table",
+	"readiness": {
+		"ages": [5, 8],
+		"math": "sharing equally: the same number in each group (fair shares)",
+		"reading": "pre-reader friendly; all text can be read aloud"
+	},
+	"concepts": ["sharing equally", "equal groups", "counting to 3"],
+	"formation_themes": ["care for animals", "fairness", "the Good Shepherd"],
+	"prerequisites": [
+		{"day_at_least": 5},
+		{"not": {"fact": "valley.lambs_fed", "is_today": true}}
+	],
+	"intro": [
+		{"speaker": "narrator", "text": "Here are the lambs' troughs. The lambs are hungry, just as Ruth said!"},
+		{"speaker": "narrator", "text": "Let's share the hay fairly, so every trough has the same."}
+	],
+	"steps": [
+		{
+			"id": "share_hay",
+			"primitive": "count_into_slots",
+			"speaker": "narrator",
+			"prompt": "Share the hay between the troughs. Put one bundle on each dot, so they all have the same.",
+			"hint": "Find a trough with an empty dot, and put a bundle there.",
+			"slots": 3,
+			"per_slot": 3,
+			"piece": "hay",
+			"container": "trough",
+			"supply_label": "hay bale",
+			"supply_color": "e2c56f",
+			"spare": 0,
+			"feedback": {
+				"full": "That trough has its share. Try a trough that has room.",
+				"all_good": "Three, three and three. Every trough has the same. That's fair!"
+			}
+		}
+	],
+	"outro": [
+		{"speaker": "narrator", "text": "Listen to them munching! The shepherd in Jesus' story took good care of his sheep. Today, you did too.", "button": "Back to the sheepfold"}
+	],
+	"world_effects": [
+		{"op": "set", "fact": "valley.lambs_fed", "value": "$day"}
+	],
+	"replay": "free",
+	"real_world_invitation": "rw_share_fairly",
+	"journal_line": "I shared the hay fairly between the lambs' troughs: three bundles in each.",
+	"unavailable_text": "The lambs have eaten. They're resting now."
+}

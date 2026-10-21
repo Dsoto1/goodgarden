@@ -13,7 +13,8 @@ extends ActivityStep
 ##   slots: int              number of places, or
 ##   slots_from: step id     reuse "count"/"positions" from an earlier step
 ##   piece: kind             piece kind (default "bean_seed")
-##   container: "hole"|"basket"  how the places look (default "hole", in soil)
+##   container: how the places look: "hole" (in soil, the default), "plant"
+##              (a bean plant growing from its hole), "basket" or "trough"
 ##   supply_label: text      name under the supply (default "seed bowl")
 ##   spare: int              extra pieces in the supply (default 2)
 ##   show_dimples: bool      default true; false for children ready for less support
@@ -66,8 +67,14 @@ func _build() -> void:
 	queue_redraw()
 
 
+## Baskets and troughs are wide and lined up on a shelf or the ground;
+## holes and plants sit in a row of soil.
 func _baskets() -> bool:
-	return config.get("container", "hole") == "basket"
+	return config.get("container", "hole") in ["basket", "trough"]
+
+
+func _container() -> String:
+	return str(config.get("container", "hole"))
 
 
 func _needed() -> int:
@@ -194,20 +201,26 @@ func _draw() -> void:
 		draw_rect(Rect2(_from - 20, _row_y + 30, _to - _from + 40, 26), Color("8a5a3a"))
 		for h in holes:
 			var c := h.center()
-			_basket(c)
+			if _container() == "trough":
+				_trough(c)
+			else:
+				_basket(c)
 			if config.get("show_dimples", true):
 				for i in _count_of(h):
 					var filled := i < h.contents.size()
 					draw_arc(c + _dimple(i, _count_of(h)), 11, 0, TAU, 14, Color("f3e6d2", 0.25 if filled else 0.8), 2.0)
-			draw_circle(c + Vector2(0, 62), 20, Color("f3e6d2"))
-			draw_arc(c + Vector2(0, 62), 20, 0, TAU, 24, Color("8a5a3a"), 2.0)
-			draw_string(font, c + Vector2(-20, 72), str(_count_of(h)), HORIZONTAL_ALIGNMENT_CENTER, 40, 28, Color("3b3430"))
+			if config.has("counts"):
+				draw_circle(c + Vector2(0, 62), 20, Color("f3e6d2"))
+				draw_arc(c + Vector2(0, 62), 20, 0, TAU, 24, Color("8a5a3a"), 2.0)
+				draw_string(font, c + Vector2(-20, 72), str(_count_of(h)), HORIZONTAL_ALIGNMENT_CENTER, 40, 28, Color("3b3430"))
 			if h == _hint_slot:
 				draw_arc(c, 74, 0, TAU, 32, Color(1, 0.95, 0.7), 4.0)
 	else:
 		draw_rect(Rect2(_from, _row_y - 40, _to - _from, 80), Color("6b4630"))
 		for h in holes:
 			var c := h.center()
+			if _container() == "plant":
+				_bean_plant(c, h.contents.size() >= _count_of(h))
 			draw_circle(c, 33, Color("4a2f20"))
 			if config.get("show_dimples", true):
 				for i in _count_of(h):
@@ -218,8 +231,31 @@ func _draw() -> void:
 	# The supply: a bowl of seeds, or a cloth-lined bread tray.
 	draw_circle(_bowl + Vector2(0, 8), 78, Color("8a6a4a"))
 	draw_circle(_bowl, 74, Color("c49a6c"))
-	draw_circle(_bowl, 62, Color("f3e6d2") if _baskets() else Color("a8774f"))
+	draw_circle(_bowl, 62, Color(str(config.get("supply_color", "f3e6d2" if _baskets() else "a8774f"))))
 	draw_string(font, _bowl + Vector2(-100, 100), tr(str(config.get("supply_label", "seed bowl"))), HORIZONTAL_ALIGNMENT_CENTER, 200, 18, Color("f3e6d2"))
+
+
+## A bean plant rising from its hole; it perks up once it has had its water.
+func _bean_plant(c: Vector2, watered: bool) -> void:
+	var lean := 0.0 if watered else 14.0
+	var top := c + Vector2(lean, -120)
+	draw_line(c + Vector2(0, -20), top, Color("5f8a3f"), 5.0)
+	for k in 3:
+		var at := c.lerp(top, 0.4 + k * 0.25) + Vector2(0, -10)
+		for side: float in [-1.0, 1.0]:
+			var leaf := PackedVector2Array()
+			for i in 9:
+				var a := TAU * i / 9.0
+				leaf.append(at + Vector2(side * 18 + cos(a) * 16, sin(a) * 8 + (0.0 if watered else 6.0)))
+			draw_colored_polygon(leaf, Color("7fb04a") if watered else Color("9fae6a"))
+
+
+## A low wooden feeding trough.
+func _trough(c: Vector2) -> void:
+	draw_colored_polygon(PackedVector2Array([c + Vector2(-70, -34), c + Vector2(70, -34), c + Vector2(56, 40), c + Vector2(-56, 40)]), Color("8a5a3a"))
+	draw_colored_polygon(PackedVector2Array([c + Vector2(-60, -26), c + Vector2(60, -26), c + Vector2(50, 30), c + Vector2(-50, 30)]), Color("5e3b26"))
+	for x: float in [-50.0, 50.0]:
+		draw_rect(Rect2(c + Vector2(x - 6, 36), Vector2(12, 24)), Color("6b4630"))
 
 
 func _basket(c: Vector2) -> void:

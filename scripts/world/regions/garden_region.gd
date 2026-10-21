@@ -67,6 +67,10 @@ func build() -> void:
 	Props.place(self, "mushroom", Vector3(7.4, 0, 7.3), 0.4)
 	Props.place(self, "fern", Vector3(-6.6, 0, -3.4), 0.2)
 	CraftedProps.watering_can(self, Vector3(-4.1, 0, -1.7), 2.4)
+	# From day 4 the beans are thirsty: the watering can starts the watering.
+	var water := Interactable.create(self, Vector3(-4.1, 0, -1.7), "Water the beans", func() -> void:
+		get_tree().call_group("main", "start_activity_here", "garden_water", position + Vector3(BED_X, 0.3, BED_ROWS["bed_1"])), 0.6, 1.0)
+	water.conditions = [{"day_at_least": 4}, {"fact": "garden.bed_1", "exists": true}]
 	CraftedProps.scarecrow(self, Vector3(3.2, 0, 4.4), 0.3)
 	# Miriam's mustard plant, grown from the tiniest seed, in the corner by the fence.
 	CraftedProps.mustard_plant(self, Vector3(5.2, 0, 1.6), 11, 1.9)
@@ -121,7 +125,10 @@ func _describe_bed() -> String:
 		0: return tr("Little mounds of soil cover the seeds. They're resting.")
 		1: return tr("Tiny green loops are pushing up through the soil!")
 		2: return tr("The baby bean plants have opened their first leaves.")
-		_: return tr("The bean plants are climbing their poles.")
+		_:
+			if WorldState.get_fact("garden.watered") != null:
+				return tr("The bean plants are climbing their poles, and little green beans are hanging down!")
+			return tr("The bean plants are climbing their poles.")
 
 
 ## 0 = just sown, 1 = sprouts, 2 = seedlings, 3 = climbing plants.
@@ -162,6 +169,18 @@ func sync_with_world() -> void:
 				for h in 4:
 					MeshKit.sphere(_bed_1_plants, 0.14, at + Vector3(0.08 * (1 - (h % 2) * 2), 0.35 + h * 0.3, 0.05), "leaf", Vector3(1.0, 0.6, 0.8), 6, 3)
 				MeshKit.sphere(_bed_1_plants, 0.05, at + Vector3(0.1, 1.2, 0.1), "bean_flower", Vector3.ONE, 5, 3)
+	# Watered today: dark, damp soil round each plant. Once watered, the
+	# climbing beans hang with pods.
+	var watered: Variant = WorldState.get_fact("garden.watered")
+	if watered != null:
+		for f: Variant in positions:
+			var x := BED_X - BED_LENGTH / 2.0 + 0.2 + float(f) * (BED_LENGTH - 0.4)
+			if int(watered) == Days.current_day:
+				MeshKit.sphere(_bed_1_plants, 0.3, Vector3(x, 0.285, z1), "soil_dark", Vector3(1.0, 0.03, 0.8), 10, 2)
+			if stage >= 3:
+				for k in 3:
+					var pod := MeshKit.cylinder(_bed_1_plants, 0.018, 0.025, 0.2, Vector3(x + 0.12 - k * 0.12, 0.65 + k * 0.28, z1 + 0.12), "leaf_light", 5)
+					pod.rotation.z = 0.25
 	# A little wooden label at the row's end, the child's mark on the garden.
 	MeshKit.box(_bed_1_plants, Vector3(0.04, 0.4, 0.04), Vector3(BED_X - BED_LENGTH / 2.0 + 0.1, 0.45, z1 + 0.5), "wood_light")
 	MeshKit.box(_bed_1_plants, Vector3(0.22, 0.14, 0.03), Vector3(BED_X - BED_LENGTH / 2.0 + 0.1, 0.62, z1 + 0.5), "cloth_cream")

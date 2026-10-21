@@ -681,6 +681,81 @@ func test_vertical_slice_end_to_end() -> void:
 	eq(int(WorldState.get_fact("village.bread_day", 0)), 3, "the bread was delivered today")
 	check(Dialogue.start("ruth") and Dialogue.current_line()["text"].contains("bread basket"), "Ruth thanks the child for the bread")
 	Dialogue.end()
+
+	# Days 4 to 7: watering the beans, feeding the lambs, the mill and the oven.
+	await main.rest_until_morning()
+	await frames(3)
+	eq(Invitations.pending_id, "inv_day_004", "day 4: Miriam's letter about thirsty beans")
+	var water := ActivityRunner.workspace if await _start_from("Water the beans") else null
+	if water:
+		var cups := water.current_step()
+		for h in cups.holes.size():
+			for i in 2:
+				_drop(cups.pieces[h * 2 + i], cups.holes[h].center())
+		check(cups.is_done, "every bean plant has two drops")
+		await _finish_activity(water)
+	eq(int(WorldState.get_fact("garden.watered", 0)), 4, "the beans were watered today")
+
+	await main.rest_until_morning()
+	await frames(3)
+	eq(Invitations.pending_id, "inv_day_005", "day 5: Ruth's letter about the lambs")
+	var hay_ws := ActivityRunner.workspace if await _start_from("Feed the lambs") else null
+	if hay_ws:
+		var hay := hay_ws.current_step()
+		eq(hay.holes.size(), 3, "three troughs")
+		for h in 3:
+			for i in 3:
+				_drop(hay.pieces[h * 3 + i], hay.holes[h].center())
+		check(hay.is_done, "every trough has the same")
+		await _finish_activity(hay_ws)
+	eq(int(WorldState.get_fact("valley.lambs_fed", 0)), 5, "the lambs were fed today")
+	var fed := _find_named(main.world, "FedLambs") as Node3D
+	check(fed != null and fed.visible, "hay is in the troughs and the lambs are eating")
+
+	await main.rest_until_morning()
+	await frames(3)
+	eq(Invitations.pending_id, "inv_day_006", "day 6: Tobias asks for flour")
+	check(fed != null and not fed.visible, "the next day the troughs are empty again")
+	var mill := ActivityRunner.workspace if await _start_from("Help at the mill") else null
+	if mill:
+		var sorter := mill.current_step()
+		for p: DragPiece in sorter.pieces:
+			for b: DropSlot in sorter.bins:
+				if b.accepts == p.kind:
+					_drop(p, b.center())
+		check(sorter.is_done, "the grain is sorted from the chaff")
+		await wait(1.8)
+		var scale := mill.current_step()
+		check(scale != null and scale != sorter, "then the flour is weighed")
+		if scale:
+			var big: Array = scale.pieces.filter(func(q: DragPiece) -> bool: return q.kind == "flour_scoop_big")
+			var small: Array = scale.pieces.filter(func(q: DragPiece) -> bool: return q.kind == "flour_scoop")
+			for q in big:
+				_drop(q, scale.pan.center())
+			check(not scale.is_done and scale.load_weight() == 6, "three big scoops are too heavy")
+			_drop(big[0], Vector2(820, 470)) # take one out
+			check(scale.load_weight() == 4, "taking a scoop out makes it lighter")
+			_drop(small[0], scale.pan.center())
+			check(scale.is_done, "a little scoop makes the beam level")
+		await _finish_activity(mill)
+	eq(int(WorldState.get_fact("village.flour_day", 0)), 6, "there is flour for tomorrow")
+
+	await main.rest_until_morning()
+	await frames(3)
+	eq(Invitations.pending_id, "inv_day_007", "day 7: baking day")
+	var oven := ActivityRunner.workspace if await _start_from("Bake bread with Tobias") else null
+	if oven:
+		var load := oven.current_step()
+		for slot: DropSlot in load.slots:
+			for p: DragPiece in load.pieces:
+				if p.kind == slot.accepts and p.placed_in == null:
+					_drop(p, slot.center())
+					break
+		check(load.is_done, "every loaf is in its place in the oven")
+		await _finish_activity(oven)
+	eq(int(WorldState.get_fact("village.baked_day", 0)), 7, "the bread was baked today")
+	var baking := _find_named(main.world, "BakingDay") as Node3D
+	check(baking != null and baking.visible, "the oven glows and fresh loaves cool beside it")
 	main.quit_to_title()
 	await frames(2)
 	main.queue_free()
@@ -688,6 +763,33 @@ func test_vertical_slice_end_to_end() -> void:
 
 
 # --- Helpers -------------------------------------------------------------------
+
+## Uses the interactable with this prompt and waits for its activity's first
+## step, past the introduction. Returns false if it didn't start.
+func _start_from(prompt: String) -> bool:
+	var target := _interactable(prompt)
+	check(target != null and target.is_available(), "\"%s\" is offered" % prompt)
+	if target == null:
+		return false
+	target.trigger()
+	await frames(3)
+	check(ActivityRunner.is_running(), "\"%s\" starts its work" % prompt)
+	if not ActivityRunner.is_running():
+		return false
+	await _play_intro(ActivityRunner.workspace)
+	return ActivityRunner.workspace.current_step() != null
+
+
+func _finish_activity(ws: ActivityWorkspace) -> void:
+	await wait(1.8)
+	await _play_outro(ws)
+	await wait(0.2)
+	check(not ActivityRunner.is_running(), "the work is finished")
+
+
+func _find_named(node: Node, node_name: String) -> Node:
+	return node.find_child(node_name, true, false)
+
 
 func _interactable(prompt: String) -> Interactable:
 	return _search(get_tree().root, prompt)

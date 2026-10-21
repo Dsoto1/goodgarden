@@ -7,6 +7,11 @@ extends Region
 const FORD_X := -12.5
 
 const BOUNDS := Rect2(-36, -46, 70, 59) # x, z, width, depth of the walkable area
+## Feeding troughs along the sheepfold's north fence.
+const TROUGHS := [Vector3(25.8, 0, -25.2), Vector3(27.6, 0, -25.2), Vector3(29.4, 0, -25.2)]
+
+var _fed: Node3D # hay in the troughs and lambs eating, on a day they are fed
+var _flour: Node3D # flour sacks by the mill, once flour has been made
 
 
 func build() -> void:
@@ -71,6 +76,7 @@ func build() -> void:
 		lamb.pause_range = Vector2(2, 6)
 		add_child(lamb)
 	CraftedProps.hay_bale(self, Vector3(32.6, 0, -21.4), 0.3)
+	_lamb_troughs()
 	CraftedProps.hay_bale(self, Vector3(32.9, 0, -19.6), -0.2)
 	CraftedProps.haystack(self, Vector3(33.4, 0, -25.6))
 	# Life along the road and river.
@@ -96,6 +102,36 @@ func build() -> void:
 
 
 ## A wooden fold around the sheep, with the gate in the west side.
+## From day 5 the hay bale starts the feeding; on a day the lambs are fed,
+## hay fills the troughs and the lambs come to eat.
+func _lamb_troughs() -> void:
+	for t: Vector3 in TROUGHS:
+		MeshKit.box(self, Vector3(1.3, 0.12, 0.5), t + Vector3(0, 0.34, 0), "wood_dark")
+		for side: float in [-1.0, 1.0]:
+			MeshKit.box(self, Vector3(1.3, 0.22, 0.06), t + Vector3(0, 0.45, side * 0.24), "wood")
+			MeshKit.box(self, Vector3(0.08, 0.34, 0.08), t + Vector3(side * 0.55, 0.17, 0), "wood_dark")
+	_fed = group_node("FedLambs")
+	for i in TROUGHS.size():
+		var t: Vector3 = TROUGHS[i]
+		for k in 3:
+			MeshKit.sphere(_fed, 0.16, t + Vector3(-0.35 + k * 0.35, 0.5, 0), "roof_thatch", Vector3(1.2, 0.5, 0.9), 6, 3)
+		var lamb := AnimalModel.make("lamb")
+		lamb.position = t + Vector3(0.2, 0, 0.75)
+		lamb.rotation.y = PI + (i - 1) * 0.3
+		_fed.add_child(lamb)
+	var feed := Interactable.create(self, Vector3(32.0, 0, -21.4), "Feed the lambs", func() -> void:
+		get_tree().call_group("main", "start_activity_here", "sheepfold_hay", position + TROUGHS[1] + Vector3(0, 0.5, 0)), 0.7, 1.4)
+	feed.conditions = [{"day_at_least": 5}]
+
+
+func sync_with_world() -> void:
+	if _fed:
+		var fed: Variant = WorldState.get_fact("valley.lambs_fed")
+		_fed.visible = fed != null and int(fed) == Days.current_day
+	if _flour:
+		_flour.visible = WorldState.get_fact("village.flour_day") != null
+
+
 func _sheepfold(r: Rect2) -> void:
 	var nw := Vector3(r.position.x, 0, r.position.y)
 	var ne := Vector3(r.end.x, 0, r.position.y)
@@ -148,7 +184,17 @@ func _trees() -> void:
 		Props.place(self, "mushroom", Vector3(m[0], 0, m[1]), rng.randf() * TAU)
 	# Working buildings and fields that make the valley feel lived in.
 	Props.place(self, "windmill", Vector3(28, 0, -29), -0.4)
-	Props.place(self, "watermill", Vector3(-21, 0, Terrain.river_z(-21) + Terrain.river_half_width(-21, false) + 0.1), PI)
+	var mill_at := Vector3(-21, 0, Terrain.river_z(-21) + Terrain.river_half_width(-21, false) + 0.1)
+	Props.place(self, "watermill", mill_at, PI)
+	# From day 6 the mill takes grain to clean and flour to weigh; sacks of
+	# flour wait by its door once it has been made.
+	var mill := Interactable.create(self, mill_at + Vector3(2.4, 0, 3.2), "Help at the mill", func() -> void:
+		get_tree().call_group("main", "start_activity_here", "mill_flour", position + mill_at + Vector3(0, 1.2, 1.5)), 0.8, 1.8)
+	mill.conditions = [{"day_at_least": 6}]
+	_flour = group_node("FlourSacks")
+	for k in 3:
+		var sack := MeshKit.sphere(_flour, 0.28, mill_at + Vector3(3.3 + k * 0.5, 0.3, 2.6 + (k % 2) * 0.3), "cloth_cream", Vector3(0.9, 1.2, 0.8), 8, 5)
+		sack.rotation.y = k * 0.7
 	Props.place(self, "grain_field", Vector3(25, 0, 6), 0.3)
 	Props.place(self, "grain_field", Vector3(29, 0, 0), -0.2)
 	var rocks := ["rock", "rock_b", "rock_c"]

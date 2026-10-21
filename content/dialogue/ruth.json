@@ -4,6 +4,12 @@
 	"entries": [
 		{
 			"when": [
+				{"fact": "valley.lambs_fed", "is_today": true}
+			],
+			"start": "lambs_fed"
+		},
+		{
+			"when": [
 				{"fact": "village.bread_day", "is_today": true}
 			],
 			"start": "bread"
@@ -57,6 +63,10 @@
 			"actions": [
 				{"op": "set_fact", "fact": "npc.ruth.shepherd_wonder", "value": true}
 			]
+		},
+		"lambs_fed": {
+			"mood": "joy",
+			"text": "You fed my lambs! Every trough had the same, so nobody went hungry. Thank you, little one."
 		}
 	}
 }

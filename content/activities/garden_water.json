@@ -1,0 +1,53 @@
+{
+	"id": "garden_water",
+	"title": "Watering the Beans",
+	"mode": "task",
+	"location": "garden",
+	"surface": "soil_bed",
+	"readiness": {
+		"ages": [5, 8],
+		"math": "counting to 2 for each plant; one-to-one correspondence",
+		"reading": "pre-reader friendly; all text can be read aloud"
+	},
+	"concepts": ["one-to-one correspondence", "equal groups", "plants need water"],
+	"formation_themes": ["stewardship", "faithfulness in small things"],
+	"prerequisites": [
+		{"fact": "garden.bed_1", "exists": true},
+		{"day_at_least": 4},
+		{"not": {"fact": "garden.watered", "is_today": true}}
+	],
+	"intro": [
+		{"speaker": "miriam", "text": "The sun has been hot, and our bean plants are thirsty. Look how they droop."},
+		{"speaker": "miriam", "text": "Each plant needs two drops from the watering can. Not too little, and not too much."}
+	],
+	"steps": [
+		{
+			"id": "water",
+			"primitive": "count_into_slots",
+			"speaker": "miriam",
+			"prompt": "Give each bean plant two drops of water. Put one drop on each dot.",
+			"hint": "Find a plant with an empty dot, and put a drop there.",
+			"slots": 4,
+			"per_slot": 2,
+			"piece": "water_drop",
+			"container": "plant",
+			"supply_label": "watering can",
+			"supply_color": "7fb0d0",
+			"spare": 1,
+			"feedback": {
+				"full": "That plant has had its two drops. Try a plant that still looks thirsty.",
+				"all_good": "Two, two, two, two. Every plant has had a drink."
+			}
+		}
+	],
+	"outro": [
+		{"speaker": "miriam", "text": "Look! They're standing up tall again. Tomorrow, they'll be even stronger.", "button": "Back to the garden"}
+	],
+	"world_effects": [
+		{"op": "set", "fact": "garden.watered", "value": "$day"}
+	],
+	"replay": "free",
+	"real_world_invitation": "rw_water_plant",
+	"journal_line": "I watered the bean plants with Miriam: two drops for each plant.",
+	"unavailable_text": "The beans have had their water today. They'll be thirsty again tomorrow."
+}

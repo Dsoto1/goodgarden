@@ -12,12 +12,14 @@ extends ActivityStep
 ##   tray: [x, y, w, h]           where loose pieces start (default bottom strip)
 ##   mats: [[x, y, w, h], ...]    placemats/cloths drawn under the outlines
 ##   box:  [x, y, w, h]           a material box drawn under the outlines
+##   oven: [x, y, w, h]           an oven mouth with a baking stone under the outlines
 ## Result: {"placed": int}
 
 const SIZES := {
 	"plate": Vector2(96, 96), "bowl_small": Vector2(70, 70), "cup": Vector2(56, 60),
 	"fork": Vector2(26, 104), "spoon": Vector2(26, 104), "knife": Vector2(26, 104),
 	"napkin": Vector2(56, 84), "coin": Vector2(30, 30), "figure": Vector2(56, 96),
+	"loaf_round": Vector2(96, 84), "loaf_long": Vector2(150, 60), "bread_roll": Vector2(58, 48),
 }
 
 var slots: Array[DropSlot] = []
@@ -158,6 +160,24 @@ func _draw() -> void:
 		while y < r.end.y:
 			draw_line(Vector2(r.position.x, y), Vector2(r.end.x, y), Color("e2d3b0"), 1.0)
 			y += 14
+	if config.has("oven"):
+		# The inside of a bread oven seen through its arched mouth: brick
+		# around the edge, a warm glow, and a flat baking stone for the loaves.
+		var o: Array = config["oven"]
+		var r := Rect2(o[0], o[1], o[2], o[3])
+		var arch := PackedVector2Array()
+		for k in 25:
+			var a := PI + PI * k / 24.0
+			arch.append(Vector2(r.get_center().x + cos(a) * r.size.x / 2.0, r.position.y + r.size.y * 0.45 + sin(a) * r.size.y * 0.45))
+		arch.append(r.end)
+		arch.append(Vector2(r.position.x, r.end.y))
+		var brick := PackedVector2Array()
+		for q in arch:
+			brick.append(r.get_center() + (q - r.get_center()) * 1.08)
+		draw_colored_polygon(brick, Color("b8584a"))
+		draw_colored_polygon(arch, Color("3a2620"))
+		draw_rect(Rect2(r.position.x + 20, r.position.y + r.size.y * 0.45, r.size.x - 40, r.size.y * 0.55 - 10), Color("8f7f70"))
+		draw_circle(r.get_center() + Vector2(0, -r.size.y * 0.1), r.size.y * 0.18, Color("e8843a", 0.35))
 	if config.has("box"):
 		var b: Array = config["box"]
 		var r := Rect2(b[0], b[1], b[2], b[3])

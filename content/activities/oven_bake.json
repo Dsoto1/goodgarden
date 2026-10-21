@@ -1,0 +1,57 @@
+{
+	"id": "oven_bake",
+	"title": "Baking Day",
+	"mode": "task",
+	"location": "village",
+	"surface": "wood_table",
+	"readiness": {
+		"ages": [5, 8],
+		"math": "matching shapes and sizes; fitting things into a space",
+		"reading": "pre-reader friendly; all text can be read aloud"
+	},
+	"concepts": ["matching shape and size", "spatial fit", "where bread comes from"],
+	"formation_themes": ["daily bread", "the Leaven", "sharing"],
+	"prerequisites": [
+		{"day_at_least": 7},
+		{"fact": "village.flour_day", "exists": true},
+		{"not": {"fact": "village.baked_day", "is_today": true}}
+	],
+	"intro": [
+		{"speaker": "tobias", "text": "The flour you weighed is now dough, and it has risen high. Remember the story of the leaven?"},
+		{"speaker": "tobias", "text": "Now the loaves go into the hot oven. Each one has its own place on the baking stone."}
+	],
+	"steps": [
+		{
+			"id": "load_oven",
+			"primitive": "match_to_outline",
+			"speaker": "tobias",
+			"prompt": "Put each loaf in the place that fits its shape.",
+			"hint": "Watch: the long loaf goes in the long place. Can you find the next?",
+			"oven": [200, 30, 600, 310],
+			"tray": [80, 370, 840, 170],
+			"slots": [
+				{"kind": "loaf_round", "pos": [310, 245]},
+				{"kind": "loaf_long", "pos": [500, 215]},
+				{"kind": "loaf_round", "pos": [690, 245]},
+				{"kind": "bread_roll", "pos": [430, 290]},
+				{"kind": "bread_roll", "pos": [500, 290]},
+				{"kind": "bread_roll", "pos": [570, 290]}
+			],
+			"feedback": {
+				"mismatch": "That loaf doesn't fit there. Look at the shape.",
+				"all_good": "Every loaf is in its place. Into the oven they go!"
+			}
+		}
+	],
+	"outro": [
+		{"speaker": "tobias", "text": "Smell that! This bread started as grain at the mill. Now it is warm bread, ready to eat."},
+		{"speaker": "tobias", "text": "Take a loaf home for supper. Bread is better when it's shared.", "button": "Thank you, Tobias"}
+	],
+	"world_effects": [
+		{"op": "set", "fact": "village.baked_day", "value": "$day"}
+	],
+	"replay": "free",
+	"real_world_invitation": "rw_bake_together",
+	"journal_line": "I baked bread with Tobias. I put each loaf in the oven, in the place that fit its shape.",
+	"unavailable_text": "The oven is full of baking bread. It smells wonderful!"
+}

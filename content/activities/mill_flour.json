@@ -1,0 +1,69 @@
+{
+	"id": "mill_flour",
+	"title": "Flour from the Mill",
+	"mode": "task",
+	"location": "valley",
+	"surface": "wood_table",
+	"readiness": {
+		"ages": [5, 8],
+		"math": "sorting by kind; comparing weight: heavier, lighter, the same; big and small scoops (2 and 1)",
+		"reading": "pre-reader friendly; all text can be read aloud"
+	},
+	"concepts": ["sorting", "comparing weight", "balance", "where bread comes from"],
+	"formation_themes": ["daily bread", "work and service"],
+	"prerequisites": [
+		{"day_at_least": 6},
+		{"not": {"fact": "village.flour_day", "is_today": true}}
+	],
+	"intro": [
+		{"speaker": "narrator", "text": "This is the mill. The river turns the big wheel, and the wheel turns the heavy stones that make flour."},
+		{"speaker": "narrator", "text": "But first, the grain must be clean. The light, papery bits are called chaff. They don't belong in the bread."}
+	],
+	"steps": [
+		{
+			"id": "sort_grain",
+			"primitive": "sort_into_bins",
+			"speaker": "narrator",
+			"prompt": "Put the grain in the sack, and the chaff in the basket.",
+			"hint": "Grain is round and golden. Chaff is light and flat.",
+			"pieces": [{"kind": "grain", "count": 8}, {"kind": "chaff", "count": 6}],
+			"bins": [
+				{"kind": "grain", "label": "grain sack", "look": "sack", "pos": [270, 170]},
+				{"kind": "chaff", "label": "chaff basket", "look": "basket", "pos": [730, 170]}
+			],
+			"pile": [500, 430],
+			"feedback": {
+				"mismatch": "Look closely. Is that grain, or chaff?",
+				"all_good": "All sorted! Clean grain, ready for the millstones."
+			}
+		},
+		{
+			"id": "weigh_flour",
+			"primitive": "balance_scale",
+			"speaker": "narrator",
+			"prompt": "Now the grain is flour! Tobias needs a bag as heavy as his stone. Add scoops of flour until the beam is level.",
+			"hint": "Watch the beam. If the stone side is lower, add a scoop. If the flour side is lower, take one out. A little scoop helps you get it just right.",
+			"weight": 5,
+			"scoops": [
+				{"kind": "flour_scoop", "weight": 1, "count": 3},
+				{"kind": "flour_scoop_big", "weight": 2, "count": 3}
+			],
+			"weight_label": "Tobias's stone",
+			"supply_label": "flour",
+			"feedback": {
+				"heavy": "Now the flour side is lower. It's too heavy. Take one scoop out.",
+				"all_good": "The beam is level! The flour weighs the same as the stone."
+			}
+		}
+	],
+	"outro": [
+		{"speaker": "narrator", "text": "Just right! The flour goes to Tobias. Tomorrow, it will become bread.", "button": "Done"}
+	],
+	"world_effects": [
+		{"op": "set", "fact": "village.flour_day", "value": "$day"}
+	],
+	"replay": "free",
+	"real_world_invitation": "rw_heavy_light",
+	"journal_line": "I helped at the mill. I sorted the grain from the chaff, and weighed the flour until the scale was level.",
+	"unavailable_text": "The flour is ready for Tobias. The millstones are resting."
+}

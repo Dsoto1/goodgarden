@@ -10,6 +10,8 @@ const PRIMITIVES := {
 	"count_into_slots": "res://scripts/activity/primitives/count_into_slots.gd",
 	"match_to_outline": "res://scripts/activity/primitives/match_to_outline.gd",
 	"story_figures": "res://scripts/activity/primitives/story_figures.gd",
+	"sort_into_bins": "res://scripts/activity/primitives/sort_into_bins.gd",
+	"balance_scale": "res://scripts/activity/primitives/balance_scale.gd",
 }
 
 

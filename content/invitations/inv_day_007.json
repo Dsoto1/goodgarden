@@ -1,0 +1,8 @@
+{
+	"id": "inv_day_007",
+	"from": "tobias",
+	"body": "Good morning!\n\nThe dough is ready, and the oven is hot. Come and bake the bread with me!\n\nYou will find me at the oven, beside the bakery.",
+	"signature": "Tobias the baker",
+	"suggests": "oven_bake",
+	"summary": "Bake bread with Tobias at the oven."
+}
