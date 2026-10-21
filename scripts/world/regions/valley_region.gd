@@ -25,17 +25,22 @@ func build() -> void:
 	_patches()
 
 	# River with a single bridge crossing.
-	add_clearing(Vector3(0, 0, -14), Vector2(200, 5.0))
-	MeshKit.box(self, Vector3(200, 0.06, 4), Vector3(0, 0.0, -14), "water")
-	for z: float in [-16.2, -11.8]:
-		MeshKit.box(self, Vector3(200, 0.08, 0.5), Vector3(0, 0.01, z), "soil")
+	add_clearing(Vector3(0, 0, -14), Vector2(400, 8.4))
+	# River surface in its carved channel; it begins at the waterfall to the west.
+	var river_len := 200.0 - Terrain.FALLS_X
+	MeshKit.box(self, Vector3(river_len, 0.06, 7.0), Vector3(Terrain.FALLS_X + river_len / 2.0 + 0.5, Terrain.RIVER_LEVEL, -14), "water")
+	Waterfall.build(self)
 	MeshKit.solid(self, Vector3(96, 2, 4.2), Vector3(-44.0, 1, -14), 0.0, MeshKit.LAYER_INVISIBLE)
 	MeshKit.solid(self, Vector3(96, 2, 4.2), Vector3(55.0, 1, -14), 0.0, MeshKit.LAYER_INVISIBLE)
-	MeshKit.box(self, Vector3(3.0, 0.14, 6.6), Vector3(5.5, 0.07, -14), "wood")
-	for i in 9:
-		MeshKit.box(self, Vector3(3.0, 0.02, 0.06), Vector3(5.5, 0.15, -17 + i * 0.75), "wood_dark")
-	MeshKit.fence(self, Vector3(4.0, 0, -17.2), Vector3(4.0, 0, -10.8), "wood")
-	MeshKit.fence(self, Vector3(7.0, 0, -17.2), Vector3(7.0, 0, -10.8), "wood")
+	StoneBridge.build(self, Vector3(5.5, 0, -14))
+	# A riverbank seat east of the bridge, where the view turns west along the
+	# river: the arch in front, the waterfall far off.
+	MeshKit.box(self, Vector3(1.6, 0.45, 0.5), Vector3(11.5, 0.22, -9.4), "wood", true)
+	for i in 3:
+		Props.place(self, "stepping_stone" if i % 2 == 0 else "stepping_stone_b", Vector3(7.4 + i * 1.2, 0.0, -9.6 + (i % 2) * 0.3), i * 0.9)
+	add_clearing(Vector3(9.6, 0, -9.6), Vector2(5.2, 2.0))
+	add_anchor("riverbank", Vector3(10.6, 0, -9.0), PI / 2.0)
+	add_camera_zone(Vector3(10.5, 1, -9.4), Vector3(5.0, 3, 3.0), {"yaw": 76.0, "pitch": 11.0, "distance": 8.5, "height": 1.5, "fov": 54.0})
 
 	# Roads.
 	road(Vector3(0, 0, 4.4), Vector3(5.5, 0, 4.4))
@@ -93,7 +98,7 @@ func _trees() -> void:
 	Props.place(self, "grain_field", Vector3(25, 0, 6), 0.3)
 	Props.place(self, "grain_field", Vector3(29, 0, 0), -0.2)
 	var rocks := ["rock", "rock_b", "rock_c"]
-	for r: Array in [[-7, 9], [14, -9], [-19, -24], [20, -12], [-26, 6], [2, -42]]:
+	for r: Array in [[-7, 9], [17, -6], [-19, -24], [20, -11], [-26, 6], [2, -42]]:
 		Props.place(self, rocks[rng.randi() % 3], Vector3(r[0], 0, r[1]), rng.randf() * TAU, rng.randf_range(0.7, 1.2))
 	for i in 12:
 		Props.place(self, "pebble", Vector3(rng.randf_range(-25, 30), 0, -11.6 - rng.randf() * 0.4 if i % 2 == 0 else -16.4 + rng.randf() * 0.4), rng.randf() * TAU)
@@ -126,6 +131,8 @@ func _boundary() -> void:
 	var z := b.position.y
 	while z <= b.end.y:
 		for side_x: float in [b.position.x - 2.5, b.end.x + 2.5]:
+			if absf(z - Terrain.RIVER_Z) < 7.0:
+				continue # the river runs out through here
 			Props.place(self, groves[rng.randi() % 4], Vector3(side_x + rng.randf_range(-1, 1), 0, z + rng.randf_range(-1, 1)), rng.randf() * TAU)
 		z += 4.0
 	# Hills and mountains beyond the edges come from Terrain (see World).

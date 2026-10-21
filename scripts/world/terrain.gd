@@ -12,6 +12,11 @@ const FLOOR := Rect2(-36, -52, 76, 71)
 const RIVER_Z := -14.0
 const BELLHAVEN := Vector2(26, -175)
 const CITY_PLATEAU := 6.0
+## The river enters the valley over a waterfall on the western hills.
+const FALLS_X := -58.0
+const FALLS_TOP := 12.0
+## Water surface of the river through the valley (below the level floor).
+const RIVER_LEVEL := -0.25
 
 static var _hills: FastNoiseLite
 static var _ridges: FastNoiseLite
@@ -39,6 +44,10 @@ static func outside(x: float, z: float) -> float:
 
 
 static func height(x: float, z: float) -> float:
+	return _with_river(x, z, _land(x, z))
+
+
+static func _land(x: float, z: float) -> float:
 	_noise()
 	var d := outside(x, z)
 	if d <= 0.0:
@@ -57,6 +66,19 @@ static func height(x: float, z: float) -> float:
 	var city := Vector2(x, z).distance_to(BELLHAVEN)
 	h = lerpf(CITY_PLATEAU, h, smoothstep(35.0, 75.0, city))
 	return h
+
+
+## Carves the river channel with sloping banks and raises the plateau the
+## river falls from, so the upper river runs above the cliff.
+static func _with_river(x: float, z: float, h: float) -> float:
+	var dz := absf(z - RIVER_Z)
+	var west := smoothstep(FALLS_X + 1.5, FALLS_X - 2.5, x) # 0 below the cliff, 1 above it
+	if west > 0.0:
+		var band := 1.0 - smoothstep(14.0, 32.0, dz)
+		h = lerpf(h, maxf(h, FALLS_TOP), west * band)
+	var bed := lerpf(RIVER_LEVEL - 0.4, FALLS_TOP - 0.7, west)
+	var carve := 1.0 - smoothstep(2.6, 4.2, dz)
+	return lerpf(h, minf(h, bed), carve)
 
 
 ## Builds the visible landscape: one mesh, coarse where it's far away.

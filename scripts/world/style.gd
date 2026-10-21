@@ -11,6 +11,7 @@ const SHADERS := {
 	"foliage": "res://shaders/storybook_foliage.gdshader",
 	"ground": "res://shaders/ground.gdshader",
 	"water": "res://shaders/water.gdshader",
+	"falls": "res://shaders/falls.gdshader",
 }
 
 static var _shaders := {}

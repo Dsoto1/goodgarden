@@ -30,7 +30,7 @@ func build(seed_value: int, density: float) -> void:
 			continue
 		if (clumps.get_noise_2dv(p) + 1.0) * 0.5 < 0.35 + rng.randf() * 0.25:
 			continue
-		if _in_city_view(p):
+		if _in_city_view(p) or absf(p.y - Terrain.RIVER_Z) < 9.0:
 			continue
 		var s := rng.randf_range(0.9, 1.5) * (1.0 + clampf(d / 120.0, 0.0, 1.5))
 		var t := Transform3D(Basis(Vector3.UP, rng.randf() * TAU).scaled(Vector3.ONE * s), Vector3(p.x, h - 0.3, p.y))
