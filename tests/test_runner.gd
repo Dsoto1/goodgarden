@@ -494,9 +494,11 @@ func test_vertical_slice_end_to_end() -> void:
 	check(ActivityRunner.is_running(), "bread activity started from conversation")
 	if ActivityRunner.is_running():
 		ws = ActivityRunner.workspace
-		ws.press_primary()
-		await frames(3)
+		await _play_intro(ws)
 		var fill := ws.current_step()
+		check(fill != null, "basket step begins after Tobias's introduction")
+		if fill == null:
+			return
 		var baskets: Array[DropSlot] = fill.holes
 		eq(baskets.size(), 3, "three neighbors' baskets")
 		var k := 0
@@ -507,11 +509,12 @@ func test_vertical_slice_end_to_end() -> void:
 			if b == 0:
 				_drop(fill.pieces[k], baskets[0].center()) # one too many: it goes back
 				check(fill.pieces[k].placed_in == null, "a full basket refuses an extra roll")
+		check(fill.is_done, "every basket has its number of rolls")
 		await wait(1.6)
-		while ActivityRunner.is_running():
-			ws.press_primary()
-			await frames(3)
-	eq(int(WorldState.get_fact("village.bread_day")), 3, "the bread was delivered today")
+		await _play_outro(ws)
+		await wait(0.2)
+	check(not ActivityRunner.is_running(), "bread activity finished")
+	eq(int(WorldState.get_fact("village.bread_day", 0)), 3, "the bread was delivered today")
 	check(Dialogue.start("ruth") and Dialogue.current_line()["text"].contains("bread basket"), "Ruth thanks the child for the bread")
 	Dialogue.end()
 	main.quit_to_title()
