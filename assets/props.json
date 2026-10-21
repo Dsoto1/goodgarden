@@ -4,7 +4,8 @@
 		"hex": "res://assets/third_party/kaykit/medieval_hexagon/",
 		"furniture": "res://assets/third_party/kaykit/furniture_bits/",
 		"restaurant": "res://assets/third_party/kaykit/restaurant_bits/",
-		"nature": "res://assets/third_party/quaternius/stylized_nature_standard/"
+		"nature": "res://assets/third_party/quaternius/stylized_nature_standard/",
+		"artlist": "res://assets/third_party/artlist/"
 	},
 	"grades": {
 		"hex": {"saturation": 1.0, "tint": [1.03, 1.0, 0.95]},
@@ -100,6 +101,7 @@
 		"barrel": {"pack": "hex", "model": "barrel", "scale": 4.0, "collide": true},
 		"bucket": {"pack": "hex", "model": "bucket_water", "scale": 3.5},
 		"crate": {"pack": "hex", "model": "crate_A_small", "scale": 4.0, "collide": true},
+		"bread_oven": {"pack": "artlist", "model": "bread_oven", "ext": ".glb", "scale": 0.9, "offset": [0.0, 0.954, 0.0], "collide": true, "footprint": 0.85},
 		"crate_open": {"pack": "hex", "model": "crate_open", "scale": 3.5, "offset": [-0.06, 0.0, 0.0], "collide": true},
 		"sack": {"pack": "hex", "model": "sack", "scale": 5.0},
 		"wheelbarrow": {"pack": "hex", "model": "wheelbarrow", "scale": 3.0, "collide": true},

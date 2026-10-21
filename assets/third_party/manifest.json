@@ -2,6 +2,18 @@
 	"comment": "Every file under assets/third_party must be listed here (path + files) before it is used. See docs/design/THIRD_PARTY_ASSETS.md. Geometry not listed here is procedural (scripts/world/mesh_kit.gd); all UI art and sound are procedural.",
 	"assets": [
 		{
+			"path": "res://assets/third_party/artlist/",
+			"pack": "Artlist AI generation (owner's subscription)",
+			"creator": "Generated for this project with Artlist (concept image: Nano Banana 2; image to 3D: Hyper3D Rodin v2.5 Fast)",
+			"source": "Artlist MCP generation, 2026-10-21; 390 credits (see docs/ARTLIST_SPENDING.md)",
+			"license": "Artlist subscription terms for AI-generated output. The owner approved use in this game on 2026-10-21; the terms text was not independently retrieved, so re-check before commercial release.",
+			"acquired": "2026-10-21",
+			"modified": "Texture baked to per-face vertex colours, pieces welded, simplified from about 20,000 to about 2,500 triangles.",
+			"files": [
+				"bread_oven.glb"
+			]
+		},
+		{
 			"path": "res://assets/third_party/kaykit/medieval_hexagon/",
 			"pack": "KayKit : Medieval Hexagon Pack (1.0)",
 			"creator": "Kay Lousberg (www.kaylousberg.com)",

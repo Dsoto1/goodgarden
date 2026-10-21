@@ -119,13 +119,23 @@ static func _parable_shape(ci: CanvasItem, shape: String, size: Vector2, h: floa
 			for side: float in [-1.0, 1.0]:
 				_shape(ci, _ellipse(Vector2(cx + side * 9, h * 0.55), Vector2(9, 5), 12), Color("7fb04a"), outline)
 		"bush":
-			# The mustard plant grown great: a thick stem, wide branches, yellow flowers.
-			_shape(ci, _rect(Rect2(cx - 4, h * 0.55, 8, h * 0.43)), Color("7a5a3a"), outline)
-			for c: Vector3 in [Vector3(-0.22, 0.42, 0.22), Vector3(0.22, 0.42, 0.22), Vector3(0.0, 0.26, 0.26), Vector3(-0.12, 0.12, 0.17), Vector3(0.14, 0.13, 0.17)]:
-				_shape(ci, _ellipse(Vector2(cx + size.x * c.x, h * c.y + 6), Vector2(size.x * c.z * 1.25, size.x * c.z), 16), color, outline)
-			if not outline:
-				for p: Vector2 in [Vector2(-0.25, 0.3), Vector2(0.2, 0.25), Vector2(0.0, 0.12), Vector2(0.3, 0.45), Vector2(-0.3, 0.5), Vector2(0.06, 0.38)]:
-					ci.draw_circle(Vector2(cx + size.x * p.x, h * p.y + 6), 2.6, Color("f0c93a"))
+			# The mustard plant grown great: slender green stems branching from a
+			# lobed-leaf base, each tipped with a cluster of small yellow flowers.
+			var foot := Vector2(cx, h * 0.98)
+			var tips: Array[Vector2] = [Vector2(cx, h * 0.12), Vector2(cx - size.x * 0.36, h * 0.24), Vector2(cx + size.x * 0.38, h * 0.22), Vector2(cx - size.x * 0.22, h * 0.08), Vector2(cx + size.x * 0.2, h * 0.1), Vector2(cx - size.x * 0.42, h * 0.46), Vector2(cx + size.x * 0.42, h * 0.44)]
+			var stem := Color("6b9a3c")
+			_shape(ci, _limb(foot, tips[0], 4.0), stem, outline)
+			for k in range(1, tips.size()):
+				var fork := Vector2(cx, lerpf(h * 0.62, h * 0.32, (k - 1) / 5.0))
+				_shape(ci, _limb(fork, tips[k], 2.5), stem, outline)
+			for side: float in [-1.0, 1.0]:
+				for k in 2:
+					_shape(ci, _ellipse(Vector2(cx + side * size.x * (0.14 + k * 0.12), h * (0.9 - k * 0.1)), Vector2(size.x * (0.14 - k * 0.03), h * 0.035), 12), Color("5f8a3f"), outline)
+			for t: Vector2 in tips:
+				_shape(ci, _ellipse(t + Vector2(0, 2), Vector2(size.x * 0.1, h * 0.05), 12), color.lightened(0.1) if outline else Color("e8c22e"), outline)
+				if not outline:
+					for p: Vector2 in [Vector2(-4, 0), Vector2(4, 1), Vector2(0, -3), Vector2(-2, 4), Vector2(3, 5)]:
+						ci.draw_circle(t + p, 2.2, Color("f4d64a"))
 		"bird":
 			_shape(ci, _ellipse(Vector2(cx, h * 0.62), Vector2(size.x * 0.28, h * 0.11), 14), color, outline)
 			_shape(ci, _ellipse(Vector2(cx - size.x * 0.24, h * 0.52), Vector2(size.x * 0.12, size.x * 0.12), 12), color, outline)
@@ -219,6 +229,12 @@ static func _sheep(ci: CanvasItem, at: Vector2, r: float, outline: bool) -> void
 	for c: Vector3 in [Vector3(-0.35, 0.0, 0.55), Vector3(0.0, -0.15, 0.6), Vector3(0.38, 0.0, 0.55), Vector3(0.0, 0.18, 0.6)]:
 		_shape(ci, _ellipse(at + Vector2(c.x, c.y) * r, Vector2(c.z, c.z * 0.85) * r, 12), Color("f6f1e4"), outline)
 	_shape(ci, _ellipse(at + Vector2(-0.85, -0.2) * r, Vector2(0.3, 0.36) * r, 10), Color("3b3430"), outline)
+
+
+## A stem as a thin polygon from `a` to `b`, tapering towards `b`.
+static func _limb(a: Vector2, b: Vector2, width: float) -> PackedVector2Array:
+	var n := (b - a).orthogonal().normalized()
+	return PackedVector2Array([a + n * width / 2.0, b + n * width / 4.0, b - n * width / 4.0, a - n * width / 2.0])
 
 
 ## A woven basket seen from the side, centred at `at`.

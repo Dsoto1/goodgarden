@@ -34,6 +34,9 @@ func build() -> void:
 	# Tobias's work outside the bakery: the kneading trough, and the
 	# neighbours' bread baskets waiting on a plank table.
 	CraftedProps.kneading_trough(self, Vector3(-9.6, 0, -9.4), 0.0)
+	# The domed bread oven stands beside the bakery, with wood stacked for the fire.
+	Props.place(self, "bread_oven", Vector3(-3.5, 0, -12.2), -0.25)
+	CraftedProps.woodpile(self, Vector3(-1.9, 0, -12.9), PI / 2.0 - 0.25)
 	var table := Vector3(-4.7, 0, -9.7)
 	MeshKit.box(self, Vector3(1.9, 0.06, 0.6), table + Vector3(0, 0.62, 0), "wood", false, -0.2)
 	for x: float in [-0.75, 0.75]:

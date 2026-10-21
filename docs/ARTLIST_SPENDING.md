@@ -20,5 +20,9 @@ Before each generation, get the exact price and the owner's go-ahead.
 Generated models arrive at about 20,000 triangles with a texture split into many
 small pieces. A scratch script bakes the texture into flat per-face colours,
 welds the pieces and simplifies to about 2,500 triangles, matching the low-poly
-storybook look. Nothing generated is committed until Artlist's licence terms
-for AI output have been confirmed and recorded in the asset manifest.
+storybook look.
+
+On 2026-10-21 the owner approved putting the bread oven in the game. It is
+recorded in `assets/third_party/manifest.json`. The text of Artlist's terms for
+AI output was not retrieved from here (artlist.io was unreachable), so re-check
+them before a commercial release.

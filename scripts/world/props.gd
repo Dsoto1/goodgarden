@@ -23,7 +23,7 @@ static func has(id: String) -> bool:
 
 static func scene_path(id: String) -> String:
 	var p: Dictionary = catalog()["props"][id]
-	return str(catalog()["packs"][p["pack"]]) + str(p["model"]) + ".gltf"
+	return str(catalog()["packs"][p["pack"]]) + str(p["model"]) + str(p.get("ext", ".gltf"))
 
 
 ## Instances prop `id` at `pos` (parent-local), turned `rot_y` radians.

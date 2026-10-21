@@ -460,6 +460,71 @@ static func stepping_stone(parent: Node3D, pos: Vector3, seed_value: int) -> Nod
 ## creel, a coil of rope, a bucket and an upturned crate to sit on. Faces -Z
 ## (toward the water). Returns the root; the float's local position is in
 ## its "float" meta, for framing the view while the child sits and fishes.
+## A mustard plant grown tall: a slender stem that branches near the top, each
+## branch ending in a loose cluster of small four-petalled yellow flowers with
+## green seed pods below, and lobed leaves that shrink up the stem.
+static func mustard_plant(parent: Node3D, pos: Vector3, seed: int, height := 1.7) -> Node3D:
+	var r := _root(parent, "MustardPlant", pos, seed * 0.7)
+	var rng := RandomNumberGenerator.new()
+	rng.seed = seed
+	_stalk(r, Vector3.ZERO, Vector3.ZERO, height, 0.022)
+	# Lobed leaves low on the stem, smaller and narrower as they climb.
+	for i in 7:
+		var t := i / 6.0
+		var leaf := Node3D.new()
+		leaf.position = Vector3(0, 0.08 + t * height * 0.55, 0)
+		leaf.rotation = Vector3(0, i * 2.4 + rng.randf_range(-0.3, 0.3), 0)
+		r.add_child(leaf)
+		var size := lerpf(0.34, 0.12, t)
+		var blade := Node3D.new()
+		blade.rotation.x = lerpf(0.05, 0.4, t)
+		leaf.add_child(blade)
+		for k in 3: # three lobes along the blade, the tip lobe largest
+			var at := (0.3 + k * 0.32) * size
+			MeshKit.sphere(blade, 0.1, Vector3(0, 0, -at), "leaf" if k % 2 == 0 else "leaf_light", Vector3(lerpf(1.2, 2.0, k / 2.0) * size * 4.0, 0.25, size * 2.0), 6, 3)
+	# Branches spread from the upper half, each topped with flowers.
+	var tops: Array[Vector3] = [Vector3(0, height, 0)]
+	for i in 6:
+		var y := height * rng.randf_range(0.5, 0.88)
+		var yaw := i * TAU / 6.0 + rng.randf_range(-0.4, 0.4)
+		var lean := rng.randf_range(0.35, 0.65)
+		var length := height * rng.randf_range(0.28, 0.42)
+		var base := Vector3(0, y, 0)
+		_stalk(r, base, Vector3(lean, yaw, 0), length, 0.012)
+		tops.append(base + Basis.from_euler(Vector3(lean, yaw, 0), EULER_ORDER_YXZ) * Vector3(0, length, 0))
+	for top in tops:
+		_mustard_flowers(r, top, rng)
+	return r
+
+
+## A thin green stem from `base`, tipped by `euler` (pitch, yaw), `length` long.
+static func _stalk(r: Node3D, base: Vector3, euler: Vector3, length: float, radius: float) -> void:
+	var pivot := Node3D.new()
+	pivot.position = base
+	pivot.rotation_order = EULER_ORDER_YXZ
+	pivot.rotation = Vector3(euler.x, euler.y, 0)
+	r.add_child(pivot)
+	var stem := MeshKit.cylinder(pivot, radius * 0.6, radius, 1.0, Vector3(0, 0.5, 0), "leaf", 6)
+	stem.scale.y = length
+	stem.position.y = length / 2.0
+
+
+## A raceme: a dome of yellow flowers and buds, with seed pods below it.
+static func _mustard_flowers(r: Node3D, top: Vector3, rng: RandomNumberGenerator) -> void:
+	for k in 11:
+		var a := rng.randf() * TAU
+		var d := rng.randf_range(0.0, 0.09)
+		var at := top + Vector3(cos(a) * d, 0.06 - d * 0.6 + rng.randf_range(-0.02, 0.02), sin(a) * d)
+		MeshKit.sphere(r, 0.03, at, "flower_yellow" if k < 9 else "leaf_light", Vector3(1, 0.7, 1), 6, 3)
+	for k in 3:
+		var pod := Node3D.new()
+		pod.position = top - Vector3(0, 0.06 + k * 0.04, 0)
+		pod.rotation = Vector3(0.45, k * 2.3, 0)
+		pod.rotation_order = EULER_ORDER_YXZ
+		r.add_child(pod)
+		MeshKit.cylinder(pod, 0.005, 0.008, 0.09, Vector3(0, 0.045, 0), "leaf_light", 4)
+
+
 ## A rod along -Z from the node's origin (the butt), with a reel near the grip.
 static func fishing_rod_mesh(rod: Node3D, length: float) -> void:
 	MeshKit.cylinder(rod, 0.012, 0.025, length, Vector3(0, 0, -length / 2.0), "wood", 6).rotation.x = PI / 2.0
