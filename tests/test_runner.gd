@@ -224,7 +224,7 @@ func test_story_handoff_and_put_away() -> void:
 ## The Mustard Seed: the seed gives way to the sprout and the grown plant,
 ## and figures the story set back in the box count as already put away.
 func test_parable_growth_and_put_away() -> void:
-	for id: String in ["mustard_seed", "leaven", "lost_sheep", "fishers"]:
+	for id: String in ["mustard_seed", "leaven", "lost_sheep", "fishers", "five_thousand"]:
 		check(Content.get_activity(id) != null, "%s is authored" % id)
 	var def := Content.get_activity("mustard_seed")
 	var opening := PrimitiveRegistry.create("story_figures")
@@ -253,20 +253,31 @@ func test_parable_growth_and_put_away() -> void:
 				_drop(p, slot.center())
 	eq(done.size(), 1, "the rest go back and the material is put away")
 	var shelf: Array = Content.get_world("atrium_shelf").get("items", [])
-	eq(shelf.size(), 5, "five materials on the Atrium shelf")
+	eq(shelf.size(), 6, "six materials on the Atrium shelf")
 	story.queue_free()
 	put_away.queue_free()
 
 
-## The Calling of the Fishermen: every figure the story brings out can be
-## returned to its own place in the box.
+## The Calling of the Fishermen and the Feeding of the Five Thousand: every
+## figure the story brings out can be returned to its own place in the box.
 func test_calling_of_the_fishermen() -> void:
-	var def := Content.get_activity("fishers")
+	for id: String in ["fishers", "five_thousand"]:
+		_story_round_trip(id)
+	var def := Content.get_activity("five_thousand")
 	var story := _make_step("story_figures", def.steps[0])
 	for i in def.steps[0]["segments"].size():
 		story._next_segment()
-	for id: String in ["jesus", "simon", "andrew", "james", "john", "boat", "net"]:
-		check(story.figures[id].visible, "%s is out on the felt" % id)
+	check(story.figures["baskets"].visible, "the twelve baskets are out at the end")
+	var loaves: DragPiece = story.figures["loaves"]
+	check(loaves.position.distance_to(loaves.home) < 1.0, "the loaves go back to the box when the baskets come out")
+	story.queue_free()
+
+
+func _story_round_trip(id: String) -> void:
+	var def := Content.get_activity(id)
+	var story := _make_step("story_figures", def.steps[0])
+	for i in def.steps[0]["segments"].size():
+		story._next_segment()
 	story.put_away()
 	var put_away := _make_step("match_to_outline", def.steps[1], {"pieces": story.handoff()})
 	var done := []
@@ -275,7 +286,7 @@ func test_calling_of_the_fishermen() -> void:
 		for p in put_away.pieces:
 			if p.kind == slot.accepts and p.placed_in == null:
 				_drop(p, slot.center())
-	eq(done.size(), 1, "the fishermen's figures all go back in the box")
+	eq(done.size(), 1, "%s: the figures all go back in the box" % id)
 	story.queue_free()
 	put_away.queue_free()
 

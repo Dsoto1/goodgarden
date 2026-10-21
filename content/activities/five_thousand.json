@@ -1,0 +1,123 @@
+{
+	"id": "five_thousand",
+	"title": "The Feeding of the Five Thousand",
+	"mode": "reflection",
+	"location": "chapel",
+	"surface": "atrium_felt",
+	"review_status": "DRAFT: retelling and wondering questions require theological and editorial review before release.",
+	"source": {
+		"reference": "John 6:1-14",
+		"note": "Original child-friendly retelling written for this prototype; not a quotation of any translation. See also Matthew 14:13-21, Mark 6:30-44 and Luke 9:10-17. This is a Gospel narrative (a miracle) rather than a parable."
+	},
+	"readiness": {"ages": [3, 10], "reading": "narration provided; text optional"},
+	"concepts": ["listening to a Gospel story", "sequencing a story", "few and many", "five and two"],
+	"formation_themes": ["giving what we have", "thanksgiving", "God's abundance"],
+	"prerequisites": [],
+	"intro": [
+		{
+			"speaker": "narrator",
+			"text": "This is a story about something that really happened, on a grassy hillside by the sea. Let's carry the material to the table, and listen.",
+			"button": "Listen"
+		}
+	],
+	"steps": [
+		{
+			"id": "story",
+			"primitive": "story_figures",
+			"reference": "John 6:1-14",
+			"box": [220, 380, 560, 150],
+			"places": [
+				{"label": "The hillside", "pos": [560, 190], "kind": "hillside"}
+			],
+			"figures": [
+				{"id": "jesus", "label": "Jesus", "color": "cloth_cream", "accent": "cloth_red"},
+				{"id": "philip", "label": "Philip", "color": "cloth_gold", "accent": "cloth_brown"},
+				{"id": "andrew", "label": "Andrew", "color": "cloth_tan", "accent": "cloth_brown"},
+				{"id": "crowd", "label": "The crowd", "color": "cloth_blue", "shape": "crowd"},
+				{"id": "boy", "label": "A boy", "color": "cloth_green", "accent": "cloth_tan", "shape": "child"},
+				{"id": "loaves", "label": "Loaves", "color": "roof_thatch", "shape": "loaves"},
+				{"id": "fish", "label": "Fish", "color": "cloth_cream", "shape": "fish"},
+				{"id": "baskets", "label": "Baskets", "color": "roof_thatch", "shape": "baskets"}
+			],
+			"segments": [
+				{
+					"text": "One day, Jesus went up onto a hillside beside the Sea of Galilee, and he sat down there with his friends.",
+					"reveal": ["jesus", "philip", "andrew"],
+					"show": {"jesus": {"pos": [420, 170]}, "philip": {"pos": [350, 190]}, "andrew": {"pos": [490, 190]}}
+				},
+				{
+					"text": "A great crowd of people came to be with him. There were five thousand men, and women and children too.",
+					"reveal": ["crowd"],
+					"show": {"crowd": {"pos": [720, 180]}}
+				},
+				{
+					"text": "Jesus asked Philip, \"Where can we buy bread, so that all these people can eat?\" Philip said, \"Even if we worked for months, we couldn't buy enough for each one to have even a little!\""
+				},
+				{
+					"text": "Then Andrew said, \"Here is a boy who has five barley loaves and two small fish. But what are they, among so many?\"",
+					"reveal": ["boy", "loaves", "fish"],
+					"show": {"boy": {"pos": [580, 205]}, "loaves": {"pos": [545, 258]}, "fish": {"pos": [625, 258]}}
+				},
+				{
+					"text": "Jesus said, \"Have the people sit down.\" There was plenty of green grass in that place, and everyone sat down."
+				},
+				{
+					"text": "Jesus took the loaves, and he gave thanks to God. Then he shared them out with everyone who was sitting there, and the fish too, as much as they wanted.",
+					"show": {"loaves": {"pos": [385, 255]}, "fish": {"pos": [465, 255]}}
+				},
+				{
+					"text": "When everyone had eaten enough, Jesus said, \"Gather up the pieces that are left over, so that nothing is wasted.\"",
+					"show": {"loaves": {"pos": [690, 258]}, "fish": {"pos": [770, 258]}}
+				},
+				{
+					"text": "So they gathered them up, and they filled twelve baskets with the pieces that were left over.",
+					"reveal": ["baskets"],
+					"hide": ["loaves", "fish"],
+					"show": {"baskets": {"pos": [730, 258]}}
+				}
+			],
+			"wonderings": [
+				"I wonder how the boy felt when he gave his loaves and fish to Jesus.",
+				"I wonder what it was like to sit on the green grass with so many people.",
+				"I wonder how there was enough for everyone.",
+				"I wonder why Jesus wanted to gather up what was left over.",
+				"I wonder what we might give to Jesus."
+			]
+		},
+		{
+			"id": "put_away",
+			"primitive": "match_to_outline",
+			"prompt": "When you're ready, return each figure to its place in the box.",
+			"pieces_from_previous": true,
+			"box": [220, 380, 560, 150],
+			"slots": [
+				{"kind": "figure:jesus", "pos": [255.0, 455]},
+				{"kind": "figure:philip", "pos": [325.0, 455]},
+				{"kind": "figure:andrew", "pos": [395.0, 455]},
+				{"kind": "figure:crowd", "pos": [465.0, 455]},
+				{"kind": "figure:boy", "pos": [535.0, 455]},
+				{"kind": "figure:loaves", "pos": [605.0, 455]},
+				{"kind": "figure:fish", "pos": [675.0, 455]},
+				{"kind": "figure:baskets", "pos": [745.0, 455]}
+			],
+			"feedback": {
+				"mismatch": "That place is shaped for a different figure.",
+				"all_good": "Each figure is resting in its place."
+			}
+		}
+	],
+	"outro": [
+		{
+			"speaker": "narrator",
+			"text": "The material is back on the shelf. It will be here whenever you want to return to it.",
+			"button": "Stand up"
+		}
+	],
+	"world_effects": [
+		{"op": "increment", "fact": "chapel.five_thousand.visits"},
+		{"op": "set", "fact": "chapel.five_thousand.last_day", "value": "$day"}
+	],
+	"replay": "free",
+	"real_world_invitation": "rw_give_thanks_share",
+	"journal_line": "I listened to the story of the boy who gave Jesus five loaves and two fish, and there was enough for everyone."
+}

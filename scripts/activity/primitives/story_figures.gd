@@ -8,7 +8,7 @@ extends ActivityStep
 ## again, sit with the wondering questions, and retell freely.
 ##
 ## Config:
-##   places: [{"label", "pos": [x,y], "kind": "city"|"inn"|"field"|"house"|"fold"|"hills"|"sea"}]  fixed scenery
+##   places: [{"label", "pos": [x,y], "kind": "city"|"inn"|"field"|"house"|"fold"|"hills"|"sea"|"hillside"}]  fixed scenery
 ##   road: [[x,y], ...]                 path drawn on the felt
 ##   figures: [{"id", "label", "color", "shape"?, "accent"?}]
 ##   box: [x, y, w, h]                  material box where figures rest
@@ -215,14 +215,33 @@ func _draw() -> void:
 				draw_colored_polygon(water, Color("6f9fc0"))
 				for p: Vector2 in [Vector2(-200, -30), Vector2(-120, 6), Vector2(40, -45), Vector2(-20, 12), Vector2(220, -40)]:
 					draw_arc(c + p, 14.0, PI * 1.15, PI * 1.85, 8, Color("a9c8dc"), 2.0)
+			"hillside":
+				# A green hillside with plenty of grass, and the sea beyond it.
+				var sea := PackedVector2Array()
+				for k in 20:
+					var a := TAU * k / 20.0
+					sea.append(c + Vector2(150 + cos(a) * 120, -40 + sin(a) * 34))
+				draw_colored_polygon(sea, Color("6f9fc0"))
+				for p: Vector2 in [Vector2(110, -55), Vector2(200, -50)]:
+					draw_arc(c + p, 12.0, PI * 1.15, PI * 1.85, 8, Color("a9c8dc"), 2.0)
+				var hill := PackedVector2Array()
+				for k in 25:
+					var t := k / 24.0
+					hill.append(Vector2(c.x - 250 + t * 500, c.y + 60 - sin(t * PI) * 120 + sin(t * TAU * 2.5) * 5))
+				draw_colored_polygon(hill, Color("8db562"))
+				for p: Vector2 in [Vector2(-190, 40), Vector2(-120, 5), Vector2(-60, -25), Vector2(50, -20), Vector2(130, 10), Vector2(200, 42), Vector2(-20, 30), Vector2(90, 40)]:
+					for k in 3:
+						draw_line(c + p + Vector2(k * 4 - 4, 0), c + p + Vector2(k * 5 - 5, -9), Color("5f8a3f"), 2.0)
 			"hills":
 				# The wilderness: rocky hills with a few thorny shrubs.
 				draw_colored_polygon(PackedVector2Array([c + Vector2(-110, 40), c + Vector2(-50, -40), c + Vector2(0, 10), c + Vector2(50, -55), c + Vector2(120, 40)]), Color("a89a7c"))
 				for p: Vector2 in [Vector2(-70, 28), Vector2(30, 26), Vector2(80, 30)]:
 					draw_circle(c + p, 10.0, Color("7f8a55"))
-		var label_y := 70.0 if place.get("kind", "") in ["field", "fold", "hills"] else 54.0
+		var label_y := 70.0 if place.get("kind", "") in ["field", "fold", "hills", "hillside"] else 54.0
 		if place.get("kind", "") == "sea":
 			label_y = -48.0
+		elif place.get("kind", "") == "hillside":
+			label_y = -82.0
 		draw_string(UiStyle.font(), c + Vector2(-80, label_y), tr(str(place.get("label", ""))), HORIZONTAL_ALIGNMENT_CENTER, 160, 18, Color("f6f1e4"))
 	var box := _box_rect()
 	draw_rect(box.grow(8), Color("7b5338"))

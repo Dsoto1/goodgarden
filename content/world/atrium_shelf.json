@@ -6,6 +6,7 @@
 		{"activity": "mustard_seed", "label": "The Mustard Seed", "tray_color": "cloth_green"},
 		{"activity": "leaven", "label": "The Leaven", "tray_color": "cloth_gold"},
 		{"activity": "lost_sheep", "label": "The Lost Sheep", "tray_color": "cloth_blue"},
-		{"activity": "fishers", "label": "The Calling of the Fishermen", "tray_color": "cloth_purple"}
+		{"activity": "fishers", "label": "The Calling of the Fishermen", "tray_color": "cloth_purple"},
+		{"activity": "five_thousand", "label": "The Feeding of the Five Thousand", "tray_color": "cloth_red"}
 	]
 }

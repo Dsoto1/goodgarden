@@ -90,8 +90,14 @@ func tween_to(piece: Control, pos: Vector2, seconds := 0.25) -> void:
 	if reduced_motion:
 		piece.position = pos
 		return
+	# A newer move replaces one still under way (e.g. when the story is
+	# advanced quickly), so the piece always ends where it was last sent.
+	var old: Tween = piece.get_meta("move_tween", null)
+	if old and old.is_valid():
+		old.kill()
 	var t := create_tween()
 	t.tween_property(piece, "position", pos, seconds).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+	piece.set_meta("move_tween", t)
 
 
 ## Gentle "doesn't fit" shake, then slide home.

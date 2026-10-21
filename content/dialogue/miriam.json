@@ -19,6 +19,13 @@
 		},
 		{
 			"when": [
+				{"fact": "chapel.five_thousand.visits", "exists": true},
+				{"fact": "npc.miriam.loaves_wonder", "exists": false}
+			],
+			"start": "loaves_wonder"
+		},
+		{
+			"when": [
 				{"fact": "garden.bed_1", "exists": true},
 				{"day_at_least": 3},
 				{"fact": "village.bread_day", "exists": false}
@@ -101,6 +108,13 @@
 			"text": "Every seed in this garden reminds me of the story of the mustard seed. Something so small that you can hardly see it, and look at what it becomes!",
 			"actions": [
 				{"op": "set_fact", "fact": "npc.miriam.mustard_wonder", "value": true}
+			]
+		},
+		"loaves_wonder": {
+			"mood": "gentle",
+			"text": "Whenever I pack my basket, I think of the boy with five loaves and two fish. Such a small lunch, and he gave it all to Jesus. I wonder if he knew what would happen.",
+			"actions": [
+				{"op": "set_fact", "fact": "npc.miriam.loaves_wonder", "value": true}
 			]
 		}
 	}
