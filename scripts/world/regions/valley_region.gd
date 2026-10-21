@@ -50,17 +50,33 @@ func build() -> void:
 	road(Vector3(5.5, 0, -17), Vector3(6, 0, -19.2))
 	road(Vector3(2.0, 0, -19.4), Vector3(-15.0, 0, -19.4))
 
-	# Meadow with sheep east of the village.
+	# Meadow with sheep east of the village, in a fold whose gate faces the village.
+	_sheepfold(Rect2(23.0, -26.2, 7.0, 7.4))
 	for i in 3:
 		var sheep := Wanderer.new().setup(AnimalModel.make("sheep"), 80 + i)
-		sheep.position = Vector3(22 + i * 1.5, 0, -24 + i)
-		sheep.radius = 4.0
+		sheep.position = Vector3(25 + i * 1.3, 0, -23.5 + i)
+		sheep.radius = 2.2
 		sheep.speed = 0.3
 		sheep.pause_range = Vector2(4, 10)
 		add_child(sheep)
 
 	_trees()
 	_boundary()
+
+
+## A wooden fold around the sheep, with the gate in the west side.
+func _sheepfold(r: Rect2) -> void:
+	var nw := Vector3(r.position.x, 0, r.position.y)
+	var ne := Vector3(r.end.x, 0, r.position.y)
+	var se := Vector3(r.end.x, 0, r.end.y)
+	var sw := Vector3(r.position.x, 0, r.end.y)
+	var mid := (r.position.y + r.end.y) / 2.0
+	Props.fence(self, "fence_wood", nw, ne)
+	Props.fence(self, "fence_wood", ne, se)
+	Props.fence(self, "fence_wood", se, sw)
+	Props.fence(self, "fence_wood", sw, Vector3(r.position.x, 0, mid + 0.95))
+	Props.fence(self, "fence_wood", Vector3(r.position.x, 0, mid - 0.95), nw)
+	CraftedProps.fold_gate(self, Vector3(r.position.x, 0, mid), PI / 2.0)
 
 
 func _patches() -> void:

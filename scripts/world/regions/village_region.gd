@@ -31,6 +31,15 @@ func build() -> void:
 		_lantern(Vector3(cos(a), 0, sin(a)) * 8.7)
 
 	_building("market", Vector3(-6.5, 0, -10.5), 0.0, "Bakery", 3.2)
+	# Tobias's work outside the bakery: the kneading trough, and the
+	# neighbours' bread baskets waiting on a plank table.
+	CraftedProps.kneading_trough(self, Vector3(-9.0, 0, -7.4), 0.35)
+	MeshKit.box(self, Vector3(1.9, 0.06, 0.6), Vector3(-3.9, 0.62, -8.0), "wood", false, -0.2)
+	for x: float in [-0.75, 0.75]:
+		MeshKit.box(self, Vector3(0.08, 0.6, 0.5), Vector3(-3.9, 0.3, -8.0) + Vector3(x, 0, 0).rotated(Vector3.UP, -0.2), "wood_dark", false, -0.2)
+	MeshKit.solid(self, Vector3(1.9, 0.7, 0.6), Vector3(-3.9, 0.35, -8.0), -0.2)
+	for i in 3:
+		CraftedProps.bread_basket(self, Vector3(-3.9, 0.65, -8.0) + Vector3(-0.62 + i * 0.62, 0, 0).rotated(Vector3.UP, -0.2), i * 0.9).scale = Vector3.ONE * 0.62
 	_building("workshop", Vector3(7.0, 0, -11.0), 0.0, "Workshop", 3.6)
 	_building("house_yellow", Vector3(-12.6, 0, -0.5), PI / 2.0, "")
 	_building("house_blue", Vector3(13.2, 0, -0.5), -PI / 2.0, "")
