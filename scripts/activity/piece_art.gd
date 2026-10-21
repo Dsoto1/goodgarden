@@ -88,9 +88,10 @@ static func _figure(ci: CanvasItem, size: Vector2, outline: bool, data: Dictiona
 		if not outline and data.has("accent"):
 			ci.draw_rect(Rect2(cx - size.x * 0.3, h * 0.6, size.x * 0.6, 6), Palette.color(str(data["accent"])))
 	if not label.is_empty():
-		var font := ThemeDB.fallback_font
+		# Labels may be wider than the figure; centre them under it in the storybook serif.
+		var font := UiStyle.font()
 		var col := Color(INK, 0.6) if outline else Color("f6f1e4")
-		ci.draw_string(font, Vector2(0, size.y - 3), label, HORIZONTAL_ALIGNMENT_CENTER, size.x, 14, col)
+		ci.draw_string(font, Vector2(-30, size.y - 2), label, HORIZONTAL_ALIGNMENT_CENTER, size.x + 60, 15, col)
 
 
 static func _utensil(ci: CanvasItem, size: Vector2, outline: bool, kind: String) -> void:
