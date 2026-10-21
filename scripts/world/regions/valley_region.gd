@@ -46,8 +46,8 @@ func build() -> void:
 	road(Vector3(0, 0, 4.4), Vector3(5.5, 0, 4.4))
 	road(Vector3(5.5, 0, 6), Vector3(5.5, 0, -11))
 	road(Vector3(5.5, 0, 3), Vector3(8, 0, 3))
-	road(Vector3(5.5, 0, -17), Vector3(6, 0, -21.5))
-	road(Vector3(5.5, 0, -21), Vector3(-9, 0, -21))
+	road(Vector3(5.5, 0, -17), Vector3(6, 0, -19.2))
+	road(Vector3(2.0, 0, -19.4), Vector3(-15.0, 0, -19.4))
 
 	# Meadow with sheep east of the village.
 	for i in 3:
@@ -78,19 +78,19 @@ func _trees() -> void:
 	var spots := [
 		[-12, 4, 1.0, "tree_a"], [-15, -4, 1.0, "grove_b_small"], [-20, 8, 1.1, "tree_b"], [-18, -9, 1.0, "grove_a_small"],
 		[12, 11, 1.0, "tree_a"], [20, 11, 1.0, "grove_b_small"], [25, -1, 1.1, "tree_b"], [26, -8, 1.0, "grove_a_medium"],
-		[-4, -8, 0.9, "tree_a"], [-15, -18, 1.0, "grove_b_medium"], [17, -19, 1.0, "tree_b"], [24, -33, 1.0, "grove_a_small"],
-		[-21, -31, 1.0, "grove_b_medium"], [-23, -40, 1.0, "tree_a"], [-16, -37, 1.1, "tree_b"], [-4, -35, 1.0, "grove_a_small"],
-		[17, -36, 1.0, "tree_a"], [-25, -2, 1.0, "grove_a_medium"], [29, -15, 1.0, "tree_b"], [-1, -18.5, 0.8, "tree_a"],
+		[-4, -8, 0.9, "tree_a"], [-26, -21, 1.0, "grove_b_medium"], [19, -17.5, 1.0, "tree_b"], [24, -33, 1.0, "grove_a_small"],
+		[-24, -31, 1.0, "grove_b_medium"], [-23, -40, 1.0, "tree_a"], [-16, -37, 1.1, "tree_b"], [-9, -41, 1.0, "grove_a_small"],
+		[22, -40, 1.0, "tree_a"], [-25, -2, 1.0, "grove_a_medium"], [29, -15, 1.0, "tree_b"],
 	]
 	var rng := RandomNumberGenerator.new()
 	rng.seed = 12
 	for s: Array in spots:
 		Props.place(self, s[3], Vector3(s[0], 0, s[1]), rng.randf() * TAU, s[2])
 	# A few old twisted trees as landmarks the child can steer by.
-	Props.place(self, "twisted_tree", Vector3(-17, 0, -21), 0.6)
+	Props.place(self, "twisted_tree", Vector3(-24, 0, -24), 0.6)
 	Props.place(self, "twisted_tree_b", Vector3(-10, 0, 8), 2.4)
-	Props.place(self, "twisted_tree", Vector3(20, 0, -40), 4.0, 0.9)
-	for m: Array in [[-16, -19], [-15.2, -20.4], [-9, 9.5], [-11, 6.8]]:
+	Props.place(self, "twisted_tree", Vector3(25, 0, -42), 4.0, 0.9)
+	for m: Array in [[-23, -22], [-22.2, -23.4], [-9, 9.5], [-11, 6.8]]:
 		Props.place(self, "mushroom", Vector3(m[0], 0, m[1]), rng.randf() * TAU)
 	# Working buildings and fields that make the valley feel lived in.
 	Props.place(self, "windmill", Vector3(28, 0, -29), -0.4)
@@ -98,7 +98,7 @@ func _trees() -> void:
 	Props.place(self, "grain_field", Vector3(25, 0, 6), 0.3)
 	Props.place(self, "grain_field", Vector3(29, 0, 0), -0.2)
 	var rocks := ["rock", "rock_b", "rock_c"]
-	for r: Array in [[-7, 9], [17, -6], [-19, -24], [20, -11], [-26, 6], [2, -42]]:
+	for r: Array in [[-7, 9], [17, -6], [-25, -28], [20, -11], [-26, 6], [2, -45]]:
 		Props.place(self, rocks[rng.randi() % 3], Vector3(r[0], 0, r[1]), rng.randf() * TAU, rng.randf_range(0.7, 1.2))
 	for i in 12:
 		Props.place(self, "pebble", Vector3(rng.randf_range(-25, 30), 0, -11.6 - rng.randf() * 0.4 if i % 2 == 0 else -16.4 + rng.randf() * 0.4), rng.randf() * TAU)
@@ -140,7 +140,7 @@ func _boundary() -> void:
 
 ## Roughly the road network, so undergrowth never sits on a path.
 static func _on_path(p: Vector3) -> bool:
-	var roads := [Rect2(-1, 3.4, 7.5, 2), Rect2(4.5, -21, 2, 27), Rect2(-10, -22, 16, 2), Rect2(5, -46, 2, 26)]
+	var roads := [Rect2(-1, 3.4, 7.5, 2), Rect2(4.5, -21, 2, 27), Rect2(-16, -20.4, 19, 2), Rect2(5, -46, 2, 26)]
 	for r: Rect2 in roads:
 		if r.grow(0.8).has_point(Vector2(p.x, p.z)):
 			return true
@@ -148,7 +148,7 @@ static func _on_path(p: Vector3) -> bool:
 
 
 static func _near_built(p: Vector3) -> bool:
-	var areas := [Rect2(-6, -4, 12, 14), Rect2(7, -3, 14, 12), Rect2(-5, -38, 24, 20), Rect2(-15, -34, 12, 16), Rect2(3.5, -20, 4, 28)]
+	var areas := [Rect2(-6, -4, 12, 14), Rect2(7, -3, 14, 12), Rect2(-9, -46, 32, 30), Rect2(-22, -34, 12, 16), Rect2(3.5, -20, 4, 28)]
 	for r: Rect2 in areas:
 		if r.has_point(Vector2(p.x, p.z)):
 			return true

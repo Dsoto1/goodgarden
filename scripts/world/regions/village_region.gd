@@ -1,84 +1,108 @@
 extends Region
-## The village: a small plaza with a well, the bakery and workshop, two
-## neighbors, and the north road with an overlook where Bellhaven can be seen.
+## The village: a market square around a fountain, with stalls, the bakery,
+## the workshop and houses around its edge, neighbours about their day, and
+## the north road to an overlook where Bellhaven can be seen.
 
 
 func build() -> void:
-	# A cozy plaza: buildings close around the well so they share the frame.
-	MeshKit.cylinder(self, 4.5, 4.5, 0.04, Vector3(0, 0.02, 0), "cobble", 24)
-	add_clearing(Vector3.ZERO, Vector2(9.4, 9.4))
+	# A proper market square: room to walk between stalls, buildings around
+	# the edge, the fountain at the heart, and the south side open to the road.
+	MeshKit.cylinder(self, 8.2, 8.2, 0.04, Vector3(0, 0.02, 0), "cobble", 32)
+	add_clearing(Vector3.ZERO, Vector2(16.8, 16.8))
 	_fountain(Vector3(0, 0, 0))
-	Props.place(self, "well", Vector3(3.6, 0, 2.6), -0.6, 0.85)
-	_stall(Vector3(-3.4, 0, 2.8), 0.5, "awning_red", ["crate_carrots", "crate_lettuce"])
-	_stall(Vector3(-4.2, 0, -1.2), PI / 2.0 - 0.2, "awning_blue", ["crate_lettuce", "crate"])
-	_stall(Vector3(4.3, 0, -1.6), -PI / 2.0 + 0.2, "awning_green", ["crate_carrots", "crate_open"])
-	for l: Array in [[-4.6, 4.2], [4.6, 4.2], [-4.4, -4.0], [4.4, -4.2]]:
-		_lantern(Vector3(l[0], 0, l[1]))
-	_bunting(Vector3(-6.0, 3.6, -4.4), Vector3(6.0, 3.6, -4.6))
-	_bunting(Vector3(-6.6, 3.4, -2.0), Vector3(-5.0, 3.4, 4.6))
-	for p: Array in [[-2.0, 4.6], [2.2, 4.7], [6.6, 3.6], [-6.6, -0.4]]:
-		_planter(Vector3(p[0], 0, p[1]))
-	_building("market", Vector3(-4.8, 0, -5.2), 0.0, "Bakery", 3.2)
-	_building("workshop", Vector3(5.0, 0, -5.6), 0.0, "Workshop", 3.6)
-	_building("house_yellow", Vector3(-7.4, 0, 1.6), PI / 2.0, "")
-	_building("house_blue", Vector3(7.6, 0, 1.0), -PI / 2.0, "")
-	_building("house_tall_red", Vector3(-9.0, 0, -4.6), PI / 4.0, "")
-	Props.place(self, "barrel", Vector3(-2.2, 0, -3.0))
-	Props.place(self, "barrel", Vector3(-1.7, 0, -3.5), 0.6)
-	Props.place(self, "sack", Vector3(-2.8, 0, -2.6), 0.3)
-	Props.place(self, "crate", Vector3(2.6, 0, -3.0), 0.2)
-	Props.place(self, "crate_open", Vector3(3.3, 0, -2.8), -0.3)
-	Props.place(self, "lumber", Vector3(8.2, 0, -3.0), 0.1, 0.8)
-	Props.place(self, "wheelbarrow", Vector3(7.4, 0, -1.8), 2.2)
-	Props.place(self, "bucket", Vector3(1.2, 0, 0.9))
+	Props.place(self, "well", Vector3(6.4, 0, 6.0), -0.6, 0.85)
+	var stalls := [
+		[Vector3(-5.2, 0, 3.2), "awning_red", ["crate_carrots", "crate_lettuce"]],
+		[Vector3(-5.8, 0, -2.8), "awning_blue", ["crate_lettuce", "crate"]],
+		[Vector3(5.8, 0, -2.8), "awning_green", ["crate_carrots", "crate_open"]],
+		[Vector3(4.6, 0, 3.6), "awning_red", ["crate_lettuce", "crate_carrots"]],
+	]
+	var stock := ["barrel", "crate", "sack", "barrel"]
+	for i in stalls.size():
+		var at: Vector3 = stalls[i][0]
+		_stall(at, atan2(-at.x, -at.z), stalls[i][1], stalls[i][2])
+		# Spare stock stacked behind each stall.
+		Props.place(self, stock[i], at * 1.32, i * 0.8)
+		Props.place(self, "sack", at * 1.3 + Vector3(0.7, 0, 0.4).rotated(Vector3.UP, i * 1.6), i * 1.1)
+	for b: Array in [[Vector3(-2.4, 0, -4.0), 0.55], [Vector3(2.6, 0, 4.4), PI + 0.55]]:
+		_bench(b[0], b[1])
+	for deg: float in [-150.0, -90.0, -30.0, 30.0, 62.0, 118.0, 150.0]:
+		var a := deg_to_rad(deg)
+		_lantern(Vector3(cos(a), 0, sin(a)) * 8.7)
 
-	# North road to the overlook.
-	road(Vector3(0, 0, -4.0), Vector3(0, 0, -13), 2.0, "cobble")
-	MeshKit.box(self, Vector3(12, 0.7, 0.6), Vector3(0, 0.35, -15.2), "stone", true)
-	add_clearing(Vector3(0, 0, -13.6), Vector2(8, 2.6))
-	MeshKit.box(self, Vector3(1.6, 0.45, 0.5), Vector3(-2.5, 0.22, -13.8), "wood", true)
-	var sign_post := MeshKit.box(self, Vector3(0.12, 1.8, 0.12), Vector3(2.0, 0.9, -12.2), "wood")
+	_building("market", Vector3(-6.5, 0, -10.5), 0.0, "Bakery", 3.2)
+	_building("workshop", Vector3(7.0, 0, -11.0), 0.0, "Workshop", 3.6)
+	_building("house_yellow", Vector3(-12.6, 0, -0.5), PI / 2.0, "")
+	_building("house_blue", Vector3(13.2, 0, -0.5), -PI / 2.0, "")
+	_building("house_tall_red", Vector3(-12.0, 0, -9.8), PI / 4.0, "")
+	_building("house_yellow", Vector3(12.6, 0, -9.6), -PI / 4.0, "")
+	_bunting(Vector3(-3.0, 3.7, -7.9), Vector3(4.2, 3.7, -8.3))
+	_bunting(Vector3(-10.2, 3.4, -3.0), Vector3(-10.2, 3.4, 2.4))
+	_bunting(Vector3(10.8, 3.4, -3.0), Vector3(10.8, 3.4, 2.4))
+	for p: Array in [[-6.5, -7.0], [7.0, -7.4], [-9.6, 3.2], [10.2, 3.2], [-9.4, -4.2], [10.0, -4.4]]:
+		_planter(Vector3(p[0], 0, p[1]))
+	Props.place(self, "lumber", Vector3(10.4, 0, -6.2), 0.4, 0.8)
+	Props.place(self, "wheelbarrow", Vector3(9.4, 0, -5.4), 2.2)
+	Props.place(self, "bucket", Vector3(5.6, 0, 6.8))
+	Props.place(self, "tree_a", Vector3(-9.6, 0, 7.2), 0.5)
+	Props.place(self, "tree_b", Vector3(10.6, 0, 8.4), 1.2)
+	for f: Array in [[-7.4, 8.4, "flowers_a"], [8.4, 9.0, "flowers_b"], [-3.2, 8.9, "bush_flowers"], [3.4, 9.0, "flowers_a"]]:
+		Props.place(self, f[2], Vector3(f[0], 0, f[1]), f[0])
+
+	# North road between the bakery and workshop to the overlook.
+	road(Vector3(0, 0, -8.0), Vector3(0, 0, -15.0), 2.0, "cobble")
+	MeshKit.box(self, Vector3(12, 0.7, 0.6), Vector3(0, 0.35, -17.2), "stone", true)
+	add_clearing(Vector3(0, 0, -15.6), Vector2(8, 2.6))
+	MeshKit.box(self, Vector3(1.6, 0.45, 0.5), Vector3(-2.5, 0.22, -15.8), "wood", true)
+	var sign_post := MeshKit.box(self, Vector3(0.12, 1.8, 0.12), Vector3(2.0, 0.9, -14.2), "wood")
 	sign_post.name = "SignPost"
-	MeshKit.box(self, Vector3(1.4, 0.4, 0.08), Vector3(2.5, 1.55, -12.2), "wood_light")
+	MeshKit.box(self, Vector3(1.4, 0.4, 0.08), Vector3(2.5, 1.55, -14.2), "wood_light")
 	var label := Label3D.new()
 	label.text = tr("To Bellhaven")
 	label.font_size = 48
 	label.pixel_size = 0.005
 	label.modulate = Color("3b3430")
 	label.outline_size = 0
-	label.position = Vector3(2.5, 1.55, -12.14)
+	label.position = Vector3(2.5, 1.55, -14.14)
 	add_child(label)
-	add_camera_zone(Vector3(0, 1, -12.5), Vector3(11, 3, 4.5), {"pitch": 9.0, "distance": 7.0, "height": 1.8, "fov": 52.0})
-	add_anchor("village_overlook", Vector3(0, 0, -12.5), 0.0)
+	add_camera_zone(Vector3(0, 1, -14.5), Vector3(11, 3, 4.5), {"pitch": 9.0, "distance": 7.0, "height": 1.8, "fov": 52.0})
+	add_anchor("village_overlook", Vector3(0, 0, -14.5), 0.0)
 
-	_villager("tobias", World.look_for("tobias"), Vector3(-4.8, 0, -2.6), 1.0)
-	_villager("ruth", World.look_for("ruth"), Vector3(2.6, 0, 1.6), 1.0)
+	_villager("tobias", World.look_for("tobias"), Vector3(-6.5, 0, -6.2), 1.2)
+	_villager("ruth", World.look_for("ruth"), Vector3(5.2, 0, 5.4), 1.2)
 	# Neighbours going about their day (ambient, no conversation yet).
 	var folk: Array = Content.get_world("characters").get("villagers", [])
-	var spots := [Vector3(-3.0, 0, 1.4), Vector3(3.2, 0, -2.4), Vector3(-1.2, 0, -2.6), Vector3(1.0, 0, 3.6), Vector3(5.6, 0, 2.6)]
+	var spots := [Vector3(-3.6, 0, 5.6), Vector3(3.8, 0, -5.2), Vector3(-3.4, 0, -5.8), Vector3(1.6, 0, 6.2), Vector3(7.2, 0, 0.8)]
 	for i in folk.size():
 		var w := Wanderer.new().setup(CharacterModel.new().build(folk[i]), 300 + i)
 		w.position = spots[i % spots.size()]
-		w.radius = 2.2
+		w.radius = 3.0
 		w.speed = 0.55
 		w.pause_range = Vector2(2, 6)
 		add_child(w)
 		MeshKit.solid(w, Vector3(0.5, 1.6, 0.5), Vector3(0, 0.8, 0), 0.0, MeshKit.LAYER_CHARACTER)
-	for i in 3:
+	for i in 4:
 		var bird := Wanderer.new().setup(AnimalModel.make("bird"), 60 + i)
 		bird.gait = "hop"
 		bird.speed = 0.6
-		bird.radius = 2.5
-		bird.position = Vector3(-2 + i * 2.0, 0, 3.0)
+		bird.radius = 3.0
+		bird.position = Vector3(-3 + i * 2.0, 0, 2.4 - (i % 2) * 4.8)
 		add_child(bird)
-	Props.place(self, "tree_b", Vector3(10.5, 0, -6.0), 1.2)
-	Props.place(self, "tree_a", Vector3(10.0, 0, 5.0), 0.5)
-	Props.place(self, "flowers_a", Vector3(-3.2, 0, 3.4), 0.3)
-	Props.place(self, "flowers_b", Vector3(3.4, 0, 3.6), 1.1)
-	Props.place(self, "bush_flowers", Vector3(-6.2, 0, -2.4), 0.5)
 
-	add_anchor("village_plaza", Vector3(0, 0, 4.0), 0.0)
-	add_discovery_zone(Vector3(0, 1, -1), Vector3(20, 3, 14))
+	add_anchor("village_plaza", Vector3(0, 0, 9.5), 0.0)
+	add_discovery_zone(Vector3(0, 1, -2), Vector3(30, 3, 24))
+
+
+func _bench(at: Vector3, yaw: float) -> void:
+	var root := Node3D.new()
+	root.position = at
+	root.rotation.y = yaw
+	add_child(root)
+	MeshKit.box(root, Vector3(1.6, 0.08, 0.45), Vector3(0, 0.45, 0), "wood", false)
+	MeshKit.box(root, Vector3(1.6, 0.4, 0.07), Vector3(0, 0.7, 0.2), "wood", false)
+	for x: float in [-0.65, 0.65]:
+		MeshKit.box(root, Vector3(0.08, 0.45, 0.4), Vector3(x, 0.22, 0), "wood_dark")
+	MeshKit.solid(root, Vector3(1.6, 0.9, 0.5), Vector3(0, 0.45, 0.05))
 
 
 ## A KayKit building with an optional painted sign over its front.
