@@ -75,7 +75,7 @@ func build() -> void:
 	for side: float in [-1.0, 1.0]:
 		CraftedProps.flower_pot(self, Vector3(side * 1.6, 0, 5.9), "flower_white", 1.1)
 	Props.place(self, "tree_b", Vector3(-7.2, 0, -4.6), 0.2)
-	MeshKit.box(self, Vector3(1.6, 0.45, 0.5), Vector3(5.0, 0.22, 6.6), "wood", true)
+	MeshKit.box(self, Vector3(1.6, 0.45, 0.5), Vector3(5.4, 0.22, 4.3), "wood", true)
 
 	add_clearing(Vector3(0.5, 0, 0), Vector2(15.2, 10.8))
 	add_clearing(Vector3(0, 0, -6.2), Vector2(2.8, 2.8))

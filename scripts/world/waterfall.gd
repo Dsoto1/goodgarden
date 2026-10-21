@@ -10,7 +10,7 @@ static func build(parent: Node3D) -> Node3D:
 	root.name = "Waterfall"
 	parent.add_child(root)
 	var x := Terrain.FALLS_X
-	var z := Terrain.RIVER_Z
+	var z := Terrain.river_z(Terrain.FALLS_X)
 	var top := Terrain.FALLS_TOP - 0.3
 	var bottom := Terrain.RIVER_LEVEL
 	var width := 4.6
