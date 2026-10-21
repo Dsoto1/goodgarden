@@ -94,6 +94,7 @@ func build() -> void:
 	add_anchor("home_door", Vector3(0, 0, 5.0), 0.0)
 	add_discovery_zone(Vector3(0, 1, 2), Vector3(12, 3, 10))
 	add_interior("home", Vector3(0, 1.2, 0), Vector3(7.6, 2.4, 5.6), [cutaway])
+	add_camera_zone(Vector3(0, 1.2, 0), Vector3(7.6, 2.4, 5.6), {"pitch": 55.0, "distance": 10.5, "height": 0.8, "fov": 42.0})
 
 
 ## Timber framing, a stone footing, shuttered windows with flower boxes, a

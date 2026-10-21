@@ -3,5 +3,6 @@
 	"from": "miriam",
 	"body": "Good morning, my friend!\n\nThe soil in my garden is warm and ready, and I have a little bag of bean seeds waiting for a home. Will you come and help me plant them?\n\nYou'll find me by the beds, just past the gate.",
 	"signature": "Miriam",
-	"suggests": "garden_bean_row"
+	"suggests": "garden_bean_row",
+	"summary": "Miriam needs help planting beans in her garden."
 }

@@ -4,22 +4,37 @@ extends RefCounted
 ## setting everywhere. Buttons are large (generous touch targets) with a clear
 ## focus ring for keyboard and gamepad.
 
-const INK := Color("3b3430")
-const PAPER := Color("fbf5e8")
-const PAPER_EDGE := Color("d9c6a2")
+const INK := Color("3b2a1e")
+const PAPER := Color("f7ecd3")
+const PAPER_EDGE := Color("c9a675")
+const FONT_PATH := "res://assets/third_party/fonts/eb_garamond/EBGaramond-wght.ttf"
+
+static var _font: Font
+
+
+## EB Garamond (OFL) at a sturdy weight, like the mockup's storybook lettering.
+static func font() -> Font:
+	if _font == null:
+		var base: FontFile = load(FONT_PATH)
+		var v := FontVariation.new()
+		v.base_font = base
+		v.variation_opentype = {TextServerManager.get_primary_interface().name_to_tag("wght"): 600}
+		_font = v
+	return _font
 const LEAF := Color("6f9a52")
 const LEAF_DARK := Color("4f7a3a")
 
 
 static func build_theme(text_scale: float) -> Theme:
 	var t := Theme.new()
-	t.default_font_size = roundi(22 * text_scale)
+	t.default_font = font()
+	t.default_font_size = roundi(24 * text_scale)
 	t.set_color("font_color", "Label", INK)
-	_variation(t, "PromptLabel", "Label", roundi(27 * text_scale))
-	_variation(t, "SmallLabel", "Label", roundi(17 * text_scale))
-	_variation(t, "TitleLabel", "Label", roundi(44 * text_scale))
-	_variation(t, "HeadingLabel", "Label", roundi(30 * text_scale))
-	_variation(t, "LetterLabel", "Label", roundi(26 * text_scale))
+	_variation(t, "PromptLabel", "Label", roundi(29 * text_scale))
+	_variation(t, "SmallLabel", "Label", roundi(19 * text_scale))
+	_variation(t, "TitleLabel", "Label", roundi(56 * text_scale))
+	_variation(t, "HeadingLabel", "Label", roundi(32 * text_scale))
+	_variation(t, "LetterLabel", "Label", roundi(28 * text_scale))
 
 	t.set_stylebox("normal", "Button", _button_box(PAPER, PAPER_EDGE))
 	t.set_stylebox("hover", "Button", _button_box(Color("fffaf0"), Color("c9a86e")))

@@ -26,6 +26,11 @@ func end_day() -> void:
 	start_day(current_day + 1)
 
 
+## Season name for the HUD chip ("Spring" until the calendar says otherwise).
+func season() -> String:
+	return str(definition().get("season", "Spring"))
+
+
 ## Where an NPC should stand today, as an anchor id placed by a region.
 func npc_anchor(npc_id: String) -> String:
 	return str(definition().get("npcs", {}).get(npc_id, ""))

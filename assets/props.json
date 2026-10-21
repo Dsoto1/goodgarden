@@ -7,10 +7,10 @@
 		"nature": "res://assets/third_party/quaternius/stylized_nature_standard/"
 	},
 	"grades": {
-		"hex": {"saturation": 0.82, "tint": [1.03, 1.0, 0.95]},
-		"furniture": {"saturation": 0.88, "tint": [1.02, 1.0, 0.96]},
-		"restaurant": {"saturation": 0.88},
-		"nature": {"saturation": 0.92, "wrap": 0.55, "ignore_vertex_color": true}
+		"hex": {"saturation": 1.0, "tint": [1.03, 1.0, 0.95]},
+		"furniture": {"saturation": 1.0, "tint": [1.02, 1.0, 0.96]},
+		"restaurant": {"saturation": 1.0},
+		"nature": {"saturation": 1.05, "wrap": 0.55, "ignore_vertex_color": true}
 	},
 	"props": {
 		"tree_a": {

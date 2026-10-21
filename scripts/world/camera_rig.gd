@@ -4,7 +4,9 @@ extends Node3D
 ## steer it: zones and modes reframe it gently (conversation, activity close-up,
 ## chapel, vistas). Reduced motion swaps glides for cuts.
 
-const DEFAULT_FRAMING := {"pitch": 50.0, "distance": 12.5, "yaw": 0.0, "height": 0.8, "fov": 42.0}
+## Over-the-shoulder three-quarter view that shows the horizon, as in the
+## mockup's play screens. Interiors push a higher framing (see Region zones).
+const DEFAULT_FRAMING := {"pitch": 18.0, "distance": 8.5, "yaw": 0.0, "height": 1.5, "fov": 52.0}
 
 var target: Node3D
 var camera: Camera3D
@@ -49,6 +51,17 @@ func _process(delta: float) -> void:
 	_update(delta, Settings.get_value("reduced_motion"))
 
 
+## Spring arm: if a wall stands between the child and the camera, move in.
+func _clearance(from: Vector3, offset: Vector3) -> float:
+	if not is_inside_tree() or not _focus.is_empty():
+		return 1.0
+	var query := PhysicsRayQueryParameters3D.create(from, from + offset, MeshKit.LAYER_OBSTACLE)
+	var hit := get_world_3d().direct_space_state.intersect_ray(query)
+	if hit.is_empty():
+		return 1.0
+	return clampf((from.distance_to(hit.position) - 0.4) / offset.length(), 0.25, 1.0)
+
+
 func _update(delta: float, instant: bool) -> void:
 	var goal := DEFAULT_FRAMING.duplicate()
 	for z in _zones:
@@ -63,6 +76,7 @@ func _update(delta: float, instant: bool) -> void:
 	_look = _look.lerp(look_goal, 1.0 if instant else 1.0 - exp(-delta * 6.0))
 	var pitch: float = deg_to_rad(_params["pitch"])
 	var offset: Vector3 = Vector3(0, sin(pitch), cos(pitch)) * float(_params["distance"])
-	camera.global_position = _look + offset.rotated(Vector3.UP, deg_to_rad(_params["yaw"]))
+	offset = offset.rotated(Vector3.UP, deg_to_rad(_params["yaw"]))
+	camera.global_position = _look + offset * _clearance(_look, offset)
 	camera.fov = _params["fov"]
 	camera.look_at(_look, Vector3.UP)

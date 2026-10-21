@@ -40,24 +40,39 @@ func build(look: Dictionary) -> CharacterModel:
 		_arms.append(shoulder)
 	var skin: String = look.get("skin", "skin_1")
 	MeshKit.cylinder(_body, 0.06, 0.07, 0.1, Vector3(0, 1.02, 0), skin, 6)
-	MeshKit.sphere(_body, 0.2, Vector3(0, 1.22, 0), skin, Vector3(1.0, 1.05, 1.0), 10, 6)
+	var head := Node3D.new()
+	head.position = Vector3(0, 1.22, 0)
+	head.scale = Vector3.ONE * float(look.get("head_scale", 1.0))
+	_body.add_child(head)
+	MeshKit.sphere(head, 0.2, Vector3.ZERO, skin, Vector3(1.0, 1.05, 1.0), 10, 6)
+	if look.has("backpack"):
+		MeshKit.box(_body, Vector3(0.34, 0.4, 0.18), Vector3(0, 0.78, 0.25), look["backpack"])
+		MeshKit.box(_body, Vector3(0.3, 0.12, 0.2), Vector3(0, 0.98, 0.26), "wood_dark")
+		MeshKit.box(_body, Vector3(0.22, 0.14, 0.06), Vector3(0, 0.66, 0.36), "wood_dark")
+		for side: float in [-1.0, 1.0]:
+			MeshKit.box(_body, Vector3(0.05, 0.42, 0.05), Vector3(side * 0.13, 0.82, -0.17), "wood_dark")
 	for side: float in [-1.0, 1.0]:
-		MeshKit.sphere(_body, 0.025, Vector3(0.07 * side, 1.25, -0.18), "dark", Vector3.ONE, 5, 3)
+		MeshKit.sphere(head, 0.025, Vector3(0.07 * side, 0.03, -0.18), "dark", Vector3.ONE, 5, 3)
 	var hair: String = look.get("hair", "hair_brown")
-	MeshKit.sphere(_body, 0.215, Vector3(0, 1.28, 0.03), hair, Vector3(1.0, 0.8, 1.0), 10, 5)
+	MeshKit.sphere(head, 0.215, Vector3(0, 0.06, 0.03), hair, Vector3(1.0, 0.8, 1.0), 10, 5)
 	match look.get("hair_style", "short"):
 		"bun":
-			MeshKit.sphere(_body, 0.1, Vector3(0, 1.42, 0.14), hair, Vector3.ONE, 8, 4)
+			MeshKit.sphere(head, 0.1, Vector3(0, 0.2, 0.14), hair, Vector3.ONE, 8, 4)
 		"long":
-			MeshKit.box(_body, Vector3(0.36, 0.34, 0.12), Vector3(0, 1.1, 0.14), hair)
+			MeshKit.box(head, Vector3(0.36, 0.34, 0.12), Vector3(0, -0.12, 0.14), hair)
 		"curly":
 			for a in 6:
 				var ang := TAU * a / 6.0
-				MeshKit.sphere(_body, 0.09, Vector3(cos(ang) * 0.17, 1.33, sin(ang) * 0.17 + 0.02), hair, Vector3.ONE, 6, 3)
+				MeshKit.sphere(head, 0.09, Vector3(cos(ang) * 0.17, 0.11, sin(ang) * 0.17 + 0.02), hair, Vector3.ONE, 6, 3)
+		"tousled":
+			for a in 7:
+				var ang := TAU * a / 7.0
+				MeshKit.sphere(head, 0.1, Vector3(cos(ang) * 0.15, 0.14 + 0.03 * sin(a * 2.0), sin(ang) * 0.15 + 0.02), hair, Vector3.ONE, 6, 3)
+			MeshKit.sphere(head, 0.09, Vector3(0.05, 0.08, -0.15), hair, Vector3(1.4, 0.6, 0.8), 6, 3)
 	if look.get("hat", "") == "straw":
-		MeshKit.cylinder(_body, 0.34, 0.34, 0.03, Vector3(0, 1.4, 0), "roof_thatch", 12)
-		MeshKit.cylinder(_body, 0.15, 0.18, 0.14, Vector3(0, 1.47, 0), "roof_thatch", 10)
-		MeshKit.cylinder(_body, 0.185, 0.185, 0.04, Vector3(0, 1.43, 0), look.get("hat_band", "cloth_green"), 10)
+		MeshKit.cylinder(head, 0.34, 0.34, 0.03, Vector3(0, 0.18, 0), "roof_thatch", 12)
+		MeshKit.cylinder(head, 0.15, 0.18, 0.14, Vector3(0, 0.25, 0), "roof_thatch", 10)
+		MeshKit.cylinder(head, 0.185, 0.185, 0.04, Vector3(0, 0.21, 0), look.get("hat_band", "cloth_green"), 10)
 	return self
 
 

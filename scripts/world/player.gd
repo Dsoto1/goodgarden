@@ -21,7 +21,7 @@ var _dest_marker: MeshInstance3D
 func _ready() -> void:
 	add_to_group("player")
 	collision_layer = MeshKit.LAYER_PLAYER
-	collision_mask = MeshKit.LAYER_GROUND | MeshKit.LAYER_OBSTACLE
+	collision_mask = MeshKit.LAYER_GROUND | MeshKit.LAYER_OBSTACLE | MeshKit.LAYER_CHARACTER | MeshKit.LAYER_INVISIBLE
 	var shape := CollisionShape3D.new()
 	var capsule := CapsuleShape3D.new()
 	capsule.radius = 0.28
@@ -30,8 +30,9 @@ func _ready() -> void:
 	shape.position.y = 0.56
 	add_child(shape)
 	model = CharacterModel.new().build({
-		"skin": "skin_2", "hair": "hair_brown", "hair_style": "curly",
-		"shirt": "cloth_gold", "pants": "cloth_green", "height": 0.82,
+		"skin": "skin_2", "hair": "hair_dark", "hair_style": "tousled",
+		"shirt": "cloth_cream", "pants": "wood", "height": 0.86, "head_scale": 1.18,
+		"backpack": "wood_light",
 	})
 	add_child(model)
 	# Child of the player but top-level, so it stays where it was placed in the world.

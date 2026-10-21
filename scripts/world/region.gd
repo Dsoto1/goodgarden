@@ -52,7 +52,7 @@ func add_anchor(anchor_id: String, local_pos: Vector3, facing_y := 0.0) -> Marke
 ## Walking into this volume discovers the region for the map.
 func add_discovery_zone(center: Vector3, size: Vector3) -> Zone:
 	var z := Zone.create(self, center, size)
-	z.player_entered.connect(func() -> void: Discovery.discover(region_id))
+	z.player_entered.connect(func() -> void: Discovery.enter(region_id))
 	return z
 
 

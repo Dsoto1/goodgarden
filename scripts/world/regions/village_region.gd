@@ -7,7 +7,17 @@ func build() -> void:
 	# A cozy plaza: buildings close around the well so they share the frame.
 	MeshKit.cylinder(self, 4.5, 4.5, 0.04, Vector3(0, 0.02, 0), "cobble", 24)
 	add_clearing(Vector3.ZERO, Vector2(9.4, 9.4))
-	Props.place(self, "well", Vector3(0, 0, 0), 0.0)
+	_fountain(Vector3(0, 0, 0))
+	Props.place(self, "well", Vector3(3.6, 0, 2.6), -0.6, 0.85)
+	_stall(Vector3(-3.4, 0, 2.8), 0.5, "awning_red", ["crate_carrots", "crate_lettuce"])
+	_stall(Vector3(-4.2, 0, -1.2), PI / 2.0 - 0.2, "awning_blue", ["crate_lettuce", "crate"])
+	_stall(Vector3(4.3, 0, -1.6), -PI / 2.0 + 0.2, "awning_green", ["crate_carrots", "crate_open"])
+	for l: Array in [[-4.6, 4.2], [4.6, 4.2], [-4.4, -4.0], [4.4, -4.2]]:
+		_lantern(Vector3(l[0], 0, l[1]))
+	_bunting(Vector3(-6.0, 3.6, -4.4), Vector3(6.0, 3.6, -4.6))
+	_bunting(Vector3(-6.6, 3.4, -2.0), Vector3(-5.0, 3.4, 4.6))
+	for p: Array in [[-2.0, 4.6], [2.2, 4.7], [6.6, 3.6], [-6.6, -0.4]]:
+		_planter(Vector3(p[0], 0, p[1]))
 	_building("market", Vector3(-4.8, 0, -5.2), 0.0, "Bakery", 3.2)
 	_building("workshop", Vector3(5.0, 0, -5.6), 0.0, "Workshop", 3.6)
 	_building("house_yellow", Vector3(-7.4, 0, 1.6), PI / 2.0, "")
@@ -42,7 +52,23 @@ func build() -> void:
 	add_anchor("village_overlook", Vector3(0, 0, -12.5), 0.0)
 
 	_villager("tobias", {"skin": "skin_1", "hair": "hair_dark", "shirt": "white", "pants": "cloth_blue", "apron": "cloth_cream", "height": 1.12, "build": 1.2}, Vector3(-4.8, 0, -2.6), 1.0)
-	_villager("ruth", {"skin": "skin_3", "hair": "hair_dark", "hair_style": "bun", "shirt": "cloth_purple", "skirt": "cloth_blue", "pants": "cloth_blue", "height": 1.05}, Vector3(1.8, 0, 1.6), 1.0)
+	_villager("ruth", {"skin": "skin_3", "hair": "hair_dark", "hair_style": "bun", "shirt": "cloth_purple", "skirt": "cloth_blue", "pants": "cloth_blue", "height": 1.05}, Vector3(2.6, 0, 1.6), 1.0)
+	# Neighbours going about their day (ambient, no conversation yet).
+	var folk := [
+		[{"skin": "skin_2", "hair": "hair_blond", "hair_style": "long", "shirt": "cloth_red", "skirt": "cloth_cream", "pants": "cloth_cream", "apron": "white", "height": 1.0}, Vector3(-3.0, 0, 1.4)],
+		[{"skin": "skin_1", "hair": "hair_brown", "shirt": "cloth_green", "pants": "wood_dark", "height": 1.1, "build": 1.1}, Vector3(3.2, 0, -2.4)],
+		[{"skin": "skin_3", "hair": "hair_dark", "hair_style": "curly", "shirt": "cloth_gold", "pants": "cloth_blue", "height": 0.8}, Vector3(-1.2, 0, -2.6)],
+		[{"skin": "skin_2", "hair": "hair_grey", "hair_style": "bun", "shirt": "cloth_blue", "skirt": "cloth_purple", "pants": "cloth_purple", "height": 1.0}, Vector3(1.0, 0, 3.6)],
+		[{"skin": "skin_1", "hair": "hair_dark", "hair_style": "short", "shirt": "white", "pants": "cloth_green", "height": 0.78}, Vector3(5.6, 0, 2.6)],
+	]
+	for i in folk.size():
+		var w := Wanderer.new().setup(CharacterModel.new().build(folk[i][0]), 300 + i)
+		w.position = folk[i][1]
+		w.radius = 2.2
+		w.speed = 0.55
+		w.pause_range = Vector2(2, 6)
+		add_child(w)
+		MeshKit.solid(w, Vector3(0.5, 1.6, 0.5), Vector3(0, 0.8, 0), 0.0, MeshKit.LAYER_CHARACTER)
 	for i in 3:
 		var bird := Wanderer.new().setup(AnimalModel.make("bird"), 60 + i)
 		bird.gait = "hop"
@@ -78,6 +104,88 @@ func _building(prop: String, at: Vector3, rot: float, sign_text: String, sign_he
 	l.modulate = Color("3b3430")
 	l.position = Vector3(0, sign_height, front + 0.04)
 	b.add_child(l)
+
+
+## Tiered stone fountain, the heart of the plaza.
+func _fountain(at: Vector3) -> void:
+	MeshKit.cylinder(self, 1.7, 1.8, 0.55, at + Vector3(0, 0.27, 0), "stone", 16, true)
+	var pool := MeshKit.cylinder(self, 1.5, 1.5, 0.05, at + Vector3(0, 0.5, 0), "water", 16)
+	pool.material_override = Palette.mat("water")
+	MeshKit.cylinder(self, 0.25, 0.32, 1.3, at + Vector3(0, 1.0, 0), "stone", 10)
+	MeshKit.cylinder(self, 0.75, 0.5, 0.22, at + Vector3(0, 1.62, 0), "stone", 12)
+	MeshKit.cylinder(self, 0.65, 0.65, 0.04, at + Vector3(0, 1.72, 0), "water", 12)
+	MeshKit.cylinder(self, 0.1, 0.14, 0.6, at + Vector3(0, 1.98, 0), "stone", 8)
+	MeshKit.sphere(self, 0.16, at + Vector3(0, 2.36, 0), "stone", Vector3.ONE, 8, 4)
+	var spray := GPUParticles3D.new()
+	spray.amount = 40
+	spray.lifetime = 0.9
+	spray.position = at + Vector3(0, 2.4, 0)
+	spray.emitting = not Settings.get_value("reduced_motion")
+	var pm := ParticleProcessMaterial.new()
+	pm.direction = Vector3(0, 1, 0)
+	pm.spread = 35.0
+	pm.initial_velocity_min = 1.2
+	pm.initial_velocity_max = 1.6
+	pm.gravity = Vector3(0, -6, 0)
+	spray.process_material = pm
+	var drop := SphereMesh.new()
+	drop.radius = 0.035
+	drop.height = 0.07
+	drop.radial_segments = 6
+	drop.rings = 3
+	var dm := StandardMaterial3D.new()
+	dm.albedo_color = Color(0.85, 0.94, 1.0, 0.8)
+	dm.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+	dm.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+	drop.material = dm
+	spray.draw_pass_1 = drop
+	spray.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	add_child(spray)
+
+
+## Market stall: counter, produce, and a striped awning.
+func _stall(at: Vector3, rot: float, awning: String, goods: Array) -> void:
+	var root := Node3D.new()
+	root.position = at
+	root.rotation.y = rot
+	add_child(root)
+	MeshKit.box(root, Vector3(1.8, 0.8, 0.7), Vector3(0, 0.4, 0), "wood", true)
+	for x: float in [-0.85, 0.85]:
+		MeshKit.box(root, Vector3(0.08, 2.2, 0.08), Vector3(x, 1.1, -0.35), "wood_dark")
+		MeshKit.box(root, Vector3(0.08, 1.8, 0.08), Vector3(x, 0.9, 0.55), "wood_dark")
+	var canopy := MeshKit.box(root, Vector3(2.1, 0.06, 1.3), Vector3(0, 2.0, 0.1), awning)
+	canopy.rotation.x = -0.32
+	MeshKit.box(root, Vector3(2.1, 0.22, 0.04), Vector3(0, 1.72, 0.72), awning)
+	for i in goods.size():
+		Props.place(root, goods[i], Vector3(-0.45 + i * 0.9, 0.8, 0.05), 0.0, 0.75)
+
+
+func _lantern(at: Vector3) -> void:
+	MeshKit.box(self, Vector3(0.1, 2.4, 0.1), at + Vector3(0, 1.2, 0), "wood_dark")
+	MeshKit.box(self, Vector3(0.4, 0.06, 0.06), at + Vector3(0.15, 2.35, 0), "wood_dark")
+	MeshKit.box(self, Vector3(0.2, 0.28, 0.2), at + Vector3(0.3, 2.12, 0), "lantern")
+	MeshKit.box(self, Vector3(0.24, 0.04, 0.24), at + Vector3(0.3, 2.28, 0), "dark")
+
+
+## A string of little coloured flags between two points.
+func _bunting(a: Vector3, b: Vector3) -> void:
+	var span := b - a
+	var count := int(span.length() / 0.45)
+	var colors := ["awning_red", "flower_yellow", "awning_blue", "cloth_cream", "awning_green"]
+	var yaw := atan2(span.x, span.z)
+	MeshKit.box(self, Vector3(0.02, 0.02, span.length()), a + span * 0.5 + Vector3(0, -0.18, 0), "wood_dark", false, yaw)
+	for i in count:
+		var t := (i + 0.5) / count
+		var sag := sin(t * PI) * 0.35
+		var flag := MeshKit.roof(self, 0.3, 0.32, 0.02, a + span * t + Vector3(0, -sag - 0.34, 0), colors[i % colors.size()], yaw + PI / 2.0)
+		flag.rotation.z = PI
+
+
+func _planter(at: Vector3) -> void:
+	MeshKit.box(self, Vector3(1.0, 0.45, 0.5), at + Vector3(0, 0.22, 0), "wood")
+	MeshKit.box(self, Vector3(0.9, 0.05, 0.42), at + Vector3(0, 0.44, 0), "soil")
+	Props.place(self, "flowers_a", at + Vector3(-0.22, 0.44, 0), 0.4, 0.55)
+	Props.place(self, "flowers_b", at + Vector3(0.24, 0.44, 0), 1.3, 0.5)
 
 
 func _villager(id: String, look: Dictionary, at: Vector3, wander_radius: float) -> void:

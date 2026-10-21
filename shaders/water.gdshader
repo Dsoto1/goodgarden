@@ -4,8 +4,8 @@ render_mode specular_disabled;
 
 #include "res://shaders/storybook_common.gdshaderinc"
 
-uniform vec3 deep : source_color = vec3(0.24, 0.47, 0.62);
-uniform vec3 shallow : source_color = vec3(0.4, 0.66, 0.78);
+uniform vec3 deep : source_color = vec3(0.14, 0.36, 0.5);
+uniform vec3 shallow : source_color = vec3(0.27, 0.53, 0.62);
 global uniform float gg_wind;
 
 varying vec3 world_pos;
@@ -22,7 +22,7 @@ void fragment() {
 	// Slow ripple lines drifting downstream, broken up so they don't look ruled.
 	float ripple = sin(world_pos.x * 3.4 - t * 3.0 + sin(world_pos.z * 4.1 + t) * 1.2);
 	float breakup = smoothstep(0.2, 0.9, sin(world_pos.x * 0.53 + world_pos.z * 2.7 + t * 0.5) * 0.5 + 0.5);
-	float lines = smoothstep(0.94, 0.995, ripple) * breakup;
-	ALBEDO = grade(base + vec3(lines) * 0.12);
+	float lines = smoothstep(0.975, 0.998, ripple) * breakup;
+	ALBEDO = grade(base + vec3(lines) * 0.1);
 	EMISSION = vec3(lines) * 0.03;
 }

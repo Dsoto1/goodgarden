@@ -58,6 +58,7 @@ pointing/emulate_mouse_from_touch=true
 3d_physics/layer_4="player"
 3d_physics/layer_5="triggers"
 3d_physics/layer_6="characters"
+3d_physics/layer_7="invisible_blockers"
 
 [shader_globals]
 

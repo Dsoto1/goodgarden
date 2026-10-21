@@ -74,6 +74,14 @@ Every step runs on a 1000×560 design-unit board that the workspace scales to fi
 - **`Style`:** converts imported glTF materials to the storybook shaders once and caches them. `assets/props.json` `grades` pull each pack toward the shared palette (saturation, tint, light wrap). Quaternius vertex colours are shader masks, not colour, so that pack sets `ignore_vertex_color`. Grass sets `up_normals` and `root_shade` so it lights like the ground it grows from.
 - **`GroundCover`:** grass, clover and wildflower meadows instanced with MultiMesh in 10 m chunks (drawn to 34 m, no shadows). It grows everywhere except each region's `clearings` (floors, paths, beds, plaza), clusters by noise, and fringes path edges with tufts and pebbles. "Less scenery detail" lowers density to 40%: about 1.7M → 0.67M triangles map-wide, of which only nearby chunks in view are drawn.
 
+## Landscape and framing (toward the concept mockup)
+
+- **`Terrain`:** one height function. The walkable valley floor (`Terrain.FLOOR`) stays level so play spaces, paths and interiors are predictable. Beyond it the land rolls into hills and, far off, ridged snow-capped mountains. There's a low corridor north so Bellhaven stays visible from the overlook, low ground where the river leaves the valley, and a plateau under the city. The landscape mesh, distant forests and Bellhaven's placement all use it; `ground.gdshader` colours it by height and slope (meadow, forest floor, rock, snow).
+- **`Forest`:** several thousand cheap low-poly trees on the hills, instanced per 40 m chunk with per-instance greens and no shadows. The detailed Quaternius trees stay near the play area.
+- **Camera:** a low over-the-shoulder view (`CameraRig.DEFAULT_FRAMING`, 18° pitch) that shows the horizon, like the mockup's play screens. Interiors push a higher framing. A spring arm moves in when walls block the view, ignoring invisible blockers (`MeshKit.LAYER_INVISIBLE`: river banks, world edge).
+- **Light:** golden-afternoon sun with longer shadows and blue aerial haze.
+- **HUD:** the place name (from `Discovery.entered`), "Day N • Season" (`Days.season()`), a Today's Invitation card (each invitation's `summary`), and Journal / Map / Settings icon tiles (`scripts/ui/icon.gd`). The serif font is EB Garamond (OFL).
+
 ## Input
 
 All pointer input is ordinary mouse events (touch is emulated as mouse). `DragPiece` reads positions from the event, not the hardware cursor, so the gamepad's `VirtualCursor` drives every primitive by pushing the same events.
@@ -84,6 +92,7 @@ All pointer input is ordinary mouse events (touch is emulated as mouse). `DragPi
 
 ## Known gaps and next steps
 
+- **Headless runs log `Parameter "m" is null`** three times: Godot's dummy renderer can't store the code-built terrain and forest meshes. It is harmless and does not occur with a real renderer.
 - **Tablet performance of the lush pass is unmeasured.** Every check so far has used a software renderer. Profile on baseline hardware and tune the `GroundCover.LAYERS` densities or the default for "Less scenery detail".
 - **Art is partly placeholder.** KayKit and Quaternius CC0 props dress the world through `Props` and `assets/props.json`. The Quaternius foliage uses alpha-cut leaf cards, so it is more detailed than the flat-coloured custom buildings; the paid Source edition's stylized shader, or a custom toon shader, would bring them closer together. The custom hero assets named in ART_DIRECTION/ASSET_STRATEGY are still primitive-built: protagonist, Miriam and villagers, cottage shell, Chapel, Scripture figures. The KayKit hex pack's hills and mountains are map tiles with cliff sides, so distant hills stay procedural.
 - **Narration** uses system text-to-speech when available. Recorded narration needs an `audio` field (the validator already checks that the file exists) and playback in `AudioService`.

@@ -25,9 +25,20 @@ func _ready() -> void:
 	_panel.add_child(col)
 	var top := HBoxContainer.new()
 	col.add_child(top)
+	var tab := PanelContainer.new()
+	var tab_box := UiStyle.card(Color("4a5a2e"), 10)
+	tab_box.set_content_margin_all(6)
+	tab_box.content_margin_left = 16
+	tab_box.content_margin_right = 16
+	tab.add_theme_stylebox_override("panel", tab_box)
 	_name = UiStyle.label("", "HeadingLabel")
-	_name.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	top.add_child(_name)
+	_name.autowrap_mode = TextServer.AUTOWRAP_OFF
+	_name.add_theme_color_override("font_color", Color("f7ecd3"))
+	tab.add_child(_name)
+	top.add_child(tab)
+	var spacer := Control.new()
+	spacer.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	top.add_child(spacer)
 	var hear := UiStyle.button(tr("Hear it"))
 	hear.focus_mode = Control.FOCUS_NONE
 	hear.pressed.connect(func() -> void:

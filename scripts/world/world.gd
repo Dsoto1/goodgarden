@@ -5,7 +5,7 @@ extends Node3D
 ## by the day definition. Also owns the world's mood (outdoor, home, chapel).
 
 const MOODS := {
-	"outdoor": {"sun": 0.85, "ambient": 0.32, "ambient_color": Color("dfe7f0"), "chapel_light": 0.0, "sound": "outdoor"},
+	"outdoor": {"sun": 1.15, "ambient": 0.27, "ambient_color": Color("cfdff5"), "chapel_light": 0.0, "sound": "outdoor"},
 	"home": {"sun": 0.6, "ambient": 0.38, "ambient_color": Color("f3e3cc"), "chapel_light": 0.0, "sound": "interior"},
 	"chapel": {"sun": 0.25, "ambient": 0.25, "ambient_color": Color("e8cfa8"), "chapel_light": 1.6, "sound": "chapel"},
 }
@@ -30,6 +30,10 @@ func _ready() -> void:
 		_load_region(entry)
 	_bake_navigation()
 	_grow_ground_cover()
+	var forest := Forest.new()
+	forest.name = "Forest"
+	add_child(forest)
+	forest.build(77, 1.0 if Settings.get_value("lush_detail") else 0.5)
 	player = Player.new()
 	player.name = "Player"
 	add_child(player)
@@ -53,10 +57,11 @@ func _exit_tree() -> void:
 func _build_environment() -> void:
 	environment = Environment.new()
 	var sky_mat := ProceduralSkyMaterial.new()
-	sky_mat.sky_top_color = Color("7fb2e0")
-	sky_mat.sky_horizon_color = Color("f4e6cf")
-	sky_mat.ground_horizon_color = Color("e9dcc4")
-	sky_mat.ground_bottom_color = Color("9db07a")
+	sky_mat.sky_top_color = Color("4d8ed8")
+	sky_mat.sky_horizon_color = Color("f3dfbf")
+	sky_mat.sky_curve = 0.12
+	sky_mat.ground_horizon_color = Color("e9d9bd")
+	sky_mat.ground_bottom_color = Color("7f9f68")
 	sky_mat.sun_angle_max = 20.0
 	var sky := Sky.new()
 	sky.sky_material = sky_mat
@@ -67,18 +72,22 @@ func _build_environment() -> void:
 	environment.ambient_light_energy = MOODS["outdoor"]["ambient"]
 	environment.tonemap_mode = Environment.TONE_MAPPER_LINEAR
 	environment.fog_enabled = true
-	environment.fog_light_color = Color("dfe6ee")
-	environment.fog_density = 0.0035
-	environment.fog_sky_affect = 0.2
+	# Hazy distance: far hills turn soft blue, like aerial perspective in a painting.
+	environment.fog_light_color = Color("9fbde3")
+	environment.fog_density = 0.0019
+	environment.fog_aerial_perspective = 0.4
+	environment.fog_sky_affect = 0.15
 	var we := WorldEnvironment.new()
 	we.environment = environment
 	add_child(we)
 	sun = DirectionalLight3D.new()
-	sun.rotation_degrees = Vector3(-52, -38, 0)
-	sun.light_color = Color("fff1d6")
+	# Golden afternoon: a lower, warm sun with longer shadows.
+	sun.rotation_degrees = Vector3(-34, -42, 0)
+	sun.light_color = Color("ffdcae")
 	sun.light_energy = MOODS["outdoor"]["sun"]
 	sun.shadow_enabled = true
-	sun.directional_shadow_max_distance = 45.0
+	sun.directional_shadow_max_distance = 40.0
+	sun.directional_shadow_mode = DirectionalLight3D.SHADOW_ORTHOGONAL
 	add_child(sun)
 
 
@@ -100,7 +109,7 @@ func _grow_ground_cover() -> void:
 func _bake_navigation() -> void:
 	var nav := NavigationMesh.new()
 	nav.geometry_parsed_geometry_type = NavigationMesh.PARSED_GEOMETRY_STATIC_COLLIDERS
-	nav.geometry_collision_mask = MeshKit.LAYER_GROUND | MeshKit.LAYER_OBSTACLE
+	nav.geometry_collision_mask = MeshKit.LAYER_GROUND | MeshKit.LAYER_OBSTACLE | MeshKit.LAYER_INVISIBLE
 	nav.geometry_source_geometry_mode = NavigationMesh.SOURCE_GEOMETRY_GROUPS_WITH_CHILDREN
 	nav.geometry_source_group_name = &"navigation_source"
 	add_to_group("navigation_source")
@@ -128,6 +137,8 @@ func _load_region(entry: Dictionary) -> void:
 	region.display_name = tr(str(entry.get("name", entry["id"])))
 	var o: Array = entry.get("origin", [0, 0, 0])
 	region.position = Vector3(o[0], o[1], o[2])
+	if entry.get("on_terrain", false):
+		region.position.y = Terrain.height(o[0], o[2])
 	add_child(region)
 	regions[region.region_id] = region
 

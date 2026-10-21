@@ -222,6 +222,19 @@
 				"TwistedTree_2.bin",
 				"TwistedTree_2.gltf"
 			]
+		},
+		{
+			"path": "res://assets/third_party/fonts/eb_garamond/",
+			"pack": "EB Garamond (variable weight)",
+			"creator": "The EB Garamond Project Authors (Georg Duffner, Octavio Pardo)",
+			"source": "https://github.com/google/fonts @ 47d54ca1ebb1 (ofl/ebgaramond/EBGaramond[wght].ttf)",
+			"license": "SIL Open Font License 1.1 (OFL.txt included)",
+			"acquired": "2026-10-21",
+			"modified": "No; file renamed from EBGaramond[wght].ttf to EBGaramond-wght.ttf.",
+			"files": [
+				"EBGaramond-wght.ttf",
+				"OFL.txt"
+			]
 		}
 	]
 }

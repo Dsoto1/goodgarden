@@ -6,7 +6,7 @@ render_mode specular_disabled, cull_back;
 #include "res://shaders/storybook_common.gdshaderinc"
 #include "res://shaders/patterns.gdshaderinc"
 
-// 0 none, 1 wood, 2 stone, 3 shingles, 4 thatch, 5 plaster, 6 path, 7 soil, 8 cloth, 9 cobble.
+// 0 none, 1 wood, 2 stone, 3 shingles, 4 thatch, 5 plaster, 6 path, 7 soil, 8 cloth, 9 cobble, 10 awning stripes.
 uniform int pattern = 0;
 uniform float pattern_strength = 1.0;
 
@@ -31,5 +31,12 @@ void fragment() {
 		detail = mix(1.0, pattern_value(pattern, world_pos, world_normal), pattern_strength);
 	}
 	ALBEDO = grade(c.rgb) * detail;
+	if (pattern == 10) {
+		// Market awning stripes: alternate the colour with cream.
+		vec3 a = abs(world_normal);
+		float across = a.x > a.z ? world_pos.z : world_pos.x;
+		float stripe = step(0.5, fract(across / 0.5));
+		ALBEDO = mix(grade(c.rgb), vec3(0.96, 0.93, 0.86), stripe);
+	}
 	EMISSION = emission_color;
 }

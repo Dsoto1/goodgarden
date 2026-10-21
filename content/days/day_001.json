@@ -7,5 +7,6 @@
 	"npcs": {"miriam": "garden_miriam"},
 	"primary_activity": "garden_bean_row",
 	"free_work": ["home_set_table"],
-	"chapel": ["good_samaritan"]
+	"chapel": ["good_samaritan"],
+	"season": "Spring"
 }

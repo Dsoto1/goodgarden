@@ -33,6 +33,10 @@ const COLORS := {
 	"glass_red": Color("e89a8f"),
 	"glass_gold": Color("f2cf6e"),
 	"smoke": Color("eef0f2"),
+	"awning_red": Color("c8483c"),
+	"awning_blue": Color("3f6fb0"),
+	"awning_green": Color("4f8f4a"),
+	"lantern": Color("ffd88a"),
 	"cloth_blue": Color("6d8fc0"),
 	"cloth_red": Color("c96f5a"),
 	"cloth_green": Color("7aa36a"),
@@ -70,6 +74,7 @@ const PATTERNS := {
 	"plaster": 5, "plaster_warm": 5,
 	"path": 6,
 	"cobble": 9,
+	"awning_red": 10, "awning_blue": 10, "awning_green": 10,
 	"soil": 7, "soil_dark": 7,
 	"cloth_cream": 8, "cloth_blue": 8, "cloth_red": 8, "cloth_green": 8, "cloth_gold": 8, "cloth_purple": 8, "felt_blue": 8,
 }
@@ -90,7 +95,7 @@ static func mat(name: String) -> Material:
 	match name:
 		"water":
 			m = Style.material("water")
-		"glass", "glass_blue", "glass_red", "glass_gold":
+		"glass", "glass_blue", "glass_red", "glass_gold", "lantern":
 			m = Style.flat(color(name), {"emission_color": color(name) * 0.45})
 		"marker":
 			var s := StandardMaterial3D.new()

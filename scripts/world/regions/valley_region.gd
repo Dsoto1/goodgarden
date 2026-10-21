@@ -17,8 +17,11 @@ func build() -> void:
 	shape.position.y = -0.5
 	ground.add_child(shape)
 	add_child(ground)
-	var ground_mesh := MeshKit.box(self, Vector3(400, 0.1, 400), Vector3(0, -0.05, 0), "grass")
-	ground_mesh.material_override = Style.material("ground", {"wrap": 0.3})
+	var land := MeshInstance3D.new()
+	land.name = "Landscape"
+	land.mesh = Terrain.build_mesh()
+	land.material_override = Style.material("ground", {"wrap": 0.3})
+	add_child(land)
 	_patches()
 
 	# River with a single bridge crossing.
@@ -26,8 +29,8 @@ func build() -> void:
 	MeshKit.box(self, Vector3(200, 0.06, 4), Vector3(0, 0.0, -14), "water")
 	for z: float in [-16.2, -11.8]:
 		MeshKit.box(self, Vector3(200, 0.08, 0.5), Vector3(0, 0.01, z), "soil")
-	MeshKit.solid(self, Vector3(96, 2, 4.2), Vector3(-44.0, 1, -14))
-	MeshKit.solid(self, Vector3(96, 2, 4.2), Vector3(55.0, 1, -14))
+	MeshKit.solid(self, Vector3(96, 2, 4.2), Vector3(-44.0, 1, -14), 0.0, MeshKit.LAYER_INVISIBLE)
+	MeshKit.solid(self, Vector3(96, 2, 4.2), Vector3(55.0, 1, -14), 0.0, MeshKit.LAYER_INVISIBLE)
 	MeshKit.box(self, Vector3(3.0, 0.14, 6.6), Vector3(5.5, 0.07, -14), "wood")
 	for i in 9:
 		MeshKit.box(self, Vector3(3.0, 0.02, 0.06), Vector3(5.5, 0.15, -17 + i * 0.75), "wood_dark")
@@ -103,10 +106,11 @@ func _trees() -> void:
 
 func _boundary() -> void:
 	var b := BOUNDS
-	MeshKit.solid(self, Vector3(1, 6, b.size.y), Vector3(b.position.x, 3, b.position.y + b.size.y / 2.0))
-	MeshKit.solid(self, Vector3(1, 6, b.size.y), Vector3(b.end.x, 3, b.position.y + b.size.y / 2.0))
-	MeshKit.solid(self, Vector3(b.size.x, 6, 1), Vector3(b.position.x + b.size.x / 2.0, 3, b.end.y))
-	MeshKit.solid(self, Vector3(b.size.x, 6, 1), Vector3(b.position.x + b.size.x / 2.0, 3, b.position.y))
+	var edge := MeshKit.LAYER_INVISIBLE
+	MeshKit.solid(self, Vector3(1, 6, b.size.y), Vector3(b.position.x, 3, b.position.y + b.size.y / 2.0), 0.0, edge)
+	MeshKit.solid(self, Vector3(1, 6, b.size.y), Vector3(b.end.x, 3, b.position.y + b.size.y / 2.0), 0.0, edge)
+	MeshKit.solid(self, Vector3(b.size.x, 6, 1), Vector3(b.position.x + b.size.x / 2.0, 3, b.end.y), 0.0, edge)
+	MeshKit.solid(self, Vector3(b.size.x, 6, 1), Vector3(b.position.x + b.size.x / 2.0, 3, b.position.y), 0.0, edge)
 	var rng := RandomNumberGenerator.new()
 	rng.seed = 5
 	var groves := ["grove_a_medium", "grove_b_medium", "grove_a_small", "grove_b_small"]
@@ -124,10 +128,7 @@ func _boundary() -> void:
 		for side_x: float in [b.position.x - 2.5, b.end.x + 2.5]:
 			Props.place(self, groves[rng.randi() % 4], Vector3(side_x + rng.randf_range(-1, 1), 0, z + rng.randf_range(-1, 1)), rng.randf() * TAU)
 		z += 4.0
-	# Rolling hills beyond the edges for silhouette. (The hex pack's hills and
-	# mountains are map tiles with cliff sides, which read as mesas at this scale.)
-	for h: Array in [[-60, -10, 30], [-55, -60, 25], [70, -20, 28], [60, -70, 22], [-10, 50, 30], [40, 45, 26], [-45, 30, 22]]:
-		MeshKit.sphere(self, float(h[2]), Vector3(h[0], -float(h[2]) * 0.55, h[1]), "grass_dark", Vector3(1.6, 1.0, 1.0), 10, 5)
+	# Hills and mountains beyond the edges come from Terrain (see World).
 
 
 ## Roughly the road network, so undergrowth never sits on a path.

@@ -3,11 +3,20 @@ extends Node
 ## The illustrated map offers travel only to discovered places.
 
 signal discovered(region_id: String)
+## Every time the child walks into a place (for the HUD's place label).
+signal entered(region_id: String)
 
 ## How many places must be found before the map is offered at all.
 const MAP_UNLOCK_COUNT := 3
 
 var _discovered: Dictionary = {} # region id -> day first visited
+var current := ""
+
+
+func enter(region_id: String) -> void:
+	current = region_id
+	discover(region_id)
+	entered.emit(region_id)
 
 
 func discover(region_id: String) -> void:

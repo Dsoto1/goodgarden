@@ -14,6 +14,9 @@ const LAYER_PLAYER := 8
 const LAYER_TRIGGER := 16
 ## Characters block the avatar but are not baked into the navigation mesh.
 const LAYER_CHARACTER := 32
+## Invisible blockers (river banks, world edge): stop the avatar, but the
+## camera's spring arm ignores them.
+const LAYER_INVISIBLE := 64
 
 static var _meshes := {}
 
