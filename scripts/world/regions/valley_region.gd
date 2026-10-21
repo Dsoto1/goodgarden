@@ -52,6 +52,16 @@ func build() -> void:
 
 	# Meadow with sheep east of the village, in a fold whose gate faces the village.
 	_sheepfold(Rect2(23.0, -26.2, 7.0, 7.4))
+	CraftedProps.water_trough(self, Vector3(28.4, 0, -20.0))
+	CraftedProps.hay_bale(self, Vector3(31.6, 0, -21.4), 0.3)
+	CraftedProps.hay_bale(self, Vector3(31.9, 0, -19.6), -0.2)
+	CraftedProps.haystack(self, Vector3(32.4, 0, -25.6))
+	# Life along the road and river.
+	CraftedProps.hand_cart(self, Vector3(7.6, 0, -6.4), 0.25)
+	CraftedProps.jetty(self, Vector3(15.2, 0, -10.2), 0.0, 3.0)
+	CraftedProps.rowboat(self, Vector3(16.9, Terrain.RIVER_LEVEL - 0.05, -12.3), 1.45)
+	CraftedProps.signpost(self, Vector3(6.9, 0, 5.8), [["Village", 0.0], ["Home", PI / 2.0], ["Garden", -PI / 2.0]])
+	CraftedProps.signpost(self, Vector3(3.2, 0, -18.6), [["Village", -0.3], ["Chapel", PI / 2.0], ["Home", PI]])
 	for i in 3:
 		var sheep := Wanderer.new().setup(AnimalModel.make("sheep"), 80 + i)
 		sheep.position = Vector3(25 + i * 1.3, 0, -23.5 + i)

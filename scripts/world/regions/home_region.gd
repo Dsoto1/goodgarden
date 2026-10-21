@@ -82,6 +82,11 @@ func build() -> void:
 	Props.place(self, "tree_b", Vector3(-6, 0, 4.5), 1.0)
 	Props.place(self, "lumber", Vector3(-5.6, 0, 1.2), PI / 2.0, 0.7)
 	_build_coop(Vector3(-6.5, 0, 8.5))
+	# Everyday life around the house: letters, firewood, washing.
+	CraftedProps.letterbox(self, Vector3(4.4, 0, 6.0), PI)
+	CraftedProps.woodpile(self, Vector3(-4.75, 0, -1.9), PI / 2.0)
+	CraftedProps.chopping_block(self, Vector3(-5.2, 0, -0.1), 0.6)
+	CraftedProps.clothesline(self, Vector3(-1.0, 0, 8.2), Vector3(3.2, 0, 8.6))
 	var cat := Wanderer.new().setup(AnimalModel.make("cat"), 3)
 	cat.position = Vector3(1.8, 0, 5.2)
 	cat.radius = 1.2

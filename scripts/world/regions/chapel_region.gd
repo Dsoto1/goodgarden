@@ -75,6 +75,7 @@ func build() -> void:
 	for i in 3:
 		Props.place(self, "stepping_stone" if i % 2 == 0 else "stepping_stone_b", Vector3(0.1 * (i % 2), 0, 7.2 + i * 1.0), i * 0.7)
 	Props.place(self, "tree_a", Vector3(-6, 0, 3), 0.7)
+	CraftedProps.birdbath(self, Vector3(-3.4, 0, 7.4))
 	Props.place(self, "tree_b", Vector3(-6.5, 0, -4), 0.2)
 	MeshKit.box(self, Vector3(1.6, 0.45, 0.5), Vector3(4.5, 0.22, 5.5), "wood", true)
 
