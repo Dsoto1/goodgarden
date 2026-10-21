@@ -87,6 +87,10 @@ Rendered with the software renderer by `tools/screenshot_tour.tscn`. Art pass: K
 |---|---|
 | ![](docs/screenshots/13_story.png) | ![](docs/screenshots/16_day2_sprouts.png) |
 
+| The cast | Mid-stride (smooth skinned bodies) |
+|---|---|
+| ![](docs/screenshots/lineup_front.png) | ![](docs/screenshots/lineup_walk.png) |
+
 | The child and Miriam | Neighbours at the fountain |
 |---|---|
 | ![](docs/screenshots/04b_characters_closeup.png) | ![](docs/screenshots/10b_village_people.png) |
