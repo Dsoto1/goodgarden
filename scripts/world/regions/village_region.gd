@@ -33,7 +33,7 @@ func build() -> void:
 	_building("market", Vector3(-6.5, 0, -10.5), 0.0, "Bakery", 3.2)
 	# Tobias's work outside the bakery: the kneading trough, and the
 	# neighbours' bread baskets waiting on a plank table.
-	CraftedProps.kneading_trough(self, Vector3(-9.0, 0, -7.4), 0.35)
+	CraftedProps.kneading_trough(self, Vector3(-8.4, 0, -7.3), 0.0)
 	MeshKit.box(self, Vector3(1.9, 0.06, 0.6), Vector3(-3.9, 0.62, -8.0), "wood", false, -0.2)
 	for x: float in [-0.75, 0.75]:
 		MeshKit.box(self, Vector3(0.08, 0.6, 0.5), Vector3(-3.9, 0.3, -8.0) + Vector3(x, 0, 0).rotated(Vector3.UP, -0.2), "wood_dark", false, -0.2)
@@ -48,18 +48,29 @@ func build() -> void:
 	_bunting(Vector3(-3.0, 3.7, -7.9), Vector3(4.2, 3.7, -8.3))
 	_bunting(Vector3(-10.2, 3.4, -3.0), Vector3(-10.2, 3.4, 2.4))
 	_bunting(Vector3(10.8, 3.4, -3.0), Vector3(10.8, 3.4, 2.4))
-	for p: Array in [[-6.5, -7.0], [7.0, -7.4], [-9.6, 3.2], [10.2, 3.2], [-9.4, -4.2], [10.0, -4.4]]:
+	for p: Array in [[-9.6, 3.2], [10.2, 3.2], [-10.6, -4.4], [8.8, -6.6]]:
 		_planter(Vector3(p[0], 0, p[1]))
-	Props.place(self, "lumber", Vector3(10.4, 0, -6.2), 0.4, 0.8)
-	Props.place(self, "wheelbarrow", Vector3(9.4, 0, -5.4), 2.2)
+	Props.place(self, "lumber", Vector3(12.6, 0, -5.0), 0.4, 0.8)
+	Props.place(self, "wheelbarrow", Vector3(13.8, 0, -5.6), 2.2)
 	Props.place(self, "bucket", Vector3(5.6, 0, 6.8))
-	Props.place(self, "tree_a", Vector3(-9.6, 0, 7.2), 0.5)
+	Props.place(self, "tree_a", Vector3(-10.0, 0, 5.6), 0.5)
 	Props.place(self, "tree_b", Vector3(10.6, 0, 8.4), 1.2)
 	for f: Array in [[-7.4, 8.4, "flowers_a"], [8.4, 9.0, "flowers_b"], [-3.2, 8.9, "bush_flowers"], [3.4, 9.0, "flowers_a"]]:
 		Props.place(self, f[2], Vector3(f[0], 0, f[1]), f[0])
 
+	# Short paths from the square to every door.
+	for door: Array in [
+		[Vector3(-4.9, 0, -6.0), Vector3(-5.9, 0, -7.2), Vector3(-6.4, 0, -8.4)], # bakery
+		[Vector3(5.0, 0, -6.4), Vector3(6.2, 0, -7.2), Vector3(7.0, 0, -8.1)], # workshop
+		[Vector3(-8.0, 0, -0.3), Vector3(-9.3, 0, -0.6), Vector3(-10.6, 0, -0.5)], # yellow house
+		[Vector3(8.0, 0, -0.3), Vector3(9.6, 0, -0.6), Vector3(11.2, 0, -0.5)], # blue house
+		[Vector3(-7.6, 0, -3.0), Vector3(-9.3, 0, -5.2), Vector3(-10.4, 0, -6.8), Vector3(-10.3, 0, -8.0)], # tall red house
+		[Vector3(7.6, 0, -3.2), Vector3(9.4, 0, -5.0), Vector3(10.6, 0, -7.0), Vector3(11.2, 0, -8.2)], # corner house
+	]:
+		path(door, 1.3)
+
 	# North road between the bakery and workshop to the overlook.
-	road(Vector3(0, 0, -8.0), Vector3(0, 0, -15.0), 2.0, "cobble")
+	path([Vector3(0, 0, -7.6), Vector3(0.3, 0, -10.5), Vector3(-0.2, 0, -13.0), Vector3(0, 0, -15.2)], 2.0, "cobble")
 	MeshKit.box(self, Vector3(12, 0.7, 0.6), Vector3(0, 0.35, -17.2), "stone", true)
 	add_clearing(Vector3(0, 0, -15.6), Vector2(8, 2.6))
 	MeshKit.box(self, Vector3(1.6, 0.45, 0.5), Vector3(-2.5, 0.22, -15.8), "wood", true)

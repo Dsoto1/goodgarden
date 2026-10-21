@@ -83,7 +83,7 @@ func build() -> void:
 
 	add_clearing(Vector3(0, 0, 0), Vector2(7.8, 10.8))
 	add_clearing(Vector3(0, 0, -6.2), Vector2(2.8, 2.8))
-	road(Vector3(0, 0, 5.6), Vector3(0, 0, 6.2), 2.4)
+	path([Vector3(0, 0, 5.3), Vector3(0.1, 0, 6.4)], 2.4)
 	clearings.append({"a": Vector2(position.x, position.z + 6.5), "b": Vector2(position.x, position.z + 10.0), "width": 1.6})
 	add_anchor("chapel_door", Vector3(0, 0, 7.2), 0.0)
 	add_discovery_zone(Vector3(0, 1, 2), Vector3(12, 3, 16))

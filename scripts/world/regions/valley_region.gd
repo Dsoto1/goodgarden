@@ -44,11 +44,13 @@ func build() -> void:
 	add_camera_zone(Vector3(10.5, 1, -9.4), Vector3(5.0, 3, 3.0), {"yaw": 76.0, "pitch": 11.0, "distance": 8.5, "height": 1.5, "fov": 54.0})
 
 	# Roads.
-	road(Vector3(0, 0, 4.4), Vector3(5.5, 0, 4.4))
-	road(Vector3(5.5, 0, 6), Vector3(5.5, 0, -11))
-	road(Vector3(5.5, 0, 3), Vector3(8, 0, 3))
-	road(Vector3(5.5, 0, -17), Vector3(6, 0, -19.2))
-	road(Vector3(2.0, 0, -19.4), Vector3(-15.0, 0, -19.4))
+	# Paths that wander a little, the way feet wear them, and run right up to
+	# the doors: home to the lane, the lane down to the bridge, over the river
+	# into the square, and along the bank to the chapel.
+	path([Vector3(0.0, 0, 3.9), Vector3(0.6, 0, 5.0), Vector3(2.8, 0, 5.5), Vector3(4.9, 0, 5.0), Vector3(5.7, 0, 4.0)], 1.5)
+	path([Vector3(5.6, 0, 5.4), Vector3(5.8, 0, 2.6), Vector3(5.3, 0, -1.8), Vector3(5.9, 0, -6.2), Vector3(5.5, 0, -9.6), Vector3(5.5, 0, -10.9)], 1.7)
+	path([Vector3(5.5, 0, -18.1), Vector3(5.8, 0, -19.6)], 2.0)
+	path([Vector3(0.6, 0, -21.4), Vector3(-2.5, 0, -20.2), Vector3(-6.5, 0, -19.6), Vector3(-10.5, 0, -19.8), Vector3(-13.4, 0, -20.5), Vector3(-15.6, 0, -21.2)], 1.6)
 
 	# Meadow with sheep east of the village, in a fold whose gate faces the village.
 	_sheepfold(Rect2(23.0, -26.2, 7.0, 7.4))
@@ -176,7 +178,7 @@ func _boundary() -> void:
 
 ## Roughly the road network, so undergrowth never sits on a path.
 static func _on_path(p: Vector3) -> bool:
-	var roads := [Rect2(-1, 3.4, 7.5, 2), Rect2(4.5, -21, 2, 27), Rect2(-16, -20.4, 19, 2), Rect2(5, -46, 2, 26)]
+	var roads := [Rect2(-1, 3.4, 7.5, 2.4), Rect2(4.0, -21, 2.9, 27), Rect2(-16, -21.8, 19, 2.8), Rect2(5, -46, 2, 26)]
 	for r: Rect2 in roads:
 		if r.grow(0.8).has_point(Vector2(p.x, p.z)):
 			return true

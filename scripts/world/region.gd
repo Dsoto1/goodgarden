@@ -97,8 +97,18 @@ func add_clearing(center: Vector3, size: Vector2) -> void:
 
 ## A path strip that also keeps ground cover off itself.
 func road(a: Vector3, b: Vector3, width := 1.6, material := "path") -> void:
-	MeshKit.path(self, a, b, width, material)
-	clearings.append({"a": Vector2(position.x + a.x, position.z + a.z), "b": Vector2(position.x + b.x, position.z + b.z), "width": width + 0.4})
+	path([a, b], width, material)
+
+
+## A footpath flowing through `points` (see PathKit), kept clear of grass.
+func path(points: Array, width := 1.6, material := "path") -> void:
+	var laid := PathKit.lay(self, points, width, material, hash(points))
+	var line: Array[Vector3] = laid["line"]
+	var stride := 4
+	for i in range(0, line.size() - 1, stride):
+		var a := line[i]
+		var b := line[mini(i + stride, line.size() - 1)]
+		clearings.append({"a": Vector2(position.x + a.x, position.z + a.z), "b": Vector2(position.x + b.x, position.z + b.z), "width": width + 0.3})
 
 
 ## Group node that can be shown/hidden together (roofs, crops, table settings).
