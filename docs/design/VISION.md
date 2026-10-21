@@ -7,7 +7,7 @@
 A Christian Montessori-inspired 3D learning adventure where children grow in knowledge, independence, stewardship, and service by caring for a living world.
 
 ## Audience
-Primary target: ages 6–10. Initial product should support varied reading/math readiness rather than assuming one grade level.
+Primary target: ages 4–5 to 10. The youngest players can't read yet, so everything a child needs to understand must also be spoken aloud, and nothing may depend on reading. Support varied reading/math readiness rather than assuming one grade level.
 
 ## Player Fantasy
 "I have been entrusted with a little world. As I learn how to care for it, it comes alive."
