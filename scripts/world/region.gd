@@ -53,6 +53,16 @@ func add_anchor(anchor_id: String, local_pos: Vector3, facing_y := 0.0) -> Marke
 func add_discovery_zone(center: Vector3, size: Vector3) -> Zone:
 	var z := Zone.create(self, center, size)
 	z.player_entered.connect(func() -> void: Discovery.enter(region_id))
+	z.player_exited.connect(func() -> void: Discovery.leave(region_id))
+	return z
+
+
+## A smaller named spot within a region (e.g. "The River"): it labels the HUD
+## while the child is there but is not a map destination.
+func add_place_zone(place_id: String, center: Vector3, size: Vector3) -> Zone:
+	var z := Zone.create(self, center, size)
+	z.player_entered.connect(func() -> void: Discovery.enter(place_id, false))
+	z.player_exited.connect(func() -> void: Discovery.leave(place_id))
 	return z
 
 

@@ -55,5 +55,8 @@
 			"map_pos": [0.72, 0.06],
 			"on_terrain": true
 		}
+	],
+	"places": [
+		{"id": "river", "name": "The River"}
 	]
 }

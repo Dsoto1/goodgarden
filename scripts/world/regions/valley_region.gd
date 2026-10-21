@@ -40,6 +40,7 @@ func build() -> void:
 		Props.place(self, "stepping_stone" if i % 2 == 0 else "stepping_stone_b", Vector3(7.4 + i * 1.2, 0.0, -9.6 + (i % 2) * 0.3), i * 0.9)
 	add_clearing(Vector3(9.6, 0, -9.6), Vector2(5.2, 2.0))
 	add_anchor("riverbank", Vector3(10.6, 0, -9.0), PI / 2.0)
+	add_place_zone("river", Vector3(7.0, 1, -12.5), Vector3(16, 3, 9))
 	add_camera_zone(Vector3(10.5, 1, -9.4), Vector3(5.0, 3, 3.0), {"yaw": 76.0, "pitch": 11.0, "distance": 8.5, "height": 1.5, "fov": 54.0})
 
 	# Roads.

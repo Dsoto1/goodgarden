@@ -152,7 +152,8 @@ func refresh() -> void:
 
 
 func _place_name() -> String:
-	for entry: Dictionary in Content.get_world("regions").get("regions", []):
+	var world := Content.get_world("regions")
+	for entry: Dictionary in world.get("regions", []) + world.get("places", []):
 		if entry["id"] == Discovery.current:
 			return tr(str(entry.get("name", "")))
 	return ""

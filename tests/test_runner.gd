@@ -97,6 +97,12 @@ func test_save_round_trip_and_migration() -> void:
 	eq(int(WorldState.get_fact("garden.bed_1")["planted_day"]), 1, "fact restored")
 	eq(Journal.entries().size(), 1, "journal restored")
 	check(Discovery.is_discovered("garden"), "discovery restored")
+	Discovery.enter("home")
+	Discovery.enter("river", false)
+	eq(Discovery.current, "river", "a small place labels the HUD while inside it")
+	check(not Discovery.is_discovered("river"), "small places are not map destinations")
+	Discovery.leave("river")
+	eq(Discovery.current, "home", "leaving a place falls back to the region around it")
 	eq(Invitations.pending_id, "inv_day_002", "unread letter restored")
 	var old := {"schema_version": 0, "flags": {"home.table_set_day": 1}, "days": {"current_day": 1}}
 	var migrated := SaveService.migrate(old)

@@ -10,13 +10,27 @@ signal entered(region_id: String)
 const MAP_UNLOCK_COUNT := 3
 
 var _discovered: Dictionary = {} # region id -> day first visited
+## The place the child is in now (innermost zone), for the HUD label.
 var current := ""
+var _inside: Array[String] = []
 
 
-func enter(region_id: String) -> void:
-	current = region_id
-	discover(region_id)
-	entered.emit(region_id)
+## Called when the child walks into a place. Map regions are also
+## discovered; smaller named places (like "The River") are not.
+func enter(place_id: String, counts_for_map := true) -> void:
+	_inside.erase(place_id)
+	_inside.append(place_id)
+	current = place_id
+	if counts_for_map:
+		discover(place_id)
+	entered.emit(place_id)
+
+
+func leave(place_id: String) -> void:
+	_inside.erase(place_id)
+	if current == place_id and not _inside.is_empty():
+		current = _inside.back()
+		entered.emit(current)
 
 
 func discover(region_id: String) -> void:
@@ -41,6 +55,8 @@ func map_unlocked() -> bool:
 
 func reset() -> void:
 	_discovered.clear()
+	_inside.clear()
+	current = ""
 
 
 func to_save() -> Dictionary:
