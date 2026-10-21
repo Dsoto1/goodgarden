@@ -89,7 +89,7 @@ func build() -> void:
 		bird.position = Vector3(-3 + i * 2.0, 0, 2.4 - (i % 2) * 4.8)
 		add_child(bird)
 
-	add_anchor("village_plaza", Vector3(0, 0, 9.5), 0.0)
+	add_anchor("village_plaza", Vector3(0, 0, 7.0), 0.0)
 	add_discovery_zone(Vector3(0, 1, -2), Vector3(30, 3, 24))
 
 
