@@ -23,6 +23,7 @@
 	"steps": [
 		{
 			"id": "load_oven",
+			"older": {"slots": [{"kind": "loaf_round", "pos": [305, 245]}, {"kind": "loaf_long", "pos": [500, 200]}, {"kind": "loaf_round", "pos": [695, 245]}, {"kind": "loaf_long", "pos": [500, 262]}, {"kind": "bread_roll", "pos": [395, 312]}, {"kind": "bread_roll", "pos": [465, 312]}, {"kind": "bread_roll", "pos": [535, 312]}, {"kind": "bread_roll", "pos": [605, 312]}], "prompt": "Fit every loaf into the oven. Each one has a place just its shape."},
 			"primitive": "match_to_outline",
 			"speaker": "tobias",
 			"prompt": "Put each loaf in the place that fits its shape.",

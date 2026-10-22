@@ -46,6 +46,9 @@ static func draw(ci: CanvasItem, kind: String, size: Vector2, outline: bool, dat
 			_shape(ci, _ellipse(c, Vector2(size.x * 0.28, size.y * 0.36), 12), Color("c9a25a"), outline)
 			if not outline:
 				ci.draw_line(c + Vector2(0, -size.y * 0.28), c + Vector2(0, size.y * 0.28), Color("a8823f"), 1.5)
+		"pebble":
+			# A small grey stone, the kind that hides among grain.
+			_shape(ci, PackedVector2Array([c + Vector2(-size.x * 0.34, size.y * 0.1), c + Vector2(-size.x * 0.2, -size.y * 0.3), c + Vector2(size.x * 0.22, -size.y * 0.32), c + Vector2(size.x * 0.36, 0), c + Vector2(size.x * 0.18, size.y * 0.32), c + Vector2(-size.x * 0.22, size.y * 0.3)]), Color("8f8a82"), outline)
 		"chaff":
 			# Light, papery husks and bits of straw.
 			_shape(ci, PackedVector2Array([c + Vector2(-size.x * 0.42, size.y * 0.1), c + Vector2(-size.x * 0.1, -size.y * 0.3), c + Vector2(size.x * 0.42, -size.y * 0.1), c + Vector2(size.x * 0.1, size.y * 0.32)]), Color("e8ddc0"), outline)

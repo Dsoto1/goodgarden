@@ -50,7 +50,7 @@ Every file has an `"id"`. All text is plain English for now and passes through `
 }
 ```
 
-The first entry whose `when` conditions all hold is used. The child's Next button speaks for them: it greets the grown-up ("Hello, Miriam!") the first time they meet that day and says "Goodbye, Miriam!" on the last line. Give a node a `"reply"` when the child should answer something specific, e.g. `"reply": "You're welcome, Ruth!"` after a thank-you (a greeting is added in front if it's their first meeting that day). Node and choice `actions` can `start_activity` (it starts after the conversation closes) and `set_fact` / `increment` / `clear`. Characters' display names live in `content/world/characters.json`.
+A day's `"npcs"` can send a neighbour somewhere for the day (`"ruth": "sheepfold_ruth"`): they wait at that anchor instead of their usual spot. The first entry whose `when` conditions all hold is used. The child's Next button speaks for them: it greets the grown-up ("Hello, Miriam!") the first time they meet that day and says "Goodbye, Miriam!" on the last line. Give a node a `"reply"` when the child should answer something specific, e.g. `"reply": "You're welcome, Ruth!"` after a thank-you (a greeting is added in front if it's their first meeting that day). Node and choice `actions` can `start_activity` (it starts after the conversation closes) and `set_fact` / `increment` / `clear`. Characters' display names live in `content/world/characters.json`.
 
 ### Conditions (used everywhere)
 
@@ -81,6 +81,14 @@ The first entry whose `when` conditions all hold is used. The child's Next butto
 | `journal_line` | child-voice sentence added to the Journal |
 | `unavailable_text` | gentle line if the child tries it when it isn't offered |
 | `review_status`, `source` | editorial tracking, e.g. Scripture reference |
+
+### Older children
+
+Hands-on activities serve ages 5 to 10 through a grown-up's **Work level** setting (in "For grown-ups"). An activity may carry an `"older"` object (`intro`, `outro`, `journal_line`) and each step its own `"older"` settings, laid over the usual ones for older children: bigger numbers, no counting dots (`"show_dimples": false`), more kinds to sort, a heavier stone, more loaves. Keep the same work and story, only asking a little more. Bible stories are the same at both levels.
+
+```json
+{"id": "share_hay", "older": {"slots": 4, "show_dimples": false, "prompt": "Share these twelve bundles fairly between the four troughs."}, ...}
+```
 
 ### Primitive configuration
 

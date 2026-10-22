@@ -4,7 +4,7 @@
 	"week": 1,
 	"arc": "Creation & Home",
 	"invitation": "inv_day_005",
-	"npcs": {"miriam": "garden_miriam"},
+	"npcs": {"miriam": "garden_miriam", "ruth": "sheepfold_ruth"},
 	"primary_activity": "sheepfold_hay",
 	"free_work": ["home_set_table"],
 	"chapel": ["good_samaritan", "mustard_seed", "leaven", "lost_sheep", "fishers", "five_thousand", "good_shepherd"],

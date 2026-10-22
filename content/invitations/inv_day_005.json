@@ -1,7 +1,7 @@
 {
 	"id": "inv_day_005",
 	"from": "ruth",
-	"body": "Hello, little one!\n\nThe lambs in the sheepfold are hungry. Would you please help me share out their hay?\n\nThe sheepfold is past the village, by the hay bales.",
+	"body": "Hello, little one!\n\nThe lambs in the sheepfold are hungry. Would you please help me share out their hay?\n\nI'll be waiting at the sheepfold, past the village, by the hay bales.",
 	"signature": "Mrs. Ruth",
 	"suggests": "sheepfold_hay",
 	"summary": "Feed the hungry lambs at the sheepfold."

@@ -23,6 +23,7 @@
 	"steps": [
 		{
 			"id": "water",
+			"older": {"per_slot": 3, "show_dimples": false, "prompt": "Each of the four plants needs three drops today. That's twelve drops in all. Count them yourself: there are no dots.", "hint": "Give one plant all three of its drops, then move to the next.", "feedback": {"full": "That plant has had its three drops. Try a plant that still looks thirsty.", "all_good": "Three, six, nine, twelve. Every plant has had its three drops."}},
 			"primitive": "count_into_slots",
 			"speaker": "miriam",
 			"prompt": "Give each bean plant two drops of water. Put one drop on each dot.",
@@ -46,6 +47,19 @@
 	"world_effects": [
 		{"op": "set", "fact": "garden.watered", "value": "$day"}
 	],
+	"older": {
+		"intro": [
+			{
+				"speaker": "miriam",
+				"text": "The sun has been hot, and our bean plants are thirsty. Look how they droop."
+			},
+			{
+				"speaker": "miriam",
+				"text": "They're bigger now, so each one needs three drops. How many drops is that for four plants?"
+			}
+		],
+		"journal_line": "I watered the bean plants with Miss Miriam: three drops for each of the four plants, twelve in all."
+	},
 	"replay": "free",
 	"real_world_invitation": "rw_water_plant",
 	"journal_line": "I watered the bean plants with Miss Miriam: two drops for each plant.",

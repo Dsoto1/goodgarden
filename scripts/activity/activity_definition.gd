@@ -35,6 +35,10 @@ var journal_line: String
 var unavailable_text: String
 var review_status: String
 var source: Dictionary
+## Changes for older children (about 8-10): "intro", "outro" and
+## "journal_line" replace the usual ones; each step may also carry its own
+## "older" settings. See at_level().
+var older: Dictionary
 
 
 static func from_dict(data: Dictionary) -> ActivityDefinition:
@@ -58,6 +62,30 @@ static func from_dict(data: Dictionary) -> ActivityDefinition:
 	def.unavailable_text = str(data.get("unavailable_text", ""))
 	def.review_status = str(data.get("review_status", ""))
 	def.source = data.get("source", {})
+	def.older = data.get("older", {})
+	return def
+
+
+## This activity as it is offered at a work level ("younger" or "older").
+## For older children each step's "older" settings are laid over its usual
+## ones, so the same work asks a little more (bigger numbers, fewer helps).
+func at_level(level: String) -> ActivityDefinition:
+	if level != "older":
+		return self
+	var def := ActivityDefinition.new()
+	for prop: Dictionary in get_property_list():
+		if prop["usage"] & PROPERTY_USAGE_SCRIPT_VARIABLE:
+			def.set(prop["name"], get(prop["name"]))
+	def.steps = []
+	for step: Variant in steps:
+		var cfg: Dictionary = (step as Dictionary).duplicate(true)
+		var extra: Dictionary = cfg.get("older", {})
+		cfg.erase("older")
+		cfg.merge(extra, true)
+		def.steps.append(cfg)
+	def.intro = older.get("intro", intro)
+	def.outro = older.get("outro", outro)
+	def.journal_line = str(older.get("journal_line", journal_line))
 	return def
 
 

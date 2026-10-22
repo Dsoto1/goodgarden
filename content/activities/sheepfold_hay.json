@@ -16,14 +16,15 @@
 		{"not": {"fact": "valley.lambs_fed", "is_today": true}}
 	],
 	"intro": [
-		{"speaker": "narrator", "text": "Here are the lambs' troughs. The lambs are hungry, just as Mrs. Ruth said!"},
-		{"speaker": "narrator", "text": "Let's share the hay fairly, so every trough has the same."}
+		{"speaker": "ruth", "text": "Thank you for coming! Here are the lambs' troughs. They're hungry!"},
+		{"speaker": "ruth", "text": "Let's share the hay fairly, so every trough has the same."}
 	],
 	"steps": [
 		{
 			"id": "share_hay",
+			"older": {"slots": 4, "per_slot": 3, "show_dimples": false, "spare": 0, "prompt": "Share these twelve bundles fairly between the four troughs. How many does each trough get?", "hint": "Give each trough one bundle, then go round again, until the hay is all shared.", "feedback": {"full": "That trough has its share. Try a trough with less.", "all_good": "Three in each trough! Twelve shared between four is three each."}},
 			"primitive": "count_into_slots",
-			"speaker": "narrator",
+			"speaker": "ruth",
 			"prompt": "Share the hay between the troughs. Put one bundle on each dot, so they all have the same.",
 			"hint": "Find a trough with an empty dot, and put a bundle there.",
 			"slots": 3,
@@ -40,11 +41,14 @@
 		}
 	],
 	"outro": [
-		{"speaker": "narrator", "text": "Listen to them munching! The shepherd in Jesus' story took good care of his sheep. Today, you did too.", "button": "Back to the sheepfold"}
+		{"speaker": "ruth", "text": "Listen to them munching! The shepherd in Jesus' story took good care of his sheep. Today, you did too.", "button": "Back to the sheepfold"}
 	],
 	"world_effects": [
 		{"op": "set", "fact": "valley.lambs_fed", "value": "$day"}
 	],
+	"older": {
+		"journal_line": "I shared twelve bundles of hay fairly between four troughs: three in each."
+	},
 	"replay": "free",
 	"real_world_invitation": "rw_share_fairly",
 	"journal_line": "I shared the hay fairly between the lambs' troughs: three bundles in each.",

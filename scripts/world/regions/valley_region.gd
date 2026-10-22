@@ -124,6 +124,8 @@ func _lamb_troughs() -> void:
 	var feed := Interactable.create(self, Vector3(32.0, 0, -21.4), "Feed the lambs", func() -> void:
 		get_tree().call_group("main", "start_activity_here", "sheepfold_hay", position + TROUGHS[1] + Vector3(0, 0.5, 0)), 0.7, 1.4)
 	feed.conditions = [{"day_at_least": 5}]
+	add_anchor("sheepfold_ruth", Vector3(32.2, 0, -23.0), PI / 2.0)
+	add_activity_focus(TROUGHS[1] + Vector3(0, 0.5, 0))
 
 
 func sync_with_world() -> void:
@@ -193,6 +195,8 @@ func _trees() -> void:
 	var mill := Interactable.create(self, mill_at + Vector3(2.4, 0, 3.2), "Help at the mill", func() -> void:
 		get_tree().call_group("main", "start_activity_here", "mill_flour", position + mill_at + Vector3(0, 1.2, 1.5)), 0.8, 1.8)
 	mill.conditions = [{"day_at_least": 6}]
+	add_anchor("mill_tobias", mill_at + Vector3(3.6, 0, 3.6), PI * 0.75)
+	add_activity_focus(mill_at + Vector3(0, 1.2, 1.5))
 	_flour = group_node("FlourSacks")
 	for k in 3:
 		Props.place(_flour, "sack", mill_at + Vector3(3.3 + k * 0.55, 0, 2.6 + (k % 2) * 0.3), k * 0.7)

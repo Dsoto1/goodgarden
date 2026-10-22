@@ -52,6 +52,18 @@ func _show_page() -> void:
 	for n in notes:
 		list.add_child(UiStyle.label("• " + n, "SmallLabel"))
 	content.add_child(UiStyle.label(tr("These are observations, not grades. Scripture and prayer are never scored; the game only notes that a material was chosen."), "SmallLabel"))
+	var level_row := HBoxContainer.new()
+	content.add_child(level_row)
+	var level_label := UiStyle.label(tr("Work level:"))
+	level_label.autowrap_mode = TextServer.AUTOWRAP_OFF
+	level_row.add_child(level_label)
+	var level := OptionButton.new()
+	level.add_item(tr("Younger (about 5 to 7)"))
+	level.add_item(tr("Older (about 8 to 10)"))
+	level.select(1 if Settings.get_value("work_level") == "older" else 0)
+	level.item_selected.connect(func(i: int) -> void: Settings.set_value("work_level", "older" if i == 1 else "younger"))
+	level_row.add_child(level)
+	content.add_child(UiStyle.label(tr("Older children get bigger numbers and fewer helps in the same work. Bible stories are the same for everyone."), "SmallLabel"))
 	var rw := CheckButton.new()
 	rw.text = tr("Offer real-world invitations")
 	rw.button_pressed = Settings.get_value("real_world_invitations")

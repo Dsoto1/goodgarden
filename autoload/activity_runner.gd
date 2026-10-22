@@ -37,7 +37,7 @@ func start(activity_id: String) -> bool:
 	if not can_start(activity_id):
 		push_warning("ActivityRunner: cannot start '%s' now" % activity_id)
 		return false
-	current = Content.get_activity(activity_id)
+	current = Content.get_activity(activity_id).at_level(str(Settings.get_value("work_level")))
 	_started_msec = Time.get_ticks_msec()
 	GameState.push_mode(GameState.Mode.REFLECTION if current.is_reflection() else GameState.Mode.ACTIVITY)
 	Observations.record("activity_started", current.id)

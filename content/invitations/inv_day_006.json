@@ -1,7 +1,7 @@
 {
 	"id": "inv_day_006",
 	"from": "tobias",
-	"body": "Good morning!\n\nI need flour for tomorrow's bread. Would you please go to the mill by the river for me? There is grain to clean, and flour to weigh.\n\nLook for the big water wheel.",
+	"body": "Good morning!\n\nI need flour for tomorrow's bread. Would you please meet me at the mill by the river? There is grain to clean, and flour to weigh.\n\nLook for the big water wheel.",
 	"signature": "Mr. Tobias, the baker",
 	"suggests": "mill_flour",
 	"summary": "Help Mr. Tobias make flour at the mill."

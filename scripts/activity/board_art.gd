@@ -166,3 +166,16 @@ static func brick_arch(ci: CanvasItem, center: Vector2, radius: Vector2, thickne
 			center + Vector2(cos(a0) * (radius.x + thickness), sin(a0) * (radius.y + thickness)),
 		])
 		_fill(ci, q, Color("b8584a") if i % 2 else Color("c46a55"), 1.5)
+
+
+## A round clay pot with a lip.
+static func pot(ci: CanvasItem, r: Rect2) -> void:
+	var c := r.get_center() + Vector2(0, 10)
+	var body := _ellipse(c, Vector2(r.size.x * 0.44, r.size.y * 0.42), 28)
+	ci.draw_colored_polygon(_shadow(body, 6), Color(0, 0, 0, 0.16))
+	_fill(ci, body, Color("c07a52"))
+	ci.draw_colored_polygon(_ellipse(c + Vector2(-r.size.x * 0.12, -r.size.y * 0.12), Vector2(r.size.x * 0.14, r.size.y * 0.1)), Color(1, 1, 1, 0.18))
+	var neck := Rect2(Vector2(c.x - r.size.x * 0.3, r.position.y + 14), Vector2(r.size.x * 0.6, 22))
+	_fill(ci, _round_rect(neck, 8), Color("b06c46"))
+	ci.draw_colored_polygon(_ellipse(Vector2(c.x, r.position.y + 16), Vector2(r.size.x * 0.32, 10)), Color("a5623e"))
+	ci.draw_colored_polygon(_ellipse(Vector2(c.x, r.position.y + 17), Vector2(r.size.x * 0.26, 6)), Color("5e3426"))

@@ -33,6 +33,7 @@
 	"steps": [
 		{
 			"id": "space_holes",
+			"older": {"tolerance": 18},
 			"primitive": "space_along_line",
 			"speaker": "miriam",
 			"prompt": "Put a peg one stick away from the stone. Then one stick away from that peg, and so on. Lay the stick down to measure.",
@@ -49,6 +50,7 @@
 		},
 		{
 			"id": "sow",
+			"older": {"show_dimples": false, "prompt": "Now three seeds in each hole. There are no little dips to help this time: count them yourself.", "hint": "Count as you drop them in: one, two, three. Then move to the next hole."},
 			"primitive": "count_into_slots",
 			"speaker": "miriam",
 			"prompt": "Now three seeds in each hole. Count as you drop them in: one, two, three.",

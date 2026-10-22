@@ -4,6 +4,13 @@
 	"entries": [
 		{
 			"when": [
+				{"day": 5},
+				{"not": {"fact": "valley.lambs_fed", "is_today": true}}
+			],
+			"start": "lambs_offer"
+		},
+		{
+			"when": [
 				{"fact": "valley.lambs_fed", "is_today": true}
 			],
 			"start": "lambs_fed"
@@ -69,6 +76,34 @@
 			"reply": "You're welcome, Mrs. Ruth!",
 			"mood": "joy",
 			"text": "You fed my lambs! Every trough had the same, so nobody went hungry. Thank you, little one."
+		},
+		"lambs_offer": {
+			"mood": "gentle",
+			"text": "You came! Thank you for reading my letter. The lambs are so hungry. Would you please help me share out their hay?",
+			"choices": [
+				{
+					"text": "Yes, please! I'd be glad to.",
+					"next": "lambs_go",
+					"actions": [
+						{
+							"op": "start_activity",
+							"id": "sheepfold_hay"
+						}
+					]
+				},
+				{
+					"text": "Not yet, thank you.",
+					"next": "lambs_later"
+				}
+			]
+		},
+		"lambs_go": {
+			"mood": "joy",
+			"text": "Wonderful. Come and stand by the troughs with me."
+		},
+		"lambs_later": {
+			"mood": "gentle",
+			"text": "That's all right. The lambs and I will be here."
 		}
 	}
 }

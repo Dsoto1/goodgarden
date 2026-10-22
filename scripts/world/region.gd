@@ -37,6 +37,15 @@ func _on_fact_changed(_key: String, _value: Variant) -> void:
 	sync_with_world()
 
 
+## Where the camera looks when work is started from a conversation nearby
+## (the bean row, the bread table, the troughs).
+func add_activity_focus(local_pos: Vector3) -> void:
+	var focus := Marker3D.new()
+	focus.position = local_pos
+	focus.add_to_group("activity_focus")
+	add_child(focus)
+
+
 ## Named spot used for spawning and NPC placement ("garden_beds", "home_bed").
 func add_anchor(anchor_id: String, local_pos: Vector3, facing_y := 0.0) -> Marker3D:
 	var m := Marker3D.new()

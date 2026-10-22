@@ -4,6 +4,8 @@ extends Region
 ## the north road to an overlook where Bellhaven can be seen.
 
 var _baking: Node3D # the fire and fresh loaves, on baking day
+## Villagers by id: [wanderer, home position, home radius, current anchor id].
+var _villagers := {}
 
 
 func build() -> void:
@@ -41,6 +43,7 @@ func build() -> void:
 	_baking_day(Vector3(-3.5, 0, -12.2))
 	CraftedProps.woodpile(self, Vector3(-1.9, 0, -12.9), PI / 2.0 - 0.25)
 	var table := Vector3(-4.7, 0, -9.7)
+	add_activity_focus(table + Vector3(0, 0.7, 0))
 	MeshKit.box(self, Vector3(1.9, 0.06, 0.6), table + Vector3(0, 0.62, 0), "wood", false, -0.2)
 	for x: float in [-0.75, 0.75]:
 		MeshKit.box(self, Vector3(0.08, 0.6, 0.5), table + Vector3(0, 0.3, 0) + Vector3(x, 0, 0).rotated(Vector3.UP, -0.2), "wood_dark", false, -0.2)
@@ -240,21 +243,48 @@ func _planter(at: Vector3) -> void:
 
 func _villager(id: String, look: Dictionary, at: Vector3, wander_radius: float) -> void:
 	var w := Wanderer.new().setup(CharacterModel.new().build(look), id.hash())
+	w.name = id.capitalize()
 	w.position = at
 	w.radius = wander_radius
 	w.speed = 0.6
 	w.pause_range = Vector2(3, 7)
 	w.talk_dialogue_id = id
 	add_child(w)
+	_villagers[id] = [w, at, wander_radius, ""]
 	MeshKit.solid(w, Vector3(0.5, 1.6, 0.5), Vector3(0, 0.8, 0), 0.0, MeshKit.LAYER_CHARACTER)
 	var talk := Interactable.create(w, Vector3.ZERO, "Talk to %s" % Dialogue.character_name(id), func() -> void: Dialogue.start(id), 0.7, 1.95 * float(look.get("height", 1.0)))
 	talk.reach = 2.2
 
 
 func sync_with_world() -> void:
+	# On some days a neighbour waits somewhere else (Mrs. Ruth at the
+	# sheepfold, Mr. Tobias at the mill), as the day's "npcs" anchors say.
+	for id: String in _villagers:
+		var v: Array = _villagers[id]
+		var anchor_id := Days.npc_anchor(id)
+		if anchor_id == v[3]:
+			continue
+		var w: Wanderer = v[0]
+		var a := _find_anchor(anchor_id)
+		if a == null and not anchor_id.is_empty():
+			continue # that place isn't built yet; try again on the next sync
+		v[3] = anchor_id
+		if a:
+			w.relocate(a.global_position, 0.4, a.global_rotation.y)
+		else:
+			w.relocate(to_global(v[1]), v[2])
 	if _baking:
 		var baked: Variant = WorldState.get_fact("village.baked_day")
 		_baking.visible = baked != null and int(baked) == Days.current_day
+
+
+func _find_anchor(anchor_id: String) -> Node3D:
+	if anchor_id.is_empty():
+		return null
+	for a in get_tree().get_nodes_in_group("anchors"):
+		if a.name == "Anchor_%s" % anchor_id:
+			return a
+	return null
 
 
 ## From day 7 (once there is flour) the oven is where the bread is baked. On
@@ -263,6 +293,7 @@ func _baking_day(oven: Vector3) -> void:
 	var bake := Interactable.create(self, oven + Vector3(-0.3, 0, 1.4), "Bake bread with Mr. Tobias", func() -> void:
 		get_tree().call_group("main", "start_activity_here", "oven_bake", position + oven + Vector3(0, 0.8, 0.4)), 0.7, 1.7)
 	bake.conditions = [{"day_at_least": 7}, {"fact": "village.flour_day", "exists": true}]
+	add_activity_focus(oven + Vector3(0, 0.8, 0.4))
 	_baking = group_node("BakingDay")
 	var glow := OmniLight3D.new()
 	glow.light_color = Color("ff9a3c")

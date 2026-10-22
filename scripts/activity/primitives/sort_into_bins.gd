@@ -8,7 +8,7 @@ extends ActivityStep
 ##
 ## Config:
 ##   pieces: [{"kind": "grain", "count": 8}, ...]   the mixed pile
-##   bins: [{"kind": "grain", "label": "flour sack", "look": "sack"|"basket", "pos": [x, y]}]
+##   bins: [{"kind": "grain", "label": "flour sack", "look": "sack"|"basket"|"pot", "pos": [x, y]}]
 ##   pile: [x, y]                                     centre of the pile
 ## Feedback keys: "mismatch", "all_good".
 ## Result: {"sorted": int}
@@ -146,6 +146,8 @@ func _draw() -> void:
 		var r := Rect2(b.position, b.size)
 		if b.data.get("look", "basket") == "sack":
 			BoardArt.sack(self, r)
+		elif b.data.get("look", "basket") == "pot":
+			BoardArt.pot(self, r)
 		else:
 			BoardArt.basket(self, r)
 		draw_string(font, Vector2(r.position.x - 20, r.end.y + 24), str(b.data.get("label", "")), HORIZONTAL_ALIGNMENT_CENTER, r.size.x + 40, 18, Color("f3e6d2"))

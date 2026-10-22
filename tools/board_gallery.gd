@@ -1,7 +1,7 @@
 extends Node
 ## Renders each hands-on board on its own, half done, without loading the 3D
 ## world: a quick way to review the look of the work surfaces.
-##   xvfb-run godot --path . --rendering-driver opengl3 --resolution 1280x800 res://tools/board_gallery.tscn -- --out=/abs/dir [--only=id,id]
+##   xvfb-run godot --path . --rendering-driver opengl3 --resolution 1280x800 res://tools/board_gallery.tscn -- --out=/abs/dir [--only=id,id] [--older]
 
 var out := "user://board_gallery"
 
@@ -27,6 +27,8 @@ func _ready() -> void:
 			only = a.substr(7)
 		elif a.begins_with("--out="):
 			out = a.substr(6)
+		elif a == "--older":
+			Settings.set_value("work_level", "older")
 	DirAccess.make_dir_recursive_absolute(out)
 	for id: String in ["garden_bean_row", "garden_water", "bakery_baskets", "home_set_table", "sheepfold_hay", "mill_flour", "oven_bake", "good_shepherd"]:
 		if not only.is_empty() and not only.split(",").has(id):
@@ -49,7 +51,7 @@ func _ready() -> void:
 			await _settle(150)
 			var scale_step := ws.current_step()
 			for q: DragPiece in scale_step.pieces:
-				if q.kind == "flour_scoop_big" and scale_step.load_weight() < 4:
+				if q.kind == "flour_scoop_big" and scale_step.load_weight() < scale_step._weight - 1:
 					_place(q, scale_step.pan.center())
 			await _settle(60)
 			await shot("mill_scale")

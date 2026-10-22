@@ -4,6 +4,21 @@
 	"entries": [
 		{
 			"when": [
+				{"day": 6},
+				{"not": {"fact": "village.flour_day", "is_today": true}}
+			],
+			"start": "mill_offer"
+		},
+		{
+			"when": [
+				{"day": 7},
+				{"fact": "village.flour_day", "exists": true},
+				{"not": {"fact": "village.baked_day", "is_today": true}}
+			],
+			"start": "bake_offer"
+		},
+		{
+			"when": [
 				{"fact": "village.baked_day", "is_today": true}
 			],
 			"start": "baked"
@@ -119,6 +134,62 @@
 			"reply": "Thank you for teaching me, Mr. Tobias!",
 			"mood": "joy",
 			"text": "Our bread! From grain, to flour, to warm loaves. Thank you for helping every step of the way."
+		},
+		"mill_offer": {
+			"mood": "joy",
+			"text": "Good morning! Thank you for meeting me at the mill. Would you please help me clean the grain and weigh the flour?",
+			"choices": [
+				{
+					"text": "Yes, please! I'd be glad to help.",
+					"next": "mill_go",
+					"actions": [
+						{
+							"op": "start_activity",
+							"id": "mill_flour"
+						}
+					]
+				},
+				{
+					"text": "Not yet, thank you.",
+					"next": "mill_later"
+				}
+			]
+		},
+		"mill_go": {
+			"mood": "joy",
+			"text": "Wonderful. Come, the grain is just inside."
+		},
+		"mill_later": {
+			"mood": "gentle",
+			"text": "That's all right. I'll be here by the mill."
+		},
+		"bake_offer": {
+			"mood": "joy",
+			"text": "The oven is hot and the dough has risen. Would you like to help me put the loaves in?",
+			"choices": [
+				{
+					"text": "Yes, please, Mr. Tobias!",
+					"next": "bake_go",
+					"actions": [
+						{
+							"op": "start_activity",
+							"id": "oven_bake"
+						}
+					]
+				},
+				{
+					"text": "Not yet, thank you.",
+					"next": "bake_later"
+				}
+			]
+		},
+		"bake_go": {
+			"mood": "joy",
+			"text": "Wonderful. Mind the heat, now. Come and stand beside me."
+		},
+		"bake_later": {
+			"mood": "gentle",
+			"text": "That's all right. The oven will stay warm for a while."
 		}
 	}
 }

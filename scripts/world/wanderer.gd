@@ -32,6 +32,15 @@ func _ready() -> void:
 	_wait = _rng.randf_range(0.0, pause_range.y)
 
 
+## Moves to a new home (in world space) and potters about within `r` of it.
+func relocate(world_pos: Vector3, r: float, facing_y := 0.0) -> void:
+	global_position = world_pos
+	home = position
+	_target = position
+	radius = r
+	rotation.y = facing_y
+
+
 func _process(delta: float) -> void:
 	_t += delta
 	if gait == "flutter":

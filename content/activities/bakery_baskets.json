@@ -24,6 +24,7 @@
 	"steps": [
 		{
 			"id": "fill_baskets",
+			"older": {"counts": [4, 6, 5], "spare": 3, "show_dimples": false, "prompt": "Read the number on each basket. Put in exactly that many rolls.", "hint": "Count the rolls as you put them in. Stop when you reach the number on the basket."},
 			"primitive": "count_into_slots",
 			"prompt": "Look at the number on each basket. Put in that many rolls, one for each dot.",
 			"hint": "Put one roll on each dot. When every dot has a roll, that basket is full.",
@@ -48,6 +49,15 @@
 	"world_effects": [
 		{"op": "set", "fact": "village.bread_day", "value": "$day"}
 	],
+	"older": {
+		"intro": [
+			{
+				"speaker": "tobias",
+				"text": "These baskets are for our neighbors. The number on each basket tells how many people live in that house."
+			}
+		],
+		"journal_line": "I helped Mr. Tobias fill the bread baskets: 4 rolls, 6 rolls and 5 rolls, one for each person."
+	},
 	"replay": "free",
 	"real_world_invitation": "rw_share_bread",
 	"journal_line": "I helped Mr. Tobias fill the bread baskets: 2 rolls, 4 rolls and 3 rolls, one for each person.",

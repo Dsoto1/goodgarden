@@ -25,7 +25,7 @@ func _ready() -> void:
 	var tests := [
 		test_content_is_valid, test_validator_catches_errors, test_conditions_and_tokens,
 		test_save_round_trip_and_migration, test_space_along_line, test_count_into_slots,
-		test_match_to_outline_self_correction, test_story_handoff_and_put_away, test_parable_growth_and_put_away, test_chapel_library_books, test_calling_of_the_fishermen, test_sit_and_hold_rod, test_young_child_access,
+		test_match_to_outline_self_correction, test_story_handoff_and_put_away, test_parable_growth_and_put_away, test_chapel_library_books, test_calling_of_the_fishermen, test_sit_and_hold_rod, test_young_child_access, test_older_work_level,
 		test_observations_never_score_reflection, test_pointer_events_drag_pieces, test_props_catalog,
 		test_scenery_quality_and_batching, test_vertical_slice_end_to_end,
 	]
@@ -361,6 +361,55 @@ func test_young_child_access() -> void:
 			for c: Dictionary in node.get("choices", []):
 				var t := str(c.get("text", ""))
 				check(t.contains("please") or t.contains("thank you") or t.contains("glad"), "a polite answer: %s" % t)
+
+
+## The work level for older children: the same activities, with bigger
+## numbers and fewer helps, and each can still be finished.
+func test_older_work_level() -> void:
+	var younger := Content.get_activity("sheepfold_hay")
+	check(younger.at_level("younger") == younger, "the younger level is the activity as written")
+	var older := younger.at_level("older")
+	eq(int(older.steps[0]["slots"]), 4, "older children share between four troughs")
+	check(not older.steps[0].has("older") and younger.steps[0].has("older"), "the older settings are laid over a copy")
+	for id: String in ["garden_water", "bakery_baskets", "sheepfold_hay"]:
+		var cfg: Dictionary = Content.get_activity(id).at_level("older").steps[0]
+		check(cfg.get("show_dimples", true) == false, "%s: no counting dots for older children" % id)
+		var step := _make_step("count_into_slots", cfg)
+		var k := 0
+		for h: DropSlot in step.holes:
+			for i in h.capacity:
+				_drop(step.pieces[k], h.center())
+				k += 1
+		check(step.is_done, "%s can be finished at the older level" % id)
+		step.queue_free()
+	var mill := Content.get_activity("mill_flour").at_level("older")
+	var sorter := _make_step("sort_into_bins", mill.steps[0])
+	eq(sorter.bins.size(), 3, "older children sort grain, chaff and stones")
+	var first: DragPiece = sorter.pieces[0]
+	for b: DropSlot in sorter.bins:
+		if b.accepts != first.kind:
+			_drop(first, b.center())
+			break
+	check(first.placed_in == null, "a piece in the wrong bin goes back to the pile")
+	for p: DragPiece in sorter.pieces:
+		for b: DropSlot in sorter.bins:
+			if b.accepts == p.kind and p.placed_in == null:
+				_drop(p, b.center())
+	check(sorter.is_done, "everything sorted")
+	sorter.queue_free()
+	var scale := _make_step("balance_scale", mill.steps[1])
+	var big: Array = scale.pieces.filter(func(q: DragPiece) -> bool: return q.kind == "flour_scoop_big")
+	var small: Array = scale.pieces.filter(func(q: DragPiece) -> bool: return q.kind == "flour_scoop")
+	for q in big:
+		_drop(q, scale.pan.center())
+	check(not scale.is_done and scale.load_weight() == 8, "four big scoops outweigh a seven-dot stone")
+	_drop(big[0], Vector2(820, 470))
+	_drop(small[0], scale.pan.center())
+	check(scale.is_done and scale.load_weight() == 7, "three big and one small balance it")
+	scale.queue_free()
+	var oven := _make_step("match_to_outline", Content.get_activity("oven_bake").at_level("older").steps[0])
+	eq(oven.slots.size(), 8, "more loaves to fit for older children")
+	oven.queue_free()
 
 
 ## The chapel library: every book has pages, and the reader turns them
@@ -713,7 +762,10 @@ func test_vertical_slice_end_to_end() -> void:
 	await main.rest_until_morning()
 	await frames(3)
 	eq(Invitations.pending_id, "inv_day_005", "day 5: Ruth's letter about the lambs")
-	var hay_ws := ActivityRunner.workspace if await _start_from("Feed the lambs") else null
+	var ruth := _find_named(main.world, "Ruth") as Node3D
+	var fold_spot := _find_named(main.world, "Anchor_sheepfold_ruth") as Node3D
+	check(ruth != null and fold_spot != null and ruth.global_position.distance_to(fold_spot.global_position) < 1.0, "Mrs. Ruth waits at the sheepfold, as her letter says")
+	var hay_ws := ActivityRunner.workspace if await _start_by_talking("ruth") else null
 	if hay_ws:
 		var hay := hay_ws.current_step()
 		eq(hay.holes.size(), 3, "three troughs")
@@ -730,7 +782,11 @@ func test_vertical_slice_end_to_end() -> void:
 	await frames(3)
 	eq(Invitations.pending_id, "inv_day_006", "day 6: Tobias asks for flour")
 	check(fed != null and not fed.visible, "the next day the troughs are empty again")
-	var mill := ActivityRunner.workspace if await _start_from("Help at the mill") else null
+	var tobias := _find_named(main.world, "Tobias") as Node3D
+	var mill_spot := _find_named(main.world, "Anchor_mill_tobias") as Node3D
+	check(tobias != null and mill_spot != null and tobias.global_position.distance_to(mill_spot.global_position) < 1.0, "Mr. Tobias waits at the mill")
+	check(ruth.global_position.distance_to(fold_spot.global_position) > 5.0, "and Mrs. Ruth is back home in the village")
+	var mill := ActivityRunner.workspace if await _start_by_talking("tobias") else null
 	if mill:
 		var sorter := mill.current_step()
 		for p: DragPiece in sorter.pieces:
@@ -788,6 +844,24 @@ func _start_from(prompt: String) -> bool:
 	target.trigger()
 	await frames(3)
 	check(ActivityRunner.is_running(), "\"%s\" starts its work" % prompt)
+	if not ActivityRunner.is_running():
+		return false
+	await _play_intro(ActivityRunner.workspace)
+	return ActivityRunner.workspace.current_step() != null
+
+
+## Talks to a grown-up who offers work, says yes, and waits for the work's first step.
+func _start_by_talking(dialogue_id: String) -> bool:
+	check(Dialogue.start(dialogue_id), "talk to %s" % dialogue_id)
+	var guard := 0
+	while Dialogue.is_active() and Dialogue.current_line()["choices"].is_empty() and guard < 4:
+		Dialogue.advance()
+		guard += 1
+	check(Dialogue.is_active() and Dialogue.current_line()["choices"].size() == 2, "%s politely asks for help" % dialogue_id)
+	Dialogue.choose(0)
+	Dialogue.advance()
+	await frames(3)
+	check(ActivityRunner.is_running(), "the work starts after saying yes")
 	if not ActivityRunner.is_running():
 		return false
 	await _play_intro(ActivityRunner.workspace)

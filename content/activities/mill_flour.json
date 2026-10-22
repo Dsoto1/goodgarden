@@ -16,14 +16,15 @@
 		{"not": {"fact": "village.flour_day", "is_today": true}}
 	],
 	"intro": [
-		{"speaker": "narrator", "text": "This is the mill. The river turns the big wheel, and the wheel turns the heavy stones that make flour."},
-		{"speaker": "narrator", "text": "But first, the grain must be clean. The light, papery bits are called chaff. They don't belong in the bread."}
+		{"speaker": "tobias", "text": "Welcome to the mill! The river turns the big wheel, and the wheel turns the heavy stones that make flour."},
+		{"speaker": "tobias", "text": "But first, the grain must be clean. The light, papery bits are called chaff. They don't belong in our bread."}
 	],
 	"steps": [
 		{
 			"id": "sort_grain",
+			"older": {"pieces": [{"kind": "grain", "count": 12}, {"kind": "chaff", "count": 8}, {"kind": "pebble", "count": 5}], "bins": [{"kind": "grain", "label": "grain sack", "look": "sack", "pos": [190, 170]}, {"kind": "chaff", "label": "chaff basket", "look": "basket", "pos": [500, 170]}, {"kind": "pebble", "label": "stone pot", "look": "pot", "pos": [810, 170]}], "prompt": "Sort everything: grain in the sack, chaff in the basket, and little stones in the pot.", "hint": "Grain is round and golden. Chaff is light and flat. Stones are grey and hard."},
 			"primitive": "sort_into_bins",
-			"speaker": "narrator",
+			"speaker": "tobias",
 			"prompt": "Put the grain in the sack, and the chaff in the basket.",
 			"hint": "Grain is round and golden. Chaff is light and flat.",
 			"pieces": [{"kind": "grain", "count": 8}, {"kind": "chaff", "count": 6}],
@@ -39,9 +40,10 @@
 		},
 		{
 			"id": "weigh_flour",
+			"older": {"weight": 7, "scoops": [{"kind": "flour_scoop", "weight": 1, "count": 3}, {"kind": "flour_scoop_big", "weight": 2, "count": 4}], "hint": "Count the dots on the stone, and the dots on the scoops. Can you make them the same?"},
 			"primitive": "balance_scale",
-			"speaker": "narrator",
-			"prompt": "Now the grain is flour! Mr. Tobias needs a bag as heavy as his stone. Add scoops of flour until the beam is level.",
+			"speaker": "tobias",
+			"prompt": "Now the grain is flour! I need a bag as heavy as my stone. Would you please add scoops of flour until the beam is level?",
 			"hint": "Watch the beam. If the stone side is lower, add a scoop. If the flour side is lower, take one out. A little scoop helps you get it just right.",
 			"weight": 5,
 			"scoops": [
@@ -57,11 +59,14 @@
 		}
 	],
 	"outro": [
-		{"speaker": "narrator", "text": "Just right! The flour goes to Mr. Tobias. Tomorrow, it will become bread.", "button": "Done"}
+		{"speaker": "tobias", "text": "Just right! Thank you. Tomorrow, this flour will become bread. Will you come and bake it with me?", "button": "Yes, please, Mr. Tobias!"}
 	],
 	"world_effects": [
 		{"op": "set", "fact": "village.flour_day", "value": "$day"}
 	],
+	"older": {
+		"journal_line": "I helped at the mill. I sorted grain, chaff and stones, and balanced the flour against a stone with seven dots."
+	},
 	"replay": "free",
 	"real_world_invitation": "rw_heavy_light",
 	"journal_line": "I helped at the mill. I sorted the grain from the chaff, and weighed the flour until the scale was level.",

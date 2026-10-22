@@ -19,6 +19,7 @@ const DEFAULTS := {
 	"snap_tolerance": 56.0, # pixels; generous by default for small fingers
 	"scenery_quality": "auto", # auto | high | medium | low (see Quality)
 	"real_world_invitations": true,
+	"work_level": "younger", # younger (about 5-7) | older (about 8-10): how much each activity asks
 	"session_minutes": 0, # 0 = no gentle rest reminder
 }
 
