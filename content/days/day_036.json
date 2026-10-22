@@ -1,0 +1,12 @@
+{
+	"id": "day_036",
+	"day": 36,
+	"week": 6,
+	"arc": "Truth & Workshop",
+	"invitation": "inv_day_036",
+	"npcs": {"miriam": "garden_miriam", "ruth": "egg_stall_ruth"},
+	"primary_activity": "market_sell_eggs",
+	"free_work": ["home_set_table"],
+	"chapel": ["good_samaritan", "mustard_seed", "leaven", "lost_sheep", "fishers", "five_thousand", "good_shepherd"],
+	"season": "Spring"
+}

@@ -1,0 +1,39 @@
+{
+	"id": "inv_day_037",
+	"from": "tobias",
+	"body": "Hello, friend!\n\nToday I sell flour at my stall, and every bag must weigh just right. Not too little, and not too much.\n\nCome and help me with the scales. We'll be very honest weighers!",
+	"signature": "Mr. Tobias, the baker",
+	"suggests": "market_scales",
+	"summary": "Weigh flour on the honest scales with Mr. Tobias.",
+	"done": "The flour is weighed, fair and honest!",
+	"tasks": [
+		{
+			"text": "Weigh the flour",
+			"activity": "market_scales",
+			"icon": "scales",
+			"where": "at the market in the village"
+		},
+		{
+			"text": "Feed the hens",
+			"done_when": [
+				{
+					"fact": "home.hens_fed_day",
+					"is_today": true
+				}
+			],
+			"icon": "hen",
+			"where": "by the coop at home"
+		},
+		{
+			"text": "Say hello to Mr. Amos",
+			"done_when": [
+				{
+					"fact": "npc.amos.greeted_day",
+					"is_today": true
+				}
+			],
+			"icon": "plank",
+			"where": "at his workshop"
+		}
+	]
+}

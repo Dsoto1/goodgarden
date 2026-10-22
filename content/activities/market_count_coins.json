@@ -1,0 +1,86 @@
+{
+	"id": "market_count_coins",
+	"title": "Counting the Takings",
+	"mode": "task",
+	"location": "village",
+	"surface": "wood_table",
+	"readiness": {
+		"ages": [
+			5,
+			9
+		],
+		"math": "counting in fives (older: tens); equal groups",
+		"reading": "pre-reader friendly; all text can be read aloud"
+	},
+	"concepts": [
+		"equal groups",
+		"counting in fives",
+		"skip counting"
+	],
+	"formation_themes": [
+		"honesty",
+		"stewardship"
+	],
+	"prerequisites": [
+		{
+			"not": {
+				"fact": "market.counted_day",
+				"is_today": true
+			}
+		}
+	],
+	"intro": [
+		{
+			"speaker": "tobias",
+			"text": "What a busy morning! The cash box is full of coins, all jumbled. Let's count them."
+		},
+		{
+			"speaker": "tobias",
+			"text": "The easy way is to make little piles of five. Then we count the piles: five, ten, fifteen!"
+		}
+	],
+	"steps": [
+		{
+			"id": "piles",
+			"primitive": "count_into_slots",
+			"speaker": "tobias",
+			"prompt": "Make piles of five coins. Count as you go: one, two, three, four, five.",
+			"hint": "Find a pile with an empty dip, and put a coin there.",
+			"slots": 3,
+			"per_slot": 5,
+			"piece": "coin:1",
+			"container": "basket",
+			"supply_label": "cash box",
+			"spare": 2,
+			"older": {
+				"slots": 3,
+				"per_slot": 10,
+				"show_dimples": false,
+				"spare": 3,
+				"prompt": "Make piles of ten coins this time. There are no dips: count them yourself."
+			},
+			"feedback": {
+				"full": "That pile has its {n}. Start another pile.",
+				"all_good": "Three piles! Five, ten, fifteen."
+			}
+		}
+	],
+	"outro": [
+		{
+			"speaker": "tobias",
+			"text": "Now I know just what we have, and I can give a share to the poor box, like I always do. Thank you!",
+			"button": "Thank you, Mr. Tobias"
+		}
+	],
+	"world_effects": [
+		{
+			"op": "set",
+			"fact": "market.counted_day",
+			"value": "$day"
+		}
+	],
+	"replay": "free",
+	"real_world_invitation": "rw_count_out",
+	"journal_line": "I counted Mr. Tobias's coins in piles with him.",
+	"unavailable_text": "The coins are counted for today."
+}

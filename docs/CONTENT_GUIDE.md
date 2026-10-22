@@ -23,7 +23,7 @@ Every file has an `"id"`. All text is plain English for now and passes through `
 
 `npcs` maps a character to an **anchor** placed by a region (e.g. `garden_miriam`, `home_spawn`, `village_plaza`, `chapel_door`, `village_overlook`). Leave a character out and they stay away that day. Day `0` is the template for days past the written content.
 
-The days run in weeks, and day 1 is a Monday. **Monday to Friday** each have a letter with three jobs. **Saturday** is a free day: a day file with no `invitation`, for open play and free work. **Sunday** is the day of rest: a short letter and no jobs, with the neighbours at the Chapel (`chapel_miriam`, `chapel_tobias`, `chapel_ruth`); Sundays past the written days do the same on their own. Twelve weeks make the season's 60 guided days.
+The days run in weeks, and day 1 is a Monday. **Monday to Friday** each have a letter with three jobs. **Saturday** is a free day: a day file with no `invitation`, for open play and free work. **Sunday** is the day of rest: a short letter and no jobs, with the neighbours at the Chapel (`chapel_miriam`, `chapel_tobias`, `chapel_ruth`, `chapel_amos`); Sundays past the written days do the same on their own. Twelve weeks make the season's 60 guided days.
 
 ## Invitations — `content/invitations/*.json`
 
@@ -124,6 +124,12 @@ Hands-on activities serve ages 5 to 10 through a grown-up's **Work level** setti
 **`look_closely`** (observing and recording): `spots` (the ladybird's spots), `questions` (`[{"ask", "about": "spots"|"legs", "choices": [int]}]`). A magnifying glass shows the picture close up wherever it is moved; each right count is written into the nature notebook on the board. Result: `notes` (`[{"about", "count"}]`). Feedback: `look_again`, `noted`, `all_good`.
 
 **`continue_pattern`** (patterns): `unit` (one repeat, e.g. `["flower_red", "flower_yellow"]`), `length` (places in the row, default 10), `given` (places already set, default one unit), `names` (`{kind: word}`, what each piece is called aloud), `look` (`"border"` soil, or `"path"`). A piece only settles where it continues the pattern; "Show me" says the pattern aloud up to the next empty place. Pieces so far: `flower_red`, `flower_yellow`, `flower_blue`, `stone_big`, `stone_small`. Result: `unit`, `length`. Feedback: `wrong` (`{pattern}` is filled in), `all_good`.
+
+**`fit_shapes`** (geometric insets, rotate and fit): `shapes` (`[{"kind", "pos", "turn": 0..3, "size"?}]`, the outlines; `turn` is quarter turns clockwise, and two triangles may share a square), `size` (default piece size), `spare` (shapes that fit nowhere), `picture` (`"window"`, `"birdhouse"`, `"floor"`). Tapping a piece turns it; it settles only in the outline of the same shape turned the same way (squares and circles fit any way round, rectangles either way up). Shapes: `shape_square`, `shape_rect`, `shape_triangle` (right angle at the bottom left when `turn` is 0), `shape_semicircle`, `shape_circle`. Result: `shapes`, `turns`. Feedback: `turn_it`, `wrong_shape`, `all_good`.
+
+**`give_change`** (minding a stall): `sales` (`[{"item", "price", "paid": [coins], "icon"?}]`), `cash` (coins in the cash box), `mistaken_pay` (on the last sale the customer pays one coin too many; the child is asked to check, never scored). The child counts change onto the counter and presses Give change; the customer says what is missing or hands back the extra. `prompt` may use `{item}`, `{price}`, `{paid}`. Result: `sales`, `honest`. Feedback: `short`, `too_much`, `right`, `honest`, `all_good` (`{n}` filled in).
+
+**`fill_order`** (reading in context): `order` (`[{"item": kind, "count", "word"?, "words"?}]`, written on the note as "3 nails"), `pictures` (little pictures beside the lines; default true), `extra` (things on the shelf the note doesn't ask for), `spare`, `note_title`, `note_from`, `basket_label`. Tapping a line reads it aloud; Done checks the basket line by line. Result: `order`. Feedback: `missing`, `too_many`, `not_on_note`, `all_good`.
 
 Answer buttons from a step (numbers to choose) start with none selected, so no answer looks suggested; a single main button (Pay, Continue) starts selected.
 

@@ -1,0 +1,34 @@
+{
+	"id": "inv_day_029",
+	"from": "miriam",
+	"body": "Good morning, my friend!\n\nHave you met Mr. Amos? He is the carpenter, and his workshop is by the village square. He makes doors and tables and toys, and he's always glad of a helper.\n\nWhy don't you go and say hello? He says his offcut box needs sorting!",
+	"signature": "Miss Miriam",
+	"suggests": "workshop_shapes",
+	"summary": "Meet Mr. Amos the carpenter, and sort the shapes in his workshop.",
+	"done": "You met Mr. Amos and sorted his shapes!",
+	"tasks": [
+		{
+			"text": "Sort the shapes",
+			"activity": "workshop_shapes",
+			"icon": "shapes",
+			"where": "at the workshop in the village"
+		},
+		{
+			"text": "Feed the hens",
+			"done_when": [
+				{
+					"fact": "home.hens_fed_day",
+					"is_today": true
+				}
+			],
+			"icon": "hen",
+			"where": "by the coop at home"
+		},
+		{
+			"text": "Collect the eggs",
+			"activity": "home_eggs",
+			"icon": "egg",
+			"where": "at the coop by your house"
+		}
+	]
+}

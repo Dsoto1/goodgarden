@@ -1,0 +1,151 @@
+{
+	"id": "market_sell_eggs",
+	"title": "Selling Eggs at the Market",
+	"mode": "task",
+	"location": "village",
+	"surface": "wood_table",
+	"readiness": {
+		"ages": [
+			5,
+			9
+		],
+		"math": "counting on from a price to give change (younger: from 5; older: from 10, with 1, 2 and 5-coins)",
+		"reading": "pre-reader friendly; all text can be read aloud"
+	},
+	"concepts": [
+		"counting on",
+		"giving change",
+		"money"
+	],
+	"formation_themes": [
+		"honesty",
+		"fairness",
+		"generosity"
+	],
+	"prerequisites": [
+		{
+			"not": {
+				"fact": "market.eggs_day",
+				"is_today": true
+			}
+		}
+	],
+	"intro": [
+		{
+			"speaker": "ruth",
+			"text": "It's market day! Your hens laid so many eggs, we have plenty to sell. Will you mind my egg stall with me?"
+		},
+		{
+			"speaker": "ruth",
+			"text": "When a customer pays, count the change from the price. If it costs 3 and they give you 5, count on: 4, 5. That's two coins back."
+		}
+	],
+	"steps": [
+		{
+			"id": "sell",
+			"primitive": "give_change",
+			"speaker": "ruth",
+			"prompt": "The {item} costs {price}. The customer gave you {paid}. Count the change onto the counter, then press Give change.",
+			"hint": "Show me",
+			"sales": [
+				{
+					"item": "box of eggs",
+					"icon": "egg",
+					"price": 3,
+					"paid": [
+						5
+					]
+				},
+				{
+					"item": "egg",
+					"icon": "egg",
+					"price": 1,
+					"paid": [
+						5
+					]
+				},
+				{
+					"item": "basket of eggs",
+					"icon": "egg",
+					"price": 4,
+					"paid": [
+						5
+					]
+				}
+			],
+			"cash": [
+				1,
+				1,
+				1,
+				1,
+				1,
+				1,
+				1,
+				1,
+				1,
+				1
+			],
+			"older": {
+				"sales": [
+					{
+						"item": "box of eggs",
+						"icon": "egg",
+						"price": 6,
+						"paid": [
+							10
+						]
+					},
+					{
+						"item": "egg",
+						"icon": "egg",
+						"price": 2,
+						"paid": [
+							5
+						]
+					},
+					{
+						"item": "basket of eggs",
+						"icon": "egg",
+						"price": 7,
+						"paid": [
+							10
+						]
+					}
+				],
+				"cash": [
+					1,
+					1,
+					1,
+					1,
+					1,
+					1,
+					2,
+					2,
+					2,
+					5
+				]
+			},
+			"feedback": {
+				"all_good": "Every customer went home happy, with the right change. Thank you, dear!"
+			}
+		}
+	],
+	"outro": [
+		{
+			"speaker": "ruth",
+			"text": "Honest weights and right change: that's how neighbors trust each other.",
+			"button": "Thank you, Mrs. Ruth"
+		}
+	],
+	"world_effects": [
+		{
+			"op": "set",
+			"fact": "market.eggs_day",
+			"value": "$day"
+		}
+	],
+	"replay": "free",
+	"real_world_invitation": "rw_shop_home",
+	"journal_line": "I helped Mrs. Ruth sell eggs at the market, and counted the change.",
+	"unavailable_text": "The eggs are all sold for today."
+}

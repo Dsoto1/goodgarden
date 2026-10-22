@@ -50,6 +50,22 @@
 				"height": 0.95
 			}
 		},
+		"amos": {
+			"name": "Mr. Amos",
+			"role": "The village carpenter; makes and mends things in his workshop.",
+			"look": {
+				"skin": "skin_2",
+				"hair": "hair_brown",
+				"hair_style": "tousled",
+				"beard": "hair_brown",
+				"shirt": "cloth_tan",
+				"pants": "cloth_brown",
+				"apron": "leather",
+				"belt": "leather",
+				"height": 1.03,
+				"build": 1.1
+			}
+		},
 		"narrator": {"name": ""},
 		"player": {
 			"name": "",

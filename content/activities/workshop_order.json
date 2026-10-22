@@ -1,0 +1,111 @@
+{
+	"id": "workshop_order",
+	"title": "Mr. Amos's Note",
+	"mode": "task",
+	"location": "village",
+	"surface": "wood_table",
+	"readiness": {
+		"ages": [
+			5,
+			9
+		],
+		"math": "counting out sets to match written numbers",
+		"reading": "reading a short list: numbers and words (pictures to help younger children)"
+	},
+	"concepts": [
+		"reading numerals",
+		"reading words",
+		"counting out a set",
+		"lists"
+	],
+	"formation_themes": [
+		"helpfulness",
+		"attention"
+	],
+	"prerequisites": [
+		{
+			"not": {
+				"fact": "workshop.order_day",
+				"is_today": true
+			}
+		}
+	],
+	"intro": [
+		{
+			"speaker": "amos",
+			"text": "I need some things from the shelf for today's job, but my hands are full of glue!"
+		},
+		{
+			"speaker": "amos",
+			"text": "I've written you a note. Read it, and put just the right things in the basket. Tap a line if you'd like to hear it."
+		}
+	],
+	"steps": [
+		{
+			"id": "order",
+			"primitive": "fill_order",
+			"speaker": "amos",
+			"note_from": "Mr. Amos",
+			"prompt": "Read the note. Put the right things in the basket, then press Done.",
+			"hint": "Show me",
+			"order": [
+				{
+					"item": "nail",
+					"count": 3
+				},
+				{
+					"item": "hook",
+					"count": 1
+				},
+				{
+					"item": "screw",
+					"count": 2
+				}
+			],
+			"extra": [
+				"marker_peg"
+			],
+			"pictures": true,
+			"older": {
+				"order": [
+					{
+						"item": "nail",
+						"count": 5
+					},
+					{
+						"item": "screw",
+						"count": 4
+					},
+					{
+						"item": "hook",
+						"count": 2
+					}
+				],
+				"pictures": false,
+				"spare": 3,
+				"prompt": "Read the note: no pictures this time. Put the right things in the basket, then press Done."
+			},
+			"feedback": {
+				"all_good": "Just what I needed! You read that note perfectly."
+			}
+		}
+	],
+	"outro": [
+		{
+			"speaker": "amos",
+			"text": "A good worker reads carefully and counts carefully. Thank you, friend.",
+			"button": "Thank you, Mr. Amos"
+		}
+	],
+	"world_effects": [
+		{
+			"op": "set",
+			"fact": "workshop.order_day",
+			"value": "$day"
+		}
+	],
+	"replay": "free",
+	"real_world_invitation": "rw_read_list",
+	"journal_line": "I read Mr. Amos's note and fetched just what he needed.",
+	"unavailable_text": "Mr. Amos has everything he needs today."
+}

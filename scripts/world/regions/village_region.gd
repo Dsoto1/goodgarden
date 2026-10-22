@@ -15,6 +15,15 @@ const STALLS := [
 ]
 
 var _pantry_labels: Node3D # labels on Mrs. Ruth's pantry shelf, once made
+var _ruth_window: Node3D # Mrs. Ruth's mended window, once mended
+var _broken_window: Node3D # the empty window frame waiting at the workshop
+var _shape_boxes: Node3D # the sorted shape boxes on the workbench
+var _egg_trays: Node3D # Mrs. Ruth's eggs for sale, from the market week
+
+## The workshop's jobs, by the day each is first offered.
+const WORKSHOP_JOBS := [[29, "workshop_shapes"], [30, "workshop_window"], [31, "workshop_order"], [32, "workshop_planks"], [33, "workshop_birdhouse"]]
+## Mr. Tobias's market-week jobs at the bread stall.
+const BREAD_STALL_JOBS := [[37, "market_scales"], [39, "market_count_coins"], [40, "market_stall_day"]]
 var _stall_labels: Node3D # the labels the child made for Tobias's stall
 var _baking: Node3D # the fire and fresh loaves, on baking day
 ## Villagers by id: [wanderer, home position, home radius, current anchor id].
@@ -39,6 +48,12 @@ func build() -> void:
 		# Spare stock stacked neatly behind each stall, on the cobbles.
 		Props.place(self, ["barrel", "crate", "barrel", "crate"][i], at + Vector3(side * 1.05, 0, -0.45), 0.0)
 		Props.place(self, "sack", at + Vector3(side * 1.05, 0, 0.45), side * 0.3)
+		# Where a neighbour stands to mind the stall, at its fountain side.
+		if i == 3:
+			add_anchor("egg_stall_ruth", at + Vector3(0.6, 0, 1.7), PI / 2.0) # behind her egg table
+		else:
+			add_anchor(["bread_stall_tobias", "veg_stall", "market_miriam"][i], at + Vector3(-side * 1.2, 0, 1.3 * (1 if at.z > 0 else -1)), side * PI / 2.0)
+	_market_week()
 	# Benches sit along the square's outer edge, each turned to face the
 	# fountain: either side of the road in from the bridge, on the south-east
 	# side, and by the north road. The middle of the square stays open.
@@ -129,6 +144,8 @@ func build() -> void:
 
 	_villager("tobias", World.look_for("tobias"), Vector3(-8.4, 0, -8.2), 1.2)
 	_villager("ruth", World.look_for("ruth"), Vector3(7.0, 0, 5.2), 0.8)
+	_villager("amos", World.look_for("amos"), Vector3(10.0, 0, -8.6), 0.8)
+	_workshop_yard(Vector3(10.8, 0, -9.9))
 	_pantry_shelf(Vector3(8.7, 0, 4.3))
 	# Neighbours going about their day (ambient, no conversation yet).
 	var folk: Array = Content.get_world("characters").get("villagers", [])
@@ -323,6 +340,10 @@ func _stall(at: Vector3, rot: float, awning: String, goods: Array) -> void:
 		var shop := Interactable.create(root, Vector3(0.7, 0, 1.2), "Buy food for supper", func() -> void:
 			get_tree().call_group("main", "start_activity_here", "market_buy", root.global_position + Vector3(0, 1.0, 0)), 0.7, 1.6)
 		shop.conditions = [{"day_at_least": 8}, {"not": {"fact": "home.bought_day", "is_today": true}}]
+		# In the market week Mr. Tobias has work here: weighing, counting, minding.
+		var help := Interactable.create(root, Vector3(-0.7, 0, 1.2), "Help at the bread stall", func() -> void:
+			_start_job(BREAD_STALL_JOBS, root.global_position + Vector3(0, 1.0, 0), tr("Mr. Tobias has everything in hand today.")), 0.7, 1.6)
+		help.conditions = [{"day_at_least": 37}]
 		return
 	for i in goods.size():
 		Props.place(root, goods[i], Vector3(-0.45 + i * 0.9, 0.8, 0.05), 0.0, 0.75)
@@ -404,6 +425,11 @@ func sync_with_world() -> void:
 	_sync_stall_labels()
 	if _pantry_labels:
 		_pantry_labels.visible = WorldState.has_fact("village.pantry_labels")
+	if _ruth_window:
+		_ruth_window.visible = WorldState.has_fact("workshop.window")
+		_broken_window.visible = Days.current_day >= 30 and not WorldState.has_fact("workshop.window")
+		_shape_boxes.visible = WorldState.has_fact("workshop.shapes_day")
+		_egg_trays.visible = Days.current_day >= 36
 	# On some days a neighbour waits somewhere else (Mrs. Ruth at the
 	# sheepfold, Mr. Tobias at the mill), as the day's "npcs" anchors say.
 	for id: String in _villagers:
@@ -452,6 +478,102 @@ func _pantry_shelf(at: Vector3) -> void:
 	var use := Interactable.create(r, Vector3(0, 0, 0.8), "Help Mrs. Ruth label her pantry", func() -> void:
 		get_tree().call_group("main", "start_activity_here", "village_pantry", r.global_position + Vector3(0, 0.9, 0)), 0.7, 1.7)
 	use.conditions = [{"day_at_least": 17}, {"fact": "village.pantry_labels", "exists": false}]
+
+
+## Mr. Amos's yard beside the workshop: a workbench where the child helps
+## with the week's jobs, an empty window frame waiting for its panes, and,
+## once sorted, little boxes of wooden shapes.
+func _workshop_yard(at: Vector3) -> void:
+	MeshKit.box(self, Vector3(1.8, 0.08, 0.7), at + Vector3(0, 0.8, 0), "wood_light")
+	for x: float in [-0.8, 0.8]:
+		for z: float in [-0.28, 0.28]:
+			MeshKit.box(self, Vector3(0.08, 0.8, 0.08), at + Vector3(x, 0.4, z), "wood_dark")
+	MeshKit.solid(self, Vector3(1.8, 0.9, 0.7), at + Vector3(0, 0.45, 0))
+	# Tools on the bench: a saw and a mallet.
+	MeshKit.box(self, Vector3(0.5, 0.01, 0.12), at + Vector3(-0.45, 0.85, 0.1), "stone_dark").rotation.y = 0.3
+	MeshKit.box(self, Vector3(0.12, 0.03, 0.2), at + Vector3(-0.1, 0.85, 0.15), "wood_dark").rotation.y = 0.3
+	MeshKit.cylinder(self, 0.06, 0.06, 0.16, at + Vector3(0.5, 0.92, -0.12), "wood", 8).rotation.z = PI / 2.0
+	CraftedProps.woodpile(self, at + Vector3(1.6, 0, -0.6), 0.2)
+	_shape_boxes = group_node("ShapeBoxes")
+	for k in 3:
+		var colour: String = ["cloth_blue", "cloth_red", "cloth_gold"][k]
+		MeshKit.box(_shape_boxes, Vector3(0.22, 0.1, 0.18), at + Vector3(0.1 + k * 0.26, 0.89, 0.15), "wood")
+		MeshKit.box(_shape_boxes, Vector3(0.16, 0.04, 0.12), at + Vector3(0.1 + k * 0.26, 0.95, 0.15), colour)
+	_broken_window = group_node("BrokenWindow")
+	var frame := at + Vector3(-1.4, 0, 0.3)
+	for side: float in [-0.4, 0.4]:
+		MeshKit.box(_broken_window, Vector3(0.08, 1.0, 0.06), frame + Vector3(side, 0.55, 0), "wood")
+	for y: float in [0.06, 1.04]:
+		MeshKit.box(_broken_window, Vector3(0.88, 0.08, 0.06), frame + Vector3(0, y, 0), "wood")
+	var work := Interactable.create(self, at + Vector3(0, 0, 0.9), "Work with Mr. Amos", func() -> void:
+		_start_job(WORKSHOP_JOBS, position + at + Vector3(0, 0.9, 0), tr("The workbench is tidy. Mr. Amos has no job for you just now.")), 0.7, 1.4)
+	work.conditions = [{"day_at_least": 29}]
+	add_activity_focus(at + Vector3(0, 0.9, 0))
+	add_clearing(at, Vector2(4.0, 2.4))
+	# Mrs. Ruth's mended window, its coloured panes in a new frame, by her door.
+	_ruth_window = group_node("RuthWindow")
+	# Leaning against the wall by the pantry shelf, waiting to be fitted.
+	var win := Vector3(9.75, 0, 3.75)
+	var leaning := Node3D.new()
+	leaning.position = win
+	leaning.rotation = Vector3(-0.22, -0.6, 0)
+	_ruth_window.add_child(leaning)
+	MeshKit.box(leaning, Vector3(0.9, 1.0, 0.06), Vector3(0, 0.5, 0), "wood")
+	for k in 6:
+		var pane: String = ["cloth_blue", "cloth_gold", "cloth_red", "cloth_green", "cloth_blue", "cloth_gold"][k]
+		MeshKit.box(leaning, Vector3(0.24, 0.26, 0.02), Vector3(-0.28 + (k % 3) * 0.28, 0.35 + (k / 3) * 0.3, 0.035), pane)
+
+
+## Today's job from a neighbour's list ([[first day, activity], ...]): the
+## day's own job if it is one of them, or else the latest one offered so
+## far that can be done again.
+func _start_job(jobs: Array, focus: Vector3, none_text: String) -> void:
+	var primary := str(Days.definition().get("primary_activity", ""))
+	var pick := ""
+	for j: Array in jobs:
+		if str(j[1]) == primary and ActivityRunner.can_start(primary):
+			pick = primary
+	if pick.is_empty():
+		for j: Array in jobs:
+			if Days.current_day >= int(j[0]) and ActivityRunner.can_start(str(j[1])):
+				pick = str(j[1])
+	if pick.is_empty():
+		get_tree().call_group("main", "show_caption", none_text)
+		return
+	get_tree().call_group("main", "start_activity_here", pick, focus)
+
+
+## The market week (from day 36): Mrs. Ruth sells eggs at the east stall,
+## and Miss Miriam does her shopping at the vegetable stall.
+func _market_week() -> void:
+	# Mrs. Ruth's own little egg table, beside the east stall.
+	var eggs_at: Vector3 = STALLS[3][0] + Vector3(-0.2, 0, 1.7)
+	_egg_trays = group_node("EggTrays")
+	MeshKit.box(_egg_trays, Vector3(1.2, 0.06, 0.6), eggs_at + Vector3(0, 0.7, 0), "wood_light")
+	for x: float in [-0.5, 0.5]:
+		MeshKit.box(_egg_trays, Vector3(0.07, 0.7, 0.5), eggs_at + Vector3(x, 0.35, 0), "wood_dark")
+	for k in 3:
+		var tray := eggs_at + Vector3(-0.38 + k * 0.38, 0.73, 0)
+		MeshKit.box(_egg_trays, Vector3(0.3, 0.05, 0.36), tray + Vector3(0, 0.025, 0), "wood")
+		for e in 4:
+			MeshKit.sphere(_egg_trays, 0.05, tray + Vector3(-0.07 + (e % 2) * 0.14, 0.1, -0.08 + (e / 2) * 0.16), "cloth_cream", Vector3(1, 1.3, 1), 6, 3)
+	var sign := Label3D.new()
+	sign.text = tr("Eggs")
+	sign.font = UiStyle.font()
+	sign.font_size = 72
+	sign.pixel_size = 0.005
+	sign.modulate = Color("8a2f26")
+	sign.outline_size = 0
+	sign.billboard = BaseMaterial3D.BILLBOARD_FIXED_Y
+	sign.position = eggs_at + Vector3(0, 1.15, 0)
+	_egg_trays.add_child(sign)
+	var sell := Interactable.create(self, eggs_at + Vector3(-0.9, 0, 0), "Help Mrs. Ruth sell eggs", func() -> void:
+		get_tree().call_group("main", "start_activity_here", "market_sell_eggs", position + eggs_at + Vector3(0, 0.9, 0)), 0.7, 1.4)
+	sell.conditions = [{"day_at_least": 36}, {"not": {"fact": "market.eggs_day", "is_today": true}}]
+	var veg_at: Vector3 = STALLS[2][0]
+	var shop := Interactable.create(self, veg_at + Vector3(-1.3, 0, -0.2), "Do Miss Miriam's shopping", func() -> void:
+		get_tree().call_group("main", "start_activity_here", "market_list", position + veg_at + Vector3(0, 1.0, 0)), 0.7, 1.6)
+	shop.conditions = [{"day_at_least": 38}, {"not": {"fact": "market.list_day", "is_today": true}}]
 
 
 func _find_anchor(anchor_id: String) -> Node3D:

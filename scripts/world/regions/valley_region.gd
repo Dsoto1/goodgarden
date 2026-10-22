@@ -654,9 +654,17 @@ func _grove() -> void:
 		MeshKit.cylinder(self, 0.1, 0.1, 0.24, f + Vector3(0, 1.44, 0), "glass", 8)
 		MeshKit.cylinder(_fed_birds, 0.09, 0.09, 0.16, f + Vector3(0, 1.4, 0), "cloth_gold", 8)
 		var bird := AnimalModel.make("bird")
-		bird.position = f + Vector3(0.14, 1.32, 0.1)
+		bird.position = f + Vector3(0.16, 1.32, 0.12)
 		bird.rotation.y = f.x
+		bird.scale = Vector3.ONE * 2.0
 		_fed_birds.add_child(bird)
+		# And one on the ground, pecking at the seed that fell.
+		var pecker := AnimalModel.make("bird")
+		pecker.position = f + Vector3(-0.4, 0, 0.5)
+		pecker.rotation = Vector3(0.4, f.x * 3.0, 0)
+		pecker.scale = Vector3.ONE * 2.0
+		_fed_birds.add_child(pecker)
+		MeshKit.sphere(_fed_birds, 0.3, f + Vector3(-0.3, 0.01, 0.4), "cloth_gold", Vector3(1, 0.04, 0.8), 8, 2)
 	var feed := Interactable.create(self, FEEDERS[1] + Vector3(0, 0, 1.0), "Fill the bird feeders", func() -> void:
 		get_tree().call_group("main", "start_activity_here", "grove_bird_feeders", position + FEEDERS[1] + Vector3(0, 1.2, 0)), 0.7, 1.6)
 	feed.conditions = [{"day_at_least": 26}, {"not": {"fact": "grove.birds_fed_day", "is_today": true}}]

@@ -1,0 +1,124 @@
+{
+	"id": "market_list",
+	"title": "Miss Miriam's Shopping List",
+	"mode": "task",
+	"location": "village",
+	"surface": "wood_table",
+	"readiness": {
+		"ages": [
+			5,
+			9
+		],
+		"math": "counting out sets to match written numbers",
+		"reading": "reading a shopping list: numbers and words (pictures for younger children)"
+	},
+	"concepts": [
+		"reading numerals",
+		"reading words",
+		"counting out a set",
+		"lists"
+	],
+	"formation_themes": [
+		"helpfulness",
+		"attention"
+	],
+	"prerequisites": [
+		{
+			"not": {
+				"fact": "market.list_day",
+				"is_today": true
+			}
+		}
+	],
+	"intro": [
+		{
+			"speaker": "miriam",
+			"text": "Hello, my friend! I've so much to carry today. Could you do some of my shopping?"
+		},
+		{
+			"speaker": "miriam",
+			"text": "Here's my list. Read it, and put just the right things in my basket."
+		}
+	],
+	"steps": [
+		{
+			"id": "list",
+			"primitive": "fill_order",
+			"speaker": "miriam",
+			"note_from": "Miss Miriam",
+			"note_title": "Shopping list:",
+			"basket_label": "Miss Miriam's basket",
+			"prompt": "Read the list. Put the right things in the basket, then press Done.",
+			"hint": "Show me",
+			"order": [
+				{
+					"item": "apple",
+					"count": 3
+				},
+				{
+					"item": "bread_roll",
+					"count": 2,
+					"word": "roll",
+					"words": "rolls"
+				},
+				{
+					"item": "egg",
+					"count": 1
+				}
+			],
+			"extra": [
+				"jam_jar"
+			],
+			"pictures": true,
+			"older": {
+				"order": [
+					{
+						"item": "apple",
+						"count": 4
+					},
+					{
+						"item": "bread_roll",
+						"count": 3,
+						"word": "roll",
+						"words": "rolls"
+					},
+					{
+						"item": "jam_jar",
+						"count": 2,
+						"word": "jar of jam",
+						"words": "jars of jam"
+					},
+					{
+						"item": "egg",
+						"count": 6
+					}
+				],
+				"extra": [],
+				"pictures": false,
+				"spare": 2,
+				"prompt": "Read the list: no pictures this time. Put the right things in the basket, then press Done."
+			},
+			"feedback": {
+				"all_good": "Everything on my list! Thank you. You read it beautifully."
+			}
+		}
+	],
+	"outro": [
+		{
+			"speaker": "miriam",
+			"text": "You saved my poor arms! Come by the garden later and we'll share an apple.",
+			"button": "Thank you, Miss Miriam"
+		}
+	],
+	"world_effects": [
+		{
+			"op": "set",
+			"fact": "market.list_day",
+			"value": "$day"
+		}
+	],
+	"replay": "free",
+	"real_world_invitation": "rw_read_list",
+	"journal_line": "I read Miss Miriam's shopping list and filled her basket at the market.",
+	"unavailable_text": "Miss Miriam's shopping is done for today."
+}

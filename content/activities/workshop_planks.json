@@ -1,0 +1,91 @@
+{
+	"id": "workshop_planks",
+	"title": "Planks in Order",
+	"mode": "task",
+	"location": "village",
+	"surface": "wood_table",
+	"readiness": {
+		"ages": [
+			5,
+			9
+		],
+		"math": "ordering by length (seriation), shortest to longest",
+		"reading": "pre-reader friendly; all text can be read aloud"
+	},
+	"concepts": [
+		"seriation",
+		"comparing lengths",
+		"shortest and longest"
+	],
+	"formation_themes": [
+		"order",
+		"work well done"
+	],
+	"prerequisites": [
+		{
+			"not": {
+				"fact": "workshop.planks_day",
+				"is_today": true
+			}
+		}
+	],
+	"intro": [
+		{
+			"speaker": "amos",
+			"text": "I'm making steps for the chapel garden, and every step needs a plank a little longer than the last."
+		},
+		{
+			"speaker": "amos",
+			"text": "Can you line them up for me, from the shortest to the longest?"
+		}
+	],
+	"steps": [
+		{
+			"id": "planks",
+			"primitive": "sequence_cards",
+			"speaker": "amos",
+			"prompt": "Put the planks in order, from the shortest to the longest.",
+			"hint": "Find the very shortest one first. Then find the next shortest.",
+			"cards": [
+				"card_plank_2",
+				"card_plank_3",
+				"card_plank_4",
+				"card_plank_5",
+				"card_plank_6"
+			],
+			"older": {
+				"cards": [
+					"card_plank_2",
+					"card_plank_3",
+					"card_plank_4",
+					"card_plank_5",
+					"card_plank_6",
+					"card_plank_7"
+				],
+				"show_dots": false
+			},
+			"feedback": {
+				"out_of_order": "Some planks are back on the table. Which is the shortest one left?",
+				"all_good": "Shortest to longest, like a little staircase!"
+			}
+		}
+	],
+	"outro": [
+		{
+			"speaker": "amos",
+			"text": "Look: they make a staircase. Each one just a little longer than the one before.",
+			"button": "Thank you, Mr. Amos"
+		}
+	],
+	"world_effects": [
+		{
+			"op": "set",
+			"fact": "workshop.planks_day",
+			"value": "$day"
+		}
+	],
+	"replay": "free",
+	"real_world_invitation": "rw_line_up",
+	"journal_line": "I put Mr. Amos's planks in order, from the shortest to the longest.",
+	"unavailable_text": "The planks are in order for today."
+}

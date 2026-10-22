@@ -1,0 +1,39 @@
+{
+	"id": "inv_day_030",
+	"from": "amos",
+	"body": "Hello again, friend!\n\nThe wind broke Mrs. Ruth's window in the night. I have cut new panes of glass, but fitting them is fiddly work.\n\nWill you come and help me? You have a careful eye.",
+	"signature": "Mr. Amos, the carpenter",
+	"suggests": "workshop_window",
+	"summary": "Help Mr. Amos mend Mrs. Ruth's window.",
+	"done": "The window is mended. Thank you for your careful work!",
+	"tasks": [
+		{
+			"text": "Mend the window",
+			"activity": "workshop_window",
+			"icon": "window",
+			"where": "at the workshop in the village"
+		},
+		{
+			"text": "Pet the dog",
+			"done_when": [
+				{
+					"fact": "animals.dog.petted_day",
+					"is_today": true
+				}
+			],
+			"icon": "heart",
+			"where": "in the village"
+		},
+		{
+			"text": "Feed the hens",
+			"done_when": [
+				{
+					"fact": "home.hens_fed_day",
+					"is_today": true
+				}
+			],
+			"icon": "hen",
+			"where": "by the coop at home"
+		}
+	]
+}

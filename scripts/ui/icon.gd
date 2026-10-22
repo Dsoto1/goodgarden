@@ -302,6 +302,39 @@ static func draw(ci: CanvasItem, kind: String, r: Rect2, color := INK) -> void:
 			ci.draw_colored_polygon(PackedVector2Array([c + Vector2(0.3, -0.18) * s, c + Vector2(0.42, -0.14) * s, c + Vector2(0.3, -0.1) * s]), Color("e0b64c"))
 			ci.draw_circle(c + Vector2(0.21, -0.19) * s, 0.025 * s, Color("2a2420"))
 			ci.draw_colored_polygon(PackedVector2Array([c + Vector2(-0.2, 0.0) * s, c + Vector2(-0.44, -0.12) * s, c + Vector2(-0.36, 0.1) * s]), Color("6a4a2e"))
+		"shapes":
+			# A square, a triangle and a circle.
+			ci.draw_rect(Rect2(c + Vector2(-0.4, 0.02) * s, Vector2(0.32, 0.32) * s), Color("5f8fd0"))
+			ci.draw_colored_polygon(PackedVector2Array([c + Vector2(0.04, 0.34) * s, c + Vector2(0.4, 0.34) * s, c + Vector2(0.22, 0.02) * s]), Color("d9473c"))
+			ci.draw_circle(c + Vector2(-0.02, -0.2) * s, 0.16 * s, Color("e0b64c"))
+		"window":
+			ci.draw_rect(Rect2(c + Vector2(-0.34, -0.36) * s, Vector2(0.68, 0.72) * s), Color("8a5a3a"))
+			for k in 4:
+				var pane: Color = [Color("8fb6d6"), Color("e0b64c"), Color("d9473c"), Color("6fa84f")][k]
+				ci.draw_rect(Rect2(c + Vector2(-0.28 + (k % 2) * 0.3, -0.3 + (k / 2) * 0.32) * s, Vector2(0.26, 0.28) * s), pane)
+		"note":
+			# A slip of paper with lines of writing.
+			ci.draw_rect(Rect2(c + Vector2(-0.3, -0.38) * s, Vector2(0.6, 0.76) * s), Color("fbf5e8"))
+			ci.draw_rect(Rect2(c + Vector2(-0.3, -0.38) * s, Vector2(0.6, 0.76) * s), color, false, 1.5)
+			for k in 4:
+				ci.draw_line(c + Vector2(-0.2, -0.22 + k * 0.16) * s, c + Vector2(0.2 - (k % 2) * 0.1, -0.22 + k * 0.16) * s, Color("3b3430"), maxf(1.5, s * 0.04))
+		"plank":
+			# A saw over a plank.
+			ci.draw_rect(Rect2(c + Vector2(-0.42, 0.14) * s, Vector2(0.84, 0.18) * s), Color("c79a62"))
+			ci.draw_colored_polygon(PackedVector2Array([c + Vector2(-0.3, -0.04) * s, c + Vector2(0.3, -0.24) * s, c + Vector2(0.32, -0.12) * s, c + Vector2(-0.28, 0.06) * s]), Color("a3a8ae"))
+			ci.draw_rect(Rect2(c + Vector2(0.28, -0.32) * s, Vector2(0.16, 0.2) * s), Color("8a5a3a"))
+		"birdhouse":
+			ci.draw_rect(Rect2(c + Vector2(-0.24, -0.08) * s, Vector2(0.48, 0.42) * s), Color("c79a62"))
+			ci.draw_colored_polygon(PackedVector2Array([c + Vector2(-0.34, -0.06) * s, c + Vector2(0, -0.4) * s, c + Vector2(0.34, -0.06) * s]), Color("b8392f"))
+			ci.draw_circle(c + Vector2(0, 0.1) * s, 0.08 * s, Color("3b3430"))
+		"scales":
+			# A balance: a post, a beam and two pans.
+			ci.draw_line(c + Vector2(0, -0.34) * s, c + Vector2(0, 0.36) * s, Color("8a5a3a"), maxf(2.0, s * 0.06))
+			ci.draw_line(c + Vector2(-0.38, -0.26) * s, c + Vector2(0.38, -0.26) * s, Color("8a5a3a"), maxf(2.0, s * 0.05))
+			for side: float in [-1.0, 1.0]:
+				ci.draw_line(c + Vector2(side * 0.38, -0.26) * s, c + Vector2(side * 0.38, 0.0) * s, color, 1.5)
+				ci.draw_arc(c + Vector2(side * 0.38, 0.0) * s, 0.14 * s, 0, PI, 10, Color("b8913a"), maxf(2.0, s * 0.05))
+			ci.draw_line(c + Vector2(-0.16, 0.36) * s, c + Vector2(0.16, 0.36) * s, Color("8a5a3a"), maxf(2.0, s * 0.06))
 		"todo":
 			# An empty ring, waiting for its tick.
 			ci.draw_arc(c, 0.36 * s, 0, TAU, 32, Color("b89a78"), maxf(2.0, s * 0.08), true)

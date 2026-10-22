@@ -1,0 +1,39 @@
+{
+	"id": "inv_day_032",
+	"from": "amos",
+	"body": "Hello, friend!\n\nI'm making little wooden steps for the chapel garden. I've cut the planks, but they've all been jumbled up.\n\nCan you line them up for me, from the shortest to the longest?",
+	"signature": "Mr. Amos, the carpenter",
+	"suggests": "workshop_planks",
+	"summary": "Put Mr. Amos's planks in order, shortest to longest.",
+	"done": "The planks are in order. Thank you!",
+	"tasks": [
+		{
+			"text": "Put the planks in order",
+			"activity": "workshop_planks",
+			"icon": "plank",
+			"where": "at the workshop in the village"
+		},
+		{
+			"text": "Feed the hens",
+			"done_when": [
+				{
+					"fact": "home.hens_fed_day",
+					"is_today": true
+				}
+			],
+			"icon": "hen",
+			"where": "by the coop at home"
+		},
+		{
+			"text": "Pet the horse",
+			"done_when": [
+				{
+					"fact": "animals.horse.petted_day",
+					"is_today": true
+				}
+			],
+			"icon": "heart",
+			"where": "in the paddock by the mill"
+		}
+	]
+}

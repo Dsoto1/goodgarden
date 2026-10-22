@@ -68,7 +68,7 @@ func test_content_is_valid() -> void:
 		printerr("  content: ", e)
 	eq(errors.size(), 0, "authored content has no validation errors")
 	# Every working day asks for three jobs; the day of rest asks for none.
-	for d in range(1, 29):
+	for d in range(1, 43):
 		var weekend := d % 7 == 0 or d % 7 == 6
 		eq(TodaysWork.jobs(Content.get_invitation("inv_day_%03d" % d)).size(), 0 if weekend else 3, "day %d has %s" % [d, "no jobs (weekend)" if weekend else "three jobs"])
 
@@ -614,10 +614,76 @@ func test_continue_pattern() -> void:
 	step.queue_free()
 
 
-## Every week 3-4 activity builds at both work levels.
-func test_weeks_3_and_4_activities_build() -> void:
+func test_fit_shapes() -> void:
+	var step := _make_step("fit_shapes", {"id": "w", "shapes": [{"kind": "shape_triangle", "pos": [300, 150], "turn": 0}, {"kind": "shape_triangle", "pos": [300, 150], "turn": 2}, {"kind": "shape_square", "pos": [500, 150]}]})
+	eq(step.pieces.size(), 3, "a piece for each outline")
+	var tri: DragPiece = step.pieces.filter(func(q: DragPiece) -> bool: return q.kind == "shape_triangle")[0]
+	while int(tri.data["turn"]) == 0 or int(tri.data["turn"]) == 2:
+		step.turn(tri)
+	_drop(tri, Vector2(300, 150))
+	check(tri.placed_in == null, "a triangle turned the wrong way doesn't settle")
+	step.turn(tri)
+	_drop(tri, Vector2(300, 150))
+	check(tri.placed_in != null, "turned to match, it fits (two triangles share the square)")
+	var other: DragPiece = step.pieces.filter(func(q: DragPiece) -> bool: return q.kind == "shape_triangle" and q != tri)[0]
+	while not step.matches(other, step.outlines[0]) and not step.matches(other, step.outlines[1]):
+		step.turn(other)
+	_drop(other, Vector2(300, 150))
+	var square: DragPiece = step.pieces.filter(func(q: DragPiece) -> bool: return q.kind == "shape_square")[0]
+	_drop(square, Vector2(500, 150))
+	check(step.is_done, "a square fits whichever way round; every outline filled finishes")
+	step.queue_free()
+
+
+func test_give_change() -> void:
+	var step := _make_step("give_change", {"id": "g", "sales": [{"item": "bun", "price": 3, "paid": [5]}], "cash": [1, 1, 1, 1]})
+	eq(step.change_due(), 2, "paid 5 for 3: two back")
+	_drop(step.cash[0], step.counter.center())
+	step.give_change()
+	check(not step.is_done and step.on_counter() == 1, "one coin isn't enough change")
+	_drop(step.cash[1], step.counter.center())
+	_drop(step.cash[2], step.counter.center())
+	step.give_change()
+	eq(step.on_counter(), 0, "too much change is handed back")
+	_drop(step.cash[0], step.counter.center())
+	_drop(step.cash[1], step.counter.center())
+	step.give_change()
+	await wait(1.8)
+	check(step.is_done, "the right change finishes the sale")
+	step.queue_free()
+	var honest := _make_step("give_change", {"id": "g", "sales": [{"item": "bun", "price": 4, "paid": [5]}], "mistaken_pay": true})
+	eq(honest.paid(), 6, "the customer pays one coin too many by mistake")
+	honest._check_paid(true)
+	check(honest.honest and honest.paid() == 5, "saying so gives it back, and is thanked")
+	honest.queue_free()
+
+
+func test_fill_order() -> void:
+	var step := _make_step("fill_order", {"id": "o", "order": [{"item": "nail", "count": 2}, {"item": "hook", "count": 1}], "extra": ["screw"]})
+	var nails: Array = step.pieces.filter(func(q: DragPiece) -> bool: return q.kind == "nail")
+	var hooks: Array = step.pieces.filter(func(q: DragPiece) -> bool: return q.kind == "hook")
+	var screws: Array = step.pieces.filter(func(q: DragPiece) -> bool: return q.kind == "screw")
+	eq(step.line_text(0), "2 nails", "the note reads like writing: a number and a word")
+	_drop(nails[0], step.basket.center())
+	_drop(screws[0], step.basket.center())
+	step.check()
+	check(not step.is_done, "something not on the note is noticed")
+	_drop(screws[0], screws[0].home + Vector2(0, -1))
+	step.check()
+	check(not step.is_done, "a missing nail is noticed")
+	_drop(nails[1], step.basket.center())
+	_drop(hooks[0], step.basket.center())
+	step.check()
+	check(step.is_done, "everything on the note, and nothing else, finishes")
+	step.queue_free()
+
+
+## Every activity from weeks 3 to 6 builds at both work levels.
+func test_weeks_3_to_6_activities_build() -> void:
 	var ids := ["home_eggs", "garden_weed", "village_pantry", "garden_flower_border", "garden_measure_again",
-		"grove_leaves", "grove_trail_signs", "grove_acorns", "grove_stone_path", "grove_bird_feeders"]
+		"grove_leaves", "grove_trail_signs", "grove_acorns", "grove_stone_path", "grove_bird_feeders",
+		"workshop_shapes", "workshop_window", "workshop_order", "workshop_planks", "workshop_birdhouse",
+		"market_sell_eggs", "market_scales", "market_list", "market_count_coins", "market_stall_day"]
 	for id: String in ids:
 		var def := Content.get_activity(id)
 		check(def != null, "%s exists" % id)
@@ -1451,11 +1517,25 @@ func test_vertical_slice_end_to_end() -> void:
 	var to_grove := NavigationServer3D.map_get_path(world.get_world_3d().navigation_map, world.anchor("chapel_door").global_position, ValleyRegion.GROVE, true)
 	var grove_end := to_grove[to_grove.size() - 1] if to_grove.size() > 0 else Vector3.INF
 	check(Vector2(grove_end.x, grove_end.z).distance_to(Vector2(ValleyRegion.GROVE.x, ValleyRegion.GROVE.z)) < 0.6, "the child can walk from the chapel into the Grove")
+	# Week 5 opens Mr. Amos's workshop, week 6 the market stalls.
+	for i in 7:
+		await main.rest_until_morning()
+	await frames(3)
+	eq(Days.current_day, 29, "day 29: the workshop week")
+	var amos := _interactable("Work with Mr. Amos")
+	check(amos != null and amos.is_available(), "Mr. Amos has work at his bench")
+	check(_interactable("Talk to Mr. Amos") != null, "Mr. Amos is in the village to talk to")
+	for i in 7:
+		await main.rest_until_morning()
+	await frames(3)
+	eq(Days.npc_anchor("ruth"), "egg_stall_ruth", "day 36: Mrs. Ruth minds her egg stall")
+	var eggs := _interactable("Help Mrs. Ruth sell eggs")
+	check(eggs != null and eggs.is_available(), "the eggs can be sold")
 	for i in 13:
 		await main.rest_until_morning()
 	await frames(3)
-	eq(Days.current_day, 35, "a Sunday past the written days")
-	eq(Days.npc_anchor("tobias"), "chapel_tobias", "on every Sunday the neighbours gather at the Chapel")
+	eq(Days.current_day, 49, "a Sunday past the written days")
+	eq(Days.npc_anchor("amos"), "chapel_amos", "on every Sunday the neighbours gather at the Chapel")
 
 	# The map: the real valley with a card for each place, travel from the
 	# places the child has been, and a marker where the child is.

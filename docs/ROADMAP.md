@@ -26,7 +26,7 @@ Beyond the slice:
 | Design target | Now |
 |---|---|
 | 12 weeks × 5 guided days = 60 guided days | 10 guided days written (weeks 1–2) |
-| 12–15 reusable activity types (`LEARNING_DESIGN.md`) | 14: spacing along a line, counting into slots, matching to outlines, sorting into bins, balance scale, sequence cards, story figures, building words, labelling pictures, measuring with units, pouring to a line, paying with coins, looking closely, continuing a pattern |
+| 12–15 reusable activity types (`LEARNING_DESIGN.md`) | 17: spacing along a line, counting into slots, matching to outlines, sorting into bins, balance scale, sequence cards, story figures, building words, labelling pictures, measuring with units, pouring to a line, paying with coins, looking closely, continuing a pattern, fitting shapes, giving change, filling an order from a note |
 | 15–20 Scripture presentations at launch (`CHAPEL_ATRIUM.md`) | 7 (paused at the owner's request) |
 | Regions: homestead, valley/village, farm & mill, forest/grove, Bellhaven later | Forest/grove not built; Bellhaven visible, not reachable |
 
@@ -114,13 +114,36 @@ the chapel. Each day's main work leaves a mark in the world.
   - Fri 26: fill the bird feeders to the line (`pour_to_line` with seed;
     older: half, full, a quarter). Birds come to eat.
 
-Not yet: brushing the horse; reading notes from neighbours in the world.
+Not yet: brushing the horse.
 
-## Phase D: weeks 5–6, Truth & Workshop/Market
+## Phase D: weeks 5–6, Truth & Workshop/Market ✓
 
-- money and honest exchange at the stalls
-- shapes and measuring in the workshop
-- reading signs and notes
+A new neighbour, **Mr. Amos the carpenter**, works in the workshop by the
+square (he joins the others at the Chapel on Sundays). Three new activity
+types: `fit_shapes` (geometric insets: turn a shape to fit its outline),
+`give_change` (minding a stall: count change on from the price; an honest
+moment when a customer overpays) and `fill_order` (read a neighbour's note
+or list and fetch just what it says).
+
+- [x] Week 5, the workshop:
+  - Mon 29: meet Mr. Amos; sort wooden shapes (older: tell squares from
+    rectangles). The sorted boxes then sit on his bench.
+  - Tue 30: mend Mrs. Ruth's window (`fit_shapes`: rectangles turned to fit;
+    older: pairs of triangles make squares). The window waits by her door.
+  - Wed 31: read Mr. Amos's note and fetch what he needs (`fill_order`;
+    older: no pictures on the note)
+  - Thu 32: line the planks up, shortest to longest (seriation, with
+    `sequence_cards`)
+  - Fri 33: build a birdhouse (`fit_shapes`: a roof of two triangles). It
+    goes up in Miss Miriam's garden, and a bird moves in the next day.
+- [x] Week 6, the market:
+  - Mon 36: sell eggs with Mrs. Ruth (`give_change`: paid with a 5, counting
+    on; older: paid with 10s, change in 1s, 2s and 5s)
+  - Tue 37: honest scales with Mr. Tobias (`balance_scale`)
+  - Wed 38: Miss Miriam's shopping list (`fill_order`)
+  - Thu 39: count the takings in piles of five (older: tens)
+  - Fri 40: mind the bread stall alone; a customer overpays and the child
+    checks (`give_change` with `mistaken_pay`)
 
 ## Phase E: weeks 7–12
 

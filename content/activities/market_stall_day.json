@@ -1,0 +1,149 @@
+{
+	"id": "market_stall_day",
+	"title": "Minding the Bread Stall",
+	"mode": "task",
+	"location": "village",
+	"surface": "wood_table",
+	"readiness": {
+		"ages": [
+			5,
+			9
+		],
+		"math": "counting on from a price to give change; checking what was paid",
+		"reading": "pre-reader friendly; all text can be read aloud"
+	},
+	"concepts": [
+		"counting on",
+		"giving change",
+		"checking"
+	],
+	"formation_themes": [
+		"honesty",
+		"trustworthiness"
+	],
+	"prerequisites": [
+		{
+			"not": {
+				"fact": "market.stall_day",
+				"is_today": true
+			}
+		}
+	],
+	"intro": [
+		{
+			"speaker": "tobias",
+			"text": "I have to take a batch out of the oven. Would you mind my stall for a little while? I trust you."
+		},
+		{
+			"speaker": "tobias",
+			"text": "Count the change from the price, just like you did with Mrs. Ruth. And always check what the customer gives you."
+		}
+	],
+	"steps": [
+		{
+			"id": "stall",
+			"primitive": "give_change",
+			"speaker": "tobias",
+			"prompt": "The {item} costs {price}. The customer gave you {paid}. Count the change onto the counter, then press Give change.",
+			"hint": "Show me",
+			"mistaken_pay": true,
+			"sales": [
+				{
+					"item": "bun",
+					"price": 2,
+					"paid": [
+						5
+					]
+				},
+				{
+					"item": "loaf",
+					"icon": "bread",
+					"price": 4,
+					"paid": [
+						5
+					]
+				},
+				{
+					"item": "jam",
+					"price": 3,
+					"paid": [
+						5
+					]
+				}
+			],
+			"cash": [
+				1,
+				1,
+				1,
+				1,
+				1,
+				1,
+				1,
+				1,
+				1,
+				1
+			],
+			"older": {
+				"sales": [
+					{
+						"item": "bun",
+						"price": 3,
+						"paid": [
+							5
+						]
+					},
+					{
+						"item": "loaf",
+						"icon": "bread",
+						"price": 7,
+						"paid": [
+							10
+						]
+					},
+					{
+						"item": "jam",
+						"price": 6,
+						"paid": [
+							5,
+							2
+						]
+					}
+				],
+				"cash": [
+					1,
+					1,
+					1,
+					1,
+					1,
+					1,
+					2,
+					2,
+					2,
+					5
+				]
+			},
+			"feedback": {
+				"honest": "Oh! I gave you one coin too many. Thank you for telling me. Mr. Tobias has a very honest helper!",
+				"all_good": "The stall is minded, and every coin is right."
+			}
+		}
+	],
+	"outro": [
+		{
+			"speaker": "tobias",
+			"text": "You told the customer about the extra coin? That's what being trustworthy means. I'm proud of you.",
+			"button": "Thank you, Mr. Tobias"
+		}
+	],
+	"world_effects": [
+		{
+			"op": "set",
+			"fact": "market.stall_day",
+			"value": "$day"
+		}
+	],
+	"replay": "free",
+	"real_world_invitation": "rw_shop_home",
+	"journal_line": "I minded Mr. Tobias's bread stall, counted the change, and was honest about an extra coin.",
+	"unavailable_text": "The stall is minded for today."
+}

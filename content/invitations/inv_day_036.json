@@ -1,0 +1,34 @@
+{
+	"id": "inv_day_036",
+	"from": "ruth",
+	"body": "Good morning, dear!\n\nIt's market day, and your hens have given us so many eggs! I'll sell them at my stall in the square.\n\nWill you mind the stall with me? I'll show you how to count the change.",
+	"signature": "Mrs. Ruth",
+	"suggests": "market_sell_eggs",
+	"summary": "Sell eggs at the market with Mrs. Ruth.",
+	"done": "Every egg is sold, and every coin of change was right!",
+	"tasks": [
+		{
+			"text": "Sell the eggs",
+			"activity": "market_sell_eggs",
+			"icon": "egg",
+			"where": "at the market in the village"
+		},
+		{
+			"text": "Collect the eggs",
+			"activity": "home_eggs",
+			"icon": "egg",
+			"where": "at the coop by your house"
+		},
+		{
+			"text": "Pet the cat",
+			"done_when": [
+				{
+					"fact": "animals.cat.petted_day",
+					"is_today": true
+				}
+			],
+			"icon": "heart",
+			"where": "at home"
+		}
+	]
+}

@@ -1,0 +1,34 @@
+{
+	"id": "inv_day_038",
+	"from": "miriam",
+	"body": "Dear friend,\n\nI need to do my shopping, but my basket is so heavy and my arms are tired! I've written a list.\n\nWould you read it and fill my basket for me? I'll be waiting at the market.",
+	"signature": "Miss Miriam",
+	"suggests": "market_list",
+	"summary": "Read Miss Miriam's shopping list, and fill her basket.",
+	"done": "Miss Miriam's shopping is all done. Thank you!",
+	"tasks": [
+		{
+			"text": "Do the shopping",
+			"activity": "market_list",
+			"icon": "note",
+			"where": "at the market in the village"
+		},
+		{
+			"text": "Set the table",
+			"activity": "home_set_table",
+			"icon": "table",
+			"where": "at home"
+		},
+		{
+			"text": "Pet the pig",
+			"done_when": [
+				{
+					"fact": "animals.pig.petted_day",
+					"is_today": true
+				}
+			],
+			"icon": "heart",
+			"where": "in the pig's pen"
+		}
+	]
+}

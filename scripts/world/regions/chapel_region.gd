@@ -88,6 +88,7 @@ func build() -> void:
 	add_anchor("chapel_miriam", Vector3(-1.9, 0, 8.6), -PI / 2.0 - 0.3)
 	add_anchor("chapel_tobias", Vector3(1.9, 0, 8.2), PI / 2.0 + 0.2)
 	add_anchor("chapel_ruth", Vector3(2.5, 0, 9.6), PI / 2.0 + 0.6)
+	add_anchor("chapel_amos", Vector3(-2.6, 0, 9.9), -PI / 2.0 - 0.6)
 	add_discovery_zone(Vector3(0, 1, 2), Vector3(16, 3, 16))
 	# One interior across all three rooms, so the roofs stay lifted while the
 	# child walks between them.

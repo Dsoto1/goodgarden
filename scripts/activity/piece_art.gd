@@ -26,6 +26,19 @@ static func draw(ci: CanvasItem, kind: String, size: Vector2, outline: bool, dat
 	if kind.begins_with("word:"):
 		_word_card(ci, kind.substr(5), size, outline)
 		return
+	if kind.begins_with("card_plank_"):
+		# A plank stood on end on a card; plank N is N steps tall (1 to 8).
+		var steps := int(kind.substr(11))
+		_shape(ci, _rect(Rect2(Vector2(4, 4), size - Vector2(8, 8))), Color("fbf3dc"), outline)
+		if not outline:
+			var ground := size.y - 14
+			var h := (size.y - 30) * steps / 8.0
+			ci.draw_rect(Rect2(c.x - 13, ground - h, 26, h), Color("c79a62"))
+			ci.draw_rect(Rect2(c.x - 13, ground - h, 26, h), Color("8a5a3a"), false, 2.0)
+			for k in steps:
+				ci.draw_line(Vector2(c.x - 13, ground - h + h * (k + 0.5) / steps), Vector2(c.x - 4, ground - h + h * (k + 0.5) / steps), Color("a8733e"), 1.0)
+			ci.draw_line(Vector2(10, ground), Vector2(size.x - 10, ground), Color("8a6446"), 3.0)
+		return
 	if kind.begins_with("coin:"):
 		# A coin with its value stamped on it: copper 1s, silver 2s, gold 5s.
 		var value := kind.substr(5)
@@ -37,6 +50,63 @@ static func draw(ci: CanvasItem, kind: String, size: Vector2, outline: bool, dat
 			ci.draw_string(UiStyle.font(), Vector2(0, c.y + fsize * 0.35), value, HORIZONTAL_ALIGNMENT_CENTER, size.x, fsize, metal.darkened(0.55))
 		return
 	match kind:
+		"shape_square", "shape_rect", "shape_triangle", "shape_semicircle", "shape_circle":
+			# Wooden geometric insets, each its own colour, with a little knob.
+			var fill: Color = {"shape_square": Color("5f8fd0"), "shape_rect": Color("6fa84f"), "shape_triangle": Color("d9473c"), "shape_semicircle": Color("e0b64c"), "shape_circle": Color("d9733a")}[kind]
+			var pts := PackedVector2Array()
+			match kind:
+				"shape_triangle":
+					# A right triangle, the right angle at the bottom left.
+					pts = PackedVector2Array([Vector2(2, 2), Vector2(2, size.y - 2), Vector2(size.x - 2, size.y - 2)])
+				"shape_semicircle":
+					for k in 17:
+						var a := PI + PI * k / 16.0
+						pts.append(Vector2(c.x + cos(a) * (size.x / 2.0 - 2), size.y - 2 + sin(a) * (size.y - 4)))
+				"shape_circle":
+					pts = _ellipse(c, c - Vector2(2, 2), 24)
+				_:
+					pts = _rect(Rect2(Vector2(2, 2), size - Vector2(4, 4)))
+			_shape(ci, pts, fill, outline)
+			if not outline:
+				var mid := Vector2.ZERO
+				for q in pts:
+					mid += q
+				mid /= pts.size()
+				ci.draw_circle(mid, minf(size.x, size.y) * 0.07, fill.darkened(0.35))
+		"nail":
+			if outline:
+				ci.draw_rect(Rect2(c.x - 3, size.y * 0.15, 6, size.y * 0.7), OUTLINE, false, 2.0)
+			else:
+				ci.draw_rect(Rect2(c.x - size.x * 0.2, size.y * 0.12, size.x * 0.4, size.y * 0.08), Color("8a8f96"))
+				ci.draw_colored_polygon(PackedVector2Array([Vector2(c.x - size.x * 0.05, size.y * 0.2), Vector2(c.x + size.x * 0.05, size.y * 0.2), Vector2(c.x, size.y * 0.9)]), Color("a3a8ae"))
+		"screw":
+			if outline:
+				ci.draw_rect(Rect2(c.x - 4, size.y * 0.15, 8, size.y * 0.7), OUTLINE, false, 2.0)
+			else:
+				ci.draw_circle(Vector2(c.x, size.y * 0.2), size.x * 0.16, Color("c9a23a"))
+				ci.draw_line(Vector2(c.x - size.x * 0.1, size.y * 0.2), Vector2(c.x + size.x * 0.1, size.y * 0.2), Color("7a6020"), 2.0)
+				ci.draw_colored_polygon(PackedVector2Array([Vector2(c.x - size.x * 0.08, size.y * 0.3), Vector2(c.x + size.x * 0.08, size.y * 0.3), Vector2(c.x, size.y * 0.9)]), Color("d9b44a"))
+				for k in 4:
+					var y := size.y * (0.38 + k * 0.12)
+					ci.draw_line(Vector2(c.x - size.x * 0.08 * (1.0 - k * 0.2), y), Vector2(c.x + size.x * 0.08 * (1.0 - k * 0.2), y + 3), Color("9a7a28"), 1.5)
+		"hook":
+			if outline:
+				ci.draw_arc(Vector2(c.x, size.y * 0.6), size.x * 0.22, 0, PI, 12, OUTLINE, 3.0)
+			else:
+				ci.draw_line(Vector2(c.x + size.x * 0.22, size.y * 0.12), Vector2(c.x + size.x * 0.22, size.y * 0.6), Color("5a5550"), 4.0)
+				ci.draw_arc(Vector2(c.x, size.y * 0.6), size.x * 0.22, 0, PI, 12, Color("5a5550"), 4.0)
+				ci.draw_circle(Vector2(c.x + size.x * 0.22, size.y * 0.12), 4, Color("5a5550"))
+		"apple":
+			_shape(ci, _ellipse(c + Vector2(0, size.y * 0.06), Vector2(size.x * 0.36, size.y * 0.34), 18), Color("c8322a"), outline)
+			if not outline:
+				ci.draw_line(c - Vector2(0, size.y * 0.24), c - Vector2(-size.x * 0.04, size.y * 0.4), Color("5a3d28"), 2.5)
+				ci.draw_colored_polygon(_ellipse(c + Vector2(size.x * 0.12, -size.y * 0.34), Vector2(size.x * 0.1, size.y * 0.05), 8), Color("6fa84f"))
+				ci.draw_circle(c + Vector2(-size.x * 0.12, -size.y * 0.04), size.x * 0.07, Color(1, 1, 1, 0.35))
+		"jam_jar":
+			_shape(ci, _rect(Rect2(size.x * 0.22, size.y * 0.3, size.x * 0.56, size.y * 0.6)), Color("b8392f"), outline)
+			if not outline:
+				ci.draw_rect(Rect2(size.x * 0.16, size.y * 0.16, size.x * 0.68, size.y * 0.16), Color("efe4cf"))
+				ci.draw_rect(Rect2(size.x * 0.32, size.y * 0.5, size.x * 0.36, size.y * 0.18), Color("fbf5e8"))
 		"flower_red", "flower_yellow", "flower_blue":
 			# A five-petalled flower; colour and a small difference in the
 			# centre, so the pattern can be told apart by more than colour.

@@ -9,7 +9,7 @@ extends RefCounted
 ## who can't read yet can still tell the jobs apart.
 
 ## The pictures a job may use (drawn by Icon).
-const ICONS := ["seedling", "table", "hen", "talk", "sheep", "heart", "bread", "water", "mill", "tree", "fish", "card", "letters", "measure", "coin", "lens", "egg", "weed", "flower", "leaf", "acorn", "stone", "bird"]
+const ICONS := ["seedling", "table", "hen", "talk", "sheep", "heart", "bread", "water", "mill", "tree", "fish", "card", "letters", "measure", "coin", "lens", "egg", "weed", "flower", "leaf", "acorn", "stone", "bird", "shapes", "window", "note", "plank", "birdhouse", "scales"]
 
 
 ## Today's letter, once it has been read (empty before, and on free days).

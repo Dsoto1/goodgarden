@@ -1,0 +1,34 @@
+{
+	"id": "inv_day_033",
+	"from": "amos",
+	"body": "Good morning!\n\nThe birds in Miss Miriam's garden have nowhere safe to nest. I have cut the pieces for a birdhouse. Shall we build it together?\n\nCome to the workshop, and bring your careful hands!",
+	"signature": "Mr. Amos, the carpenter",
+	"suggests": "workshop_birdhouse",
+	"summary": "Build a birdhouse with Mr. Amos.",
+	"done": "The birdhouse is up in Miss Miriam's garden!",
+	"tasks": [
+		{
+			"text": "Build a birdhouse",
+			"activity": "workshop_birdhouse",
+			"icon": "birdhouse",
+			"where": "at the workshop in the village"
+		},
+		{
+			"text": "Feed the lambs",
+			"activity": "sheepfold_hay",
+			"icon": "sheep",
+			"where": "at the sheepfold"
+		},
+		{
+			"text": "Feed the hens",
+			"done_when": [
+				{
+					"fact": "home.hens_fed_day",
+					"is_today": true
+				}
+			],
+			"icon": "hen",
+			"where": "by the coop at home"
+		}
+	]
+}

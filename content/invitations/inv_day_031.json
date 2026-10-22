@@ -1,0 +1,34 @@
+{
+	"id": "inv_day_031",
+	"from": "amos",
+	"body": "Good morning!\n\nI've got glue all over my hands today. Could you fetch some things from my shelf for me? I'll leave you a note, so you know what to bring.\n\nCome by the workshop.",
+	"signature": "Mr. Amos, the carpenter",
+	"suggests": "workshop_order",
+	"summary": "Read Mr. Amos's note, and fetch what he needs.",
+	"done": "You brought just what Mr. Amos needed!",
+	"tasks": [
+		{
+			"text": "Read Mr. Amos's note",
+			"activity": "workshop_order",
+			"icon": "note",
+			"where": "at the workshop in the village"
+		},
+		{
+			"text": "Pour water for supper",
+			"activity": "home_pour_water",
+			"icon": "water",
+			"where": "at the jug in your kitchen"
+		},
+		{
+			"text": "Say hello to Miss Miriam",
+			"done_when": [
+				{
+					"fact": "npc.miriam.greeted_day",
+					"is_today": true
+				}
+			],
+			"icon": "seedling",
+			"where": "in her garden"
+		}
+	]
+}

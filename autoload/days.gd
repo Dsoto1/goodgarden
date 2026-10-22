@@ -15,7 +15,7 @@ signal day_started(day: int)
 
 const WEEKDAYS := ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"]
 ## Where the neighbours stand on a Sunday past the authored days.
-const SUNDAY_NPCS := {"miriam": "chapel_miriam", "tobias": "chapel_tobias", "ruth": "chapel_ruth"}
+const SUNDAY_NPCS := {"miriam": "chapel_miriam", "tobias": "chapel_tobias", "ruth": "chapel_ruth", "amos": "chapel_amos"}
 
 var current_day := 1
 

@@ -13,6 +13,8 @@ var _bed_1_ready: Node3D
 var _weeds: Node3D # weeds in the bean row, from week 3 until they are pulled
 var _border: Node3D # the flower border along the south fence, once planted
 var _flower_tray: Node3D # the tray of flowers waiting to be planted
+var _birdhouse: Node3D # the birdhouse the child built with Mr. Amos
+var _nesting: Node3D # a bird at its door, from the day after it went up
 
 ## The flower border runs along the inside of the south fence.
 const BORDER_Z := 4.85
@@ -96,11 +98,14 @@ func build() -> void:
 	_weeds = group_node("Weeds")
 	var weed_at := Vector3(BED_X + 1.8, 0, 1.6)
 	MeshKit.cylinder(_weeds, 0.22, 0.17, 0.26, weed_at + Vector3(0.5, 0.13, 0), "wood_light", 10)
-	for k in 6:
-		var wx := BED_X - 2.9 + k * 1.1
-		for leaf in 3:
-			var blade := MeshKit.box(_weeds, Vector3(0.03, 0.22, 0.08), Vector3(wx + (leaf - 1) * 0.05, 0.38, BED_ROWS["bed_1"] - 0.35 + (k % 2) * 0.62), "leaf_light")
-			blade.rotation.z = (leaf - 1) * 0.5
+	for k in 9:
+		var wx := BED_X - 3.0 + k * 0.75
+		var wz: float = BED_ROWS["bed_1"] - 0.4 + (k % 3) * 0.4
+		# A scruffy clump: a dark rosette with spiky leaves sticking up.
+		MeshKit.sphere(_weeds, 0.13, Vector3(wx, 0.32, wz), "leaf", Vector3(1, 0.5, 1), 6, 3)
+		for leaf in 4:
+			var blade := MeshKit.box(_weeds, Vector3(0.05, 0.36, 0.1), Vector3(wx + (leaf - 1.5) * 0.06, 0.44, wz), "leaf")
+			blade.rotation = Vector3(0.3 * (leaf % 2 * 2 - 1), leaf * 0.8, (leaf - 1.5) * 0.45)
 	var weed := Interactable.create(self, weed_at, "Pull the weeds", func() -> void:
 		get_tree().call_group("main", "start_activity_here", "garden_weed", position + Vector3(BED_X, 0.5, BED_ROWS["bed_1"])), 0.6, 1.0)
 	weed.conditions = [{"day_at_least": 16}, {"fact": "garden.bed_1", "exists": true}, {"fact": "garden.weeded_day", "exists": false}]
@@ -119,6 +124,19 @@ func build() -> void:
 	plant_border.conditions = [{"day_at_least": 18}, {"fact": "garden.border", "exists": false}]
 	add_activity_focus(Vector3(-0.7, 0.3, BORDER_Z))
 	CraftedProps.scarecrow(self, Vector3(3.2, 0, 4.4), 0.3)
+	# The birdhouse from Mr. Amos's workshop, on a post by the north fence.
+	_birdhouse = group_node("Birdhouse")
+	var bh := Vector3(-2.4, 0, -4.9)
+	MeshKit.box(_birdhouse, Vector3(0.1, 1.8, 0.1), bh + Vector3(0, 0.9, 0), "wood_dark")
+	MeshKit.box(_birdhouse, Vector3(0.44, 0.06, 0.44), bh + Vector3(0, 1.8, 0), "wood")
+	MeshKit.box(_birdhouse, Vector3(0.36, 0.36, 0.36), bh + Vector3(0, 2.01, 0), "wood_light")
+	MeshKit.roof(_birdhouse, 0.5, 0.22, 0.46, bh + Vector3(0, 2.3, 0), "roof_red")
+	MeshKit.sphere(_birdhouse, 0.07, bh + Vector3(0, 2.05, 0.18), "dark", Vector3(1, 1, 0.2), 8, 3)
+	_nesting = group_node("Nesting")
+	var bird := AnimalModel.make("bird")
+	bird.position = bh + Vector3(0.08, 1.84, 0.26)
+	bird.scale = Vector3.ONE * 1.8
+	_nesting.add_child(bird)
 	# Miriam's mustard plant, grown from the tiniest seed, in the corner by the fence.
 	CraftedProps.mustard_plant(self, Vector3(5.2, 0, 1.6), 11, 1.9)
 	CraftedProps.mustard_plant(self, Vector3(5.5, 0, 2.5), 5, 1.4)
@@ -184,6 +202,9 @@ static func growth_stage(bed: Dictionary) -> int:
 
 
 func sync_with_world() -> void:
+	var built: Variant = WorldState.get_fact("workshop.birdhouse")
+	_birdhouse.visible = built != null
+	_nesting.visible = built != null and Days.current_day > int(built)
 	_weeds.visible = Days.current_day >= 16 and WorldState.has_fact("garden.bed_1") and not WorldState.has_fact("garden.weeded_day")
 	_sync_border()
 	for c in _bed_1_plants.get_children():
@@ -258,6 +279,7 @@ func _sync_border() -> void:
 	var n := 12
 	for i in n:
 		var at := Vector3(BORDER_FROM + (BORDER_TO - BORDER_FROM) * i / (n - 1.0), 0, BORDER_Z)
-		MeshKit.cylinder(_border, 0.012, 0.015, 0.3, at + Vector3(0, 0.15, 0), "sprout", 4)
-		MeshKit.sphere(_border, 0.08, at + Vector3(0, 0.33, 0), str(colours.get(str(unit[i % unit.size()]), "cloth_red")), Vector3(1, 0.55, 1), 7, 3)
-		MeshKit.sphere(_border, 0.07, at + Vector3(0.05, 0.08, 0.03), "leaf", Vector3(1, 0.5, 1), 5, 2)
+		MeshKit.cylinder(_border, 0.015, 0.02, 0.42, at + Vector3(0, 0.21, 0), "sprout", 4)
+		MeshKit.sphere(_border, 0.14, at + Vector3(0, 0.46, 0), str(colours.get(str(unit[i % unit.size()]), "cloth_red")), Vector3(1, 0.55, 1), 8, 3)
+		MeshKit.sphere(_border, 0.05, at + Vector3(0, 0.5, 0), "cloth_cream", Vector3(1, 0.6, 1), 5, 2)
+		MeshKit.sphere(_border, 0.11, at + Vector3(0.06, 0.1, 0.03), "leaf", Vector3(1, 0.5, 1), 5, 2)

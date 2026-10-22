@@ -1,0 +1,256 @@
+{
+	"id": "amos",
+	"speaker": "amos",
+	"entries": [
+		{
+			"when": [
+				{
+					"weekday": "sunday"
+				}
+			],
+			"start": "sunday"
+		},
+		{
+			"when": [
+				{
+					"day": 29
+				},
+				{
+					"not": {
+						"fact": "workshop.shapes_day",
+						"is_today": true
+					}
+				}
+			],
+			"start": "offer_29"
+		},
+		{
+			"when": [
+				{
+					"day": 30
+				},
+				{
+					"fact": "workshop.window",
+					"exists": false
+				}
+			],
+			"start": "offer_30"
+		},
+		{
+			"when": [
+				{
+					"day": 31
+				},
+				{
+					"not": {
+						"fact": "workshop.order_day",
+						"is_today": true
+					}
+				}
+			],
+			"start": "offer_31"
+		},
+		{
+			"when": [
+				{
+					"day": 32
+				},
+				{
+					"not": {
+						"fact": "workshop.planks_day",
+						"is_today": true
+					}
+				}
+			],
+			"start": "offer_32"
+		},
+		{
+			"when": [
+				{
+					"day": 33
+				},
+				{
+					"fact": "workshop.birdhouse",
+					"exists": false
+				}
+			],
+			"start": "offer_33"
+		},
+		{
+			"when": [
+				{
+					"any": [
+						{
+							"fact": "workshop.shapes_day",
+							"is_today": true
+						},
+						{
+							"fact": "workshop.window",
+							"is_today": true
+						},
+						{
+							"fact": "workshop.order_day",
+							"is_today": true
+						},
+						{
+							"fact": "workshop.planks_day",
+							"is_today": true
+						},
+						{
+							"fact": "workshop.birdhouse",
+							"is_today": true
+						}
+					]
+				}
+			],
+			"start": "done"
+		},
+		{
+			"when": [
+				{
+					"fact": "npc.amos.met",
+					"exists": true
+				}
+			],
+			"start": "again"
+		},
+		{
+			"when": [],
+			"start": "hello"
+		}
+	],
+	"nodes": {
+		"sunday": {
+			"mood": "gentle",
+			"text": "Good morning! No sawing or hammering today. Even the tools have a rest on Sunday."
+		},
+		"hello": {
+			"mood": "joy",
+			"text": "Well, hello! I'm Mr. Amos, the carpenter. If something's broken, bring it to me, and we'll mend it together.",
+			"next": "hands",
+			"actions": [
+				{
+					"op": "set_fact",
+					"fact": "npc.amos.met",
+					"value": true
+				}
+			]
+		},
+		"hands": {
+			"mood": "wonder",
+			"text": "Did you know Jesus was a carpenter too, when he was young? I like to think of him working with wood, just like this."
+		},
+		"again": {
+			"mood": "gentle",
+			"text": "Hello again! Measure twice, cut once. That's what my father taught me."
+		},
+		"done": {
+			"mood": "joy",
+			"text": "Thank you for your help today. Good work, done carefully, is a gift to everyone.",
+			"reply": "Thank you, Mr. Amos!"
+		},
+		"offer_29": {
+			"text": "My offcut box is a muddle! Would you help me sort the wooden shapes?",
+			"choices": [
+				{
+					"text": "Yes, I'd love to help!",
+					"next": "go",
+					"actions": [
+						{
+							"op": "start_activity",
+							"id": "workshop_shapes"
+						}
+					]
+				},
+				{
+					"text": "Not yet, thank you.",
+					"next": "later"
+				}
+			]
+		},
+		"offer_30": {
+			"text": "Mrs. Ruth's window needs new panes. Shall we fit them together?",
+			"choices": [
+				{
+					"text": "Yes, I'd love to help!",
+					"next": "go",
+					"actions": [
+						{
+							"op": "start_activity",
+							"id": "workshop_window"
+						}
+					]
+				},
+				{
+					"text": "Not yet, thank you.",
+					"next": "later"
+				}
+			]
+		},
+		"offer_31": {
+			"text": "My hands are all gluey. Would you read my note and fetch what I need?",
+			"choices": [
+				{
+					"text": "Yes, I'd love to help!",
+					"next": "go",
+					"actions": [
+						{
+							"op": "start_activity",
+							"id": "workshop_order"
+						}
+					]
+				},
+				{
+					"text": "Not yet, thank you.",
+					"next": "later"
+				}
+			]
+		},
+		"offer_32": {
+			"text": "These planks are all jumbled. Can you line them up, shortest to longest?",
+			"choices": [
+				{
+					"text": "Yes, I'd love to help!",
+					"next": "go",
+					"actions": [
+						{
+							"op": "start_activity",
+							"id": "workshop_planks"
+						}
+					]
+				},
+				{
+					"text": "Not yet, thank you.",
+					"next": "later"
+				}
+			]
+		},
+		"offer_33": {
+			"text": "The pieces for the birdhouse are ready. Shall we build it?",
+			"choices": [
+				{
+					"text": "Yes, I'd love to help!",
+					"next": "go",
+					"actions": [
+						{
+							"op": "start_activity",
+							"id": "workshop_birdhouse"
+						}
+					]
+				},
+				{
+					"text": "Not yet, thank you.",
+					"next": "later"
+				}
+			]
+		},
+		"go": {
+			"mood": "joy",
+			"text": "Splendid! Roll up your sleeves."
+		},
+		"later": {
+			"mood": "gentle",
+			"text": "That's all right. The workshop will be here."
+		}
+	}
+}

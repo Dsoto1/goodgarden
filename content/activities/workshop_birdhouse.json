@@ -1,0 +1,189 @@
+{
+	"id": "workshop_birdhouse",
+	"title": "Building a Birdhouse",
+	"mode": "task",
+	"location": "village",
+	"surface": "wood_table",
+	"readiness": {
+		"ages": [
+			5,
+			9
+		],
+		"math": "fitting shapes by turning them; two right triangles make a roof",
+		"reading": "pre-reader friendly; all text can be read aloud"
+	},
+	"concepts": [
+		"shape matching",
+		"rotation",
+		"parts make a whole",
+		"symmetry"
+	],
+	"formation_themes": [
+		"care for creation",
+		"work well done"
+	],
+	"prerequisites": [
+		{
+			"fact": "workshop.birdhouse",
+			"exists": false
+		}
+	],
+	"intro": [
+		{
+			"speaker": "amos",
+			"text": "The birds in Miss Miriam's garden need somewhere safe to nest. Shall we build them a house?"
+		},
+		{
+			"speaker": "amos",
+			"text": "Here are the pieces I've cut. A square for the house, two triangles for the roof, and a plank for the floor."
+		}
+	],
+	"steps": [
+		{
+			"id": "build",
+			"primitive": "fit_shapes",
+			"speaker": "amos",
+			"picture": "birdhouse",
+			"prompt": "Put each piece where it fits. Tap a piece to turn it.",
+			"hint": "Show me",
+			"shapes": [
+				{
+					"kind": "shape_triangle",
+					"pos": [
+						460,
+						110
+					],
+					"turn": 3,
+					"size": [
+						80,
+						80
+					]
+				},
+				{
+					"kind": "shape_triangle",
+					"pos": [
+						540,
+						110
+					],
+					"turn": 0,
+					"size": [
+						80,
+						80
+					]
+				},
+				{
+					"kind": "shape_square",
+					"pos": [
+						500,
+						230
+					],
+					"size": [
+						160,
+						160
+					]
+				},
+				{
+					"kind": "shape_rect",
+					"pos": [
+						500,
+						327
+					],
+					"size": [
+						180,
+						34
+					]
+				}
+			],
+			"older": {
+				"prompt": "Put each piece where it fits. The walls are two rectangles this time. Tap a piece to turn it.",
+				"spare": [
+					"shape_triangle"
+				],
+				"size": [
+					80,
+					80
+				],
+				"shapes": [
+					{
+						"kind": "shape_triangle",
+						"pos": [
+							460,
+							110
+						],
+						"turn": 3,
+						"size": [
+							80,
+							80
+						]
+					},
+					{
+						"kind": "shape_triangle",
+						"pos": [
+							540,
+							110
+						],
+						"turn": 0,
+						"size": [
+							80,
+							80
+						]
+					},
+					{
+						"kind": "shape_rect",
+						"pos": [
+							500,
+							190
+						],
+						"size": [
+							160,
+							80
+						]
+					},
+					{
+						"kind": "shape_rect",
+						"pos": [
+							500,
+							270
+						],
+						"size": [
+							160,
+							80
+						]
+					},
+					{
+						"kind": "shape_rect",
+						"pos": [
+							500,
+							327
+						],
+						"size": [
+							180,
+							34
+						]
+					}
+				]
+			},
+			"feedback": {
+				"all_good": "A birdhouse! Every piece fits."
+			}
+		}
+	],
+	"outro": [
+		{
+			"speaker": "amos",
+			"text": "Let's put it up on a post in Miss Miriam's garden. I wonder who will move in first?",
+			"button": "Thank you, Mr. Amos"
+		}
+	],
+	"world_effects": [
+		{
+			"op": "set",
+			"fact": "workshop.birdhouse",
+			"value": "$day"
+		}
+	],
+	"replay": "once",
+	"real_world_invitation": "rw_shape_hunt",
+	"journal_line": "I built a birdhouse with Mr. Amos, and we put it up in Miss Miriam's garden.",
+	"unavailable_text": "The birdhouse is built. Look for it in Miss Miriam's garden!"
+}

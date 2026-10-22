@@ -1,0 +1,5 @@
+{
+	"id": "rw_read_list",
+	"text": "Help a grown-up write a short shopping list: a number and a word on each line, like \"3 apples\". At the shop (or in the kitchen), read the list and find each thing.",
+	"checkable": true
+}

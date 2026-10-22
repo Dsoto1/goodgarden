@@ -1,0 +1,97 @@
+{
+	"id": "market_scales",
+	"title": "Honest Scales",
+	"mode": "task",
+	"location": "village",
+	"surface": "wood_table",
+	"readiness": {
+		"ages": [
+			5,
+			9
+		],
+		"math": "balancing a weight; equal weight (older: big scoops weigh two)",
+		"reading": "pre-reader friendly; all text can be read aloud"
+	},
+	"concepts": [
+		"weight",
+		"balance",
+		"the same as"
+	],
+	"formation_themes": [
+		"honesty",
+		"fairness"
+	],
+	"prerequisites": [
+		{
+			"not": {
+				"fact": "market.scales_day",
+				"is_today": true
+			}
+		}
+	],
+	"intro": [
+		{
+			"speaker": "tobias",
+			"text": "Customers buy my flour by weight. This stone weight says how much a bag should be."
+		},
+		{
+			"speaker": "tobias",
+			"text": "The Bible says God delights in honest scales. So let's be careful: not a scoop too few, and not a scoop too many."
+		}
+	],
+	"steps": [
+		{
+			"id": "weigh",
+			"primitive": "balance_scale",
+			"speaker": "tobias",
+			"prompt": "Add scoops of flour to the pan until the beam hangs level.",
+			"hint": "Is the beam tipping? Then the scoops are lighter or heavier than the weight.",
+			"weight": 5,
+			"scoops": [
+				{
+					"kind": "flour_scoop",
+					"weight": 1,
+					"count": 7
+				}
+			],
+			"older": {
+				"weight": 8,
+				"scoops": [
+					{
+						"kind": "flour_scoop",
+						"weight": 1,
+						"count": 4
+					},
+					{
+						"kind": "flour_scoop_big",
+						"weight": 2,
+						"count": 4
+					}
+				],
+				"hint": "Count the dots on the weight, and the dots on the scoops. Can you make them the same?"
+			},
+			"feedback": {
+				"heavy": "Too much! The flour side is heavier. Take a scoop out.",
+				"all_good": "Level! That's an honest bag of flour."
+			}
+		}
+	],
+	"outro": [
+		{
+			"speaker": "tobias",
+			"text": "Now everyone who buys it gets just what they paid for. That's fair.",
+			"button": "Thank you, Mr. Tobias"
+		}
+	],
+	"world_effects": [
+		{
+			"op": "set",
+			"fact": "market.scales_day",
+			"value": "$day"
+		}
+	],
+	"replay": "free",
+	"real_world_invitation": "rw_heavy_light",
+	"journal_line": "I weighed flour on the honest scales with Mr. Tobias.",
+	"unavailable_text": "The flour is weighed for today."
+}
