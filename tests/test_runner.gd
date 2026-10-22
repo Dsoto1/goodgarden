@@ -25,7 +25,7 @@ func _ready() -> void:
 	var tests := [
 		test_content_is_valid, test_validator_catches_errors, test_conditions_and_tokens,
 		test_save_round_trip_and_migration, test_space_along_line, test_count_into_slots,
-		test_match_to_outline_self_correction, test_story_handoff_and_put_away, test_parable_growth_and_put_away, test_chapel_library_books, test_calling_of_the_fishermen, test_sit_and_hold_rod, test_young_child_access, test_older_work_level, test_sequence_cards,
+		test_match_to_outline_self_correction, test_story_handoff_and_put_away, test_parable_growth_and_put_away, test_chapel_library_books, test_calling_of_the_fishermen, test_sit_and_hold_rod, test_build_word, test_young_child_access, test_older_work_level, test_sequence_cards,
 		test_observations_never_score_reflection, test_pointer_events_drag_pieces, test_props_catalog, test_recorded_sounds, test_animal_moments, test_large_text_fits,
 		test_scenery_quality_and_batching, test_vertical_slice_end_to_end,
 	]
@@ -437,6 +437,36 @@ func test_older_work_level() -> void:
 
 ## Sequence cards: when every place is filled, cards out of order go back
 ## to the table and the rest stay; the right order completes the step.
+func test_build_word() -> void:
+	var step := _make_step("build_word", {"id": "signs", "words": ["hen", "cat"], "extra_letters": 2, "show_letters": true, "hint": "Show me"})
+	eq(step.current_word(), "hen", "the first word is on the board")
+	eq(step.slots.size(), 3, "one place for each sound in hen")
+	eq(step.tiles.size(), 5, "its three letters and two extra in the box")
+	var by_letter := func(letter: String) -> DragPiece:
+		for t: DragPiece in step.tiles:
+			if str(t.data["letter"]) == letter and t.placed_in == null:
+				return t
+		return null
+	var extra: DragPiece = step.tiles.filter(func(t: DragPiece) -> bool: return not str(t.data["letter"]) in "hen")[0]
+	_drop(extra, step.slots[0].center())
+	check(extra.placed_in == null, "a letter that doesn't make that sound goes back to the box")
+	_drop(by_letter.call("e"), step.slots[0].center())
+	check(step.slots[0].contents.is_empty(), "nor does a letter in the wrong place in the word")
+	check(step.sound_out("hen").begins_with("hh, eh, nnn"), "the word is sounded out one sound at a time")
+	step.show_hint()
+	check(step._hint_tile != null and str(step._hint_tile.data["letter"]) == "h", "Show me points to the first sound's letter")
+	for i in 3:
+		_drop(by_letter.call("hen"[i]), step.slots[i].center())
+	eq(step.finished, ["hen"] as Array[String], "hen is made and laid on the shelf")
+	await wait(2.6)
+	eq(step.current_word(), "cat", "then the next word")
+	for i in 3:
+		_drop(by_letter.call("cat"[i]), step.slots[i].center())
+	await wait(2.6)
+	check(step.is_done, "every word made completes the step")
+	step.queue_free()
+
+
 func test_sequence_cards() -> void:
 	var step := _make_step("sequence_cards", {"id": "grow", "cards": ["card_seed", "card_sprout", "card_sapling", "card_blossom", "card_apples"]})
 	eq(step.places.size(), 5, "five numbered places")
@@ -925,6 +955,26 @@ func test_vertical_slice_end_to_end() -> void:
 	check(_interactable("Set the table").is_available(), "table can be set again on a new day")
 	check(Dialogue.start("miriam") and Dialogue.current_line()["text"].contains("green loops"), "Miriam remembers and comments on the sprouts")
 	Dialogue.end()
+	# Reading: the name signs for the animals, at the bench by the door.
+	var signs_ws := ActivityRunner.workspace if await _start_from("Make name signs for the animals") else null
+	if signs_ws:
+		var builder := signs_ws.current_step()
+		eq(builder.words, ["hen", "cat", "pig"] as Array[String], "younger children make three name signs")
+		for w in builder.words.size():
+			for i in builder.slots.size():
+				var sound: String = builder.current_word()[i]
+				for t: DragPiece in builder.tiles:
+					if str(t.data["letter"]) == sound and t.placed_in == null:
+						_drop(t, builder.slots[i].center())
+						break
+			await wait(2.6)
+		check(builder.is_done, "every name is built")
+		await _finish_activity(signs_ws)
+	eq(WorldState.get_fact("home.signs", []), ["hen", "cat", "pig"], "the signs are remembered")
+	for word: String in ["hen", "cat", "pig"]:
+		check(_find_named(main.world, "NameSign_" + word) != null, "the %s sign stands by its home" % word)
+	check(_find_named(main.world, "NameSign_cow") == null, "no sign for a word that wasn't made")
+	check(not _interactable("Make name signs for the animals").is_available(), "the signs are made once")
 
 	# Day 3: Tobias's letter, and filling the neighbors' bread baskets.
 	await main.rest_until_morning()

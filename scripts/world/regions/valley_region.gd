@@ -19,6 +19,8 @@ var _saplings: Node3D # the bundle of saplings waiting to be planted
 const ORCHARD := [Vector3(-18.5, 0, 2.0), Vector3(-15.5, 0, 2.0), Vector3(-12.5, 0, 2.0)]
 const POND := Vector3(-25.0, 0, 7.0)
 
+var _name_signs: Node3D # the pig and cow signs the child made
+
 
 func build() -> void:
 	var ground := StaticBody3D.new()
@@ -206,6 +208,8 @@ func _sync_orchard() -> void:
 
 
 func sync_with_world() -> void:
+	if _name_signs:
+		CraftedProps.sync_name_signs(_name_signs, {"pig": [Vector3(-29.2, 0, 2.8), 0.0], "cow": [Vector3(31.9, 0, -33.2), 0.0]})
 	if _orchard:
 		_sync_orchard()
 	if _fed:
@@ -271,6 +275,7 @@ func _farm_animals() -> void:
 		add_child(pig)
 		AnimalMoments.pettable(pig, "Pet the pig", ["The pig gives a happy grunt and leans on you."], "pig")
 	SoundSpot.calling(self, "pig", Vector3(-30.0, 0.6, 0.4), 22.0, Vector2(12, 28), -8.0)
+	_name_signs = group_node("NameSigns")
 
 
 func _patches() -> void:

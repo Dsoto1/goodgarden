@@ -4,6 +4,7 @@
 	"week": 1,
 	"arc": "Creation & Home",
 	"invitation": "inv_day_002",
+	"primary_activity": "home_animal_signs",
 	"npcs": {"miriam": "garden_miriam"},
 	"free_work": ["home_set_table"],
 	"chapel": ["good_samaritan", "mustard_seed", "leaven", "lost_sheep", "fishers", "five_thousand", "good_shepherd"],

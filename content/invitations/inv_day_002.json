@@ -1,11 +1,17 @@
 {
 	"id": "inv_day_002",
 	"from": "miriam",
-	"body": "Dear friend,\n\nDid you hear the rain in the night? Go and look at your bean row. Something is happening under the soil!\n\nCome and find me in the garden if you like.",
+	"body": "Dear friend,\n\nDid you hear the rain in the night? Go and look at your bean row. Something is happening under the soil!\n\nAnd on the bench by your door, I left little boards and a box of letters. Could you make name signs for the animals? Then everyone will know whose home is whose.",
 	"signature": "Miss Miriam",
-	"summary": "Go and see what the rain did to your bean row.",
-	"done": "You saw the sprouts, greeted your neighbours and met the lambs. Wonderful!",
+	"summary": "Make name signs for the animals, and see what the rain did to your beans.",
+	"done": "The animals have their name signs, and you saw the sprouts. Wonderful!",
 	"tasks": [
+		{
+			"text": "Make animal signs",
+			"activity": "home_animal_signs",
+			"icon": "letters",
+			"where": "at the bench by your door"
+		},
 		{
 			"text": "Say hello to Miss Miriam",
 			"done_when": [
@@ -18,17 +24,6 @@
 			"where": "in her garden, by your beans"
 		},
 		{
-			"text": "Say hello to Mr. Tobias",
-			"done_when": [
-				{
-					"fact": "npc.tobias.greeted_day",
-					"is_today": true
-				}
-			],
-			"icon": "talk",
-			"where": "in the village"
-		},
-		{
 			"text": "Pet a lamb",
 			"done_when": [
 				{
@@ -39,5 +34,6 @@
 			"icon": "sheep",
 			"where": "at the sheepfold"
 		}
-	]
+	],
+	"suggests": "home_animal_signs"
 }

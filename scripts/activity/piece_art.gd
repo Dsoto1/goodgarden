@@ -20,6 +20,9 @@ static func draw(ci: CanvasItem, kind: String, size: Vector2, outline: bool, dat
 	if kind.begins_with("figure:"):
 		_figure(ci, size, outline, data)
 		return
+	if kind.begins_with("letter:"):
+		_letter_tile(ci, kind.substr(7), size, outline)
+		return
 	match kind:
 		"bread_roll":
 			_shape(ci, _ellipse(c, Vector2(size.x * 0.46, size.y * 0.42), 16), Color("d9963f"), outline)
@@ -362,6 +365,25 @@ static func _parable_shape(ci: CanvasItem, shape: String, size: Vector2, h: floa
 
 
 ## A woolly sheep: a cloud of a body, a dark face and legs, facing left.
+## A wooden letter tile from a moveable alphabet: vowels blue, consonants
+## red, as in Montessori classrooms. As an outline (a place in a word) it is a
+## faint dashed tile with the letter ghosted in, for children who trace first.
+static func _letter_tile(ci: CanvasItem, letter: String, size: Vector2, outline: bool) -> void:
+	var r := Rect2(Vector2(2, 2), size - Vector2(4, 4))
+	var vowel := letter in ["a", "e", "i", "o", "u"]
+	var ink := Color("2f5fa8") if vowel else Color("b8392f")
+	var font := UiStyle.font()
+	var fsize := int(size.y * 0.78)
+	var base := Vector2(0, size.y * 0.5 + fsize * 0.33)
+	if outline:
+		_dashed(ci, _rect(r))
+		ci.draw_string(font, base, letter, HORIZONTAL_ALIGNMENT_CENTER, size.x, fsize, Color(ink, 0.22))
+		return
+	ci.draw_rect(r, Color("f6ecd6"))
+	ci.draw_rect(r, Color("c9a86e"), false, 2.0)
+	ci.draw_string(font, base, letter, HORIZONTAL_ALIGNMENT_CENTER, size.x, fsize, ink)
+
+
 static func _sheep(ci: CanvasItem, at: Vector2, r: float, outline: bool) -> void:
 	for x: float in [-0.35, 0.35]:
 		_shape(ci, _rect(Rect2(at.x + r * x - 1.5, at.y + r * 0.3, 3, r * 0.7)), Color("3b3430"), outline)

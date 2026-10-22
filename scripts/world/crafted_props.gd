@@ -198,6 +198,39 @@ static func watering_can(parent: Node3D, pos: Vector3, rot_y := 0.0) -> Node3D:
 
 ## A signpost with one arm per destination. Each arm is [label, yaw] where
 ## yaw points the arm (0 = -Z). The words are real text, for reading.
+## A little painted name sign on a stake, the child's own lettering ("hen"),
+## readable from both sides.
+static func name_sign(parent: Node3D, pos: Vector3, rot_y: float, word: String) -> Node3D:
+	var r := _root(parent, "NameSign_" + word, pos, rot_y)
+	MeshKit.box(r, Vector3(0.08, 0.9, 0.08), Vector3(0, 0.45, 0), "wood_dark")
+	MeshKit.box(r, Vector3(0.8, 0.36, 0.05), Vector3(0, 0.92, 0), "wood_light")
+	for side: float in [-1.0, 1.0]:
+		var label := Label3D.new()
+		label.text = word
+		label.font = UiStyle.font()
+		label.font_size = 96
+		label.pixel_size = 0.0042
+		label.modulate = Color("8a2f26")
+		label.outline_size = 0
+		label.position = Vector3(0, 0.9, side * 0.03)
+		label.rotation.y = 0.0 if side > 0 else PI
+		r.add_child(label)
+	return r
+
+
+## Puts up the name signs the child has made ("home.signs" lists the words)
+## at this region's spots: {word: [position, rot_y]}. Safe to call again.
+static func sync_name_signs(holder: Node3D, spots: Dictionary) -> void:
+	var made: Variant = WorldState.get_fact("home.signs", [])
+	for word: String in spots:
+		var have := holder.get_node_or_null("NameSign_" + word)
+		var want: bool = made is Array and word in made
+		if want and have == null:
+			name_sign(holder, spots[word][0], spots[word][1], word)
+		elif not want and have:
+			have.free()
+
+
 static func signpost(parent: Node3D, pos: Vector3, arms: Array) -> Node3D:
 	var r := _root(parent, "Signpost", pos, 0.0)
 	MeshKit.box(r, Vector3(0.12, 2.1, 0.12), Vector3(0, 1.05, 0), "wood_dark")

@@ -1,0 +1,45 @@
+{
+	"id": "home_animal_signs",
+	"title": "Name Signs for the Animals",
+	"mode": "task",
+	"location": "home",
+	"surface": "wood_table",
+	"readiness": {"ages": [5, 8], "math": "none", "reading": "hearing the sounds in short words; matching sounds to letters (moveable alphabet)"},
+	"concepts": ["letter sounds", "hearing each sound in a word", "building words from sounds", "vowels and consonants"],
+	"formation_themes": ["care for creatures", "hospitality"],
+	"prerequisites": [
+		{"fact": "home.signs", "exists": false}
+	],
+	"intro": [
+		{"speaker": "narrator", "text": "Here are little wooden boards, and a box of letters. Let's make a name sign for some of the animals."},
+		{"speaker": "narrator", "text": "Tap the picture to hear its name. Tap a letter to hear its sound."}
+	],
+	"steps": [
+		{
+			"id": "signs",
+			"primitive": "build_word",
+			"older": {"words": ["hen", "cat", "pig", "cow"], "show_letters": false, "extra_letters": 3, "prompt": "Listen to the name. Which sounds do you hear, first to last? Find each letter in the box."},
+			"prompt": "Listen to the name. Which sounds do you hear? Put each letter in its place.",
+			"hint": "Show me the next sound.",
+			"words": ["hen", "cat", "pig"],
+			"pictures": {"hen": "hen", "cat": "cat", "pig": "pig", "cow": "cow"},
+			"show_letters": true,
+			"extra_letters": 0,
+			"feedback": {
+				"wrong": "Listen again: {word}. That sound goes somewhere else.",
+				"word_done": "{word}! You made the word.",
+				"all_good": "Every sign has its name."
+			}
+		}
+	],
+	"outro": [
+		{"speaker": "narrator", "text": "Now everyone will know whose home is whose. The signs are up!", "button": "Done"}
+	],
+	"world_effects": [
+		{"op": "set", "fact": "home.signs", "value": "$signs.words"}
+	],
+	"replay": "once",
+	"real_world_invitation": "rw_sound_hunt",
+	"journal_line": "I made name signs for the animals, listening for each sound and finding its letter.",
+	"unavailable_text": "The animals already have their name signs."
+}

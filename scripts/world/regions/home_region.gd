@@ -8,6 +8,8 @@ var _letter_use: Interactable
 var _table_settings: Node3D
 var _vase: Node3D
 var _smoke: GPUParticles3D
+var _blank_boards: Node3D # boards waiting on the sign bench
+var _name_signs: Node3D # the signs the child has made
 
 
 func build() -> void:
@@ -99,6 +101,7 @@ func build() -> void:
 	add_child(cat)
 	AnimalMoments.pettable(cat, "Pet the cat", ["The cat purrs and rubs against your hand.", "Purr, purr. The cat stays to be petted."], "purr")
 	SoundSpot.calling(cat, "meow", Vector3(0, 0.3, 0), 10.0, Vector2(30, 70), -10.0)
+	_sign_bench(Vector3(-3.9, 0, 6.6))
 
 	add_clearing(Vector3(0, 0, 0.3), Vector2(8.8, 7.4))
 	add_clearing(Vector3(-6.5, 0, 8.5), Vector2(2.6, 2.4))
@@ -235,7 +238,28 @@ func _build_coop(at: Vector3) -> void:
 	AnimalMoments.grain_bin(self, at + Vector3(1.4, 0, -0.7), at + Vector3(0.4, 0, 2.2), hens)
 
 
+## The sign bench in the yard: blank boards and a box of wooden letters.
+## From day 2 the child can make name signs for the animals here; once made,
+## the boards are gone from the bench and the signs stand by their homes.
+func _sign_bench(at: Vector3) -> void:
+	MeshKit.box(self, Vector3(1.2, 0.08, 0.6), at + Vector3(0, 0.62, 0), "wood")
+	for x: float in [-0.5, 0.5]:
+		MeshKit.box(self, Vector3(0.08, 0.6, 0.5), at + Vector3(x, 0.3, 0), "wood_dark")
+	MeshKit.solid(self, Vector3(1.2, 0.9, 0.6), at + Vector3(0, 0.45, 0))
+	MeshKit.box(self, Vector3(0.36, 0.08, 0.24), at + Vector3(0.3, 0.7, 0.05), "wood_dark")
+	_blank_boards = group_node("BlankBoards")
+	for k in 3:
+		MeshKit.box(_blank_boards, Vector3(0.4, 0.03, 0.2), at + Vector3(-0.28, 0.68 + k * 0.03, -0.02 + k * 0.02), "wood_light").rotation.y = (k - 1) * 0.15
+	var make := Interactable.create(self, at + Vector3(0, 0, 0.75), "Make name signs for the animals", func() -> void:
+		get_tree().call_group("main", "start_activity_here", "home_animal_signs", position + at + Vector3(0, 0.7, 0)), 0.7, 1.4)
+	make.conditions = [{"day_at_least": 2}, {"fact": "home.signs", "exists": false}]
+	add_activity_focus(at + Vector3(0, 0.7, 0))
+	_name_signs = group_node("NameSigns")
+
+
 func sync_with_world() -> void:
+	_blank_boards.visible = not WorldState.has_fact("home.signs")
+	CraftedProps.sync_name_signs(_name_signs, {"hen": [Vector3(-5.3, 0, 9.5), 0.3], "cat": [Vector3(2.6, 0, 4.7), -0.2]})
 	_letter.visible = Invitations.has_unread()
 	_letter_use.enabled = Invitations.has_unread()
 	var set_today := WorldState.matches([{"fact": "home.table_set_day", "is_today": true}])

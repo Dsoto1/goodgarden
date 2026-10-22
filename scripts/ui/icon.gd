@@ -123,6 +123,51 @@ static func draw(ci: CanvasItem, kind: String, r: Rect2, color := INK) -> void:
 			ci.draw_circle(c + Vector2(-0.07, -0.03) * s, 0.08 * s, Color("e07a8a"))
 			ci.draw_circle(c + Vector2(0.07, -0.03) * s, 0.08 * s, Color("e07a8a"))
 			ci.draw_colored_polygon(PackedVector2Array([c + Vector2(-0.15, 0.0) * s, c + Vector2(0.15, 0.0) * s, c + Vector2(0, 0.17) * s]), Color("e07a8a"))
+		"pig":
+			# A round pink pig, side on.
+			ci.draw_circle(c + Vector2(0.04, 0.04) * s, 0.3 * s, Color("e9a8a8"))
+			ci.draw_circle(c + Vector2(-0.26, -0.04) * s, 0.17 * s, Color("e9a8a8"))
+			ci.draw_circle(c + Vector2(-0.4, 0.0) * s, 0.07 * s, Color("d98a8a"))
+			for x: float in [-0.43, -0.37]:
+				ci.draw_circle(c + Vector2(x, 0.0) * s, 0.015 * s, color)
+			ci.draw_colored_polygon(PackedVector2Array([c + Vector2(-0.3, -0.18) * s, c + Vector2(-0.2, -0.3) * s, c + Vector2(-0.16, -0.16) * s]), Color("d98a8a"))
+			ci.draw_circle(c + Vector2(-0.27, -0.08) * s, 0.025 * s, color)
+			for x: float in [-0.12, 0.2]:
+				ci.draw_rect(Rect2(c + Vector2(x - 0.04, 0.26) * s, Vector2(0.08, 0.12) * s), Color("d98a8a"))
+			ci.draw_arc(c + Vector2(0.38, -0.04) * s, 0.06 * s, 0, PI * 1.5, 8, Color("d98a8a"), maxf(1.5, s * 0.04))
+		"cat":
+			# A sitting ginger cat.
+			ci.draw_circle(c + Vector2(0, 0.14) * s, 0.24 * s, Color("e0a35a"))
+			ci.draw_circle(c + Vector2(0, -0.18) * s, 0.17 * s, Color("e0a35a"))
+			for side: float in [-1.0, 1.0]:
+				ci.draw_colored_polygon(PackedVector2Array([c + Vector2(side * 0.16, -0.24) * s, c + Vector2(side * 0.14, -0.42) * s, c + Vector2(side * 0.04, -0.32) * s]), Color("e0a35a"))
+				ci.draw_circle(c + Vector2(side * 0.06, -0.2) * s, 0.025 * s, color)
+			ci.draw_arc(c + Vector2(0.3, 0.2) * s, 0.12 * s, -PI * 0.5, PI * 0.6, 10, Color("c98a45"), maxf(2.0, s * 0.06))
+		"dog":
+			# A little pug, sitting.
+			ci.draw_circle(c + Vector2(0, 0.14) * s, 0.24 * s, Color("e6cfa6"))
+			ci.draw_circle(c + Vector2(0, -0.16) * s, 0.19 * s, Color("e6cfa6"))
+			ci.draw_circle(c + Vector2(0, -0.1) * s, 0.1 * s, Color("5a3f30"))
+			for side: float in [-1.0, 1.0]:
+				ci.draw_circle(c + Vector2(side * 0.17, -0.26) * s, 0.07 * s, Color("5a3f30"))
+				ci.draw_circle(c + Vector2(side * 0.08, -0.2) * s, 0.025 * s, color)
+		"cow":
+			# A black-and-white cow's face.
+			ci.draw_circle(c + Vector2(0, -0.04) * s, 0.28 * s, Color("f6f1e4"))
+			ci.draw_circle(c + Vector2(-0.12, -0.14) * s, 0.1 * s, Color("3b3430"))
+			ci.draw_rect(Rect2(c + Vector2(-0.2, 0.08) * s, Vector2(0.4, 0.2) * s), Color("e9a8a8"))
+			for side: float in [-1.0, 1.0]:
+				ci.draw_circle(c + Vector2(side * 0.1, 0.18) * s, 0.025 * s, color)
+				ci.draw_colored_polygon(PackedVector2Array([c + Vector2(side * 0.22, -0.24) * s, c + Vector2(side * 0.42, -0.3) * s, c + Vector2(side * 0.26, -0.16) * s]), Color("f6f1e4"))
+				ci.draw_circle(c + Vector2(side * 0.1, -0.06) * s, 0.025 * s, color)
+		"letters":
+			# Three little letter tiles: the moveable alphabet.
+			var font := UiStyle.font()
+			for k in 3:
+				var tile := Rect2(c + Vector2(-0.44 + k * 0.3, -0.16 + (k % 2) * 0.08) * s, Vector2(0.27, 0.3) * s)
+				ci.draw_rect(tile, Color("f6ecd6"))
+				ci.draw_rect(tile, Color("c9a86e"), false, 1.5)
+				ci.draw_string(font, tile.position + Vector2(0, tile.size.y * 0.82), ["a", "b", "c"][k], HORIZONTAL_ALIGNMENT_CENTER, tile.size.x, int(tile.size.y * 0.8), Color("2f5fa8") if k == 0 else Color("b8392f"))
 		"todo":
 			# An empty ring, waiting for its tick.
 			ci.draw_arc(c, 0.36 * s, 0, TAU, 32, Color("b89a78"), maxf(2.0, s * 0.08), true)

@@ -13,6 +13,7 @@ const PRIMITIVES := {
 	"sort_into_bins": "res://scripts/activity/primitives/sort_into_bins.gd",
 	"balance_scale": "res://scripts/activity/primitives/balance_scale.gd",
 	"sequence_cards": "res://scripts/activity/primitives/sequence_cards.gd",
+	"build_word": "res://scripts/activity/primitives/build_word.gd",
 }
 
 

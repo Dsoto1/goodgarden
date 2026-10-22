@@ -111,6 +111,8 @@ Hands-on activities serve ages 5 to 10 through a grown-up's **Work level** setti
 
 **`match_to_outline`**: `slots: [{"kind", "pos": [x, y]}]`, optional `mats`, `box`, `box_label`, `tray`, or `pieces_from_previous: true` to reuse the prior step's pieces. Kinds: `plate`, `bowl_small`, `cup`, `fork`, `spoon`, `knife`, `napkin`, `coin`, `loaf_round`, `loaf_long`, `bread_roll`, `figure:<id>`. `oven: [x, y, w, h]` draws an oven mouth behind the outlines; `card: [x, y, w, h]` an open folded card (with kinds `pressed_daisy`, `pressed_violet`, `pressed_leaf`, `heart`). Result: `placed`. Feedback: `mismatch`, `all_good`.
 
+**`build_word`** (reading, after the Montessori moveable alphabet): `words` (short words spelled sound by sound, e.g. `["hen", "cat", "pig"]`), `pictures` (`{word: icon}`; icons `hen`, `cat`, `pig`, `dog`, `cow`, `sheep`, ...), `show_letters` (faint letters in each place to match; set `false` for children ready to listen alone), `extra_letters` (letters in the box that aren't needed). Tapping the picture says the word; tapping a letter says its sound; vowels are blue, consonants red. A letter only settles where its sound belongs. Each finished word is sounded out and laid on a shelf. Result: `words`. Feedback: `wrong`, `word_done`, `all_good` (`{word}` becomes the word).
+
 **`story_figures`**: `places`, `road`, `figures` (`{"id", "label", "color", "shape"?: "donkey"|"building", "accent"?}`), `box`, `segments` (`{"text", "reveal": [ids], "show": {id: {"pos", "lying"}}}`), `wonderings`, `reference`. Result: `retell_seconds`. Follow it with a `match_to_outline` step using `pieces_from_previous` so the child puts the material away.
 
 Positions are in **board units** (1000 × 560); the workspace scales the board to the screen.
