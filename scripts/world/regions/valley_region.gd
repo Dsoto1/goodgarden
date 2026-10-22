@@ -12,6 +12,12 @@ const TROUGHS := [Vector3(25.8, 0, -25.2), Vector3(27.6, 0, -25.2), Vector3(29.4
 
 var _fed: Node3D # hay in the troughs and lambs eating, on a day they are fed
 var _flour: Node3D # flour sacks by the mill, once flour has been made
+var _orchard: Node3D # the young apple trees, once planted
+var _saplings: Node3D # the bundle of saplings waiting to be planted
+
+## The orchard row and the pond, in the meadow west of home.
+const ORCHARD := [Vector3(-18.5, 0, 2.0), Vector3(-15.5, 0, 2.0), Vector3(-12.5, 0, 2.0)]
+const POND := Vector3(-25.0, 0, 7.0)
 
 
 func build() -> void:
@@ -77,6 +83,7 @@ func build() -> void:
 		add_child(lamb)
 	CraftedProps.hay_bale(self, Vector3(32.6, 0, -21.4), 0.3)
 	_lamb_troughs()
+	_orchard_and_pond()
 	# A path from the village square out to the sheepfold gate.
 	path([Vector3(14.6, 0, -24.6), Vector3(17.6, 0, -23.4), Vector3(20.8, 0, -22.9), Vector3(23.4, 0, -22.5)], 1.3)
 	CraftedProps.hay_bale(self, Vector3(32.9, 0, -19.6), -0.2)
@@ -130,7 +137,65 @@ func _lamb_troughs() -> void:
 	add_activity_focus(TROUGHS[1] + Vector3(0, 0.5, 0))
 
 
+## The meadow west of home: from day 8 a bundle of young apple trees waits to
+## be planted in a row; once planted they grow, and blossom after two days.
+## The pond is always there; from day 9 the child can look in it with Mrs. Ruth.
+func _orchard_and_pond() -> void:
+	_orchard = group_node("Orchard")
+	_saplings = group_node("Saplings")
+	for k in 3:
+		var stick := MeshKit.cylinder(_saplings, 0.025, 0.04, 1.3, Vector3(-10.9 + k * 0.12, 0.6, 3.8), "trunk", 5)
+		stick.rotation.z = -0.35 + k * 0.08
+		MeshKit.sphere(_saplings, 0.18, Vector3(-11.1 + k * 0.12, 1.2, 3.8), "leaf_light", Vector3(1, 0.8, 1), 6, 3)
+	MeshKit.box(_saplings, Vector3(0.5, 0.25, 0.4), Vector3(-10.8, 0.12, 3.8), "cloth_tan")
+	var plant := Interactable.create(self, Vector3(-10.6, 0, 4.6), "Plant the apple trees", func() -> void:
+		get_tree().call_group("main", "start_activity_here", "orchard_plant", position + ORCHARD[1] + Vector3(0, 0.6, 0)), 0.7, 1.4)
+	plant.conditions = [{"day_at_least": 8}, {"fact": "orchard.planted", "exists": false}]
+	add_anchor("orchard_miriam", Vector3(-10.2, 0, 6.2), -PI / 2.0)
+	add_activity_focus(ORCHARD[1] + Vector3(0, 0.6, 0))
+	add_clearing(ORCHARD[1], Vector2(9.0, 3.0))
+	CraftedProps.pond(self, POND, Vector2(3.8, 2.8), 12)
+	add_clearing(POND, Vector2(9.4, 7.0))
+	var look := Interactable.create(self, POND + Vector3(4.4, 0, 0.8), "Look in the pond", func() -> void:
+		get_tree().call_group("main", "start_activity_here", "pond_creatures", position + POND + Vector3(0, 0.4, 0)), 0.8, 1.4)
+	look.conditions = [{"day_at_least": 9}]
+	add_anchor("pond_ruth", POND + Vector3(4.8, 0, -0.6), -PI / 2.0)
+	add_activity_focus(POND + Vector3(0, 0.4, 0))
+	# A path from home's door west past the orchard to the pond.
+	path([Vector3(-1.2, 0, 4.6), Vector3(-4.6, 0, 6.4), Vector3(-9.0, 0, 6.2), Vector3(-13.5, 0, 4.8), Vector3(-17.5, 0, 5.0), Vector3(-20.4, 0, 6.6)], 1.3)
+
+
+func _sync_orchard() -> void:
+	for c in _orchard.get_children():
+		c.queue_free()
+	var planted: Variant = WorldState.get_fact("orchard.planted")
+	_saplings.visible = planted == null
+	if planted == null:
+		return
+	var age := Days.current_day - int(planted)
+	for i in ORCHARD.size():
+		var at: Vector3 = ORCHARD[i]
+		var h := 1.4 if age < 2 else 1.8
+		MeshKit.cylinder(_orchard, 0.05, 0.08, h, at + Vector3(0, h / 2.0, 0), "trunk", 6)
+		MeshKit.box(_orchard, Vector3(0.05, 1.3, 0.05), at + Vector3(0.18, 0.65, 0), "wood_light")
+		var crown := 0.5 if age < 2 else 0.7
+		var top := at + Vector3(0, h + 0.2, 0)
+		MeshKit.sphere(_orchard, crown, top, "leaf", Vector3(1, 0.85, 1), 8, 5)
+		# A second, smaller lump so the crown isn't a perfect ball.
+		MeshKit.sphere(_orchard, crown * 0.6, top + Vector3(crown * 0.45, crown * 0.3, -crown * 0.25), "leaf", Vector3.ONE, 7, 4)
+		MeshKit.sphere(_orchard, 0.4, at + Vector3(0, 0.03, 0), "soil_dark", Vector3(1, 0.06, 1), 8, 2)
+		if age >= 2:
+			# Spring blossom, dotted over the outside of the crown.
+			for k in 24:
+				var a := TAU * k / 24.0 * 5.0 + i
+				var up := lerpf(-0.2, 0.85, fmod(k * 0.618, 1.0))
+				var dir := Vector3(cos(a) * sqrt(1.0 - up * up), up, sin(a) * sqrt(1.0 - up * up))
+				MeshKit.sphere(_orchard, 0.075, top + dir * Vector3(crown, crown * 0.85, crown) * 0.98, "flower_pink", Vector3.ONE, 6, 3)
+
+
 func sync_with_world() -> void:
+	if _orchard:
+		_sync_orchard()
 	if _fed:
 		var fed: Variant = WorldState.get_fact("valley.lambs_fed")
 		_fed.visible = fed != null and int(fed) == Days.current_day
@@ -166,7 +231,7 @@ func _patches() -> void:
 
 func _trees() -> void:
 	var spots := [
-		[-12, 4, 1.0, "tree_a"], [-15, -4, 1.0, "grove_b_small"], [-20, 8, 1.1, "tree_b"], [-16, -5, 1.0, "grove_a_small"],
+		[-9.5, 11.0, 1.0, "tree_a"], [-15, -4, 1.0, "grove_b_small"], [-31.5, 10.5, 1.1, "tree_b"], [-16, -5, 1.0, "grove_a_small"],
 		[12, 11, 1.0, "tree_a"], [20, 11, 1.0, "grove_b_small"], [25, -1, 1.1, "tree_b"], [26, -8, 1.0, "grove_a_medium"],
 		[-4, -8, 0.9, "tree_a"], [-34, -23, 1.0, "grove_b_medium"], [19, -17.5, 1.0, "tree_b"], [24, -33, 1.0, "grove_a_small"],
 		[-33, -31, 1.0, "grove_b_medium"], [-23, -40, 1.0, "tree_a"], [-16, -37, 1.1, "tree_b"], [-12, -45, 1.0, "grove_a_small"],
@@ -209,7 +274,7 @@ func _trees() -> void:
 	CraftedProps.grain_field(self, Vector3(25.5, 0, 6.5), Vector2(7.0, 4.4), 0.25, 3)
 	CraftedProps.grain_field(self, Vector3(29.5, 0, -0.5), Vector2(6.0, 4.4), -0.2, 4)
 	var rocks := ["rock", "rock_b", "rock_c"]
-	for r: Array in [[-7, 9], [17, -6], [-25, -28], [22, -8.5], [-26, 6], [2, -45]]:
+	for r: Array in [[-7, 9], [17, -6], [-25, -28], [22, -8.5], [-31, 1.5], [2, -45]]:
 		Props.place(self, rocks[rng.randi() % 3], Vector3(r[0], Terrain.height(r[0], r[1]), r[1]), rng.randf() * TAU, rng.randf_range(0.7, 1.2))
 	# Pebbles at the water's edge, lilies in the slow water, reeds on the banks.
 	for i in 14:
@@ -389,6 +454,7 @@ func _boundary() -> void:
 ## Roughly the road network, so undergrowth never sits on a path.
 static func _on_path(p: Vector3) -> bool:
 	var roads := [Rect2(-1, 3.4, 7.5, 2.4), Rect2(4.0, -21, 2.9, 27), Rect2(-22, -23.0, 25, 4.0), Rect2(-32, -23.5, 11, 3.5), Rect2(5, -46, 2, 26),
+		Rect2(-30, 0, 30, 11),
 		Rect2(14, -25.5, 10, 3.6), Rect2(-12.5, -8, 18, 2.6), Rect2(-21, -11, 9, 4)]
 	for r: Rect2 in roads:
 		if r.grow(0.8).has_point(Vector2(p.x, p.z)):

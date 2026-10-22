@@ -1,0 +1,66 @@
+{
+	"id": "orchard_plant",
+	"title": "Planting the Orchard",
+	"mode": "task",
+	"location": "valley",
+	"surface": "soil_bed",
+	"readiness": {
+		"ages": [5, 8],
+		"math": "measuring with a long unit; putting events in order (sequencing)",
+		"reading": "pre-reader friendly; all text can be read aloud"
+	},
+	"concepts": ["measuring with a non-standard unit", "sequencing", "life cycle of a plant"],
+	"formation_themes": ["stewardship", "patience", "planting for others"],
+	"prerequisites": [
+		{"day_at_least": 8},
+		{"fact": "orchard.planted", "exists": false}
+	],
+	"intro": [
+		{"speaker": "miriam", "text": "These little apple trees need a home. Apple trees grow very big, so they need lots of room."},
+		{"speaker": "miriam", "text": "This long stick is how far apart they must be. One stick from the stone, then one stick more, and one more."}
+	],
+	"steps": [
+		{
+			"id": "space_trees",
+			"primitive": "space_along_line",
+			"speaker": "miriam",
+			"prompt": "Put a peg for each tree. Each one is one long stick away from the last. Lay the stick down to measure.",
+			"hint": "Lay the stick next to the stone. Where does the other end reach? Put a peg there.",
+			"markers": 3,
+			"stick_length": 250,
+			"tolerance": 36,
+			"older": {"tolerance": 22},
+			"feedback": {
+				"placed_all": "Let's check with the stick. Does it fit each space?",
+				"crowded": "Look: the stick covers a peg there. Those trees would be too close. Can that peg move further away?",
+				"far": "Look: there's a gap past the end of the stick. Can that peg move closer?",
+				"all_good": "Every space is one long stick. The trees will have room to grow."
+			}
+		},
+		{
+			"id": "how_it_grows",
+			"primitive": "sequence_cards",
+			"speaker": "miriam",
+			"prompt": "How does an apple tree grow? Put the pictures in order, from the first to the last.",
+			"hint": "What comes first: the seed, or the tree?",
+			"cards": ["card_seed", "card_sprout", "card_sapling", "card_blossom", "card_apples"],
+			"labels": ["seed", "sprout", "young tree", "blossom", "apples"],
+			"older": {"show_dots": false, "labels": [], "prompt": "How does an apple tree grow? Put the pictures in order. There are no words to help this time: look closely."},
+			"feedback": {
+				"out_of_order": "Some pictures are in the wrong place. They've gone back to the table. What comes next?",
+				"all_good": "Seed, sprout, young tree, blossom, apples! That's how it grows."
+			}
+		}
+	],
+	"outro": [
+		{"speaker": "miriam", "text": "Our trees are planted. It will be years before they give apples. We plant them for the children who come after us, too."},
+		{"speaker": "miriam", "text": "Thank you for helping me.", "button": "Thank you, Miss Miriam"}
+	],
+	"world_effects": [
+		{"op": "set", "fact": "orchard.planted", "value": "$day"}
+	],
+	"replay": "once",
+	"real_world_invitation": "rw_apple_seeds",
+	"journal_line": "I planted three young apple trees with Miss Miriam, one long stick apart, and put the pictures of how a tree grows in order.",
+	"unavailable_text": "The apple trees are planted. Now they need time."
+}

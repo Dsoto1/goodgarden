@@ -25,7 +25,7 @@ func _ready() -> void:
 	var tests := [
 		test_content_is_valid, test_validator_catches_errors, test_conditions_and_tokens,
 		test_save_round_trip_and_migration, test_space_along_line, test_count_into_slots,
-		test_match_to_outline_self_correction, test_story_handoff_and_put_away, test_parable_growth_and_put_away, test_chapel_library_books, test_calling_of_the_fishermen, test_sit_and_hold_rod, test_young_child_access, test_older_work_level,
+		test_match_to_outline_self_correction, test_story_handoff_and_put_away, test_parable_growth_and_put_away, test_chapel_library_books, test_calling_of_the_fishermen, test_sit_and_hold_rod, test_young_child_access, test_older_work_level, test_sequence_cards,
 		test_observations_never_score_reflection, test_pointer_events_drag_pieces, test_props_catalog,
 		test_scenery_quality_and_batching, test_vertical_slice_end_to_end,
 	]
@@ -410,6 +410,28 @@ func test_older_work_level() -> void:
 	var oven := _make_step("match_to_outline", Content.get_activity("oven_bake").at_level("older").steps[0])
 	eq(oven.slots.size(), 8, "more loaves to fit for older children")
 	oven.queue_free()
+
+
+## Sequence cards: when every place is filled, cards out of order go back
+## to the table and the rest stay; the right order completes the step.
+func test_sequence_cards() -> void:
+	var step := _make_step("sequence_cards", {"id": "grow", "cards": ["card_seed", "card_sprout", "card_sapling", "card_blossom", "card_apples"]})
+	eq(step.places.size(), 5, "five numbered places")
+	var by_order := {}
+	for c: DragPiece in step.cards:
+		by_order[int(c.get_meta(&"order"))] = c
+	check(step.cards.map(func(c: DragPiece) -> int: return int(c.get_meta(&"order"))) != [0, 1, 2, 3, 4], "the cards start shuffled")
+	# Swap the first two.
+	var order := [1, 0, 2, 3, 4]
+	for i in 5:
+		_drop(by_order[order[i]], step.places[i].center())
+	check(not step.is_done, "the wrong order doesn't complete")
+	check(by_order[0].placed_in == null and by_order[1].placed_in == null, "the two out of order go back to the table")
+	check(by_order[2].placed_in == step.places[2], "the ones in the right place stay")
+	_drop(by_order[0], step.places[0].center())
+	_drop(by_order[1], step.places[1].center())
+	check(step.is_done, "the right order completes")
+	step.queue_free()
 
 
 ## The chapel library: every book has pages, and the reader turns them
@@ -826,6 +848,78 @@ func test_vertical_slice_end_to_end() -> void:
 	eq(int(WorldState.get_fact("village.baked_day", 0)), 7, "the bread was baked today")
 	var baking := _find_named(main.world, "BakingDay") as Node3D
 	check(baking != null and baking.visible, "the oven glows and fresh loaves cool beside it")
+
+	# Week 2. Day 8: planting the orchard with Miss Miriam in the meadow.
+	await main.rest_until_morning()
+	await frames(3)
+	eq(Invitations.pending_id, "inv_day_008", "day 8: Miss Miriam's letter about the apple trees")
+	var miriam_now := main.world.npcs["miriam"] as Node3D
+	var orchard_spot := _find_named(main.world, "Anchor_orchard_miriam") as Node3D
+	check(orchard_spot != null and miriam_now.global_position.distance_to(orchard_spot.global_position) < 0.5, "Miss Miriam waits in the meadow")
+	var orchard := ActivityRunner.workspace if await _start_by_talking("miriam") else null
+	if orchard:
+		var rope := orchard.current_step()
+		var spots: Array[float] = rope.required_positions()
+		for i in rope.markers.size():
+			_drop(rope.markers[i], Vector2(spots[i], 300))
+		check(rope.is_done, "three trees, one long stick apart")
+		await wait(1.8)
+		var seq := orchard.current_step()
+		check(seq != null and seq != rope, "then the pictures of how a tree grows")
+		if seq:
+			for i in seq.places.size():
+				for c: DragPiece in seq.cards:
+					if int(c.get_meta(&"order")) == i:
+						_drop(c, seq.places[i].center())
+			check(seq.is_done, "the pictures are in order")
+		await _finish_activity(orchard)
+	eq(int(WorldState.get_fact("orchard.planted", 0)), 8, "the orchard is planted")
+	var trees := _find_named(main.world, "Orchard") as Node3D
+	check(trees != null and trees.get_child_count() > 0, "young apple trees stand in the meadow")
+
+	# Day 9: the pond with Mrs. Ruth.
+	await main.rest_until_morning()
+	await frames(3)
+	var pond_spot := _find_named(main.world, "Anchor_pond_ruth") as Node3D
+	check(pond_spot != null and ruth.global_position.distance_to(pond_spot.global_position) < 1.0, "Mrs. Ruth waits by the pond")
+	var pond := ActivityRunner.workspace if await _start_by_talking("ruth") else null
+	if pond:
+		var sorter2 := pond.current_step()
+		for p: DragPiece in sorter2.pieces:
+			for b: DropSlot in sorter2.bins:
+				if b.accepts == sorter2.belongs_in(p):
+					_drop(p, b.center())
+		check(sorter2.is_done, "every creature sorted into its home")
+		await _finish_activity(pond)
+	eq(int(WorldState.get_fact("valley.pond_day", 0)), 9, "the pond creatures were sorted today")
+
+	# Day 10: a thank-you card for Mrs. Ruth, given by the child.
+	await main.rest_until_morning()
+	await frames(3)
+	var card_ws := ActivityRunner.workspace if await _start_by_talking("miriam") else null
+	if card_ws:
+		var deco := card_ws.current_step()
+		for slot: DropSlot in deco.slots:
+			for p: DragPiece in deco.pieces:
+				if p.kind == slot.accepts and p.placed_in == null:
+					_drop(p, slot.center())
+					break
+		check(deco.is_done, "every pressed flower in its place")
+		await _finish_activity(card_ws)
+	eq(str(WorldState.get_fact("npc.ruth.card", "")), "made", "the card is made")
+	check(Dialogue.start("ruth"), "take the card to Mrs. Ruth")
+	check(str(Dialogue.current_line()["reply"]).contains("This card is for you, Mrs. Ruth"), "the child gives the card with a kind word")
+	Dialogue.advance()
+	check(str(Dialogue.current_line()["text"]).contains("For me?"), "Mrs. Ruth is delighted")
+	Dialogue.advance()
+	eq(str(WorldState.get_fact("npc.ruth.card", "")), "given", "the card was given")
+
+	# Day 11: a day of rest.
+	await main.rest_until_morning()
+	await frames(3)
+	eq(Invitations.pending_id, "inv_day_011", "day 11: a letter about a day of rest")
+	check(Dialogue.start("miriam") and str(Dialogue.current_line()["text"]).contains("No work today"), "Miss Miriam rests too")
+	Dialogue.end()
 
 	# The map: the real valley with a card for each place, travel from the
 	# places the child has been, and a marker where the child is.

@@ -4,6 +4,25 @@
 	"entries": [
 		{
 			"when": [
+				{"fact": "npc.ruth.card", "equals": "made"}
+			],
+			"start": "card_give"
+		},
+		{
+			"when": [
+				{"day": 9},
+				{"not": {"fact": "valley.pond_day", "is_today": true}}
+			],
+			"start": "pond_offer"
+		},
+		{
+			"when": [
+				{"fact": "valley.pond_day", "is_today": true}
+			],
+			"start": "pond_thanks"
+		},
+		{
+			"when": [
 				{"day": 5},
 				{"not": {"fact": "valley.lambs_fed", "is_today": true}}
 			],
@@ -104,6 +123,57 @@
 		"lambs_later": {
 			"mood": "gentle",
 			"text": "That's all right. The lambs and I will be here."
+		},
+		"card_give": {
+			"mood": "wonder",
+			"text": "Hello, little one! What's that you're holding so carefully?",
+			"reply": "This card is for you, Mrs. Ruth. Thank you for being so kind to us.",
+			"next": "card_thanks"
+		},
+		"card_thanks": {
+			"mood": "joy",
+			"text": "For me? Oh, look at the little flowers, and a heart! Thank you, my dear. I'll put it by my window, where I can see it every day.",
+			"reply": "You're welcome, Mrs. Ruth!",
+			"actions": [
+				{
+					"op": "set_fact",
+					"fact": "npc.ruth.card",
+					"value": "given"
+				}
+			]
+		},
+		"pond_offer": {
+			"mood": "joy",
+			"text": "You came! Look, the dipping net is full. Would you like to help me sort what we've found?",
+			"choices": [
+				{
+					"text": "Yes, please, Mrs. Ruth!",
+					"next": "pond_go",
+					"actions": [
+						{
+							"op": "start_activity",
+							"id": "pond_creatures"
+						}
+					]
+				},
+				{
+					"text": "Not yet, thank you.",
+					"next": "pond_later"
+				}
+			]
+		},
+		"pond_go": {
+			"mood": "joy",
+			"text": "Wonderful. Gently, now. They're small, and they're God's creatures too."
+		},
+		"pond_later": {
+			"mood": "gentle",
+			"text": "That's all right. The pond isn't going anywhere."
+		},
+		"pond_thanks": {
+			"mood": "gentle",
+			"text": "Every little creature back in its home. You were so gentle with them.",
+			"reply": "Thank you, Mrs. Ruth!"
 		}
 	}
 }

@@ -1,0 +1,70 @@
+{
+	"id": "pond_creatures",
+	"title": "Who Lives in the Pond?",
+	"mode": "task",
+	"location": "valley",
+	"surface": "wood_table",
+	"readiness": {
+		"ages": [5, 8],
+		"math": "sorting by a property (classification)",
+		"reading": "pre-reader friendly; all text can be read aloud"
+	},
+	"concepts": ["classification", "habitats", "living things"],
+	"formation_themes": ["wonder at creation", "care for animals"],
+	"prerequisites": [
+		{"day_at_least": 9},
+		{"not": {"fact": "valley.pond_day", "is_today": true}}
+	],
+	"intro": [
+		{"speaker": "ruth", "text": "Look what came up in the dipping net, and what we saw on the bank! So many creatures God has made."},
+		{"speaker": "ruth", "text": "Some of them live in the pond, and some live on the land. Can you help me sort them?"}
+	],
+	"steps": [
+		{
+			"id": "sort_creatures",
+			"primitive": "sort_into_bins",
+			"speaker": "ruth",
+			"prompt": "Put the creatures that live in the pond in the water, and the ones that live on land in the grass.",
+			"hint": "Does it swim? Then it lives in the pond.",
+			"piece_size": [56, 46],
+			"pieces": [
+				{"kind": "tadpole", "count": 1}, {"kind": "minnow", "count": 1}, {"kind": "water_snail", "count": 1}, {"kind": "duckling", "count": 1},
+				{"kind": "rabbit", "count": 1}, {"kind": "ladybird", "count": 1}, {"kind": "worm", "count": 1}
+			],
+			"bins": [
+				{"kind": "", "label": "the pond", "look": "pond", "group": "pond", "pos": [280, 170]},
+				{"kind": "", "label": "the land", "look": "meadow", "group": "land", "pos": [720, 170]}
+			],
+			"groups": {"tadpole": "pond", "minnow": "pond", "water_snail": "pond", "duckling": "pond", "rabbit": "land", "ladybird": "land", "worm": "land", "butterfly": "sky", "bee": "sky", "swallow": "sky"},
+			"older": {
+				"prompt": "Sort the creatures by where they live: in the pond, on the land, or in the sky.",
+				"hint": "Does it swim, walk or crawl, or fly?",
+				"pieces": [
+					{"kind": "tadpole", "count": 1}, {"kind": "minnow", "count": 1}, {"kind": "water_snail", "count": 1}, {"kind": "duckling", "count": 1},
+					{"kind": "rabbit", "count": 1}, {"kind": "ladybird", "count": 1}, {"kind": "worm", "count": 1},
+					{"kind": "butterfly", "count": 1}, {"kind": "bee", "count": 1}, {"kind": "swallow", "count": 1}
+				],
+				"bins": [
+					{"kind": "", "label": "the pond", "look": "pond", "group": "pond", "pos": [190, 170]},
+					{"kind": "", "label": "the land", "look": "meadow", "group": "land", "pos": [500, 170]},
+					{"kind": "", "label": "the sky", "look": "sky", "group": "sky", "pos": [810, 170]}
+				]
+			},
+			"feedback": {
+				"mismatch": "Hmm, does that one really live there? Think about how it moves.",
+				"all_good": "Every creature is in its home!"
+			}
+		}
+	],
+	"outro": [
+		{"speaker": "ruth", "text": "Now let's put the little ones gently back where they belong. God made a home for every one of them."},
+		{"speaker": "ruth", "text": "Thank you for your help, little one.", "button": "You're welcome, Mrs. Ruth"}
+	],
+	"world_effects": [
+		{"op": "set", "fact": "valley.pond_day", "value": "$day"}
+	],
+	"replay": "free",
+	"real_world_invitation": "rw_creature_hunt",
+	"journal_line": "I helped Mrs. Ruth sort the pond creatures from the land creatures, and we put them all back where they belong.",
+	"unavailable_text": "The pond creatures are home again. Let's leave them in peace for today."
+}

@@ -49,6 +49,7 @@ An activity JSON lists **steps**. Each step names a **primitive**, a reusable ma
 | `space_along_line` | measure with a non-standard unit | a ghost stick in each gap shows overlap (too close) or bare ground (too far), hatched rather than coloured | bean row spacing |
 | `count_into_slots` | one-to-one correspondence, equal groups | each hole shows N dimples; a seed dropped into a full hole rolls back | sowing seeds |
 | `match_to_outline` | matching, sorting, care of materials | the wrong piece shakes and slides back from an outline it doesn't fit | table setting, putting Atrium figures away |
+| `sequence_cards` | order, cause and effect, growth over time | when every place is filled, cards out of order slide back | how an apple tree grows |
 | `story_figures` | story manipulation and retelling | none by design: no checks, timers or score | Good Samaritan |
 
 Steps never write world state. They emit `completed(result)`, and the runner turns results into facts through the definition's `world_effects`, e.g. `"positions": "$space_holes.positions"`. Regions read facts back and rebuild themselves in `sync_with_world()`, which is how the planted row survives reloads and grows over days.

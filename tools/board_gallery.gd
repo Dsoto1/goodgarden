@@ -18,7 +18,7 @@ func _ready() -> void:
 	get_tree().root.theme = UiStyle.build_theme(1.0)
 	await get_tree().process_frame
 	SaveService.new_game()
-	Days.current_day = 7
+	Days.current_day = 10
 	WorldState.set_fact("garden.bed_1", {"holes": 4, "planted_day": 1})
 	WorldState.set_fact("village.flour_day", 6)
 	var only := ""
@@ -30,7 +30,7 @@ func _ready() -> void:
 		elif a == "--older":
 			Settings.set_value("work_level", "older")
 	DirAccess.make_dir_recursive_absolute(out)
-	for id: String in ["garden_bean_row", "garden_water", "bakery_baskets", "home_set_table", "sheepfold_hay", "mill_flour", "oven_bake", "good_shepherd"]:
+	for id: String in ["garden_bean_row", "garden_water", "bakery_baskets", "home_set_table", "sheepfold_hay", "mill_flour", "oven_bake", "good_shepherd", "orchard_plant", "pond_creatures", "thank_you_card"]:
 		if not only.is_empty() and not only.split(",").has(id):
 			continue
 		if not ActivityRunner.start(id):
@@ -55,6 +55,12 @@ func _ready() -> void:
 					_place(q, scale_step.pan.center())
 			await _settle(60)
 			await shot("mill_scale")
+		if id == "orchard_plant":
+			step.finish()
+			await _settle(40)
+			_fill(ws.current_step(), 0.5)
+			await _settle(40)
+			await shot("orchard_sequence")
 		ActivityRunner.set_aside()
 		await _settle(5)
 	get_tree().quit()
@@ -76,7 +82,7 @@ func _fill(step: ActivityStep, part: float) -> void:
 		for i in int(step.pieces.size() * part):
 			var p: DragPiece = step.pieces[i]
 			for b: DropSlot in step.bins:
-				if b.accepts == p.kind:
+				if b.accepts == step.belongs_in(p):
 					_place(p, b.center())
 	elif step.get("slots") != null and step.get("pieces") != null:
 		for i in int(step.slots.size() * part):
@@ -84,6 +90,13 @@ func _fill(step: ActivityStep, part: float) -> void:
 			for p: DragPiece in step.pieces:
 				if p.kind == slot.accepts and p.placed_in == null:
 					_place(p, slot.center())
+					break
+	elif step.get("places") != null:
+		for i in int(step.places.size() * part):
+			var place: DropSlot = step.places[i]
+			for p: DragPiece in step.cards:
+				if p.get_meta(&"order") == i and p.placed_in == null:
+					_place(p, place.center())
 					break
 	elif step.get("markers") != null:
 		for i in 2:

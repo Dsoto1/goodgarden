@@ -460,6 +460,46 @@ static func stepping_stone(parent: Node3D, pos: Vector3, seed_value: int) -> Nod
 ## creel, a coil of rope, a bucket and an upturned crate to sit on. Faces -Z
 ## (toward the water). Returns the root; the float's local position is in
 ## its "float" meta, for framing the view while the child sits and fishes.
+## A small pond: still water in an uneven oval with a muddy rim, stones,
+## reeds and lily pads. A collider keeps walkers on the bank.
+static func pond(parent: Node3D, center: Vector3, radii: Vector2, seed: int) -> Node3D:
+	var r := _root(parent, "Pond", center, 0.0)
+	var rng := RandomNumberGenerator.new()
+	rng.seed = seed
+	var edge := PackedVector2Array()
+	for i in 28:
+		var a := TAU * i / 28.0
+		var wob := 1.0 + sin(a * 3.0 + seed) * 0.08 + rng.randf_range(-0.03, 0.03)
+		edge.append(Vector2(cos(a) * radii.x, sin(a) * radii.y) * wob)
+	for layer: Array in [[1.16, 0.025, "soil_dark"], [1.0, 0.05, "water"]]:
+		var pts := PackedVector2Array()
+		for q in edge:
+			pts.append(q * float(layer[0]))
+		var tris := Geometry2D.triangulate_polygon(pts)
+		var st := SurfaceTool.new()
+		st.begin(Mesh.PRIMITIVE_TRIANGLES)
+		st.set_normal(Vector3.UP)
+		for i in tris.size():
+			var q := pts[tris[i]]
+			st.set_uv(q / 3.0)
+			st.add_vertex(Vector3(q.x, float(layer[1]), q.y))
+		MeshKit._instance(r, st.commit(), Vector3.ZERO, str(layer[2]))
+	for i in range(0, edge.size(), 2):
+		var q := edge[i] * 1.12
+		if rng.randf() < 0.6:
+			var stone := MeshKit.sphere(r, rng.randf_range(0.14, 0.26), Vector3(q.x, 0.06, q.y), "stone" if i % 3 else "stone_dark", Vector3(1.2, 0.6, 1.0), 6, 4)
+			stone.rotation.y = rng.randf() * TAU
+	for k in 3:
+		var q := edge[(k * 9 + 3) % edge.size()] * 0.95
+		reeds(r, Vector3(q.x, 0, q.y), seed + k, 0.5)
+	for k in 5:
+		var a := rng.randf() * TAU
+		var q := Vector2(cos(a) * radii.x, sin(a) * radii.y) * rng.randf_range(0.2, 0.7)
+		Props.place(r, "waterlily", Vector3(q.x, 0.06, q.y), rng.randf() * TAU, rng.randf_range(0.8, 1.2))
+	MeshKit.solid(r, Vector3(radii.x * 1.7, 1.2, radii.y * 1.6), Vector3(0, 0.6, 0))
+	return r
+
+
 ## A small village cottage like those in the concept art: warm plaster walls
 ## with a dark timber frame, a steep roof (thatch or tiles) with its gable to
 ## the front, a stone chimney, a plank door, shuttered windows with flower

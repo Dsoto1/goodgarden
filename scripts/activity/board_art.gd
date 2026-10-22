@@ -179,3 +179,28 @@ static func pot(ci: CanvasItem, r: Rect2) -> void:
 	_fill(ci, _round_rect(neck, 8), Color("b06c46"))
 	ci.draw_colored_polygon(_ellipse(Vector2(c.x, r.position.y + 16), Vector2(r.size.x * 0.32, 10)), Color("a5623e"))
 	ci.draw_colored_polygon(_ellipse(Vector2(c.x, r.position.y + 17), Vector2(r.size.x * 0.26, 6)), Color("5e3426"))
+
+
+## A patch of habitat to sort living things into: pond water, meadow grass,
+## or open sky with a cloud.
+static func habitat(ci: CanvasItem, r: Rect2, look: String) -> void:
+	var pts := _round_rect(r, 26)
+	ci.draw_colored_polygon(_shadow(pts, 5), Color(0, 0, 0, 0.14))
+	match look:
+		"pond":
+			_fill(ci, pts, Color("6f9fc0"))
+			for k in 3:
+				ci.draw_arc(r.get_center() + Vector2(-50 + k * 50, -20 + (k % 2) * 30), 14, PI * 1.15, PI * 1.85, 8, Color("a9c8dc"), 2.0)
+			ci.draw_colored_polygon(_ellipse(r.position + Vector2(30, r.size.y - 26), Vector2(16, 9)), Color("5f9a52"))
+		"meadow":
+			_fill(ci, pts, Color("8db562"))
+			var rng := RandomNumberGenerator.new()
+			rng.seed = 9
+			for i in 18:
+				var p := r.position + Vector2(rng.randf_range(14, r.size.x - 14), rng.randf_range(16, r.size.y - 10))
+				ci.draw_line(p, p + Vector2(-2, -9), Color("5f8a3f"), 2.0)
+				ci.draw_line(p, p + Vector2(3, -8), Color("5f8a3f"), 2.0)
+		_:
+			_fill(ci, pts, Color("b9d8ee"))
+			for d: Vector3 in [Vector3(-30, -20, 18), Vector3(-8, -26, 22), Vector3(16, -20, 17)]:
+				ci.draw_circle(r.get_center() + Vector2(d.x, d.y), d.z, Color("f6f8fa"))

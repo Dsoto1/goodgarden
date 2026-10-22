@@ -55,8 +55,11 @@ static func place(parent: Node3D, id: String, pos: Vector3, rot_y := 0.0, scale_
 	if p.get("collide", false):
 		var box := bounds(root)
 		var f := float(p.get("footprint", 0.9))
-		var size := Vector3(box.size.x * f, box.size.y, box.size.z * f)
-		MeshKit.solid(root, size, box.get_center())
+		# At least knee-high, so the walking map goes around low things (a
+		# woodpile) instead of treating their tops as a step to climb.
+		var h := maxf(box.size.y, 0.8)
+		var size := Vector3(box.size.x * f, h, box.size.z * f)
+		MeshKit.solid(root, size, Vector3(box.get_center().x, box.position.y + h / 2.0, box.get_center().z))
 	return root
 
 

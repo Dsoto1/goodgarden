@@ -96,11 +96,13 @@ Hands-on activities serve ages 5 to 10 through a grown-up's **Work level** setti
 
 **`count_into_slots`**: `per_slot` or `counts`, `slots` or `slots_from` (an earlier step's `positions`), `piece` (`bean_seed`, `bread_roll`, `water_drop`, `hay`, ...), `container` (`hole`, `plant`, `basket`, `trough`), `supply_label`, `supply_color`, `spare`, `show_dimples`. Result: `slots`, `per_slot`, `pieces`. Feedback: `full`, `all_good`.
 
-**`sort_into_bins`**: `pieces: [{"kind", "count"}]`, `bins: [{"kind", "label", "look": "sack"|"basket", "pos"}]`, `pile`. Result: `sorted`. Feedback: `mismatch`, `all_good`.
+**`sort_into_bins`**: `pieces: [{"kind", "count"}]`, `bins: [{"kind", "label", "look": "sack"|"basket"|"pond"|"meadow"|"sky", "pos", "group"?}]`, `pile`, `piece_size`. With `groups: {kind: group}` a bin takes every kind in its `group` (pond creatures into the pond) instead of one kind. Result: `sorted`. Feedback: `mismatch`, `all_good`.
+
+**`sequence_cards`**: `cards: [kind, ...]` in the right order, optional `labels` (a caption on each card) and `show_dots` (dots under each number, on by default). Cards start shuffled; once every place is filled, cards in the wrong place slide back. Kinds: `card_seed`, `card_sprout`, `card_sapling`, `card_blossom`, `card_apples`. Result: `cards`, `tries`. Feedback: `out_of_order`, `all_good`.
 
 **`balance_scale`**: `weight` (in small scoops), `scoops: [{"kind", "weight", "count"}]`, `weight_label`, `supply_label`. Result: `scoops`. Feedback: `heavy`, `all_good`.
 
-**`match_to_outline`**: `slots: [{"kind", "pos": [x, y]}]`, optional `mats`, `box`, `box_label`, `tray`, or `pieces_from_previous: true` to reuse the prior step's pieces. Kinds: `plate`, `bowl_small`, `cup`, `fork`, `spoon`, `knife`, `napkin`, `coin`, `loaf_round`, `loaf_long`, `bread_roll`, `figure:<id>`. `oven: [x, y, w, h]` draws an oven mouth behind the outlines. Result: `placed`. Feedback: `mismatch`, `all_good`.
+**`match_to_outline`**: `slots: [{"kind", "pos": [x, y]}]`, optional `mats`, `box`, `box_label`, `tray`, or `pieces_from_previous: true` to reuse the prior step's pieces. Kinds: `plate`, `bowl_small`, `cup`, `fork`, `spoon`, `knife`, `napkin`, `coin`, `loaf_round`, `loaf_long`, `bread_roll`, `figure:<id>`. `oven: [x, y, w, h]` draws an oven mouth behind the outlines; `card: [x, y, w, h]` an open folded card (with kinds `pressed_daisy`, `pressed_violet`, `pressed_leaf`, `heart`). Result: `placed`. Feedback: `mismatch`, `all_good`.
 
 **`story_figures`**: `places`, `road`, `figures` (`{"id", "label", "color", "shape"?: "donkey"|"building", "accent"?}`), `box`, `segments` (`{"text", "reveal": [ids], "show": {id: {"pos", "lying"}}}`), `wonderings`, `reference`. Result: `retell_seconds`. Follow it with a `match_to_outline` step using `pieces_from_previous` so the child puts the material away.
 

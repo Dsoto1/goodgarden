@@ -26,6 +26,89 @@ static func draw(ci: CanvasItem, kind: String, size: Vector2, outline: bool, dat
 			if not outline:
 				ci.draw_circle(c + Vector2(-size.x * 0.1, -size.y * 0.12), size.y * 0.16, Color("eebd72"))
 				ci.draw_line(c + Vector2(-size.x * 0.2, size.y * 0.05), c + Vector2(size.x * 0.2, -size.y * 0.1), Color("a8662a"), 2.0)
+		"card_seed", "card_sprout", "card_sapling", "card_blossom", "card_apples":
+			_growth_card(ci, kind, size, outline, str(data.get("label", "")))
+		"tadpole":
+			_shape(ci, _ellipse(c + Vector2(-size.x * 0.12, 0), Vector2(size.x * 0.2, size.y * 0.24), 14), Color("4a4a3e"), outline)
+			_shape(ci, PackedVector2Array([c + Vector2(0, -size.y * 0.1), c + Vector2(size.x * 0.42, -size.y * 0.02), c + Vector2(size.x * 0.42, size.y * 0.06), c + Vector2(0, size.y * 0.1)]), Color("5e5e50"), outline)
+		"minnow":
+			_shape(ci, _ellipse(c + Vector2(-size.x * 0.05, 0), Vector2(size.x * 0.3, size.y * 0.18), 16), Color("8fa3ad"), outline)
+			_shape(ci, PackedVector2Array([c + Vector2(size.x * 0.22, 0), c + Vector2(size.x * 0.44, -size.y * 0.2), c + Vector2(size.x * 0.44, size.y * 0.2)]), Color("7a8f99"), outline)
+			if not outline:
+				ci.draw_circle(c + Vector2(-size.x * 0.22, -size.y * 0.04), 2.0, INK)
+		"water_snail":
+			_shape(ci, _ellipse(c + Vector2(size.x * 0.05, size.y * 0.18), Vector2(size.x * 0.36, size.y * 0.1), 12), Color("8a7a5a"), outline)
+			_shape(ci, _ellipse(c + Vector2(0, -size.y * 0.02), Vector2(size.x * 0.22, size.y * 0.26), 16), Color("6b5a3e"), outline)
+			if not outline:
+				ci.draw_arc(c + Vector2(0, -size.y * 0.02), size.y * 0.13, 0, TAU * 0.8, 10, Color("a8936a"), 2.0)
+		"duckling":
+			_shape(ci, _ellipse(c + Vector2(size.x * 0.06, size.y * 0.1), Vector2(size.x * 0.3, size.y * 0.24), 16), Color("f2d24e"), outline)
+			_shape(ci, _ellipse(c + Vector2(-size.x * 0.2, -size.y * 0.16), Vector2(size.x * 0.15, size.y * 0.17), 14), Color("f2d24e"), outline)
+			_shape(ci, PackedVector2Array([c + Vector2(-size.x * 0.33, -size.y * 0.16), c + Vector2(-size.x * 0.46, -size.y * 0.1), c + Vector2(-size.x * 0.33, -size.y * 0.06)]), Color("e08a2e"), outline)
+			if not outline:
+				ci.draw_circle(c + Vector2(-size.x * 0.22, -size.y * 0.2), 1.8, INK)
+		"rabbit":
+			_shape(ci, _ellipse(c + Vector2(size.x * 0.08, size.y * 0.12), Vector2(size.x * 0.3, size.y * 0.22), 16), Color("a8927a"), outline)
+			_shape(ci, _ellipse(c + Vector2(-size.x * 0.2, -size.y * 0.06), Vector2(size.x * 0.14, size.y * 0.15), 14), Color("a8927a"), outline)
+			for e: float in [-0.26, -0.16]:
+				_shape(ci, _ellipse(c + Vector2(size.x * e, -size.y * 0.32), Vector2(size.x * 0.04, size.y * 0.15), 10), Color("b8a28a"), outline)
+			if not outline:
+				ci.draw_circle(c + Vector2(size.x * 0.36, size.y * 0.08), 4.0, Color("f3ede4"))
+		"ladybird":
+			_shape(ci, _ellipse(c, Vector2(size.x * 0.28, size.y * 0.26), 16), Color("d8442e"), outline)
+			_shape(ci, _ellipse(c + Vector2(-size.x * 0.28, 0), Vector2(size.x * 0.1, size.y * 0.12), 10), Color("2e2a28"), outline)
+			if not outline:
+				ci.draw_line(c + Vector2(-size.x * 0.18, 0), c + Vector2(size.x * 0.28, 0), Color("2e2a28"), 1.5)
+				for d: Vector2 in [Vector2(-0.06, -0.12), Vector2(0.12, 0.1), Vector2(0.12, -0.12), Vector2(-0.06, 0.12)]:
+					ci.draw_circle(c + d * size, 2.5, Color("2e2a28"))
+		"worm":
+			var pts := PackedVector2Array()
+			for i in 12:
+				var t := i / 11.0
+				pts.append(c + Vector2((t - 0.5) * size.x * 0.8, sin(t * TAU) * size.y * 0.14 - size.y * 0.04))
+			for i in range(11, -1, -1):
+				var t := i / 11.0
+				pts.append(c + Vector2((t - 0.5) * size.x * 0.8, sin(t * TAU) * size.y * 0.14 + size.y * 0.06))
+			_shape(ci, pts, Color("d58a7e"), outline)
+		"butterfly":
+			for side: float in [-1.0, 1.0]:
+				_shape(ci, _ellipse(c + Vector2(side * size.x * 0.18, -size.y * 0.1), Vector2(size.x * 0.17, size.y * 0.2), 12), Color("e8a33c"), outline)
+				_shape(ci, _ellipse(c + Vector2(side * size.x * 0.14, size.y * 0.16), Vector2(size.x * 0.12, size.y * 0.14), 12), Color("d0782a"), outline)
+			_shape(ci, _rect(Rect2(c.x - 2, c.y - size.y * 0.25, 4, size.y * 0.5)), Color("3b3430"), outline)
+		"bee":
+			_shape(ci, _ellipse(c + Vector2(0, size.y * 0.05), Vector2(size.x * 0.26, size.y * 0.2), 14), Color("f2c14e"), outline)
+			if not outline:
+				for x: float in [-0.08, 0.06]:
+					ci.draw_line(c + Vector2(size.x * x, -size.y * 0.12), c + Vector2(size.x * x, size.y * 0.24), Color("3b3430"), 3.0)
+				for side: float in [-1.0, 1.0]:
+					ci.draw_circle(c + Vector2(side * size.x * 0.1, -size.y * 0.2), size.y * 0.12, Color(1, 1, 1, 0.75))
+		"swallow":
+			_shape(ci, PackedVector2Array([c + Vector2(-size.x * 0.44, -size.y * 0.1), c + Vector2(0, size.y * 0.02), c + Vector2(size.x * 0.44, -size.y * 0.1), c + Vector2(size.x * 0.1, size.y * 0.12), c + Vector2(size.x * 0.06, size.y * 0.36), c + Vector2(0, size.y * 0.2), c + Vector2(-size.x * 0.06, size.y * 0.36), c + Vector2(-size.x * 0.1, size.y * 0.12)]), Color("2f4a6e"), outline)
+		"pressed_daisy":
+			for i in 8:
+				var a := TAU * i / 8.0
+				_shape(ci, _ellipse(c + Vector2(cos(a), sin(a)) * size.x * 0.22, Vector2(size.x * 0.13, size.x * 0.07), 10), Color("fbf8f0"), outline)
+			_shape(ci, _ellipse(c, Vector2(size.x * 0.12, size.x * 0.12), 12), Color("f2c14e"), outline)
+		"pressed_violet":
+			for i in 5:
+				var a := TAU * i / 5.0 - PI / 2.0
+				_shape(ci, _ellipse(c + Vector2(cos(a), sin(a)) * size.x * 0.18, Vector2(size.x * 0.14, size.x * 0.14), 10), Color("8a6abf"), outline)
+			_shape(ci, _ellipse(c, Vector2(size.x * 0.07, size.x * 0.07), 8), Color("f2c14e"), outline)
+		"pressed_leaf":
+			var leaf := PackedVector2Array()
+			for i in 13:
+				var t := i / 12.0
+				leaf.append(c + Vector2((t - 0.5) * size.x * 0.8, -sin(t * PI) * size.y * 0.3))
+			for i in range(11, 0, -1):
+				var t := i / 12.0
+				leaf.append(c + Vector2((t - 0.5) * size.x * 0.8, sin(t * PI) * size.y * 0.3))
+			_shape(ci, leaf, Color("6f9a52"), outline)
+		"heart":
+			var hp := PackedVector2Array()
+			for i in 24:
+				var t := TAU * i / 24.0
+				hp.append(c + Vector2(16 * pow(sin(t), 3), -(13 * cos(t) - 5 * cos(2 * t) - 2 * cos(3 * t) - cos(4 * t))) * size.x / 40.0)
+			_shape(ci, hp, Color("d8584a"), outline)
 		"water_drop":
 			var drop := PackedVector2Array()
 			for i in 17:
@@ -291,6 +374,40 @@ static func _sheep(ci: CanvasItem, at: Vector2, r: float, outline: bool) -> void
 static func _limb(a: Vector2, b: Vector2, width: float) -> PackedVector2Array:
 	var n := (b - a).orthogonal().normalized()
 	return PackedVector2Array([a + n * width / 2.0, b + n * width / 4.0, b - n * width / 4.0, a - n * width / 2.0])
+
+
+## Picture cards for how an apple tree grows, from seed to apples.
+static func _growth_card(ci: CanvasItem, kind: String, size: Vector2, outline: bool, label: String) -> void:
+	var r := Rect2(Vector2(4, 4), size - Vector2(8, 8))
+	_shape(ci, _rect(r), Color("fbf3dc"), outline)
+	if outline:
+		return
+	# The name sits on the card itself, dark on cream, so it reads anywhere.
+	if not label.is_empty():
+		ci.draw_string(UiStyle.font(), Vector2(r.position.x, r.end.y - 8), label, HORIZONTAL_ALIGNMENT_CENTER, r.size.x, 16, Color("5a3d28"))
+	var c := Vector2(r.get_center().x, r.position.y + (r.size.y - 26) / 2.0)
+	var ground := r.end.y - 22 - (24 if not label.is_empty() else 0)
+	ci.draw_rect(Rect2(r.position.x + 6, ground, r.size.x - 12, 16), Color("8a6446"))
+	match kind:
+		"card_seed":
+			ci.draw_colored_polygon(_ellipse(Vector2(c.x, ground + 6), Vector2(9, 6), 12), Color("6b4a2e"))
+		"card_sprout":
+			ci.draw_line(Vector2(c.x, ground), Vector2(c.x, ground - 26), Color("5f8a3f"), 3.0)
+			for side: float in [-1.0, 1.0]:
+				ci.draw_colored_polygon(_ellipse(Vector2(c.x + side * 9, ground - 26), Vector2(9, 5), 10), Color("7fb04a"))
+		"card_sapling", "card_blossom", "card_apples":
+			var big := kind != "card_sapling"
+			var trunk_h := 54.0 if big else 40.0
+			ci.draw_rect(Rect2(c.x - (5 if big else 3), ground - trunk_h, 10 if big else 6, trunk_h), Color("7a5a3a"))
+			var crown := Vector2(c.x, ground - trunk_h - (18 if big else 10))
+			ci.draw_colored_polygon(_ellipse(crown, Vector2(40, 30) if big else Vector2(22, 18), 18), Color("6f9a52"))
+			var dots := [Vector2(-22, -8), Vector2(10, -16), Vector2(24, 4), Vector2(-6, 10), Vector2(-28, 8), Vector2(4, -2)]
+			if kind == "card_blossom":
+				for d: Vector2 in dots:
+					ci.draw_circle(crown + d, 5.0, Color("f6d4dc"))
+			elif kind == "card_apples":
+				for d: Vector2 in dots:
+					ci.draw_circle(crown + d, 6.0, Color("d8442e"))
 
 
 ## A woven basket seen from the side, centred at `at`.

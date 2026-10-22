@@ -13,6 +13,7 @@ extends ActivityStep
 ##   mats: [[x, y, w, h], ...]    placemats/cloths drawn under the outlines
 ##   box:  [x, y, w, h]           a material box drawn under the outlines
 ##   oven: [x, y, w, h]           an oven mouth with a baking stone under the outlines
+##   card: [x, y, w, h]           an open folded card to decorate
 ## Result: {"placed": int}
 
 const SIZES := {
@@ -20,6 +21,7 @@ const SIZES := {
 	"fork": Vector2(26, 104), "spoon": Vector2(26, 104), "knife": Vector2(26, 104),
 	"napkin": Vector2(56, 84), "coin": Vector2(30, 30), "figure": Vector2(56, 96),
 	"loaf_round": Vector2(96, 84), "loaf_long": Vector2(150, 60), "bread_roll": Vector2(58, 48),
+	"pressed_daisy": Vector2(70, 70), "pressed_violet": Vector2(60, 60), "pressed_leaf": Vector2(80, 50), "heart": Vector2(70, 64),
 }
 
 var slots: Array[DropSlot] = []
@@ -160,6 +162,15 @@ func _draw() -> void:
 		while y < r.end.y:
 			draw_line(Vector2(r.position.x, y), Vector2(r.end.x, y), Color("e2d3b0"), 1.0)
 			y += 14
+	if config.has("card"):
+		# A folded card lying open, ready to decorate.
+		var cr: Array = config["card"]
+		var r := Rect2(cr[0], cr[1], cr[2], cr[3])
+		draw_rect(Rect2(r.position + Vector2(6, 8), r.size), Color(0, 0, 0, 0.16))
+		draw_rect(r, Color("fbf8f0"))
+		draw_rect(Rect2(r.position, Vector2(r.size.x / 2.0, r.size.y)), Color("f3eee2"))
+		draw_line(Vector2(r.get_center().x, r.position.y), Vector2(r.get_center().x, r.end.y), Color("d9cfb8"), 2.0)
+		draw_rect(r, Color("c8b48e"), false, 2.0)
 	if config.has("oven"):
 		# The inside of a bread oven seen through its arched mouth: brick
 		# around the edge, a warm glow, and a flat baking stone for the loaves.

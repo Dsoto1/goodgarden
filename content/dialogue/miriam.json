@@ -5,6 +5,26 @@
 	"entries": [
 		{
 			"when": [
+				{"day": 8},
+				{"fact": "orchard.planted", "exists": false}
+			],
+			"start": "orchard_offer"
+		},
+		{
+			"when": [
+				{"day": 10},
+				{"fact": "npc.ruth.card", "exists": false}
+			],
+			"start": "card_offer"
+		},
+		{
+			"when": [
+				{"day": 11}
+			],
+			"start": "rest_day"
+		},
+		{
+			"when": [
 				{"fact": "garden.watered", "is_today": true}
 			],
 			"start": "watered"
@@ -128,6 +148,66 @@
 			"reply": "You're welcome, Miss Miriam!",
 			"mood": "joy",
 			"text": "Thank you for watering the beans! Look, there are little green beans hanging down now."
+		},
+		"orchard_offer": {
+			"mood": "joy",
+			"text": "There you are! Here are our three little apple trees. Would you please help me plant them in a row?",
+			"choices": [
+				{
+					"text": "Yes, please, Miss Miriam!",
+					"next": "orchard_go",
+					"actions": [
+						{
+							"op": "start_activity",
+							"id": "orchard_plant"
+						}
+					]
+				},
+				{
+					"text": "Not yet, thank you.",
+					"next": "orchard_later"
+				}
+			]
+		},
+		"orchard_go": {
+			"mood": "joy",
+			"text": "Wonderful. Bring the long stick, and let's begin."
+		},
+		"orchard_later": {
+			"mood": "gentle",
+			"text": "That's all right. The trees will wait here in their bundle."
+		},
+		"card_offer": {
+			"mood": "gentle",
+			"text": "Mrs. Ruth has been so kind to us. Shall we make her a thank-you card, with the flowers I pressed?",
+			"choices": [
+				{
+					"text": "Yes, please! Let's make one.",
+					"next": "card_go",
+					"actions": [
+						{
+							"op": "start_activity",
+							"id": "thank_you_card"
+						}
+					]
+				},
+				{
+					"text": "Not yet, thank you.",
+					"next": "card_later"
+				}
+			]
+		},
+		"card_go": {
+			"mood": "joy",
+			"text": "Lovely. Gentle fingers, now. Pressed flowers are delicate."
+		},
+		"card_later": {
+			"mood": "gentle",
+			"text": "That's all right. The flowers will keep."
+		},
+		"rest_day": {
+			"mood": "gentle",
+			"text": "No work today, my friend. Even the garden rests. Listen: can you hear the birds?"
 		}
 	}
 }

@@ -1,0 +1,63 @@
+{
+	"id": "thank_you_card",
+	"title": "A Thank-You Card",
+	"mode": "task",
+	"location": "garden",
+	"surface": "wood_table",
+	"readiness": {
+		"ages": [5, 8],
+		"math": "matching shapes",
+		"reading": "pre-reader friendly; all text can be read aloud"
+	},
+	"concepts": ["matching shapes", "care and neatness"],
+	"formation_themes": ["gratitude", "manners", "honoring elders"],
+	"prerequisites": [
+		{"day_at_least": 10},
+		{"fact": "npc.ruth.card", "exists": false}
+	],
+	"intro": [
+		{"speaker": "miriam", "text": "Mrs. Ruth has been so kind to us: sharing her lambs, her pond, and her stories. Let's make her a thank-you card."},
+		{"speaker": "miriam", "text": "I pressed these flowers last spring. Each one has its own place on the card."}
+	],
+	"steps": [
+		{
+			"id": "decorate",
+			"primitive": "match_to_outline",
+			"speaker": "miriam",
+			"prompt": "Lay each pressed flower gently in the place that fits its shape.",
+			"hint": "Watch: the daisy goes here. Can you find the next?",
+			"card": [250, 30, 500, 300],
+			"tray": [80, 370, 840, 170],
+			"slots": [
+				{"kind": "pressed_daisy", "pos": [580, 110]},
+				{"kind": "pressed_violet", "pos": [680, 160]},
+				{"kind": "pressed_leaf", "pos": [600, 250]},
+				{"kind": "heart", "pos": [370, 180]}
+			],
+			"older": {
+				"slots": [
+					{"kind": "pressed_daisy", "pos": [560, 100]},
+					{"kind": "pressed_violet", "pos": [670, 140]},
+					{"kind": "pressed_leaf", "pos": [580, 250]},
+					{"kind": "pressed_daisy", "pos": [690, 260]},
+					{"kind": "pressed_violet", "pos": [520, 180]},
+					{"kind": "heart", "pos": [370, 180]}
+				]
+			},
+			"feedback": {
+				"mismatch": "That one doesn't fit there. Look closely at the shape.",
+				"all_good": "What a lovely card! Mrs. Ruth will be so pleased."
+			}
+		}
+	],
+	"outro": [
+		{"speaker": "miriam", "text": "Now it's ready. Would you like to give it to Mrs. Ruth yourself? She's at the well in the village.", "button": "Yes, please, Miss Miriam"}
+	],
+	"world_effects": [
+		{"op": "set", "fact": "npc.ruth.card", "value": "made"}
+	],
+	"replay": "once",
+	"real_world_invitation": "rw_thank_you_card",
+	"journal_line": "I made a thank-you card for Mrs. Ruth with Miss Miriam, with pressed flowers and a heart.",
+	"unavailable_text": "The card is made. Mrs. Ruth will love it."
+}

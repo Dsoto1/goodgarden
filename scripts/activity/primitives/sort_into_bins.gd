@@ -8,8 +8,11 @@ extends ActivityStep
 ##
 ## Config:
 ##   pieces: [{"kind": "grain", "count": 8}, ...]   the mixed pile
-##   bins: [{"kind": "grain", "label": "flour sack", "look": "sack"|"basket"|"pot", "pos": [x, y]}]
+##   bins: [{"kind": "grain", "label": "flour sack", "look": "sack"|"basket"|"pot"|"pond"|"meadow"|"sky", "pos": [x, y]}]
 ##   pile: [x, y]                                     centre of the pile
+##   piece_size: [w, h]                               bigger for creatures (default 30 x 24)
+##   groups: {kind: group}                            sort by group instead of kind:
+##                                                    a bin with "group" takes every kind in it
 ## Feedback keys: "mismatch", "all_good".
 ## Result: {"sorted": int}
 
@@ -26,7 +29,7 @@ var _hint_piece: DragPiece
 func _build() -> void:
 	_pile = vec(config.get("pile"), _pile)
 	for b: Dictionary in config.get("bins", []):
-		var slot := DropSlot.create(str(b["kind"]), BIN_SIZE, {"label": tr(str(b.get("label", ""))), "look": str(b.get("look", "basket"))})
+		var slot := DropSlot.create(str(b.get("group", b.get("kind", ""))), BIN_SIZE, {"label": tr(str(b.get("label", ""))), "look": str(b.get("look", "basket"))})
 		slot.capacity = 999
 		slot.show_outline = false
 		slot.set_center(vec(b.get("pos")))
@@ -44,7 +47,7 @@ func _build() -> void:
 		kinds[i] = kinds[j]
 		kinds[j] = t
 	for i in kinds.size():
-		var p := DragPiece.create(kinds[i], PIECE_SIZE)
+		var p := DragPiece.create(kinds[i], vec(config.get("piece_size"), PIECE_SIZE))
 		var a := rng.randf() * TAU
 		var r := sqrt(rng.randf())
 		p.home = _pile + Vector2(cos(a) * 170.0 * r, sin(a) * 50.0 * r) - p.size / 2.0
@@ -92,7 +95,7 @@ func _on_dropped(p: DragPiece) -> void:
 			break
 	if target == null:
 		return # set down on the table: fine, it can be picked up again
-	if not target.fits(p):
+	if belongs_in(p) != target.accepts:
 		_rejected[p] = true
 		observed.emit("mismatch", {"step": config.get("id", ""), "piece": p.kind, "slot": target.accepts})
 		say("mismatch", "That one goes somewhere else.")
@@ -111,12 +114,19 @@ func _on_dropped(p: DragPiece) -> void:
 
 
 ## Lays the pieces in a bin out in tidy rows.
+## The bin a piece belongs in: its group when sorting by groups, else its kind.
+func belongs_in(p: DragPiece) -> String:
+	return str(config.get("groups", {}).get(p.kind, p.kind))
+
+
 func _layout(bin: Variant) -> void:
 	if not bin is DropSlot:
 		return
 	var b: DropSlot = bin
 	for i in b.contents.size():
-		var spot := b.center() + Vector2((i % 6 - 2.5) * 30.0, -26.0 + (i / 6) * 26.0)
+		var step := maxf(30.0, b.contents[i].size.x + 4.0)
+		var per_row := maxi(1, int(BIN_SIZE.x / step))
+		var spot := b.center() + Vector2((i % per_row - (per_row - 1) / 2.0) * step, -26.0 + (i / per_row) * (b.contents[i].size.y + 4.0))
 		b.contents[i].rotation = 0.0
 		tween_to(b.contents[i], spot - b.contents[i].size / 2.0, 0.15)
 
@@ -146,12 +156,15 @@ func _draw() -> void:
 		var r := Rect2(b.position, b.size)
 		if b.data.get("look", "basket") == "sack":
 			BoardArt.sack(self, r)
+		elif b.data.get("look", "basket") in ["pond", "meadow", "sky"]:
+			BoardArt.habitat(self, r, str(b.data["look"]))
 		elif b.data.get("look", "basket") == "pot":
 			BoardArt.pot(self, r)
 		else:
 			BoardArt.basket(self, r)
 		draw_string(font, Vector2(r.position.x - 20, r.end.y + 24), str(b.data.get("label", "")), HORIZONTAL_ALIGNMENT_CENTER, r.size.x + 40, 18, Color("f3e6d2"))
 		# The outline of what belongs here, stitched on the front.
-		PieceArt.draw_at(self, b.accepts, Rect2(Vector2(r.end.x - 52, r.end.y - 40), Vector2(36, 28)), true)
+		if not config.has("groups"):
+			PieceArt.draw_at(self, b.accepts, Rect2(Vector2(r.end.x - 52, r.end.y - 40), Vector2(36, 28)), true)
 	if _hint_piece and _hint_piece.placed_in == null:
 		draw_arc(_hint_piece.center(), 30, 0, TAU, 24, Color(1, 0.95, 0.7), 4.0)
