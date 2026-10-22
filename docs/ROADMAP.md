@@ -51,8 +51,8 @@ see `UI_UX.md`.
 - [x] Design docs updated (`CURRICULUM_ROADMAP.md`, `UI_UX.md`,
       `CONTENT_GUIDE.md`)
 - [ ] Playtest the latest build with a child (`docs/PLAYTEST.md`)
-- [ ] Carry old saves over to the new week (a one-time save migration)
-- [ ] Map labels overlapping at the largest text size
+- [x] Carry old saves over to the new week (save schema 2 migration)
+- [x] Map labels overlapping at the largest text size
 
 ## Phase B: new activity types (reach 12)
 

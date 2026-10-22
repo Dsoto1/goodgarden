@@ -132,19 +132,30 @@ func _place_pins(world: World) -> void:
 
 
 ## Nudges a card off any card already placed (places close together, like
-## home and the garden, get their cards side by side).
+## home and the garden, get their cards side by side). With large text the
+## cards are big, so it tries further spots too, and if none is fully clear
+## takes the one that overlaps least.
 func _free_spot(want: Vector2, card: Vector2) -> Vector2:
-	for shift: Vector2 in [Vector2.ZERO, Vector2(-card.x * 0.6, 0), Vector2(card.x * 0.6, 0), Vector2(0, -card.y - 6), Vector2(0, card.y + 18)]:
-		var r := Rect2(want + shift, card)
-		var clear := true
+	var shifts: Array[Vector2] = [Vector2.ZERO]
+	for k: float in [0.6, 1.1, 1.6]:
+		shifts.append_array([Vector2(-card.x * k, 0), Vector2(card.x * k, 0)])
+	for k: float in [1.0, 2.0]:
+		shifts.append_array([Vector2(0, -(card.y + 6) * k), Vector2(0, (card.y + 18) * k)])
+	shifts.append_array([Vector2(-card.x * 0.6, -card.y - 6), Vector2(card.x * 0.6, -card.y - 6), Vector2(-card.x * 0.6, card.y + 18), Vector2(card.x * 0.6, card.y + 18)])
+	var best := want
+	var best_overlap := INF
+	for shift: Vector2 in shifts:
+		var spot: Vector2 = (want + shift).clamp(Vector2(4, 4), VIEW - card - Vector2(4, 4))
+		var r := Rect2(spot, card)
+		var overlap := 0.0
 		for t in _taken:
-			if t.grow(4).intersects(r):
-				clear = false
-				break
-		if clear:
-			var spot: Vector2 = want + shift
-			return spot.clamp(Vector2(4, 4), VIEW - card - Vector2(4, 4))
-	return want
+			overlap += t.grow(4).intersection(r).get_area()
+		if overlap == 0.0:
+			return spot
+		if overlap < best_overlap:
+			best_overlap = overlap
+			best = spot
+	return best
 
 
 ## A little stake under a card, pointing at the exact spot.

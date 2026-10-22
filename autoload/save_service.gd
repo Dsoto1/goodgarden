@@ -8,7 +8,7 @@ extends Node
 signal saved(path: String)
 signal loaded(path: String)
 
-const SCHEMA_VERSION := 1
+const SCHEMA_VERSION := 2
 const DEFAULT_PATH := "user://saves/garden_1.json"
 
 ## Tests point this at a scratch file.
@@ -21,6 +21,7 @@ var loaded_player: Dictionary = {}
 ## version -> Callable(Dictionary) -> Dictionary, upgrading from that version.
 var _migrations := {
 	0: _migrate_0_to_1,
+	1: _migrate_1_to_2,
 }
 
 
@@ -123,4 +124,31 @@ func _migrate_0_to_1(data: Dictionary) -> Dictionary:
 		data.erase("flags")
 	if not data.has("player"):
 		data["player"] = {}
+	return data
+
+
+## Test builds before the Monday-to-Sunday week numbered the later days
+## differently, so a save past day 5 may point at the wrong letter. The world
+## facts say how far the child really got: resume on the first week-2 day
+## whose work isn't done yet (or the free Saturday after it all), with that
+## day's letter waiting. Animals were "stroked" then; now they are petted.
+func _migrate_1_to_2(data: Dictionary) -> Dictionary:
+	var world: Dictionary = data.get("world", {})
+	for key: String in world.keys():
+		if key.begins_with("animals.") and key.ends_with(".stroked_day"):
+			world[key.replace(".stroked_day", ".petted_day")] = world[key]
+			world.erase(key)
+	var days: Dictionary = data.get("days", {})
+	if int(days.get("current_day", 1)) <= 5:
+		return data
+	var resume := 13 # all of week 2 done: the free Saturday
+	for step: Array in [[8, "village.flour_day"], [9, "village.baked_day"], [10, "orchard.planted"], [11, "valley.pond_day"]]:
+		if not world.has(step[1]):
+			resume = step[0]
+			break
+	if resume == 13 and str(world.get("npc.ruth.card", "")) != "given":
+		resume = 12
+	days["current_day"] = resume
+	data["days"] = days
+	data["invitations"] = {"pending_id": "" if resume == 13 else "inv_day_%03d" % resume}
 	return data

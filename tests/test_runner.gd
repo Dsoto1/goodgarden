@@ -118,6 +118,16 @@ func test_save_round_trip_and_migration() -> void:
 	eq(migrated.get("schema_version"), SaveService.SCHEMA_VERSION, "migrated to current schema")
 	check(migrated.get("world", {}).has("home.table_set_day"), "v0 flags moved to world facts")
 	check(SaveService.migrate({"schema_version": 99}).is_empty(), "saves from the future are refused, not corrupted")
+	# A save from before the Monday-to-Sunday week resumes where the child really got to.
+	var mid := SaveService.migrate({"schema_version": 1, "days": {"current_day": 8}, "invitations": {"pending_id": "inv_day_008"},
+		"world": {"village.flour_day": 6, "village.baked_day": 7, "animals.lamb.stroked_day": 2}})
+	eq(mid["days"]["current_day"], 10, "an old save resumes on the first unfinished week-2 day (the orchard)")
+	eq(mid["invitations"]["pending_id"], "inv_day_010", "with that day's letter waiting")
+	check(mid["world"].has("animals.lamb.petted_day") and not mid["world"].has("animals.lamb.stroked_day"), "stroking became petting")
+	var early := SaveService.migrate({"schema_version": 1, "days": {"current_day": 3}, "invitations": {"pending_id": "inv_day_003"}, "world": {}})
+	eq(early["days"]["current_day"], 3, "week-1 saves are unchanged")
+	var all_done := SaveService.migrate({"schema_version": 1, "days": {"current_day": 14}, "world": {"village.flour_day": 6, "village.baked_day": 7, "orchard.planted": 8, "valley.pond_day": 9, "npc.ruth.card": "given"}})
+	eq([all_done["days"]["current_day"], all_done["invitations"]["pending_id"]], [13, ""], "a finished week 2 resumes on the free Saturday")
 
 
 func _make_step(primitive: String, cfg: Dictionary, ctx := {}) -> ActivityStep:
