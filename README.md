@@ -11,6 +11,18 @@ Design direction lives in [`docs/design/`](docs/design) (start with `AGENT_START
 
 The project uses the **GL Compatibility** renderer so it runs on modest tablets, older laptops and (later) the web.
 
+### Builds
+
+`export_presets.cfg` holds Windows, macOS (universal, ad-hoc signed), Linux and Web presets. With Godot 4.3's export templates installed:
+
+```
+godot --headless --export-release "Windows" build/windows/GoodGarden.exe
+godot --headless --export-release "macOS" build/macos/GoodGarden.zip
+godot --headless --export-release "Linux" build/linux/GoodGarden.x86_64
+```
+
+Builds leave out `tests/`, `tools/` and `docs/`. See [docs/PLAYTEST.md](docs/PLAYTEST.md) for opening the unsigned builds and for watching a child play.
+
 ### Controls
 
 | | Mouse / touch | Keyboard | Gamepad |

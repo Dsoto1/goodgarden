@@ -339,6 +339,15 @@ func test_young_child_access() -> void:
 	var tile := Icon.Tile.new("map", "Map")
 	eq(SpokenButton.words(tile), "Map", "a picture tile is heard by its caption")
 	tile.free()
+	var helper: SpokenButton = b.get_children(true).filter(func(n: Node) -> bool: return n is SpokenButton)[0]
+	b.button_down.emit()
+	helper._process(2.0) # one very slow frame, as on a busy tablet
+	check(not b.disabled, "a quick tap is still a tap on a slow frame")
+	b.button_up.emit()
+	b.button_down.emit()
+	helper._held_since -= 700
+	helper._process(0.016)
+	check(b.disabled, "a long hold listens instead of pressing")
 	b.queue_free()
 	var seed := DragPiece.create("bean_seed", Vector2(30, 22))
 	check(seed._has_point(Vector2(-14, 30)), "a small piece can be picked up from just beside it")

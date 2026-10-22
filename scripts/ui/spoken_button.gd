@@ -9,7 +9,7 @@ const HOLD := 0.55
 const DWELL := 0.5
 
 var _button: BaseButton
-var _held := -1.0
+var _held_since := -1 # msec the press began, or -1
 var _hover := -1.0
 
 
@@ -35,24 +35,25 @@ static func words(b: BaseButton) -> String:
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	_button.button_down.connect(func() -> void:
-		_held = 0.0
+		_held_since = Time.get_ticks_msec()
 		_hover = -1.0)
-	_button.button_up.connect(func() -> void: _held = -1.0)
+	_button.button_up.connect(func() -> void: _held_since = -1)
 	_button.mouse_entered.connect(func() -> void:
 		_hover = 0.0 if AudioService.pointer_is_mouse() else -1.0)
 	_button.mouse_exited.connect(func() -> void:
 		_hover = -1.0
-		_held = -1.0)
+		_held_since = -1)
 	_button.focus_entered.connect(func() -> void:
 		if AudioService.navigated_recently():
 			_speak(false))
 
 
 func _process(delta: float) -> void:
-	if _held >= 0.0:
-		_held += delta
-		if _held >= HOLD:
-			_held = -1.0
+	# Timed by the clock from the moment of the press, not by adding up frame
+	# times: on a slow frame, a quick tap must still be a tap.
+	if _held_since >= 0:
+		if Time.get_ticks_msec() - _held_since >= HOLD * 1000.0:
+			_held_since = -1
 			_speak(true)
 			# A long hold is for listening: cancel the press so letting go
 			# doesn't also choose.
