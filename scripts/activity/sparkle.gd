@@ -1,17 +1,30 @@
 class_name Sparkle
 extends Node2D
 ## A brief ring of little stars where a place has just been filled: a quiet
-## "there", never a reward. Skipped when motion is reduced.
+## "there", never a reward. pop() is a smaller ring for one piece dropped in.
+## Skipped when motion is reduced.
 
 const LIFE := 0.6
 
 var _t := 0.0
+var _small := false
 
 
 static func burst(parent: Node, at: Vector2) -> void:
 	if Settings.get_value("reduced_motion"):
 		return
 	var s := Sparkle.new()
+	s.position = at
+	s.z_index = 20
+	parent.add_child(s)
+
+
+## A small, quick ring: one piece has gone in.
+static func pop(parent: Node, at: Vector2) -> void:
+	if Settings.get_value("reduced_motion"):
+		return
+	var s := Sparkle.new()
+	s._small = true
 	s.position = at
 	s.z_index = 20
 	parent.add_child(s)
@@ -28,6 +41,11 @@ func _process(delta: float) -> void:
 func _draw() -> void:
 	var k := _t / LIFE
 	var fade := 1.0 - k
+	if _small:
+		k = minf(1.0, k * 1.6)
+		fade = 1.0 - k
+		draw_arc(Vector2.ZERO, 14.0 + k * 22.0, 0, TAU, 24, Color(1.0, 0.92, 0.6, 0.7 * fade), 2.5)
+		return
 	draw_arc(Vector2.ZERO, 30.0 + k * 34.0, 0, TAU, 32, Color(1.0, 0.92, 0.6, 0.5 * fade), 3.0)
 	for i in 6:
 		var a := TAU * i / 6.0 + 0.3

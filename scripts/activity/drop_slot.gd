@@ -57,8 +57,12 @@ func put(piece: DragPiece) -> void:
 	glow = false
 	if fresh:
 		piece.settle()
-		if is_full() and get_parent():
-			Sparkle.burst(get_parent(), center())
+		if get_parent():
+			# A small ring for each piece that goes in; a bigger one when full.
+			if is_full():
+				Sparkle.burst(get_parent(), center())
+			else:
+				Sparkle.pop(get_parent(), piece.center())
 	queue_redraw()
 
 

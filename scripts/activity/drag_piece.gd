@@ -17,7 +17,10 @@ var dragging := false
 ## Where the piece rests when not placed; steps update this.
 var home := Vector2.ZERO
 ## Whatever slot/hole the piece currently sits in, if any.
-var placed_in: Variant = null
+var placed_in: Variant = null:
+	set(value):
+		placed_in = value
+		queue_redraw() # the "inside" outline comes and goes with it
 var lying := false
 
 var _grab_offset := Vector2.ZERO
@@ -75,7 +78,29 @@ func _draw() -> void:
 		var a := TAU * i / 20.0
 		shadow.append(Vector2(size.x / 2.0 + lift * 0.6 + cos(a) * r.x, foot + lift + sin(a) * r.y))
 	draw_colored_polygon(shadow, Color(0, 0, 0, 0.12 if dragging else 0.18))
+	if placed_in is DropSlot and not dragging:
+		_draw_inside_outline()
 	PieceArt.draw(self, kind, size, false, data)
+
+
+## A soft warm outline around a piece that is in its place, so the child can
+## see at a glance what has gone in. Cards and tiles get a rounded box; other
+## pieces a ring.
+func _draw_inside_outline() -> void:
+	var c := Color(1.0, 0.88, 0.5, 0.85)
+	var w := 2.5
+	if kind.begins_with("letter:") or kind.begins_with("word:") or kind.begins_with("card_") or kind == "unit_block":
+		var r := Rect2(Vector2(-3, -3), size + Vector2(6, 6))
+		draw_rect(r, Color(c, 0.18))
+		draw_rect(r, c, false, w)
+	else:
+		var pts := PackedVector2Array()
+		var rad := size / 2.0 + Vector2(3, 3)
+		for i in 33:
+			var a := TAU * i / 32.0
+			pts.append(size / 2.0 + Vector2(cos(a) * rad.x, sin(a) * rad.y))
+		draw_colored_polygon(pts.slice(0, 32), Color(c, 0.16))
+		draw_polyline(pts, c, w, true)
 
 
 ## A little lift when picked up, and a settle when set down.
