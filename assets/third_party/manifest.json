@@ -306,6 +306,23 @@
 				"sheep_3.ogg",
 				"sheep_4.ogg"
 			]
+		},
+		{
+			"path": "res://assets/third_party/quaternius/farm_animals/",
+			"pack": "LowPoly Animated Animals (Quaternius)",
+			"creator": "Quaternius (quaternius.com)",
+			"source": "https://quaternius.itch.io/lowpoly-animated-animals (free download, FBX folder)",
+			"license": "CC0 1.0 Universal, as stated on the itch.io page (LICENSE.txt included)",
+			"acquired": "2026-10-22",
+			"modified": "Subset (sheep, cow, horse, pig, pug) copied unmodified. Scale, facing and a walk borrowed from the cow for the animals without one are set in scripts/world/farm_animal.gd.",
+			"files": [
+				"Cow.fbx",
+				"Horse.fbx",
+				"LICENSE.txt",
+				"Pig.fbx",
+				"Pug.fbx",
+				"Sheep.fbx"
+			]
 		}
 	]
 }

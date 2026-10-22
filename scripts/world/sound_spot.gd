@@ -67,3 +67,17 @@ func _process(delta: float) -> void:
 			player.stream = stream
 			player.pitch_scale = randf_range(0.95, 1.05)
 			player.play()
+
+
+## Plays one recording of `sound_name` once at `pos` (parent-local), then
+## tidies itself away. Silent when the sound has no recording.
+static func once(parent: Node3D, sound_name: String, pos: Vector3, reach: float, level_db := 0.0) -> void:
+	var stream := AudioService.world_stream(sound_name)
+	if stream == null:
+		return
+	var spot := _make(parent, sound_name, pos, reach, level_db, Vector2(INF, INF))
+	spot.set_process(false)
+	spot.player.stream = stream
+	spot.player.pitch_scale = randf_range(0.95, 1.05)
+	spot.player.finished.connect(spot.queue_free)
+	spot.player.play.call_deferred()

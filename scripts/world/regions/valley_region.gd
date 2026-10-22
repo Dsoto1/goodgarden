@@ -72,7 +72,7 @@ func build() -> void:
 	path(bank_path, 1.6)
 
 	# Meadow with sheep east of the village, in a fold whose gate faces the village.
-	_sheepfold(Rect2(24.0, -26.2, 7.0, 7.4))
+	_paddock(Rect2(24.0, -26.2, 7.0, 7.4), "w")
 	CraftedProps.water_trough(self, Vector3(29.4, 0, -20.0))
 	for i in 2:
 		var lamb := Wanderer.new().setup(AnimalModel.make("lamb"), 90 + i)
@@ -81,6 +81,7 @@ func build() -> void:
 		lamb.speed = 0.4
 		lamb.pause_range = Vector2(2, 6)
 		add_child(lamb)
+		AnimalMoments.strokable(lamb, "Stroke the lamb", ["The lamb nuzzles your hand and gives a little hop.", "Soft, curly wool! The lamb hops for joy."], "sheep")
 	CraftedProps.hay_bale(self, Vector3(32.6, 0, -21.4), 0.3)
 	_lamb_troughs()
 	_orchard_and_pond()
@@ -105,6 +106,8 @@ func build() -> void:
 		sheep.speed = 0.3
 		sheep.pause_range = Vector2(4, 10)
 		add_child(sheep)
+		AnimalMoments.strokable(sheep, "Stroke the sheep", ["The sheep stands still and lets you stroke its thick wool."], "sheep")
+	_farm_animals()
 
 	_trees()
 	_boundary()
@@ -120,7 +123,6 @@ func _sounds() -> void:
 	SoundSpot.calling(self, "sheep", Vector3(27.5, 0.6, -22.5), 30.0, Vector2(7, 16), -6.0)
 
 
-## A wooden fold around the sheep, with the gate in the west side.
 ## From day 5 the hay bale starts the feeding; on a day the lambs are fed,
 ## hay fills the troughs and the lambs come to eat.
 func _lamb_troughs() -> void:
@@ -213,19 +215,62 @@ func sync_with_world() -> void:
 		_flour.visible = WorldState.get_fact("village.flour_day") != null
 
 
-func _sheepfold(r: Rect2) -> void:
-	var nw := Vector3(r.position.x, 0, r.position.y)
-	var ne := Vector3(r.end.x, 0, r.position.y)
-	var se := Vector3(r.end.x, 0, r.end.y)
-	var sw := Vector3(r.position.x, 0, r.end.y)
-	var mid := (r.position.y + r.end.y) / 2.0
-	Props.fence(self, "fence_wood", nw, ne)
-	Props.fence(self, "fence_wood", ne, se)
-	Props.fence(self, "fence_wood", se, sw)
-	Props.fence(self, "fence_wood", sw, Vector3(r.position.x, 0, mid + 0.95))
-	Props.fence(self, "fence_wood", Vector3(r.position.x, 0, mid - 0.95), nw)
-	# The gate stands open, so the child can go in among the sheep.
-	CraftedProps.fold_gate(self, Vector3(r.position.x, 0, mid), PI / 2.0, true)
+## A wooden fence around `r` (x, z, width, depth) with an open gate in the
+## middle of one side: "n", "s", "e" or "w".
+func _paddock(r: Rect2, gate: String) -> void:
+	var corners := [Vector3(r.position.x, 0, r.position.y), Vector3(r.end.x, 0, r.position.y), Vector3(r.end.x, 0, r.end.y), Vector3(r.position.x, 0, r.end.y)]
+	for i in 4:
+		var a: Vector3 = corners[i]
+		var b: Vector3 = corners[(i + 1) % 4]
+		if "nesw"[i] != gate:
+			Props.fence(self, "fence_wood", a, b)
+			continue
+		# Leave a gap for the gate, which stands open so the child can go in.
+		var mid := (a + b) / 2.0
+		var along := (b - a).normalized()
+		Props.fence(self, "fence_wood", a, mid - along * 0.95)
+		Props.fence(self, "fence_wood", mid + along * 0.95, b)
+		CraftedProps.fold_gate(self, mid, {"n": PI, "e": -PI / 2.0, "s": 0.0, "w": PI / 2.0}[gate], true)
+
+
+## Cows in a pasture past the windmill, the horse in a paddock west of the
+## mill, and pigs in their sty beside it. Each can be stroked.
+func _farm_animals() -> void:
+	_paddock(Rect2(26.5, -38.6, 7.0, 5.0), "s")
+	for i in 2:
+		var cow := Wanderer.new().setup(AnimalModel.make("cow"), 110 + i)
+		cow.position = Vector3(28.4 + i * 2.8, 0, -36.8 + i * 1.4)
+		cow.radius = 1.5
+		cow.speed = 0.35
+		cow.pause_range = Vector2(6, 14)
+		add_child(cow)
+		AnimalMoments.strokable(cow, "Stroke the cow", ["The cow is warm and calm. She turns her big eyes to you."], "cow")
+	CraftedProps.hay_bale(self, Vector3(32.4, 0, -37.6), 0.4)
+	CraftedProps.water_trough(self, Vector3(27.6, 0, -37.9))
+	SoundSpot.calling(self, "cow", Vector3(30.0, 1.0, -36.0), 30.0, Vector2(18, 40), -8.0)
+
+	_paddock(Rect2(-32.0, -8.6, 6.0, 4.8), "e")
+	var horse := Wanderer.new().setup(AnimalModel.make("horse"), 120)
+	horse.position = Vector3(-29.0, 0, -6.2)
+	horse.radius = 1.6
+	horse.speed = 0.5
+	horse.pause_range = Vector2(5, 12)
+	add_child(horse)
+	AnimalMoments.strokable(horse, "Stroke the horse", ["The horse lowers its head so you can stroke its soft nose."], "horse")
+	CraftedProps.hay_bale(self, Vector3(-31.0, 0, -7.6), 0.2)
+
+	_paddock(Rect2(-32.0, -1.4, 4.4, 3.6), "e")
+	# A wallow of mud, which pigs love: it keeps them cool.
+	MeshKit.sphere(self, 1.0, Vector3(-30.6, 0.0, 0.6), "soil_dark", Vector3(1.2, 0.08, 0.8), 10, 3)
+	for i in 2:
+		var pig := Wanderer.new().setup(AnimalModel.make("pig"), 130 + i)
+		pig.position = Vector3(-30.8 + i * 1.4, 0, 0.0 + i * 0.8)
+		pig.radius = 1.0
+		pig.speed = 0.3
+		pig.pause_range = Vector2(3, 9)
+		add_child(pig)
+		AnimalMoments.strokable(pig, "Scratch the pig's back", ["The pig gives a happy grunt and leans on you."], "pig")
+	SoundSpot.calling(self, "pig", Vector3(-30.0, 0.6, 0.4), 22.0, Vector2(12, 28), -8.0)
 
 
 func _patches() -> void:
@@ -246,7 +291,7 @@ func _trees() -> void:
 		[12, 11, 1.0, "tree_a"], [20, 11, 1.0, "grove_b_small"], [25, -1, 1.1, "tree_b"], [26, -8, 1.0, "grove_a_medium"],
 		[-4, -8, 0.9, "tree_a"], [-34, -23, 1.0, "grove_b_medium"], [19, -17.5, 1.0, "tree_b"], [24, -33, 1.0, "grove_a_small"],
 		[-33, -31, 1.0, "grove_b_medium"], [-23, -40, 1.0, "tree_a"], [-16, -37, 1.1, "tree_b"], [-12, -45, 1.0, "grove_a_small"],
-		[26, -43, 1.0, "tree_a"], [-25, -2, 1.0, "grove_a_medium"], [29, -15, 1.0, "tree_b"],
+		[26, -43, 1.0, "tree_a"], [-22, 2.5, 1.0, "grove_a_medium"], [29, -15, 1.0, "tree_b"],
 	]
 	var rng := RandomNumberGenerator.new()
 	rng.seed = 12

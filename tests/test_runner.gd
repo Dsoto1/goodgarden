@@ -26,7 +26,7 @@ func _ready() -> void:
 		test_content_is_valid, test_validator_catches_errors, test_conditions_and_tokens,
 		test_save_round_trip_and_migration, test_space_along_line, test_count_into_slots,
 		test_match_to_outline_self_correction, test_story_handoff_and_put_away, test_parable_growth_and_put_away, test_chapel_library_books, test_calling_of_the_fishermen, test_sit_and_hold_rod, test_young_child_access, test_older_work_level, test_sequence_cards,
-		test_observations_never_score_reflection, test_pointer_events_drag_pieces, test_props_catalog, test_recorded_sounds,
+		test_observations_never_score_reflection, test_pointer_events_drag_pieces, test_props_catalog, test_recorded_sounds, test_animal_moments,
 		test_scenery_quality_and_batching, test_vertical_slice_end_to_end,
 	]
 	for t: Callable in tests:
@@ -552,6 +552,47 @@ func test_recorded_sounds() -> void:
 	parent.queue_free()
 
 
+func test_animal_moments() -> void:
+	var parent := Node3D.new()
+	add_child(parent)
+	# A lamb is an animated model that walks when its wanderer moves it.
+	var lamb := Wanderer.new().setup(AnimalModel.make("lamb"), 1)
+	lamb.speed = 0.4
+	parent.add_child(lamb)
+	var model := lamb.model as FarmAnimal
+	check(model != null and model.kind == "lamb", "lambs are animated farm animals")
+	for k: String in FarmAnimal.KINDS:
+		var a := FarmAnimal.make(k)
+		check(a.anim.has_animation(FarmAnimal.IDLE) and a.anim.has_animation(FarmAnimal.WALK) and a.anim.has_animation(FarmAnimal.JUMP), "the %s can stand, walk and hop" % k)
+		a.free()
+	lamb._wait = 0.0
+	lamb._target = lamb.position + Vector3(2, 0, 0)
+	await frames(3)
+	eq(model.anim.current_animation, FarmAnimal.WALK, "the lamb's legs walk as it moves")
+	# Stroking it: it stops, turns to the child, hops, and hearts float up.
+	var stroke := AnimalMoments.strokable(lamb, "Stroke the lamb", ["The lamb hops."], "sheep")
+	stroke.trigger()
+	await frames(2)
+	check(lamb._face_player > 0.0 and model.is_hopping(), "a stroked lamb stands still and hops for joy")
+	eq(model.anim.current_animation, FarmAnimal.JUMP, "the hop is the model's own jump")
+	check(lamb.find_children("Heart*", "", true, false).size() > 0, "hearts float up from the lamb")
+	# Grain brings the hens to peck where it was scattered.
+	var hens: Array[Wanderer] = []
+	for i in 2:
+		var hen := Wanderer.new().setup(AnimalModel.make("chicken"), 10 + i)
+		hen.position = Vector3(4 + i, 0, 4)
+		parent.add_child(hen)
+		hens.append(hen)
+	var bin := AnimalMoments.grain_bin(parent, Vector3(-2, 0, 0), Vector3(-2, 0, 2), hens)
+	bin.trigger()
+	await frames(2)
+	var grain := parent.get_node("Grain") as Node3D
+	check(grain.visible and grain.get_child_count() > 10, "grain lies on the ground")
+	check(hens.all(func(h: Wanderer) -> bool: return h.is_visiting() and h.home.distance_to(grain.position) < 0.01), "the hens come to the grain")
+	check(AudioService.world_stream("purr") != null, "the cat can purr")
+	parent.queue_free()
+
+
 func test_scenery_quality_and_batching() -> void:
 	Settings.set_value("scenery_quality", "auto")
 	Settings.apply_stored({"lush_detail": false})
@@ -602,6 +643,12 @@ func test_vertical_slice_end_to_end() -> void:
 	var sound_spots := world.find_children("*", "SoundSpot", true, false)
 	check(sound_spots.size() >= 12, "the river, waterfall, fountain, sheep and hens can be heard (%d sound spots)" % sound_spots.size())
 	check(sound_spots.any(func(sp: SoundSpot) -> bool: return sp.sound == "waterfall") and sound_spots.any(func(sp: SoundSpot) -> bool: return sp.sound == "hens"), "the waterfall and the hens have sounds")
+	var kinds := {}
+	for a in world.find_children("*", "FarmAnimal", true, false):
+		kinds[(a as FarmAnimal).kind] = true
+	eq(kinds.size(), FarmAnimal.KINDS.size(), "sheep, lambs, cows, the horse, pigs and the dog live in the valley and village")
+	var strokable := world.find_children("*", "Interactable", true, false).filter(func(it: Interactable) -> bool: return it.get_parent() is Wanderer)
+	check(strokable.size() >= 12, "the animals can be stroked (%d)" % strokable.size())
 	# The river winds, but the only ways over it are the bridge and the stepping stones.
 	for route: Array in [[Vector3(-3, 0, -6), Vector3(-3, 0, -22)], [Vector3(-14, 0, -6), Vector3(-14, 0, -23)], [Vector3(20, 0, -7), Vector3(20, 0, -21)]]:
 		var crossing := NavigationServer3D.map_get_path(world.get_world_3d().navigation_map, route[0], route[1], true)

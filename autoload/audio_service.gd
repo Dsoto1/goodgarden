@@ -148,6 +148,8 @@ func has_recording(sound: String) -> bool:
 ## null when there is no recording. Each call may pick a different variant.
 func world_stream(sound: String) -> AudioStream:
 	var options := _recorded(sound)
+	if options.is_empty() and sound == "purr":
+		return _stream(sound) # a purr synthesizes well
 	return null if options.is_empty() else options.pick_random()
 
 
@@ -240,6 +242,8 @@ func _synthesize(sound: String) -> AudioStreamWAV:
 			return _wav(_outdoor_loop(8.0), true)
 		"interior":
 			return _wav(_wind(6.0, 0.03), true)
+		"purr":
+			return _wav(_purr(2.4), false)
 		"chapel":
 			return _wav(_pad([110.0, 165.0, 220.0, 277.25, 330.0], 8.0), true)
 	push_warning("AudioService: unknown sound '%s'" % sound)
@@ -257,6 +261,26 @@ func _tone(freqs: Array, seconds: float, amp: float) -> PackedFloat32Array:
 		for f: float in freqs:
 			v += sin(TAU * f * t) + 0.25 * sin(TAU * f * 2.0 * t)
 		out[i] = v * env * amp / freqs.size()
+	return out
+
+
+## A cat's purr: low rumbling noise pulsing about 26 times a second, over
+## two slow breaths.
+func _purr(seconds: float) -> PackedFloat32Array:
+	var n := int(seconds * MIX_RATE)
+	var out := PackedFloat32Array()
+	out.resize(n)
+	var rng := RandomNumberGenerator.new()
+	rng.seed = 5
+	var lp := 0.0
+	var lp2 := 0.0
+	for i in n:
+		var t := float(i) / MIX_RATE
+		lp = lerpf(lp, rng.randf_range(-1.0, 1.0), 0.05)
+		lp2 = lerpf(lp2, lp, 0.1)
+		var breath := sin(PI * fmod(t, seconds / 2.0) / (seconds / 2.0))
+		var pulse := pow(0.5 + 0.5 * sin(TAU * 26.0 * t), 3.0)
+		out[i] = lp2 * pulse * breath * 2.2
 	return out
 
 

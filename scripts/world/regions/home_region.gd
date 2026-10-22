@@ -97,6 +97,7 @@ func build() -> void:
 	cat.speed = 0.35
 	cat.pause_range = Vector2(6, 14)
 	add_child(cat)
+	AnimalMoments.strokable(cat, "Stroke the cat", ["The cat purrs and rubs against your hand.", "Purr, purr. The cat stays to be stroked."], "purr")
 
 	add_clearing(Vector3(0, 0, 0.3), Vector2(8.8, 7.4))
 	add_clearing(Vector3(-6.5, 0, 8.5), Vector2(2.6, 2.4))
@@ -222,12 +223,15 @@ func _on_setting_changed(key: String) -> void:
 func _build_coop(at: Vector3) -> void:
 	MeshKit.box(self, Vector3(1.6, 1.0, 1.2), at + Vector3(0, 0.7, 0), "wood", true)
 	MeshKit.roof(self, 1.5, 0.6, 1.9, at + Vector3(0, 1.5, 0), "roof_thatch", PI / 2.0)
+	var hens: Array[Wanderer] = []
 	for i in 3:
 		var hen := Wanderer.new().setup(AnimalModel.make("chicken"), 20 + i)
 		hen.position = at + Vector3(-1.0 + i * 1.0, 0, 1.6)
 		hen.radius = 2.0
 		hen.speed = 0.5
 		add_child(hen)
+		hens.append(hen)
+	AnimalMoments.grain_bin(self, at + Vector3(1.4, 0, -0.7), at + Vector3(0.4, 0, 2.2), hens)
 
 
 func sync_with_world() -> void:

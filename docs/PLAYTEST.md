@@ -44,7 +44,8 @@ Jot down, for each day:
 6. **Feelings.** When did they smile, lean in, or say something about what
    they'd made? When did they look bored, or try to leave?
 7. **Free time.** Without a task, what did they do: explore, the chapel, the
-   books, the river?
+   books, the river, the animals (stroking the lambs, cats, the dog, cows,
+   horse and pigs, or scattering grain for the hens)?
 8. **Coming back.** Next time, did they want to play, and did they remember
    what they'd planted or made?
 
