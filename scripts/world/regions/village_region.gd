@@ -3,36 +3,44 @@ extends Region
 ## the workshop and houses around its edge, neighbours about their day, and
 ## the north road to an overlook where Bellhaven can be seen.
 
+## The market square's outline (x, z), irregular like a real village's.
+const SQUARE: Array[Vector2] = [
+	Vector2(-6.9, -5.4), Vector2(-2.6, -6.6), Vector2(2.9, -6.8), Vector2(6.8, -5.0), Vector2(7.6, -1.0),
+	Vector2(7.0, 3.4), Vector2(4.8, 6.2), Vector2(1.6, 7.0), Vector2(-2.2, 6.6), Vector2(-5.4, 5.6),
+	Vector2(-7.4, 2.4), Vector2(-7.8, -1.8),
+]
+
 var _baking: Node3D # the fire and fresh loaves, on baking day
 ## Villagers by id: [wanderer, home position, home radius, current anchor id].
 var _villagers := {}
 
 
 func build() -> void:
-	# A proper market square: room to walk between stalls, buildings around
-	# the edge, the fountain at the heart, and the south side open to the road.
-	MeshKit.cylinder(self, 8.2, 8.2, 0.04, Vector3(0, 0.02, 0), "cobble", 32)
-	add_clearing(Vector3.ZERO, Vector2(16.8, 16.8))
+	# The market square, like the concept art's: cobbles in an uneven shape
+	# rather than a circle, the fountain at its heart, stalls gathered close
+	# round it, and the south side open to the road from the bridge.
+	_square(SQUARE)
 	_fountain(Vector3(0, 0, 0))
 	Props.place(self, "well", Vector3(6.4, 0, 6.0), -0.6, 0.85)
 	var stalls := [
-		[Vector3(-5.2, 0, 3.2), "awning_red", ["crate_carrots", "crate_lettuce"]],
-		[Vector3(-5.8, 0, -2.8), "awning_blue", ["bread"]],
-		[Vector3(5.8, 0, -2.8), "awning_green", ["crate_carrots", "crate_open"]],
-		[Vector3(4.6, 0, 3.6), "awning_red", ["crate_lettuce", "crate_carrots"]],
+		[Vector3(-4.2, 0, 2.7), "awning_red", ["crate_carrots", "crate_lettuce"]],
+		[Vector3(-4.6, 0, -2.4), "awning_blue", ["bread"]],
+		[Vector3(4.5, 0, -2.6), "awning_green", ["crate_carrots", "crate_open"]],
+		[Vector3(3.9, 0, 3.1), "awning_red", ["crate_lettuce", "crate_carrots"]],
 	]
 	var stock := ["barrel", "crate", "sack", "barrel"]
 	for i in stalls.size():
 		var at: Vector3 = stalls[i][0]
 		_stall(at, atan2(-at.x, -at.z), stalls[i][1], stalls[i][2])
 		# Spare stock stacked behind each stall.
-		Props.place(self, stock[i], at * 1.32, i * 0.8)
-		Props.place(self, "sack", at * 1.3 + Vector3(0.7, 0, 0.4).rotated(Vector3.UP, i * 1.6), i * 1.1)
-	for b: Array in [[Vector3(-2.4, 0, -4.0), 0.55], [Vector3(2.6, 0, 4.4), PI + 0.55]]:
+		Props.place(self, stock[i], at * 1.36, i * 0.8)
+		Props.place(self, "sack", at * 1.34 + Vector3(0.7, 0, 0.4).rotated(Vector3.UP, i * 1.6), i * 1.1)
+	for b: Array in [[Vector3(-1.9, 0, -3.6), 0.55], [Vector3(2.2, 0, 4.0), PI + 0.55]]:
 		_bench(b[0], b[1])
-	for deg: float in [-150.0, -90.0, -30.0, 30.0, 62.0, 118.0, 150.0]:
-		var a := deg_to_rad(deg)
-		_lantern(Vector3(cos(a), 0, sin(a)) * 8.7)
+	# Lanterns stand at the square's corners, not in a perfect ring.
+	for k in [0, 2, 3, 5, 8, 10]:
+		var corner: Vector2 = SQUARE[k]
+		_lantern(Vector3(corner.x, 0, corner.y) * 0.94)
 
 	_building("market", Vector3(-7.5, 0, -12.5), 0.0, "Bakery", 3.2)
 	# Tobias's work outside the bakery: the kneading trough, and the
@@ -52,20 +60,27 @@ func build() -> void:
 		CraftedProps.bread_basket(self, table + Vector3(0, 0.65, 0) + Vector3(-0.62 + i * 0.62, 0, 0).rotated(Vector3.UP, -0.2), i * 0.9).scale = Vector3.ONE * 0.62
 	# Buildings stand back from the square, so there is a little stroll to each door.
 	_building("workshop", Vector3(8.0, 0, -13.0), 0.0, "Workshop", 3.6)
-	_building("house_yellow", Vector3(-14.0, 0, -0.5), PI / 2.0, "")
-	_building("house_blue", Vector3(14.7, 0, -0.5), -PI / 2.0, "")
-	_building("house_tall_red", Vector3(-14.5, 0, -11.8), PI / 4.0, "")
-	_building("house_yellow", Vector3(15.0, 0, -11.8), -PI / 4.0, "")
+	# Houses close round the square at easy angles, as in a village that grew.
+	_building("house_yellow", Vector3(-12.4, 0, -0.3), PI / 2.0 - 0.1, "")
+	_building("house_blue", Vector3(13.0, 0, -0.8), -PI / 2.0 + 0.08, "")
+	_building("house_tall_red", Vector3(-13.4, 0, -10.6), PI / 4.0 + 0.1, "")
+	_building("house_yellow", Vector3(13.8, 0, -10.6), -PI / 4.0, "")
+	# Two cottages: one by the lane to the sheepfold, one by the river path.
+	var east_cottage := CraftedProps.cottage(self, Vector3(11.6, 0, 6.8), -PI / 2.0 - 0.12, 2, Vector2(3.4, 4.0), "roof_red")
+	add_clearing(east_cottage.position, Vector2(5.2, 5.2))
+	var west_cottage := CraftedProps.cottage(self, Vector3(-12.2, 0, 8.4), PI + 0.1, 5, Vector2(3.2, 3.2), "roof_thatch")
+	add_clearing(west_cottage.position, Vector2(4.6, 4.6))
 	_bunting(Vector3(-3.0, 3.7, -9.4), Vector3(4.2, 3.7, -9.8))
-	_bunting(Vector3(-11.4, 3.4, -3.0), Vector3(-11.4, 3.4, 2.4))
-	_bunting(Vector3(12.0, 3.4, -3.0), Vector3(12.0, 3.4, 2.4))
-	for p: Array in [[-9.6, 3.2], [10.2, 3.2], [-11.8, -3.6], [9.6, -7.4]]:
+	_bunting(Vector3(-9.8, 3.4, -3.0), Vector3(-9.8, 3.4, 2.4))
+	_bunting(Vector3(10.6, 3.4, -3.2), Vector3(10.6, 3.4, 2.2))
+	for p: Array in [[-9.4, 3.4], [9.0, -4.6], [-10.6, -4.4], [9.6, -7.4]]:
 		_planter(Vector3(p[0], 0, p[1]))
-	Props.place(self, "lumber", Vector3(12.6, 0, -5.0), 0.4, 0.8)
-	Props.place(self, "wheelbarrow", Vector3(13.8, 0, -5.6), 2.2)
+	Props.place(self, "lumber", Vector3(12.0, 0, -5.4), 0.4, 0.8)
+	Props.place(self, "wheelbarrow", Vector3(13.0, 0, -6.2), 2.2)
 	Props.place(self, "bucket", Vector3(5.6, 0, 6.8))
-	Props.place(self, "tree_a", Vector3(-10.0, 0, 5.6), 0.5)
-	Props.place(self, "tree_b", Vector3(10.6, 0, 8.4), 1.2)
+	Props.place(self, "tree_a", Vector3(-16.0, 0, 6.4), 0.5)
+	Props.place(self, "tree_b", Vector3(16.4, 0, 9.4), 1.2)
+	_village_life()
 	for f: Array in [[-7.4, 8.4, "flowers_a"], [8.4, 9.0, "flowers_b"], [-3.2, 8.9, "bush_flowers"], [3.4, 9.0, "flowers_a"]]:
 		Props.place(self, f[2], Vector3(f[0], 0, f[1]), f[0])
 
@@ -73,15 +88,17 @@ func build() -> void:
 	for door: Array in [
 		[Vector3(-4.9, 0, -6.0), Vector3(-6.4, 0, -8.2), Vector3(-7.4, 0, -10.3)], # bakery
 		[Vector3(5.0, 0, -6.4), Vector3(6.8, 0, -8.2), Vector3(8.0, 0, -10.1)], # workshop
-		[Vector3(-8.0, 0, -0.3), Vector3(-10.2, 0, -0.7), Vector3(-12.0, 0, -0.5)], # yellow house
-		[Vector3(8.0, 0, -0.3), Vector3(10.4, 0, -0.7), Vector3(12.7, 0, -0.5)], # blue house
-		[Vector3(-7.6, 0, -3.0), Vector3(-10.0, 0, -5.6), Vector3(-12.0, 0, -8.0), Vector3(-12.7, 0, -9.9)], # tall red house
-		[Vector3(7.6, 0, -3.2), Vector3(10.0, 0, -5.4), Vector3(12.4, 0, -8.2), Vector3(13.5, 0, -10.2)], # corner house
+		[Vector3(-7.6, 0, -0.2), Vector3(-9.0, 0, -0.5), Vector3(-10.4, 0, -0.4)], # yellow house
+		[Vector3(7.4, 0, -0.6), Vector3(9.4, 0, -0.9), Vector3(11.1, 0, -0.8)], # blue house
+		[Vector3(-7.4, 0, -3.4), Vector3(-9.4, 0, -5.8), Vector3(-11.0, 0, -7.8), Vector3(-11.8, 0, -9.0)], # tall red house
+		[Vector3(7.2, 0, -3.4), Vector3(9.4, 0, -5.8), Vector3(11.4, 0, -7.8), Vector3(12.4, 0, -9.2)], # corner house
+		[Vector3(6.6, 0, 4.0), Vector3(8.2, 0, 5.8), Vector3(9.4, 0, 6.6)], # east cottage
+		[Vector3(-5.6, 0, 5.6), Vector3(-9.0, 0, 5.6), Vector3(-11.8, 0, 6.4)], # west cottage
 	]:
 		path(door, 1.3)
 
 	# North road between the bakery and workshop to the overlook.
-	path([Vector3(0, 0, -7.6), Vector3(0.3, 0, -10.5), Vector3(-0.2, 0, -13.0), Vector3(0, 0, -15.2)], 2.0, "cobble")
+	path([Vector3(0.2, 0, -6.6), Vector3(0.3, 0, -10.5), Vector3(-0.2, 0, -13.0), Vector3(0, 0, -15.2)], 2.0, "cobble")
 	MeshKit.box(self, Vector3(12, 0.7, 0.6), Vector3(0, 0.35, -17.2), "stone", true)
 	add_clearing(Vector3(0, 0, -15.6), Vector2(8, 2.6))
 	MeshKit.box(self, Vector3(1.6, 0.45, 0.5), Vector3(-2.5, 0.22, -15.8), "wood", true)
@@ -122,6 +139,59 @@ func build() -> void:
 
 	add_anchor("village_plaza", Vector3(0, 0, 7.0), 0.0)
 	add_discovery_zone(Vector3(0, 1, -3), Vector3(36, 3, 28))
+
+
+## Cobbles laid in the square's outline, edged with a kerb of larger stones.
+func _square(outline: Array[Vector2]) -> void:
+	var pts := PackedVector2Array(outline)
+	var tris := Geometry2D.triangulate_polygon(pts)
+	var st := SurfaceTool.new()
+	st.begin(Mesh.PRIMITIVE_TRIANGLES)
+	st.set_normal(Vector3.UP)
+	for i in tris.size():
+		var q := pts[tris[i]]
+		st.set_uv(q / 4.0)
+		st.add_vertex(Vector3(q.x, 0.03, q.y))
+	MeshKit._instance(self, st.commit(), Vector3.ZERO, "cobble")
+	for i in pts.size():
+		var a := pts[i]
+		var b := pts[(i + 1) % pts.size()]
+		var n := int(a.distance_to(b) / 0.5)
+		for k in n:
+			var q := a.lerp(b, (k + 0.5) / n)
+			MeshKit.box(self, Vector3(0.46, 0.08, 0.3), Vector3(q.x, 0.04, q.y), "stone", false, atan2(b.x - a.x, b.y - a.y) + PI / 2.0)
+	var box := Rect2(pts[0], Vector2.ZERO)
+	for q in pts:
+		box = box.expand(q)
+	add_clearing(Vector3(box.get_center().x, 0, box.get_center().y), box.size)
+
+
+## The small things that make it lived in, as in the concept art: a washing
+## line and hens behind the east cottage, a cat by the fountain, barrels and
+## pots by the doors, a hand cart, and low stone walls along the road in.
+func _village_life() -> void:
+	CraftedProps.clothesline(self, Vector3(14.6, 0, 4.8), Vector3(14.6, 0, 8.6))
+	for i in 3:
+		var hen := Wanderer.new().setup(AnimalModel.make("chicken"), 70 + i)
+		hen.gait = "hop"
+		hen.speed = 0.35
+		hen.radius = 1.4
+		hen.position = Vector3(14.0 + i * 0.5, 0, 10.0 - i * 0.4)
+		add_child(hen)
+	var cat := Wanderer.new().setup(AnimalModel.make("cat"), 77)
+	cat.speed = 0.3
+	cat.radius = 2.0
+	cat.pause_range = Vector2(6, 14)
+	cat.position = Vector3(2.4, 0, -4.4)
+	add_child(cat)
+	for b: Array in [[Vector3(-10.6, 0, 1.8), "barrel"], [Vector3(11.4, 0, 1.6), "barrel"], [Vector3(9.9, 0, 5.4), "crate"], [Vector3(-13.6, 0, 6.8), "barrel"]]:
+		Props.place(self, b[1], b[0], b[0].x)
+	for f: Array in [[Vector3(9.8, 0, 7.9), "flower_pink"], [Vector3(-11.2, 0, 6.6), "flower_yellow"], [Vector3(-10.2, 0, -1.6), "flower_white"]]:
+		CraftedProps.flower_pot(self, f[0], f[1])
+	CraftedProps.hand_cart(self, Vector3(8.8, 0, -8.6), 0.6)
+	# Low dry-stone walls either side of the road up from the bridge.
+	CraftedProps.stone_wall(self, Vector3(-2.6, 0, 8.0), Vector3(-2.9, 0, 10.6), 1)
+	CraftedProps.stone_wall(self, Vector3(2.0, 0, 8.2), Vector3(2.4, 0, 10.8), 2)
 
 
 func _bench(at: Vector3, yaw: float) -> void:

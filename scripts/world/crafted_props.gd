@@ -460,6 +460,75 @@ static func stepping_stone(parent: Node3D, pos: Vector3, seed_value: int) -> Nod
 ## creel, a coil of rope, a bucket and an upturned crate to sit on. Faces -Z
 ## (toward the water). Returns the root; the float's local position is in
 ## its "float" meta, for framing the view while the child sits and fishes.
+## A small village cottage like those in the concept art: warm plaster walls
+## with a dark timber frame, a steep roof (thatch or tiles) with its gable to
+## the front, a stone chimney, a plank door, shuttered windows with flower
+## boxes, and a step. Front faces +Z. `size` is width by depth.
+static func cottage(parent: Node3D, pos: Vector3, rot_y: float, seed: int, size := Vector2(3.6, 4.2), roof := "roof_thatch") -> Node3D:
+	var r := _root(parent, "Cottage", pos, rot_y)
+	var rng := RandomNumberGenerator.new()
+	rng.seed = seed
+	var w := size.x
+	var d := size.y
+	var h := 2.4
+	MeshKit.box(r, Vector3(w + 0.3, 0.3, d + 0.3), Vector3(0, 0.15, 0), "stone_dark")
+	MeshKit.box(r, Vector3(w, h, d), Vector3(0, 0.3 + h / 2.0, 0), "plaster_warm" if seed % 2 else "plaster")
+	MeshKit.solid(r, Vector3(w + 0.3, 3.0, d + 0.3), Vector3(0, 1.5, 0))
+	# Timber frame: corner posts, a sill and a beam round the top, braces at the front.
+	for x: float in [-w / 2.0, w / 2.0]:
+		for z: float in [-d / 2.0, d / 2.0]:
+			MeshKit.box(r, Vector3(0.16, h, 0.16), Vector3(x, 0.3 + h / 2.0, z), "wood_dark")
+	for z: float in [-d / 2.0 - 0.02, d / 2.0 + 0.02]:
+		MeshKit.box(r, Vector3(w + 0.1, 0.14, 0.08), Vector3(0, 0.3 + h - 0.07, z), "wood_dark")
+		MeshKit.box(r, Vector3(w + 0.1, 0.12, 0.08), Vector3(0, 0.36, z), "wood_dark")
+	for x: float in [-w / 2.0 - 0.02, w / 2.0 + 0.02]:
+		MeshKit.box(r, Vector3(0.08, 0.14, d + 0.1), Vector3(x, 0.3 + h - 0.07, 0), "wood_dark")
+	for side: float in [-1.0, 1.0]:
+		var brace := MeshKit.box(r, Vector3(0.1, 1.5, 0.06), Vector3(side * (w / 2.0 - 0.45), 0.3 + h * 0.62, d / 2.0 + 0.03), "wood_dark")
+		brace.rotation.z = side * 0.6
+	# Roof: a steep gable to the front, overhanging the walls, and a chimney.
+	var rh := 1.9
+	var roof_mesh := MeshKit.roof(r, w + 0.8, rh, d + 0.7, Vector3(0, 0.3 + h + rh / 2.0, 0), roof)
+	roof_mesh.name = "Roof"
+	MeshKit.box(r, Vector3(0.55, 1.6, 0.55), Vector3(w * 0.22, 0.3 + h + 1.1, -d * 0.2), "stone")
+	MeshKit.box(r, Vector3(0.65, 0.12, 0.65), Vector3(w * 0.22, 0.3 + h + 1.92, -d * 0.2), "stone_dark")
+	# Door, step and lantern.
+	MeshKit.box(r, Vector3(0.9, 1.7, 0.08), Vector3(-w * 0.18, 0.3 + 0.85, d / 2.0 + 0.04), "wood_dark")
+	MeshKit.box(r, Vector3(0.06, 0.06, 0.06), Vector3(-w * 0.18 + 0.3, 0.3 + 0.85, d / 2.0 + 0.1), "gold")
+	MeshKit.box(r, Vector3(1.2, 0.14, 0.5), Vector3(-w * 0.18, 0.07, d / 2.0 + 0.4), "stone")
+	MeshKit.box(r, Vector3(0.16, 0.22, 0.16), Vector3(-w * 0.18 + 0.75, 2.05, d / 2.0 + 0.12), "lantern")
+	# Shuttered windows with flower boxes, front and sides.
+	var shutter: String = ["awning_blue", "awning_green", "awning_red"][seed % 3]
+	var windows := [[Vector3(w * 0.24, 1.6, d / 2.0 + 0.04), 0.0], [Vector3(w / 2.0 + 0.04, 1.6, 0), PI / 2.0], [Vector3(-w / 2.0 - 0.04, 1.6, 0), -PI / 2.0]]
+	for win: Array in windows:
+		var at: Vector3 = win[0]
+		var yaw: float = win[1]
+		var face := Basis(Vector3.UP, yaw)
+		MeshKit.box(r, Vector3(0.7, 0.75, 0.05), at, "glass_blue", false, yaw)
+		MeshKit.box(r, Vector3(0.78, 0.08, 0.08), at + face * Vector3(0, 0.42, 0.02), "wood_dark", false, yaw)
+		for side: float in [-1.0, 1.0]:
+			MeshKit.box(r, Vector3(0.3, 0.78, 0.04), at + face * Vector3(side * 0.52, 0, 0.03), shutter, false, yaw)
+		MeshKit.box(r, Vector3(0.8, 0.18, 0.22), at + face * Vector3(0, -0.5, 0.12), "wood", false, yaw)
+		for k in 4:
+			MeshKit.sphere(r, 0.09, at + face * Vector3(-0.27 + k * 0.18, -0.36, 0.14), ["flower_pink", "flower_yellow", "flower_white", "flower_pink"][(k + seed) % 4], Vector3.ONE, 6, 3)
+	return r
+
+
+## A low dry-stone wall from `a` to `b`, of rounded stones in two courses.
+static func stone_wall(parent: Node3D, a: Vector3, b: Vector3, seed: int) -> void:
+	var rng := RandomNumberGenerator.new()
+	rng.seed = seed
+	var span := b - a
+	var n := int(span.length() / 0.42)
+	for i in n:
+		var t := (i + 0.5) / n
+		for course in 2:
+			var at := a + span * t + Vector3(0, 0.16 + course * 0.24, 0) + span.normalized().cross(Vector3.UP) * rng.randf_range(-0.04, 0.04)
+			var stone := MeshKit.sphere(parent, 0.24, at, "stone" if (i + course) % 3 else "stone_dark", Vector3(1.1, 0.75, 0.9), 6, 4)
+			stone.rotation.y = rng.randf() * TAU
+	MeshKit.solid(parent, Vector3(0.5, 0.7, span.length()), a + span / 2.0 + Vector3(0, 0.35, 0), atan2(span.x, span.z))
+
+
 ## A field of ripe grain in rows, with soil furrows between them, a low
 ## fence along two sides and a few stooks of cut sheaves at one end, like the
 ## farmland in the concept art. `size` is width (along the rows) by depth.
