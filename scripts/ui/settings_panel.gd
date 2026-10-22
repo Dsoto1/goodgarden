@@ -13,6 +13,7 @@ func show_settings() -> void:
 	_toggle(tr("Less motion"), "reduced_motion")
 	var easy := CheckButton.new()
 	easy.text = tr("Easier dragging (pieces snap from farther away)")
+	easy.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART # long words wrap at large text sizes
 	easy.button_pressed = Settings.get_value("snap_tolerance") > 60.0
 	easy.toggled.connect(func(on: bool) -> void: Settings.set_value("snap_tolerance", 90.0 if on else 56.0))
 	content.add_child(easy)
@@ -30,6 +31,7 @@ func show_settings() -> void:
 func _toggle(text: String, key: String) -> CheckButton:
 	var c := CheckButton.new()
 	c.text = text
+	c.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	c.button_pressed = Settings.get_value(key)
 	c.toggled.connect(func(on: bool) -> void: Settings.set_value(key, on))
 	content.add_child(c)

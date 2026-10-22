@@ -12,15 +12,17 @@ var _next: Button
 
 func show_journal() -> void:
 	open(720, Color("fbf3dc"))
+	# The page's day on its own line, so it never squeezes between the buttons.
+	_heading = UiStyle.label("", "HeadingLabel")
+	_heading.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	content.add_child(_heading)
 	var top := HBoxContainer.new()
+	top.alignment = BoxContainer.ALIGNMENT_CENTER
+	top.add_theme_constant_override("separation", 10)
 	content.add_child(top)
 	_prev = UiStyle.button(tr("Earlier"), false, "back")
 	_prev.pressed.connect(func() -> void: _turn(-1))
 	top.add_child(_prev)
-	_heading = UiStyle.label("", "HeadingLabel")
-	_heading.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	_heading.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	top.add_child(_heading)
 	_next = UiStyle.button(tr("Later"), false, "next")
 	_next.pressed.connect(func() -> void: _turn(1))
 	top.add_child(_next)
@@ -29,7 +31,7 @@ func show_journal() -> void:
 	hear.pressed.connect(func() -> void: AudioService.narrate(_spoken_page(), true))
 	top.add_child(hear)
 	var scroll := ScrollContainer.new()
-	scroll.custom_minimum_size.y = 360
+	scroll.custom_minimum_size.y = 320
 	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
 	content.add_child(scroll)
 	_page = VBoxContainer.new()
@@ -112,6 +114,7 @@ func _add_real_world(e: Dictionary) -> void:
 	col.add_child(UiStyle.label(e["text"]))
 	if Content.get_real_world(e["ref"]).get("checkable", true):
 		var tried := CheckButton.new()
+		tried.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		tried.text = tr("We tried it")
 		tried.button_pressed = e.get("tried", false)
 		tried.toggled.connect(func(on: bool) -> void: Journal.mark_tried(e, on))

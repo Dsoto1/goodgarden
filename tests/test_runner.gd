@@ -26,7 +26,7 @@ func _ready() -> void:
 		test_content_is_valid, test_validator_catches_errors, test_conditions_and_tokens,
 		test_save_round_trip_and_migration, test_space_along_line, test_count_into_slots,
 		test_match_to_outline_self_correction, test_story_handoff_and_put_away, test_parable_growth_and_put_away, test_chapel_library_books, test_calling_of_the_fishermen, test_sit_and_hold_rod, test_young_child_access, test_older_work_level, test_sequence_cards,
-		test_observations_never_score_reflection, test_pointer_events_drag_pieces, test_props_catalog, test_recorded_sounds, test_animal_moments,
+		test_observations_never_score_reflection, test_pointer_events_drag_pieces, test_props_catalog, test_recorded_sounds, test_animal_moments, test_large_text_fits,
 		test_scenery_quality_and_batching, test_vertical_slice_end_to_end,
 	]
 	for t: Callable in tests:
@@ -595,6 +595,29 @@ func test_animal_moments() -> void:
 	check(hens.all(func(h: Wanderer) -> bool: return h.is_visiting() and h.home.distance_to(grain.position) < 0.01), "the hens come to the grain")
 	check(AudioService.world_stream("purr") != null, "the cat can purr")
 	parent.queue_free()
+
+
+func test_large_text_fits() -> void:
+	Settings.set_value("work_level", "younger")
+	Settings.set_value("text_scale", 1.0)
+	check(UiStyle.text_scale() > 1.0, "younger children start with larger text")
+	Settings.set_value("text_scale", 1.6)
+	eq(UiStyle.text_scale(), UiStyle.MAX_TEXT, "but never larger than the largest setting")
+	Settings.set_value("text_scale", 1.0)
+	# A card taller than the screen scrolls, and its buttons stay in view.
+	var panel := ModalPanel.new()
+	add_child(panel)
+	panel.open(600)
+	for i in 30:
+		panel.content.add_child(UiStyle.label("A long line of text, number %d." % i, "LetterLabel"))
+	var ok := UiStyle.button("Close", true)
+	panel.add_buttons([ok])
+	await frames(3)
+	var card := panel.content.get_parent() as Control
+	check(panel.content.get_node_or_null("FitScroll") != null, "a tall card scrolls")
+	check(card.get_combined_minimum_size().y <= panel.get_viewport_rect().size.y, "and fits on the screen")
+	check(ok.get_parent().get_parent() == panel.content, "its buttons stay outside the scrolling part")
+	panel.close()
 
 
 func test_scenery_quality_and_batching() -> void:

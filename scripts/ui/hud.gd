@@ -90,7 +90,7 @@ func _ready() -> void:
 	card.add_child(row)
 	invite.add_child(card)
 	card.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	invite.resized.connect(func() -> void: invite.custom_minimum_size.y = card.get_combined_minimum_size().y)
+	invite.resized.connect(_fit_invite)
 	_right.add_child(invite)
 	_right.set_anchors_and_offsets_preset(Control.PRESET_TOP_RIGHT, Control.PRESET_MODE_MINSIZE, 16)
 
@@ -184,6 +184,7 @@ func refresh() -> void:
 	_show_jobs(jobs if listing else [])
 	_invite_glyph.kind = "letter" if Invitations.has_unread() else ("yes" if done else ("sun" if Days.is_sunday() else "seedling"))
 	_invite_glyph.queue_redraw()
+	_invite_glyph.visible = not listing # each job has its own picture
 	_invite_heading.text = tr("Done today") if done else (tr("Today's jobs") if listing else tr("Today's Invitation"))
 	_invite_card.add_theme_stylebox_override("panel", _chip_box(Color("e4efd3"), Color("6f9a52")) if done else _chip_box())
 	var spoken := _invite_heading.text + ". "
@@ -273,6 +274,13 @@ func _say_day_done() -> void:
 	show_caption(tr("Today's work is done! You can explore, visit the Chapel, or go home and rest in your bed to start a new day."), 8.0)
 
 
+## The note's button is as big as its card, so a long list of jobs in large
+## text grows the note leftward instead of off the screen.
+func _fit_invite() -> void:
+	var want := _invite_card.get_combined_minimum_size()
+	_invite.custom_minimum_size = Vector2(maxf(380.0, want.x), want.y)
+
+
 ## One line per job: an empty ring, or a green tick once it is done.
 func _show_jobs(jobs: Array) -> void:
 	var key := str(jobs)
@@ -282,9 +290,10 @@ func _show_jobs(jobs: Array) -> void:
 	for c in _jobs_box.get_children():
 		c.queue_free()
 	_jobs_box.visible = not jobs.is_empty()
+	_fit_invite.call_deferred()
 	for j: Dictionary in jobs:
-		var row := TodaysWork.row(j, "SmallLabel", 30)
-		row.get_child(2).custom_minimum_size.x = 250
+		var row := TodaysWork.row(j, "SmallLabel", 34)
+		row.get_child(2).custom_minimum_size.x = 250 * UiStyle.text_scale()
 		_jobs_box.add_child(row)
 
 

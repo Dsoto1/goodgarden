@@ -50,6 +50,7 @@ static func today() -> Array[Dictionary]:
 ## One job as a row: a ring that becomes a green tick when it is done, its
 ## picture, and its words (greyed a little once done).
 static func row(job: Dictionary, label_type: String, edge: float) -> HBoxContainer:
+	edge *= UiStyle.text_scale() # pictures grow with the words
 	var r := HBoxContainer.new()
 	r.add_theme_constant_override("separation", 6)
 	r.mouse_filter = Control.MOUSE_FILTER_IGNORE

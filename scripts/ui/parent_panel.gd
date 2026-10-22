@@ -65,6 +65,7 @@ func _show_page() -> void:
 	level_row.add_child(level)
 	content.add_child(UiStyle.label(tr("Older children get bigger numbers and fewer helps in the same work. Bible stories are the same for everyone."), "SmallLabel"))
 	var rw := CheckButton.new()
+	rw.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	rw.text = tr("Offer real-world invitations")
 	rw.button_pressed = Settings.get_value("real_world_invitations")
 	rw.toggled.connect(func(on: bool) -> void: Settings.set_value("real_world_invitations", on))

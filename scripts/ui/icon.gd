@@ -78,10 +78,11 @@ static func draw(ci: CanvasItem, kind: String, r: Rect2, color := INK) -> void:
 			ci.draw_rect(Rect2(c + Vector2(0.26, -0.2) * s, Vector2(0.16, 0.2) * s), Color("6f9fc0"))
 			ci.draw_rect(Rect2(c + Vector2(0.26, -0.2) * s, Vector2(0.16, 0.2) * s), color, false, 1.5)
 		"hen":
-			# A white hen with a red comb, pecking at grain.
-			ci.draw_circle(c + Vector2(0.04, 0.06) * s, 0.24 * s, Color("f6f1e4"))
-			ci.draw_circle(c + Vector2(-0.2, -0.16) * s, 0.13 * s, Color("f6f1e4"))
-			ci.draw_arc(c + Vector2(0.04, 0.06) * s, 0.24 * s, 0, TAU, 20, color, 1.5)
+			# A brown hen with a red comb, pecking at grain.
+			ci.draw_circle(c + Vector2(0.04, 0.06) * s, 0.24 * s, Color("c98a4e"))
+			ci.draw_circle(c + Vector2(-0.2, -0.16) * s, 0.13 * s, Color("c98a4e"))
+			ci.draw_arc(c + Vector2(0.1, 0.06) * s, 0.13 * s, -0.4, 2.2, 10, Color("8a5a32"), maxf(1.5, s * 0.06))
+			ci.draw_circle(c + Vector2(-0.23, -0.18) * s, 0.025 * s, color)
 			ci.draw_circle(c + Vector2(-0.2, -0.31) * s, 0.06 * s, Color("c8463a"))
 			ci.draw_colored_polygon(PackedVector2Array([c + Vector2(-0.32, -0.18) * s, c + Vector2(-0.44, -0.12) * s, c + Vector2(-0.32, -0.1) * s]), Color("e0a73a"))
 			for x: float in [-0.36, -0.26, -0.42]:
@@ -303,6 +304,9 @@ class Tile:
 	func _draw() -> void:
 		var font := get_theme_font("font", "Label")
 		var fsize := int(get_theme_font_size("font_size", "Label") * 0.7)
+		# Large text still fits the tile: the caption shrinks to its width.
+		while fsize > 10 and font.get_string_size(caption, HORIZONTAL_ALIGNMENT_LEFT, -1, fsize).x > size.x - 6:
+			fsize -= 1
 		Icon.draw(self, kind, Rect2(Vector2(10, 6), Vector2(size.x - 20, size.y - 30)))
 		draw_string(font, Vector2(0, size.y - 9), caption, HORIZONTAL_ALIGNMENT_CENTER, size.x, fsize, Icon.INK)
 

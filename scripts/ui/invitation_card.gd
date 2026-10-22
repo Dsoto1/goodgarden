@@ -5,7 +5,7 @@ extends ModalPanel
 
 func show_invitation(invitation_id: String, mark_read := true) -> void:
 	var data := Invitations.open(invitation_id) if mark_read else Content.get_invitation(invitation_id)
-	open(640, Color("fbf3dc"))
+	open(760, Color("fbf3dc"))
 	var body := UiStyle.label(tr(str(data.get("body", ""))), "LetterLabel")
 	content.add_child(body)
 	var sig := UiStyle.label("— %s" % tr(str(data.get("signature", ""))), "LetterLabel")
@@ -16,13 +16,16 @@ func show_invitation(invitation_id: String, mark_read := true) -> void:
 	var spoken := body.text
 	var jobs := TodaysWork.jobs(data)
 	if jobs.size() > 1:
+		var list := VBoxContainer.new()
+		list.add_theme_constant_override("separation", 2)
+		content.add_child(list)
 		var heading := UiStyle.label(tr("Today's jobs:"), "LetterLabel")
 		heading.add_theme_color_override("font_color", Color("7a4a26"))
-		content.add_child(heading)
+		list.add_child(heading)
 		spoken += "\n" + heading.text
 		for j: Dictionary in jobs:
 			var row := TodaysWork.row(j, "LetterLabel", 36)
-			content.add_child(row)
+			list.add_child(row)
 			spoken += "\n" + tr(j["text"])
 	var hear := UiStyle.button(tr("Hear it"))
 	hear.pressed.connect(func() -> void:
