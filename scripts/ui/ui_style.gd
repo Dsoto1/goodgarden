@@ -127,6 +127,30 @@ static func button(text: String, primary := false, icon_kind := "") -> Button:
 	return b
 
 
+## An on/off switch with its words beside it. The words wrap, so a long
+## setting stays inside its card at any text size (a switch's own text
+## can't wrap). The switch is the row's first child after the words.
+static func toggle_row(text: String, on: bool, on_toggled: Callable) -> HBoxContainer:
+	var row := HBoxContainer.new()
+	row.add_theme_constant_override("separation", 12)
+	var words := label(text)
+	words.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	words.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	row.add_child(words)
+	var c := CheckButton.new()
+	c.button_pressed = on
+	c.set_meta(&"spoken", text)
+	c.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	c.toggled.connect(on_toggled)
+	row.add_child(c)
+	# Tapping the words flips the switch too.
+	words.mouse_filter = Control.MOUSE_FILTER_STOP
+	words.gui_input.connect(func(e: InputEvent) -> void:
+		if e is InputEventMouseButton and (e as InputEventMouseButton).pressed and (e as InputEventMouseButton).button_index == MOUSE_BUTTON_LEFT:
+			c.button_pressed = not c.button_pressed)
+	return row
+
+
 static func label(text: String, variation := "") -> Label:
 	var l := Label.new()
 	l.text = text

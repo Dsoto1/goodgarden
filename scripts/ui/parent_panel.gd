@@ -37,6 +37,7 @@ func show_gate() -> void:
 
 func _show_page() -> void:
 	for c in content.get_children():
+		content.remove_child(c)
 		c.queue_free()
 	content.add_child(UiStyle.label(tr("What your child has been doing"), "HeadingLabel"))
 	var notes := Observations.summarize()
@@ -65,7 +66,6 @@ func _show_page() -> void:
 	level_row.add_child(level)
 	content.add_child(UiStyle.label(tr("Older children get bigger numbers and fewer helps in the same work. Bible stories are the same for everyone."), "SmallLabel"))
 	var rw := CheckButton.new()
-	rw.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	rw.text = tr("Offer real-world invitations")
 	rw.button_pressed = Settings.get_value("real_world_invitations")
 	rw.toggled.connect(func(on: bool) -> void: Settings.set_value("real_world_invitations", on))
@@ -85,3 +85,4 @@ func _show_page() -> void:
 	var done := UiStyle.button(tr("Done"), true)
 	done.pressed.connect(close)
 	add_buttons([done])
+	refit()

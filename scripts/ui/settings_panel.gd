@@ -7,16 +7,12 @@ func show_settings() -> void:
 	open(620)
 	content.add_child(UiStyle.label(tr("Settings"), "HeadingLabel"))
 	_slider(tr("Text size"), "text_scale", 1.0, 1.6, 0.1)
-	var read := _toggle(tr("Read words aloud"), "read_aloud")
+	var read_text := tr("Read words aloud")
 	if not AudioService.can_narrate():
-		read.text += " " + tr("(no voice found on this device; words stay on screen)")
+		read_text += " " + tr("(no voice found on this device; words stay on screen)")
+	_toggle(read_text, "read_aloud")
 	_toggle(tr("Less motion"), "reduced_motion")
-	var easy := CheckButton.new()
-	easy.text = tr("Easier dragging (pieces snap from farther away)")
-	easy.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART # long words wrap at large text sizes
-	easy.button_pressed = Settings.get_value("snap_tolerance") > 60.0
-	easy.toggled.connect(func(on: bool) -> void: Settings.set_value("snap_tolerance", 90.0 if on else 56.0))
-	content.add_child(easy)
+	content.add_child(UiStyle.toggle_row(tr("Easier dragging (pieces snap from farther away)"), Settings.get_value("snap_tolerance") > 60.0, func(on: bool) -> void: Settings.set_value("snap_tolerance", 90.0 if on else 56.0)))
 	_choice(tr("Scenery"), "scenery_quality", [["auto", tr("Automatic")], ["high", tr("Full")], ["medium", tr("Balanced")], ["low", tr("Light (older tablets)")]])
 	content.add_child(UiStyle.label(tr("Grass and trees change the next time the world loads."), "SmallLabel"))
 	_slider(tr("All sound"), "volume_master", 0.0, 1.0, 0.05)
@@ -29,13 +25,9 @@ func show_settings() -> void:
 
 
 func _toggle(text: String, key: String) -> CheckButton:
-	var c := CheckButton.new()
-	c.text = text
-	c.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	c.button_pressed = Settings.get_value(key)
-	c.toggled.connect(func(on: bool) -> void: Settings.set_value(key, on))
-	content.add_child(c)
-	return c
+	var row := UiStyle.toggle_row(text, Settings.get_value(key), func(on: bool) -> void: Settings.set_value(key, on))
+	content.add_child(row)
+	return row.get_child(1)
 
 
 ## A row of options for a setting with a few named values: [value, label] pairs.

@@ -114,7 +114,6 @@ func _add_real_world(e: Dictionary) -> void:
 	col.add_child(UiStyle.label(e["text"]))
 	if Content.get_real_world(e["ref"]).get("checkable", true):
 		var tried := CheckButton.new()
-		tried.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		tried.text = tr("We tried it")
 		tried.button_pressed = e.get("tried", false)
 		tried.toggled.connect(func(on: bool) -> void: Journal.mark_tried(e, on))

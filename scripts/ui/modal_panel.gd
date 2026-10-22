@@ -22,14 +22,21 @@ func open(width := 680.0, fill := UiStyle.PAPER) -> VBoxContainer:
 	return content
 
 
+## Call after replacing a card's contents (the grown-ups' page after its gate),
+## so the new contents are fitted to the screen too.
+func refit() -> void:
+	_fit_to_screen.call_deferred()
+
+
 ## With large text a card can be taller than the screen. Then everything but
 ## its buttons scrolls, so "Keep it", "Close" and the like stay in view.
 func _fit_to_screen() -> void:
 	if not is_inside_tree() or content == null:
 		return
+	_button_rows = _button_rows.filter(func(r: Control) -> bool: return is_instance_valid(r) and not r.is_queued_for_deletion())
 	var card := content.get_parent() as Control
 	var room := get_viewport_rect().size.y - 24.0
-	if card.get_combined_minimum_size().y <= room:
+	if card.get_combined_minimum_size().y <= room or content.has_node("FitScroll"):
 		return
 	var scroll := ScrollContainer.new()
 	scroll.name = "FitScroll"
@@ -40,6 +47,8 @@ func _fit_to_screen() -> void:
 	inner.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	scroll.add_child(inner)
 	for c in content.get_children():
+		if c.is_queued_for_deletion():
+			continue
 		if not c in _button_rows:
 			content.remove_child(c)
 			inner.add_child(c)
