@@ -57,21 +57,32 @@ static func bread_basket(parent: Node3D, pos: Vector3, rot_y := 0.0, rolls := 7)
 
 ## A sheepfold gate between two stout posts: three rails, a diagonal brace,
 ## iron hinges and a latch (the Good Shepherd: "I am the gate for the sheep").
-static func fold_gate(parent: Node3D, pos: Vector3, rot_y := 0.0) -> Node3D:
+## Open, the leaf swings back on its hinge (left post) and only the posts are
+## solid, so children can walk through.
+static func fold_gate(parent: Node3D, pos: Vector3, rot_y := 0.0, open := false) -> Node3D:
 	var r := _root(parent, "FoldGate", pos, rot_y)
 	for x: float in [-0.8, 0.8]:
 		MeshKit.box(r, Vector3(0.17, 1.3, 0.17), Vector3(x, 0.65, 0), "wood_dark")
 		MeshKit.cylinder(r, 0.06, 0.11, 0.12, Vector3(x, 1.36, 0), "wood_dark", 8)
+	var leaf := Node3D.new()
+	leaf.name = "Leaf"
+	leaf.position = Vector3(-0.8, 0, 0)
+	leaf.rotation.y = -1.75 if open else 0.0 # swung in, against the inside of the fence
+	r.add_child(leaf)
 	for y: float in [0.3, 0.65, 1.0]:
-		MeshKit.box(r, Vector3(1.44, 0.1, 0.06), Vector3(0, y, 0), "wood")
+		MeshKit.box(leaf, Vector3(1.44, 0.1, 0.06), Vector3(0.8, y, 0), "wood")
 	for x: float in [-0.69, 0.69]:
-		MeshKit.box(r, Vector3(0.08, 0.86, 0.065), Vector3(x, 0.65, 0), "wood")
-	var brace := MeshKit.box(r, Vector3(1.5, 0.09, 0.05), Vector3(0, 0.65, 0.045), "wood_light")
+		MeshKit.box(leaf, Vector3(0.08, 0.86, 0.065), Vector3(0.8 + x, 0.65, 0), "wood")
+	var brace := MeshKit.box(leaf, Vector3(1.5, 0.09, 0.05), Vector3(0.8, 0.65, 0.045), "wood_light")
 	brace.rotation.z = 0.46
 	for y: float in [0.3, 1.0]:
-		MeshKit.box(r, Vector3(0.18, 0.05, 0.08), Vector3(-0.68, y, 0.0), "dark")
-	MeshKit.box(r, Vector3(0.14, 0.05, 0.08), Vector3(0.72, 0.65, -0.05), "dark")
-	MeshKit.solid(r, Vector3(1.8, 1.3, 0.3), Vector3(0, 0.65, 0))
+		MeshKit.box(leaf, Vector3(0.18, 0.05, 0.08), Vector3(0.12, y, 0.0), "dark")
+	MeshKit.box(leaf, Vector3(0.14, 0.05, 0.08), Vector3(1.52, 0.65, -0.05), "dark")
+	if open:
+		for x: float in [-0.8, 0.8]:
+			MeshKit.solid(r, Vector3(0.2, 1.3, 0.2), Vector3(x, 0.65, 0))
+	else:
+		MeshKit.solid(r, Vector3(1.8, 1.3, 0.3), Vector3(0, 0.65, 0))
 	return r
 
 

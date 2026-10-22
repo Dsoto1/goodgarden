@@ -224,7 +224,8 @@ func _sheepfold(r: Rect2) -> void:
 	Props.fence(self, "fence_wood", se, sw)
 	Props.fence(self, "fence_wood", sw, Vector3(r.position.x, 0, mid + 0.95))
 	Props.fence(self, "fence_wood", Vector3(r.position.x, 0, mid - 0.95), nw)
-	CraftedProps.fold_gate(self, Vector3(r.position.x, 0, mid), PI / 2.0)
+	# The gate stands open, so the child can go in among the sheep.
+	CraftedProps.fold_gate(self, Vector3(r.position.x, 0, mid), PI / 2.0, true)
 
 
 func _patches() -> void:

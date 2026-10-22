@@ -612,6 +612,9 @@ func test_vertical_slice_end_to_end() -> void:
 			if Terrain.river_bank_distance(p.x, p.z) < -0.5 and not on_bridge and not on_stones:
 				wet += 1
 		check(crossing.size() > 1 and wet == 0, "the river is crossed only by the bridge or the stepping stones")
+	var to_sheep := NavigationServer3D.map_get_path(world.get_world_3d().navigation_map, Vector3(6, 0, -20), Vector3(27.5, 0, -22.5), true)
+	var sheep_end := to_sheep[to_sheep.size() - 1] if to_sheep.size() > 0 else Vector3.INF
+	check(Vector2(sheep_end.x, sheep_end.z).distance_to(Vector2(27.5, -22.5)) < 0.5, "the child can walk through the open gate in among the sheep")
 
 	# 1-2. Read the invitation at home.
 	var letter := _interactable("Read the letter")
