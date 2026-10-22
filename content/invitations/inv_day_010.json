@@ -5,11 +5,34 @@
 	"signature": "Miss Miriam",
 	"suggests": "thank_you_card",
 	"summary": "Make a surprise for Mrs. Ruth with Miss Miriam.",
-	"done": "Mrs. Ruth has her card. How kind of you!",
-	"done_when": [
+	"done": "Mrs. Ruth has her card, and the hens and the cat are content. How kind of you!",
+	"tasks": [
 		{
-			"fact": "npc.ruth.card",
-			"equals": "given"
+			"text": "Make a card for Mrs. Ruth and give it to her",
+			"done_when": [
+				{
+					"fact": "npc.ruth.card",
+					"equals": "given"
+				}
+			]
+		},
+		{
+			"text": "Scatter grain for the hens at home",
+			"done_when": [
+				{
+					"fact": "home.hens_fed_day",
+					"is_today": true
+				}
+			]
+		},
+		{
+			"text": "Stroke the cat by the cottage door",
+			"done_when": [
+				{
+					"fact": "animals.cat.stroked_day",
+					"is_today": true
+				}
+			]
 		}
 	]
 }

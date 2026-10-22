@@ -5,5 +5,29 @@
 	"signature": "Miss Miriam",
 	"suggests": "garden_bean_row",
 	"summary": "Miss Miriam needs help planting beans in her garden.",
-	"done": "The beans are planted. Thank you, Miss Miriam's helper!"
+	"done": "The beans are planted, the table is set and the hens have had their grain. Thank you!",
+	"tasks": [
+		{
+			"text": "Plant beans with Miss Miriam",
+			"activity": "garden_bean_row"
+		},
+		{
+			"text": "Set the table at home",
+			"done_when": [
+				{
+					"fact": "home.table_set_day",
+					"is_today": true
+				}
+			]
+		},
+		{
+			"text": "Scatter grain for the hens at home",
+			"done_when": [
+				{
+					"fact": "home.hens_fed_day",
+					"is_today": true
+				}
+			]
+		}
+	]
 }

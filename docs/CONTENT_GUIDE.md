@@ -25,9 +25,11 @@ Every file has an `"id"`. All text is plain English for now and passes through `
 
 ## Invitations — `content/invitations/*.json`
 
-`{"id", "from", "body", "signature", "suggests"?, "summary", "done"?, "done_when"?}`. `body` may contain blank lines. A day's letter waits by the cottage door until it is read.
+`{"id", "from", "body", "signature", "suggests"?, "summary", "done"?, "tasks"?}`. `body` may contain blank lines. A day's letter waits by the cottage door until it is read.
 
-Once read, the corner note shows `summary` (the request) until the work is done, then turns green with `done` (a short thank-you). The work counts as done when the `suggests` activity was finished today, or, if given, when the `done_when` conditions match (same format as dialogue `when`), e.g. `[{"fact": "npc.ruth.card", "equals": "given"}]` for work that ends with a conversation.
+`tasks` is the day's jobs, three at most (a working day has three: the letter's main work and two small everyday ones). Each is `{"text", "activity"}` (done when that activity was finished today) or `{"text", "done_when"}` (conditions, same format as dialogue `when`). Useful facts: `home.table_set_day`, `home.hens_fed_day`, `npc.<id>.greeted_day`, `animals.<kind>.stroked_day` (lamb, sheep, cat, dog, cow, horse, pig), each with `"is_today": true`; or `[{"fact": "npc.ruth.card", "equals": "given"}]` for work that ends with a conversation. Stories in the Chapel are never jobs: quiet time is the child's own.
+
+The jobs are listed under the letter and in the corner note, each ticked as it is done. When all are done the note turns green with `done` (a short thank-you) and the child is told the day's work is finished. A letter without `tasks` has one job: its `summary`, done when the `suggests` activity was finished today. The day of rest has none.
 
 ## Real-world invitations — `content/real_world/*.json`
 

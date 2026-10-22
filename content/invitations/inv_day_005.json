@@ -5,5 +5,29 @@
 	"signature": "Mrs. Ruth",
 	"suggests": "sheepfold_hay",
 	"summary": "Feed the hungry lambs at the sheepfold.",
-	"done": "The lambs are fed and happy. Thank you!"
+	"done": "The lambs, the cows and the hens are all cared for. Thank you!",
+	"tasks": [
+		{
+			"text": "Feed the lambs at the sheepfold",
+			"activity": "sheepfold_hay"
+		},
+		{
+			"text": "Stroke a cow in the pasture by the windmill",
+			"done_when": [
+				{
+					"fact": "animals.cow.stroked_day",
+					"is_today": true
+				}
+			]
+		},
+		{
+			"text": "Scatter grain for the hens at home",
+			"done_when": [
+				{
+					"fact": "home.hens_fed_day",
+					"is_today": true
+				}
+			]
+		}
+	]
 }

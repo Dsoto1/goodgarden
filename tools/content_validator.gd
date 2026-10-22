@@ -27,6 +27,7 @@ func run() -> PackedStringArray:
 		_require_text(inv, "body", "invitation %s" % id)
 		if inv.has("suggests") and Content.get_activity(str(inv["suggests"])) == null:
 			errors.append("invitation %s suggests unknown activity '%s'" % [id, inv["suggests"]])
+		_check_jobs(inv, id)
 	for id: String in Content.real_world:
 		_require_text(Content.real_world[id], "text", "real-world invitation %s" % id)
 	for item: Dictionary in Content.get_world("atrium_shelf").get("items", []):
@@ -38,6 +39,28 @@ func run() -> PackedStringArray:
 	_check_looks()
 	_check_third_party()
 	return errors
+
+
+## A letter's jobs: each says what to do, and how to know it is done (an
+## activity finished today, or conditions). Reflection never counts as a job.
+func _check_jobs(inv: Dictionary, id: String) -> void:
+	var jobs: Array = inv.get("tasks", [])
+	if jobs.size() > 3:
+		errors.append("invitation %s asks for %d jobs (three at most)" % [id, jobs.size()])
+	for i in jobs.size():
+		var job: Dictionary = jobs[i]
+		var where := "invitation %s job %d" % [id, i + 1]
+		_require_text(job, "text", where)
+		if job.has("activity"):
+			var def := Content.get_activity(str(job["activity"]))
+			if def == null:
+				errors.append("%s names unknown activity '%s'" % [where, job["activity"]])
+			elif def.is_reflection():
+				errors.append("%s is a story; quiet time is never a job" % where)
+		elif job.has("done_when"):
+			_check_conditions(job["done_when"], where)
+		else:
+			errors.append("%s needs an activity or done_when" % where)
 
 
 ## Every colour named in a character look must exist in the palette.

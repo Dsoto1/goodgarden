@@ -4,11 +4,34 @@
 	"body": "Dear friend,\n\nDid you hear the rain in the night? Go and look at your bean row. Something is happening under the soil!\n\nCome and find me in the garden if you like.",
 	"signature": "Miss Miriam",
 	"summary": "Go and see what the rain did to your bean row.",
-	"done": "You saw the beans sprouting. Wonderful!",
-	"done_when": [
+	"done": "You saw the sprouts, greeted your neighbours and met the lambs. Wonderful!",
+	"tasks": [
 		{
-			"fact": "npc.miriam.greeted_day",
-			"is_today": true
+			"text": "See your bean sprouts and say hello to Miss Miriam",
+			"done_when": [
+				{
+					"fact": "npc.miriam.greeted_day",
+					"is_today": true
+				}
+			]
+		},
+		{
+			"text": "Say hello to Mr. Tobias in the village",
+			"done_when": [
+				{
+					"fact": "npc.tobias.greeted_day",
+					"is_today": true
+				}
+			]
+		},
+		{
+			"text": "Stroke a lamb at the sheepfold",
+			"done_when": [
+				{
+					"fact": "animals.lamb.stroked_day",
+					"is_today": true
+				}
+			]
 		}
 	]
 }

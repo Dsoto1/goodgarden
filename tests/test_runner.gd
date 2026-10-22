@@ -67,6 +67,10 @@ func test_content_is_valid() -> void:
 	for e in errors:
 		printerr("  content: ", e)
 	eq(errors.size(), 0, "authored content has no validation errors")
+	# Every working day asks for three jobs; the day of rest asks for none.
+	for d in range(1, 11):
+		eq(TodaysWork.jobs(Content.get_invitation("inv_day_%03d" % d)).size(), 3, "day %d has three jobs" % d)
+	eq(TodaysWork.jobs(Content.get_invitation("inv_day_011")).size(), 0, "the day of rest has no jobs")
 
 
 func test_validator_catches_errors() -> void:
@@ -723,8 +727,11 @@ func test_vertical_slice_end_to_end() -> void:
 	await wait(0.2)
 	check(not ActivityRunner.is_running(), "activity finished")
 	check(_find(main, DoneSeal) != null, "a clear Done seal shows the work is finished")
-	check(main.hud.todays_work_done() and main.hud._invite_heading.text == "Done today", "the note turns to Done, not the old request")
-	check(main.hud._invite_text.text.contains("beans are planted"), "and thanks the child for the beans")
+	var jobs := TodaysWork.today()
+	eq(jobs.size(), 3, "day 1 has three jobs")
+	check(jobs[0]["done"] and not jobs[1]["done"] and not jobs[2]["done"], "planting ticks off the first job")
+	check(not main.hud.todays_work_done() and main.hud._invite_heading.text == "Today's jobs", "the corner note lists what is left")
+	eq(main.hud._jobs_box.get_child_count(), 3, "one line per job")
 
 	# 7. The world shows the planted bed.
 	var bed: Variant = WorldState.get_fact("garden.bed_1")
@@ -760,6 +767,24 @@ func test_vertical_slice_end_to_end() -> void:
 	await wait(2.8)
 	check(world.regions["home"]._table_settings.visible, "table stays set in the world")
 	check(not table.is_available(), "table cannot be set twice in a day")
+	check(not main.hud.todays_work_done(), "two jobs done, one to go")
+	# The third job: grain for the hens, by the coop at home.
+	var grain := _interactable("Scatter grain for the hens")
+	world.player.walk_to(grain.approach_point(world.player.global_position), grain)
+	var walked := 0.0
+	while WorldState.get_fact("home.hens_fed_day") == null and walked < 30.0:
+		await get_tree().physics_frame
+		walked += get_physics_process_delta_time()
+	eq(int(WorldState.get_fact("home.hens_fed_day", 0)), 1, "the child walked to the coop and fed the hens")
+	await frames(2)
+	check(main.hud.todays_work_done() and main.hud._invite_heading.text == "Done today", "the note turns to Done once all three jobs are finished")
+	check(main.hud._invite_text.text.contains("beans are planted"), "and thanks the child for the work")
+	check(main.hud.caption_text().contains("hens come running"), "the hens' moment is told first")
+	var waited := 0.0
+	while not main.hud.caption_text().contains("Today's work is done") and waited < 14.0:
+		await wait(0.5)
+		waited += 0.5
+	check(main.hud.caption_text().contains("Today's work is done"), "then it says the day's work is done")
 
 	# 9-11. Chapel/Atrium: choose the Good Samaritan, listen, retell, put away.
 	var shelf := _interactable("Choose The Good Samaritan")
@@ -1012,6 +1037,9 @@ func test_vertical_slice_end_to_end() -> void:
 		await _finish_activity(card_ws)
 	eq(str(WorldState.get_fact("npc.ruth.card", "")), "made", "the card is made")
 	check(not main.hud.todays_work_done(), "making the card isn't the end: it still has to be given")
+	WorldState.set_fact("home.hens_fed_day", Days.current_day)
+	WorldState.set_fact("animals.cat.stroked_day", Days.current_day)
+	check(not main.hud.todays_work_done(), "with the small jobs done, the card still has to be given")
 	check(Dialogue.start("ruth"), "take the card to Mrs. Ruth")
 	check(str(Dialogue.current_line()["reply"]).contains("This card is for you, Mrs. Ruth"), "the child gives the card with a kind word")
 	Dialogue.advance()

@@ -5,5 +5,29 @@
 	"signature": "Mr. Tobias, the baker",
 	"suggests": "mill_flour",
 	"summary": "Help Mr. Tobias make flour at the mill.",
-	"done": "The flour is ready for tomorrow. Well done!"
+	"done": "The flour is ready for tomorrow, and the table is set. Well done!",
+	"tasks": [
+		{
+			"text": "Make flour with Mr. Tobias at the mill",
+			"activity": "mill_flour"
+		},
+		{
+			"text": "Stroke the horse beside the mill",
+			"done_when": [
+				{
+					"fact": "animals.horse.stroked_day",
+					"is_today": true
+				}
+			]
+		},
+		{
+			"text": "Set the table at home",
+			"done_when": [
+				{
+					"fact": "home.table_set_day",
+					"is_today": true
+				}
+			]
+		}
+	]
 }

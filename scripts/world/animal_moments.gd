@@ -8,11 +8,14 @@ extends RefCounted
 ## Makes the animal walking about as `w` something the child can stroke.
 ## `lines` are what the caption may say (one is picked each time); `sound`
 ## is a world sound name (see AudioService.FILES), played from the animal.
+## Stroking sets the fact "animals.<kind>.stroked_day" (lamb, sheep, cat,
+## dog, cow, horse, pig), so a day's letter can ask for it.
 static func strokable(w: Wanderer, prompt: String, lines: Array, sound := "") -> Interactable:
 	var it := Interactable.create(w, Vector3.ZERO, prompt, Callable(), 0.6, _marker_height(w))
 	it.reach = 1.6
 	it.action = func() -> void:
 		w.pause_for(5.0)
+		WorldState.set_fact("animals.%s.stroked_day" % kind_of(w), Days.current_day)
 		if w.model is FarmAnimal and (w.model as FarmAnimal).kind in ["lamb", "dog", "pig"]:
 			(w.model as FarmAnimal).hop()
 		hearts(w, Vector3(0, _marker_height(w) - 0.4, 0))
@@ -51,6 +54,7 @@ static func grain_bin(parent: Node3D, pos: Vector3, scatter_at: Vector3, hens: A
 		parent.get_tree().create_timer(12.0).timeout.connect(func() -> void:
 			if is_instance_valid(grain):
 				grain.visible = false)
+		WorldState.set_fact("home.hens_fed_day", Days.current_day)
 		SoundSpot.once(parent, "hens", scatter_at + Vector3(0, 0.4, 0), 16.0)
 		parent.get_tree().call_group("main", "show_caption", tr_line("Chook, chook! The hens come running for the grain."), 3.5)
 	return it
@@ -89,6 +93,10 @@ static func heart(parent: Node3D, pos: Vector3) -> Node3D:
 
 static func tr_line(text: String) -> String:
 	return TranslationServer.translate(text)
+
+
+static func kind_of(w: Wanderer) -> String:
+	return (w.model as FarmAnimal).kind if w.model is FarmAnimal else "cat"
 
 
 static func _marker_height(w: Wanderer) -> float:

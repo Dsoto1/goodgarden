@@ -70,6 +70,9 @@ static func draw(ci: CanvasItem, kind: String, r: Rect2, color := INK) -> void:
 			# A green tick.
 			ci.draw_circle(c, 0.44 * s, Color("dcebc8"))
 			ci.draw_polyline(PackedVector2Array([c + Vector2(-0.22, 0.0) * s, c + Vector2(-0.06, 0.17) * s, c + Vector2(0.24, -0.18) * s]), Color("4f7a3a"), maxf(2.5, s * 0.12))
+		"todo":
+			# An empty ring, waiting for its tick.
+			ci.draw_arc(c, 0.36 * s, 0, TAU, 32, Color("b89a78"), maxf(2.0, s * 0.08), true)
 		"back":
 			# A soft arrow curling back: "not yet", "go back".
 			ci.draw_circle(c, 0.44 * s, Color("efe4cf"))

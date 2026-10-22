@@ -5,5 +5,24 @@
 	"signature": "Miss Miriam",
 	"suggests": "orchard_plant",
 	"summary": "Plant apple trees with Miss Miriam in the meadow.",
-	"done": "The apple trees are planted. Well done!"
+	"done": "The apple trees are planted, the beans are watered and the pigs are happy. Well done!",
+	"tasks": [
+		{
+			"text": "Plant apple trees with Miss Miriam",
+			"activity": "orchard_plant"
+		},
+		{
+			"text": "Water the beans in the garden",
+			"activity": "garden_water"
+		},
+		{
+			"text": "Scratch a pig's back in the sty by the mill",
+			"done_when": [
+				{
+					"fact": "animals.pig.stroked_day",
+					"is_today": true
+				}
+			]
+		}
+	]
 }

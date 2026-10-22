@@ -5,5 +5,29 @@
 	"signature": "Mr. Tobias, the baker",
 	"summary": "Help Mr. Tobias fill the neighbors' bread baskets.",
 	"suggests": "bakery_baskets",
-	"done": "Every neighbor has bread. Thank you!"
+	"done": "Every neighbour has bread, and the dog and the hens are happy. Thank you!",
+	"tasks": [
+		{
+			"text": "Fill the bread baskets with Mr. Tobias",
+			"activity": "bakery_baskets"
+		},
+		{
+			"text": "Pat the little dog in the village square",
+			"done_when": [
+				{
+					"fact": "animals.dog.stroked_day",
+					"is_today": true
+				}
+			]
+		},
+		{
+			"text": "Scatter grain for the hens at home",
+			"done_when": [
+				{
+					"fact": "home.hens_fed_day",
+					"is_today": true
+				}
+			]
+		}
+	]
 }

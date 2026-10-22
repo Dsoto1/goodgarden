@@ -5,5 +5,29 @@
 	"signature": "Miss Miriam",
 	"suggests": "garden_water",
 	"summary": "Water the thirsty bean plants in the garden.",
-	"done": "The beans have had their drink. Well done!"
+	"done": "The beans have had their drink, and the table is ready. Well done!",
+	"tasks": [
+		{
+			"text": "Water the beans in the garden",
+			"activity": "garden_water"
+		},
+		{
+			"text": "Say hello to Mrs. Ruth in the village",
+			"done_when": [
+				{
+					"fact": "npc.ruth.greeted_day",
+					"is_today": true
+				}
+			]
+		},
+		{
+			"text": "Set the table at home",
+			"done_when": [
+				{
+					"fact": "home.table_set_day",
+					"is_today": true
+				}
+			]
+		}
+	]
 }

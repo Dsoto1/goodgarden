@@ -11,11 +11,29 @@ func show_invitation(invitation_id: String, mark_read := true) -> void:
 	var sig := UiStyle.label("— %s" % tr(str(data.get("signature", ""))), "LetterLabel")
 	sig.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 	content.add_child(sig)
+	# The day's jobs, under the letter: the work it asks for and the small
+	# everyday ones. The same list stays in the corner of the screen.
+	var spoken := body.text
+	var jobs := TodaysWork.jobs(data)
+	if jobs.size() > 1:
+		var heading := UiStyle.label(tr("Today's jobs:"), "LetterLabel")
+		heading.add_theme_color_override("font_color", Color("7a4a26"))
+		content.add_child(heading)
+		spoken += "\n" + heading.text
+		for j: Dictionary in jobs:
+			var row := HBoxContainer.new()
+			row.add_theme_constant_override("separation", 8)
+			row.add_child(Icon.Glyph.new("yes" if j["done"] else "todo", 28))
+			var l := UiStyle.label(tr(j["text"]), "LetterLabel")
+			l.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+			row.add_child(l)
+			content.add_child(row)
+			spoken += "\n" + l.text
 	var hear := UiStyle.button(tr("Hear it"))
 	hear.pressed.connect(func() -> void:
 		Observations.record("read_aloud_requested", "", {"invitation": invitation_id})
-		AudioService.narrate(body.text, true))
+		AudioService.narrate(spoken, true))
 	var keep := UiStyle.button(tr("Keep it in my journal"), true)
 	keep.pressed.connect(close)
 	add_buttons([hear, keep])
-	AudioService.narrate(body.text)
+	AudioService.narrate(spoken)

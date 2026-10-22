@@ -2,7 +2,8 @@ class_name Hud
 extends Control
 ## Exploration HUD, laid out like the mockup: the place name top-left, the
 ## day and today's invitation top-right, and Journal / Map / Settings tiles
-## bottom-right. One contextual prompt sits at the bottom. No quest lists,
+## bottom-right. The invitation lists the day's three jobs with soft ticks
+## (no counts or rewards). One contextual prompt sits at the bottom. No
 ## currencies, meters or badges. The prompt is itself a button, so touch
 ## players can tap it instead of walking right up to things.
 
@@ -22,6 +23,12 @@ var _caption_timer: SceneTreeTimer
 var _invite: Button
 var _invite_heading: Label
 var _invite_card: PanelContainer
+var _jobs_box: VBoxContainer
+var _jobs_key := ""
+## Whether today's jobs were all done at the last refresh, so finishing the
+## last one (by any route) is announced once.
+var _was_done := false
+var _announce_done := false
 var _spoken_target: Interactable
 var _spoken_places := {}
 
@@ -55,7 +62,7 @@ func _ready() -> void:
 	_invite = invite
 	invite.flat = true
 	invite.focus_mode = Control.FOCUS_NONE
-	invite.custom_minimum_size = Vector2(330, 0)
+	invite.custom_minimum_size = Vector2(380, 0)
 	invite.pressed.connect(_on_invitation_pressed)
 	var card := _chip()
 	_invite_card = card
@@ -75,6 +82,10 @@ func _ready() -> void:
 	_invite_text = UiStyle.label("", "SmallLabel")
 	_invite_text.custom_minimum_size.x = 250
 	col.add_child(_invite_text)
+	_jobs_box = VBoxContainer.new()
+	_jobs_box.add_theme_constant_override("separation", 2)
+	_jobs_box.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	col.add_child(_jobs_box)
 	row.add_child(col)
 	card.add_child(row)
 	invite.add_child(card)
@@ -130,6 +141,8 @@ func _ready() -> void:
 	Invitations.delivered.connect(func(_id: String) -> void: refresh())
 	Days.day_started.connect(func(_d: int) -> void:
 		_spoken_places.clear()
+		_was_done = false
+		_announce_done = false
 		refresh())
 	AudioService.narration_unavailable.connect(func() -> void:
 		show_caption(tr("This device has no reading voice, so words can't be read aloud. A grown-up can add a voice in the device's settings."), 9.0))
@@ -165,11 +178,29 @@ func refresh() -> void:
 	# Once the day's work is done, the note says so plainly: a green tick and a
 	# thank-you, never the old request.
 	var done := todays_work_done()
+	var jobs := TodaysWork.today()
+	var listing := not jobs.is_empty() and not done
+	_invite_text.visible = not listing
+	_show_jobs(jobs if listing else [])
 	_invite_glyph.kind = "letter" if Invitations.has_unread() else ("yes" if done else "seedling")
 	_invite_glyph.queue_redraw()
-	_invite_heading.text = tr("Done today") if done else tr("Today's Invitation")
+	_invite_heading.text = tr("Done today") if done else (tr("Today's jobs") if listing else tr("Today's Invitation"))
 	_invite_card.add_theme_stylebox_override("panel", _chip_box(Color("e4efd3"), Color("6f9a52")) if done else _chip_box())
-	_invite.set_meta(&"spoken", _invite_heading.text + ". " + _invite_text.text)
+	var spoken := _invite_heading.text + ". "
+	if listing:
+		for j: Dictionary in jobs:
+			spoken += tr(j["text"]) + (" " + tr("(done)") if j["done"] else "") + ". "
+	else:
+		spoken += _invite_text.text
+	_invite.set_meta(&"spoken", spoken)
+	# Finishing the last job, however it happened, is said once, after any
+	# activity has handed control back.
+	if done and not _was_done:
+		_announce_done = true
+	_was_done = done
+	if _announce_done and exploring:
+		_announce_done = false
+		_say_day_done()
 	_map_tile.visible = Discovery.map_unlocked()
 	var target := Interaction.focused
 	_prompt_panel.visible = exploring and target != null
@@ -224,18 +255,43 @@ func _invitation_summary() -> String:
 	return tr("A free day. Go wherever you like.")
 
 
-## True once the work today's letter asked for has been finished today.
+## True once every job today's letter asked for has been finished today.
 func todays_work_done() -> bool:
-	if Invitations.has_unread():
-		return false
-	var latest := Invitations.latest_read()
-	if latest.is_empty() or not Journal.has_entry("invitation", latest, Days.current_day):
-		return false
-	var data := Content.get_invitation(latest)
-	if data.has("done_when"):
-		return WorldState.matches(data["done_when"])
-	var asked := str(data.get("suggests", ""))
-	return not asked.is_empty() and int(WorldState.get_fact("activity.%s.last_day" % asked, 0)) == Days.current_day
+	return TodaysWork.all_done()
+
+
+## Waits for whatever the last job said (a lamb's hop, the hens' grain) to
+## be read, then says the day's work is done.
+func _say_day_done() -> void:
+	await get_tree().process_frame
+	var guard := 0.0
+	while _caption.visible and guard < 12.0:
+		await get_tree().create_timer(0.25).timeout
+		guard += 0.25
+	show_caption(tr("Today's work is done! You can explore, visit the Chapel, or go home and rest in your bed to start a new day."), 8.0)
+
+
+## One line per job: an empty ring, or a green tick once it is done.
+func _show_jobs(jobs: Array) -> void:
+	var key := str(jobs)
+	if key == _jobs_key:
+		return
+	_jobs_key = key
+	for c in _jobs_box.get_children():
+		c.queue_free()
+	_jobs_box.visible = not jobs.is_empty()
+	for j: Dictionary in jobs:
+		var row := HBoxContainer.new()
+		row.add_theme_constant_override("separation", 6)
+		row.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		row.add_child(Icon.Glyph.new("yes" if j["done"] else "todo", 24))
+		var l := UiStyle.label(tr(j["text"]), "SmallLabel")
+		l.custom_minimum_size.x = 270
+		l.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		if j["done"]:
+			l.add_theme_color_override("font_color", Color("6b7f5a"))
+		row.add_child(l)
+		_jobs_box.add_child(row)
 
 
 

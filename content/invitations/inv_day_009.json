@@ -5,5 +5,24 @@
 	"signature": "Mrs. Ruth",
 	"suggests": "pond_creatures",
 	"summary": "Look at the pond creatures with Mrs. Ruth.",
-	"done": "Every creature is back home. Thank you!"
+	"done": "Every creature is back home, and the lambs are fed. Thank you!",
+	"tasks": [
+		{
+			"text": "Look at the pond creatures with Mrs. Ruth",
+			"activity": "pond_creatures"
+		},
+		{
+			"text": "Feed the lambs at the sheepfold",
+			"activity": "sheepfold_hay"
+		},
+		{
+			"text": "Set the table at home",
+			"done_when": [
+				{
+					"fact": "home.table_set_day",
+					"is_today": true
+				}
+			]
+		}
+	]
 }

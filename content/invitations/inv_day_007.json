@@ -5,5 +5,29 @@
 	"signature": "Mr. Tobias, the baker",
 	"suggests": "oven_bake",
 	"summary": "Bake bread with Mr. Tobias at the oven.",
-	"done": "The bread is baked. Thank you for helping!"
+	"done": "The bread is baked, and everyone is greeted and fed. Thank you for helping!",
+	"tasks": [
+		{
+			"text": "Bake bread with Mr. Tobias",
+			"activity": "oven_bake"
+		},
+		{
+			"text": "Say hello to Miss Miriam in her garden",
+			"done_when": [
+				{
+					"fact": "npc.miriam.greeted_day",
+					"is_today": true
+				}
+			]
+		},
+		{
+			"text": "Scatter grain for the hens at home",
+			"done_when": [
+				{
+					"fact": "home.hens_fed_day",
+					"is_today": true
+				}
+			]
+		}
+	]
 }
