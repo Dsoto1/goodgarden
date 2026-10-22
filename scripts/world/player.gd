@@ -218,3 +218,11 @@ func surface() -> String:
 	if (world and world.mood == "chapel") or Discovery.current == "village":
 		return "stone"
 	return "grass"
+
+
+## Where the child is walking to (the final stop), or null when standing or
+## steering with keys.
+func walk_goal() -> Variant:
+	if _walk_target == null:
+		return null
+	return _path[_path.size() - 1] if not _path.is_empty() else _walk_target

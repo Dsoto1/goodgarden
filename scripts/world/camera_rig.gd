@@ -5,11 +5,19 @@ extends Node3D
 ## chapel, vistas). Reduced motion swaps glides for cuts.
 
 ## Over-the-shoulder three-quarter view that shows the horizon, as in the
-## mockup's play screens. Interiors push a higher framing (see Region zones).
-const DEFAULT_FRAMING := {"pitch": 18.0, "distance": 8.5, "yaw": 0.0, "height": 1.5, "fov": 52.0}
+## mockup's play screens, tilted down enough that the ground around the child
+## (paths, people, the next thing to tap) is easy to see. Interiors push a
+## higher framing (see Region zones).
+const DEFAULT_FRAMING := {"pitch": 22.0, "distance": 9.0, "yaw": 0.0, "height": 1.5, "fov": 52.0}
+## How far the view leans toward where the child is walking to.
+const LOOK_AHEAD := 2.0
 
 var target: Node3D
 var camera: Camera3D
+## What the see-through keeps in view (the child, or what is being framed).
+var see_through_target := Vector3.ZERO
+## Off while the map renders the valley from above.
+static var see_through_on := true
 var _zones: Array[Dictionary] = []
 var _focus: Dictionary = {} # {"point": Vector3, "pitch", "distance", "yaw"}
 var _look := Vector3.ZERO
@@ -72,6 +80,14 @@ func _update(delta: float, instant: bool) -> void:
 	for z in _zones:
 		goal.merge(z, true)
 	var look_goal := target.global_position + Vector3(0, goal["height"], 0) if target else Vector3.ZERO
+	# Walking somewhere: lean the view a little toward the destination, so the
+	# child sees where they're going, not just themselves.
+	if target is Player and _focus.is_empty():
+		var dest: Variant = (target as Player).walk_goal()
+		if dest != null:
+			var ahead: Vector3 = dest - target.global_position
+			ahead.y = 0.0
+			look_goal += ahead.limit_length(LOOK_AHEAD)
 	if not _focus.is_empty():
 		goal.merge(_focus, true)
 		look_goal = _focus["point"]
@@ -85,3 +101,14 @@ func _update(delta: float, instant: bool) -> void:
 	camera.global_position = _look + offset * _clearance(_look, offset)
 	camera.fov = _params["fov"]
 	camera.look_at(_look, Vector3.UP)
+	# Tell the storybook shaders what to keep in view (see-through cutaway):
+	# the child, or the people and work being framed.
+	see_through_target = target.global_position + Vector3(0, goal["height"], 0) if target and _focus.is_empty() else _look
+	RenderingServer.global_shader_parameter_set(&"gg_view_from", camera.global_position)
+	RenderingServer.global_shader_parameter_set(&"gg_view_to", see_through_target)
+
+
+## Turns the see-through cutaway on or off (off for the map's view from above).
+static func set_see_through(on: bool) -> void:
+	see_through_on = on
+	RenderingServer.global_shader_parameter_set(&"gg_see_through", 1.0 if on else 0.0)

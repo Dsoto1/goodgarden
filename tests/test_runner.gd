@@ -10,7 +10,7 @@ extends Node
 
 const SAVE_PATH := "user://test_saves/test_garden.json"
 ## Raise this as tests are added; fewer checks means some never ran.
-const MIN_CHECKS := 300
+const MIN_CHECKS := 450
 
 var _failures := 0
 var _checks := 0
@@ -616,6 +616,14 @@ func test_vertical_slice_end_to_end() -> void:
 	var sheep_end := to_sheep[to_sheep.size() - 1] if to_sheep.size() > 0 else Vector3.INF
 	check(Vector2(sheep_end.x, sheep_end.z).distance_to(Vector2(27.5, -22.5)) < 0.5, "the child can walk through the open gate in among the sheep")
 
+	# The camera keeps the child in view: the see-through hole is aimed at them,
+	# and while walking somewhere the view knows where they're going.
+	await frames(2)
+	var aimed: Vector3 = world.rig.see_through_target
+	var child_at := world.player.global_position
+	check(Vector2(aimed.x, aimed.z).distance_to(Vector2(child_at.x, child_at.z)) < 0.6 and aimed.y > child_at.y, "the see-through is aimed at the child")
+	check(world.player.walk_goal() == null, "standing still, no destination")
+
 	# 1-2. Read the invitation at home.
 	var letter := _interactable("Read the letter")
 	check(letter != null and letter.is_available(), "letter is available at home")
@@ -978,6 +986,7 @@ func test_vertical_slice_end_to_end() -> void:
 	await frames(3)
 	var map := _find(main, MapPanel) as MapPanel
 	check(map != null, "the map opens")
+	check(not CameraRig.see_through_on, "seen from above, nothing is cut away")
 	if map:
 		var home_at := map.map_point(Vector3.ZERO)
 		var village_at := map.map_point(Vector3(6, 0, -27))
@@ -987,6 +996,7 @@ func test_vertical_slice_end_to_end() -> void:
 		check(_find(map, MapPanel.YouAreHere) != null, "the map shows where the child is")
 		map.close()
 		await frames(2)
+		check(CameraRig.see_through_on, "and the see-through returns after the map")
 	# Save and stop through the real buttons, as a child or parent would.
 	var day_before := Days.current_day
 	main.open_pause()
@@ -1095,6 +1105,7 @@ func _walk_and_use(world: World, target: Interactable) -> void:
 		check(false, "interactable exists")
 		return
 	world.player.walk_to(target.approach_point(world.player.global_position), target)
+	check(world.player.walk_goal() != null, "walking to '%s', the camera knows where to" % target.prompt)
 	var t := 0.0
 	while GameState.is_exploring() and t < 30.0:
 		await get_tree().physics_frame

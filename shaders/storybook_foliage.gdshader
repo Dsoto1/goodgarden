@@ -14,9 +14,11 @@ uniform float root_shade = 1.0;
 global uniform float gg_wind;
 
 varying float height_frac;
+varying vec3 world_pos;
 
 void vertex() {
 	vec3 world = (MODEL_MATRIX * vec4(VERTEX, 1.0)).xyz;
+	world_pos = world;
 	// Sway grows with height above the plant's base, so trunks and roots stay put.
 	float h = clamp((world.y - MODEL_MATRIX[3].y) / 4.0, 0.0, 1.0);
 	height_frac = clamp((world.y - MODEL_MATRIX[3].y) / 0.45, 0.0, 1.0);
@@ -26,6 +28,9 @@ void vertex() {
 }
 
 void fragment() {
+	if (see_through_cut(world_pos, FRAGCOORD.xy)) {
+		discard;
+	}
 	vec4 c = albedo_color;
 	if (use_texture) {
 		c *= texture(albedo_texture, UV);

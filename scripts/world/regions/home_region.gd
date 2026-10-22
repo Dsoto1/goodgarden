@@ -89,7 +89,8 @@ func build() -> void:
 	CraftedProps.flower_pot(self, Vector3(-3.6, 0, 4.0), "flower_blue", 1.1)
 	CraftedProps.woodpile(self, Vector3(-4.75, 0, -1.9), PI / 2.0)
 	CraftedProps.chopping_block(self, Vector3(-5.5, 0, -3.6), 0.6)
-	CraftedProps.clothesline(self, Vector3(-1.0, 0, 8.2), Vector3(3.2, 0, 8.6))
+	# The washing hangs in the back garden, never between the camera and the door.
+	CraftedProps.clothesline(self, Vector3(-1.6, 0, -5.6), Vector3(2.6, 0, -5.9))
 	var cat := Wanderer.new().setup(AnimalModel.make("cat"), 3)
 	cat.position = Vector3(1.8, 0, 5.2)
 	cat.radius = 1.2
@@ -124,15 +125,39 @@ func _cottage_details(cutaway: Node3D) -> void:
 		MeshKit.box(cutaway, Vector3(3.3, 0.16, 0.08), Vector3(x, 2.5, 3.12), "wood_dark")
 		MeshKit.box(cutaway, Vector3(3.3, 0.4, 0.22), Vector3(x, 0.2, 3.05), "stone")
 		_window_trim(cutaway, Vector3(x, 1.5, 3.14), 0.0, 0.9)
-	# Door frame and an open door leaf.
-	for x: float in [-0.75, 0.75]:
-		MeshKit.box(cutaway, Vector3(0.14, 2.1, 0.26), Vector3(x, 1.05, 3.05), "wood_dark")
-	var door := MeshKit.box(self, Vector3(1.3, 2.0, 0.08), Vector3(-1.2, 1.0, 3.55), "wood", false, -1.2)
-	door.name = "DoorLeaf"
+	_front_door(cutaway)
 	MeshKit.box(cutaway, Vector3(0.3, 0.12, 9.2), Vector3(0, 4.5, 0), "wood_dark").rotation.y = PI / 2.0
 	var smoke := _chimney_smoke()
 	smoke.position = Vector3(2.4, 4.9, -1.2)
 	cutaway.add_child(smoke)
+
+
+## The front door: a framed doorway with a lintel, a plank door on iron
+## hinges swung open, a round handle, a little roofed hood on brackets and a
+## lantern, so it clearly reads as the way in.
+func _front_door(cutaway: Node3D) -> void:
+	for x: float in [-0.75, 0.75]:
+		MeshKit.box(cutaway, Vector3(0.16, 2.2, 0.28), Vector3(x, 1.1, 3.06), "wood_dark")
+	MeshKit.box(cutaway, Vector3(1.7, 0.18, 0.3), Vector3(0, 2.25, 3.06), "wood_dark")
+	# The door, hinged on the left post and swung out, away from the window.
+	var leaf := Node3D.new()
+	leaf.name = "DoorLeaf"
+	leaf.position = Vector3(-0.66, 0.08, 3.24)
+	leaf.rotation.y = -2.0
+	add_child(leaf)
+	for i in 4:
+		MeshKit.box(leaf, Vector3(0.315, 2.0, 0.06), Vector3(0.17 + i * 0.33, 1.0, 0), "wood" if i % 2 == 0 else "wood_light")
+	for y: float in [0.35, 1.65]:
+		MeshKit.box(leaf, Vector3(1.24, 0.14, 0.05), Vector3(0.66, y, -0.05), "wood_dark")
+		MeshKit.box(leaf, Vector3(0.62, 0.06, 0.02), Vector3(0.31, y, 0.04), "dark") # iron strap hinge
+	MeshKit.sphere(leaf, 0.06, Vector3(1.16, 1.0, 0.07), "gold", Vector3.ONE, 8, 4)
+	# A little roofed hood over the door, on two brackets.
+	MeshKit.roof(cutaway, 1.9, 0.42, 0.95, Vector3(0, 2.62, 3.62), "roof_red")
+	for x: float in [-0.78, 0.78]:
+		var bracket := MeshKit.box(cutaway, Vector3(0.08, 0.08, 0.7), Vector3(x, 2.25, 3.42), "wood_dark")
+		bracket.rotation.x = 0.6
+	MeshKit.box(self, Vector3(0.16, 0.22, 0.16), Vector3(1.15, 1.95, 3.24), "lantern")
+	MeshKit.box(self, Vector3(0.06, 0.06, 0.16), Vector3(1.15, 2.1, 3.16), "wood_dark")
 
 
 ## Frame, shutters and a flower box around a window centred at `at`.

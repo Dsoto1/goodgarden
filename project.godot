@@ -75,6 +75,18 @@ gg_light_scale={
 "type": "float",
 "value": 0.3183
 }
+gg_view_from={
+"type": "vec3",
+"value": Vector3(0, 0, 0)
+}
+gg_view_to={
+"type": "vec3",
+"value": Vector3(0, 0, 0)
+}
+gg_see_through={
+"type": "float",
+"value": 1.0
+}
 
 [rendering]
 

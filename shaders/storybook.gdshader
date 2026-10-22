@@ -19,6 +19,9 @@ void vertex() {
 }
 
 void fragment() {
+	if (see_through_cut(world_pos, FRAGCOORD.xy)) {
+		discard;
+	}
 	vec4 c = albedo_color;
 	if (use_texture) {
 		c *= texture(albedo_texture, UV);

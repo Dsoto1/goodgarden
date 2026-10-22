@@ -27,6 +27,9 @@ var _taken: Array[Rect2] = [] # cards already placed, so neighbours don't cover 
 
 func show_map() -> void:
 	open(VIEW.x + 60, Color("efe0bb"))
+	# Seen from above, the whole valley shows: no see-through hole round the child.
+	CameraRig.set_see_through(false)
+	closed.connect(func() -> void: CameraRig.set_see_through(true))
 	var top := HBoxContainer.new()
 	content.add_child(top)
 	var title := UiStyle.label(tr("The Valley"), "HeadingLabel")
