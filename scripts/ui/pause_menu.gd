@@ -22,11 +22,14 @@ func show_menu() -> void:
 
 
 func _ask_to_stop() -> void:
+	# The answer must not belong to this menu: it is freed as soon as it closes,
+	# and a "Yes" tied to it would silently do nothing.
+	var main := get_tree().get_first_node_in_group("main")
+	var parent := get_parent()
 	close()
 	var card := ConfirmCard.new()
-	get_parent().add_child(card)
-	card.ask(tr("Stop playing for now? Your garden will be saved."), tr("Yes, stop"), tr("Keep playing"), func() -> void:
-		get_tree().call_group("main", "quit_to_title"))
+	parent.add_child(card)
+	card.ask(tr("Stop playing for now? Your garden will be saved."), tr("Yes, stop"), tr("Keep playing"), Callable(main, "quit_to_title"))
 
 
 func _sub(method: String) -> void:

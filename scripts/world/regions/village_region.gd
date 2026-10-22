@@ -3,11 +3,15 @@ extends Region
 ## the workshop and houses around its edge, neighbours about their day, and
 ## the north road to an overlook where Bellhaven can be seen.
 
-## The market square's outline (x, z), irregular like a real village's.
-const SQUARE: Array[Vector2] = [
-	Vector2(-6.9, -5.4), Vector2(-2.6, -6.6), Vector2(2.9, -6.8), Vector2(6.8, -5.0), Vector2(7.6, -1.0),
-	Vector2(7.0, 3.4), Vector2(4.8, 6.2), Vector2(1.6, 7.0), Vector2(-2.2, 6.6), Vector2(-5.4, 5.6),
-	Vector2(-7.4, 2.4), Vector2(-7.8, -1.8),
+## The market square: an even octagon of cobbles (corner radius, metres).
+const SQUARE_RADIUS := 7.4
+## Stalls in two tidy rows facing each other across the fountain:
+## [position, awning, goods on the counter].
+const STALLS := [
+	[Vector3(-4.6, 0, -2.3), "awning_blue", ["bread"]],
+	[Vector3(-4.6, 0, 2.3), "awning_red", ["crate_carrots", "crate_lettuce"]],
+	[Vector3(4.6, 0, -2.3), "awning_green", ["crate_carrots", "crate_open"]],
+	[Vector3(4.6, 0, 2.3), "awning_red", ["crate_lettuce", "crate_carrots"]],
 ]
 
 var _baking: Node3D # the fire and fresh loaves, on baking day
@@ -16,33 +20,30 @@ var _villagers := {}
 
 
 func build() -> void:
-	# The market square, like the concept art's: cobbles in an uneven shape
-	# rather than a circle, the fountain at its heart, stalls gathered close
-	# round it, and the south side open to the road from the bridge.
-	_square(SQUARE)
+	# The market square: an even octagon of cobbles with the fountain at its
+	# heart, stalls in two rows facing each other across it, and the south side
+	# open to the road from the bridge.
+	var square := square_outline()
+	_square(square)
 	_fountain(Vector3(0, 0, 0))
 	SoundSpot.looping(self, "fountain", Vector3(0, 1.0, 0), 13.0, -6.0)
 	SoundSpot.calling(self, "hens", Vector3(14.3, 0.4, 9.8), 18.0, Vector2(9, 20), -8.0)
 	Props.place(self, "well", Vector3(6.4, 0, 6.0), -0.6, 0.85)
-	var stalls := [
-		[Vector3(-4.2, 0, 2.7), "awning_red", ["crate_carrots", "crate_lettuce"]],
-		[Vector3(-4.6, 0, -2.4), "awning_blue", ["bread"]],
-		[Vector3(4.5, 0, -2.6), "awning_green", ["crate_carrots", "crate_open"]],
-		[Vector3(3.9, 0, 3.1), "awning_red", ["crate_lettuce", "crate_carrots"]],
-	]
-	var stock := ["barrel", "crate", "sack", "barrel"]
-	for i in stalls.size():
-		var at: Vector3 = stalls[i][0]
-		_stall(at, atan2(-at.x, -at.z), stalls[i][1], stalls[i][2])
-		# Spare stock stacked behind each stall.
-		Props.place(self, stock[i], at * 1.36, i * 0.8)
-		Props.place(self, "sack", at * 1.34 + Vector3(0.7, 0, 0.4).rotated(Vector3.UP, i * 1.6), i * 1.1)
-	for b: Array in [[Vector3(-1.9, 0, -3.6), 0.55], [Vector3(2.2, 0, 4.0), PI + 0.55]]:
-		_bench(b[0], b[1])
-	# Lanterns stand at the square's corners, not in a perfect ring.
-	for k in [0, 2, 3, 5, 8, 10]:
-		var corner: Vector2 = SQUARE[k]
-		_lantern(Vector3(corner.x, 0, corner.y) * 0.94)
+	for i in STALLS.size():
+		var at: Vector3 = STALLS[i][0]
+		var side := signf(at.x)
+		# West stalls face east, east stalls face west: both toward the fountain.
+		_stall(at, -side * PI / 2.0, STALLS[i][1], STALLS[i][2])
+		# Spare stock stacked neatly behind each stall, on the cobbles.
+		Props.place(self, ["barrel", "crate", "barrel", "crate"][i], at + Vector3(side * 1.05, 0, -0.45), 0.0)
+		Props.place(self, "sack", at + Vector3(side * 1.05, 0, 0.45), side * 0.3)
+	# Two benches on the south side, facing the fountain, either side of the road in.
+	for x: float in [-2.6, 2.6]:
+		_bench(Vector3(x, 0, 4.3), 0.0)
+	# A lantern at every other corner.
+	for k in [1, 3, 5, 7]:
+		var corner: Vector2 = square[k]
+		_lantern(Vector3(corner.x, 0, corner.y) * 0.92)
 
 	_building("market", Vector3(-7.5, 0, -12.5), 0.0, "Bakery", 3.2)
 	# Tobias's work outside the bakery: the kneading trough, and the
@@ -75,8 +76,6 @@ func build() -> void:
 	var west_cottage := CraftedProps.cottage(self, Vector3(-14.0, 0, 4.2), PI / 2.0 + 0.08, 5, Vector2(3.2, 3.2), "roof_thatch")
 	add_clearing(west_cottage.position, Vector2(4.6, 4.6))
 	_bunting(Vector3(-3.0, 3.7, -9.4), Vector3(4.2, 3.7, -9.8))
-	_bunting(Vector3(-9.8, 3.4, -3.0), Vector3(-9.8, 3.4, 2.4))
-	_bunting(Vector3(10.6, 3.4, -3.2), Vector3(10.6, 3.4, 2.2))
 	for p: Array in [[-9.4, 3.4], [9.0, -4.6], [-10.6, -4.4], [9.6, -7.4]]:
 		_planter(Vector3(p[0], 0, p[1]))
 	Props.place(self, "lumber", Vector3(12.0, 0, -5.4), 0.4, 0.8)
@@ -146,6 +145,15 @@ func build() -> void:
 
 
 ## Cobbles laid in the square's outline, edged with a kerb of larger stones.
+## The square's corners, an even octagon with flat sides facing the four roads.
+static func square_outline() -> Array[Vector2]:
+	var pts: Array[Vector2] = []
+	for k in 8:
+		var a := PI / 8.0 + k * PI / 4.0
+		pts.append(Vector2(cos(a), sin(a)) * SQUARE_RADIUS)
+	return pts
+
+
 func _square(outline: Array[Vector2]) -> void:
 	var pts := PackedVector2Array(outline)
 	var tris := Geometry2D.triangulate_polygon(pts)
@@ -155,7 +163,9 @@ func _square(outline: Array[Vector2]) -> void:
 	for i in tris.size():
 		var q := pts[tris[i]]
 		st.set_uv(q / 4.0)
-		st.add_vertex(Vector3(q.x, 0.03, q.y))
+		# Above the paths (laid at 0.03) that run into it, so where they meet the
+		# square covers them instead of flickering against them.
+		st.add_vertex(Vector3(q.x, 0.055, q.y))
 	MeshKit._instance(self, st.commit(), Vector3.ZERO, "cobble")
 	for i in pts.size():
 		var a := pts[i]

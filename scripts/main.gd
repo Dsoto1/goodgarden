@@ -315,6 +315,8 @@ func _on_activity_finished(def: ActivityDefinition, completed: bool) -> void:
 	if world:
 		world.rig.release_focus()
 	_activity_focus = null
+	if completed and hud and hud.todays_work_done() and not def.is_reflection():
+		show_caption(tr("Today's work is done! You can explore, visit the Chapel, or go home and rest in your bed to start a new day."), 8.0)
 	# The at-home idea is kept in the journal for a grown-up, not shown here: in
 	# the moment it read like a new task ("set the table" right after setting it).
 

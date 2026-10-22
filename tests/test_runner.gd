@@ -984,6 +984,26 @@ func test_vertical_slice_end_to_end() -> void:
 		check(_find(map, MapPanel.YouAreHere) != null, "the map shows where the child is")
 		map.close()
 		await frames(2)
+	# Save and stop through the real buttons, as a child or parent would.
+	var day_before := Days.current_day
+	main.open_pause()
+	await frames(2)
+	var pause := _find(main, PauseMenu) as PauseMenu
+	check(pause != null, "the Pause tile opens the menu")
+	if pause:
+		var stop: Button = pause.find_children("*", "Button", true, false).filter(func(b: Node) -> bool: return (b as Button).text == "Save and stop playing")[0]
+		stop.pressed.emit()
+		await frames(2)
+		var ask := _find(main, ConfirmCard) as ConfirmCard
+		check(ask != null, "stopping asks first")
+		if ask:
+			var yes: Button = ask.find_children("*", "Button", true, false).filter(func(b: Node) -> bool: return (b as Button).text == "Yes, stop")[0]
+			yes.pressed.emit()
+			await frames(3)
+	check(main.world == null, "Yes, stop saves and goes back to the title")
+	check(SaveService.has_save(), "the garden was saved")
+	check(main.continue_game() and Days.current_day == day_before, "and continues on the same day")
+	await frames(3)
 	main.quit_to_title()
 	await frames(2)
 	main.queue_free()

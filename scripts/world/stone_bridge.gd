@@ -9,7 +9,7 @@ extends RefCounted
 
 const LENGTH := 7.8 # along the crossing
 const WIDTH := 3.2
-const DECK_END := 0.06
+const DECK_END := 0.1 # clearly above the paths (0.03) that run onto it
 const DECK_PEAK := 0.95
 const SPAN := 5.2 # arch opening along Z
 const SPRING := -0.6 # where the arch meets the water
@@ -64,7 +64,7 @@ static func build(parent: Node3D, at: Vector3, yaw := 0.0) -> Node3D:
 			_quad(ring, Vector3(xi - side * 0.04, d0 + PARAPET, z0), Vector3(xi - side * 0.04, d1 + PARAPET, z1), Vector3(x + side * 0.05, d1 + PARAPET, z1), Vector3(x + side * 0.05, d0 + PARAPET, z0), Vector3.UP)
 			# Voussoir ring: a darker band of wedge stones around the arch.
 			if arch_y(z0) > -1.0 and arch_y(z1) > -1.0:
-				var xr := x + side * 0.03
+				var xr := x + side * 0.08 # well proud of the wall, or the two flicker
 				_quad(ring, Vector3(xr, b0, z0), Vector3(xr, b1, z1), Vector3(xr, b1 + 0.3, z1), Vector3(xr, b0 + 0.3, z0), n)
 		# Cobbled deck between the parapets.
 		_quad(deck, Vector3(-inner, d0, z0), Vector3(inner, d0, z0), Vector3(inner, d1, z1), Vector3(-inner, d1, z1), Vector3.UP)
@@ -87,9 +87,11 @@ static func build(parent: Node3D, at: Vector3, yaw := 0.0) -> Node3D:
 	# Corner pillars with caps.
 	for sx: float in [-1.0, 1.0]:
 		for sz: float in [-1.0, 1.0]:
-			var p := Vector3(sx * (half_w - 0.05), 0, sz * (LENGTH / 2.0 - 0.15))
-			MeshKit.box(root, Vector3(0.5, deck_y(p.z) + PARAPET + 0.35, 0.5), p + Vector3(0, (deck_y(p.z) + PARAPET + 0.35) / 2.0, 0), "stone_dark")
-			MeshKit.box(root, Vector3(0.62, 0.12, 0.62), p + Vector3(0, deck_y(p.z) + PARAPET + 0.41, 0), "stone")
+			# Pillars stand proud of the parapet on both faces: flush faces of two
+			# stone colours flickered against each other.
+			var p := Vector3(sx * (half_w - 0.08), 0, sz * (LENGTH / 2.0 - 0.15))
+			MeshKit.box(root, Vector3(0.6, deck_y(p.z) + PARAPET + 0.35, 0.5), p + Vector3(0, (deck_y(p.z) + PARAPET + 0.35) / 2.0, 0), "stone_dark")
+			MeshKit.box(root, Vector3(0.72, 0.12, 0.62), p + Vector3(0, deck_y(p.z) + PARAPET + 0.41, 0), "stone")
 	_colliders(root, inner)
 	return root
 

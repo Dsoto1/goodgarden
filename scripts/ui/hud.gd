@@ -94,7 +94,8 @@ func _ready() -> void:
 	_map_tile = Icon.Tile.new("map", tr("Map"))
 	_map_tile.pressed.connect(func() -> void: get_tree().call_group("main", "open_map"))
 	_tiles.add_child(_map_tile)
-	var settings := Icon.Tile.new("settings", tr("Settings"))
+	# Opens the pause menu (keep playing, settings, grown-ups, save and stop).
+	var settings := Icon.Tile.new("pause", tr("Pause"))
 	settings.pressed.connect(func() -> void: get_tree().call_group("main", "open_pause"))
 	_tiles.add_child(settings)
 	_tiles.set_anchors_and_offsets_preset(Control.PRESET_BOTTOM_RIGHT, Control.PRESET_MODE_MINSIZE, 16)
@@ -217,7 +218,8 @@ func _invitation_summary() -> String:
 	var data := Content.get_invitation(latest)
 	if not latest.is_empty() and Journal.has_entry("invitation", latest, Days.current_day):
 		if todays_work_done():
-			return tr(str(data.get("done", "All done. Thank you for helping!")))
+			# Say what comes next, so a finished day never leaves the child wondering.
+			return tr(str(data.get("done", "All done. Thank you for helping!"))) + "\n" + tr("When you're ready, rest in your bed at home for a new day.")
 		return tr(str(data.get("summary", "Read your letter again.")))
 	return tr("A free day. Go wherever you like.")
 

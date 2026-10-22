@@ -18,8 +18,9 @@ without help tells us what the game needs.
 - Words are read aloud with the computer's own reading voice. If the game
   says there is no reading voice, the child can still play; a grown-up can
   read the letters aloud.
-- The game saves by itself. **Settings** (on the title screen, or the cog in
-  the game) holds the work level (younger / older) and the grown-ups' panel.
+- The game saves by itself. The **Pause** tile (bottom right) holds Settings,
+  the grown-ups' panel (work level: younger / older), and **Save and stop
+  playing**, which returns to the title. Settings are also on the title screen.
 - Plan for one in-game day per sitting (about 10–20 minutes). Days 1–11 are
   ready. Resting in bed ends the day.
 

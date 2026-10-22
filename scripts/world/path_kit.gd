@@ -17,8 +17,12 @@ static func lay(parent: Node3D, points: Array, width: float, material: String, s
 	noise.seed = seed_value
 	noise.frequency = 0.35
 	var base := parent.global_position if parent.is_inside_tree() else Vector3.ZERO
+	# Cobbled roads lie a little above dirt paths (and below the village square,
+	# at 0.055), so where different surfaces cross, one cleanly covers the
+	# other instead of flickering.
+	var lift := 0.045 if material == "cobble" else 0.03
 	var height := func(p: Vector3) -> float:
-		return Terrain.height(base.x + p.x, base.z + p.z) - base.y + 0.03 if parent.is_inside_tree() else 0.03
+		return Terrain.height(base.x + p.x, base.z + p.z) - base.y + lift if parent.is_inside_tree() else lift
 	var st := SurfaceTool.new()
 	st.begin(Mesh.PRIMITIVE_TRIANGLES)
 	st.set_normal(Vector3.UP)
