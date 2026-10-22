@@ -76,7 +76,7 @@ func build() -> void:
 	CraftedProps.mustard_plant(self, Vector3(5.2, 0, 1.6), 11, 1.9)
 	CraftedProps.mustard_plant(self, Vector3(5.5, 0, 2.5), 5, 1.4)
 	var mustard := Interactable.create(self, Vector3(4.6, 0, 2.0), "Look at the mustard plant", func() -> void:
-		get_tree().call_group("main", "show_caption", tr("Miriam's mustard plant. It grew from a seed smaller than a crumb, and now it is taller than you!")), 0.6, 2.1)
+		get_tree().call_group("main", "show_caption", tr("Miss Miriam's mustard plant. It grew from a seed smaller than a crumb, and now it is taller than you!")), 0.6, 2.1)
 	mustard.reach = 1.6
 	# Bees for the beans' flowers, just outside the fence.
 	CraftedProps.bee_skeps(self, Vector3(-1.2, 0, -8.4), PI)

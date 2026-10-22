@@ -65,12 +65,18 @@ func _spoken_page() -> String:
 	for e in entries:
 		match e["kind"]:
 			"invitation":
-				parts.append(tr("A letter from Miriam:") + " " + str(e["text"]))
+				parts.append(_letter_heading(e) + " " + str(e["text"]))
 			"work":
 				parts.append(str(e["text"]))
 			"real_world":
 				parts.append(tr("Something to try at home:") + " " + str(e["text"]))
 	return " ".join(parts)
+
+
+## "A letter from Miss Miriam:", naming whoever wrote it.
+func _letter_heading(e: Dictionary) -> String:
+	var sender := str(Content.get_invitation(str(e.get("ref", ""))).get("from", "miriam"))
+	return tr("A letter from %s:") % Dialogue.character_name(sender)
 
 
 func _render() -> void:
@@ -86,7 +92,7 @@ func _render() -> void:
 	for e in entries:
 		match e["kind"]:
 			"invitation":
-				_page.add_child(UiStyle.label(tr("A letter from Miriam:"), "SmallLabel"))
+				_page.add_child(UiStyle.label(_letter_heading(e), "SmallLabel"))
 				var l := UiStyle.label(e["text"])
 				l.add_theme_color_override("font_color", Color("5a4636"))
 				_page.add_child(l)

@@ -20,7 +20,7 @@
 		},
 		{
 			"id": "garden",
-			"name": "Miriam's Garden",
+			"name": "Miss Miriam's Garden",
 			"scene": "res://scenes/world/regions/garden.tscn",
 			"origin": [14, 0, 3],
 			"on_map": true,

@@ -349,12 +349,12 @@ func test_young_child_access() -> void:
 	counter.free()
 	# Manners: the child greets a grown-up, says goodbye, and answers politely.
 	check(Dialogue.start("ruth"), "talk to Ruth")
-	eq(Dialogue.current_line()["reply"], "Hello, Ruth!", "the child greets Ruth first")
+	eq(Dialogue.current_line()["reply"], "Hello, Mrs. Ruth!", "the child greets Mrs. Ruth first")
 	Dialogue.advance()
-	eq(Dialogue.current_line()["reply"], "Goodbye, Ruth!", "and says goodbye at the end")
+	eq(Dialogue.current_line()["reply"], "Goodbye, Mrs. Ruth!", "and says goodbye at the end")
 	Dialogue.advance()
 	check(Dialogue.start("ruth"), "talk to Ruth again")
-	check(Dialogue.current_line()["reply"] != "Hello, Ruth!", "only one hello a day")
+	check(Dialogue.current_line()["reply"] != "Hello, Mrs. Ruth!", "only one hello a day")
 	Dialogue.end()
 	for f in ["miriam", "tobias"]:
 		for node: Dictionary in Content.get_dialogue(f).get("nodes", {}).values():
@@ -757,7 +757,7 @@ func test_vertical_slice_end_to_end() -> void:
 	await main.rest_until_morning()
 	await frames(3)
 	eq(Invitations.pending_id, "inv_day_007", "day 7: baking day")
-	var oven := ActivityRunner.workspace if await _start_from("Bake bread with Tobias") else null
+	var oven := ActivityRunner.workspace if await _start_from("Bake bread with Mr. Tobias") else null
 	if oven:
 		var load := oven.current_step()
 		for slot: DropSlot in load.slots:

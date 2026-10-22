@@ -16,7 +16,7 @@
 		{"not": {"fact": "valley.lambs_fed", "is_today": true}}
 	],
 	"intro": [
-		{"speaker": "narrator", "text": "Here are the lambs' troughs. The lambs are hungry, just as Ruth said!"},
+		{"speaker": "narrator", "text": "Here are the lambs' troughs. The lambs are hungry, just as Mrs. Ruth said!"},
 		{"speaker": "narrator", "text": "Let's share the hay fairly, so every trough has the same."}
 	],
 	"steps": [

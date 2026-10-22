@@ -2,7 +2,7 @@
 	"id": "characters",
 	"characters": {
 		"miriam": {
-			"name": "Miriam",
+			"name": "Miss Miriam",
 			"role": "Neighbor and gardener; the child's primary guide.",
 			"look": {
 				"skin": "skin_1",
@@ -20,7 +20,7 @@
 			}
 		},
 		"tobias": {
-			"name": "Tobias",
+			"name": "Mr. Tobias",
 			"role": "The village baker.",
 			"look": {
 				"skin": "skin_4",
@@ -36,7 +36,7 @@
 			}
 		},
 		"ruth": {
-			"name": "Ruth",
+			"name": "Mrs. Ruth",
 			"role": "A neighbor often found at the well.",
 			"look": {
 				"skin": "skin_3",

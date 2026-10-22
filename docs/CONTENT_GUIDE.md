@@ -110,6 +110,7 @@ Positions are in **board units** (1000 × 560); the workspace scales the board t
 - Real-world invitations are optional and never penalized.
 - Manners and respect for elders run through everything, shown rather than preached:
   - The child greets grown-ups, says please and thank you, and answers thanks with "You're welcome".
+  - Grown-ups are named with a title everywhere the child hears or says it: Miss Miriam, Mr. Tobias, Mrs. Ruth (the display names in `characters.json`). The grown-ups use the titles for each other too.
   - The child's choices are always polite, including saying no ("Not yet, thank you.").
   - Grown-ups model the same manners: they ask with "would you please", thank the child, and speak to them kindly.
   - Elders are spoken of with warmth and respect: their stories, their work and their wisdom are worth listening to.

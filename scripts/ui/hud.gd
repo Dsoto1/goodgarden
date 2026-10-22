@@ -201,7 +201,7 @@ func _invitation_summary() -> String:
 	var latest := Invitations.latest_read()
 	var data := Content.get_invitation(latest)
 	if not latest.is_empty() and Journal.has_entry("invitation", latest, Days.current_day):
-		return tr(str(data.get("summary", "Read Miriam's letter again.")))
+		return tr(str(data.get("summary", "Read your letter again.")))
 	return tr("A free day. Go wherever you like.")
 
 

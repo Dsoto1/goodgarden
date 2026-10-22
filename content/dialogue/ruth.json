@@ -44,10 +44,10 @@
 		},
 		"beans": {
 			"mood": "joy",
-			"text": "Miriam tells me you planted beans with her. When they come in, maybe we'll all share a supper."
+			"text": "Miss Miriam tells me you planted beans with her. When they come in, maybe we'll all share a supper."
 		},
 		"bread": {
-			"reply": "You're welcome, Ruth!",
+			"reply": "You're welcome, Mrs. Ruth!",
 			"mood": "joy",
 			"text": "Was it you who filled our bread basket? Two rolls, one for me and one for my husband. Thank you, little one."
 		},
@@ -66,7 +66,7 @@
 			]
 		},
 		"lambs_fed": {
-			"reply": "You're welcome, Ruth!",
+			"reply": "You're welcome, Mrs. Ruth!",
 			"mood": "joy",
 			"text": "You fed my lambs! Every trough had the same, so nobody went hungry. Thank you, little one."
 		}

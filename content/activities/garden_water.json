@@ -41,13 +41,13 @@
 		}
 	],
 	"outro": [
-		{"speaker": "miriam", "text": "Look! They're standing up tall again. Tomorrow, they'll be even stronger.", "button": "Thank you, Miriam"}
+		{"speaker": "miriam", "text": "Look! They're standing up tall again. Tomorrow, they'll be even stronger.", "button": "Thank you, Miss Miriam"}
 	],
 	"world_effects": [
 		{"op": "set", "fact": "garden.watered", "value": "$day"}
 	],
 	"replay": "free",
 	"real_world_invitation": "rw_water_plant",
-	"journal_line": "I watered the bean plants with Miriam: two drops for each plant.",
+	"journal_line": "I watered the bean plants with Miss Miriam: two drops for each plant.",
 	"unavailable_text": "The beans have had their water today. They'll be thirsty again tomorrow."
 }

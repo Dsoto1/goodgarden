@@ -45,13 +45,13 @@
 	],
 	"outro": [
 		{"speaker": "tobias", "text": "Smell that! This bread started as grain at the mill. Now it is warm bread, ready to eat."},
-		{"speaker": "tobias", "text": "Take a loaf home for supper. Bread is better when it's shared.", "button": "Thank you, Tobias"}
+		{"speaker": "tobias", "text": "Take a loaf home for supper. Bread is better when it's shared.", "button": "Thank you, Mr. Tobias"}
 	],
 	"world_effects": [
 		{"op": "set", "fact": "village.baked_day", "value": "$day"}
 	],
 	"replay": "free",
 	"real_world_invitation": "rw_bake_together",
-	"journal_line": "I baked bread with Tobias. I put each loaf in the oven, in the place that fit its shape.",
+	"journal_line": "I baked bread with Mr. Tobias. I put each loaf in the oven, in the place that fit its shape.",
 	"unavailable_text": "The oven is full of baking bread. It smells wonderful!"
 }

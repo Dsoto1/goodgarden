@@ -93,7 +93,7 @@
 			"text": "Each day they'll stretch a little taller. I wonder how tall they'll be by summer."
 		},
 		"table": {
-			"reply": "Thank you, Miriam!",
+			"reply": "Thank you, Miss Miriam!",
 			"mood": "joy",
 			"text": "I passed your house and saw the table all set for supper. What a lovely welcome!",
 			"actions": [
@@ -108,7 +108,7 @@
 		},
 		"taller_2": {
 			"mood": "gentle",
-			"text": "I smelled fresh bread on the way here. I think Tobias could use a helper this morning."
+			"text": "I smelled fresh bread on the way here. I think Mr. Tobias could use a helper this morning."
 		},
 		"mustard_wonder": {
 			"mood": "wonder",
@@ -125,7 +125,7 @@
 			]
 		},
 		"watered": {
-			"reply": "You're welcome, Miriam!",
+			"reply": "You're welcome, Miss Miriam!",
 			"mood": "joy",
 			"text": "Thank you for watering the beans! Look, there are little green beans hanging down now."
 		}

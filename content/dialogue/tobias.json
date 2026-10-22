@@ -57,7 +57,7 @@
 	],
 	"nodes": {
 		"hello": {
-			"text": "Good day! I'm Tobias. I bake the bread for the whole village.",
+			"text": "Good day! I'm Mr. Tobias. I bake the bread for the whole village.",
 			"next": "bellhaven",
 			"actions": [
 				{"op": "set_fact", "fact": "npc.tobias.met", "value": true}
@@ -70,7 +70,7 @@
 		"again": {"mood": "gentle", "text": "Hello again! The bread is rising. Good things take a little time, don't they?"},
 		"hello_bread": {
 			"mood": "joy",
-			"text": "You came! I'm Tobias, the baker. Thank you for reading my letter.",
+			"text": "You came! I'm Mr. Tobias, the baker. Thank you for reading my letter.",
 			"next": "bread_offer",
 			"actions": [
 				{"op": "set_fact", "fact": "npc.tobias.met", "value": true}
@@ -92,9 +92,9 @@
 		"bread_go": {"mood": "joy", "text": "Wonderful. Come and stand by the table with me."},
 		"bread_later": {"mood": "gentle", "text": "That's all right. The baskets will wait here by the bakery."},
 		"bread_thanks": {
-			"reply": "You're welcome, Tobias!",
+			"reply": "You're welcome, Mr. Tobias!",
 			"mood": "joy",
-			"text": "Ruth just came by for her basket. She said it was exactly right! Bread is better when it's shared."
+			"text": "Mrs. Ruth just came by for her basket. She said it was exactly right! Bread is better when it's shared."
 		},
 		"leaven_wonder": {
 			"mood": "thinking",
@@ -111,12 +111,12 @@
 			]
 		},
 		"flour": {
-			"reply": "I will! Thank you, Tobias.",
+			"reply": "I will! Thank you, Mr. Tobias.",
 			"mood": "joy",
 			"text": "You brought the flour! And it weighs just right. Tomorrow, come and bake it with me."
 		},
 		"baked": {
-			"reply": "Thank you for teaching me, Tobias!",
+			"reply": "Thank you for teaching me, Mr. Tobias!",
 			"mood": "joy",
 			"text": "Our bread! From grain, to flour, to warm loaves. Thank you for helping every step of the way."
 		}

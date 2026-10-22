@@ -41,8 +41,8 @@
 	"outro": [
 		{
 			"speaker": "tobias",
-			"text": "Every family has bread now! Two rolls are left over. One for you, and one for Miriam.",
-			"button": "Thank you, Tobias"
+			"text": "Every family has bread now! Two rolls are left over. One for you, and one for Miss Miriam.",
+			"button": "Thank you, Mr. Tobias"
 		}
 	],
 	"world_effects": [
@@ -50,6 +50,6 @@
 	],
 	"replay": "free",
 	"real_world_invitation": "rw_share_bread",
-	"journal_line": "I helped Tobias fill the bread baskets: 2 rolls, 4 rolls and 3 rolls, one for each person.",
-	"unavailable_text": "The baskets are already on their way. Tobias says thank you!"
+	"journal_line": "I helped Mr. Tobias fill the bread baskets: 2 rolls, 4 rolls and 3 rolls, one for each person.",
+	"unavailable_text": "The baskets are already on their way. Mr. Tobias says thank you!"
 }

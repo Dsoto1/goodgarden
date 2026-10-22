@@ -41,14 +41,14 @@
 			"id": "weigh_flour",
 			"primitive": "balance_scale",
 			"speaker": "narrator",
-			"prompt": "Now the grain is flour! Tobias needs a bag as heavy as his stone. Add scoops of flour until the beam is level.",
+			"prompt": "Now the grain is flour! Mr. Tobias needs a bag as heavy as his stone. Add scoops of flour until the beam is level.",
 			"hint": "Watch the beam. If the stone side is lower, add a scoop. If the flour side is lower, take one out. A little scoop helps you get it just right.",
 			"weight": 5,
 			"scoops": [
 				{"kind": "flour_scoop", "weight": 1, "count": 3},
 				{"kind": "flour_scoop_big", "weight": 2, "count": 3}
 			],
-			"weight_label": "Tobias's stone",
+			"weight_label": "Mr. Tobias's stone",
 			"supply_label": "flour",
 			"feedback": {
 				"heavy": "Now the flour side is lower. It's too heavy. Take one scoop out.",
@@ -57,7 +57,7 @@
 		}
 	],
 	"outro": [
-		{"speaker": "narrator", "text": "Just right! The flour goes to Tobias. Tomorrow, it will become bread.", "button": "Done"}
+		{"speaker": "narrator", "text": "Just right! The flour goes to Mr. Tobias. Tomorrow, it will become bread.", "button": "Done"}
 	],
 	"world_effects": [
 		{"op": "set", "fact": "village.flour_day", "value": "$day"}
@@ -65,5 +65,5 @@
 	"replay": "free",
 	"real_world_invitation": "rw_heavy_light",
 	"journal_line": "I helped at the mill. I sorted the grain from the chaff, and weighed the flour until the scale was level.",
-	"unavailable_text": "The flour is ready for Tobias. The millstones are resting."
+	"unavailable_text": "The flour is ready for Mr. Tobias. The millstones are resting."
 }

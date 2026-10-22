@@ -260,7 +260,7 @@ func sync_with_world() -> void:
 ## From day 7 (once there is flour) the oven is where the bread is baked. On
 ## baking day a fire glows in its mouth and fresh loaves cool beside it.
 func _baking_day(oven: Vector3) -> void:
-	var bake := Interactable.create(self, oven + Vector3(-0.3, 0, 1.4), "Bake bread with Tobias", func() -> void:
+	var bake := Interactable.create(self, oven + Vector3(-0.3, 0, 1.4), "Bake bread with Mr. Tobias", func() -> void:
 		get_tree().call_group("main", "start_activity_here", "oven_bake", position + oven + Vector3(0, 0.8, 0.4)), 0.7, 1.7)
 	bake.conditions = [{"day_at_least": 7}, {"fact": "village.flour_day", "exists": true}]
 	_baking = group_node("BakingDay")
