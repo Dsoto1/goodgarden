@@ -1,0 +1,34 @@
+{
+	"id": "inv_day_025",
+	"from": "tobias",
+	"body": "Hello again!\n\nThe path into the grove is so muddy after the rain. I've brought a cart of stones, big ones and small ones.\n\nLet's lay a stepping-stone path. I'll start the pattern, and you carry it on!",
+	"signature": "Mr. Tobias, the baker",
+	"suggests": "grove_stone_path",
+	"summary": "Lay a stepping-stone path into the grove with Mr. Tobias.",
+	"done": "The stepping-stone path is laid. No more muddy feet!",
+	"tasks": [
+		{
+			"text": "Lay the stepping stones",
+			"activity": "grove_stone_path",
+			"icon": "stone",
+			"where": "in the grove behind the chapel"
+		},
+		{
+			"text": "Feed the lambs",
+			"activity": "sheepfold_hay",
+			"icon": "sheep",
+			"where": "at the sheepfold"
+		},
+		{
+			"text": "Feed the hens",
+			"done_when": [
+				{
+					"fact": "home.hens_fed_day",
+					"is_today": true
+				}
+			],
+			"icon": "hen",
+			"where": "by the coop at home"
+		}
+	]
+}

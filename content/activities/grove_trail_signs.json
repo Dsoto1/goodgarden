@@ -1,0 +1,97 @@
+{
+	"id": "grove_trail_signs",
+	"title": "Nature Trail Signs",
+	"mode": "task",
+	"location": "valley",
+	"surface": "wood_table",
+	"readiness": {
+		"ages": [
+			5,
+			9
+		],
+		"math": "none",
+		"reading": "building three-letter words from their sounds; spelling without the letters shown (older)"
+	},
+	"concepts": [
+		"phonemes in order",
+		"letter-sound match",
+		"spelling CVC words",
+		"signs give information"
+	],
+	"formation_themes": [
+		"helping neighbors",
+		"wonder at creation"
+	],
+	"prerequisites": [
+		{
+			"fact": "grove.signs",
+			"exists": false
+		}
+	],
+	"intro": [
+		{
+			"speaker": "tobias",
+			"text": "Hello! I'm making a nature trail through the grove, so everyone can find the little wonders here."
+		},
+		{
+			"speaker": "tobias",
+			"text": "Each wonder needs a sign. Could you make the words? Tap a picture to hear its name."
+		}
+	],
+	"steps": [
+		{
+			"id": "signs",
+			"primitive": "build_word",
+			"speaker": "tobias",
+			"prompt": "Listen to the name. Which sounds do you hear? Put each letter in its place.",
+			"hint": "Show me the next sound.",
+			"words": [
+				"log",
+				"bug",
+				"web"
+			],
+			"pictures": {
+				"log": "log",
+				"bug": "bug",
+				"web": "web",
+				"fox": "fox"
+			},
+			"show_letters": true,
+			"extra_letters": 0,
+			"older": {
+				"words": [
+					"log",
+					"bug",
+					"web",
+					"fox"
+				],
+				"show_letters": false,
+				"extra_letters": 3,
+				"prompt": "Listen to the name. Which sounds do you hear, first to last? Find each letter in the box."
+			},
+			"feedback": {
+				"wrong": "Listen again: {word}. That sound goes somewhere else.",
+				"word_done": "{word}! You made the word.",
+				"all_good": "Every sign has its word."
+			}
+		}
+	],
+	"outro": [
+		{
+			"speaker": "tobias",
+			"text": "Let's put them up along the trail. Now everyone can find the wonders!",
+			"button": "Thank you, Mr. Tobias"
+		}
+	],
+	"world_effects": [
+		{
+			"op": "set",
+			"fact": "grove.signs",
+			"value": "$signs.words"
+		}
+	],
+	"replay": "once",
+	"real_world_invitation": "rw_sound_hunt",
+	"journal_line": "I made signs for the nature trail in the grove with Mr. Tobias.",
+	"unavailable_text": "The trail signs are up. Can you find them all?"
+}

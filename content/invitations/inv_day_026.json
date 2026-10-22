@@ -1,0 +1,34 @@
+{
+	"id": "inv_day_026",
+	"from": "ruth",
+	"body": "Good morning, dear!\n\nThe birds in the grove have been singing for me every morning. I'd like to say thank you with some seed.\n\nWill you help me fill the bird feeders? Bring a steady hand!",
+	"signature": "Mrs. Ruth",
+	"suggests": "grove_bird_feeders",
+	"summary": "Fill the bird feeders in the grove with Mrs. Ruth.",
+	"done": "The feeders are full, and the birds are singing!",
+	"tasks": [
+		{
+			"text": "Fill the bird feeders",
+			"activity": "grove_bird_feeders",
+			"icon": "bird",
+			"where": "in the grove behind the chapel"
+		},
+		{
+			"text": "Set the table",
+			"activity": "home_set_table",
+			"icon": "table",
+			"where": "at home"
+		},
+		{
+			"text": "Pet the pig",
+			"done_when": [
+				{
+					"fact": "animals.pig.petted_day",
+					"is_today": true
+				}
+			],
+			"icon": "heart",
+			"where": "in the pig's pen"
+		}
+	]
+}

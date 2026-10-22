@@ -1,0 +1,12 @@
+{
+	"id": "day_025",
+	"day": 25,
+	"week": 4,
+	"arc": "Stewardship & Garden",
+	"invitation": "inv_day_025",
+	"npcs": {"miriam": "garden_miriam", "tobias": "grove_tobias"},
+	"primary_activity": "grove_stone_path",
+	"free_work": ["home_set_table"],
+	"chapel": ["good_samaritan", "mustard_seed", "leaven", "lost_sheep", "fishers", "five_thousand", "good_shepherd"],
+	"season": "Spring"
+}

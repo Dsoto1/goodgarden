@@ -1,0 +1,90 @@
+{
+	"id": "home_eggs",
+	"title": "Collecting the Eggs",
+	"mode": "task",
+	"location": "home",
+	"surface": "wood_table",
+	"readiness": {
+		"ages": [
+			5,
+			9
+		],
+		"math": "counting out a set; reading a numeral (older: different numbers for each basket)",
+		"reading": "pre-reader friendly; all text can be read aloud"
+	},
+	"concepts": [
+		"one-to-one correspondence",
+		"counting out a set",
+		"reading numerals",
+		"sharing"
+	],
+	"formation_themes": [
+		"care for animals",
+		"generosity"
+	],
+	"prerequisites": [
+		{
+			"not": {
+				"fact": "home.eggs_day",
+				"is_today": true
+			}
+		}
+	],
+	"intro": [
+		{
+			"speaker": "narrator",
+			"text": "The hens have laid lots of eggs! Some are for our kitchen, and some are for our neighbors."
+		},
+		{
+			"speaker": "narrator",
+			"text": "Hold each egg gently, and put it in a basket. Count as you go."
+		}
+	],
+	"steps": [
+		{
+			"id": "eggs",
+			"primitive": "count_into_slots",
+			"speaker": "narrator",
+			"prompt": "Put two eggs in each basket. Count as you go: one, two.",
+			"hint": "Find a basket with an empty little dip, and put an egg there.",
+			"slots": 3,
+			"per_slot": 2,
+			"piece": "egg",
+			"container": "basket",
+			"supply_label": "the nest box",
+			"spare": 1,
+			"older": {
+				"counts": [
+					4,
+					2,
+					3
+				],
+				"show_dimples": false,
+				"prompt": "Each basket has a number. Put that many eggs in it: four for our kitchen, two for Mr. Tobias, three for Mrs. Ruth.",
+				"hint": "Read the number on the basket, then count the eggs in, one at a time."
+			},
+			"feedback": {
+				"full": "That basket has all its eggs. Try another basket.",
+				"all_good": "Every basket has its eggs, and not one cracked!"
+			}
+		}
+	],
+	"outro": [
+		{
+			"speaker": "narrator",
+			"text": "The eggs are collected. Thank you, hens! Good gifts come from good care.",
+			"button": "Done"
+		}
+	],
+	"world_effects": [
+		{
+			"op": "set",
+			"fact": "home.eggs_day",
+			"value": "$day"
+		}
+	],
+	"replay": "free",
+	"real_world_invitation": "rw_count_out",
+	"journal_line": "I collected the hens' eggs and counted them into baskets to share.",
+	"unavailable_text": "The eggs are collected for today. The hens will lay more tomorrow."
+}

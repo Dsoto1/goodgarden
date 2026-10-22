@@ -1,0 +1,160 @@
+{
+	"id": "garden_weed",
+	"title": "Weeding the Bean Row",
+	"mode": "task",
+	"location": "garden",
+	"surface": "soil_bed",
+	"readiness": {
+		"ages": [
+			5,
+			9
+		],
+		"math": "sorting by a property (two groups; older: three)",
+		"reading": "pre-reader friendly; all text can be read aloud"
+	},
+	"concepts": [
+		"classification",
+		"plants need room and food",
+		"living things in the soil"
+	],
+	"formation_themes": [
+		"stewardship",
+		"diligence"
+	],
+	"prerequisites": [
+		{
+			"fact": "garden.bed_1",
+			"exists": true
+		},
+		{
+			"fact": "garden.weeded_day",
+			"exists": false
+		}
+	],
+	"intro": [
+		{
+			"speaker": "miriam",
+			"text": "Oh dear, weeds have come up in our bean row! They drink the beans' water and eat their food."
+		},
+		{
+			"speaker": "miriam",
+			"text": "Let's pull them out and pick out the stones too. Weeds go in the basket for the compost heap."
+		}
+	],
+	"steps": [
+		{
+			"id": "weeds",
+			"primitive": "sort_into_bins",
+			"speaker": "miriam",
+			"prompt": "Put the weeds in the compost basket, and the stones in the bucket.",
+			"hint": "Is it green and growing? Then it's a weed.",
+			"piece_size": [
+				52,
+				52
+			],
+			"pieces": [
+				{
+					"kind": "weed",
+					"count": 5
+				},
+				{
+					"kind": "pebble",
+					"count": 4
+				}
+			],
+			"bins": [
+				{
+					"kind": "weed",
+					"label": "compost basket",
+					"look": "basket",
+					"pos": [
+						280,
+						170
+					]
+				},
+				{
+					"kind": "pebble",
+					"label": "stone bucket",
+					"look": "pot",
+					"pos": [
+						720,
+						170
+					]
+				}
+			],
+			"older": {
+				"prompt": "Weeds go in the compost basket, and stones in the bucket. And if you find a worm, put it back in the soil: worms help the beans!",
+				"hint": "Is it a weed, a stone, or a little creature that helps?",
+				"pieces": [
+					{
+						"kind": "weed",
+						"count": 5
+					},
+					{
+						"kind": "pebble",
+						"count": 4
+					},
+					{
+						"kind": "worm",
+						"count": 2
+					}
+				],
+				"bins": [
+					{
+						"kind": "weed",
+						"label": "compost basket",
+						"look": "basket",
+						"pos": [
+							190,
+							170
+						]
+					},
+					{
+						"kind": "pebble",
+						"label": "stone bucket",
+						"look": "pot",
+						"pos": [
+							500,
+							170
+						]
+					},
+					{
+						"kind": "worm",
+						"label": "back in the soil",
+						"look": "meadow",
+						"pos": [
+							810,
+							170
+						]
+					}
+				]
+			},
+			"feedback": {
+				"mismatch": "Hmm, look again. Does that belong there?",
+				"all_good": "The bean row is clean and tidy. Now the beans can grow."
+			}
+		}
+	],
+	"outro": [
+		{
+			"speaker": "miriam",
+			"text": "The weeds will rot down in the compost heap and become good soil. Nothing is wasted in a garden."
+		},
+		{
+			"speaker": "miriam",
+			"text": "Thank you for working so hard.",
+			"button": "Thank you, Miss Miriam"
+		}
+	],
+	"world_effects": [
+		{
+			"op": "set",
+			"fact": "garden.weeded_day",
+			"value": "$day"
+		}
+	],
+	"replay": "once",
+	"real_world_invitation": "rw_weed_patch",
+	"journal_line": "I pulled the weeds from the bean row and picked out the stones.",
+	"unavailable_text": "The bean row is weeded. It looks so tidy!"
+}

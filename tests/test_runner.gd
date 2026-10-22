@@ -68,7 +68,7 @@ func test_content_is_valid() -> void:
 		printerr("  content: ", e)
 	eq(errors.size(), 0, "authored content has no validation errors")
 	# Every working day asks for three jobs; the day of rest asks for none.
-	for d in range(1, 15):
+	for d in range(1, 29):
 		var weekend := d % 7 == 0 or d % 7 == 6
 		eq(TodaysWork.jobs(Content.get_invitation("inv_day_%03d" % d)).size(), 0 if weekend else 3, "day %d has %s" % [d, "no jobs (weekend)" if weekend else "three jobs"])
 
@@ -594,6 +594,41 @@ func test_look_closely() -> void:
 	check(step.is_done, "the ant has six legs, and the page is done")
 	eq(step.notes[1], {"about": "legs", "count": 6}, "what was seen is recorded")
 	step.queue_free()
+
+
+func test_continue_pattern() -> void:
+	var step := _make_step("continue_pattern", {"id": "b", "unit": ["flower_red", "flower_yellow"], "length": 6, "given": 2, "names": {"flower_red": "red", "flower_yellow": "yellow"}})
+	eq(step.places.size(), 6, "a place for each flower in the row")
+	eq(step.places[0].contents.size() + step.places[1].contents.size(), 2, "the start of the pattern is already planted")
+	eq(step.pieces.size(), 6, "enough flowers for the rest of the row, and one spare of each")
+	check(step.say_pattern(2).begins_with("red, yellow"), "the pattern can be said aloud")
+	# A yellow where a red comes next goes back to the basket.
+	var yellow: DragPiece = step.pieces.filter(func(q: DragPiece) -> bool: return q.kind == "flower_yellow")[0]
+	_drop(yellow, step.places[2].center())
+	check(step.places[2].contents.is_empty(), "a piece that breaks the pattern doesn't settle")
+	for i in range(2, 6):
+		var want: String = step.kind_at(i)
+		var piece: DragPiece = step.pieces.filter(func(q: DragPiece) -> bool: return q.kind == want and q.placed_in == null)[0]
+		_drop(piece, step.places[i].center())
+	check(step.is_done, "the pattern carried to the end of the row finishes")
+	step.queue_free()
+
+
+## Every week 3-4 activity builds at both work levels.
+func test_weeks_3_and_4_activities_build() -> void:
+	var ids := ["home_eggs", "garden_weed", "village_pantry", "garden_flower_border", "garden_measure_again",
+		"grove_leaves", "grove_trail_signs", "grove_acorns", "grove_stone_path", "grove_bird_feeders"]
+	for id: String in ids:
+		var def := Content.get_activity(id)
+		check(def != null, "%s exists" % id)
+		if def == null:
+			continue
+		for level: String in ["younger", "older"]:
+			var ctx := {"space_holes": {"count": 4, "positions": [0.2, 0.4, 0.6, 0.8]}}
+			for cfg: Dictionary in def.at_level(level).steps:
+				var step := _make_step(str(cfg["primitive"]), cfg, ctx)
+				check(step != null and not step.is_done and step.get_child_count() > 0, "%s (%s): step %s builds" % [id, level, cfg["id"]])
+				step.queue_free()
 
 
 func test_sequence_cards() -> void:
@@ -1405,7 +1440,21 @@ func test_vertical_slice_end_to_end() -> void:
 	for i in 7:
 		await main.rest_until_morning()
 	await frames(3)
-	eq(Days.current_day, 21, "a free Sunday past the written days")
+	eq([Days.current_day, Invitations.pending_id], [21, "inv_day_021"], "day 21 is the third Sunday")
+	# Week 4 opens the Grove behind the chapel.
+	await main.rest_until_morning()
+	await frames(3)
+	eq(Days.npc_anchor("miriam"), "grove_miriam", "on day 22 Miss Miriam waits in the Grove")
+	check(world.anchor("grove_miriam") != null, "the Grove is built")
+	var leaves := _interactable("Sort the fallen leaves")
+	check(leaves != null and leaves.is_available(), "the fallen leaves can be sorted")
+	var to_grove := NavigationServer3D.map_get_path(world.get_world_3d().navigation_map, world.anchor("chapel_door").global_position, ValleyRegion.GROVE, true)
+	var grove_end := to_grove[to_grove.size() - 1] if to_grove.size() > 0 else Vector3.INF
+	check(Vector2(grove_end.x, grove_end.z).distance_to(Vector2(ValleyRegion.GROVE.x, ValleyRegion.GROVE.z)) < 0.6, "the child can walk from the chapel into the Grove")
+	for i in 13:
+		await main.rest_until_morning()
+	await frames(3)
+	eq(Days.current_day, 35, "a Sunday past the written days")
 	eq(Days.npc_anchor("tobias"), "chapel_tobias", "on every Sunday the neighbours gather at the Chapel")
 
 	# The map: the real valley with a card for each place, travel from the

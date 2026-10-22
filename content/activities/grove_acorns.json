@@ -1,0 +1,109 @@
+{
+	"id": "grove_acorns",
+	"title": "Planting Acorns",
+	"mode": "task",
+	"location": "valley",
+	"surface": "soil_bed",
+	"readiness": {
+		"ages": [
+			5,
+			9
+		],
+		"math": "equal spacing with a non-standard unit; counting equal groups",
+		"reading": "pre-reader friendly; all text can be read aloud"
+	},
+	"concepts": [
+		"measuring with a non-standard unit",
+		"equal groups",
+		"trees grow from seeds",
+		"patience"
+	],
+	"formation_themes": [
+		"stewardship",
+		"hope"
+	],
+	"prerequisites": [
+		{
+			"fact": "grove.acorns",
+			"exists": false
+		}
+	],
+	"intro": [
+		{
+			"speaker": "miriam",
+			"text": "These acorns fell from the big oak. Every one could become a great tree, if it has room to grow."
+		},
+		{
+			"speaker": "miriam",
+			"text": "Use the stick to space the holes, starting from the stone. Then two acorns in each hole, in case one doesn't sprout."
+		}
+	],
+	"steps": [
+		{
+			"id": "space_holes",
+			"primitive": "space_along_line",
+			"speaker": "miriam",
+			"prompt": "Put a peg one stick away from the stone. Then one stick away from that peg, and so on.",
+			"hint": "Lay the stick next to the stone. Where does the other end reach? Put a peg there.",
+			"markers": 4,
+			"stick_length": 170,
+			"tolerance": 34,
+			"older": {
+				"tolerance": 18
+			},
+			"feedback": {
+				"placed_all": "Now let's check with the stick. Does it fit each space?",
+				"crowded": "Look: the stick covers a peg there. Those trees would be too close. Can that peg move further away?",
+				"far": "Look: there's a gap past the end of the stick. Can that peg move closer?",
+				"all_good": "Every space is one stick long."
+			}
+		},
+		{
+			"id": "sow",
+			"primitive": "count_into_slots",
+			"speaker": "miriam",
+			"prompt": "Now two acorns in each hole. Count as you drop them in: one, two.",
+			"hint": "Find a hole with an empty little dip and put an acorn there.",
+			"slots_from": "space_holes",
+			"per_slot": 2,
+			"piece": "acorn",
+			"supply_label": "acorn basket",
+			"spare": 2,
+			"older": {
+				"show_dimples": false,
+				"per_slot": 3,
+				"prompt": "Three acorns in each hole this time. There are no little dips: count them yourself."
+			},
+			"feedback": {
+				"full": "That hole has its acorns. Try a hole with an empty dip.",
+				"all_good": "Every hole has its acorns."
+			}
+		}
+	],
+	"outro": [
+		{
+			"speaker": "miriam",
+			"text": "Now we tuck them in. An oak grows so slowly: these will be great trees when you are grown up!",
+			"board": "tuck_in"
+		},
+		{
+			"speaker": "miriam",
+			"text": "Let's put a little stick by each one, so we remember where they are.",
+			"button": "Thank you, Miss Miriam"
+		}
+	],
+	"world_effects": [
+		{
+			"op": "set",
+			"fact": "grove.acorns",
+			"value": {
+				"positions": "$space_holes.positions",
+				"day": "$day"
+			}
+		}
+	],
+	"replay": "once",
+	"real_world_invitation": "rw_plant_seed",
+	"journal_line": "I planted acorns in a row in the grove. One day they will be oak trees.",
+	"unavailable_text": "The acorns are planted. Now they need time, lots of time."
+}

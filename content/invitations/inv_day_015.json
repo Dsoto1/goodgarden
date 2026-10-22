@@ -1,0 +1,39 @@
+{
+	"id": "inv_day_015",
+	"from": "ruth",
+	"body": "Good morning, dear!\n\nA new week, and your hens have been so busy. Your nest box is full of eggs!\n\nCould you collect them and count them into baskets? Some are for your kitchen, and some for your neighbors. Mr. Tobias would love some for his cakes.",
+	"signature": "Mrs. Ruth",
+	"suggests": "home_eggs",
+	"summary": "Collect the eggs from the hens, and count them into baskets.",
+	"done": "The eggs are collected and shared. Thank you, dear!",
+	"tasks": [
+		{
+			"text": "Collect the eggs",
+			"activity": "home_eggs",
+			"icon": "egg",
+			"where": "at the coop by your house"
+		},
+		{
+			"text": "Feed the hens",
+			"done_when": [
+				{
+					"fact": "home.hens_fed_day",
+					"is_today": true
+				}
+			],
+			"icon": "hen",
+			"where": "by the coop at home"
+		},
+		{
+			"text": "Pet a lamb",
+			"done_when": [
+				{
+					"fact": "animals.lamb.petted_day",
+					"is_today": true
+				}
+			],
+			"icon": "sheep",
+			"where": "at the sheepfold"
+		}
+	]
+}

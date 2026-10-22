@@ -26,7 +26,7 @@ Beyond the slice:
 | Design target | Now |
 |---|---|
 | 12 weeks × 5 guided days = 60 guided days | 10 guided days written (weeks 1–2) |
-| 12–15 reusable activity types (`LEARNING_DESIGN.md`) | 13: spacing along a line, counting into slots, matching to outlines, sorting into bins, balance scale, sequence cards, story figures, building words, labelling pictures, measuring with units, pouring to a line, paying with coins, looking closely |
+| 12–15 reusable activity types (`LEARNING_DESIGN.md`) | 14: spacing along a line, counting into slots, matching to outlines, sorting into bins, balance scale, sequence cards, story figures, building words, labelling pictures, measuring with units, pouring to a line, paying with coins, looking closely, continuing a pattern |
 | 15–20 Scripture presentations at launch (`CHAPEL_ATRIUM.md`) | 7 (paused at the owner's request) |
 | Regions: homestead, valley/village, farm & mill, forest/grove, Bellhaven later | Forest/grove not built; Bellhaven visible, not reachable |
 
@@ -88,14 +88,33 @@ Each new type goes into a few real days at once, so it is tried in play.
 
 Later candidates: rotate and fit (workshop geometry), construct.
 
-## Phase C: weeks 3–4, Stewardship & Garden
+## Phase C: weeks 3–4, Stewardship & Garden ✓
 
-Ten guided days, plus the forest/grove region:
+Ten guided days (Saturdays free, Sundays of rest), plus the Grove behind
+the chapel. Each day's main work leaves a mark in the world.
 
-- animal care (collecting eggs, brushing the horse)
-- measuring how tall the beans grow
-- patterns in the garden
-- the first reading work in context: seed labels, notes from neighbours
+- [x] Week 3, home and garden:
+  - Mon 15: collect the eggs and count them into baskets to share
+    (`count_into_slots`; older: a different number on each basket)
+  - Tue 16: weed the bean row (`sort_into_bins`: weeds and stones; older:
+    and worms back in the soil). The weeds are gone from the row.
+  - Wed 17: label Mrs. Ruth's pantry shelf (`label_pictures`: pot, cup,
+    lid; older: read pot, pan, cup, lid)
+  - Thu 18: a flower border in a pattern (`continue_pattern`: red, yellow;
+    older: red, yellow, blue). It then blooms along the garden fence.
+  - Fri 19: measure the beans again, and see how much they've grown
+- [x] Week 4, the Grove (a path round the chapel's east side):
+  - Mon 22: sort the fallen leaves by shape (oak, maple; older: and round)
+  - Tue 23: nature-trail signs (`build_word`: log, bug, web; older: and
+    fox, without the letters shown). The signs stand along the trail.
+  - Wed 24: plant acorns in a row (spacing, then counting into holes);
+    seedlings come up two days later
+  - Thu 25: a stepping-stone path in a pattern (big, small; older: big, big,
+    small). The stones stay on the path.
+  - Fri 26: fill the bird feeders to the line (`pour_to_line` with seed;
+    older: half, full, a quarter). Birds come to eat.
+
+Not yet: brushing the horse; reading notes from neighbours in the world.
 
 ## Phase D: weeks 5–6, Truth & Workshop/Market
 

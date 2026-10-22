@@ -61,6 +61,7 @@
 		{"id": "chapel_hall", "name": "The Big Room"},
 		{"id": "atrium", "name": "The Story Room"},
 		{"id": "library", "name": "The Library"},
-		{"id": "fishing_spot", "name": "The Fishing Spot"}
+		{"id": "fishing_spot", "name": "The Fishing Spot"},
+		{"id": "grove", "name": "The Grove"}
 	]
 }

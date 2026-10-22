@@ -1,0 +1,39 @@
+{
+	"id": "inv_day_017",
+	"from": "ruth",
+	"body": "Hello, little one!\n\nMy pantry shelf is all in a muddle. I keep looking for my pot and finding my cup!\n\nCould you come and help me make labels for it? You are getting so good with letters.\n\nYou'll find me at my house, by the village square.",
+	"signature": "Mrs. Ruth",
+	"suggests": "village_pantry",
+	"summary": "Help Mrs. Ruth make labels for her pantry.",
+	"done": "Mrs. Ruth's pantry has its labels. Thank you!",
+	"tasks": [
+		{
+			"text": "Label the pantry shelf",
+			"activity": "village_pantry",
+			"icon": "letters",
+			"where": "at Mrs. Ruth's house"
+		},
+		{
+			"text": "Feed the hens",
+			"done_when": [
+				{
+					"fact": "home.hens_fed_day",
+					"is_today": true
+				}
+			],
+			"icon": "hen",
+			"where": "by the coop at home"
+		},
+		{
+			"text": "Say hello to Miss Miriam",
+			"done_when": [
+				{
+					"fact": "npc.miriam.greeted_day",
+					"is_today": true
+				}
+			],
+			"icon": "seedling",
+			"where": "in her garden"
+		}
+	]
+}

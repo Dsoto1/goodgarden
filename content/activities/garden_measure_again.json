@@ -1,0 +1,97 @@
+{
+	"id": "garden_measure_again",
+	"title": "How Much Have They Grown?",
+	"mode": "task",
+	"location": "garden",
+	"surface": "wood_table",
+	"readiness": {
+		"ages": [
+			5,
+			9
+		],
+		"math": "measuring height with a repeated unit; comparing; difference (older)",
+		"reading": "none required"
+	},
+	"concepts": [
+		"measuring with a unit",
+		"counting",
+		"comparing heights",
+		"growth over time"
+	],
+	"formation_themes": [
+		"stewardship",
+		"patience"
+	],
+	"prerequisites": [
+		{
+			"fact": "garden.measured",
+			"exists": true
+		},
+		{
+			"fact": "garden.measured_again",
+			"exists": false
+		}
+	],
+	"intro": [
+		{
+			"speaker": "miriam",
+			"text": "Do you remember measuring our beans? They have been drinking the rain and soaking up the sun."
+		},
+		{
+			"speaker": "miriam",
+			"text": "Let's measure them again with the blocks, and see how much they have grown."
+		}
+	],
+	"steps": [
+		{
+			"id": "measure",
+			"primitive": "measure_with_units",
+			"speaker": "miriam",
+			"prompt": "Stack blocks beside each plant until the stack is just as tall.",
+			"hint": "Show me",
+			"heights": [
+				5,
+				7,
+				6,
+				8
+			],
+			"unit": 34,
+			"question": "tallest",
+			"older": {
+				"heights": [
+					8,
+					11,
+					9,
+					12
+				],
+				"unit": 24,
+				"question": "difference",
+				"prompt": "Measure each plant with the blocks. Then we'll compare them."
+			},
+			"feedback": {
+				"all_good": "Look how tall they are now!"
+			}
+		}
+	],
+	"outro": [
+		{
+			"speaker": "miriam",
+			"text": "They grew a little every day, even when we couldn't see it. Growing takes patience.",
+			"button": "Thank you, Miss Miriam"
+		}
+	],
+	"world_effects": [
+		{
+			"op": "set",
+			"fact": "garden.measured_again",
+			"value": {
+				"day": "$day",
+				"heights": "$measure.heights"
+			}
+		}
+	],
+	"replay": "free",
+	"real_world_invitation": "rw_measure_home",
+	"journal_line": "I measured the beans again. They had grown taller!",
+	"unavailable_text": "The beans need to be measured once before we can see how much they've grown."
+}

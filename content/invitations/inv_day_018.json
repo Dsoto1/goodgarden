@@ -1,0 +1,34 @@
+{
+	"id": "inv_day_018",
+	"from": "miriam",
+	"body": "Good morning!\n\nI have a tray of flowers to plant along the garden fence: red ones, yellow ones and blue ones.\n\nI want to plant them in a pattern, to make the garden beautiful. Will you help me?",
+	"signature": "Miss Miriam",
+	"suggests": "garden_flower_border",
+	"summary": "Plant a flower border in a pattern with Miss Miriam.",
+	"done": "The flower border is planted. How beautiful!",
+	"tasks": [
+		{
+			"text": "Plant the flower border",
+			"activity": "garden_flower_border",
+			"icon": "flower",
+			"where": "in Miss Miriam's garden"
+		},
+		{
+			"text": "Look in the pond",
+			"activity": "pond_creatures",
+			"icon": "fish",
+			"where": "at the pond west of home"
+		},
+		{
+			"text": "Pet the pig",
+			"done_when": [
+				{
+					"fact": "animals.pig.petted_day",
+					"is_today": true
+				}
+			],
+			"icon": "heart",
+			"where": "in the pig's pen"
+		}
+	]
+}

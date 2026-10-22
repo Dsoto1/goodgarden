@@ -12,6 +12,8 @@ var _blank_boards: Node3D # boards waiting on the sign bench
 var _name_signs: Node3D # the signs the child has made
 var _poured: Node3D # glasses of water on the table, on a day the water is poured
 var _shopping: Node3D # what the child bought at the market today, on the table
+var _nest_eggs: Node3D # eggs waiting in the nest box, until collected today
+var _egg_baskets: Node3D # the baskets of eggs, on a day they are collected
 
 
 func build() -> void:
@@ -249,6 +251,24 @@ func _build_coop(at: Vector3) -> void:
 		add_child(hen)
 		hens.append(hen)
 	AnimalMoments.grain_bin(self, at + Vector3(1.4, 0, -0.7), at + Vector3(0.4, 0, 2.2), hens)
+	# A nest box on the coop's west side. From the third week the child
+	# collects the eggs and counts them into baskets to share.
+	var nest := at + Vector3(-1.05, 0, 0.1)
+	MeshKit.box(self, Vector3(0.5, 0.35, 0.8), nest + Vector3(0, 0.6, 0), "wood_dark")
+	MeshKit.box(self, Vector3(0.44, 0.06, 0.74), nest + Vector3(-0.02, 0.8, 0), "roof_thatch")
+	_nest_eggs = group_node("NestEggs")
+	for k in 4:
+		MeshKit.sphere(_nest_eggs, 0.05, nest + Vector3(-0.06 + (k % 2) * 0.1, 0.87, -0.25 + k * 0.16), "cloth_cream", Vector3(1, 1.3, 1), 6, 3)
+	_egg_baskets = group_node("EggBaskets")
+	for k in 3:
+		var b := nest + Vector3(-0.7, 0, -0.5 + k * 0.5)
+		MeshKit.cylinder(_egg_baskets, 0.16, 0.12, 0.16, b + Vector3(0, 0.08, 0), "wood_light", 8)
+		for e in 2:
+			MeshKit.sphere(_egg_baskets, 0.045, b + Vector3(-0.04 + e * 0.08, 0.18, 0), "cloth_cream", Vector3(1, 1.3, 1), 6, 3)
+	var collect := Interactable.create(self, nest + Vector3(-0.6, 0, 0.6), "Collect the eggs", func() -> void:
+		get_tree().call_group("main", "start_activity_here", "home_eggs", position + nest + Vector3(0, 0.8, 0)), 0.6, 1.2)
+	collect.conditions = [{"day_at_least": 15}, {"not": {"fact": "home.eggs_day", "is_today": true}}]
+	add_activity_focus(nest + Vector3(0, 0.8, 0))
 
 
 ## The sign bench in the yard: blank boards and a box of wooden letters.
@@ -274,6 +294,9 @@ func sync_with_world() -> void:
 	_blank_boards.visible = not WorldState.has_fact("home.signs")
 	_poured.visible = WorldState.matches([{"fact": "home.poured_day", "is_today": true}])
 	_shopping.visible = WorldState.matches([{"fact": "home.bought_day", "is_today": true}])
+	var eggs_today := WorldState.matches([{"fact": "home.eggs_day", "is_today": true}])
+	_nest_eggs.visible = Days.current_day >= 15 and not eggs_today
+	_egg_baskets.visible = eggs_today
 	CraftedProps.sync_name_signs(_name_signs, {"hen": [Vector3(-5.3, 0, 9.5), 0.3], "cat": [Vector3(2.6, 0, 4.7), -0.2]})
 	_letter.visible = Invitations.has_unread()
 	_letter_use.enabled = Invitations.has_unread()

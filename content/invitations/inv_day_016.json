@@ -1,0 +1,34 @@
+{
+	"id": "inv_day_016",
+	"from": "miriam",
+	"body": "Dear friend,\n\nWeeds! They have popped up all along our bean row, and they are drinking the beans' water.\n\nWill you come and help me pull them out? Bring strong hands!",
+	"signature": "Miss Miriam",
+	"suggests": "garden_weed",
+	"summary": "Help Miss Miriam weed the bean row.",
+	"done": "The bean row is weeded. The beans say thank you!",
+	"tasks": [
+		{
+			"text": "Weed the bean row",
+			"activity": "garden_weed",
+			"icon": "weed",
+			"where": "in Miss Miriam's garden"
+		},
+		{
+			"text": "Pour water for supper",
+			"activity": "home_pour_water",
+			"icon": "water",
+			"where": "at the jug in your kitchen"
+		},
+		{
+			"text": "Pet the cat",
+			"done_when": [
+				{
+					"fact": "animals.cat.petted_day",
+					"is_today": true
+				}
+			],
+			"icon": "heart",
+			"where": "at home"
+		}
+	]
+}

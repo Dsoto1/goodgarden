@@ -1,0 +1,151 @@
+{
+	"id": "grove_leaves",
+	"title": "Leaves in the Grove",
+	"mode": "task",
+	"location": "valley",
+	"surface": "wood_table",
+	"readiness": {
+		"ages": [
+			5,
+			9
+		],
+		"math": "sorting by shape; matching by attributes",
+		"reading": "pre-reader friendly; all text can be read aloud"
+	},
+	"concepts": [
+		"classification by shape",
+		"trees and their leaves",
+		"looking closely"
+	],
+	"formation_themes": [
+		"wonder at creation"
+	],
+	"prerequisites": [
+		{
+			"not": {
+				"fact": "grove.leaves_day",
+				"is_today": true
+			}
+		}
+	],
+	"intro": [
+		{
+			"speaker": "miriam",
+			"text": "Welcome to the grove! Look at all the leaves on the ground. Every tree has its own kind of leaf."
+		},
+		{
+			"speaker": "miriam",
+			"text": "Let's sort them. Look at the shape: wavy oak leaves, pointy maple leaves, and round leaves."
+		}
+	],
+	"steps": [
+		{
+			"id": "sort_leaves",
+			"primitive": "sort_into_bins",
+			"speaker": "miriam",
+			"prompt": "Put each leaf in the basket with the same shape on it.",
+			"hint": "Look at the edges. Are they wavy, pointy, or smooth and round?",
+			"piece_size": [
+				60,
+				60
+			],
+			"pieces": [
+				{
+					"kind": "leaf_oak",
+					"count": 3
+				},
+				{
+					"kind": "leaf_maple",
+					"count": 3
+				}
+			],
+			"bins": [
+				{
+					"kind": "leaf_oak",
+					"label": "oak leaves",
+					"look": "basket",
+					"pos": [
+						280,
+						170
+					]
+				},
+				{
+					"kind": "leaf_maple",
+					"label": "maple leaves",
+					"look": "basket",
+					"pos": [
+						720,
+						170
+					]
+				}
+			],
+			"older": {
+				"pieces": [
+					{
+						"kind": "leaf_oak",
+						"count": 3
+					},
+					{
+						"kind": "leaf_maple",
+						"count": 3
+					},
+					{
+						"kind": "leaf_round",
+						"count": 3
+					}
+				],
+				"bins": [
+					{
+						"kind": "leaf_oak",
+						"label": "oak leaves",
+						"look": "basket",
+						"pos": [
+							190,
+							170
+						]
+					},
+					{
+						"kind": "leaf_maple",
+						"label": "maple leaves",
+						"look": "basket",
+						"pos": [
+							500,
+							170
+						]
+					},
+					{
+						"kind": "leaf_round",
+						"label": "round leaves",
+						"look": "basket",
+						"pos": [
+							810,
+							170
+						]
+					}
+				]
+			},
+			"feedback": {
+				"mismatch": "Look closely at the edges of the leaf. Which basket has leaves like it?",
+				"all_good": "Every leaf is with its own kind."
+			}
+		}
+	],
+	"outro": [
+		{
+			"speaker": "miriam",
+			"text": "So many trees, and God knows every leaf. Let's look up and find which tree each one fell from.",
+			"button": "Thank you, Miss Miriam"
+		}
+	],
+	"world_effects": [
+		{
+			"op": "set",
+			"fact": "grove.leaves_day",
+			"value": "$day"
+		}
+	],
+	"replay": "free",
+	"real_world_invitation": "rw_leaf_hunt",
+	"journal_line": "I found the grove and sorted the fallen leaves by their shape.",
+	"unavailable_text": "The leaves are sorted for today."
+}

@@ -221,6 +221,87 @@ static func draw(ci: CanvasItem, kind: String, r: Rect2, color := INK) -> void:
 			ci.draw_line(c + Vector2(0.12, 0.12) * s, c + Vector2(0.38, 0.38) * s, Color("8a5a3a"), maxf(3.0, s * 0.1))
 			ci.draw_circle(c + Vector2(-0.08, -0.08) * s, 0.24 * s, Color(0.85, 0.93, 1.0))
 			ci.draw_arc(c + Vector2(-0.08, -0.08) * s, 0.26 * s, 0, TAU, 24, Color("b8913a"), maxf(2.0, s * 0.07))
+		"pot":
+			# A round cooking pot with two ears.
+			ci.draw_rect(Rect2(c + Vector2(-0.3, -0.12) * s, Vector2(0.6, 0.42) * s), Color("5a5550"))
+			ci.draw_rect(Rect2(c + Vector2(-0.34, -0.18) * s, Vector2(0.68, 0.08) * s), Color("75706a"))
+			for side: float in [-1.0, 1.0]:
+				ci.draw_arc(c + Vector2(side * 0.36, -0.02) * s, 0.07 * s, 0, TAU, 10, Color("75706a"), maxf(2.0, s * 0.05))
+		"pan":
+			# A frying pan with a long handle.
+			ci.draw_circle(c + Vector2(-0.1, 0.04) * s, 0.26 * s, Color("5a5550"))
+			ci.draw_circle(c + Vector2(-0.1, 0.04) * s, 0.2 * s, Color("75706a"))
+			ci.draw_line(c + Vector2(0.14, 0.04) * s, c + Vector2(0.46, -0.14) * s, Color("8a5a3a"), maxf(3.0, s * 0.08))
+		"cup":
+			ci.draw_colored_polygon(PackedVector2Array([c + Vector2(-0.24, -0.22) * s, c + Vector2(0.24, -0.22) * s, c + Vector2(0.18, 0.3) * s, c + Vector2(-0.18, 0.3) * s]), Color("e9dcc0"))
+			ci.draw_rect(Rect2(c + Vector2(-0.24, -0.26) * s, Vector2(0.48, 0.06) * s), Color("8fb6d6"))
+		"mug":
+			ci.draw_rect(Rect2(c + Vector2(-0.24, -0.24) * s, Vector2(0.4, 0.52) * s), Color("8fb6d6"))
+			ci.draw_arc(c + Vector2(0.18, 0.02) * s, 0.12 * s, -PI / 2.0, PI / 2.0, 10, Color("6a8fb0"), maxf(3.0, s * 0.07))
+		"lid":
+			# A pot lid with a knob.
+			ci.draw_colored_polygon(PackedVector2Array([c + Vector2(-0.4, 0.14) * s, c + Vector2(-0.24, -0.06) * s, c + Vector2(0.24, -0.06) * s, c + Vector2(0.4, 0.14) * s]), Color("75706a"))
+			ci.draw_circle(c + Vector2(0, -0.12) * s, 0.07 * s, Color("8a5a3a"))
+		"log":
+			ci.draw_rect(Rect2(c + Vector2(-0.36, -0.14) * s, Vector2(0.66, 0.3) * s), Color("8a5a3a"))
+			ci.draw_circle(c + Vector2(0.3, 0.01) * s, 0.15 * s, Color("d9b98a"))
+			ci.draw_arc(c + Vector2(0.3, 0.01) * s, 0.08 * s, 0, TAU, 12, Color("a8733e"), maxf(1.5, s * 0.03))
+		"bug":
+			# A beetle: round shell, head and six legs.
+			for k in 3:
+				for side: float in [-1.0, 1.0]:
+					ci.draw_line(c + Vector2(0, -0.06 + k * 0.12) * s, c + Vector2(side * 0.3, -0.12 + k * 0.16) * s, Color("3a2a22"), maxf(1.5, s * 0.03))
+			ci.draw_circle(c + Vector2(0, 0.04) * s, 0.2 * s, Color("4f7a3a"))
+			ci.draw_circle(c + Vector2(0, -0.22) * s, 0.09 * s, Color("3a2a22"))
+			ci.draw_line(c + Vector2(0, -0.14) * s, c + Vector2(0, 0.24) * s, Color("2f4a22"), maxf(1.5, s * 0.03))
+		"web":
+			for k in 8:
+				var a := TAU * k / 8.0
+				ci.draw_line(c, c + Vector2(cos(a), sin(a)) * 0.4 * s, Color("8a8a8a"), maxf(1.0, s * 0.02))
+			for ring in 3:
+				ci.draw_arc(c, (0.12 + ring * 0.12) * s, 0, TAU, 8, Color("8a8a8a"), maxf(1.0, s * 0.02))
+		"fox":
+			# A fox's face: orange triangle head, white cheeks, pointed ears.
+			ci.draw_colored_polygon(PackedVector2Array([c + Vector2(-0.34, -0.16) * s, c + Vector2(0.34, -0.16) * s, c + Vector2(0, 0.34) * s]), Color("d9733a"))
+			for side: float in [-1.0, 1.0]:
+				ci.draw_colored_polygon(PackedVector2Array([c + Vector2(side * 0.34, -0.16) * s, c + Vector2(side * 0.3, -0.42) * s, c + Vector2(side * 0.1, -0.16) * s]), Color("d9733a"))
+				ci.draw_colored_polygon(PackedVector2Array([c + Vector2(side * 0.3, -0.12) * s, c + Vector2(side * 0.06, -0.02) * s, c + Vector2(0, 0.3) * s]), Color("f6ecdc"))
+				ci.draw_circle(c + Vector2(side * 0.12, -0.06) * s, 0.035 * s, Color("2a2420"))
+			ci.draw_circle(c + Vector2(0, 0.3) * s, 0.05 * s, Color("2a2420"))
+		"weed":
+			for k in 5:
+				var a := -PI / 2.0 + (k - 2) * 0.4
+				ci.draw_line(c + Vector2(0, 0.3) * s, c + Vector2(0, 0.3) * s + Vector2(cos(a), sin(a)) * 0.6 * s, Color("6a8a3a"), maxf(2.0, s * 0.06))
+			ci.draw_line(c + Vector2(-0.3, 0.32) * s, c + Vector2(0.3, 0.32) * s, Color("8a5a3a"), maxf(2.0, s * 0.05))
+		"flower":
+			ci.draw_line(c + Vector2(0, 0.06) * s, c + Vector2(0, 0.42) * s, Color("5f8a3f"), maxf(2.0, s * 0.05))
+			for k in 5:
+				var a := TAU * k / 5.0 - PI / 2.0
+				ci.draw_circle(c + Vector2(0, -0.08) * s + Vector2(cos(a), sin(a)) * 0.16 * s, 0.11 * s, Color("d9473c") if k % 2 == 0 else Color("f2c14e"))
+			ci.draw_circle(c + Vector2(0, -0.08) * s, 0.08 * s, Color("f6e3a0"))
+		"leaf":
+			# A maple leaf.
+			var leaf := PackedVector2Array()
+			for k in 10:
+				var a := TAU * k / 10.0 - PI / 2.0
+				leaf.append(c + Vector2(cos(a), sin(a)) * (0.4 if k % 2 == 0 else 0.18) * s)
+			ci.draw_colored_polygon(leaf, Color("d9733a"))
+			ci.draw_line(c, c + Vector2(0, 0.44) * s, Color("8a4a2a"), maxf(1.5, s * 0.04))
+		"acorn":
+			ci.draw_circle(c + Vector2(0, 0.08) * s, 0.24 * s, Color("a8733e"))
+			ci.draw_rect(Rect2(c + Vector2(-0.28, -0.2) * s, Vector2(0.56, 0.16) * s), Color("7b5338"))
+			ci.draw_line(c + Vector2(0, -0.2) * s, c + Vector2(0.06, -0.36) * s, Color("5a3d28"), maxf(2.0, s * 0.05))
+		"stone":
+			ci.draw_colored_polygon(_oval(c + Vector2(-0.14, 0.1) * s, Vector2(0.24, 0.16) * s), Color("b7aea0"))
+			ci.draw_colored_polygon(_oval(c + Vector2(0.22, -0.12) * s, Vector2(0.14, 0.1) * s), Color("9a9184"))
+		"bird":
+			# A little round songbird.
+			ci.draw_circle(c + Vector2(0, 0.06) * s, 0.24 * s, Color("8a5a3a"))
+			ci.draw_circle(c + Vector2(0.18, -0.16) * s, 0.13 * s, Color("8a5a3a"))
+			ci.draw_circle(c + Vector2(0.06, 0.12) * s, 0.14 * s, Color("d9733a"))
+			ci.draw_colored_polygon(PackedVector2Array([c + Vector2(0.3, -0.18) * s, c + Vector2(0.42, -0.14) * s, c + Vector2(0.3, -0.1) * s]), Color("e0b64c"))
+			ci.draw_circle(c + Vector2(0.21, -0.19) * s, 0.025 * s, Color("2a2420"))
+			ci.draw_colored_polygon(PackedVector2Array([c + Vector2(-0.2, 0.0) * s, c + Vector2(-0.44, -0.12) * s, c + Vector2(-0.36, 0.1) * s]), Color("6a4a2e"))
 		"todo":
 			# An empty ring, waiting for its tick.
 			ci.draw_arc(c, 0.36 * s, 0, TAU, 32, Color("b89a78"), maxf(2.0, s * 0.08), true)
@@ -421,3 +502,11 @@ class Glyph:
 
 	func _draw() -> void:
 		Icon.draw(self, kind, Rect2(Vector2.ZERO, size))
+
+
+static func _oval(c: Vector2, r: Vector2) -> PackedVector2Array:
+	var pts := PackedVector2Array()
+	for i in 16:
+		var a := TAU * i / 16.0
+		pts.append(c + Vector2(cos(a) * r.x, sin(a) * r.y))
+	return pts

@@ -32,7 +32,7 @@ func _ready() -> void:
 			Settings.set_value("text_scale", float(a.substr(7)))
 	get_tree().root.theme = UiStyle.build_theme(UiStyle.text_scale())
 	DirAccess.make_dir_recursive_absolute(out)
-	for id: String in ["home_pour_water", "market_buy", "garden_look_closely", "garden_measure", "market_labels", "home_animal_signs", "garden_bean_row", "garden_water", "bakery_baskets", "home_set_table", "sheepfold_hay", "mill_flour", "oven_bake", "good_shepherd", "orchard_plant", "pond_creatures", "thank_you_card"]:
+	for id: String in ["home_eggs", "garden_weed", "village_pantry", "garden_flower_border", "garden_measure_again", "grove_leaves", "grove_trail_signs", "grove_acorns", "grove_stone_path", "grove_bird_feeders", "home_pour_water", "market_buy", "garden_look_closely", "garden_measure", "market_labels", "home_animal_signs", "garden_bean_row", "garden_water", "bakery_baskets", "home_set_table", "sheepfold_hay", "mill_flour", "oven_bake", "good_shepherd", "orchard_plant", "pond_creatures", "thank_you_card"]:
 		if not only.is_empty() and not only.split(",").has(id):
 			continue
 		if not ActivityRunner.start(id):
@@ -70,7 +70,15 @@ func _ready() -> void:
 
 ## Puts about `part` of the pieces where they belong.
 func _fill(step: ActivityStep, part: float) -> void:
-	if step.get("glasses") != null:
+	if step.get("unit") != null:
+		# A pattern carried on partway along the row.
+		for i in int(step.places.size() * part + 0.5):
+			if step.places[i].contents.is_empty():
+				for p: DragPiece in step.pieces:
+					if p.kind == step.kind_at(i) and p.placed_in == null:
+						_place(p, step.places[i].center())
+						break
+	elif step.get("glasses") != null:
 		for i in int(step.glasses.size() * part + 0.5):
 			step.levels[i] = step.lines[i]
 		step.levels[step.glasses.size() - 1] = step.lines[step.glasses.size() - 1] * 0.5

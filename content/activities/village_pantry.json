@@ -1,0 +1,90 @@
+{
+	"id": "village_pantry",
+	"title": "Mrs. Ruth's Pantry",
+	"mode": "task",
+	"location": "village",
+	"surface": "wood_table",
+	"readiness": {
+		"ages": [
+			5,
+			9
+		],
+		"math": "none",
+		"reading": "first sounds (younger); reading short words by sounding out (older)"
+	},
+	"concepts": [
+		"first sounds",
+		"letter-sound match",
+		"reading CVC words",
+		"labels tell us what is inside"
+	],
+	"formation_themes": [
+		"helping neighbors",
+		"order"
+	],
+	"prerequisites": [
+		{
+			"fact": "village.pantry_labels",
+			"exists": false
+		}
+	],
+	"intro": [
+		{
+			"speaker": "ruth",
+			"text": "Come in, come in! My pantry shelf is all in a muddle. I can never find my pot when I need it!"
+		},
+		{
+			"speaker": "ruth",
+			"text": "Could you help me make labels for the shelf? Then everything will have its place."
+		}
+	],
+	"steps": [
+		{
+			"id": "labels",
+			"primitive": "label_pictures",
+			"speaker": "ruth",
+			"prompt": "Listen to each name. Which letter makes its first sound? Put that letter under the picture.",
+			"hint": "Show me",
+			"mode": "first_sound",
+			"items": [
+				"pot",
+				"cup",
+				"lid"
+			],
+			"older": {
+				"mode": "word",
+				"items": [
+					"pot",
+					"pan",
+					"cup",
+					"lid"
+				],
+				"extra": [
+					"mug"
+				],
+				"prompt": "Read each label. Tap it to hear its sounds, then put it under the right picture."
+			},
+			"feedback": {
+				"all_good": "Every shelf has its label. Now I'll always find my pot!"
+			}
+		}
+	],
+	"outro": [
+		{
+			"speaker": "ruth",
+			"text": "What a tidy pantry! Thank you, little one. Come and have a cup of milk any time.",
+			"button": "You're welcome, Mrs. Ruth"
+		}
+	],
+	"world_effects": [
+		{
+			"op": "set",
+			"fact": "village.pantry_labels",
+			"value": "$labels.labels"
+		}
+	],
+	"replay": "once",
+	"real_world_invitation": "rw_kitchen_labels",
+	"journal_line": "I made labels for Mrs. Ruth's pantry shelf.",
+	"unavailable_text": "Mrs. Ruth's pantry has its labels. Everything has its place."
+}

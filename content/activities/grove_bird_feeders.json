@@ -1,0 +1,101 @@
+{
+	"id": "grove_bird_feeders",
+	"title": "Filling the Bird Feeders",
+	"mode": "task",
+	"location": "valley",
+	"surface": "wood_table",
+	"readiness": {
+		"ages": [
+			5,
+			9
+		],
+		"math": "estimating amounts; filling to a line; half and quarter (older)",
+		"reading": "none required"
+	},
+	"concepts": [
+		"capacity",
+		"filling to a mark",
+		"fractions of a whole (older)",
+		"caring for birds"
+	],
+	"formation_themes": [
+		"care for animals",
+		"God provides"
+	],
+	"prerequisites": [
+		{
+			"not": {
+				"fact": "grove.birds_fed_day",
+				"is_today": true
+			}
+		}
+	],
+	"intro": [
+		{
+			"speaker": "ruth",
+			"text": "Listen to the birds singing! In the grove, I hang feeders for them. Today they're empty."
+		},
+		{
+			"speaker": "ruth",
+			"text": "Pour the seed into each feeder, and stop at the line. Too much and it spills on the ground."
+		}
+	],
+	"steps": [
+		{
+			"id": "pour",
+			"primitive": "pour_to_line",
+			"speaker": "ruth",
+			"prompt": "Fill each feeder to its line. Hold the jug of seed over a feeder, and let go at the line.",
+			"hint": "Show me",
+			"lines": [
+				0.6,
+				0.6,
+				0.6
+			],
+			"rate": 0.25,
+			"tolerance": 0.08,
+			"liquid": "grain",
+			"older": {
+				"lines": [
+					0.5,
+					1.0,
+					0.25
+				],
+				"labels": [
+					"half",
+					"full",
+					"a quarter"
+				],
+				"rate": 0.35,
+				"tolerance": 0.05,
+				"prompt": "Fill each feeder to its line: half, full, and a quarter."
+			},
+			"feedback": {
+				"too_full": "Oops, that one is too full: the seed is over the line. Tap it to pour it back.",
+				"all_good": "Every feeder is full to its line. The birds will feast!"
+			}
+		}
+	],
+	"outro": [
+		{
+			"speaker": "ruth",
+			"text": "Look at the birds, they're coming already! Jesus said, \"Look at the birds: they don't sow or reap, and your Father feeds them.\""
+		},
+		{
+			"speaker": "ruth",
+			"text": "Today, He used your hands to do it.",
+			"button": "Thank you, Mrs. Ruth"
+		}
+	],
+	"world_effects": [
+		{
+			"op": "set",
+			"fact": "grove.birds_fed_day",
+			"value": "$day"
+		}
+	],
+	"replay": "free",
+	"real_world_invitation": "rw_feed_birds",
+	"journal_line": "I filled the bird feeders in the grove with Mrs. Ruth, and the birds came to eat.",
+	"unavailable_text": "The feeders are full for today. Listen to the birds!"
+}

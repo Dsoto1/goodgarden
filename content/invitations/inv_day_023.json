@@ -1,0 +1,34 @@
+{
+	"id": "inv_day_023",
+	"from": "tobias",
+	"body": "Hello, friend!\n\nI'm making a nature trail in the grove, with signs for the little wonders: the old log, the beetles, the spider's web.\n\nYou're so good with letters. Will you help me make the signs?",
+	"signature": "Mr. Tobias, the baker",
+	"suggests": "grove_trail_signs",
+	"summary": "Make signs for the nature trail with Mr. Tobias.",
+	"done": "The trail signs are up. Thank you!",
+	"tasks": [
+		{
+			"text": "Make trail signs",
+			"activity": "grove_trail_signs",
+			"icon": "letters",
+			"where": "in the grove behind the chapel"
+		},
+		{
+			"text": "Pour water for supper",
+			"activity": "home_pour_water",
+			"icon": "water",
+			"where": "at the jug in your kitchen"
+		},
+		{
+			"text": "Say hello to Miss Miriam",
+			"done_when": [
+				{
+					"fact": "npc.miriam.greeted_day",
+					"is_today": true
+				}
+			],
+			"icon": "seedling",
+			"where": "in her garden"
+		}
+	]
+}

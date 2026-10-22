@@ -19,6 +19,7 @@ const PRIMITIVES := {
 	"pour_to_line": "res://scripts/activity/primitives/pour_to_line.gd",
 	"pay_with_coins": "res://scripts/activity/primitives/pay_with_coins.gd",
 	"look_closely": "res://scripts/activity/primitives/look_closely.gd",
+	"continue_pattern": "res://scripts/activity/primitives/continue_pattern.gd",
 }
 
 

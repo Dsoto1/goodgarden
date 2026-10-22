@@ -14,6 +14,7 @@ const STALLS := [
 	[Vector3(4.6, 0, 2.3), "awning_red", ["crate_lettuce", "crate_carrots"]],
 ]
 
+var _pantry_labels: Node3D # labels on Mrs. Ruth's pantry shelf, once made
 var _stall_labels: Node3D # the labels the child made for Tobias's stall
 var _baking: Node3D # the fire and fresh loaves, on baking day
 ## Villagers by id: [wanderer, home position, home radius, current anchor id].
@@ -128,6 +129,7 @@ func build() -> void:
 
 	_villager("tobias", World.look_for("tobias"), Vector3(-8.4, 0, -8.2), 1.2)
 	_villager("ruth", World.look_for("ruth"), Vector3(7.0, 0, 5.2), 0.8)
+	_pantry_shelf(Vector3(8.7, 0, 4.3))
 	# Neighbours going about their day (ambient, no conversation yet).
 	var folk: Array = Content.get_world("characters").get("villagers", [])
 	var spots := [Vector3(-3.6, 0, 5.6), Vector3(3.8, 0, -5.2), Vector3(-3.4, 0, -5.8), Vector3(1.6, 0, 6.2), Vector3(7.2, 0, 0.8)]
@@ -400,6 +402,8 @@ func _villager(id: String, look: Dictionary, at: Vector3, wander_radius: float) 
 
 func sync_with_world() -> void:
 	_sync_stall_labels()
+	if _pantry_labels:
+		_pantry_labels.visible = WorldState.has_fact("village.pantry_labels")
 	# On some days a neighbour waits somewhere else (Mrs. Ruth at the
 	# sheepfold, Mr. Tobias at the mill), as the day's "npcs" anchors say.
 	for id: String in _villagers:
@@ -419,6 +423,35 @@ func sync_with_world() -> void:
 	if _baking:
 		var baked: Variant = WorldState.get_fact("village.baked_day")
 		_baking.visible = baked != null and int(baked) == Days.current_day
+
+
+## Mrs. Ruth's pantry shelf by her cottage door: a pot, a pan, a cup and a
+## lid. From the third week the child makes labels for it; once made, little
+## cream labels hang along the shelf's edge.
+func _pantry_shelf(at: Vector3) -> void:
+	var r := Node3D.new()
+	r.name = "PantryShelf"
+	r.position = at
+	r.rotation.y = -0.6
+	add_child(r)
+	for x: float in [-0.55, 0.55]:
+		MeshKit.box(r, Vector3(0.08, 1.4, 0.36), Vector3(x, 0.7, 0), "wood_dark")
+	for y: float in [0.45, 0.95, 1.38]:
+		MeshKit.box(r, Vector3(1.18, 0.05, 0.38), Vector3(0, y, 0), "wood")
+	MeshKit.solid(r, Vector3(1.2, 1.4, 0.4), Vector3(0, 0.7, 0))
+	MeshKit.cylinder(r, 0.13, 0.11, 0.2, Vector3(-0.3, 0.58, 0), "stone_dark", 10)
+	MeshKit.cylinder(r, 0.14, 0.14, 0.04, Vector3(0.28, 0.5, 0), "stone_dark", 10)
+	MeshKit.cylinder(r, 0.05, 0.04, 0.1, Vector3(-0.28, 1.03, 0), "cloth_cream", 8)
+	MeshKit.cylinder(r, 0.12, 0.12, 0.02, Vector3(0.28, 0.99, 0), "stone_dark", 10)
+	_pantry_labels = Node3D.new()
+	_pantry_labels.name = "PantryLabels"
+	StaticBatch.mark_live(_pantry_labels)
+	r.add_child(_pantry_labels)
+	for k in 4:
+		MeshKit.box(_pantry_labels, Vector3(0.16, 0.07, 0.01), Vector3(-0.3 + (k % 2) * 0.58, 0.4 + (k / 2) * 0.5, 0.2), "cloth_cream")
+	var use := Interactable.create(r, Vector3(0, 0, 0.8), "Help Mrs. Ruth label her pantry", func() -> void:
+		get_tree().call_group("main", "start_activity_here", "village_pantry", r.global_position + Vector3(0, 0.9, 0)), 0.7, 1.7)
+	use.conditions = [{"day_at_least": 17}, {"fact": "village.pantry_labels", "exists": false}]
 
 
 func _find_anchor(anchor_id: String) -> Node3D:

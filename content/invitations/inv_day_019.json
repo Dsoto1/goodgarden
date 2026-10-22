@@ -1,0 +1,34 @@
+{
+	"id": "inv_day_019",
+	"from": "miriam",
+	"body": "Dear friend,\n\nDo you remember the measuring blocks? Our bean plants are so much taller now.\n\nCome and measure them again, and see how much they have grown since last week!",
+	"signature": "Miss Miriam",
+	"suggests": "garden_measure_again",
+	"summary": "Measure the beans again, and see how much they have grown.",
+	"done": "The beans are measured. Look how they've grown!",
+	"tasks": [
+		{
+			"text": "Measure the beans again",
+			"activity": "garden_measure_again",
+			"icon": "measure",
+			"where": "in Miss Miriam's garden"
+		},
+		{
+			"text": "Feed the lambs",
+			"activity": "sheepfold_hay",
+			"icon": "sheep",
+			"where": "at the sheepfold"
+		},
+		{
+			"text": "Feed the hens",
+			"done_when": [
+				{
+					"fact": "home.hens_fed_day",
+					"is_today": true
+				}
+			],
+			"icon": "hen",
+			"where": "by the coop at home"
+		}
+	]
+}

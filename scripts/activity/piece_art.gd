@@ -37,6 +37,67 @@ static func draw(ci: CanvasItem, kind: String, size: Vector2, outline: bool, dat
 			ci.draw_string(UiStyle.font(), Vector2(0, c.y + fsize * 0.35), value, HORIZONTAL_ALIGNMENT_CENTER, size.x, fsize, metal.darkened(0.55))
 		return
 	match kind:
+		"flower_red", "flower_yellow", "flower_blue":
+			# A five-petalled flower; colour and a small difference in the
+			# centre, so the pattern can be told apart by more than colour.
+			var petal: Color = {"flower_red": Color("d9473c"), "flower_yellow": Color("f2c14e"), "flower_blue": Color("5f8fd0")}[kind]
+			for k in 5:
+				var a := TAU * k / 5.0 - PI / 2.0
+				var pc := c + Vector2(cos(a), sin(a)) * size.x * 0.24
+				if outline:
+					ci.draw_arc(pc, size.x * 0.16, 0, TAU, 12, OUTLINE, 2.0)
+				else:
+					ci.draw_circle(pc, size.x * 0.17, petal)
+			if not outline:
+				ci.draw_circle(c, size.x * 0.12, Color("8a5a3a") if kind == "flower_yellow" else Color("f6e3a0"))
+		"stone_big", "stone_small":
+			var rr := size * (0.46 if kind == "stone_big" else 0.28)
+			_shape(ci, _ellipse(c, Vector2(rr.x, rr.y * 0.8), 14), Color("b7aea0") if kind == "stone_big" else Color("9a9184"), outline)
+		"egg":
+			var shell := PackedVector2Array()
+			for k in 24:
+				var a := TAU * k / 24.0
+				shell.append(c + Vector2(cos(a) * size.x * 0.36, sin(a) * size.y * (0.46 if sin(a) < 0 else 0.4)))
+			_shape(ci, shell, Color("f0dcc0"), outline)
+		"leaf_oak":
+			# Wavy edges with round lobes.
+			var oak := PackedVector2Array()
+			for k in 32:
+				var a := TAU * k / 32.0
+				var r := 0.4 + 0.06 * sin(a * 7.0)
+				oak.append(c + Vector2(cos(a) * size.x * r * 0.62, sin(a) * size.y * r))
+			_shape(ci, oak, Color("8a9a3a"), outline)
+			if not outline:
+				ci.draw_line(c + Vector2(0, size.y * 0.4), c - Vector2(0, size.y * 0.36), Color("5f6a2a"), 2.0)
+		"leaf_maple":
+			# Five pointed lobes, like a hand.
+			var maple := PackedVector2Array()
+			for k in 10:
+				var a := TAU * k / 10.0 - PI / 2.0
+				var r := 0.46 if k % 2 == 0 else 0.2
+				maple.append(c + Vector2(cos(a), sin(a)) * size.x * r)
+			_shape(ci, maple, Color("d9733a"), outline)
+			if not outline:
+				ci.draw_line(c, c + Vector2(0, size.y * 0.46), Color("8a4a2a"), 2.0)
+		"leaf_round":
+			_shape(ci, _ellipse(c, Vector2(size.x * 0.36, size.y * 0.36), 18), Color("6fa84f"), outline)
+			if not outline:
+				ci.draw_line(c + Vector2(0, size.y * 0.46), c - Vector2(0, size.y * 0.3), Color("4f7a3a"), 2.0)
+		"acorn":
+			_shape(ci, _ellipse(c + Vector2(0, size.y * 0.08), Vector2(size.x * 0.3, size.y * 0.34), 14), Color("a8733e"), outline)
+			if not outline:
+				ci.draw_rect(Rect2(c.x - size.x * 0.34, c.y - size.y * 0.3, size.x * 0.68, size.y * 0.2), Color("7b5338"))
+				ci.draw_line(c - Vector2(0, size.y * 0.3), c - Vector2(-size.x * 0.06, size.y * 0.46), Color("5a3d28"), 2.0)
+		"weed":
+			# A scruffy weed with its roots.
+			if outline:
+				ci.draw_arc(c, size.x * 0.4, 0, TAU, 16, OUTLINE, 2.0)
+			else:
+				for k in 5:
+					var a := -PI / 2.0 + (k - 2) * 0.45
+					ci.draw_line(c + Vector2(0, size.y * 0.1), c + Vector2(cos(a), sin(a)) * size.x * 0.42, Color("6a8a3a"), 4.0)
+				for k in 3:
+					ci.draw_line(c + Vector2(0, size.y * 0.1), c + Vector2((k - 1) * size.x * 0.14, size.y * 0.46), Color("c9a774"), 2.0)
 		"lens":
 			# A magnifying glass: a brass ring (the view inside is drawn by the
 			# step) and a wooden handle below.

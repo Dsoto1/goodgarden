@@ -218,10 +218,11 @@ static func name_sign(parent: Node3D, pos: Vector3, rot_y: float, word: String) 
 	return r
 
 
-## Puts up the name signs the child has made ("home.signs" lists the words)
-## at this region's spots: {word: [position, rot_y]}. Safe to call again.
-static func sync_name_signs(holder: Node3D, spots: Dictionary) -> void:
-	var made: Variant = WorldState.get_fact("home.signs", [])
+## Puts up the name signs the child has made (the `fact` lists the words,
+## "home.signs" by default) at this region's spots: {word: [position, rot_y]}.
+## Safe to call again.
+static func sync_name_signs(holder: Node3D, spots: Dictionary, fact := "home.signs") -> void:
+	var made: Variant = WorldState.get_fact(fact, [])
 	for word: String in spots:
 		var have := holder.get_node_or_null("NameSign_" + word)
 		var want: bool = made is Array and word in made

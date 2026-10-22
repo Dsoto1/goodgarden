@@ -1,0 +1,104 @@
+{
+	"id": "grove_stone_path",
+	"title": "A Stepping-Stone Path",
+	"mode": "task",
+	"location": "valley",
+	"surface": "wood_table",
+	"readiness": {
+		"ages": [
+			5,
+			9
+		],
+		"math": "continuing a repeating pattern (AB; older: AAB)",
+		"reading": "pre-reader friendly; all text can be read aloud"
+	},
+	"concepts": [
+		"repeating patterns",
+		"predicting what comes next",
+		"size: big and small"
+	],
+	"formation_themes": [
+		"helping neighbors",
+		"order"
+	],
+	"prerequisites": [
+		{
+			"fact": "grove.stone_path",
+			"exists": false
+		}
+	],
+	"intro": [
+		{
+			"speaker": "tobias",
+			"text": "The path into the grove gets so muddy! Let's lay stepping stones, so nobody gets muddy feet."
+		},
+		{
+			"speaker": "tobias",
+			"text": "I've laid the first few in a pattern: big, small, big, small. Can you carry it on?"
+		}
+	],
+	"older": {
+		"intro": [
+			{
+				"speaker": "tobias",
+				"text": "The path into the grove gets so muddy! Let's lay stepping stones, so nobody gets muddy feet."
+			},
+			{
+				"speaker": "tobias",
+				"text": "I've laid the first few in a pattern: big, big, small. Can you carry it on?"
+			}
+		]
+	},
+	"steps": [
+		{
+			"id": "stones",
+			"primitive": "continue_pattern",
+			"speaker": "tobias",
+			"look": "path",
+			"prompt": "Carry on the pattern. What comes next?",
+			"hint": "Show me",
+			"unit": [
+				"stone_big",
+				"stone_small"
+			],
+			"length": 10,
+			"given": 4,
+			"names": {
+				"stone_big": "big",
+				"stone_small": "small"
+			},
+			"older": {
+				"unit": [
+					"stone_big",
+					"stone_big",
+					"stone_small"
+				],
+				"length": 12,
+				"given": 3,
+				"prompt": "Carry on the pattern: big, big, small. What comes next?"
+			},
+			"feedback": {
+				"wrong": "Listen to the pattern: {pattern}",
+				"all_good": "The path goes all the way into the grove!"
+			}
+		}
+	],
+	"outro": [
+		{
+			"speaker": "tobias",
+			"text": "Try walking on it! Hop, step, hop, step. No more muddy feet.",
+			"button": "Thank you, Mr. Tobias"
+		}
+	],
+	"world_effects": [
+		{
+			"op": "set",
+			"fact": "grove.stone_path",
+			"value": "$stones.unit"
+		}
+	],
+	"replay": "once",
+	"real_world_invitation": "rw_patterns",
+	"journal_line": "I laid a stepping-stone path into the grove in a pattern.",
+	"unavailable_text": "The stepping-stone path is laid. Hop along it!"
+}

@@ -1,0 +1,39 @@
+{
+	"id": "inv_day_022",
+	"from": "miriam",
+	"body": "Good morning, my friend!\n\nBehind the chapel, past the big trees, there is a quiet grove. I have never shown it to you!\n\nThe ground is covered in fallen leaves. Come and find me there, and we'll look at them together.\n\nFollow the path round the chapel.",
+	"signature": "Miss Miriam",
+	"suggests": "grove_leaves",
+	"summary": "Find the grove behind the chapel, and sort the fallen leaves.",
+	"done": "You found the grove and sorted the leaves!",
+	"tasks": [
+		{
+			"text": "Sort the leaves",
+			"activity": "grove_leaves",
+			"icon": "leaf",
+			"where": "in the grove behind the chapel"
+		},
+		{
+			"text": "Feed the hens",
+			"done_when": [
+				{
+					"fact": "home.hens_fed_day",
+					"is_today": true
+				}
+			],
+			"icon": "hen",
+			"where": "by the coop at home"
+		},
+		{
+			"text": "Pet a lamb",
+			"done_when": [
+				{
+					"fact": "animals.lamb.petted_day",
+					"is_today": true
+				}
+			],
+			"icon": "sheep",
+			"where": "at the sheepfold"
+		}
+	]
+}

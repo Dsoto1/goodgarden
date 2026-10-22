@@ -1,0 +1,108 @@
+{
+	"id": "garden_flower_border",
+	"title": "A Flower Border",
+	"mode": "task",
+	"location": "garden",
+	"surface": "soil_bed",
+	"readiness": {
+		"ages": [
+			5,
+			9
+		],
+		"math": "continuing a repeating pattern (AB; older: ABC)",
+		"reading": "pre-reader friendly; all text can be read aloud"
+	},
+	"concepts": [
+		"repeating patterns",
+		"predicting what comes next",
+		"order in creation"
+	],
+	"formation_themes": [
+		"beauty",
+		"order"
+	],
+	"prerequisites": [
+		{
+			"fact": "garden.border",
+			"exists": false
+		}
+	],
+	"intro": [
+		{
+			"speaker": "miriam",
+			"text": "I'd like a row of flowers along the fence, to make the garden beautiful and to bring the bees."
+		},
+		{
+			"speaker": "miriam",
+			"text": "I've started a pattern: red, yellow, red, yellow. Can you carry it on to the end?"
+		}
+	],
+	"older": {
+		"intro": [
+			{
+				"speaker": "miriam",
+				"text": "I'd like a row of flowers along the fence, to make the garden beautiful and to bring the bees."
+			},
+			{
+				"speaker": "miriam",
+				"text": "I've started a pattern with three colors. Can you carry it on to the end?"
+			}
+		]
+	},
+	"steps": [
+		{
+			"id": "border",
+			"primitive": "continue_pattern",
+			"speaker": "miriam",
+			"prompt": "Carry on the pattern. What comes next?",
+			"hint": "Show me",
+			"unit": [
+				"flower_red",
+				"flower_yellow"
+			],
+			"length": 10,
+			"given": 4,
+			"names": {
+				"flower_red": "red",
+				"flower_yellow": "yellow",
+				"flower_blue": "blue"
+			},
+			"older": {
+				"unit": [
+					"flower_red",
+					"flower_yellow",
+					"flower_blue"
+				],
+				"length": 12,
+				"given": 3,
+				"prompt": "Carry on the pattern: red, yellow, blue. What comes next?"
+			},
+			"feedback": {
+				"wrong": "Listen to the pattern: {pattern}",
+				"all_good": "The pattern goes all the way along. The bees will love it!"
+			}
+		}
+	],
+	"outro": [
+		{
+			"speaker": "miriam",
+			"text": "God made a world full of patterns: day and night, spring and summer, the petals on a flower."
+		},
+		{
+			"speaker": "miriam",
+			"text": "Come and see our border.",
+			"button": "Thank you, Miss Miriam"
+		}
+	],
+	"world_effects": [
+		{
+			"op": "set",
+			"fact": "garden.border",
+			"value": "$border.unit"
+		}
+	],
+	"replay": "once",
+	"real_world_invitation": "rw_patterns",
+	"journal_line": "I planted a flower border in a pattern with Miss Miriam.",
+	"unavailable_text": "The flower border is planted. Look at its pattern!"
+}

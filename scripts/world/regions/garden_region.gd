@@ -10,6 +10,14 @@ const BED_ROWS := {"cabbages": -3.2, "flowers": 0.0, "bed_1": 3.2}
 
 var _bed_1_plants: Node3D
 var _bed_1_ready: Node3D
+var _weeds: Node3D # weeds in the bean row, from week 3 until they are pulled
+var _border: Node3D # the flower border along the south fence, once planted
+var _flower_tray: Node3D # the tray of flowers waiting to be planted
+
+## The flower border runs along the inside of the south fence.
+const BORDER_Z := 4.85
+const BORDER_FROM := -3.7
+const BORDER_TO := 2.3
 
 
 func build() -> void:
@@ -74,14 +82,42 @@ func build() -> void:
 	# From the second week the beans are tall enough to measure, block by block.
 	var measure_at := Vector3(BED_X + BED_LENGTH / 2.0 + 0.9, 0, BED_ROWS["bed_1"] + 0.5)
 	MeshKit.box(self, Vector3(0.4, 0.25, 0.3), measure_at + Vector3(0, 0.125, -0.5), "wood_light")
+	# In the third week, measuring again shows how much they have grown.
 	var measure := Interactable.create(self, measure_at, "Measure the bean plants", func() -> void:
-		get_tree().call_group("main", "start_activity_here", "garden_measure", position + Vector3(BED_X, 0.5, BED_ROWS["bed_1"])), 0.6, 1.2)
+		var id := "garden_measure_again" if Days.current_day >= 19 and ActivityRunner.can_start("garden_measure_again") else "garden_measure"
+		get_tree().call_group("main", "start_activity_here", id, position + Vector3(BED_X, 0.5, BED_ROWS["bed_1"])), 0.6, 1.2)
 	measure.conditions = [{"day_at_least": 9}, {"fact": "garden.bed_1", "exists": true}]
 	# Miss Miriam's magnifying glass, for looking closely at the bean leaves.
 	var look_at := Vector3(BED_X - BED_LENGTH / 2.0 - 0.9, 0, BED_ROWS["bed_1"] + 0.5)
 	var look := Interactable.create(self, look_at, "Look closely at the bean leaves", func() -> void:
 		get_tree().call_group("main", "start_activity_here", "garden_look_closely", position + Vector3(BED_X, 0.5, BED_ROWS["bed_1"])), 0.6, 1.2)
 	look.conditions = [{"day_at_least": 5}, {"fact": "garden.bed_1", "exists": true}]
+	# From the third week weeds come up in the bean row; a basket waits for them.
+	_weeds = group_node("Weeds")
+	var weed_at := Vector3(BED_X + 1.8, 0, 1.6)
+	MeshKit.cylinder(_weeds, 0.22, 0.17, 0.26, weed_at + Vector3(0.5, 0.13, 0), "wood_light", 10)
+	for k in 6:
+		var wx := BED_X - 2.9 + k * 1.1
+		for leaf in 3:
+			var blade := MeshKit.box(_weeds, Vector3(0.03, 0.22, 0.08), Vector3(wx + (leaf - 1) * 0.05, 0.38, BED_ROWS["bed_1"] - 0.35 + (k % 2) * 0.62), "leaf_light")
+			blade.rotation.z = (leaf - 1) * 0.5
+	var weed := Interactable.create(self, weed_at, "Pull the weeds", func() -> void:
+		get_tree().call_group("main", "start_activity_here", "garden_weed", position + Vector3(BED_X, 0.5, BED_ROWS["bed_1"])), 0.6, 1.0)
+	weed.conditions = [{"day_at_least": 16}, {"fact": "garden.bed_1", "exists": true}, {"fact": "garden.weeded_day", "exists": false}]
+	# A strip of soil along the south fence, for a flower border in a pattern.
+	MeshKit.box(self, Vector3(BORDER_TO - BORDER_FROM + 0.4, 0.06, 0.5), Vector3((BORDER_FROM + BORDER_TO) / 2.0, 0.03, BORDER_Z), "soil_dark")
+	add_clearing(Vector3((BORDER_FROM + BORDER_TO) / 2.0, 0, BORDER_Z), Vector2(BORDER_TO - BORDER_FROM + 0.6, 0.8))
+	_border = group_node("FlowerBorder")
+	_flower_tray = group_node("FlowerTray")
+	var tray_at := Vector3(BORDER_FROM - 0.7, 0, BORDER_Z - 0.1)
+	MeshKit.box(_flower_tray, Vector3(0.6, 0.1, 0.4), tray_at + Vector3(0, 0.05, 0), "wood")
+	for k in 6:
+		var colour: String = ["cloth_red", "cloth_gold", "cloth_blue"][k % 3]
+		MeshKit.sphere(_flower_tray, 0.07, tray_at + Vector3(-0.2 + (k % 3) * 0.2, 0.18, -0.09 + (k / 3) * 0.18), colour, Vector3(1, 0.6, 1), 6, 3)
+	var plant_border := Interactable.create(self, tray_at + Vector3(0, 0, -0.6), "Plant the flower border", func() -> void:
+		get_tree().call_group("main", "start_activity_here", "garden_flower_border", position + Vector3(-0.7, 0.3, BORDER_Z)), 0.6, 1.0)
+	plant_border.conditions = [{"day_at_least": 18}, {"fact": "garden.border", "exists": false}]
+	add_activity_focus(Vector3(-0.7, 0.3, BORDER_Z))
 	CraftedProps.scarecrow(self, Vector3(3.2, 0, 4.4), 0.3)
 	# Miriam's mustard plant, grown from the tiniest seed, in the corner by the fence.
 	CraftedProps.mustard_plant(self, Vector3(5.2, 0, 1.6), 11, 1.9)
@@ -148,6 +184,8 @@ static func growth_stage(bed: Dictionary) -> int:
 
 
 func sync_with_world() -> void:
+	_weeds.visible = Days.current_day >= 16 and WorldState.has_fact("garden.bed_1") and not WorldState.has_fact("garden.weeded_day")
+	_sync_border()
 	for c in _bed_1_plants.get_children():
 		c.queue_free()
 	var bed: Variant = WorldState.get_fact("garden.bed_1")
@@ -206,3 +244,20 @@ func sync_with_world() -> void:
 	# A little wooden label at the row's end, the child's mark on the garden.
 	MeshKit.box(_bed_1_plants, Vector3(0.04, 0.4, 0.04), Vector3(BED_X - BED_LENGTH / 2.0 + 0.1, 0.45, z1 + 0.5), "wood_light")
 	MeshKit.box(_bed_1_plants, Vector3(0.22, 0.14, 0.03), Vector3(BED_X - BED_LENGTH / 2.0 + 0.1, 0.62, z1 + 0.5), "cloth_cream")
+
+
+## The flower border, planted in the child's pattern.
+func _sync_border() -> void:
+	for c in _border.get_children():
+		c.queue_free()
+	var unit: Variant = WorldState.get_fact("garden.border")
+	_flower_tray.visible = Days.current_day >= 18 and unit == null
+	if not unit is Array or (unit as Array).is_empty():
+		return
+	var colours := {"flower_red": "cloth_red", "flower_yellow": "cloth_gold", "flower_blue": "cloth_blue"}
+	var n := 12
+	for i in n:
+		var at := Vector3(BORDER_FROM + (BORDER_TO - BORDER_FROM) * i / (n - 1.0), 0, BORDER_Z)
+		MeshKit.cylinder(_border, 0.012, 0.015, 0.3, at + Vector3(0, 0.15, 0), "sprout", 4)
+		MeshKit.sphere(_border, 0.08, at + Vector3(0, 0.33, 0), str(colours.get(str(unit[i % unit.size()]), "cloth_red")), Vector3(1, 0.55, 1), 7, 3)
+		MeshKit.sphere(_border, 0.07, at + Vector3(0.05, 0.08, 0.03), "leaf", Vector3(1, 0.5, 1), 5, 2)

@@ -1,0 +1,39 @@
+{
+	"id": "inv_day_024",
+	"from": "miriam",
+	"body": "Dear friend,\n\nThe big oak in the grove has dropped hundreds of acorns. Did you know that every acorn could grow into a great oak tree?\n\nLet's plant some, in a row, with room to grow. Meet me in the grove!",
+	"signature": "Miss Miriam",
+	"suggests": "grove_acorns",
+	"summary": "Plant a row of acorns in the grove with Miss Miriam.",
+	"done": "The acorns are planted. Someday they'll be oaks!",
+	"tasks": [
+		{
+			"text": "Plant the acorns",
+			"activity": "grove_acorns",
+			"icon": "acorn",
+			"where": "in the grove behind the chapel"
+		},
+		{
+			"text": "Feed the hens",
+			"done_when": [
+				{
+					"fact": "home.hens_fed_day",
+					"is_today": true
+				}
+			],
+			"icon": "hen",
+			"where": "by the coop at home"
+		},
+		{
+			"text": "Pet the cat",
+			"done_when": [
+				{
+					"fact": "animals.cat.petted_day",
+					"is_today": true
+				}
+			],
+			"icon": "heart",
+			"where": "at home"
+		}
+	]
+}

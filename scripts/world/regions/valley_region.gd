@@ -21,6 +21,31 @@ const POND := Vector3(-25.0, 0, 7.0)
 
 var _name_signs: Node3D # the pig and cow signs the child made
 
+## The Grove: a quiet clearing among big trees behind the chapel, opened in
+## the fourth week. Its work leaves marks that stay: trail signs, a row of
+## oak seedlings, a stepping-stone path, and birds at the feeders.
+const GROVE := Vector3(-23.0, 0, -40.5)
+## Where the acorns go: a row along the clearing's south side.
+const ACORN_ROW := [Vector3(-27.5, 0, -37.6), Vector3(-21.5, 0, -37.6)]
+## The last stretch of the path into the grove, where the stepping stones go.
+const STONE_PATH := [Vector3(-14.2, 0, -36.0), Vector3(-19.4, 0, -39.4)]
+## The little wonders on the nature trail, and where each one's sign stands.
+const TRAIL := {
+	"log": [Vector3(-19.8, 0, -42.6), 0.3],
+	"bug": [Vector3(-26.4, 0, -43.2), -0.2],
+	"web": [Vector3(-29.0, 0, -40.0), -1.2],
+	"fox": [Vector3(-17.6, 0, -44.0), 0.5],
+}
+const FEEDERS := [Vector3(-24.6, 0, -43.4), Vector3(-23.0, 0, -43.9), Vector3(-21.4, 0, -43.4)]
+
+var _grove_leaves: Node3D # the leaf pile, until sorted today
+var _trail_signs: Node3D
+var _acorn_basket: Node3D
+var _seedlings: Node3D
+var _stone_pile: Node3D
+var _stones: Node3D
+var _fed_birds: Node3D
+
 
 func build() -> void:
 	var ground := StaticBody3D.new()
@@ -110,6 +135,7 @@ func build() -> void:
 		add_child(sheep)
 		AnimalMoments.pettable(sheep, "Pet the sheep", ["The sheep stands still and lets you pet its thick wool."], "sheep")
 	_farm_animals()
+	_grove()
 
 	_trees()
 	_boundary()
@@ -217,6 +243,8 @@ func sync_with_world() -> void:
 		_fed.visible = fed != null and int(fed) == Days.current_day
 	if _flour:
 		_flour.visible = WorldState.get_fact("village.flour_day") != null
+	if _trail_signs:
+		_sync_grove()
 
 
 ## A wooden fence around `r` (x, z, width, depth) with an open gate in the
@@ -295,7 +323,7 @@ func _trees() -> void:
 		[-15.5, 15.5, 1.0, "tree_a"], [-15, -4, 1.0, "grove_b_small"], [-31.5, 10.5, 1.1, "tree_b"], [-16, -5, 1.0, "grove_a_small"],
 		[12, 11, 1.0, "tree_a"], [20, 11, 1.0, "grove_b_small"], [25, -1, 1.1, "tree_b"], [26, -8, 1.0, "grove_a_medium"],
 		[-4, -8, 0.9, "tree_a"], [-34, -23, 1.0, "grove_b_medium"], [19, -17.5, 1.0, "tree_b"], [24, -33, 1.0, "grove_a_small"],
-		[-33, -31, 1.0, "grove_b_medium"], [-23, -40, 1.0, "tree_a"], [-16, -37, 1.1, "tree_b"], [-12, -45, 1.0, "grove_a_small"],
+		[-33, -31, 1.0, "grove_b_medium"], [-12, -45, 1.0, "grove_a_small"],
 		[26, -43, 1.0, "tree_a"], [-22, 2.5, 1.0, "grove_a_medium"], [29, -15, 1.0, "tree_b"],
 	]
 	var rng := RandomNumberGenerator.new()
@@ -522,7 +550,8 @@ func _boundary() -> void:
 static func _on_path(p: Vector3) -> bool:
 	var roads := [Rect2(-1, 3.4, 7.5, 2.4), Rect2(4.0, -21, 2.9, 27), Rect2(-22, -23.0, 25, 4.0), Rect2(-32, -23.5, 11, 3.5), Rect2(5, -46, 2, 26),
 		Rect2(-30, 0, 30, 11),
-		Rect2(14, -25.5, 10, 3.6), Rect2(-12.5, -8, 18, 2.6), Rect2(-21, -11, 9, 4)]
+		Rect2(14, -25.5, 10, 3.6), Rect2(-12.5, -8, 18, 2.6), Rect2(-21, -11, 9, 4),
+		Rect2(-17.5, -24, 6, 3), Rect2(-13.4, -36, 2.2, 13), Rect2(-21, -40.5, 8, 5)]
 	for r: Rect2 in roads:
 		if r.grow(0.8).has_point(Vector2(p.x, p.z)):
 			return true
@@ -535,3 +564,134 @@ static func _near_built(p: Vector3) -> bool:
 		if r.has_point(Vector2(p.x, p.z)):
 			return true
 	return absf(p.z + 14) < 3.0
+
+
+## The Grove behind the chapel. Big trees ring a clearing; the path comes
+## round the chapel's east side. Each piece of fourth-week work starts here.
+func _grove() -> void:
+	var g := GROVE
+	# The great oak the acorns fall from, and trees all round.
+	Props.place(self, "tree_a", g + Vector3(-1.5, 0, -4.6), 0.4, 1.5)
+	for t: Array in [[-7.0, -2.5, "tree_b", 1.2], [-7.6, 2.6, "grove_a_medium", 1.0], [6.2, -3.2, "tree_b", 1.1], [-4.6, -5.4, "grove_b_small", 1.0],
+			[4.0, -5.6, "grove_a_small", 1.0], [8.4, 1.0, "grove_b_medium", 1.0], [-9.6, -0.2, "tree_a", 1.0]]:
+		Props.place(self, t[2], g + Vector3(t[0], 0, t[1]), t[0], t[3])
+	for f: Array in [[-6.2, 3.6], [5.6, 4.2], [-3.0, -3.6], [2.6, -4.4]]:
+		Props.place(self, "fern", g + Vector3(f[0], 0, f[1]), f[0])
+	for m: Array in [[-5.6, -3.8], [3.4, -4.0], [-8.2, 1.4]]:
+		Props.place(self, "mushroom", g + Vector3(m[0], 0, m[1]), m[1])
+	add_clearing(g + Vector3(-0.5, 0, 0.6), Vector2(13.0, 8.4))
+	add_place_zone("grove", g + Vector3(0, 1, 0), Vector3(18, 3, 11))
+	# Round the chapel's east side, past its back wall, into the grove.
+	path([Vector3(-17.4, 0, -21.6), Vector3(-13.4, 0, -22.8), Vector3(-12.4, 0, -26.5), Vector3(-12.5, 0, -31.5), STONE_PATH[0], STONE_PATH[1], g + Vector3(1.5, 0, 0.6)], 1.3)
+	CraftedProps.signpost(self, Vector3(-11.4, 0, -23.6), [["Grove", PI], ["Chapel", PI / 2.0]])
+
+	# Fallen leaves, heaped by the oak: from day 22 the child sorts them.
+	_grove_leaves = group_node("GroveLeaves")
+	var pile := g + Vector3(-3.2, 0, -1.0)
+	var leaf_colours := ["cloth_gold", "cloth_brown", "leaf_light", "cloth_red"]
+	for k in 22:
+		var a := k * 2.4
+		var d := 0.15 + (k % 5) * 0.12
+		var leaf := MeshKit.box(_grove_leaves, Vector3(0.16, 0.02, 0.11), pile + Vector3(cos(a) * d, 0.03 + (k % 4) * 0.025, sin(a) * d), str(leaf_colours[k % 4]))
+		leaf.rotation = Vector3(0.2 * ((k % 3) - 1), a, 0.15 * ((k % 2) * 2 - 1))
+	var sort := Interactable.create(self, pile + Vector3(0.9, 0, 0.6), "Sort the fallen leaves", func() -> void:
+		get_tree().call_group("main", "start_activity_here", "grove_leaves", position + pile + Vector3(0, 0.5, 0)), 0.7, 1.2)
+	sort.conditions = [{"day_at_least": 22}, {"not": {"fact": "grove.leaves_day", "is_today": true}}]
+
+	# The nature trail: an old log, a beetle stump, a web, and a fox's den.
+	var log_at: Vector3 = TRAIL["log"][0] + Vector3(0.9, 0, 0.5)
+	MeshKit.cylinder(self, 0.28, 0.32, 2.0, log_at + Vector3(0, 0.28, 0), "trunk", 8).rotation = Vector3(0, 0.3, PI / 2.0)
+	var stump: Vector3 = TRAIL["bug"][0] + Vector3(0.8, 0, -0.2)
+	MeshKit.cylinder(self, 0.35, 0.4, 0.5, stump + Vector3(0, 0.25, 0), "trunk", 9)
+	MeshKit.sphere(self, 0.05, stump + Vector3(0.1, 0.52, 0.05), "cloth_green", Vector3(1, 0.6, 1.3), 6, 3)
+	var web_at: Vector3 = TRAIL["web"][0] + Vector3(-0.6, 0, -0.7)
+	Props.place(self, "bush", web_at, 0.4)
+	for k in 6:
+		var a := TAU * k / 6.0
+		MeshKit.box(self, Vector3(0.6, 0.008, 0.008), web_at + Vector3(0.45, 0.75, 0.35) + Vector3(cos(a), sin(a), 0) * 0.15, "cloth_cream").rotation = Vector3(0, -0.7, a)
+	var den: Vector3 = TRAIL["fox"][0] + Vector3(0.6, 0, -0.9)
+	MeshKit.sphere(self, 0.9, den, "soil", Vector3(1.2, 0.6, 1.0), 9, 4)
+	MeshKit.sphere(self, 0.32, den + Vector3(0, 0.12, 0.72), "dark", Vector3(1.0, 0.8, 0.4), 7, 3)
+	_trail_signs = group_node("TrailSigns")
+	var bench := g + Vector3(6.0, 0, -0.3)
+	MeshKit.box(self, Vector3(1.1, 0.08, 0.55), bench + Vector3(0, 0.6, 0), "wood")
+	for x: float in [-0.45, 0.45]:
+		MeshKit.box(self, Vector3(0.08, 0.6, 0.45), bench + Vector3(x, 0.3, 0), "wood_dark")
+	MeshKit.solid(self, Vector3(1.1, 0.9, 0.55), bench + Vector3(0, 0.45, 0))
+	var signs := Interactable.create(self, bench + Vector3(0, 0, 0.75), "Make signs for the nature trail", func() -> void:
+		get_tree().call_group("main", "start_activity_here", "grove_trail_signs", position + bench + Vector3(0, 0.7, 0)), 0.7, 1.3)
+	signs.conditions = [{"day_at_least": 23}, {"fact": "grove.signs", "exists": false}]
+
+	# The acorn row: a marker stone at its start and a basket of acorns.
+	var row_start: Vector3 = ACORN_ROW[0]
+	Props.place(self, "rock_flat", row_start - Vector3(0.5, 0, 0), 0.3)
+	_acorn_basket = group_node("AcornBasket")
+	var basket := row_start + Vector3(-0.4, 0, 0.9)
+	MeshKit.cylinder(_acorn_basket, 0.2, 0.15, 0.2, basket + Vector3(0, 0.1, 0), "wood_light", 9)
+	for k in 5:
+		MeshKit.sphere(_acorn_basket, 0.04, basket + Vector3(-0.08 + (k % 3) * 0.08, 0.22, -0.04 + (k / 3) * 0.08), "cloth_brown", Vector3(1, 1.2, 1), 5, 3)
+	_seedlings = group_node("OakSeedlings")
+	var plant := Interactable.create(self, basket + Vector3(0.2, 0, 0.6), "Plant the acorns", func() -> void:
+		get_tree().call_group("main", "start_activity_here", "grove_acorns", position + (ACORN_ROW[0] + ACORN_ROW[1]) / 2.0 + Vector3(0, 0.3, 0)), 0.7, 1.0)
+	plant.conditions = [{"day_at_least": 24}, {"fact": "grove.acorns", "exists": false}]
+
+	# A heap of stones by the path, for the stepping-stone path.
+	_stone_pile = group_node("StonePile")
+	var heap: Vector3 = STONE_PATH[0] + Vector3(1.4, 0, -0.6)
+	for k in 7:
+		MeshKit.sphere(_stone_pile, 0.16 + (k % 3) * 0.06, heap + Vector3(-0.3 + (k % 4) * 0.2, 0.08 + (k / 4) * 0.12, -0.1 + (k % 2) * 0.2), "stone", Vector3(1, 0.55, 1), 7, 3)
+	_stones = group_node("SteppingStones")
+	var lay := Interactable.create(self, heap + Vector3(0, 0, 0.9), "Lay the stepping stones", func() -> void:
+		get_tree().call_group("main", "start_activity_here", "grove_stone_path", position + (STONE_PATH[0] + STONE_PATH[1]) / 2.0 + Vector3(0, 0.3, 0)), 0.7, 1.0)
+	lay.conditions = [{"day_at_least": 25}, {"fact": "grove.stone_path", "exists": false}]
+
+	# Bird feeders on posts under the oak; birds come on a day they're filled.
+	_fed_birds = group_node("FedBirds")
+	for f: Vector3 in FEEDERS:
+		MeshKit.box(self, Vector3(0.08, 1.3, 0.08), f + Vector3(0, 0.65, 0), "wood_dark")
+		MeshKit.box(self, Vector3(0.36, 0.04, 0.36), f + Vector3(0, 1.3, 0), "wood")
+		MeshKit.roof(self, 0.5, 0.18, 0.5, f + Vector3(0, 1.6, 0), "roof_red")
+		MeshKit.cylinder(self, 0.1, 0.1, 0.24, f + Vector3(0, 1.44, 0), "glass", 8)
+		MeshKit.cylinder(_fed_birds, 0.09, 0.09, 0.16, f + Vector3(0, 1.4, 0), "cloth_gold", 8)
+		var bird := AnimalModel.make("bird")
+		bird.position = f + Vector3(0.14, 1.32, 0.1)
+		bird.rotation.y = f.x
+		_fed_birds.add_child(bird)
+	var feed := Interactable.create(self, FEEDERS[1] + Vector3(0, 0, 1.0), "Fill the bird feeders", func() -> void:
+		get_tree().call_group("main", "start_activity_here", "grove_bird_feeders", position + FEEDERS[1] + Vector3(0, 1.2, 0)), 0.7, 1.6)
+	feed.conditions = [{"day_at_least": 26}, {"not": {"fact": "grove.birds_fed_day", "is_today": true}}]
+
+	add_anchor("grove_miriam", g + Vector3(-1.6, 0, 1.6), -PI / 2.0)
+	add_anchor("grove_tobias", g + Vector3(5.0, 0, 0.9), PI * 0.75)
+	add_anchor("grove_ruth", FEEDERS[2] + Vector3(1.2, 0, 1.0), PI * 0.75)
+	add_activity_focus(g + Vector3(0, 0.6, 0))
+
+
+func _sync_grove() -> void:
+	_grove_leaves.visible = not WorldState.matches([{"fact": "grove.leaves_day", "is_today": true}])
+	CraftedProps.sync_name_signs(_trail_signs, TRAIL, "grove.signs")
+	var acorns: Variant = WorldState.get_fact("grove.acorns")
+	_acorn_basket.visible = acorns == null
+	for c in _seedlings.get_children():
+		c.queue_free()
+	if acorns is Dictionary:
+		# Oak seedlings come up slowly: a marker stick first, then a little shoot.
+		var grown := Days.current_day - int(acorns.get("day", Days.current_day))
+		for f: Variant in acorns.get("positions", []):
+			var at: Vector3 = (ACORN_ROW[0] as Vector3).lerp(ACORN_ROW[1], float(f))
+			MeshKit.box(_seedlings, Vector3(0.03, 0.4, 0.03), at + Vector3(0.12, 0.2, 0), "wood_light")
+			MeshKit.sphere(_seedlings, 0.14, at + Vector3(0, 0.02, 0), "soil_dark", Vector3(1, 0.25, 1), 6, 2)
+			if grown >= 2:
+				MeshKit.cylinder(_seedlings, 0.015, 0.02, 0.22, at + Vector3(0, 0.11, 0), "sprout", 4)
+				MeshKit.sphere(_seedlings, 0.06, at + Vector3(0, 0.24, 0), "leaf", Vector3(1, 0.5, 1), 5, 2)
+	var pattern: Variant = WorldState.get_fact("grove.stone_path")
+	_stone_pile.visible = pattern == null
+	for c in _stones.get_children():
+		c.queue_free()
+	if pattern is Array and not (pattern as Array).is_empty():
+		var n := 9
+		for i in n:
+			var at: Vector3 = (STONE_PATH[0] as Vector3).lerp(STONE_PATH[1], i / (n - 1.0))
+			var big := str(pattern[i % pattern.size()]) == "stone_big"
+			MeshKit.sphere(_stones, 0.34 if big else 0.2, at + Vector3(0, 0.02, 0), "stone", Vector3(1, 0.12, 0.85), 8, 2)
+	_fed_birds.visible = WorldState.matches([{"fact": "grove.birds_fed_day", "is_today": true}])

@@ -123,6 +123,8 @@ Hands-on activities serve ages 5 to 10 through a grown-up's **Work level** setti
 
 **`look_closely`** (observing and recording): `spots` (the ladybird's spots), `questions` (`[{"ask", "about": "spots"|"legs", "choices": [int]}]`). A magnifying glass shows the picture close up wherever it is moved; each right count is written into the nature notebook on the board. Result: `notes` (`[{"about", "count"}]`). Feedback: `look_again`, `noted`, `all_good`.
 
+**`continue_pattern`** (patterns): `unit` (one repeat, e.g. `["flower_red", "flower_yellow"]`), `length` (places in the row, default 10), `given` (places already set, default one unit), `names` (`{kind: word}`, what each piece is called aloud), `look` (`"border"` soil, or `"path"`). A piece only settles where it continues the pattern; "Show me" says the pattern aloud up to the next empty place. Pieces so far: `flower_red`, `flower_yellow`, `flower_blue`, `stone_big`, `stone_small`. Result: `unit`, `length`. Feedback: `wrong` (`{pattern}` is filled in), `all_good`.
+
 Answer buttons from a step (numbers to choose) start with none selected, so no answer looks suggested; a single main button (Pay, Continue) starts selected.
 
 **`story_figures`**: `places`, `road`, `figures` (`{"id", "label", "color", "shape"?: "donkey"|"building", "accent"?}`), `box`, `segments` (`{"text", "reveal": [ids], "show": {id: {"pos", "lying"}}}`), `wonderings`, `reference`. Result: `retell_seconds`. Follow it with a `match_to_outline` step using `pieces_from_previous` so the child puts the material away.

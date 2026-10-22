@@ -1,0 +1,12 @@
+{
+	"id": "day_017",
+	"day": 17,
+	"week": 3,
+	"arc": "Stewardship & Garden",
+	"invitation": "inv_day_017",
+	"npcs": {"miriam": "garden_miriam"},
+	"primary_activity": "village_pantry",
+	"free_work": ["home_set_table"],
+	"chapel": ["good_samaritan", "mustard_seed", "leaven", "lost_sheep", "fishers", "five_thousand", "good_shepherd"],
+	"season": "Spring"
+}
