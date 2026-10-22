@@ -1,15 +1,40 @@
 extends Node
-## AudioService: ambience, gentle interface sounds and read-aloud narration.
+## AudioService: ambience, gentle interface sounds, footsteps, sounds placed
+## in the world, and read-aloud narration.
 ##
-## Every sound is synthesized at runtime, so the slice ships with no
-## third-party audio. Ambience crossfades between places; the Chapel has its
-## own quiet pad so it is aurally distinct from task gameplay. Narration uses
+## Recorded sounds (CC0, see assets/third_party/audio/) are used where they
+## exist; anything else is synthesized at runtime, so a missing file is never
+## silent. Ambience crossfades between places; the Chapel keeps its own quiet
+## synthesized pad so it is aurally distinct from task gameplay. Narration uses
 ## the platform text-to-speech voice when read-aloud is on; captions always show.
 
 signal narration_unavailable
 
 const MIX_RATE := 22050
 const BUSES := ["Ambience", "Effects", "Voice"]
+const AUDIO_DIR := "res://assets/third_party/audio/"
+## Recorded sounds by name. A name with several files picks one at random each
+## time, so repeated sounds (placing pieces, footsteps) don't sound mechanical.
+const FILES := {
+	"place": ["kenney/place_1", "kenney/place_2", "kenney/place_3", "kenney/place_4", "kenney/place_5"],
+	"return": ["kenney/return"],
+	"step": ["kenney/step_done"],
+	"page": ["freesound/page_1", "freesound/page_2"],
+	"outdoor": ["freesound/amb_meadow"],
+	"interior": ["freesound/amb_stove"],
+	"foot_grass": ["kenney/foot_grass_1", "kenney/foot_grass_2", "kenney/foot_grass_3", "kenney/foot_grass_4", "kenney/foot_grass_5"],
+	"foot_wood": ["kenney/foot_wood_1", "kenney/foot_wood_2", "kenney/foot_wood_3", "kenney/foot_wood_4", "kenney/foot_wood_5"],
+	"foot_stone": ["kenney/foot_stone_1", "kenney/foot_stone_2", "kenney/foot_stone_3", "kenney/foot_stone_4", "kenney/foot_stone_5"],
+	"river": ["freesound/loop_river"],
+	"waterfall": ["freesound/loop_waterfall"],
+	"fountain": ["freesound/loop_fountain"],
+	"sheep": ["freesound/sheep_1", "freesound/sheep_2", "freesound/sheep_3", "freesound/sheep_4"],
+	"hens": ["freesound/hen_1", "freesound/hen_2"],
+}
+## How loud each recorded sound plays (dB), so they sit gently together.
+const LEVELS := {"place": -6.0, "return": -9.0, "step": -8.0, "page": -6.0, "foot_grass": -17.0, "foot_wood": -15.0, "foot_stone": -18.0}
+## Looping sounds, so their streams repeat seamlessly.
+const LOOPS := ["outdoor", "interior", "river", "waterfall", "fountain"]
 
 var _ambience_players: Array[AudioStreamPlayer] = []
 var _active_ambience := 0
@@ -97,17 +122,33 @@ func current_ambience() -> String:
 
 
 func _ambience_level(ambience: String) -> float:
-	return {"outdoor": -10.0, "interior": -16.0, "chapel": -8.0}.get(ambience, -12.0)
+	return {"outdoor": -6.0, "interior": -10.0, "chapel": -8.0}.get(ambience, -12.0)
 
 
 # --- Effects --------------------------------------------------------------
 
-## Short, soft cues: "place", "return", "page", "complete", "step".
+## Short, soft cues: "place", "return", "page", "complete", "step", and
+## footsteps ("foot_grass", "foot_wood", "foot_stone").
 func play(effect: String) -> void:
 	var p := _effects[_next_effect]
 	_next_effect = (_next_effect + 1) % _effects.size()
 	p.stream = _stream(effect)
+	p.volume_db = LEVELS.get(effect, 0.0) if has_recording(effect) else 0.0
+	# A touch of pitch variety keeps repeated taps and steps natural.
+	p.pitch_scale = randf_range(0.94, 1.06) if effect == "place" or effect.begins_with("foot_") else 1.0
 	p.play()
+
+
+## True when `sound` has a recording (rather than a synthesized stand-in).
+func has_recording(sound: String) -> bool:
+	return not _recorded(sound).is_empty()
+
+
+## A recorded stream for a sound placed in the world (river, sheep, ...), or
+## null when there is no recording. Each call may pick a different variant.
+func world_stream(sound: String) -> AudioStream:
+	var options := _recorded(sound)
+	return null if options.is_empty() else options.pick_random()
 
 
 # --- Narration ------------------------------------------------------------
@@ -154,10 +195,29 @@ func _apply_volumes() -> void:
 
 # --- Synthesis ------------------------------------------------------------
 
-func _stream(sound: String) -> AudioStreamWAV:
+func _stream(sound: String) -> AudioStream:
+	var options := _recorded(sound)
+	if not options.is_empty():
+		return options.pick_random()
 	if not _cache.has(sound):
 		_cache[sound] = _synthesize(sound)
 	return _cache[sound]
+
+
+## The loaded recordings for `sound` (empty if it has none).
+func _recorded(sound: String) -> Array:
+	var key := "rec:" + sound
+	if not _cache.has(key):
+		var loaded := []
+		for f: String in FILES.get(sound, []):
+			var path := AUDIO_DIR + f + ".ogg"
+			if ResourceLoader.exists(path):
+				var stream: AudioStream = load(path)
+				if stream is AudioStreamOggVorbis:
+					(stream as AudioStreamOggVorbis).loop = sound in LOOPS
+				loaded.append(stream)
+		_cache[key] = loaded
+	return _cache[key]
 
 
 func _synthesize(sound: String) -> AudioStreamWAV:

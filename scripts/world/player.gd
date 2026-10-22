@@ -7,6 +7,8 @@ extends CharacterBody3D
 const SPEED := 3.4
 const ACCEL := 14.0
 const ARRIVE_DISTANCE := 0.25
+## Distance between footstep sounds, in metres.
+const STRIDE := 0.85
 
 var model: CharacterModel
 var camera: Camera3D
@@ -16,6 +18,7 @@ var _pending_use: Interactable
 var _pointer_held := false
 var _stuck_time := 0.0
 var _dest_marker: MeshInstance3D
+var _stride := 0.0
 
 
 func _ready() -> void:
@@ -139,6 +142,7 @@ func _physics_process(delta: float) -> void:
 	move_and_slide()
 	if is_on_floor():
 		velocity.y = 0.0
+		_footsteps(get_real_velocity().length() * delta)
 	if horizontal.length() > 0.2:
 		rotation.y = lerp_angle(rotation.y, atan2(-horizontal.x, -horizontal.z), minf(delta * 10.0, 1.0))
 	_check_stuck(delta, desired)
@@ -195,3 +199,22 @@ func _check_stuck(delta: float, desired: Vector3) -> void:
 
 func save_state() -> Dictionary:
 	return {"position": [global_position.x, global_position.y, global_position.z], "facing": rotation.y}
+
+
+## Soft footsteps that match the ground: wooden floors at home, stone in the
+## Chapel and the village square, grass everywhere else.
+func _footsteps(moved: float) -> void:
+	_stride += moved
+	if _stride < STRIDE:
+		return
+	_stride = 0.0
+	AudioService.play("foot_" + surface())
+
+
+func surface() -> String:
+	var world := get_parent() as World
+	if world and world.mood == "home":
+		return "wood"
+	if (world and world.mood == "chapel") or Discovery.current == "village":
+		return "stone"
+	return "grass"

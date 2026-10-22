@@ -108,6 +108,16 @@ func build() -> void:
 
 	_trees()
 	_boundary()
+	_sounds()
+
+
+## Water and animals you can hear: the river grows louder as you near it, the
+## waterfall roars softly in the west, and the sheep call from their fold.
+func _sounds() -> void:
+	for x: float in [-46.0, -34.0, -22.0, -12.5, -2.0, 5.5, 14.0, 24.0, 35.0]:
+		SoundSpot.looping(self, "river", Vector3(x, Terrain.RIVER_LEVEL + 0.3, Terrain.river_z(x)), 14.0, 0.0)
+	SoundSpot.looping(self, "waterfall", Vector3(Terrain.FALLS_X + 2.5, Terrain.RIVER_LEVEL + 1.0, Terrain.river_z(Terrain.FALLS_X)), 42.0, 0.0)
+	SoundSpot.calling(self, "sheep", Vector3(27.5, 0.6, -22.5), 30.0, Vector2(7, 16), -6.0)
 
 
 ## A wooden fold around the sheep, with the gate in the west side.

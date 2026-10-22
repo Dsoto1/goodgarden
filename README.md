@@ -44,7 +44,7 @@ The camera follows on its own; the child never has to steer it.
 | Planted bed persists and grows | `garden.bed_1` world fact; sprouts on day 2, seedlings on day 3, climbing plants after |
 | Practical-life activity reusing the framework | `content/activities/home_set_table.json` (placemat outlines) |
 | Chapel/Atrium with a Scripture material | `chapel_region.gd`, `content/activities/good_samaritan.json` (listen, wonder, retell, put away; never scored) |
-| Chapel feels different | World "chapel" mood: dimmer warm light, a separate synthesized soundscape, quieter HUD, tabletop framing |
+| Chapel feels different | World "chapel" mood: dimmer warm light, a separate, quiet synthesized soundscape, quieter HUD, tabletop framing |
 | Journal / Invitation flow | Journal records letters, the child's work, and optional real-world invitations |
 | Save, quit, reload | Versioned save (`SaveService`), restored world facts, journal, discoveries and position |
 | Village path, ambient villagers and animals, Bellhaven in the distance | `village_region.gd`, `valley_region.gd`, `bellhaven_vista.gd` (see it from the overlook north of the village) |
@@ -79,7 +79,8 @@ Art is mid-transition from placeholder to final:
 - **Blending and lushness:** a shared storybook shader set lights every source the same way and grades each pack toward one palette. Procedural buildings, paths and soil get painted world-space patterns. Dense instanced meadows (grass, clover, wildflowers) grow everywhere except floors and paths, and leaves, grass and the river move gently unless "Less motion" is on. "Less scenery detail" in Settings thins the meadows for older tablets.
 - Every imported file is listed in `assets/third_party/manifest.json` and summarized in `docs/design/THIRD_PARTY_ASSETS.md`.
 - `assets/props.json` normalizes every imported model (scale to metres, pivot, collision). Regions place props by name with `Props.place()`, so swapping a model is a data change.
-- **Still custom or procedural** (the identity pieces ART_DIRECTION.md says should be custom): the cottage shell, Chapel and Atrium shelves, the child's raised beds, the characters, the activity boards and UI art, and all sound.
+- **Still custom or procedural** (the identity pieces ART_DIRECTION.md says should be custom): the cottage shell, Chapel and Atrium shelves, the child's raised beds, the characters, and the activity boards and UI art.
+- **Sound:** CC0 recordings from **Kenney** (placing pieces, footsteps on grass, wood and stone) and **Freesound** (meadow birds, a wood stove at home, the river, waterfall and fountain, sheep and hens, page turns). Water and animals are placed in the world, so they grow louder as the child walks closer. The Chapel's quiet pad and the gentle "finished" chime stay synthesized, and any sound without a recording falls back to a synthesized one. Credits: `assets/third_party/audio/freesound/CREDITS.txt`.
 
 The content validator fails if any file under `assets/third_party/` is missing from the manifest, or if a catalogued prop's model is missing.
 

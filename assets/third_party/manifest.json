@@ -1,5 +1,5 @@
 {
-	"comment": "Every file under assets/third_party must be listed here (path + files) before it is used. See docs/design/THIRD_PARTY_ASSETS.md. Geometry not listed here is procedural (scripts/world/mesh_kit.gd); all UI art and sound are procedural.",
+	"comment": "Every file under assets/third_party must be listed here (path + files) before it is used. See docs/design/THIRD_PARTY_ASSETS.md. Geometry not listed here is procedural (scripts/world/mesh_kit.gd); all UI art is procedural, and sounds not listed here are synthesized (autoload/audio_service.gd).",
 	"assets": [
 		{
 			"path": "res://assets/third_party/artlist/",
@@ -246,6 +246,65 @@
 			"files": [
 				"EBGaramond-wght.ttf",
 				"OFL.txt"
+			]
+		},
+		{
+			"path": "res://assets/third_party/audio/kenney/",
+			"pack": "Kenney Impact Sounds and Interface Sounds (1.0)",
+			"creator": "Kenney (www.kenney.nl)",
+			"source": "https://kenney.nl/assets/impact-sounds and https://kenney.nl/assets/interface-sounds",
+			"license": "CC0 1.0 Universal (License.txt included)",
+			"acquired": "2026-10-22",
+			"modified": "Renamed (place_* = impactWood_light_000-004, foot_grass/wood/stone_* = footstep_grass/wood/concrete_000-004, return = drop_002, step_done = confirmation_002); trimmed, mono, levelled, re-encoded as Ogg Vorbis.",
+			"files": [
+				"License.txt",
+				"foot_grass_1.ogg",
+				"foot_grass_2.ogg",
+				"foot_grass_3.ogg",
+				"foot_grass_4.ogg",
+				"foot_grass_5.ogg",
+				"foot_stone_1.ogg",
+				"foot_stone_2.ogg",
+				"foot_stone_3.ogg",
+				"foot_stone_4.ogg",
+				"foot_stone_5.ogg",
+				"foot_wood_1.ogg",
+				"foot_wood_2.ogg",
+				"foot_wood_3.ogg",
+				"foot_wood_4.ogg",
+				"foot_wood_5.ogg",
+				"place_1.ogg",
+				"place_2.ogg",
+				"place_3.ogg",
+				"place_4.ogg",
+				"place_5.ogg",
+				"return.ogg",
+				"step_done.ogg"
+			]
+		},
+		{
+			"path": "res://assets/third_party/audio/freesound/",
+			"pack": "Freesound field recordings (13 sounds)",
+			"creator": "Freesound users Tonmeister88, HullMusic, pepasystem, Nox_Sound, CheatinSloth, satoristudios3, michaelperfect, D4XX, craigsmith, SpaceJoe (see CREDITS.txt)",
+			"source": "https://freesound.org (sound ids in CREDITS.txt), via the Freesound API",
+			"license": "CC0 1.0 Universal, every sound (listed per file in CREDITS.txt)",
+			"acquired": "2026-10-22",
+			"modified": "HQ Ogg previews; loudness-matched, trimmed, mono except the ambience beds, loops crossfaded to repeat seamlessly.",
+			"files": [
+				"CREDITS.txt",
+				"amb_meadow.ogg",
+				"amb_stove.ogg",
+				"hen_1.ogg",
+				"hen_2.ogg",
+				"loop_fountain.ogg",
+				"loop_river.ogg",
+				"loop_waterfall.ogg",
+				"page_1.ogg",
+				"page_2.ogg",
+				"sheep_1.ogg",
+				"sheep_2.ogg",
+				"sheep_3.ogg",
+				"sheep_4.ogg"
 			]
 		}
 	]

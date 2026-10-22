@@ -1,0 +1,19 @@
+Sounds from Freesound (https://freesound.org), each released under
+Creative Commons 0 (public domain, https://creativecommons.org/publicdomain/zero/1.0/).
+Credit is not required; the creators are thanked here.
+Downloaded 2026-10-22 as the HQ Ogg previews through the Freesound API, then
+loudness-matched, trimmed, mixed to mono (all but amb_*) and crossfaded into seamless loops (amb_*, loop_*).
+
+amb_meadow.ogg       "Mountain Meadow Switzerland Birds Insects distant cowbells.wav" by Tonmeister88 - https://freesound.org/people/Tonmeister88/sounds/454841/
+amb_stove.ogg        "Fireplace woodstove with the lid open" by HullMusic - https://freesound.org/people/HullMusic/sounds/718202/
+loop_river.ogg       "Small Brook Flowing Around Rocks" by pepasystem - https://freesound.org/people/pepasystem/sounds/819768/
+loop_waterfall.ogg   "Ambiance_Waterfall_Small_Close_Loop_Stereo.wav" by Nox_Sound - https://freesound.org/people/Nox_Sound/sounds/698306/
+loop_fountain.ogg    "Fountain Babbling" by CheatinSloth - https://freesound.org/people/CheatinSloth/sounds/738777/
+sheep_1.ogg          "Ewe baa" by satoristudios3 - https://freesound.org/people/satoristudios3/sounds/677221/
+sheep_2.ogg          "Sheep baaing 3 - Norwegian sheep expressing itself concisely" by michaelperfect - https://freesound.org/people/michaelperfect/sounds/710298/
+sheep_3.ogg          "Sheep baaing 5 - Norwegian sheep expressing itself concisely" by michaelperfect - https://freesound.org/people/michaelperfect/sounds/710300/
+sheep_4.ogg          "Ewe Shetland Sheep Baa" by satoristudios3 - https://freesound.org/people/satoristudios3/sounds/692900/
+hen_1.ogg            "Chicken" by D4XX - https://freesound.org/people/D4XX/sounds/607245/
+hen_2.ogg            "R01-58-Close Chicken Vocals.wav" by craigsmith - https://freesound.org/people/craigsmith/sounds/479593/
+page_1.ogg           "Page Turn - 13" by SpaceJoe - https://freesound.org/people/SpaceJoe/sounds/484933/
+page_2.ogg           "Page Turn - 20" by SpaceJoe - https://freesound.org/people/SpaceJoe/sounds/484940/

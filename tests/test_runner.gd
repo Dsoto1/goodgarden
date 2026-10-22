@@ -26,7 +26,7 @@ func _ready() -> void:
 		test_content_is_valid, test_validator_catches_errors, test_conditions_and_tokens,
 		test_save_round_trip_and_migration, test_space_along_line, test_count_into_slots,
 		test_match_to_outline_self_correction, test_story_handoff_and_put_away, test_parable_growth_and_put_away, test_chapel_library_books, test_calling_of_the_fishermen, test_sit_and_hold_rod, test_young_child_access, test_older_work_level, test_sequence_cards,
-		test_observations_never_score_reflection, test_pointer_events_drag_pieces, test_props_catalog,
+		test_observations_never_score_reflection, test_pointer_events_drag_pieces, test_props_catalog, test_recorded_sounds,
 		test_scenery_quality_and_batching, test_vertical_slice_end_to_end,
 	]
 	for t: Callable in tests:
@@ -533,6 +533,25 @@ func test_props_catalog() -> void:
 
 # --- End to end -------------------------------------------------------------------
 
+func test_recorded_sounds() -> void:
+	for sound: String in AudioService.FILES:
+		var files: Array = AudioService.FILES[sound]
+		eq(AudioService._recorded(sound).size(), files.size(), "every recording for '%s' loads" % sound)
+	for sound: String in AudioService.LOOPS:
+		var loops := AudioService._recorded(sound).all(func(st: AudioStream) -> bool: return st is AudioStreamOggVorbis and (st as AudioStreamOggVorbis).loop)
+		check(loops, "'%s' repeats seamlessly" % sound)
+	check(not AudioService.has_recording("complete") and AudioService._stream("complete") is AudioStreamWAV, "the finishing chime stays a gentle synthesized one")
+	check(not AudioService.has_recording("chapel"), "the Chapel keeps its quiet synthesized pad")
+	var parent := Node3D.new()
+	add_child(parent)
+	var river := SoundSpot.looping(parent, "river", Vector3.ZERO, 14.0)
+	var sheep := SoundSpot.calling(parent, "sheep", Vector3.ZERO, 30.0, Vector2(7, 16))
+	await frames(2)
+	check(river.player.playing and river.player.stream != null, "the river plays as soon as it is placed")
+	check(not sheep.is_looping() and sheep._wait > 0.0, "sheep call now and then, not all the time")
+	parent.queue_free()
+
+
 func test_scenery_quality_and_batching() -> void:
 	Settings.set_value("scenery_quality", "auto")
 	Settings.apply_stored({"lush_detail": false})
@@ -580,6 +599,9 @@ func test_vertical_slice_end_to_end() -> void:
 	eq(Days.current_day, 1, "day 1")
 	check(Invitations.has_unread(), "day 1 letter waiting")
 	check(world.player.global_position.distance_to(world.anchor("home_spawn").global_position) < 0.5, "child begins at home")
+	var sound_spots := world.find_children("*", "SoundSpot", true, false)
+	check(sound_spots.size() >= 12, "the river, waterfall, fountain, sheep and hens can be heard (%d sound spots)" % sound_spots.size())
+	check(sound_spots.any(func(sp: SoundSpot) -> bool: return sp.sound == "waterfall") and sound_spots.any(func(sp: SoundSpot) -> bool: return sp.sound == "hens"), "the waterfall and the hens have sounds")
 	# The river winds, but the only ways over it are the bridge and the stepping stones.
 	for route: Array in [[Vector3(-3, 0, -6), Vector3(-3, 0, -22)], [Vector3(-14, 0, -6), Vector3(-14, 0, -23)], [Vector3(20, 0, -7), Vector3(20, 0, -21)]]:
 		var crossing := NavigationServer3D.map_get_path(world.get_world_3d().navigation_map, route[0], route[1], true)
@@ -660,6 +682,7 @@ func test_vertical_slice_end_to_end() -> void:
 	# Second activity: practical life at home, reusing the framework.
 	var table := _interactable("Set the table")
 	await _walk_and_use(world, table)
+	eq(world.player.surface(), "wood", "footsteps on the wooden floor at home")
 	check(ActivityRunner.is_running() and ActivityRunner.current.id == "home_set_table", "table setting started")
 	ws = ActivityRunner.workspace
 	await _play_intro(ws)
@@ -681,6 +704,7 @@ func test_vertical_slice_end_to_end() -> void:
 	await _walk_and_use(world, shelf)
 	check(Discovery.is_discovered("chapel"), "chapel discovered by walking there")
 	eq(world.mood, "chapel", "chapel mood is active inside")
+	eq(world.player.surface(), "stone", "footsteps on the Chapel's stone floor")
 	eq(AudioService.current_ambience(), "chapel", "chapel has its own soundscape")
 	check(ActivityRunner.is_running(), "presentation started")
 	eq(GameState.mode(), GameState.Mode.REFLECTION, "reflection mode, not task mode")

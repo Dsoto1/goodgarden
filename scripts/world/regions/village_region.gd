@@ -21,6 +21,8 @@ func build() -> void:
 	# round it, and the south side open to the road from the bridge.
 	_square(SQUARE)
 	_fountain(Vector3(0, 0, 0))
+	SoundSpot.looping(self, "fountain", Vector3(0, 1.0, 0), 13.0, -6.0)
+	SoundSpot.calling(self, "hens", Vector3(14.3, 0.4, 9.8), 18.0, Vector2(9, 20), -8.0)
 	Props.place(self, "well", Vector3(6.4, 0, 6.0), -0.6, 0.85)
 	var stalls := [
 		[Vector3(-4.2, 0, 2.7), "awning_red", ["crate_carrots", "crate_lettuce"]],
