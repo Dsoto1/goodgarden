@@ -212,7 +212,7 @@ func _village_life() -> void:
 	dog.pause_range = Vector2(3, 8)
 	dog.position = Vector3(-1.0, 0, 5.6)
 	add_child(dog)
-	AnimalMoments.pettable(dog, "Pet the dog", ["The little dog wags its tail and hops about.", "The dog sits for a pat, then hops with joy."], "dog")
+	AnimalMoments.pettable(dog, "Pet the dog", ["The little dog wags its tail and hops about.", "The dog sits for a pat, then hops with joy."], "dog", -10.0)
 	for b: Array in [[Vector3(-10.6, 0, 1.8), "barrel"], [Vector3(11.4, 0, 1.6), "barrel"], [Vector3(9.9, 0, 5.4), "crate"], [Vector3(-16.0, 0, 2.2), "barrel"]]:
 		Props.place(self, b[1], b[0], b[0].x)
 	for f: Array in [[Vector3(9.8, 0, 7.9), "flower_pink"], [Vector3(-12.1, 0, 2.5), "flower_yellow"], [Vector3(-10.2, 0, -1.6), "flower_white"]]:

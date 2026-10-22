@@ -169,6 +169,8 @@ func _show_line() -> void:
 		_after_lines.call()
 		return
 	var line: Dictionary = _lines[_line_index]
+	if str(line.get("board", "")) == "tuck_in" and is_instance_valid(step):
+		step.tuck_in()
 	var speaker := str(line.get("speaker", ""))
 	_speaker.text = Dialogue.character_name(speaker) if not speaker.is_empty() else ""
 	_set_prompt(tr(str(line.get("text", ""))))
@@ -182,6 +184,13 @@ func _show_line() -> void:
 # --- Steps -------------------------------------------------------------------
 
 func _next_step() -> void:
+	if is_instance_valid(step) and step_index + 1 >= definition.steps.size():
+		# The last step stays on the board for the closing words.
+		step.freeze()
+		step_index += 1
+		_update_controls()
+		_play_lines(definition.outro, func() -> void: finished.emit(results))
+		return
 	if is_instance_valid(step):
 		_handed = step.handoff()
 		for p in _handed:

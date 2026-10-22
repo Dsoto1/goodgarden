@@ -195,6 +195,20 @@ func _check() -> void:
 	finish(result)
 
 
+## Soil heaped over each sown hole, like a blanket (0 none, 1 covered).
+var _cover := 0.0
+
+
+func tuck_in() -> void:
+	var tw := create_tween()
+	tw.tween_method(func(v: float) -> void:
+		_cover = v
+		for h in holes:
+			for p: DragPiece in h.contents:
+				p.modulate.a = 1.0 - v
+		queue_redraw(), 0.0, 1.0, 0.2 if reduced_motion else 1.2)
+
+
 func _draw() -> void:
 	var font := UiStyle.font()
 	if _baskets():
@@ -223,16 +237,30 @@ func _draw() -> void:
 			var c := h.center()
 			if _container() == "plant":
 				_bean_plant(c, h.contents.size() >= _count_of(h))
-			draw_circle(c, 33, Color("4a2f20"))
-			if config.get("show_dimples", true):
+			draw_circle(c, 33, Color("4a2f20").lerp(Color("7a5236"), _cover))
+			if config.get("show_dimples", true) and _cover < 0.3:
 				for i in _count_of(h):
 					var filled := i < h.contents.size()
 					draw_arc(c + _dimple(i, _count_of(h)), 9, 0, TAU, 14, Color("f3e6d2", 0.25 if filled else 0.7), 2.0)
 			if h == _hint_slot:
 				draw_arc(c, 42, 0, TAU, 32, Color(1, 0.95, 0.7), 4.0)
+			if _cover > 0.0:
+				_mound(c, _cover)
 	# The supply: a bowl of seeds, or a cloth-lined bread tray.
 	BoardArt.bowl(self, _bowl, 74, Color(str(config.get("supply_color", "f3e6d2" if _baskets() else "a8774f"))))
 	draw_string(font, _bowl + Vector2(-100, 100), tr(str(config.get("supply_label", "seed bowl"))), HORIZONTAL_ALIGNMENT_CENTER, 200, 18, Color("f3e6d2"))
+
+
+## A little heap of soil over a sown hole, rising as `t` goes 0 to 1.
+func _mound(c: Vector2, t: float) -> void:
+	var pts := PackedVector2Array()
+	for i in 17:
+		var a := PI + PI * i / 16.0
+		pts.append(c + Vector2(cos(a) * 46.0, sin(a) * 40.0 * t + 22.0))
+	draw_colored_polygon(pts, Color("9a6a46", t))
+	draw_arc(c + Vector2(0, 22), 40 * maxf(t, 0.01), PI * 1.2, PI * 1.8, 12, Color("c49a6c", t), 4.0)
+	for k in 5:
+		draw_circle(c + Vector2(-24 + k * 12, 22 - (14 + (k % 2) * 8) * t), 2.5, Color("5a3a26", t * 0.8))
 
 
 ## A bean plant rising from its hole; it perks up once it has had its water.

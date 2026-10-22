@@ -98,6 +98,7 @@ func build() -> void:
 	cat.pause_range = Vector2(6, 14)
 	add_child(cat)
 	AnimalMoments.pettable(cat, "Pet the cat", ["The cat purrs and rubs against your hand.", "Purr, purr. The cat stays to be petted."], "purr")
+	SoundSpot.calling(cat, "meow", Vector3(0, 0.3, 0), 10.0, Vector2(30, 70), -10.0)
 
 	add_clearing(Vector3(0, 0, 0.3), Vector2(8.8, 7.4))
 	add_clearing(Vector3(-6.5, 0, 8.5), Vector2(2.6, 2.4))

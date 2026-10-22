@@ -256,7 +256,7 @@ func _farm_animals() -> void:
 	horse.speed = 0.5
 	horse.pause_range = Vector2(5, 12)
 	add_child(horse)
-	AnimalMoments.pettable(horse, "Pet the horse", ["The horse lowers its head so you can pet its soft nose."], "horse")
+	AnimalMoments.pettable(horse, "Pet the horse", ["The horse lowers its head so you can pet its soft nose."])
 	CraftedProps.hay_bale(self, Vector3(-31.0, 0, -7.6), 0.2)
 
 	_paddock(Rect2(-32.0, -1.4, 4.4, 3.6), "e")

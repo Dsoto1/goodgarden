@@ -68,7 +68,8 @@
 	"outro": [
 		{
 			"speaker": "miriam",
-			"text": "Now we tuck them in with soil, like a warm blanket. Sun and rain will do the rest."
+			"text": "Now we tuck them in with soil, like a warm blanket. Sun and rain will do the rest.",
+			"board": "tuck_in"
 		},
 		{"speaker": "miriam", "text": "Come, let's look at our row.", "button": "Thank you, Miss Miriam"}
 	],

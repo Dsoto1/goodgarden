@@ -17,3 +17,13 @@ hen_1.ogg            "Chicken" by D4XX - https://freesound.org/people/D4XX/sound
 hen_2.ogg            "R01-58-Close Chicken Vocals.wav" by craigsmith - https://freesound.org/people/craigsmith/sounds/479593/
 page_1.ogg           "Page Turn - 13" by SpaceJoe - https://freesound.org/people/SpaceJoe/sounds/484933/
 page_2.ogg           "Page Turn - 20" by SpaceJoe - https://freesound.org/people/SpaceJoe/sounds/484940/
+
+Animal voices, added 2026-10-22. Freesound itself could not be reached, so
+these CC0 originals were taken from open-source games that redistribute them
+(trimmed) and name each source and licence in their attribution files; here
+they were loudness-matched, trimmed and mixed to mono.
+cow_1.ogg            "Moo 3 - Moo Moo the Cow" by manofham - https://freesound.org/s/700380/ (via ParadiseSS13/Paradise sound/creatures/cow.ogg, sound/Attributions.txt)
+pig_1.ogg            "Pig Oink" by qubodup - https://freesound.org/s/442906/ (via ParadiseSS13/Paradise sound/creatures/pig.ogg, sound/Attributions.txt)
+dog_1.ogg, dog_2.ogg  dog barks by KFerentchak - https://freesound.org/people/KFerentchak/sounds/235912/ (via space-wizards/space-station-14 Resources/Audio/Animals/dog_bark1.ogg, dog_bark3.ogg, attributions.yml)
+cat_purr_1.ogg       "cat-purr-twit5.wav" by steffcaffrey - https://freesound.org/s/262310/ (via Tuxemon/Tuxemon mods/tuxemon/sounds/monster/, ATTRIBUTIONS.md)
+cat_meow_1.ogg       "cat-meow3.wav" by steffcaffrey (via Tuxemon/Tuxemon mods/tuxemon/sounds/monster/, ATTRIBUTIONS.md: "licensed under CC0")

@@ -580,6 +580,19 @@ func test_animal_moments() -> void:
 	check(lamb._face_player > 0.0 and model.is_hopping(), "a petted lamb stands still and hops for joy")
 	eq(model.anim.current_animation, FarmAnimal.JUMP, "the hop is the model's own jump")
 	check(lamb.find_children("Heart*", "", true, false).size() > 0, "hearts float up from the lamb")
+	# A cat (no hop) gives a happy wriggle instead, and every animal has a voice but the horse.
+	Settings.set_value("reduced_motion", false)
+	var cat := Wanderer.new().setup(AnimalModel.make("cat"), 2)
+	parent.add_child(cat)
+	var rest := cat.model.scale
+	AnimalMoments.pettable(cat, "Pet the cat", ["Purr."], "purr").trigger()
+	await wait(0.2)
+	check(cat.model.scale != rest, "a petted cat wriggles with pleasure")
+	await wait(1.2)
+	check(cat.model.scale.is_equal_approx(rest), "and settles back to its own size")
+	for voice: String in ["sheep", "cow", "pig", "dog", "purr", "meow", "hens"]:
+		check(AudioService.has_recording(voice), "the %s sound is a real recording" % voice)
+	check(AudioService._stream("pet") is AudioStreamWAV, "petting has its own soft sparkle")
 	# Grain brings the hens to peck where it was scattered.
 	var hens: Array[Wanderer] = []
 	for i in 2:

@@ -10,7 +10,7 @@ extends RefCounted
 ## is a world sound name (see AudioService.FILES), played from the animal.
 ## Petting sets the fact "animals.<kind>.petted_day" (lamb, sheep, cat,
 ## dog, cow, horse, pig), so a day's letter can ask for it.
-static func pettable(w: Wanderer, prompt: String, lines: Array, sound := "") -> Interactable:
+static func pettable(w: Wanderer, prompt: String, lines: Array, sound := "", level_db := -4.0) -> Interactable:
 	var it := Interactable.create(w, Vector3.ZERO, prompt, Callable(), 0.6, _marker_height(w))
 	it.reach = 1.6
 	it.action = func() -> void:
@@ -18,9 +18,16 @@ static func pettable(w: Wanderer, prompt: String, lines: Array, sound := "") -> 
 		WorldState.set_fact("animals.%s.petted_day" % kind_of(w), Days.current_day)
 		if w.model is FarmAnimal and (w.model as FarmAnimal).kind in ["lamb", "dog", "pig"]:
 			(w.model as FarmAnimal).hop()
+		else:
+			wiggle(w.model)
+		# A soft little sparkle of notes says "that was nice", then the
+		# animal answers in its own voice.
+		AudioService.play("pet")
 		hearts(w, Vector3(0, _marker_height(w) - 0.4, 0))
 		if not sound.is_empty():
-			SoundSpot.once(w, sound, Vector3(0, 0.6, 0), 14.0)
+			w.get_tree().create_timer(0.35).timeout.connect(func() -> void:
+				if is_instance_valid(w):
+					SoundSpot.once(w, sound, Vector3(0, 0.6, 0), 14.0, level_db))
 		w.get_tree().call_group("main", "show_caption", tr_line(lines.pick_random()), 3.0)
 	return it
 
@@ -60,18 +67,42 @@ static func grain_bin(parent: Node3D, pos: Vector3, scatter_at: Vector3, hens: A
 	return it
 
 
-## A few small hearts that float up from `pos` (parent-local) and fade.
+## A happy wriggle: the animal squashes down and springs back, like a
+## pleased little shiver under the child's hand.
+static func wiggle(model: Node3D) -> void:
+	if Settings.get_value("reduced_motion"):
+		return
+	if not model.has_meta(&"rest_scale"):
+		model.set_meta(&"rest_scale", model.scale)
+	var base: Vector3 = model.get_meta(&"rest_scale")
+	var tw := model.create_tween()
+	for k in 2:
+		tw.tween_property(model, "scale", base * Vector3(1.08, 0.9, 1.08), 0.12).set_trans(Tween.TRANS_SINE)
+		tw.tween_property(model, "scale", base * Vector3(0.96, 1.06, 0.96), 0.14).set_trans(Tween.TRANS_SINE)
+	tw.tween_property(model, "scale", base, 0.25).set_trans(Tween.TRANS_ELASTIC).set_ease(Tween.EASE_OUT)
+
+
+## A few small hearts that pop up from `pos` (parent-local), drift upward
+## with a little sway, and fade.
 static func hearts(parent: Node3D, pos: Vector3) -> void:
 	var reduced: bool = Settings.get_value("reduced_motion")
-	for i in (1 if reduced else 3):
-		var h := heart(parent, pos + Vector3((i - 1) * 0.18, 0, 0))
+	var count := 1 if reduced else 5
+	for i in count:
+		var spread := (i - (count - 1) / 2.0) * 0.14
+		var h := heart(parent, pos + Vector3(spread, 0, 0))
 		h.scale = Vector3.ONE * 0.01
+		var size := 1.0 if i % 2 == 0 else 0.75
 		var tw := h.create_tween()
-		tw.tween_interval(i * 0.25)
-		tw.tween_property(h, "scale", Vector3.ONE, 0.25)
-		tw.parallel().tween_property(h, "position:y", pos.y + (0.15 if reduced else 0.7), 1.6)
-		tw.tween_property(h, "scale", Vector3.ONE * 0.01, 0.3)
-		tw.tween_callback(h.queue_free)
+		tw.tween_interval(i * 0.15)
+		tw.tween_property(h, "scale", Vector3.ONE * size * 1.25, 0.18).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+		tw.tween_property(h, "scale", Vector3.ONE * size, 0.12)
+		var rise := h.create_tween()
+		rise.tween_interval(i * 0.15)
+		rise.tween_property(h, "position:y", pos.y + (0.15 if reduced else 0.8 + 0.1 * (i % 3)), 1.7).set_ease(Tween.EASE_OUT)
+		if not reduced:
+			rise.parallel().tween_property(h, "position:x", pos.x + spread * 2.2, 1.7).set_trans(Tween.TRANS_SINE)
+		rise.tween_property(h, "scale", Vector3.ONE * 0.01, 0.3)
+		rise.tween_callback(h.queue_free)
 
 
 ## A small rosy heart, about 0.18 m across, standing upright.

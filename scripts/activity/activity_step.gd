@@ -88,6 +88,21 @@ func handoff() -> Array[DragPiece]:
 	return []
 
 
+## The board after the work is done, while the closing words are said: the
+## last step stays in place (nothing more to drag), so the child sees what
+## they made rather than an empty board.
+func freeze() -> void:
+	for c in find_children("*", "Control", true, false):
+		(c as Control).mouse_filter = Control.MOUSE_FILTER_IGNORE
+	mouse_filter = Control.MOUSE_FILTER_IGNORE
+
+
+## A closing touch some boards show during the outro (an outro line with
+## "board": "tuck_in"), e.g. soil heaped over the sown seeds. Override.
+func tuck_in() -> void:
+	pass
+
+
 func finish(result: Dictionary = {}) -> void:
 	if is_done:
 		return

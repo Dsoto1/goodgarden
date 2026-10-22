@@ -30,6 +30,11 @@ const FILES := {
 	"fountain": ["freesound/loop_fountain"],
 	"sheep": ["freesound/sheep_1", "freesound/sheep_2", "freesound/sheep_3", "freesound/sheep_4"],
 	"hens": ["freesound/hen_1", "freesound/hen_2"],
+	"cow": ["freesound/cow_1"],
+	"pig": ["freesound/pig_1"],
+	"dog": ["freesound/dog_1", "freesound/dog_2"],
+	"purr": ["freesound/cat_purr_1"],
+	"meow": ["freesound/cat_meow_1"],
 }
 ## How loud each recorded sound plays (dB), so they sit gently together.
 const LEVELS := {"place": -6.0, "return": -9.0, "step": -8.0, "page": -6.0, "foot_grass": -17.0, "foot_wood": -15.0, "foot_stone": -18.0}
@@ -247,6 +252,13 @@ func _synthesize(sound: String) -> AudioStreamWAV:
 			return _wav(_wind(6.0, 0.03), true)
 		"purr":
 			return _wav(_purr(2.4), false)
+		"pet":
+			# Petting an animal: three quick, soft, rising notes, like a smile.
+			var sparkle := PackedFloat32Array()
+			for f: float in [1046.5, 1318.5, 1568.0]:
+				sparkle.append_array(_tone([f], 0.11, 0.09))
+			sparkle.append_array(_tone([2093.0], 0.3, 0.06))
+			return _wav(sparkle, false)
 		"bells":
 			return _wav(_bells(), false)
 		"chapel":
