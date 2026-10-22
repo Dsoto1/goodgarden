@@ -168,6 +168,38 @@ static func draw(ci: CanvasItem, kind: String, r: Rect2, color := INK) -> void:
 				ci.draw_rect(tile, Color("f6ecd6"))
 				ci.draw_rect(tile, Color("c9a86e"), false, 1.5)
 				ci.draw_string(font, tile.position + Vector2(0, tile.size.y * 0.82), ["a", "b", "c"][k], HORIZONTAL_ALIGNMENT_CENTER, tile.size.x, int(tile.size.y * 0.8), Color("2f5fa8") if k == 0 else Color("b8392f"))
+		"bun":
+			# A round bun with a shiny top.
+			ci.draw_circle(c + Vector2(0, 0.06) * s, 0.34 * s, Color("d9963f"))
+			ci.draw_circle(c + Vector2(-0.1, -0.04) * s, 0.14 * s, Color("eebd72"))
+			ci.draw_arc(c + Vector2(0, 0.06) * s, 0.34 * s, PI * 0.1, PI * 0.9, 12, Color("a8662a"), maxf(1.5, s * 0.04))
+		"jam":
+			# A jar of red jam with a cloth lid.
+			ci.draw_rect(Rect2(c + Vector2(-0.22, -0.14) * s, Vector2(0.44, 0.5) * s), Color("b8392f"))
+			ci.draw_rect(Rect2(c + Vector2(-0.22, -0.14) * s, Vector2(0.44, 0.5) * s), color, false, 1.5)
+			ci.draw_rect(Rect2(c + Vector2(-0.28, -0.3) * s, Vector2(0.56, 0.16) * s), Color("efe4cf"))
+			ci.draw_rect(Rect2(c + Vector2(-0.12, 0.02) * s, Vector2(0.24, 0.16) * s), Color("fbf5e8"))
+		"egg":
+			var shell := PackedVector2Array()
+			for i in 24:
+				var a := TAU * i / 24.0
+				shell.append(c + Vector2(cos(a) * 0.26, sin(a) * (0.34 if sin(a) < 0 else 0.3) + 0.04) * s)
+			ci.draw_colored_polygon(shell, Color("f3e3c8"))
+			ci.draw_polyline(shell + PackedVector2Array([shell[0]]), color, 1.5)
+		"nut":
+			# A hazelnut: a round brown nut with a pale cap.
+			ci.draw_circle(c + Vector2(0, 0.08) * s, 0.28 * s, Color("a8733e"))
+			ci.draw_colored_polygon(PackedVector2Array([c + Vector2(-0.3, -0.06) * s, c + Vector2(0, -0.32) * s, c + Vector2(0.3, -0.06) * s]), Color("d9b98a"))
+			ci.draw_line(c + Vector2(0, -0.32) * s, c + Vector2(0.04, -0.42) * s, Color("7b5338"), maxf(1.5, s * 0.04))
+		"fig":
+			# A purple fig with a little stalk.
+			var body := PackedVector2Array()
+			for i in 24:
+				var a := TAU * i / 24.0
+				var w := 0.3 if sin(a) > 0 else 0.3 - 0.14 * absf(sin(a))
+				body.append(c + Vector2(cos(a) * w, sin(a) * 0.32 + 0.06) * s)
+			ci.draw_colored_polygon(body, Color("7a4a7a"))
+			ci.draw_line(c + Vector2(0, -0.26) * s, c + Vector2(0.04, -0.4) * s, Color("5f8a3f"), maxf(2.0, s * 0.05))
 		"todo":
 			# An empty ring, waiting for its tick.
 			ci.draw_arc(c, 0.36 * s, 0, TAU, 32, Color("b89a78"), maxf(2.0, s * 0.08), true)

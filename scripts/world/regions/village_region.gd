@@ -14,6 +14,7 @@ const STALLS := [
 	[Vector3(4.6, 0, 2.3), "awning_red", ["crate_lettuce", "crate_carrots"]],
 ]
 
+var _stall_labels: Node3D # the labels the child made for Tobias's stall
 var _baking: Node3D # the fire and fresh loaves, on baking day
 ## Villagers by id: [wanderer, home position, home radius, current anchor id].
 var _villagers := {}
@@ -309,9 +310,45 @@ func _stall(at: Vector3, rot: float, awning: String, goods: Array) -> void:
 	MeshKit.box(root, Vector3(2.1, 0.22, 0.04), Vector3(0, 1.72, 0.72), awning)
 	if goods == ["bread"]:
 		CraftedProps.bread_stall_goods(root, Vector3(0, 0.8, 0.05)) # Tobias's bread
+		_stall_labels = Node3D.new()
+		_stall_labels.name = "StallLabels"
+		root.add_child(_stall_labels)
+		# From Thursday of the first week the child can label what's on it.
+		var label := Interactable.create(root, Vector3(0, 0, 1.2), "Label the market stall", func() -> void:
+			get_tree().call_group("main", "start_activity_here", "market_labels", root.global_position + Vector3(0, 1.0, 0)), 0.7, 1.6)
+		label.conditions = [{"day_at_least": 4}, {"fact": "village.stall_labels", "exists": false}]
 		return
 	for i in goods.size():
 		Props.place(root, goods[i], Vector3(-0.45 + i * 0.9, 0.8, 0.05), 0.0, 0.75)
+
+
+## Little card labels hung on the front of Tobias's stall, one under each
+## thing the child labelled ("bun", "jam", ...).
+func _sync_stall_labels() -> void:
+	if _stall_labels == null:
+		return
+	var made: Variant = WorldState.get_fact("village.stall_labels", [])
+	var spots := {"bun": -0.58, "jam": -0.2, "egg": 0.2, "nut": 0.55}
+	for word: String in spots:
+		var have := _stall_labels.get_node_or_null("Label_" + word)
+		var want: bool = made is Array and word in made
+		if want and have == null:
+			var tag := Node3D.new()
+			tag.name = "Label_" + word
+			tag.position = Vector3(spots[word], 0.66, 0.37)
+			_stall_labels.add_child(tag)
+			MeshKit.box(tag, Vector3(0.32, 0.13, 0.01), Vector3.ZERO, "cloth_cream")
+			var text := Label3D.new()
+			text.text = word
+			text.font = UiStyle.font()
+			text.font_size = 64
+			text.pixel_size = 0.0026
+			text.modulate = Color("3b3430")
+			text.outline_size = 0
+			text.position = Vector3(0, 0, 0.008)
+			tag.add_child(text)
+		elif not want and have:
+			have.free()
 
 
 func _lantern(at: Vector3) -> void:
@@ -358,6 +395,7 @@ func _villager(id: String, look: Dictionary, at: Vector3, wander_radius: float) 
 
 
 func sync_with_world() -> void:
+	_sync_stall_labels()
 	# On some days a neighbour waits somewhere else (Mrs. Ruth at the
 	# sheepfold, Mr. Tobias at the mill), as the day's "npcs" anchors say.
 	for id: String in _villagers:

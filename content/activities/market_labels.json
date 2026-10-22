@@ -1,0 +1,42 @@
+{
+	"id": "market_labels",
+	"title": "Labels for the Market Stall",
+	"mode": "task",
+	"location": "village",
+	"surface": "wood_table",
+	"readiness": {"ages": [5, 8], "math": "none", "reading": "hearing the first sound of a word (younger); reading short sound-by-sound words (older)"},
+	"concepts": ["first sounds", "letter sounds", "reading short words", "labels tell us what things are"],
+	"formation_themes": ["service", "honesty"],
+	"prerequisites": [
+		{"fact": "village.stall_labels", "exists": false}
+	],
+	"intro": [
+		{"speaker": "tobias", "text": "Good morning! People ask me, \"What is in that jar? What is in that bowl?\" Labels would help them."},
+		{"speaker": "tobias", "text": "Tap a picture to hear its name. Then find the label that goes under it."}
+	],
+	"steps": [
+		{
+			"id": "labels",
+			"primitive": "label_pictures",
+			"older": {"mode": "word", "items": ["bun", "jam", "egg", "nut"], "extra": ["fig"], "prompt": "Read each label. Tap it to hear its sounds, then put it under the right picture."},
+			"speaker": "tobias",
+			"prompt": "Listen to each name. Which letter makes its first sound? Put that letter under the picture.",
+			"hint": "Show me",
+			"mode": "first_sound",
+			"items": ["bun", "jam", "egg"],
+			"feedback": {
+				"all_good": "Every jar and basket has its label. Thank you!"
+			}
+		}
+	],
+	"outro": [
+		{"speaker": "tobias", "text": "Now everyone can see what's what. Thank you kindly!", "button": "You're welcome, Mr. Tobias"}
+	],
+	"world_effects": [
+		{"op": "set", "fact": "village.stall_labels", "value": "$labels.labels"}
+	],
+	"replay": "once",
+	"real_world_invitation": "rw_kitchen_labels",
+	"journal_line": "I made labels for Mr. Tobias's market stall, listening for the sounds in each name.",
+	"unavailable_text": "Mr. Tobias's stall already has its labels."
+}

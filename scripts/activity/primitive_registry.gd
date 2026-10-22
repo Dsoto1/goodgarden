@@ -14,6 +14,7 @@ const PRIMITIVES := {
 	"balance_scale": "res://scripts/activity/primitives/balance_scale.gd",
 	"sequence_cards": "res://scripts/activity/primitives/sequence_cards.gd",
 	"build_word": "res://scripts/activity/primitives/build_word.gd",
+	"label_pictures": "res://scripts/activity/primitives/label_pictures.gd",
 }
 
 

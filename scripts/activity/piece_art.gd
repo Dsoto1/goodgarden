@@ -23,6 +23,9 @@ static func draw(ci: CanvasItem, kind: String, size: Vector2, outline: bool, dat
 	if kind.begins_with("letter:"):
 		_letter_tile(ci, kind.substr(7), size, outline)
 		return
+	if kind.begins_with("word:"):
+		_word_card(ci, kind.substr(5), size, outline)
+		return
 	match kind:
 		"bread_roll":
 			_shape(ci, _ellipse(c, Vector2(size.x * 0.46, size.y * 0.42), 16), Color("d9963f"), outline)
@@ -382,6 +385,19 @@ static func _letter_tile(ci: CanvasItem, letter: String, size: Vector2, outline:
 	ci.draw_rect(r, Color("f6ecd6"))
 	ci.draw_rect(r, Color("c9a86e"), false, 2.0)
 	ci.draw_string(font, base, letter, HORIZONTAL_ALIGNMENT_CENTER, size.x, fsize, ink)
+
+
+## A written label card: the word in plain dark print on cream card, like a
+## Montessori picture-and-label set (the word, not its colours, is the clue).
+static func _word_card(ci: CanvasItem, word: String, size: Vector2, outline: bool) -> void:
+	var r := Rect2(Vector2(2, 2), size - Vector2(4, 4))
+	if outline:
+		_dashed(ci, _rect(r))
+		return
+	ci.draw_rect(r, Color("fffaf0"))
+	ci.draw_rect(r, Color("c9a86e"), false, 2.0)
+	var fsize := int(size.y * 0.62)
+	ci.draw_string(UiStyle.font(), Vector2(0, size.y * 0.5 + fsize * 0.33), word, HORIZONTAL_ALIGNMENT_CENTER, size.x, fsize, INK)
 
 
 static func _sheep(ci: CanvasItem, at: Vector2, r: float, outline: bool) -> void:

@@ -26,7 +26,7 @@ Beyond the slice:
 | Design target | Now |
 |---|---|
 | 12 weeks × 5 guided days = 60 guided days | 10 guided days written (weeks 1–2) |
-| 12–15 reusable activity types (`LEARNING_DESIGN.md`) | 8: spacing along a line, counting into slots, matching to outlines, sorting into bins, balance scale, sequence cards, story figures, building words |
+| 12–15 reusable activity types (`LEARNING_DESIGN.md`) | 9: spacing along a line, counting into slots, matching to outlines, sorting into bins, balance scale, sequence cards, story figures, building words, labelling pictures |
 | 15–20 Scripture presentations at launch (`CHAPEL_ATRIUM.md`) | 7 (paused at the owner's request) |
 | Regions: homestead, valley/village, farm & mill, forest/grove, Bellhaven later | Forest/grove not built; Bellhaven visible, not reachable |
 
@@ -60,7 +60,9 @@ Each new type goes into a few real days at once, so it is tried in play.
 
 1. **Words and letters (reading).** Montessori-style:
    - letter sounds (sandpaper-letter style: trace, hear the sound)
-   - matching picture to word
+   - [x] matching picture to word, and first sounds to letters:
+     `label_pictures`, first used for Mr. Tobias's stall labels (Thursday,
+     week 1; younger children match first sounds, older ones read words)
    - [x] building short words from loose letters (moveable alphabet):
      `build_word`, first used for the animals' name signs (Tuesday, week 1)
    - reading short notes and signs in the world

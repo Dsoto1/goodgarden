@@ -25,7 +25,7 @@ func _ready() -> void:
 	var tests := [
 		test_content_is_valid, test_validator_catches_errors, test_conditions_and_tokens,
 		test_save_round_trip_and_migration, test_space_along_line, test_count_into_slots,
-		test_match_to_outline_self_correction, test_story_handoff_and_put_away, test_parable_growth_and_put_away, test_chapel_library_books, test_calling_of_the_fishermen, test_sit_and_hold_rod, test_build_word, test_young_child_access, test_older_work_level, test_sequence_cards,
+		test_match_to_outline_self_correction, test_story_handoff_and_put_away, test_parable_growth_and_put_away, test_chapel_library_books, test_calling_of_the_fishermen, test_sit_and_hold_rod, test_build_word, test_label_pictures, test_young_child_access, test_older_work_level, test_sequence_cards,
 		test_observations_never_score_reflection, test_pointer_events_drag_pieces, test_props_catalog, test_recorded_sounds, test_animal_moments, test_large_text_fits,
 		test_scenery_quality_and_batching, test_vertical_slice_end_to_end,
 	]
@@ -465,6 +465,33 @@ func test_build_word() -> void:
 	await wait(2.6)
 	check(step.is_done, "every word made completes the step")
 	step.queue_free()
+
+
+func test_label_pictures() -> void:
+	# Older children read whole words; a card that names another picture slides back.
+	var step := _make_step("label_pictures", {"id": "labels", "mode": "word", "items": ["bun", "jam", "egg"], "extra": ["fig"]})
+	eq(step.places.size(), 3, "a label place under each picture")
+	eq(step.labels.size(), 4, "its three labels and one extra in the tray")
+	var card := func(word: String) -> DragPiece:
+		for p: DragPiece in step.labels:
+			if str(p.data["word"]) == word:
+				return p
+		return null
+	var fig: DragPiece = card.call("fig")
+	_drop(fig, step.places[0].center())
+	check(fig.placed_in == null, "a word that names no picture here goes back to the tray")
+	var jam: DragPiece = card.call("jam")
+	_drop(jam, step.places[0].center())
+	check(jam.placed_in == null, "a word under the wrong picture goes back too")
+	for i in 3:
+		_drop(card.call(step.items[i]), step.places[i].center())
+	check(step.is_done, "every picture labelled completes the step")
+	step.queue_free()
+	# Younger children match first sounds with letter tiles.
+	var young := _make_step("label_pictures", {"id": "labels", "mode": "first_sound", "items": ["bun", "jam"]})
+	check(young.labels.all(func(p: DragPiece) -> bool: return p.kind.begins_with("letter:")), "younger labels are letters for the first sound")
+	eq(young.places[0].accepts, "letter:b", "the bun takes the letter for its first sound")
+	young.queue_free()
 
 
 func test_sequence_cards() -> void:
@@ -1030,6 +1057,20 @@ func test_vertical_slice_end_to_end() -> void:
 		check(cups.is_done, "every bean plant has two drops")
 		await _finish_activity(water)
 	eq(int(WorldState.get_fact("garden.watered", 0)), 4, "the beans were watered today")
+	# Reading: labels for Mr. Tobias's stall (younger children match first sounds).
+	var labels_ws := ActivityRunner.workspace if await _start_from("Label the market stall") else null
+	if labels_ws:
+		var board := labels_ws.current_step()
+		check(board.first_sound_mode(), "younger children match each picture's first sound")
+		for i in board.places.size():
+			for p: DragPiece in board.labels:
+				if p.kind == board.places[i].accepts and p.placed_in == null:
+					_drop(p, board.places[i].center())
+					break
+		check(board.is_done, "every picture has its label")
+		await _finish_activity(labels_ws)
+	eq(WorldState.get_fact("village.stall_labels", []), ["bun", "jam", "egg"], "the stall labels are remembered")
+	check(_find_named(main.world, "Label_jam") != null, "the labels hang on Mr. Tobias's stall")
 
 	await main.rest_until_morning()
 	await frames(3)

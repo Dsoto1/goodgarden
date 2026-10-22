@@ -429,8 +429,18 @@ static func creel_and_rope(parent: Node3D, pos: Vector3, rot_y := 0.0) -> Node3D
 ## A market stall of bread: baskets of rolls and long loaves on the counter.
 static func bread_stall_goods(parent: Node3D, pos: Vector3, rot_y := 0.0) -> Node3D:
 	var r := _root(parent, "BreadGoods", pos, rot_y)
-	for x: float in [-0.55, 0.55]:
-		bread_basket(r, Vector3(x, 0, 0.08), x).scale = Vector3.ONE * 0.6
+	# Along the front, left to right: a basket of buns, jars of jam, a bowl of
+	# eggs and a bowl of nuts (the things the child labels).
+	bread_basket(r, Vector3(-0.58, 0, 0.08), -0.5).scale = Vector3.ONE * 0.6
+	for k in 3:
+		var jar := Vector3(-0.24 + (k % 2) * 0.1, 0, 0.1 - (k / 2) * 0.1)
+		MeshKit.cylinder(r, 0.045, 0.045, 0.11, jar + Vector3(0, 0.055, 0), "cloth_red", 8)
+		MeshKit.cylinder(r, 0.05, 0.05, 0.02, jar + Vector3(0, 0.12, 0), "cloth_cream", 8)
+	for bowl: Array in [[Vector3(0.2, 0, 0.1), "white"], [Vector3(0.55, 0, 0.1), "trunk"]]:
+		MeshKit.cylinder(r, 0.13, 0.09, 0.07, bowl[0] + Vector3(0, 0.035, 0), "wood_light", 10)
+		for k in 5:
+			var a := TAU * k / 5.0
+			MeshKit.sphere(r, 0.035, bowl[0] + Vector3(cos(a) * 0.06, 0.08, sin(a) * 0.05), bowl[1], Vector3(1, 1.25 if bowl[1] == "white" else 1.0, 1), 6, 3)
 	for i in 3:
 		var loaf := MeshKit.capsule(r, 0.08, 0.42, Vector3(-0.1 + i * 0.1, 0.07, -0.2), "bread", Vector3(0, 0, PI / 2.0))
 		loaf.rotation.y = 0.3 - i * 0.1

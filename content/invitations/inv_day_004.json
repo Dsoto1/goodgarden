@@ -1,11 +1,11 @@
 {
 	"id": "inv_day_004",
 	"from": "miriam",
-	"body": "Good morning, my friend!\n\nThe sun has been hot, and our bean plants look thirsty. Would you please help me water them?\n\nThe watering can is in the garden, by the gate.",
+	"body": "Good morning, my friend!\n\nThe sun has been hot, and our bean plants look thirsty. Would you please help me water them?\n\nThe watering can is in the garden, by the gate.\n\nP.S. Mr. Tobias asked if you could help him put labels on his market stall.",
 	"signature": "Miss Miriam",
 	"suggests": "garden_water",
 	"summary": "Water the thirsty bean plants in the garden.",
-	"done": "The beans have had their drink, and the table is ready. Well done!",
+	"done": "The beans have had their drink, and the stall has its labels. Well done!",
 	"tasks": [
 		{
 			"text": "Water the beans",
@@ -25,15 +25,10 @@
 			"where": "in the village"
 		},
 		{
-			"text": "Set the table",
-			"done_when": [
-				{
-					"fact": "home.table_set_day",
-					"is_today": true
-				}
-			],
-			"icon": "table",
-			"where": "at home"
+			"text": "Label the market stall",
+			"activity": "market_labels",
+			"icon": "letters",
+			"where": "at Mr. Tobias's stall in the square"
 		}
 	]
 }
