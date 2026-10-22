@@ -1,0 +1,43 @@
+{
+	"id": "garden_measure",
+	"title": "Measuring the Bean Plants",
+	"mode": "task",
+	"location": "garden",
+	"surface": "wood_table",
+	"readiness": {"ages": [5, 9], "math": "measuring height with a repeated unit; counting; comparing (tallest), and the difference between two heights (older)", "reading": "none required"},
+	"concepts": ["measuring with a unit", "counting", "comparing heights", "difference"],
+	"formation_themes": ["stewardship", "patience"],
+	"prerequisites": [
+		{"fact": "garden.bed_1", "exists": true}
+	],
+	"intro": [
+		{"speaker": "miriam", "text": "Look how our beans have grown! But how tall are they, really? Let's find out with these little blocks."},
+		{"speaker": "miriam", "text": "Each block is the same size. Stack them beside a plant until the stack is just as tall as the plant."}
+	],
+	"steps": [
+		{
+			"id": "measure",
+			"primitive": "measure_with_units",
+			"older": {"heights": [5, 8, 6, 9], "unit": 28, "question": "difference", "prompt": "Measure each plant with the blocks. Then we'll compare them."},
+			"speaker": "miriam",
+			"prompt": "Stack blocks beside each plant until the stack is just as tall.",
+			"hint": "Show me",
+			"heights": [3, 5, 4, 6],
+			"unit": 40,
+			"question": "tallest",
+			"feedback": {
+				"all_good": "Yes! Now we know how tall each one is."
+			}
+		}
+	],
+	"outro": [
+		{"speaker": "miriam", "text": "I'll leave a measuring stick by the row. Next week, we can see how much more they've grown.", "button": "Thank you, Miss Miriam"}
+	],
+	"world_effects": [
+		{"op": "set", "fact": "garden.measured", "value": {"day": "$day", "heights": "$measure.heights"}}
+	],
+	"replay": "free",
+	"real_world_invitation": "rw_measure_home",
+	"journal_line": "I measured the bean plants with blocks and found the tallest one.",
+	"unavailable_text": "The beans need to be planted before they can be measured."
+}

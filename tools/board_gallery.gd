@@ -32,7 +32,7 @@ func _ready() -> void:
 			Settings.set_value("text_scale", float(a.substr(7)))
 	get_tree().root.theme = UiStyle.build_theme(UiStyle.text_scale())
 	DirAccess.make_dir_recursive_absolute(out)
-	for id: String in ["market_labels", "home_animal_signs", "garden_bean_row", "garden_water", "bakery_baskets", "home_set_table", "sheepfold_hay", "mill_flour", "oven_bake", "good_shepherd", "orchard_plant", "pond_creatures", "thank_you_card"]:
+	for id: String in ["garden_measure", "market_labels", "home_animal_signs", "garden_bean_row", "garden_water", "bakery_baskets", "home_set_table", "sheepfold_hay", "mill_flour", "oven_bake", "good_shepherd", "orchard_plant", "pond_creatures", "thank_you_card"]:
 		if not only.is_empty() and not only.split(",").has(id):
 			continue
 		if not ActivityRunner.start(id):
@@ -70,7 +70,14 @@ func _ready() -> void:
 
 ## Puts about `part` of the pieces where they belong.
 func _fill(step: ActivityStep, part: float) -> void:
-	if step.get("labels") != null and step.get("places") != null:
+	if step.get("columns") != null:
+		# Plants partly measured: the first stacks built.
+		var free: Array = step.blocks.duplicate()
+		for i in int(step.columns.size() * part + 0.5):
+			var col: DropSlot = step.columns[i]
+			for n in col.capacity:
+				_place(free.pop_back(), col.center())
+	elif step.get("labels") != null and step.get("places") != null:
 		for i in int(step.places.size() * part + 0.5):
 			for l: DragPiece in step.labels:
 				if l.kind == step.places[i].accepts and l.placed_in == null:

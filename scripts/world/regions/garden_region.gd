@@ -71,6 +71,12 @@ func build() -> void:
 	var water := Interactable.create(self, Vector3(-4.1, 0, -1.7), "Water the beans", func() -> void:
 		get_tree().call_group("main", "start_activity_here", "garden_water", position + Vector3(BED_X, 0.3, BED_ROWS["bed_1"])), 0.6, 1.0)
 	water.conditions = [{"day_at_least": 4}, {"fact": "garden.bed_1", "exists": true}]
+	# From the second week the beans are tall enough to measure, block by block.
+	var measure_at := Vector3(BED_X + BED_LENGTH / 2.0 + 0.9, 0, BED_ROWS["bed_1"] + 0.5)
+	MeshKit.box(self, Vector3(0.4, 0.25, 0.3), measure_at + Vector3(0, 0.125, -0.5), "wood_light")
+	var measure := Interactable.create(self, measure_at, "Measure the bean plants", func() -> void:
+		get_tree().call_group("main", "start_activity_here", "garden_measure", position + Vector3(BED_X, 0.5, BED_ROWS["bed_1"])), 0.6, 1.2)
+	measure.conditions = [{"day_at_least": 9}, {"fact": "garden.bed_1", "exists": true}]
 	CraftedProps.scarecrow(self, Vector3(3.2, 0, 4.4), 0.3)
 	# Miriam's mustard plant, grown from the tiniest seed, in the corner by the fence.
 	CraftedProps.mustard_plant(self, Vector3(5.2, 0, 1.6), 11, 1.9)
@@ -169,6 +175,12 @@ func sync_with_world() -> void:
 				for h in 4:
 					MeshKit.sphere(_bed_1_plants, 0.14, at + Vector3(0.08 * (1 - (h % 2) * 2), 0.35 + h * 0.3, 0.05), "leaf", Vector3(1.0, 0.6, 0.8), 6, 3)
 				MeshKit.sphere(_bed_1_plants, 0.05, at + Vector3(0.1, 1.2, 0.1), "bean_flower", Vector3.ONE, 5, 3)
+	# Once measured, a notched measuring stick stays at the end of the row.
+	if WorldState.has_fact("garden.measured"):
+		var stick_at := Vector3(BED_X + BED_LENGTH / 2.0 + 0.15, 0, z1 + 0.35)
+		MeshKit.box(_bed_1_plants, Vector3(0.06, 1.5, 0.04), stick_at + Vector3(0, 0.75, 0), "wood_light")
+		for k in 7:
+			MeshKit.box(_bed_1_plants, Vector3(0.1, 0.015, 0.05), stick_at + Vector3(0.02, 0.2 + k * 0.2, 0), "wood_dark")
 	# Watered today: dark, damp soil round each plant. Once watered, the
 	# climbing beans hang with pods.
 	var watered: Variant = WorldState.get_fact("garden.watered")

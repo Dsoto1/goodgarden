@@ -115,6 +115,8 @@ Hands-on activities serve ages 5 to 10 through a grown-up's **Work level** setti
 
 **`label_pictures`** (reading, after the Montessori picture-and-label cards): `items` (the names, e.g. `["bun", "jam", "egg"]`), `pictures` (`{item: icon}`; icons include `bun`, `jam`, `egg`, `nut`, `fig` and the animals), `mode` (`"first_sound"`: each label is the letter of the name's first sound, for younger children; `"word"`: each label is the written word), `extra` (labels that name no picture here). Tapping a picture says its name; tapping a label says its sound, or a word's sounds one by one for the child to blend. A label only settles under the picture it names. Result: `labels`. Feedback: `wrong`, `all_good`.
 
+**`measure_with_units`** (measuring and comparing): `heights` (each plant's height in blocks), `unit` (block size in board units, default 40), `question` (`"tallest"`: tap the tallest plant; `"difference"`: choose how many blocks taller the tallest is than the shortest), `spare`. The child stacks equal blocks beside each plant until the stack is as tall; a block that would make it taller won't stay, and each finished stack shows its count. Result: `heights`, `tallest` (index), `difference`. Feedback: `too_tall`, `measured`, `wrong_tallest`, `wrong_difference`, `all_good` (`{n}` becomes a count).
+
 **`story_figures`**: `places`, `road`, `figures` (`{"id", "label", "color", "shape"?: "donkey"|"building", "accent"?}`), `box`, `segments` (`{"text", "reveal": [ids], "show": {id: {"pos", "lying"}}}`), `wonderings`, `reference`. Result: `retell_seconds`. Follow it with a `match_to_outline` step using `pieces_from_previous` so the child puts the material away.
 
 Positions are in **board units** (1000 × 560); the workspace scales the board to the screen.

@@ -15,6 +15,7 @@ const PRIMITIVES := {
 	"sequence_cards": "res://scripts/activity/primitives/sequence_cards.gd",
 	"build_word": "res://scripts/activity/primitives/build_word.gd",
 	"label_pictures": "res://scripts/activity/primitives/label_pictures.gd",
+	"measure_with_units": "res://scripts/activity/primitives/measure_with_units.gd",
 }
 
 

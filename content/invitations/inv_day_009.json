@@ -1,11 +1,11 @@
 {
 	"id": "inv_day_009",
 	"from": "tobias",
-	"body": "Good morning!\n\nThe dough is ready, and the oven is hot. Would you like to come and bake the bread with me?\n\nYou will find me at the oven, beside the bakery.",
+	"body": "Good morning!\n\nThe dough is ready, and the oven is hot. Would you like to come and bake the bread with me?\n\nYou will find me at the oven, beside the bakery.\n\nP.S. Miss Miriam says your beans have grown so tall, you should measure them!",
 	"signature": "Mr. Tobias, the baker",
 	"suggests": "oven_bake",
 	"summary": "Bake bread with Mr. Tobias at the oven.",
-	"done": "The bread is baked, and everyone is greeted and fed. Thank you for helping!",
+	"done": "The bread is baked and the beans are measured. Thank you for helping!",
 	"tasks": [
 		{
 			"text": "Bake bread",
@@ -14,15 +14,10 @@
 			"where": "at the oven by the bakery"
 		},
 		{
-			"text": "Say hello to Miss Miriam",
-			"done_when": [
-				{
-					"fact": "npc.miriam.greeted_day",
-					"is_today": true
-				}
-			],
-			"icon": "talk",
-			"where": "in her garden"
+			"text": "Measure the beans",
+			"activity": "garden_measure",
+			"icon": "measure",
+			"where": "in Miss Miriam's garden"
 		},
 		{
 			"text": "Feed the hens",

@@ -200,6 +200,16 @@ static func draw(ci: CanvasItem, kind: String, r: Rect2, color := INK) -> void:
 				body.append(c + Vector2(cos(a) * w, sin(a) * 0.32 + 0.06) * s)
 			ci.draw_colored_polygon(body, Color("7a4a7a"))
 			ci.draw_line(c + Vector2(0, -0.26) * s, c + Vector2(0.04, -0.4) * s, Color("5f8a3f"), maxf(2.0, s * 0.05))
+		"measure":
+			# A stack of three blocks beside a little plant.
+			for k in 3:
+				var blk := Rect2(c + Vector2(0.04, 0.22 - k * 0.22) * s, Vector2(0.24, 0.2) * s)
+				ci.draw_rect(blk, Color("e0b77a"))
+				ci.draw_rect(blk, Color("9c7049"), false, 1.5)
+			ci.draw_line(c + Vector2(-0.2, 0.42) * s, c + Vector2(-0.2, -0.36) * s, Color("5f8a3f"), maxf(2.0, s * 0.06))
+			for k in 3:
+				var side := -1.0 if k % 2 == 0 else 1.0
+				ci.draw_circle(c + Vector2(-0.2 + side * 0.09, 0.2 - k * 0.22) * s, 0.07 * s, Color("7fb04a"))
 		"todo":
 			# An empty ring, waiting for its tick.
 			ci.draw_arc(c, 0.36 * s, 0, TAU, 32, Color("b89a78"), maxf(2.0, s * 0.08), true)

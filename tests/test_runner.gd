@@ -25,7 +25,7 @@ func _ready() -> void:
 	var tests := [
 		test_content_is_valid, test_validator_catches_errors, test_conditions_and_tokens,
 		test_save_round_trip_and_migration, test_space_along_line, test_count_into_slots,
-		test_match_to_outline_self_correction, test_story_handoff_and_put_away, test_parable_growth_and_put_away, test_chapel_library_books, test_calling_of_the_fishermen, test_sit_and_hold_rod, test_build_word, test_label_pictures, test_young_child_access, test_older_work_level, test_sequence_cards,
+		test_match_to_outline_self_correction, test_story_handoff_and_put_away, test_parable_growth_and_put_away, test_chapel_library_books, test_calling_of_the_fishermen, test_sit_and_hold_rod, test_build_word, test_label_pictures, test_measure_with_units, test_young_child_access, test_older_work_level, test_sequence_cards,
 		test_observations_never_score_reflection, test_pointer_events_drag_pieces, test_props_catalog, test_recorded_sounds, test_animal_moments, test_large_text_fits,
 		test_scenery_quality_and_batching, test_vertical_slice_end_to_end,
 	]
@@ -492,6 +492,40 @@ func test_label_pictures() -> void:
 	check(young.labels.all(func(p: DragPiece) -> bool: return p.kind.begins_with("letter:")), "younger labels are letters for the first sound")
 	eq(young.places[0].accepts, "letter:b", "the bun takes the letter for its first sound")
 	young.queue_free()
+
+
+func test_measure_with_units() -> void:
+	var step := _make_step("measure_with_units", {"id": "m", "heights": [2, 4, 3], "question": "tallest"})
+	eq(step.columns.size(), 3, "a column beside each plant")
+	eq(step.blocks.size(), 11, "enough blocks for every plant, and two spare")
+	var pile: Array = step.blocks.duplicate()
+	for k in 2:
+		_drop(pile.pop_back(), step.columns[0].center())
+	var extra: DragPiece = pile.pop_back()
+	_drop(extra, step.columns[0].center())
+	check(extra.placed_in == null, "a block that would make the stack taller than the plant won't stay")
+	pile.push_back(extra)
+	check(not step.measured, "not measured until every plant is")
+	for c in [1, 2]:
+		for k in step.columns[c].capacity:
+			_drop(pile.pop_back(), step.columns[c].center())
+	check(step.measured, "every plant measured")
+	step.choose_tallest(2)
+	check(not step.is_done, "the shorter plant isn't the tallest")
+	step.choose_tallest(1)
+	check(step.is_done, "the tallest plant found")
+	step.queue_free()
+	# Older children work out how much taller.
+	var older := _make_step("measure_with_units", {"id": "m", "heights": [5, 8], "question": "difference"})
+	var blocks: Array = older.blocks.duplicate()
+	for col: DropSlot in older.columns:
+		for k in col.capacity:
+			_drop(blocks.pop_back(), col.center())
+	older.answer_difference(2)
+	check(not older.is_done, "a wrong difference asks again")
+	older.answer_difference(3)
+	check(older.is_done, "8 is 3 more than 5")
+	older.queue_free()
 
 
 func test_sequence_cards() -> void:
@@ -1177,6 +1211,20 @@ func test_vertical_slice_end_to_end() -> void:
 	eq(int(WorldState.get_fact("village.baked_day", 0)), 9, "the bread was baked today")
 	var baking := _find_named(main.world, "BakingDay") as Node3D
 	check(baking != null and baking.visible, "the oven glows and fresh loaves cool beside it")
+	# Measuring: the bean plants, block by block, in Miss Miriam's garden.
+	var measure_ws := ActivityRunner.workspace if await _start_from("Measure the bean plants") else null
+	if measure_ws:
+		var ruler := measure_ws.current_step()
+		var free_blocks: Array = ruler.blocks.duplicate()
+		for col: DropSlot in ruler.columns:
+			for n in col.capacity:
+				_drop(free_blocks.pop_back(), col.center())
+		check(ruler.measured, "every plant is measured")
+		ruler.choose_tallest(ruler.heights.find(ruler.tallest_height()))
+		check(ruler.is_done, "and the tallest is found")
+		await _finish_activity(measure_ws)
+	var measured: Variant = WorldState.get_fact("garden.measured")
+	check(measured is Dictionary and measured["day"] == 9 and measured["heights"] == [3, 5, 4, 6], "the measuring is remembered")
 
 	# Day 10: planting the orchard with Miss Miriam in the meadow.
 	await main.rest_until_morning()

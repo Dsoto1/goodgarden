@@ -26,7 +26,7 @@ Beyond the slice:
 | Design target | Now |
 |---|---|
 | 12 weeks × 5 guided days = 60 guided days | 10 guided days written (weeks 1–2) |
-| 12–15 reusable activity types (`LEARNING_DESIGN.md`) | 9: spacing along a line, counting into slots, matching to outlines, sorting into bins, balance scale, sequence cards, story figures, building words, labelling pictures |
+| 12–15 reusable activity types (`LEARNING_DESIGN.md`) | 10: spacing along a line, counting into slots, matching to outlines, sorting into bins, balance scale, sequence cards, story figures, building words, labelling pictures, measuring with units |
 | 15–20 Scripture presentations at launch (`CHAPEL_ATRIUM.md`) | 7 (paused at the owner's request) |
 | Regions: homestead, valley/village, farm & mill, forest/grove, Bellhaven later | Forest/grove not built; Bellhaven visible, not reachable |
 
@@ -69,6 +69,9 @@ Each new type goes into a few real days at once, so it is tried in play.
 2. **Pouring and transferring.** Kitchen and garden: water, grain, flour.
 3. **Measuring and comparing.** Lengths and heights: bean growth, cloth,
    paths.
+   - [x] `measure_with_units`: measuring the bean plants with equal blocks,
+     then the tallest (younger) or how much taller (older); Tuesday, week 2.
+     A notched stick then stays by the row.
 4. **Money and exchange.** Market stalls; honest change.
 5. **Observing and recording.** A nature journal: look closely, note what
    you see.

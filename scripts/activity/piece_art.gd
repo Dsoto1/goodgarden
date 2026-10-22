@@ -27,6 +27,15 @@ static func draw(ci: CanvasItem, kind: String, size: Vector2, outline: bool, dat
 		_word_card(ci, kind.substr(5), size, outline)
 		return
 	match kind:
+		"unit_block":
+			# A plain wooden cube: every one the same size, for measuring.
+			var r := Rect2(Vector2(1, 1), size - Vector2(2, 2))
+			if outline:
+				_dashed(ci, _rect(r))
+			else:
+				ci.draw_rect(r, Color("e0b77a"))
+				ci.draw_rect(Rect2(r.position, Vector2(r.size.x, r.size.y * 0.2)), Color("eccb95"))
+				ci.draw_rect(r, Color("9c7049"), false, 2.0)
 		"bread_roll":
 			_shape(ci, _ellipse(c, Vector2(size.x * 0.46, size.y * 0.42), 16), Color("d9963f"), outline)
 			if not outline:
