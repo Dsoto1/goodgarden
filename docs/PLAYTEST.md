@@ -13,6 +13,8 @@ without help tells us what the game needs.
   isn't notarized, so the first time, right-click (or Control-click) the app
   and choose **Open**, then **Open** again. If macOS still refuses, open
   **System Settings → Privacy & Security** and choose **Open Anyway**.
+- **Tablet:** see [TABLETS.md](TABLETS.md) for Android, and for iPad (in
+  Safari, or as an app built on a Mac).
 - Words are read aloud with the computer's own reading voice. If the game
   says there is no reading voice, the child can still play; a grown-up can
   read the letters aloud.
