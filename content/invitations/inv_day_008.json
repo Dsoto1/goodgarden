@@ -1,7 +1,7 @@
 {
 	"id": "inv_day_008",
 	"from": "miriam",
-	"body": "Good morning, my friend!\n\nThree little apple trees have come for the meadow beside your house. Would you please help me plant them?\n\nI'll be waiting in the meadow, just west of your door.",
+	"body": "Good morning, my friend!\n\nThree little apple trees have come for the meadow beside your house. Would you please help me plant them?\n\nI'll be waiting in the meadow beside your house, past the woodpile.",
 	"signature": "Miss Miriam",
 	"suggests": "orchard_plant",
 	"summary": "Plant apple trees with Miss Miriam in the meadow."

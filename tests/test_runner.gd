@@ -968,7 +968,11 @@ func _start_by_talking(dialogue_id: String) -> bool:
 		Dialogue.advance()
 		guard += 1
 	check(Dialogue.is_active() and Dialogue.current_line()["choices"].size() == 2, "%s politely asks for help" % dialogue_id)
+	if guard == 0:
+		check(str(Dialogue.current_line()["choices"][0]).begins_with("Hello!"), "the child greets %s before answering" % dialogue_id)
 	Dialogue.choose(0)
+	if Dialogue.is_active():
+		eq(Dialogue.current_line()["reply"], "Let's begin!", "no goodbye when work together follows")
 	Dialogue.advance()
 	await frames(3)
 	check(ActivityRunner.is_running(), "the work starts after saying yes")

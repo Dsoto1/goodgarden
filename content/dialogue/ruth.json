@@ -118,7 +118,7 @@
 		},
 		"lambs_go": {
 			"mood": "joy",
-			"text": "Wonderful. Come and stand by the troughs with me."
+			"text": "Oh, thank you, dear. Come and stand by the troughs with me."
 		},
 		"lambs_later": {
 			"mood": "gentle",
@@ -144,7 +144,7 @@
 		},
 		"pond_offer": {
 			"mood": "joy",
-			"text": "You came! Look, the dipping net is full. Would you like to help me sort what we've found?",
+			"text": "Good morning, little one! Look, the dipping net is full. Would you like to help me sort what we've found?",
 			"choices": [
 				{
 					"text": "Yes, please, Mrs. Ruth!",
@@ -164,7 +164,7 @@
 		},
 		"pond_go": {
 			"mood": "joy",
-			"text": "Wonderful. Gently, now. They're small, and they're God's creatures too."
+			"text": "Gently, now. They're small, and they're God's creatures too."
 		},
 		"pond_later": {
 			"mood": "gentle",

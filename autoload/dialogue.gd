@@ -11,7 +11,9 @@ signal conversation_started(dialogue_id: String)
 ## {"speaker": id, "name": display name, "text": String, "choices": Array[String],
 ##  "reply": String}. "reply" is what the child says to move on (the Next
 ## button): a greeting the first time they meet a grown-up each day, a goodbye
-## on the last line, or a node's own "reply" ("You're welcome, Ruth!").
+## on the last line ("Let's begin!" when work together follows), or a node's
+## own "reply" ("You're welcome, Ruth!"). Choices on a first meeting begin
+## with "Hello!".
 signal line_shown(line: Dictionary)
 signal conversation_ended(dialogue_id: String)
 
@@ -123,7 +125,8 @@ func _reply_for(node: Dictionary, speaker: String) -> String:
 	if greet:
 		return tr("Hello, %s!") % name
 	if str(node.get("next", "")).is_empty():
-		return tr("Goodbye, %s!") % name
+		# Work together comes next, so it isn't goodbye yet.
+		return tr("Let's begin!") if not _queued_activity.is_empty() else tr("Goodbye, %s!") % name
 	return ""
 
 
@@ -141,8 +144,10 @@ func _mark_greeted() -> void:
 func _line_for(node: Dictionary) -> Dictionary:
 	var speaker := str(node.get("speaker", _data.get("speaker", "")))
 	var choices: Array[String] = []
+	# A grown-up who opens with a question still gets a greeting first.
+	var greet := _first_line and speaker != "narrator" and not speaker.is_empty() and not _greeted_today(speaker)
 	for c: Dictionary in node.get("choices", []):
-		choices.append(tr(str(c.get("text", ""))))
+		choices.append((tr("Hello!") + " " if greet else "") + tr(str(c.get("text", ""))))
 	return {
 		"speaker": speaker,
 		"name": character_name(speaker),

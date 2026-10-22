@@ -231,7 +231,7 @@ func _patches() -> void:
 
 func _trees() -> void:
 	var spots := [
-		[-9.5, 11.0, 1.0, "tree_a"], [-15, -4, 1.0, "grove_b_small"], [-31.5, 10.5, 1.1, "tree_b"], [-16, -5, 1.0, "grove_a_small"],
+		[-15.5, 15.5, 1.0, "tree_a"], [-15, -4, 1.0, "grove_b_small"], [-31.5, 10.5, 1.1, "tree_b"], [-16, -5, 1.0, "grove_a_small"],
 		[12, 11, 1.0, "tree_a"], [20, 11, 1.0, "grove_b_small"], [25, -1, 1.1, "tree_b"], [26, -8, 1.0, "grove_a_medium"],
 		[-4, -8, 0.9, "tree_a"], [-34, -23, 1.0, "grove_b_medium"], [19, -17.5, 1.0, "tree_b"], [24, -33, 1.0, "grove_a_small"],
 		[-33, -31, 1.0, "grove_b_medium"], [-23, -40, 1.0, "tree_a"], [-16, -37, 1.1, "tree_b"], [-12, -45, 1.0, "grove_a_small"],
@@ -249,9 +249,10 @@ func _trees() -> void:
 		Props.place(self, s[3], at, rng.randf() * TAU, s[2])
 	# A few old twisted trees as landmarks the child can steer by.
 	Props.place(self, "twisted_tree", Vector3(-33, 0, -25), 0.6)
-	Props.place(self, "twisted_tree_b", Vector3(-10, 0, 8), 2.4)
+	# South of the orchard, so it never stands between the camera and the work.
+	Props.place(self, "twisted_tree_b", Vector3(-7, 0, 14), 2.4)
 	Props.place(self, "twisted_tree", Vector3(25, 0, -42), 4.0, 0.9)
-	for m: Array in [[-34.6, -21.4], [-35.2, -22.6], [-9, 9.5], [-11, 6.8]]:
+	for m: Array in [[-34.6, -21.4], [-35.2, -22.6], [-6, 15.4], [-8.2, 13.1]]:
 		Props.place(self, "mushroom", Vector3(m[0], 0, m[1]), rng.randf() * TAU)
 	# Working buildings and fields that make the valley feel lived in.
 	Props.place(self, "windmill", Vector3(28, 0, -29), -0.4)

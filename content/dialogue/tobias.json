@@ -104,7 +104,7 @@
 				{"text": "Maybe later, thank you.", "next": "bread_later"}
 			]
 		},
-		"bread_go": {"mood": "joy", "text": "Wonderful. Come and stand by the table with me."},
+		"bread_go": {"mood": "joy", "text": "Thank you kindly! Come and stand by the table with me."},
 		"bread_later": {"mood": "gentle", "text": "That's all right. The baskets will wait here by the bakery."},
 		"bread_thanks": {
 			"reply": "You're welcome, Mr. Tobias!",
@@ -157,7 +157,7 @@
 		},
 		"mill_go": {
 			"mood": "joy",
-			"text": "Wonderful. Come, the grain is just inside."
+			"text": "Good! Come, the grain is just inside."
 		},
 		"mill_later": {
 			"mood": "gentle",
