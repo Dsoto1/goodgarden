@@ -253,6 +253,8 @@ func _draw() -> void:
 
 ## A little heap of soil over a sown hole, rising as `t` goes 0 to 1.
 func _mound(c: Vector2, t: float) -> void:
+	if t < 0.05:
+		return # still flat: nothing to draw yet
 	var pts := PackedVector2Array()
 	for i in 17:
 		var a := PI + PI * i / 16.0

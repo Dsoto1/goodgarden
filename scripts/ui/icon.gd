@@ -210,6 +210,17 @@ static func draw(ci: CanvasItem, kind: String, r: Rect2, color := INK) -> void:
 			for k in 3:
 				var side := -1.0 if k % 2 == 0 else 1.0
 				ci.draw_circle(c + Vector2(-0.2 + side * 0.09, 0.2 - k * 0.22) * s, 0.07 * s, Color("7fb04a"))
+		"coin":
+			# Two coins, one stamped 1 and one 5.
+			ci.draw_circle(c + Vector2(-0.12, 0.08) * s, 0.26 * s, Color("c98a4e"))
+			ci.draw_circle(c + Vector2(0.14, -0.08) * s, 0.26 * s, Color("e0b64c"))
+			ci.draw_arc(c + Vector2(0.14, -0.08) * s, 0.2 * s, 0, TAU, 18, Color("a8862a"), maxf(1.5, s * 0.04))
+			ci.draw_string(UiStyle.font(), c + Vector2(0.02, 0.06) * s, "5", HORIZONTAL_ALIGNMENT_CENTER, 0.24 * s, int(0.3 * s), Color("6b5418"))
+		"lens":
+			# A magnifying glass.
+			ci.draw_line(c + Vector2(0.12, 0.12) * s, c + Vector2(0.38, 0.38) * s, Color("8a5a3a"), maxf(3.0, s * 0.1))
+			ci.draw_circle(c + Vector2(-0.08, -0.08) * s, 0.24 * s, Color(0.85, 0.93, 1.0))
+			ci.draw_arc(c + Vector2(-0.08, -0.08) * s, 0.26 * s, 0, TAU, 24, Color("b8913a"), maxf(2.0, s * 0.07))
 		"todo":
 			# An empty ring, waiting for its tick.
 			ci.draw_arc(c, 0.36 * s, 0, TAU, 32, Color("b89a78"), maxf(2.0, s * 0.08), true)

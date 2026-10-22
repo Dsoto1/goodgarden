@@ -16,6 +16,9 @@ const PRIMITIVES := {
 	"build_word": "res://scripts/activity/primitives/build_word.gd",
 	"label_pictures": "res://scripts/activity/primitives/label_pictures.gd",
 	"measure_with_units": "res://scripts/activity/primitives/measure_with_units.gd",
+	"pour_to_line": "res://scripts/activity/primitives/pour_to_line.gd",
+	"pay_with_coins": "res://scripts/activity/primitives/pay_with_coins.gd",
+	"look_closely": "res://scripts/activity/primitives/look_closely.gd",
 }
 
 

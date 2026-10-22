@@ -317,6 +317,10 @@ func _stall(at: Vector3, rot: float, awning: String, goods: Array) -> void:
 		var label := Interactable.create(root, Vector3(0, 0, 1.2), "Label the market stall", func() -> void:
 			get_tree().call_group("main", "start_activity_here", "market_labels", root.global_position + Vector3(0, 1.0, 0)), 0.7, 1.6)
 		label.conditions = [{"day_at_least": 4}, {"fact": "village.stall_labels", "exists": false}]
+		# From the second week the child can shop here, counting out coins.
+		var shop := Interactable.create(root, Vector3(0.7, 0, 1.2), "Buy food for supper", func() -> void:
+			get_tree().call_group("main", "start_activity_here", "market_buy", root.global_position + Vector3(0, 1.0, 0)), 0.7, 1.6)
+		shop.conditions = [{"day_at_least": 8}, {"not": {"fact": "home.bought_day", "is_today": true}}]
 		return
 	for i in goods.size():
 		Props.place(root, goods[i], Vector3(-0.45 + i * 0.9, 0.8, 0.05), 0.0, 0.75)

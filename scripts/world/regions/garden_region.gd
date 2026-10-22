@@ -77,6 +77,11 @@ func build() -> void:
 	var measure := Interactable.create(self, measure_at, "Measure the bean plants", func() -> void:
 		get_tree().call_group("main", "start_activity_here", "garden_measure", position + Vector3(BED_X, 0.5, BED_ROWS["bed_1"])), 0.6, 1.2)
 	measure.conditions = [{"day_at_least": 9}, {"fact": "garden.bed_1", "exists": true}]
+	# Miss Miriam's magnifying glass, for looking closely at the bean leaves.
+	var look_at := Vector3(BED_X - BED_LENGTH / 2.0 - 0.9, 0, BED_ROWS["bed_1"] + 0.5)
+	var look := Interactable.create(self, look_at, "Look closely at the bean leaves", func() -> void:
+		get_tree().call_group("main", "start_activity_here", "garden_look_closely", position + Vector3(BED_X, 0.5, BED_ROWS["bed_1"])), 0.6, 1.2)
+	look.conditions = [{"day_at_least": 5}, {"fact": "garden.bed_1", "exists": true}]
 	CraftedProps.scarecrow(self, Vector3(3.2, 0, 4.4), 0.3)
 	# Miriam's mustard plant, grown from the tiniest seed, in the corner by the fence.
 	CraftedProps.mustard_plant(self, Vector3(5.2, 0, 1.6), 11, 1.9)
@@ -175,6 +180,11 @@ func sync_with_world() -> void:
 				for h in 4:
 					MeshKit.sphere(_bed_1_plants, 0.14, at + Vector3(0.08 * (1 - (h % 2) * 2), 0.35 + h * 0.3, 0.05), "leaf", Vector3(1.0, 0.6, 0.8), 6, 3)
 				MeshKit.sphere(_bed_1_plants, 0.05, at + Vector3(0.1, 1.2, 0.1), "bean_flower", Vector3.ONE, 5, 3)
+	# The ladybird the child found stays on the bean leaves.
+	if WorldState.has_fact("garden.looked_closely_day") and stage >= 2 and positions.size() > 1:
+		var bug := Vector3(BED_X - BED_LENGTH / 2.0 + 0.2 + float(positions[1]) * (BED_LENGTH - 0.4) + 0.12, 0.66, z1 + 0.06)
+		MeshKit.sphere(_bed_1_plants, 0.035, bug, "cloth_red", Vector3(1, 0.6, 1.2), 6, 3)
+		MeshKit.sphere(_bed_1_plants, 0.015, bug + Vector3(0, 0.005, -0.04), "dark", Vector3.ONE, 4, 2)
 	# Once measured, a notched measuring stick stays at the end of the row.
 	if WorldState.has_fact("garden.measured"):
 		var stick_at := Vector3(BED_X + BED_LENGTH / 2.0 + 0.15, 0, z1 + 0.35)

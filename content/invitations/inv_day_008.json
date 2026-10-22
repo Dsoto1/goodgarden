@@ -1,7 +1,7 @@
 {
 	"id": "inv_day_008",
 	"from": "tobias",
-	"body": "Good morning!\n\nI need flour for tomorrow's bread. Would you please meet me at the mill by the river? There is grain to clean, and flour to weigh.\n\nLook for the big water wheel.",
+	"body": "Good morning!\n\nI need flour for tomorrow's bread. Would you please meet me at the mill by the river? There is grain to clean, and flour to weigh.\n\nLook for the big water wheel.\n\nAnd while you're in the village, my stall is open: come and buy something for your supper.",
 	"signature": "Mr. Tobias, the baker",
 	"suggests": "mill_flour",
 	"summary": "Help Mr. Tobias make flour at the mill.",
@@ -25,15 +25,10 @@
 			"where": "in the paddock by the mill"
 		},
 		{
-			"text": "Set the table",
-			"done_when": [
-				{
-					"fact": "home.table_set_day",
-					"is_today": true
-				}
-			],
-			"icon": "table",
-			"where": "at home"
+			"text": "Buy food for supper",
+			"activity": "market_buy",
+			"icon": "coin",
+			"where": "at Mr. Tobias's stall in the square"
 		}
 	]
 }

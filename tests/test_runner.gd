@@ -25,7 +25,7 @@ func _ready() -> void:
 	var tests := [
 		test_content_is_valid, test_validator_catches_errors, test_conditions_and_tokens,
 		test_save_round_trip_and_migration, test_space_along_line, test_count_into_slots,
-		test_match_to_outline_self_correction, test_story_handoff_and_put_away, test_parable_growth_and_put_away, test_chapel_library_books, test_calling_of_the_fishermen, test_sit_and_hold_rod, test_build_word, test_label_pictures, test_measure_with_units, test_young_child_access, test_older_work_level, test_sequence_cards,
+		test_match_to_outline_self_correction, test_story_handoff_and_put_away, test_parable_growth_and_put_away, test_chapel_library_books, test_calling_of_the_fishermen, test_sit_and_hold_rod, test_build_word, test_label_pictures, test_measure_with_units, test_pour_to_line, test_pay_with_coins, test_look_closely, test_young_child_access, test_older_work_level, test_sequence_cards,
 		test_observations_never_score_reflection, test_pointer_events_drag_pieces, test_props_catalog, test_recorded_sounds, test_animal_moments, test_large_text_fits,
 		test_scenery_quality_and_batching, test_vertical_slice_end_to_end,
 	]
@@ -526,6 +526,74 @@ func test_measure_with_units() -> void:
 	older.answer_difference(3)
 	check(older.is_done, "8 is 3 more than 5")
 	older.queue_free()
+
+
+func test_pour_to_line() -> void:
+	var step := _make_step("pour_to_line", {"id": "p", "lines": [0.5, 0.5], "rate": 1.0, "tolerance": 0.06})
+	eq(step.glasses.size(), 2, "a glass for each line")
+	# Hold the jug over the first glass: the water rises while it pours.
+	step.jug.dragging = true
+	step.jug.position = step.glasses[0].position + Vector2(-5, -100)
+	await wait(0.3)
+	check(step.levels[0] > 0.1, "water rises while the jug is held over a glass")
+	await wait(0.6)
+	step.jug.dragging = false
+	step.jug.dropped.emit(step.jug)
+	check(step.levels[0] > 0.56 and not step.is_done, "poured past the line: too full")
+	step.pour_back(0)
+	eq(step.levels[0], 0.0, "tapping a too-full glass pours it back")
+	step.levels[0] = 0.5
+	step.levels[1] = 0.52
+	step._check()
+	check(step.is_done, "every glass at its line finishes")
+	eq(step.pour_backs, 1, "the pour-back is noted")
+	step.queue_free()
+
+
+func test_pay_with_coins() -> void:
+	var step := _make_step("pay_with_coins", {"id": "b", "buy": [{"item": "bun", "price": 3}]})
+	eq(step.coins.size(), 5, "enough 1-coins for the bun, and two spare")
+	for k in 2:
+		_drop(step.coins[k], step.dish.center())
+	step.pay()
+	eq(step.bought.size(), 0, "two coins aren't enough for a bun that costs three")
+	_drop(step.coins[2], step.dish.center())
+	step.pay()
+	eq(step.bought, ["bun"] as Array[String], "three coins buy the bun")
+	await wait(1.8)
+	check(step.is_done, "everything bought")
+	step.queue_free()
+	# Older: pay with a 5 for something costing 4, get 1 back; then a
+	# mistaken change to check honestly.
+	var older := _make_step("pay_with_coins", {"id": "b", "buy": [{"item": "jam", "price": 4}, {"item": "bun", "price": 2}], "purse": [5, 2], "mistaken_change": true})
+	var five: DragPiece = older.coins.filter(func(c: DragPiece) -> bool: return int(c.data["value"]) == 5)[0]
+	_drop(five, older.dish.center())
+	older.pay()
+	check(older.coins.any(func(c: DragPiece) -> bool: return int(c.data["value"]) == 1), "paying 5 for 4 gives 1 back as change")
+	await wait(1.8)
+	var two: DragPiece = older.coins.filter(func(c: DragPiece) -> bool: return int(c.data["value"]) == 2)[0]
+	_drop(two, older.dish.center())
+	older.pay()
+	check(older._awaiting_honesty, "on the last purchase the change is one too many, and the child is asked to check")
+	older._check_change(true)
+	check(older.honest, "saying so is thanked")
+	await wait(2.6)
+	check(older.is_done, "and the shopping is done")
+	older.queue_free()
+
+
+func test_look_closely() -> void:
+	var step := _make_step("look_closely", {"id": "l", "spots": 7, "questions": [{"ask": "Spots?", "about": "spots", "choices": [6, 7]}, {"ask": "Legs?", "about": "legs", "choices": [6, 8]}]})
+	step.choose(6)
+	eq(step.notes.size(), 0, "a wrong count asks the child to look again")
+	step.choose(7)
+	eq(step.notes.size(), 1, "the right count goes in the notebook")
+	await wait(1.8)
+	step.choose(6)
+	await wait(1.8)
+	check(step.is_done, "the ant has six legs, and the page is done")
+	eq(step.notes[1], {"about": "legs", "count": 6}, "what was seen is recorded")
+	step.queue_free()
 
 
 func test_sequence_cards() -> void:
@@ -1192,6 +1260,19 @@ func test_vertical_slice_end_to_end() -> void:
 			check(scale.is_done, "a little scoop makes the beam level")
 		await _finish_activity(mill)
 	eq(int(WorldState.get_fact("village.flour_day", 0)), 8, "there is flour for tomorrow")
+	# Money: buying food for supper at Mr. Tobias's stall.
+	var shop_ws := ActivityRunner.workspace if await _start_from("Buy food for supper") else null
+	if shop_ws:
+		var shop := shop_ws.current_step()
+		for item in shop.buy.size():
+			for coin_n in shop.price():
+				var coin: DragPiece = shop.coins.filter(func(c: DragPiece) -> bool: return c.placed_in == null and not c.is_queued_for_deletion())[0]
+				_drop(coin, shop.dish.center())
+			shop.pay()
+			await wait(1.8)
+		check(shop.is_done, "the bun and the egg are bought with counted coins")
+		await _finish_activity(shop_ws)
+	check(_find_named(main.world, "Shopping") != null and (_find_named(main.world, "Shopping") as Node3D).visible, "the shopping waits on the table at home")
 
 
 	# Day 9: baking the bread with yesterday's flour.
@@ -1269,6 +1350,16 @@ func test_vertical_slice_end_to_end() -> void:
 		check(sorter2.is_done, "every creature sorted into its home")
 		await _finish_activity(pond)
 	eq(int(WorldState.get_fact("valley.pond_day", 0)), 11, "the pond creatures were sorted today")
+	# Pouring water for supper at home.
+	var pour_ws := ActivityRunner.workspace if await _start_from("Pour water for supper") else null
+	if pour_ws:
+		var pouring := pour_ws.current_step()
+		for i in pouring.glasses.size():
+			pouring.levels[i] = pouring.lines[i]
+		pouring._check()
+		check(pouring.is_done, "every glass filled to its line")
+		await _finish_activity(pour_ws)
+	check((_find_named(main.world, "PouredGlasses") as Node3D).visible, "glasses of water stand on the table")
 
 	# Day 12 (Friday): a thank-you card for Mrs. Ruth, given by the child.
 	await main.rest_until_morning()
@@ -1293,7 +1384,7 @@ func test_vertical_slice_end_to_end() -> void:
 	eq(str(WorldState.get_fact("npc.ruth.card", "")), "made", "the card is made")
 	check(not main.hud.todays_work_done(), "making the card isn't the end: it still has to be given")
 	WorldState.set_fact("home.hens_fed_day", Days.current_day)
-	WorldState.set_fact("animals.cat.petted_day", Days.current_day)
+	WorldState.set_fact("activity.garden_look_closely.last_day", Days.current_day)
 	check(not main.hud.todays_work_done(), "with the small jobs done, the card still has to be given")
 	check(Dialogue.start("ruth"), "take the card to Mrs. Ruth")
 	check(str(Dialogue.current_line()["reply"]).contains("This card is for you, Mrs. Ruth"), "the child gives the card with a kind word")

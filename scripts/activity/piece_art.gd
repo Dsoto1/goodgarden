@@ -26,7 +26,37 @@ static func draw(ci: CanvasItem, kind: String, size: Vector2, outline: bool, dat
 	if kind.begins_with("word:"):
 		_word_card(ci, kind.substr(5), size, outline)
 		return
+	if kind.begins_with("coin:"):
+		# A coin with its value stamped on it: copper 1s, silver 2s, gold 5s.
+		var value := kind.substr(5)
+		var metal: Color = {"1": Color("c98a4e"), "2": Color("c9ccd1"), "5": Color("e0b64c")}.get(value, Color("e0b64c"))
+		_shape(ci, _ellipse(c, c * 0.92, 18), metal, outline)
+		if not outline:
+			ci.draw_arc(c, size.x * 0.36, 0, TAU, 20, metal.darkened(0.25), 2.0)
+			var fsize := int(size.y * 0.5)
+			ci.draw_string(UiStyle.font(), Vector2(0, c.y + fsize * 0.35), value, HORIZONTAL_ALIGNMENT_CENTER, size.x, fsize, metal.darkened(0.55))
+		return
 	match kind:
+		"lens":
+			# A magnifying glass: a brass ring (the view inside is drawn by the
+			# step) and a wooden handle below.
+			var rc := Vector2(size.x / 2.0, size.x / 2.0)
+			var rr := size.x / 2.0 - 10.0
+			if outline:
+				ci.draw_arc(rc, rr, 0, TAU, 40, OUTLINE, 3.0)
+			else:
+				var handle := PackedVector2Array([rc + Vector2(-9, rr), rc + Vector2(9, rr), rc + Vector2(12, size.y - rc.y - 4), rc + Vector2(-12, size.y - rc.y - 4)])
+				ci.draw_colored_polygon(handle, Color("8a5a3a"))
+				ci.draw_arc(rc, rr + 3, 0, TAU, 48, Color("b8913a"), 9.0)
+				ci.draw_arc(rc, rr - 4, PI * 1.1, PI * 1.45, 10, Color(1, 1, 1, 0.6), 4.0)
+		"jug":
+			# A blue-and-cream jug with a spout at the top left and a handle.
+			var body := PackedVector2Array([Vector2(size.x * 0.12, size.y * 0.12), Vector2(size.x * 0.7, size.y * 0.16), Vector2(size.x * 0.76, size.y * 0.9), Vector2(size.x * 0.22, size.y * 0.94), Vector2(size.x * 0.18, size.y * 0.3)])
+			_shape(ci, body, Color("6f9fc0"), outline)
+			if not outline:
+				ci.draw_rect(Rect2(size.x * 0.2, size.y * 0.45, size.x * 0.52, size.y * 0.12), Color("f3e6d2"))
+				ci.draw_arc(Vector2(size.x * 0.78, size.y * 0.48), size.y * 0.2, -PI / 2.0, PI / 2.0, 12, Color("4f7aa0"), 7.0)
+				ci.draw_colored_polygon(PackedVector2Array([Vector2(size.x * 0.12, size.y * 0.12), Vector2(0, size.y * 0.06), Vector2(size.x * 0.2, size.y * 0.22)]), Color("6f9fc0"))
 		"unit_block":
 			# A plain wooden cube: every one the same size, for measuring.
 			var r := Rect2(Vector2(1, 1), size - Vector2(2, 2))

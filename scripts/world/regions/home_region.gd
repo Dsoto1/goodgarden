@@ -10,6 +10,8 @@ var _vase: Node3D
 var _smoke: GPUParticles3D
 var _blank_boards: Node3D # boards waiting on the sign bench
 var _name_signs: Node3D # the signs the child has made
+var _poured: Node3D # glasses of water on the table, on a day the water is poured
+var _shopping: Node3D # what the child bought at the market today, on the table
 
 
 func build() -> void:
@@ -46,6 +48,17 @@ func build() -> void:
 	Props.place(self, "table", Vector3(1.6, 0.1, -1.2))
 	for dx: float in [-1.05, 1.05]:
 		Props.place(self, "stool", Vector3(1.6 + dx, 0.1, -1.2))
+	# A jug on the kitchen counter: pouring water for supper.
+	MeshKit.cylinder(self, 0.09, 0.11, 0.24, Vector3(2.75, 1.04, -2.45), "cloth_blue", 10)
+	_shopping = group_node("Shopping")
+	MeshKit.sphere(_shopping, 0.09, Vector3(2.15, 0.93, -1.0), "bread", Vector3(1, 0.7, 1), 8, 4)
+	MeshKit.sphere(_shopping, 0.05, Vector3(2.35, 0.92, -0.95), "white", Vector3(1, 1.3, 1), 6, 4)
+	_poured = group_node("PouredGlasses")
+	for k in 3:
+		MeshKit.cylinder(_poured, 0.045, 0.04, 0.12, Vector3(1.25 + k * 0.35, 0.9, -1.2), "glass_blue", 8)
+	var pour := Interactable.create(self, Vector3(2.75, 0, -1.6), "Pour water for supper", func() -> void:
+		get_tree().call_group("main", "start_activity_here", "home_pour_water", Vector3(2.75, 1.0, -2.4) + position), 0.6, 1.5)
+	pour.conditions = [{"not": {"fact": "home.poured_day", "is_today": true}}]
 	var table := Interactable.create(self, Vector3(1.6, 0, -0.4), "Set the table", func() -> void:
 		get_tree().call_group("main", "start_activity_here", "home_set_table", Vector3(1.6, 0.8, -1.2) + position), 0.7, 1.5)
 	table.conditions = [{"not": {"fact": "home.table_set_day", "is_today": true}}]
@@ -259,6 +272,8 @@ func _sign_bench(at: Vector3) -> void:
 
 func sync_with_world() -> void:
 	_blank_boards.visible = not WorldState.has_fact("home.signs")
+	_poured.visible = WorldState.matches([{"fact": "home.poured_day", "is_today": true}])
+	_shopping.visible = WorldState.matches([{"fact": "home.bought_day", "is_today": true}])
 	CraftedProps.sync_name_signs(_name_signs, {"hen": [Vector3(-5.3, 0, 9.5), 0.3], "cat": [Vector3(2.6, 0, 4.7), -0.2]})
 	_letter.visible = Invitations.has_unread()
 	_letter_use.enabled = Invitations.has_unread()

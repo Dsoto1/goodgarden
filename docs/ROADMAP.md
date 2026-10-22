@@ -26,7 +26,7 @@ Beyond the slice:
 | Design target | Now |
 |---|---|
 | 12 weeks × 5 guided days = 60 guided days | 10 guided days written (weeks 1–2) |
-| 12–15 reusable activity types (`LEARNING_DESIGN.md`) | 10: spacing along a line, counting into slots, matching to outlines, sorting into bins, balance scale, sequence cards, story figures, building words, labelling pictures, measuring with units |
+| 12–15 reusable activity types (`LEARNING_DESIGN.md`) | 13: spacing along a line, counting into slots, matching to outlines, sorting into bins, balance scale, sequence cards, story figures, building words, labelling pictures, measuring with units, pouring to a line, paying with coins, looking closely |
 | 15–20 Scripture presentations at launch (`CHAPEL_ATRIUM.md`) | 7 (paused at the owner's request) |
 | Regions: homestead, valley/village, farm & mill, forest/grove, Bellhaven later | Forest/grove not built; Bellhaven visible, not reachable |
 
@@ -67,14 +67,24 @@ Each new type goes into a few real days at once, so it is tried in play.
      `build_word`, first used for the animals' name signs (Tuesday, week 1)
    - reading short notes and signs in the world
 2. **Pouring and transferring.** Kitchen and garden: water, grain, flour.
+   - [x] `pour_to_line`: pouring water for supper to a line on each glass
+     (older: three quarters, half, a quarter); Thursday, week 2. The
+     glasses then stand on the table.
 3. **Measuring and comparing.** Lengths and heights: bean growth, cloth,
    paths.
    - [x] `measure_with_units`: measuring the bean plants with equal blocks,
      then the tallest (younger) or how much taller (older); Tuesday, week 2.
      A notched stick then stays by the row.
 4. **Money and exchange.** Market stalls; honest change.
+   - [x] `pay_with_coins`: buying food for supper at Mr. Tobias's stall
+     (younger: count out 1-coins; older: 1, 2 and 5-coins with change, and
+     a mistaken change to check honestly); Monday, week 2. The food then
+     waits on the table at home.
 5. **Observing and recording.** A nature journal: look closely, note what
    you see.
+   - [x] `look_closely`: a magnifying glass over a bean leaf; count the
+     ladybird's spots (older: and the ant's legs) and write them in the
+     notebook; Friday, week 2. A ladybird then stays on the beans.
 
 Later candidates: rotate and fit (workshop geometry), construct.
 

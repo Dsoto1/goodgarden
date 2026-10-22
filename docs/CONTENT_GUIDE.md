@@ -117,6 +117,14 @@ Hands-on activities serve ages 5 to 10 through a grown-up's **Work level** setti
 
 **`measure_with_units`** (measuring and comparing): `heights` (each plant's height in blocks), `unit` (block size in board units, default 40), `question` (`"tallest"`: tap the tallest plant; `"difference"`: choose how many blocks taller the tallest is than the shortest), `spare`. The child stacks equal blocks beside each plant until the stack is as tall; a block that would make it taller won't stay, and each finished stack shows its count. Result: `heights`, `tallest` (index), `difference`. Feedback: `too_tall`, `measured`, `wrong_tallest`, `wrong_difference`, `all_good` (`{n}` becomes a count).
 
+**`pour_to_line`** (practical life: pouring): `lines` (a fill line per glass, 0–1 of its height), `labels` (optional words under the glasses, e.g. "half"), `tolerance` (default 0.06), `rate` (how fast the jug pours, glass-heights per second), `liquid` (`water`, `milk`, `grain`). Holding the jug over a glass pours; letting go stops. A glass poured past its line is too full: tapping it pours it back. Result: `glasses`, `pour_backs`. Feedback: `too_full`, `not_yet`, `all_good`.
+
+**`pay_with_coins`** (money): `buy` (`[{"item", "price", "icon"?}]`), `purse` (coin values; default enough 1-coins), `mistaken_change` (on the last purchase the shopkeeper gives one coin too many and asks the child to check it: a moment to practise honesty, thanked but never scored). Coins go on the dish, then Pay; too little is counted back, too much comes back as change. Result: `bought`, `spent`, `honest`. Feedback: `short`, `change`, `paid`, `honest`, `all_good` (`{n}`, `{item}`).
+
+**`look_closely`** (observing and recording): `spots` (the ladybird's spots), `questions` (`[{"ask", "about": "spots"|"legs", "choices": [int]}]`). A magnifying glass shows the picture close up wherever it is moved; each right count is written into the nature notebook on the board. Result: `notes` (`[{"about", "count"}]`). Feedback: `look_again`, `noted`, `all_good`.
+
+Answer buttons from a step (numbers to choose) start with none selected, so no answer looks suggested; a single main button (Pay, Continue) starts selected.
+
 **`story_figures`**: `places`, `road`, `figures` (`{"id", "label", "color", "shape"?: "donkey"|"building", "accent"?}`), `box`, `segments` (`{"text", "reveal": [ids], "show": {id: {"pos", "lying"}}}`), `wonderings`, `reference`. Result: `retell_seconds`. Follow it with a `match_to_outline` step using `pieces_from_previous` so the child puts the material away.
 
 Positions are in **board units** (1000 × 560); the workspace scales the board to the screen.

@@ -20,15 +20,10 @@
 			"where": "at the sheepfold"
 		},
 		{
-			"text": "Set the table",
-			"done_when": [
-				{
-					"fact": "home.table_set_day",
-					"is_today": true
-				}
-			],
-			"icon": "table",
-			"where": "at home"
+			"text": "Pour water for supper",
+			"activity": "home_pour_water",
+			"icon": "water",
+			"where": "from the jug in your kitchen"
 		}
 	]
 }

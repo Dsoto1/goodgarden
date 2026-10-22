@@ -1,0 +1,45 @@
+{
+	"id": "garden_look_closely",
+	"title": "Looking Closely at a Bean Leaf",
+	"mode": "task",
+	"location": "garden",
+	"surface": "wood_table",
+	"readiness": {"ages": [5, 10], "math": "counting small things carefully", "reading": "none required"},
+	"concepts": ["observing closely", "using a magnifying glass", "counting", "recording what you see", "insects"],
+	"formation_themes": ["wonder at creation", "patience"],
+	"prerequisites": [],
+	"intro": [
+		{"speaker": "miriam", "text": "Shh, look! There are little visitors on our bean leaves. Here is my magnifying glass."},
+		{"speaker": "miriam", "text": "Move it over the leaf to see up close. Then we'll write down what we notice, like real scientists."}
+	],
+	"steps": [
+		{
+			"id": "look",
+			"primitive": "look_closely",
+			"older": {"spots": 7, "questions": [
+				{"ask": "How many spots does the ladybird have?", "about": "spots", "choices": [5, 6, 7, 8]},
+				{"ask": "How many legs does the ant have?", "about": "legs", "choices": [4, 6, 8, 10]}
+			]},
+			"speaker": "miriam",
+			"prompt": "Move the magnifying glass to look closely.",
+			"hint": "Show me",
+			"spots": 5,
+			"questions": [
+				{"ask": "How many spots does the ladybird have?", "about": "spots", "choices": [3, 4, 5, 6]}
+			],
+			"feedback": {
+				"all_good": "Look at your notebook page! You noticed things most people walk right past."
+			}
+		}
+	],
+	"outro": [
+		{"speaker": "miriam", "text": "Every little creature is made with such care. Ladybirds help our beans, too: they eat the tiny bugs that nibble the leaves.", "button": "Thank you, Miss Miriam"}
+	],
+	"world_effects": [
+		{"op": "set", "fact": "garden.looked_closely_day", "value": "$day"}
+	],
+	"replay": "free",
+	"real_world_invitation": "rw_look_closely",
+	"journal_line": "I looked closely at a bean leaf with a magnifying glass, counted what I saw, and wrote it in my nature notebook.",
+	"unavailable_text": ""
+}

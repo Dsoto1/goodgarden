@@ -32,7 +32,7 @@ func _ready() -> void:
 			Settings.set_value("text_scale", float(a.substr(7)))
 	get_tree().root.theme = UiStyle.build_theme(UiStyle.text_scale())
 	DirAccess.make_dir_recursive_absolute(out)
-	for id: String in ["garden_measure", "market_labels", "home_animal_signs", "garden_bean_row", "garden_water", "bakery_baskets", "home_set_table", "sheepfold_hay", "mill_flour", "oven_bake", "good_shepherd", "orchard_plant", "pond_creatures", "thank_you_card"]:
+	for id: String in ["home_pour_water", "market_buy", "garden_look_closely", "garden_measure", "market_labels", "home_animal_signs", "garden_bean_row", "garden_water", "bakery_baskets", "home_set_table", "sheepfold_hay", "mill_flour", "oven_bake", "good_shepherd", "orchard_plant", "pond_creatures", "thank_you_card"]:
 		if not only.is_empty() and not only.split(",").has(id):
 			continue
 		if not ActivityRunner.start(id):
@@ -70,7 +70,17 @@ func _ready() -> void:
 
 ## Puts about `part` of the pieces where they belong.
 func _fill(step: ActivityStep, part: float) -> void:
-	if step.get("columns") != null:
+	if step.get("glasses") != null:
+		for i in int(step.glasses.size() * part + 0.5):
+			step.levels[i] = step.lines[i]
+		step.levels[step.glasses.size() - 1] = step.lines[step.glasses.size() - 1] * 0.5
+		step.queue_redraw()
+	elif step.get("dish") != null:
+		for k in 2:
+			_place(step.coins[k], step.dish.center())
+	elif step.get("lens") != null:
+		step.lens.position = step.PICTURE.position + step.LADYBIRD - Vector2(step.LENS_R + 10, step.LENS_R + 10)
+	elif step.get("columns") != null:
 		# Plants partly measured: the first stacks built.
 		var free: Array = step.blocks.duplicate()
 		for i in int(step.columns.size() * part + 0.5):

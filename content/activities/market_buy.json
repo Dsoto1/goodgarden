@@ -1,0 +1,41 @@
+{
+	"id": "market_buy",
+	"title": "Buying at the Market Stall",
+	"mode": "task",
+	"location": "village",
+	"surface": "wood_table",
+	"readiness": {"ages": [5, 9], "math": "counting out coins one by one (younger); making an amount with 1-, 2- and 5-coins and counting change (older)", "reading": "reading prices (numerals with dots)"},
+	"concepts": ["money", "counting out", "making an amount", "change", "honest exchange"],
+	"formation_themes": ["honesty", "fairness"],
+	"prerequisites": [
+		{"not": {"fact": "home.bought_day", "is_today": true}}
+	],
+	"intro": [
+		{"speaker": "tobias", "text": "Good day! Have you come shopping? Everything on my stall has its price, on a little tag."},
+		{"speaker": "tobias", "text": "Count your coins onto the dish, then press Pay."}
+	],
+	"steps": [
+		{
+			"id": "buy",
+			"primitive": "pay_with_coins",
+			"older": {"buy": [{"item": "jam", "price": 4}, {"item": "bun", "price": 7, "icon": "bun"}], "purse": [1, 1, 2, 2, 5, 5], "mistaken_change": true, "prompt": "The {item} costs {n}. Make {n} with your coins. If you put more, I'll give you change."},
+			"speaker": "tobias",
+			"prompt": "The {item} costs {n}. Put that many coins on the dish, then press Pay.",
+			"hint": "Show me",
+			"buy": [{"item": "bun", "price": 3}, {"item": "egg", "price": 2}],
+			"feedback": {
+				"all_good": "Thank you kindly! Enjoy your supper."
+			}
+		}
+	],
+	"outro": [
+		{"speaker": "tobias", "text": "Fair coins for good food: that's how a market works. Come again!", "button": "Thank you, Mr. Tobias"}
+	],
+	"world_effects": [
+		{"op": "set", "fact": "home.bought_day", "value": "$day"}
+	],
+	"replay": "free",
+	"real_world_invitation": "rw_shop_home",
+	"journal_line": "I bought food at Mr. Tobias's stall and counted out the coins myself.",
+	"unavailable_text": "You've done your shopping for today."
+}

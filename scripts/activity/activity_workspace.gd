@@ -271,7 +271,9 @@ func _set_prompt_buttons(actions: Array) -> void:
 		var b := UiStyle.button(str(a.get("label", "")), primary, str(a.get("icon", "next" if primary else "")))
 		b.pressed.connect(a["callback"])
 		_prompt_buttons.add_child(b)
-	if actions.size() > 0:
+	# The main button starts selected. A row of answers (numbers to choose
+	# from) starts with none selected, so no answer looks suggested.
+	if actions.size() > 0 and actions.back().get("primary", false):
 		(_prompt_buttons.get_child(_prompt_buttons.get_child_count() - 1) as Button).call_deferred("grab_focus")
 
 

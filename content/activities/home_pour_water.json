@@ -1,0 +1,43 @@
+{
+	"id": "home_pour_water",
+	"title": "Pouring Water for Supper",
+	"mode": "task",
+	"location": "home",
+	"surface": "wood_table",
+	"readiness": {"ages": [5, 9], "math": "judging an amount by eye; halves and quarters (older)", "reading": "none required (older: fraction words)"},
+	"concepts": ["control of movement", "judging an amount", "fill lines", "half and quarter (older)"],
+	"formation_themes": ["hospitality", "care of the environment"],
+	"prerequisites": [
+		{"not": {"fact": "home.poured_day", "is_today": true}}
+	],
+	"intro": [
+		{"speaker": "narrator", "text": "Supper needs water to drink. Here is a jug, and three glasses with a little line on each."},
+		{"speaker": "narrator", "text": "Hold the jug over a glass to pour. Watch the water rise, and let go when it reaches the line."}
+	],
+	"steps": [
+		{
+			"id": "pour",
+			"primitive": "pour_to_line",
+			"older": {"lines": [0.75, 0.5, 0.25], "labels": ["three quarters", "half", "a quarter"], "rate": 0.35, "tolerance": 0.05, "prompt": "Fill each glass to its line: three quarters, half, and a quarter."},
+			"prompt": "Fill each glass to its line. Hold the jug over a glass, and let go at the line.",
+			"hint": "Show me",
+			"lines": [0.6, 0.6, 0.6],
+			"rate": 0.25,
+			"tolerance": 0.08,
+			"liquid": "water",
+			"feedback": {
+				"all_good": "Every glass is filled to its line, and not a drop spilled."
+			}
+		}
+	],
+	"outro": [
+		{"speaker": "narrator", "text": "The water is poured. Careful hands make a welcome table.", "button": "Done"}
+	],
+	"world_effects": [
+		{"op": "set", "fact": "home.poured_day", "value": "$day"}
+	],
+	"replay": "free",
+	"real_world_invitation": "rw_pour_home",
+	"journal_line": "I poured water for supper, stopping each glass at its line.",
+	"unavailable_text": "The water is already poured for today."
+}
