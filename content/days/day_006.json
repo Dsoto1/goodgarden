@@ -3,9 +3,7 @@
 	"day": 6,
 	"week": 1,
 	"arc": "Creation & Home",
-	"invitation": "inv_day_006",
-	"npcs": {"miriam": "garden_miriam", "tobias": "mill_tobias"},
-	"primary_activity": "mill_flour",
+	"npcs": {"miriam": "garden_miriam"},
 	"free_work": ["home_set_table"],
 	"chapel": ["good_samaritan", "mustard_seed", "leaven", "lost_sheep", "fishers", "five_thousand", "good_shepherd"],
 	"season": "Spring"

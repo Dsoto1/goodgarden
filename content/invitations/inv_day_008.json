@@ -1,39 +1,39 @@
 {
 	"id": "inv_day_008",
 	"from": "tobias",
-	"body": "Good morning!\n\nThe dough is ready, and the oven is hot. Would you like to come and bake the bread with me?\n\nYou will find me at the oven, beside the bakery.",
+	"body": "Good morning!\n\nI need flour for tomorrow's bread. Would you please meet me at the mill by the river? There is grain to clean, and flour to weigh.\n\nLook for the big water wheel.",
 	"signature": "Mr. Tobias, the baker",
-	"suggests": "oven_bake",
-	"summary": "Bake bread with Mr. Tobias at the oven.",
-	"done": "The bread is baked, and everyone is greeted and fed. Thank you for helping!",
+	"suggests": "mill_flour",
+	"summary": "Help Mr. Tobias make flour at the mill.",
+	"done": "The flour is ready for tomorrow's bread, and the table is set. Well done!",
 	"tasks": [
 		{
-			"text": "Bake bread",
-			"activity": "oven_bake",
-			"icon": "bread",
-			"where": "at the oven by the bakery"
+			"text": "Make flour",
+			"activity": "mill_flour",
+			"icon": "mill",
+			"where": "at the mill"
 		},
 		{
-			"text": "Say hello to Miss Miriam",
+			"text": "Pet the horse",
 			"done_when": [
 				{
-					"fact": "npc.miriam.greeted_day",
+					"fact": "animals.horse.petted_day",
 					"is_today": true
 				}
 			],
-			"icon": "talk",
-			"where": "in her garden"
+			"icon": "heart",
+			"where": "in the paddock by the mill"
 		},
 		{
-			"text": "Feed the hens",
+			"text": "Set the table",
 			"done_when": [
 				{
-					"fact": "home.hens_fed_day",
+					"fact": "home.table_set_day",
 					"is_today": true
 				}
 			],
-			"icon": "hen",
-			"where": "by the coop at home"
+			"icon": "table",
+			"where": "at home"
 		}
 	]
 }

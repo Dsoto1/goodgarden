@@ -12,7 +12,7 @@
 	"concepts": ["sorting", "comparing weight", "balance", "where bread comes from"],
 	"formation_themes": ["daily bread", "work and service"],
 	"prerequisites": [
-		{"day_at_least": 6},
+		{"day_at_least": 8},
 		{"not": {"fact": "village.flour_day", "is_today": true}}
 	],
 	"intro": [

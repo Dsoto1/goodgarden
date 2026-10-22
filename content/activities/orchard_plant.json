@@ -12,7 +12,7 @@
 	"concepts": ["measuring with a non-standard unit", "sequencing", "life cycle of a plant"],
 	"formation_themes": ["stewardship", "patience", "planting for others"],
 	"prerequisites": [
-		{"day_at_least": 9},
+		{"day_at_least": 10},
 		{"fact": "orchard.planted", "exists": false}
 	],
 	"intro": [

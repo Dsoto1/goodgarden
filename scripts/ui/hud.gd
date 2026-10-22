@@ -255,6 +255,8 @@ func _invitation_summary() -> String:
 		return tr(str(data.get("summary", "Read your letter again.")))
 	if Days.is_sunday():
 		return tr("Sunday is a day of rest. Go wherever you like.")
+	if Days.weekday() == "saturday":
+		return tr("Saturday is a free day. Play, explore, or do any work you like.")
 	return tr("A free day. Go wherever you like.")
 
 

@@ -153,18 +153,25 @@ static func can_close_itself() -> bool:
 # --- Requests from the world (via the "main" group) ----------------------------
 
 func request_rest() -> void:
-	# Bedtime comes after the day's jobs: the bed says what is still waiting.
-	if Invitations.has_unread():
-		show_caption(tr("Not bedtime yet! Today's letter is waiting by the door."))
-		return
+	# The bed reminds the child of anything still waiting today (the letter,
+	# or jobs not yet done), but the choice stays theirs: "Keep working" is
+	# the answer that starts selected, and "Rest anyway" is still there.
+	var question := tr("Rest until morning?")
+	var yes := tr("Yes, rest")
+	var no := tr("Not yet")
 	var left := TodaysWork.today().filter(func(j: Dictionary) -> bool: return not j["done"]).map(func(j: Dictionary) -> String: return tr(j["text"]))
-	if not left.is_empty():
+	if Invitations.has_unread():
+		question = tr("Today's letter is still waiting by the door. Rest anyway?")
+		yes = tr("Rest anyway")
+		no = tr("Read it first")
+	elif not left.is_empty():
 		var list: String = left[0] if left.size() == 1 else ", ".join(left.slice(0, left.size() - 1)) + " " + tr("and") + " " + left[left.size() - 1]
-		show_caption(tr("Not bedtime yet! Still to do: %s.") % list)
-		return
+		question = tr("There is still a job to do: %s. Rest anyway?") % list if left.size() == 1 else tr("There are still jobs to do: %s. Rest anyway?") % list
+		yes = tr("Rest anyway")
+		no = tr("Keep working")
 	var c := ConfirmCard.new()
 	_overlay_root.add_child(c)
-	c.ask(tr("Rest until morning?"), tr("Yes, rest"), tr("Not yet"), rest_until_morning)
+	c.ask(question, yes, no, rest_until_morning)
 
 
 func rest_until_morning() -> void:
@@ -179,6 +186,8 @@ func rest_until_morning() -> void:
 	var line := tr("Good morning! It's %s.") % Days.weekday_name()
 	if Days.is_sunday():
 		line += " " + tr("Sunday is a day of rest. Listen: the chapel bells are ringing.")
+	elif Days.weekday() == "saturday":
+		line += " " + tr("Saturday is a free day. Play, explore, or do any work you like.")
 	if Invitations.has_unread():
 		line += " " + tr("A new letter is waiting by the door.")
 	show_caption(line, 6.0)

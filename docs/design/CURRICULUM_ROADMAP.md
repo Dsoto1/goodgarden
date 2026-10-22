@@ -3,6 +3,8 @@
 ## First Full Season
 12 weeks x 5 guided days = 60 primary experiences, with free work and optional real-world invitations.
 
+Each week runs Monday to Sunday: Monday–Friday are guided days (a letter and three jobs: the main work and two small everyday ones), Saturday is a free day for open play and free work, and Sunday is a day of rest with the neighbours gathered at the Chapel. Progress against this plan is tracked in `docs/ROADMAP.md`.
+
 ### Weeks 1–2 — Creation & Home
 Orientation, practical life, observation, counting, simple reading, garden beginnings.
 

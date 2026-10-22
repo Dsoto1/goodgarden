@@ -23,13 +23,15 @@ Every file has an `"id"`. All text is plain English for now and passes through `
 
 `npcs` maps a character to an **anchor** placed by a region (e.g. `garden_miriam`, `home_spawn`, `village_plaza`, `chapel_door`, `village_overlook`). Leave a character out and they stay away that day. Day `0` is the template for days past the written content.
 
+The days run in weeks, and day 1 is a Monday. **Monday to Friday** each have a letter with three jobs. **Saturday** is a free day: a day file with no `invitation`, for open play and free work. **Sunday** is the day of rest: a short letter and no jobs, with the neighbours at the Chapel (`chapel_miriam`, `chapel_tobias`, `chapel_ruth`); Sundays past the written days do the same on their own. Twelve weeks make the season's 60 guided days.
+
 ## Invitations — `content/invitations/*.json`
 
 `{"id", "from", "body", "signature", "suggests"?, "summary", "done"?, "tasks"?}`. `body` may contain blank lines. A day's letter waits by the cottage door until it is read.
 
 `tasks` is the day's jobs, three at most (a working day has three: the letter's main work and two small everyday ones). Each has a short `text` (two to four words: it is what the corner note shows), a `where` (shown after it in the letter, e.g. "in the sty by the mill"), an `icon` (see `TodaysWork.ICONS`), and either an `activity` (done when that activity was finished today) or `done_when` (conditions, same format as dialogue `when`). Useful facts: `home.table_set_day`, `home.hens_fed_day`, `npc.<id>.greeted_day`, `animals.<kind>.petted_day` (lamb, sheep, cat, dog, cow, horse, pig), each with `"is_today": true`; or `[{"fact": "npc.ruth.card", "equals": "given"}]` for work that ends with a conversation. Stories in the Chapel are never jobs: quiet time is the child's own.
 
-The jobs are listed in full under the letter. The corner note is compact: one picture per job, which gets a green tick when done, and only the next job in words. When all are done the note turns green with `done` (a short thank-you) and the child is told the day's work is finished. A letter without `tasks` has one job: its `summary`, done when the `suggests` activity was finished today. The day of rest has none.
+The jobs are listed in full under the letter. The corner note is compact: one picture per job, which gets a green tick when done, and only the next job in words. When all are done the note turns green with `done` (a short thank-you) and the child is told the day's work is finished. A letter without `tasks` has one job: its `summary`, done when the `suggests` activity was finished today. Saturday and Sunday have none. The bed reminds the child of jobs still waiting, but lets them rest anyway.
 
 ## Real-world invitations — `content/real_world/*.json`
 
@@ -65,6 +67,7 @@ A day's `"npcs"` can send a neighbour somewhere for the day (`"ruth": "sheepfold
 | `{"fact": "k", "at_least": 2}` | numeric fact ≥ 2 |
 | `{"fact": "k", "is_today": true}` | fact holds today's day number |
 | `{"day": 3}` / `{"day_at_least": 2}` | current day |
+| `{"weekday": "sunday"}` | day of the week (`"monday"` … `"sunday"`) |
 | `{"any": [...]}` / `{"not": {...}}` | combine |
 
 ## Activities — `content/activities/*.json`

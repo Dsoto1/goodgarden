@@ -1,34 +1,34 @@
 {
 	"id": "inv_day_010",
-	"from": "ruth",
-	"body": "Hello, little one!\n\nThe pond in the meadow is full of life this week. Would you like to look in my dipping net with me?\n\nI'll be waiting by the pond, past the young apple trees.",
-	"signature": "Mrs. Ruth",
-	"suggests": "pond_creatures",
-	"summary": "Look at the pond creatures with Mrs. Ruth.",
-	"done": "Every creature is back home, and the lambs are fed. Thank you!",
+	"from": "miriam",
+	"body": "Good morning, my friend!\n\nThree little apple trees have come for the meadow beside your house. Would you please help me plant them?\n\nI'll be waiting in the meadow beside your house, past the woodpile.",
+	"signature": "Miss Miriam",
+	"suggests": "orchard_plant",
+	"summary": "Plant apple trees with Miss Miriam in the meadow.",
+	"done": "The apple trees are planted, the beans are watered and the pigs are happy. Well done!",
 	"tasks": [
 		{
-			"text": "Look in the pond",
-			"activity": "pond_creatures",
-			"icon": "fish",
-			"where": "with Mrs. Ruth"
+			"text": "Plant apple trees",
+			"activity": "orchard_plant",
+			"icon": "tree",
+			"where": "in the meadow by your house"
 		},
 		{
-			"text": "Feed the lambs",
-			"activity": "sheepfold_hay",
-			"icon": "sheep",
-			"where": "at the sheepfold"
+			"text": "Water the beans",
+			"activity": "garden_water",
+			"icon": "water",
+			"where": "in the garden"
 		},
 		{
-			"text": "Set the table",
+			"text": "Pet a pig",
 			"done_when": [
 				{
-					"fact": "home.table_set_day",
+					"fact": "animals.pig.petted_day",
 					"is_today": true
 				}
 			],
-			"icon": "table",
-			"where": "at home"
+			"icon": "heart",
+			"where": "in the sty by the mill"
 		}
 	]
 }

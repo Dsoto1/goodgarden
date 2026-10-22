@@ -5,14 +5,14 @@
 	"entries": [
 		{
 			"when": [
-				{"day": 9},
+				{"day": 10},
 				{"fact": "orchard.planted", "exists": false}
 			],
 			"start": "orchard_offer"
 		},
 		{
 			"when": [
-				{"day": 11},
+				{"day": 12},
 				{"fact": "npc.ruth.card", "exists": false}
 			],
 			"start": "card_offer"

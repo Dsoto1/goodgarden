@@ -69,8 +69,8 @@ func test_content_is_valid() -> void:
 	eq(errors.size(), 0, "authored content has no validation errors")
 	# Every working day asks for three jobs; the day of rest asks for none.
 	for d in range(1, 15):
-		var sunday := d % 7 == 0
-		eq(TodaysWork.jobs(Content.get_invitation("inv_day_%03d" % d)).size(), 0 if sunday else 3, "day %d has %s" % [d, "no jobs (Sunday)" if sunday else "three jobs"])
+		var weekend := d % 7 == 0 or d % 7 == 6
+		eq(TodaysWork.jobs(Content.get_invitation("inv_day_%03d" % d)).size(), 0 if weekend else 3, "day %d has %s" % [d, "no jobs (weekend)" if weekend else "three jobs"])
 
 
 func test_validator_catches_errors() -> void:
@@ -822,7 +822,12 @@ func test_vertical_slice_end_to_end() -> void:
 	check(not main.hud.todays_work_done(), "two jobs done, one to go")
 	main.request_rest()
 	await frames(2)
-	check(_find(main, ConfirmCard) == null and main.hud.caption_text().contains("Feed the hens"), "the bed waits: it says which job is still to do")
+	var reminder := _find(main, ConfirmCard) as ConfirmCard
+	var reminder_text := " ".join(reminder.find_children("*", "Label", true, false).map(func(l: Node) -> String: return (l as Label).text)) if reminder else ""
+	check(reminder_text.contains("Feed the hens") and reminder_text.contains("Rest anyway"), "the bed reminds the child of the job still to do, and leaves the choice to them")
+	if reminder:
+		reminder.close()
+	await frames(2)
 	# The third job: grain for the hens, by the coop at home.
 	var grain := _interactable("Scatter grain for the hens")
 	world.player.walk_to(grain.approach_point(world.player.global_position), grain)
@@ -985,37 +990,15 @@ func test_vertical_slice_end_to_end() -> void:
 	var fed := _find_named(main.world, "FedLambs") as Node3D
 	check(fed != null and fed.visible, "hay is in the troughs and the lambs are eating")
 
+	# Day 6 is Saturday: a free day, with no letter and no jobs.
 	await main.rest_until_morning()
 	await frames(3)
-	eq(Invitations.pending_id, "inv_day_006", "day 6: Tobias asks for flour")
+	eq(Days.weekday(), "saturday", "the sixth day is a Saturday")
+	eq(Invitations.pending_id, "", "no letter on a free day")
+	eq(TodaysWork.today().size(), 0, "Saturday has no jobs")
+	check(main.hud._invite_text.text.contains("free day") and main.hud.caption_text().contains("free day"), "the morning and the corner note say it is a free day")
 	check(fed != null and not fed.visible, "the next day the troughs are empty again")
-	var tobias := _find_named(main.world, "Tobias") as Node3D
-	var mill_spot := _find_named(main.world, "Anchor_mill_tobias") as Node3D
-	check(tobias != null and mill_spot != null and tobias.global_position.distance_to(mill_spot.global_position) < 1.0, "Mr. Tobias waits at the mill")
 	check(ruth.global_position.distance_to(fold_spot.global_position) > 5.0, "and Mrs. Ruth is back home in the village")
-	var mill := ActivityRunner.workspace if await _start_by_talking("tobias") else null
-	if mill:
-		var sorter := mill.current_step()
-		for p: DragPiece in sorter.pieces:
-			for b: DropSlot in sorter.bins:
-				if b.accepts == p.kind:
-					_drop(p, b.center())
-		check(sorter.is_done, "the grain is sorted from the chaff")
-		await wait(1.8)
-		var scale := mill.current_step()
-		check(scale != null and scale != sorter, "then the flour is weighed")
-		if scale:
-			var big: Array = scale.pieces.filter(func(q: DragPiece) -> bool: return q.kind == "flour_scoop_big")
-			var small: Array = scale.pieces.filter(func(q: DragPiece) -> bool: return q.kind == "flour_scoop")
-			for q in big:
-				_drop(q, scale.pan.center())
-			check(not scale.is_done and scale.load_weight() == 6, "three big scoops are too heavy")
-			_drop(big[0], Vector2(820, 470)) # take one out
-			check(scale.load_weight() == 4, "taking a scoop out makes it lighter")
-			_drop(small[0], scale.pan.center())
-			check(scale.is_done, "a little scoop makes the beam level")
-		await _finish_activity(mill)
-	eq(int(WorldState.get_fact("village.flour_day", 0)), 6, "there is flour for Monday")
 
 	# Day 7 is Sunday: a day of rest, with the neighbours at the Chapel.
 	await main.rest_until_morning()
@@ -1042,12 +1025,44 @@ func test_vertical_slice_end_to_end() -> void:
 	Dialogue.end()
 	check(AudioService.world_stream("bells") != null, "the chapel bells ring")
 
-	# Week 2. Monday, day 8: baking the bread with Saturday's flour.
+	# Week 2. Monday, day 8: making flour at the mill.
 	await main.rest_until_morning()
 	await frames(3)
 	eq(Days.weekday(), "monday", "a new week begins on Monday")
 	eq(Days.week(), 2, "week 2")
-	eq(Invitations.pending_id, "inv_day_008", "day 8: baking day")
+	eq(Invitations.pending_id, "inv_day_008", "day 8: Tobias asks for flour")
+	var tobias := _find_named(main.world, "Tobias") as Node3D
+	var mill_spot := _find_named(main.world, "Anchor_mill_tobias") as Node3D
+	check(tobias != null and mill_spot != null and tobias.global_position.distance_to(mill_spot.global_position) < 1.0, "Mr. Tobias waits at the mill")
+	var mill := ActivityRunner.workspace if await _start_by_talking("tobias") else null
+	if mill:
+		var sorter := mill.current_step()
+		for p: DragPiece in sorter.pieces:
+			for b: DropSlot in sorter.bins:
+				if b.accepts == p.kind:
+					_drop(p, b.center())
+		check(sorter.is_done, "the grain is sorted from the chaff")
+		await wait(1.8)
+		var scale := mill.current_step()
+		check(scale != null and scale != sorter, "then the flour is weighed")
+		if scale:
+			var big: Array = scale.pieces.filter(func(q: DragPiece) -> bool: return q.kind == "flour_scoop_big")
+			var small: Array = scale.pieces.filter(func(q: DragPiece) -> bool: return q.kind == "flour_scoop")
+			for q in big:
+				_drop(q, scale.pan.center())
+			check(not scale.is_done and scale.load_weight() == 6, "three big scoops are too heavy")
+			_drop(big[0], Vector2(820, 470)) # take one out
+			check(scale.load_weight() == 4, "taking a scoop out makes it lighter")
+			_drop(small[0], scale.pan.center())
+			check(scale.is_done, "a little scoop makes the beam level")
+		await _finish_activity(mill)
+	eq(int(WorldState.get_fact("village.flour_day", 0)), 8, "there is flour for tomorrow")
+
+
+	# Day 9: baking the bread with yesterday's flour.
+	await main.rest_until_morning()
+	await frames(3)
+	eq(Invitations.pending_id, "inv_day_009", "day 9: baking day")
 	var oven := ActivityRunner.workspace if await _start_from("Bake bread with Mr. Tobias") else null
 	if oven:
 		var load := oven.current_step()
@@ -1058,14 +1073,14 @@ func test_vertical_slice_end_to_end() -> void:
 					break
 		check(load.is_done, "every loaf is in its place in the oven")
 		await _finish_activity(oven)
-	eq(int(WorldState.get_fact("village.baked_day", 0)), 8, "the bread was baked today")
+	eq(int(WorldState.get_fact("village.baked_day", 0)), 9, "the bread was baked today")
 	var baking := _find_named(main.world, "BakingDay") as Node3D
 	check(baking != null and baking.visible, "the oven glows and fresh loaves cool beside it")
 
-	# Day 9: planting the orchard with Miss Miriam in the meadow.
+	# Day 10: planting the orchard with Miss Miriam in the meadow.
 	await main.rest_until_morning()
 	await frames(3)
-	eq(Invitations.pending_id, "inv_day_009", "day 9: Miss Miriam's letter about the apple trees")
+	eq(Invitations.pending_id, "inv_day_010", "day 10: Miss Miriam's letter about the apple trees")
 	var miriam_now := main.world.npcs["miriam"] as Node3D
 	var orchard_spot := _find_named(main.world, "Anchor_orchard_miriam") as Node3D
 	check(orchard_spot != null and miriam_now.global_position.distance_to(orchard_spot.global_position) < 0.5, "Miss Miriam waits in the meadow")
@@ -1086,11 +1101,11 @@ func test_vertical_slice_end_to_end() -> void:
 						_drop(c, seq.places[i].center())
 			check(seq.is_done, "the pictures are in order")
 		await _finish_activity(orchard)
-	eq(int(WorldState.get_fact("orchard.planted", 0)), 9, "the orchard is planted")
+	eq(int(WorldState.get_fact("orchard.planted", 0)), 10, "the orchard is planted")
 	var trees := _find_named(main.world, "Orchard") as Node3D
 	check(trees != null and trees.get_child_count() > 0, "young apple trees stand in the meadow")
 
-	# Day 10: the pond with Mrs. Ruth.
+	# Day 11: the pond with Mrs. Ruth.
 	await main.rest_until_morning()
 	await frames(3)
 	var pond_spot := _find_named(main.world, "Anchor_pond_ruth") as Node3D
@@ -1104,9 +1119,9 @@ func test_vertical_slice_end_to_end() -> void:
 					_drop(p, b.center())
 		check(sorter2.is_done, "every creature sorted into its home")
 		await _finish_activity(pond)
-	eq(int(WorldState.get_fact("valley.pond_day", 0)), 10, "the pond creatures were sorted today")
+	eq(int(WorldState.get_fact("valley.pond_day", 0)), 11, "the pond creatures were sorted today")
 
-	# Day 11: a thank-you card for Mrs. Ruth, given by the child.
+	# Day 12 (Friday): a thank-you card for Mrs. Ruth, given by the child.
 	await main.rest_until_morning()
 	await frames(3)
 	main.open_invitation(Invitations.pending_id) # read Miss Miriam's letter first
@@ -1115,7 +1130,7 @@ func test_vertical_slice_end_to_end() -> void:
 	if day10_letter:
 		day10_letter.close()
 	await frames(2)
-	check(not main.hud.todays_work_done(), "day 11 starts with the letter's request")
+	check(not main.hud.todays_work_done(), "day 12 starts with the letter's request")
 	var card_ws := ActivityRunner.workspace if await _start_by_talking("miriam") else null
 	if card_ws:
 		var deco := card_ws.current_step()
@@ -1137,14 +1152,13 @@ func test_vertical_slice_end_to_end() -> void:
 	check(str(Dialogue.current_line()["text"]).contains("For me?"), "Mrs. Ruth is delighted")
 	Dialogue.advance()
 	eq(str(WorldState.get_fact("npc.ruth.card", "")), "given", "the card was given")
-	check(main.hud.todays_work_done(), "once given, day 11 is done")
+	check(main.hud.todays_work_done(), "once given, day 12 is done")
 
-	# Friday and Saturday of week 2, then Sunday again; after the written
-	# days, Sundays still rest, with the neighbours at the Chapel.
+	# Saturday free, then Sunday again; after the written days the week keeps
+	# its shape, and Sundays still rest with the neighbours at the Chapel.
 	await main.rest_until_morning()
 	await frames(3)
-	eq([Days.weekday(), Invitations.pending_id], ["friday", "inv_day_012"], "day 12 is Friday")
-	await main.rest_until_morning()
+	eq([Days.weekday(), Invitations.pending_id], ["saturday", ""], "day 13 is a free Saturday")
 	await main.rest_until_morning()
 	await frames(3)
 	eq([Days.weekday(), Invitations.pending_id], ["sunday", "inv_day_014"], "day 14 is a Sunday of rest")

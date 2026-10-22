@@ -6,8 +6,10 @@ extends Node
 ## the authored content use day 0, the "free day" template. Missing a day of
 ## play costs nothing: the season advances only when the child rests.
 ##
-## The days run in weeks: day 1 is a Monday, and every seventh day is Sunday,
-## the day of rest, with no jobs and the neighbours gathered at the Chapel.
+## The days run in weeks: day 1 is a Monday. Monday to Friday each have a
+## letter and three jobs; Saturday is a free day (no letter, open play and
+## free work); Sunday is the day of rest, with no jobs and the neighbours
+## gathered at the Chapel. Twelve weeks make the 60 guided days of a season.
 
 signal day_started(day: int)
 

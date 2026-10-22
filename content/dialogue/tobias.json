@@ -8,14 +8,14 @@
 		},
 		{
 			"when": [
-				{"day": 6},
+				{"day": 8},
 				{"not": {"fact": "village.flour_day", "is_today": true}}
 			],
 			"start": "mill_offer"
 		},
 		{
 			"when": [
-				{"day": 8},
+				{"day": 9},
 				{"fact": "village.flour_day", "exists": true},
 				{"not": {"fact": "village.baked_day", "is_today": true}}
 			],
@@ -136,7 +136,7 @@
 		"flour": {
 			"reply": "I will! Thank you, Mr. Tobias.",
 			"mood": "joy",
-			"text": "You brought the flour! And it weighs just right. On Monday, after the day of rest, come and bake it with me."
+			"text": "You brought the flour! And it weighs just right. Tomorrow, come and bake it with me."
 		},
 		"baked": {
 			"reply": "Thank you for teaching me, Mr. Tobias!",

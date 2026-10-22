@@ -12,6 +12,8 @@ Keep minimal:
 
 Avoid persistent quest clutter, minimap overload, currencies, XP bars, streaks, and notification badges.
 
+The one deliberate exception is the day's jobs (chosen after playtesting: children needed to see what was left). The corner note stays compact: one small picture per job, a green tick on each as it is done, and only the next job in words. It shows no counts, scores or rewards, and tapping it opens the letter with the full list.
+
 ## Camera Modes
 - Exploration: elevated three-quarter third-person, controlled follow.
 - Conversation: gentle contextual framing.

@@ -2,7 +2,7 @@
 
 A calm, Christian, Montessori-inspired learning adventure for ages 5–10, built in **Godot 4.3** with GDScript. This repository holds the **vertical slice** described in [`docs/design/VERTICAL_SLICE.md`](docs/design/VERTICAL_SLICE.md). It proves the core loop: explore → notice a need → do a hands-on activity → see the world change → keep exploring.
 
-Design direction lives in [`docs/design/`](docs/design) (start with `AGENT_START_HERE.md`). How the code is organised is in [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md), and how to write new days, activities and dialogue is in [`docs/CONTENT_GUIDE.md`](docs/CONTENT_GUIDE.md).
+Design direction lives in [`docs/design/`](docs/design) (start with `AGENT_START_HERE.md`); progress and next steps are in [`docs/ROADMAP.md`](docs/ROADMAP.md). How the code is organised is in [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md), and how to write new days, activities and dialogue is in [`docs/CONTENT_GUIDE.md`](docs/CONTENT_GUIDE.md).
 
 ## Running it
 

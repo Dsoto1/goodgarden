@@ -1,39 +1,44 @@
 {
 	"id": "inv_day_012",
 	"from": "miriam",
-	"body": "Good morning, my friend!\n\nThe sun has been hot all week, and our bean plants are thirsty. Look closely when you water them: there are little beans hanging down now!\n\nThe watering can is by the garden gate.",
+	"body": "Dear friend,\n\nMrs. Ruth has been so kind to us. I have an idea for a little surprise for her. Would you please come to the garden?\n\nBring your best careful fingers!",
 	"signature": "Miss Miriam",
-	"summary": "Give the bean plants a good drink.",
-	"suggests": "garden_water",
+	"suggests": "thank_you_card",
+	"summary": "Make a surprise for Mrs. Ruth with Miss Miriam.",
+	"done": "Mrs. Ruth has her card, and the hens and the cat are content. How kind of you!",
 	"tasks": [
 		{
-			"text": "Water the beans",
-			"activity": "garden_water",
-			"icon": "water",
-			"where": "in the garden"
-		},
-		{
-			"text": "Say hello to Mrs. Ruth",
+			"text": "Give Mrs. Ruth a card",
 			"done_when": [
 				{
-					"fact": "npc.ruth.greeted_day",
+					"fact": "npc.ruth.card",
+					"equals": "given"
+				}
+			],
+			"icon": "card",
+			"where": "make it with Miss Miriam"
+		},
+		{
+			"text": "Feed the hens",
+			"done_when": [
+				{
+					"fact": "home.hens_fed_day",
 					"is_today": true
 				}
 			],
-			"icon": "talk",
-			"where": "in the village"
+			"icon": "hen",
+			"where": "by the coop at home"
 		},
 		{
-			"text": "Pet a pig",
+			"text": "Pet the cat",
 			"done_when": [
 				{
-					"fact": "animals.pig.petted_day",
+					"fact": "animals.cat.petted_day",
 					"is_today": true
 				}
 			],
 			"icon": "heart",
-			"where": "in the sty by the mill"
+			"where": "by your cottage door"
 		}
-	],
-	"done": "The beans have had a good drink, and everyone is greeted. Well done!"
+	]
 }

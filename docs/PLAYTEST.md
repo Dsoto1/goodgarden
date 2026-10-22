@@ -22,8 +22,10 @@ without help tells us what the game needs.
   the grown-ups' panel (work level: younger / older), **Save and go to the
   main menu**, and **Save and close the game**. The title screen has
   Settings and **Close the game** too.
-- Plan for one in-game day per sitting (about 10–20 minutes). Days 1–11 are
-  ready. Resting in bed ends the day.
+- Plan for one in-game day per sitting (about 10–20 minutes). Two weeks are
+  ready: Monday to Friday each have a letter and three jobs, Saturday is a
+  free day, Sunday a day of rest. Resting in bed ends the day; the bed
+  reminds the child of any job still waiting but lets them choose.
 
 ## While they play
 
