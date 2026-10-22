@@ -71,6 +71,7 @@ func _target_angle() -> float:
 
 
 func _process(delta: float) -> void:
+	super(delta)
 	var goal := _target_angle()
 	if absf(goal - _angle) < 0.001:
 		return
@@ -132,33 +133,49 @@ func _layout() -> void:
 func _draw() -> void:
 	var font := UiStyle.font()
 	var wood := Color("8a5a3a")
-	# The stand and the beam.
-	draw_rect(Rect2(PIVOT + Vector2(-10, 0), Vector2(20, 330)), wood)
-	draw_rect(Rect2(PIVOT + Vector2(-80, 320), Vector2(160, 22)), wood)
+	# The stand: a turned post on a wide foot, with a soft shadow.
+	draw_colored_polygon(BoardArt._ellipse(PIVOT + Vector2(10, 346), Vector2(110, 14)), Color(0, 0, 0, 0.16))
+	BoardArt._fill(self, BoardArt._round_rect(Rect2(PIVOT + Vector2(-90, 318), Vector2(180, 26)), 10), wood)
+	BoardArt._fill(self, BoardArt._round_rect(Rect2(PIVOT + Vector2(-11, 0), Vector2(22, 322)), 8), wood.lightened(0.08))
+	# The beam, with rounded ends.
 	var left := PIVOT + Vector2(-ARM, 0).rotated(_angle)
 	var right := PIVOT + Vector2(ARM, 0).rotated(_angle)
-	draw_line(left, right, Color("6b4630"), 12.0)
-	draw_circle(PIVOT, 14, Color("e0a73a"))
+	draw_line(left, right, Color("5e3b26"), 16.0)
+	draw_line(left, right, Color("7a5034"), 10.0)
+	for end in [left, right]:
+		draw_circle(end, 9, Color("5e3b26"))
+	draw_circle(PIVOT, 16, Color("b8862c"))
+	draw_circle(PIVOT + Vector2(-4, -4), 8, Color("e8c15a"))
 	# A pointer that hangs straight down only when the beam is level.
 	draw_line(PIVOT, PIVOT + Vector2(0, 70).rotated(_angle), Color("3b3430"), 4.0)
-	draw_line(PIVOT + Vector2(-16, 74), PIVOT + Vector2(16, 74), Color("f3e6d2"), 3.0)
+	draw_colored_polygon(PackedVector2Array([PIVOT + Vector2(-10, 80), PIVOT + Vector2(10, 80), PIVOT + Vector2(0, 70)]), Color("f3e6d2"))
 	for side: float in [-1.0, 1.0]:
 		var top := left if side < 0 else right
 		var c := _pan_center(side, _angle)
-		for dx: float in [-80.0, 80.0]:
-			draw_line(top, c + Vector2(dx, 0), Color("c9b38a"), 2.0)
-		draw_colored_polygon(PackedVector2Array([c + Vector2(-95, 0), c + Vector2(95, 0), c + Vector2(70, 26), c + Vector2(-70, 26)]), Color("c9a874"))
-	# The weight: a stone with dots, one for each scoop it balances.
+		# Chains: little links from the beam to the pan's rim.
+		for dx: float in [-78.0, 78.0]:
+			var to := c + Vector2(dx, 0)
+			for k in 10:
+				var p := top.lerp(to, (k + 0.5) / 10.0)
+				draw_arc(p, 3.0, 0, TAU, 8, Color("8f8679"), 1.5)
+		# A brass pan.
+		draw_colored_polygon(BoardArt._ellipse(c + Vector2(4, 30), Vector2(96, 10)), Color(0, 0, 0, 0.12))
+		var pan_pts := PackedVector2Array()
+		for i in 13:
+			var a := PI * i / 12.0
+			pan_pts.append(c + Vector2(cos(a) * 96, sin(a) * 26))
+		BoardArt._fill(self, pan_pts, Color("c9a04a"))
+		draw_colored_polygon(BoardArt._ellipse(c, Vector2(96, 9)), Color("e2c26a"))
+	# The weight: a smooth grey stone with dots, one for each small scoop it balances.
 	var lc := _pan_center(-1.0, _angle)
-	var stone := Rect2(lc + Vector2(-60, -70), Vector2(120, 70))
-	draw_rect(stone, Color("9a958c"))
-	draw_rect(stone, Color("6c675f"), false, 3.0)
+	var stone := Rect2(lc + Vector2(-62, -68), Vector2(124, 66))
+	BoardArt._fill(self, BoardArt._round_rect(stone, 18), Color("9a958c"))
+	draw_colored_polygon(BoardArt._round_rect(Rect2(stone.position + Vector2(8, 6), Vector2(stone.size.x - 16, 18)), 9), Color("b3aea5"))
 	for i in _weight:
-		draw_circle(stone.get_center() + Vector2((i - (_weight - 1) / 2.0) * 22.0, 0), 7, Color("f3e6d2"))
-	draw_string(font, lc + Vector2(-100, 60), tr(str(config.get("weight_label", "the stone"))), HORIZONTAL_ALIGNMENT_CENTER, 200, 18, Color("f3e6d2"))
-	# The supply: an open flour sack.
-	draw_rect(Rect2(_supply + Vector2(-90, -55), Vector2(180, 110)), Color("efe4cf"))
-	draw_rect(Rect2(_supply + Vector2(-90, -55), Vector2(180, 110)), Color("b9a07a"), false, 3.0)
-	draw_string(font, _supply + Vector2(-100, 80), tr(str(config.get("supply_label", "flour"))), HORIZONTAL_ALIGNMENT_CENTER, 200, 18, Color("f3e6d2"))
+		draw_circle(stone.get_center() + Vector2((i - (_weight - 1) / 2.0) * 22.0, 6), 7, Color("f3e6d2"))
+	draw_string(font, lc + Vector2(-100, 64), tr(str(config.get("weight_label", "the stone"))), HORIZONTAL_ALIGNMENT_CENTER, 200, 18, Color("f3e6d2"))
+	# The supply: an open sack of flour.
+	BoardArt.sack(self, Rect2(_supply + Vector2(-100, -80), Vector2(200, 150)))
+	draw_string(font, _supply + Vector2(-100, 92), tr(str(config.get("supply_label", "flour"))), HORIZONTAL_ALIGNMENT_CENTER, 200, 18, Color("f3e6d2"))
 	if _hinting:
 		draw_arc(_pan_center(1.0, _angle) + Vector2(0, -20), 110, 0, TAU, 32, Color(1, 0.95, 0.7), 4.0)

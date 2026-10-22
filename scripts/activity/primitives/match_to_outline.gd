@@ -171,12 +171,13 @@ func _draw() -> void:
 			arch.append(Vector2(r.get_center().x + cos(a) * r.size.x / 2.0, r.position.y + r.size.y * 0.45 + sin(a) * r.size.y * 0.45))
 		arch.append(r.end)
 		arch.append(Vector2(r.position.x, r.end.y))
-		var brick := PackedVector2Array()
-		for q in arch:
-			brick.append(r.get_center() + (q - r.get_center()) * 1.08)
-		draw_colored_polygon(brick, Color("b8584a"))
 		draw_colored_polygon(arch, Color("3a2620"))
-		draw_rect(Rect2(r.position.x + 20, r.position.y + r.size.y * 0.45, r.size.x - 40, r.size.y * 0.55 - 10), Color("8f7f70"))
+		BoardArt.brick_arch(self, Vector2(r.get_center().x, r.position.y + r.size.y * 0.45), Vector2(r.size.x / 2.0, r.size.y * 0.45), 26.0)
+		for side: float in [-1.0, 1.0]:
+			for k in 4:
+				var x := r.get_center().x + side * r.size.x / 2.0 + (0.0 if side > 0 else -26.0)
+				BoardArt._fill(self, PackedVector2Array([Vector2(x, r.position.y + r.size.y * 0.45 + k * 0.137 * r.size.y), Vector2(x + 26, r.position.y + r.size.y * 0.45 + k * 0.137 * r.size.y), Vector2(x + 26, r.position.y + r.size.y * 0.45 + (k + 1) * 0.137 * r.size.y), Vector2(x, r.position.y + r.size.y * 0.45 + (k + 1) * 0.137 * r.size.y)]), Color("b8584a") if k % 2 else Color("c46a55"), 1.5)
+		BoardArt.stone_floor(self, Rect2(r.position.x + 20, r.position.y + r.size.y * 0.45, r.size.x - 40, r.size.y * 0.55 - 10))
 		# Embers glowing along the back wall.
 		for k in 9:
 			var e := Vector2(r.position.x + r.size.x * (0.22 + k * 0.07), r.position.y + r.size.y * 0.42 + (k % 2) * 6)
@@ -185,9 +186,7 @@ func _draw() -> void:
 	if config.has("box"):
 		var b: Array = config["box"]
 		var r := Rect2(b[0], b[1], b[2], b[3])
-		draw_rect(r.grow(8), Color("7b5338"))
-		draw_rect(r, Color("c49a6c"))
+		BoardArt.wood_box(self, r)
 		draw_string(ThemeDB.fallback_font, Vector2(r.position.x, r.end.y + 26), tr(str(config.get("box_label", ""))), HORIZONTAL_ALIGNMENT_CENTER, r.size.x, 18, Color("f3e6d2"))
 	if not config.has("box") and not config.get("pieces_from_previous", false):
-		var t := _tray_rect()
-		draw_rect(t, Color(0, 0, 0, 0.08))
+		BoardArt.cloth(self, _tray_rect())

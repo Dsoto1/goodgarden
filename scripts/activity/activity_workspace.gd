@@ -11,9 +11,9 @@ signal finished(results: Dictionary)
 signal observed(kind: String, data: Dictionary)
 
 const SURFACES := {
-	"soil_bed": {"base": Color("8a6446"), "edge": Color("6e4c34"), "grain": Color("7a573c")},
-	"wood_table": {"base": Color("c39566"), "edge": Color("9c7049"), "grain": Color("b5875a")},
-	"atrium_felt": {"base": Color("41577f"), "edge": Color("2f3f5e"), "grain": Color("4a6190")},
+	"soil_bed": {"kind": "soil", "base": Color("8a6446"), "edge": Color("6e4c34"), "grain": Color("7a573c")},
+	"wood_table": {"kind": "wood", "base": Color("c39566"), "edge": Color("9c7049"), "grain": Color("b5875a")},
+	"atrium_felt": {"kind": "felt", "base": Color("41577f"), "edge": Color("2f3f5e"), "grain": Color("4a6190")},
 }
 
 var definition: ActivityDefinition
@@ -319,9 +319,55 @@ class Board:
 
 	func _draw() -> void:
 		var r := Rect2(Vector2.ZERO, size)
+		var base: Color = surface["base"]
+		var grain: Color = surface["grain"]
+		# A rounded frame with a soft shadow beneath it.
+		draw_rect(r.grow(16), Color(0, 0, 0, 0.18))
 		draw_rect(r.grow(10), surface["edge"])
-		draw_rect(r, surface["base"])
-		var y := 18.0
-		while y < size.y:
-			draw_line(Vector2(0, y), Vector2(size.x, y + 3), surface["grain"], 2.0)
-			y += 36.0
+		draw_rect(r.grow(10), Color(surface["edge"]).darkened(0.25), false, 3.0)
+		draw_rect(r, base)
+		var rng := RandomNumberGenerator.new()
+		rng.seed = 7
+		match str(surface.get("kind", "wood")):
+			"soil":
+				# Crumbly earth: lighter and darker specks, a few small stones.
+				for i in 420:
+					var p := Vector2(rng.randf() * size.x, rng.randf() * size.y)
+					draw_circle(p, rng.randf_range(1.5, 4.0), base.darkened(0.18) if i % 3 else base.lightened(0.1))
+				for i in 14:
+					var p := Vector2(rng.randf() * size.x, rng.randf() * size.y)
+					draw_circle(p, rng.randf_range(4.0, 7.0), Color("a49480"))
+			"felt":
+				# Soft felt: short fibres in slightly different blues.
+				for i in 900:
+					var p := Vector2(rng.randf() * size.x, rng.randf() * size.y)
+					var d := Vector2.from_angle(rng.randf() * TAU) * rng.randf_range(3.0, 7.0)
+					draw_line(p, p + d, grain if i % 2 else base.darkened(0.1), 1.0)
+			_:
+				# Planks: each a slightly different shade, with grain, seams and a knot or two.
+				var plank := 112.0
+				var y := 0.0
+				var row := 0
+				while y < size.y:
+					var shade := base.lightened(0.04) if row % 2 else base.darkened(0.03)
+					draw_rect(Rect2(0, y, size.x, plank), shade)
+					for k in 4:
+						var gy := y + 14.0 + k * 26.0 + rng.randf_range(-4.0, 4.0)
+						var pts := PackedVector2Array()
+						for x in range(0, int(size.x) + 40, 40):
+							pts.append(Vector2(x, gy + sin(x * 0.012 + row + k) * 3.0))
+						draw_polyline(pts, grain, 1.5, true)
+					if row % 2 == 0:
+						# A small knot, stretched along the grain.
+						var knot := Vector2(rng.randf_range(80.0, size.x - 80.0), y + rng.randf_range(30.0, plank - 30.0))
+						var k := PackedVector2Array()
+						for i in 16:
+							var a := TAU * i / 16.0
+							k.append(knot + Vector2(cos(a) * 14.0, sin(a) * 4.0))
+						draw_colored_polygon(k, grain.darkened(0.08))
+					draw_line(Vector2(0, y), Vector2(size.x, y), base.darkened(0.25), 2.0)
+					y += plank
+					row += 1
+		# Light falls from the top-left: a soft darkening toward the edges.
+		for i in 6:
+			draw_rect(Rect2(Vector2.ZERO, size).grow(-i * 6.0), Color(0, 0, 0, 0.025), false, 6.0)

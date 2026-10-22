@@ -9,6 +9,12 @@ var capacity := 1
 var contents: Array[DragPiece] = []
 var data: Dictionary = {}
 var show_outline := true
+## Lit while a piece is held near enough to land here.
+var glow := false:
+	set(value):
+		if value != glow:
+			glow = value
+			queue_redraw()
 
 
 static func create(kind: String, slot_size: Vector2, slot_data: Dictionary = {}) -> DropSlot:
@@ -44,9 +50,15 @@ func near(point: Vector2, tolerance: float) -> bool:
 func put(piece: DragPiece) -> void:
 	if piece.placed_in is DropSlot and piece.placed_in != self:
 		(piece.placed_in as DropSlot).take(piece)
-	if not contents.has(piece):
+	var fresh := not contents.has(piece)
+	if fresh:
 		contents.append(piece)
 	piece.placed_in = self
+	glow = false
+	if fresh:
+		piece.settle()
+		if is_full() and get_parent():
+			Sparkle.burst(get_parent(), center())
 	queue_redraw()
 
 
@@ -58,5 +70,12 @@ func take(piece: DragPiece) -> void:
 
 
 func _draw() -> void:
+	if glow:
+		var g := PackedVector2Array()
+		for i in 28:
+			var a := TAU * i / 28.0
+			g.append(size / 2.0 + Vector2(cos(a) * (size.x / 2.0 + 10.0), sin(a) * (size.y / 2.0 + 10.0)))
+		draw_colored_polygon(g, Color(1.0, 0.93, 0.6, 0.28))
+		draw_polyline(g + PackedVector2Array([g[0]]), Color(1.0, 0.9, 0.5, 0.8), 3.0, true)
 	if show_outline and contents.size() < capacity:
 		PieceArt.draw(self, accepts, size, true, data)

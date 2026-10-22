@@ -57,7 +57,8 @@ func _build() -> void:
 	var total := _needed() + int(config.get("spare", 2))
 	var kind := str(config.get("piece", "bean_seed"))
 	for i in total:
-		var p := DragPiece.create(kind, Vector2(30, 22))
+		# Rolls and hay bundles are a little bigger than seeds and drops.
+		var p := DragPiece.create(kind, Vector2(40, 30) if _baskets() else Vector2(30, 22))
 		p.home = _bowl + _bowl_offset(i) - p.size / 2.0
 		p.position = p.home
 		p.dropped.connect(_on_dropped)
@@ -164,7 +165,7 @@ func _dimple(i: int, n: int) -> Vector2:
 		var per_row := ceili(n / 2.0)
 		var row := i / per_row
 		var in_row := mini(per_row, n - row * per_row)
-		return Vector2((i % per_row - (in_row - 1) / 2.0) * 30.0, -8.0 + row * 22.0)
+		return Vector2((i % per_row - (in_row - 1) / 2.0) * 38.0, -6.0 + row * 26.0)
 	if n == 1:
 		return Vector2.ZERO
 	var a := -PI / 2.0 + TAU * i / n
@@ -198,11 +199,12 @@ func _draw() -> void:
 	var font := UiStyle.font()
 	if _baskets():
 		# A plain shelf with a woven basket for each household, its number on a tag.
-		draw_rect(Rect2(_from - 20, _row_y + 30, _to - _from + 40, 26), Color("8a5a3a"))
+		if _container() == "basket":
+			BoardArt._fill(self, BoardArt._round_rect(Rect2(_from - 20, _row_y + 30, _to - _from + 40, 26), 6), Color("8a5a3a"))
 		for h in holes:
 			var c := h.center()
 			if _container() == "trough":
-				_trough(c)
+				BoardArt.trough(self, c)
 			else:
 				_basket(c)
 			if config.get("show_dimples", true):
@@ -216,7 +218,7 @@ func _draw() -> void:
 			if h == _hint_slot:
 				draw_arc(c, 74, 0, TAU, 32, Color(1, 0.95, 0.7), 4.0)
 	else:
-		draw_rect(Rect2(_from, _row_y - 40, _to - _from, 80), Color("6b4630"))
+		BoardArt.soil_row(self, Rect2(_from, _row_y - 40, _to - _from, 80))
 		for h in holes:
 			var c := h.center()
 			if _container() == "plant":
@@ -229,9 +231,7 @@ func _draw() -> void:
 			if h == _hint_slot:
 				draw_arc(c, 42, 0, TAU, 32, Color(1, 0.95, 0.7), 4.0)
 	# The supply: a bowl of seeds, or a cloth-lined bread tray.
-	draw_circle(_bowl + Vector2(0, 8), 78, Color("8a6a4a"))
-	draw_circle(_bowl, 74, Color("c49a6c"))
-	draw_circle(_bowl, 62, Color(str(config.get("supply_color", "f3e6d2" if _baskets() else "a8774f"))))
+	BoardArt.bowl(self, _bowl, 74, Color(str(config.get("supply_color", "f3e6d2" if _baskets() else "a8774f"))))
 	draw_string(font, _bowl + Vector2(-100, 100), tr(str(config.get("supply_label", "seed bowl"))), HORIZONTAL_ALIGNMENT_CENTER, 200, 18, Color("f3e6d2"))
 
 
@@ -250,24 +250,9 @@ func _bean_plant(c: Vector2, watered: bool) -> void:
 			draw_colored_polygon(leaf, Color("7fb04a") if watered else Color("9fae6a"))
 
 
-## A low wooden feeding trough.
-func _trough(c: Vector2) -> void:
-	draw_colored_polygon(PackedVector2Array([c + Vector2(-70, -34), c + Vector2(70, -34), c + Vector2(56, 40), c + Vector2(-56, 40)]), Color("8a5a3a"))
-	draw_colored_polygon(PackedVector2Array([c + Vector2(-60, -26), c + Vector2(60, -26), c + Vector2(50, 30), c + Vector2(-50, 30)]), Color("5e3b26"))
-	for x: float in [-50.0, 50.0]:
-		draw_rect(Rect2(c + Vector2(x - 6, 36), Vector2(12, 24)), Color("6b4630"))
-
-
 func _basket(c: Vector2) -> void:
-	var outer := PackedVector2Array()
-	for k in 25:
-		var a := PI * k / 24.0
-		outer.append(c + Vector2(cos(a) * 62, sin(a) * 46))
-	outer.append(c + Vector2(-62, -10))
-	outer.append(c + Vector2(62, -10))
-	draw_colored_polygon(outer, Color("c8955a"))
-	for k in 4:
-		var y := c.y + 2 + k * 10
-		draw_line(Vector2(c.x - 58 + k * 3, y), Vector2(c.x + 58 - k * 3, y), Color("9c6b3c"), 2.0)
-	draw_rect(Rect2(c + Vector2(-66, -16), Vector2(132, 10)), Color("a8743f"))
-	draw_arc(c + Vector2(0, -16), 52, PI, TAU, 24, Color("9c6b3c"), 5.0)
+	# A woven bread basket with a handle arching over it.
+	draw_arc(c + Vector2(3, -14), 54, PI, TAU, 24, Color(0, 0, 0, 0.12), 6.0)
+	draw_arc(c + Vector2(0, -16), 54, PI, TAU, 24, Color("8a5a3a"), 7.0)
+	draw_arc(c + Vector2(0, -18), 54, PI * 1.1, PI * 1.5, 12, Color("b8875e"), 2.0)
+	BoardArt.basket(self, Rect2(c + Vector2(-66, -28), Vector2(132, 76)))

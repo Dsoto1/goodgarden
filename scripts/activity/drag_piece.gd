@@ -62,7 +62,38 @@ func _has_point(point: Vector2) -> bool:
 
 
 func _draw() -> void:
+	# A soft shadow on the table; it grows and drifts while the piece is lifted.
+	# Felt figures lie flat on the felt, so they only cast one while held.
+	if kind.begins_with("figure:") and not dragging:
+		PieceArt.draw(self, kind, size, false, data)
+		return
+	var foot := size.y * (0.8 if not str(data.get("label", "")).is_empty() else 0.9)
+	var lift := 7.0 if dragging else 0.0
+	var r := Vector2(size.x * 0.42, maxf(4.0, size.y * 0.1)) * (1.15 if dragging else 1.0)
+	var shadow := PackedVector2Array()
+	for i in 20:
+		var a := TAU * i / 20.0
+		shadow.append(Vector2(size.x / 2.0 + lift * 0.6 + cos(a) * r.x, foot + lift + sin(a) * r.y))
+	draw_colored_polygon(shadow, Color(0, 0, 0, 0.12 if dragging else 0.18))
 	PieceArt.draw(self, kind, size, false, data)
+
+
+## A little lift when picked up, and a settle when set down.
+func _lift(up: bool) -> void:
+	var goal := Vector2.ONE * (1.08 if up else 1.0)
+	if Settings.get_value("reduced_motion"):
+		scale = goal
+	else:
+		create_tween().tween_property(self, "scale", goal, 0.1)
+	queue_redraw()
+
+
+## A small bounce when a piece lands in its place.
+func settle() -> void:
+	if Settings.get_value("reduced_motion"):
+		return
+	scale = Vector2.ONE * 1.14
+	create_tween().tween_property(self, "scale", Vector2.ONE, 0.22).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
 
 
 func _gui_input(event: InputEvent) -> void:
@@ -79,11 +110,13 @@ func _gui_input(event: InputEvent) -> void:
 			_grab_offset = _to_parent(event.global_position) - position
 			z_index = 10
 			move_to_front()
+			_lift(true)
 			AudioService.play("place")
 			grabbed.emit(self)
 		elif dragging:
 			dragging = false
 			z_index = 0
+			_lift(false)
 			if _moved:
 				dropped.emit(self)
 			else:

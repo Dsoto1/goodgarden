@@ -166,9 +166,7 @@ func _complete(xs: Array[float]) -> void:
 
 func _draw() -> void:
 	# Soil row and start stone.
-	draw_rect(Rect2(_from, _row_y - 34, _to - _from, 68), Color("6b4630"))
-	for i in 40:
-		draw_circle(Vector2(_from + 12 + i * 21.5, _row_y + ((i * 37) % 50) - 25), 3, Color("5a3a27"))
+	BoardArt.soil_row(self, Rect2(_from, _row_y - 34, _to - _from, 68))
 	draw_circle(Vector2(_start_x, _row_y), 20, Color("b7aea0"))
 	draw_circle(Vector2(_start_x - 5, _row_y - 5), 8, Color("cfc7ba"))
 	draw_string(ThemeDB.fallback_font, Vector2(_start_x - 60, _row_y - 44), tr("start"), HORIZONTAL_ALIGNMENT_CENTER, 120, 18, Color("f3e6d2"))

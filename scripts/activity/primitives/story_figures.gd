@@ -264,7 +264,6 @@ func _draw() -> void:
 			label_y = -82.0
 		draw_string(UiStyle.font(), c + Vector2(-80, label_y), tr(str(place.get("label", ""))), HORIZONTAL_ALIGNMENT_CENTER, 160, 18, Color("f6f1e4"))
 	var box := _box_rect()
-	draw_rect(box.grow(8), Color("7b5338"))
-	draw_rect(box, Color("c49a6c"))
+	BoardArt.wood_box(self, box)
 	if not str(config.get("reference", "")).is_empty():
 		draw_string(ThemeDB.fallback_font, Vector2(box.position.x, box.end.y + 26), str(config["reference"]), HORIZONTAL_ALIGNMENT_CENTER, box.size.x, 16, Color("f6f1e4", 0.8))

@@ -33,6 +33,20 @@ func _init() -> void:
 	mouse_filter = Control.MOUSE_FILTER_PASS
 
 
+## Lights the place a held piece would land in. Steps that override
+## _process call super(delta).
+func _process(_delta: float) -> void:
+	var held: DragPiece = null
+	for c in get_children():
+		if c is DragPiece and (c as DragPiece).dragging:
+			held = c
+			break
+	for c in get_children():
+		if c is DropSlot:
+			var slot: DropSlot = c
+			slot.glow = held != null and not slot.is_full() and slot.near(held.center(), snap_tolerance * 0.5)
+
+
 ## Build the step's pieces. Called once after the node is in the tree.
 func begin(step_config: Dictionary, step_context: Dictionary) -> void:
 	config = step_config

@@ -139,19 +139,15 @@ func _draw() -> void:
 	for k in 24:
 		var a := TAU * k / 24.0
 		cloth.append(_pile + Vector2(cos(a) * 205, sin(a) * 72))
+	draw_colored_polygon(BoardArt._shadow(cloth, 5), Color(0, 0, 0, 0.12))
 	draw_colored_polygon(cloth, Color("d9c7a3"))
+	draw_polyline(cloth + PackedVector2Array([cloth[0]]), Color("b9a07a"), 2.0, true)
 	for b in bins:
 		var r := Rect2(b.position, b.size)
 		if b.data.get("look", "basket") == "sack":
-			# A cloth sack, open at the top.
-			draw_rect(r.grow_individual(0, -10, 0, 0), Color("efe4cf"))
-			draw_rect(r.grow_individual(0, -10, 0, 0), Color("b9a07a"), false, 3.0)
-			draw_rect(Rect2(r.position + Vector2(0, 10), Vector2(r.size.x, 12)), Color("d9c7a3"))
+			BoardArt.sack(self, r)
 		else:
-			# A woven basket.
-			draw_rect(r, Color("b07a4f"))
-			for y in range(int(r.position.y) + 12, int(r.end.y), 16):
-				draw_line(Vector2(r.position.x, y), Vector2(r.end.x, y), Color("8a5a3a"), 2.0)
+			BoardArt.basket(self, r)
 		draw_string(font, Vector2(r.position.x - 20, r.end.y + 24), str(b.data.get("label", "")), HORIZONTAL_ALIGNMENT_CENTER, r.size.x + 40, 18, Color("f3e6d2"))
 		# The outline of what belongs here, stitched on the front.
 		PieceArt.draw_at(self, b.accepts, Rect2(Vector2(r.end.x - 52, r.end.y - 40), Vector2(36, 28)), true)

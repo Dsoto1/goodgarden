@@ -327,10 +327,21 @@ static func _shape(ci: CanvasItem, pts: PackedVector2Array, fill: Color, outline
 		ci.draw_colored_polygon(pts, Color(OUTLINE, 0.12))
 		_dashed(ci, pts)
 	else:
+		# Painted like a wooden toy: the colour, a soft highlight toward the
+		# top-left where the light falls, and a darker rim.
 		ci.draw_colored_polygon(pts, fill)
+		if pts.size() >= 6:
+			var mid := Vector2.ZERO
+			for q in pts:
+				mid += q
+			mid /= pts.size()
+			var shine := PackedVector2Array()
+			for q in pts:
+				shine.append(mid + (q - mid) * 0.62 + (q - mid).length() * Vector2(-0.12, -0.16))
+			ci.draw_colored_polygon(shine, Color(fill.lightened(0.35), 0.38))
 		var closed := pts.duplicate()
 		closed.append(pts[0])
-		ci.draw_polyline(closed, fill.darkened(0.3), 1.5, true)
+		ci.draw_polyline(closed, fill.darkened(0.35), 2.0, true)
 
 
 static func _dashed(ci: CanvasItem, pts: PackedVector2Array) -> void:
