@@ -1,68 +1,249 @@
 class_name MapPanel
 extends ModalPanel
-## Illustrated overhead map. Only places the child has walked to can be
-## travelled to; Bellhaven appears as a far-off promise.
+## The valley map, like the concept art's "World Map (Fast Travel)": the real
+## valley seen from high above, warmed into an old parchment map, with a
+## picture card for each place. A card for somewhere the child has been is a
+## button that travels there; places not yet found show a soft "?", and
+## Bellhaven is far away. Small badges name landmarks (hold to hear them), and
+## a marker shows where the child is now.
 
+const VIEW := Vector2(880, 500)
+## Where each place's card stands in the world (the region's own spot).
+const PLACE_ICONS := {"home": "home", "garden": "seedling", "village": "village", "chapel": "chapel", "bellhaven": "chapel"}
+## Landmarks: [name, icon, world position].
+const LANDMARKS := [
+	["The Mill", "mill", Vector3(-21, 0, -9.8)],
+	["The Sheepfold", "sheep", Vector3(27.5, 0, -22.5)],
+	["The Fishing Spot", "fish", Vector3(-32.5, 0, -19.5)],
+	["The Bridge", "bridge", Vector3(5.5, 0, -14.0)],
+]
 
-## A picture for each place, so places can be found without reading.
-const PLACE_ICONS := {"home": "home", "garden": "seedling", "village": "village", "chapel": "chapel"}
+var _camera: Camera3D
+var _view: SubViewport
+var _picture: TextureRect
+var _pins: Control
+var _taken: Array[Rect2] = [] # cards already placed, so neighbours don't cover each other
 
 
 func show_map() -> void:
-	open(820, Color("f3e6c4"))
-	content.add_child(UiStyle.label(tr("The Valley"), "HeadingLabel"))
-	AudioService.narrate(tr("The map. Choose a place to go."))
-	var drawing := MapDrawing.new()
-	drawing.custom_minimum_size = Vector2(760, 420)
-	content.add_child(drawing)
-	for entry: Dictionary in Content.get_world("regions").get("regions", []):
-		if not entry.get("on_map", false):
-			continue
-		var pos := ActivityStep.vec(entry.get("map_pos"), Vector2(0.5, 0.5)) * drawing.custom_minimum_size
-		var id := str(entry["id"])
-		if not entry.get("reachable", true):
-			var far := UiStyle.label(tr("%s (far away)") % tr(str(entry["name"])), "SmallLabel")
-			far.position = pos + Vector2(-90, 34)
-			far.size = Vector2(180, 30)
-			far.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-			drawing.add_child(far)
-		elif Discovery.is_discovered(id):
-			var b := UiStyle.button(tr(str(entry["name"])), false, PLACE_ICONS.get(id, "hand"))
-			b.pressed.connect(func() -> void:
-				close()
-				get_tree().call_group("main", "travel_to", id))
-			drawing.add_child(b)
-			b.reset_size()
-			b.position = pos - b.size / 2.0
-		else:
-			var q := UiStyle.label("?", "HeadingLabel")
-			q.position = pos - Vector2(8, 20)
-			drawing.add_child(q)
+	open(VIEW.x + 60, Color("efe0bb"))
+	var top := HBoxContainer.new()
+	content.add_child(top)
+	var title := UiStyle.label(tr("The Valley"), "HeadingLabel")
+	title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	top.add_child(title)
+	var close_x := UiStyle.button("", false, "back")
+	close_x.set_meta(&"spoken", tr("Close the map"))
+	close_x.pressed.connect(close)
+	top.add_child(close_x)
+	AudioService.narrate(tr("The map. Tap a place to go there."))
+
+	var frame := Control.new()
+	frame.custom_minimum_size = VIEW
+	content.add_child(frame)
+	_view = SubViewport.new()
+	_view.size = Vector2i(VIEW)
+	_view.world_3d = get_viewport().world_3d
+	_view.render_target_update_mode = SubViewport.UPDATE_ONCE
+	_view.msaa_3d = Viewport.MSAA_2X
+	frame.add_child(_view)
+	_camera = Camera3D.new()
+	_camera.fov = 42.0
+	_view.add_child(_camera)
+	_camera.position = Vector3(0, 74, 40)
+	_camera.look_at(Vector3(0, 0, -19))
+	_camera.far = 600.0
+	_camera.current = true
+	var main := get_tree().get_first_node_in_group("main")
+	var world: World = main.world if main else null
+	if world and world.environment:
+		# Clearer air than at ground level, so the map isn't lost in haze.
+		var env: Environment = world.environment.duplicate()
+		env.fog_density = 0.0006
+		_camera.environment = env
+
+	_picture = TextureRect.new()
+	_picture.texture = _view.get_texture()
+	_picture.size = VIEW
+	_picture.material = _parchment()
+	frame.add_child(_picture)
+	_pins = Control.new()
+	_pins.size = VIEW
+	_pins.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	frame.add_child(_pins)
+	_place_pins(world)
+
 	var done := UiStyle.button(tr("Close the map"), true, "yes")
 	done.pressed.connect(close)
 	add_buttons([done])
 
 
-class MapDrawing:
+## Screen spot in the map picture for a world position (clamped inside it).
+func map_point(world_pos: Vector3) -> Vector2:
+	var p := _camera.unproject_position(world_pos)
+	return p.clamp(Vector2(40, 30), VIEW - Vector2(40, 30))
+
+
+func _place_pins(world: World) -> void:
+	for l: Array in LANDMARKS:
+		var badge := Button.new()
+		badge.flat = true
+		badge.focus_mode = Control.FOCUS_NONE
+		badge.custom_minimum_size = Vector2(40, 40)
+		badge.set_meta(&"spoken", tr(str(l[0])))
+		badge.tooltip_text = tr(str(l[0]))
+		badge.pressed.connect(func() -> void: AudioService.narrate(tr(str(l[0])), true))
+		var art := Badge.new(str(l[1]))
+		art.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+		badge.add_child(art)
+		_pins.add_child(badge)
+		badge.size = badge.custom_minimum_size
+		badge.position = map_point(l[2]) - badge.size / 2.0
+	for entry: Dictionary in Content.get_world("regions").get("regions", []):
+		if not entry.get("on_map", false):
+			continue
+		var id := str(entry["id"])
+		var o: Array = entry.get("origin", [0, 0, 0])
+		var at := map_point(Vector3(float(o[0]), float(o[1]), float(o[2])))
+		var pin: Control
+		if not entry.get("reachable", true):
+			pin = _card(PLACE_ICONS.get(id, "hand"), tr("%s (far away)") % tr(str(entry["name"])), false)
+		elif Discovery.is_discovered(id):
+			var b := UiStyle.button(tr(str(entry["name"])), false, PLACE_ICONS.get(id, "hand"))
+			b.pressed.connect(func() -> void:
+				close()
+				get_tree().call_group("main", "travel_to", id))
+			pin = b
+		else:
+			pin = _card("", "?", false)
+		_pins.add_child(pin)
+		pin.reset_size()
+		pin.position = _free_spot(at - Vector2(pin.size.x / 2.0, pin.size.y + 6), pin.size)
+		_taken.append(Rect2(pin.position, pin.size))
+		if entry.get("reachable", true):
+			_pins.add_child(_stake(at))
+	if world and world.player:
+		var you := YouAreHere.new()
+		you.position = map_point(world.player.global_position)
+		_pins.add_child(you)
+
+
+## Nudges a card off any card already placed (places close together, like
+## home and the garden, get their cards side by side).
+func _free_spot(want: Vector2, card: Vector2) -> Vector2:
+	for shift: Vector2 in [Vector2.ZERO, Vector2(-card.x * 0.6, 0), Vector2(card.x * 0.6, 0), Vector2(0, -card.y - 6), Vector2(0, card.y + 18)]:
+		var r := Rect2(want + shift, card)
+		var clear := true
+		for t in _taken:
+			if t.grow(4).intersects(r):
+				clear = false
+				break
+		if clear:
+			var spot: Vector2 = want + shift
+			return spot.clamp(Vector2(4, 4), VIEW - card - Vector2(4, 4))
+	return want
+
+
+## A little stake under a card, pointing at the exact spot.
+func _stake(at: Vector2) -> Control:
+	var s := Stake.new()
+	s.position = at
+	return s
+
+
+func _card(icon_kind: String, text: String, _active: bool) -> Control:
+	var panel := PanelContainer.new()
+	var box := UiStyle.card(Color("fbf3dc"), 10)
+	box.set_content_margin_all(6)
+	box.content_margin_left = 10
+	box.content_margin_right = 12
+	panel.add_theme_stylebox_override("panel", box)
+	panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	var row := HBoxContainer.new()
+	row.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	panel.add_child(row)
+	if not icon_kind.is_empty():
+		row.add_child(Icon.Glyph.new(icon_kind, 26))
+	var l := UiStyle.label(text, "SmallLabel")
+	l.autowrap_mode = TextServer.AUTOWRAP_OFF
+	row.add_child(l)
+	return panel
+
+
+## The painted map: warmer, a touch richer, darkened and burnt at the edges
+## like old parchment.
+func _parchment() -> ShaderMaterial:
+	var sh := Shader.new()
+	sh.code = """
+shader_type canvas_item;
+float hash(vec2 p) { return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453); }
+float noise(vec2 p) {
+	vec2 i = floor(p); vec2 f = fract(p);
+	vec2 u = f * f * (3.0 - 2.0 * f);
+	return mix(mix(hash(i), hash(i + vec2(1, 0)), u.x), mix(hash(i + vec2(0, 1)), hash(i + vec2(1, 1)), u.x), u.y);
+}
+void fragment() {
+	vec3 c = texture(TEXTURE, UV).rgb;
+	float g = dot(c, vec3(0.299, 0.587, 0.114));
+	c = mix(vec3(g), c, 1.25);
+	c = pow(c, vec3(1.12));
+	c *= vec3(1.05, 1.0, 0.88);
+	float paper = noise(UV * vec2(90.0, 52.0)) * 0.03 + noise(UV * vec2(12.0, 7.0)) * 0.04;
+	c = mix(c, vec3(0.93, 0.86, 0.68), 0.04 + paper);
+	vec2 d = abs(UV - 0.5) * 2.0;
+	float edge = max(d.x, d.y) + (noise(UV * 26.0) - 0.5) * 0.06;
+	c = mix(c, vec3(0.55, 0.38, 0.22), smoothstep(0.86, 1.0, edge) * 0.65);
+	COLOR = vec4(c, 1.0 - smoothstep(0.985, 1.0, edge));
+}
+"""
+	var m := ShaderMaterial.new()
+	m.shader = sh
+	return m
+
+
+## A small round badge with a picture, for a landmark.
+class Badge:
 	extends Control
+	var kind := ""
+
+	func _init(icon_kind: String) -> void:
+		kind = icon_kind
+		mouse_filter = Control.MOUSE_FILTER_IGNORE
 
 	func _draw() -> void:
-		var s := size
-		draw_rect(Rect2(Vector2.ZERO, s), Color("efe0bb"))
-		# River, roads and a few trees, roughly matching the valley.
-		var river := PackedVector2Array([Vector2(0, s.y * 0.6), Vector2(s.x * 0.4, s.y * 0.57), Vector2(s.x, s.y * 0.62)])
-		draw_polyline(river, Color("8fb6d0"), 14.0, true)
-		var road := PackedVector2Array([Vector2(s.x * 0.3, s.y * 0.8), Vector2(s.x * 0.45, s.y * 0.8), Vector2(s.x * 0.45, s.y * 0.5), Vector2(s.x * 0.5, s.y * 0.38), Vector2(s.x * 0.5, s.y * 0.15), Vector2(s.x * 0.72, s.y * 0.06)])
-		draw_polyline(road, Color("c9a874"), 6.0, true)
-		draw_line(Vector2(s.x * 0.45, s.y * 0.44), Vector2(s.x * 0.2, s.y * 0.38), Color("c9a874"), 6.0)
-		draw_line(Vector2(s.x * 0.45, s.y * 0.76), Vector2(s.x * 0.6, s.y * 0.76), Color("c9a874"), 6.0)
-		var rng := RandomNumberGenerator.new()
-		rng.seed = 3
-		for i in 30:
-			var p := Vector2(rng.randf() * s.x, rng.randf() * s.y)
-			draw_circle(p, 8, Color("9fbf7a"))
-		# Bellhaven towers on the horizon.
-		var b := Vector2(s.x * 0.72, s.y * 0.06)
-		for k in 3:
-			draw_rect(Rect2(b + Vector2(-24 + k * 18, -10), Vector2(10, 26)), Color("9a8f86"))
-		draw_rect(Rect2(Vector2.ZERO, s), Color("b08d58"), false, 4.0)
+		var c := size / 2.0
+		draw_circle(c + Vector2(2, 3), 19, Color(0, 0, 0, 0.2))
+		draw_circle(c, 19, Color("8fb27a"))
+		draw_arc(c, 19, 0, TAU, 24, Color("5a3d28"), 2.0)
+		Icon.draw(self, kind, Rect2(c - Vector2(14, 14), Vector2(28, 28)))
+
+
+class Stake:
+	extends Control
+
+	func _init() -> void:
+		mouse_filter = Control.MOUSE_FILTER_IGNORE
+
+	func _draw() -> void:
+		draw_line(Vector2(0, -8), Vector2(0, 0), Color("8a5a3a"), 3.0)
+		draw_circle(Vector2.ZERO, 4.0, Color("c9483c"))
+
+
+## The child's marker: their face in a ring that gently pulses.
+class YouAreHere:
+	extends Control
+	var _t := 0.0
+
+	func _init() -> void:
+		mouse_filter = Control.MOUSE_FILTER_IGNORE
+
+	func _process(delta: float) -> void:
+		_t += delta
+		queue_redraw()
+
+	func _draw() -> void:
+		var pulse := 0.0 if Settings.get_value("reduced_motion") else (sin(_t * 3.0) * 0.5 + 0.5)
+		draw_circle(Vector2.ZERO, 24 + pulse * 6, Color(1.0, 0.93, 0.6, 0.35))
+		draw_circle(Vector2.ZERO, 20, Color("fbf3dc"))
+		draw_arc(Vector2.ZERO, 20, 0, TAU, 24, Color("c9483c"), 3.0)
+		Icon.draw(self, "child", Rect2(Vector2(-16, -16), Vector2(32, 32)))

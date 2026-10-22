@@ -460,6 +460,48 @@ static func stepping_stone(parent: Node3D, pos: Vector3, seed_value: int) -> Nod
 ## creel, a coil of rope, a bucket and an upturned crate to sit on. Faces -Z
 ## (toward the water). Returns the root; the float's local position is in
 ## its "float" meta, for framing the view while the child sits and fishes.
+## A field of ripe grain in rows, with soil furrows between them, a low
+## fence along two sides and a few stooks of cut sheaves at one end, like the
+## farmland in the concept art. `size` is width (along the rows) by depth.
+static func grain_field(parent: Node3D, pos: Vector3, size: Vector2, rot_y: float, seed: int) -> Node3D:
+	var r := _root(parent, "GrainField", pos, rot_y)
+	var rng := RandomNumberGenerator.new()
+	rng.seed = seed
+	MeshKit.box(r, Vector3(size.x, 0.04, size.y), Vector3(0, 0.02, 0), "soil")
+	var rows := int(size.y / 0.55)
+	for row in rows:
+		var z := -size.y / 2.0 + 0.3 + row * 0.55
+		MeshKit.box(r, Vector3(size.x - 0.4, 0.06, 0.2), Vector3(0, 0.05, z), "soil_dark")
+		var x := -size.x / 2.0 + 0.4
+		while x < size.x / 2.0 - 0.3:
+			var h := rng.randf_range(0.5, 0.72)
+			var at := Vector3(x + rng.randf_range(-0.05, 0.05), 0, z + 0.14)
+			var stalk := MeshKit.box(r, Vector3(0.14, h, 0.1), at + Vector3(0, h / 2.0, 0), "roof_thatch")
+			stalk.rotation.z = rng.randf_range(-0.12, 0.12)
+			MeshKit.box(r, Vector3(0.12, 0.16, 0.12), at + Vector3(0, h + 0.04, 0), "flower_yellow")
+			x += 0.32
+	# Stooks: cut sheaves leaning together at the near end.
+	for k in 3:
+		var at := Vector3(-size.x / 2.0 + 1.0 + k * 1.3, 0, size.y / 2.0 + 0.9)
+		for i in 4:
+			var a := TAU * i / 4.0 + k
+			var sheaf := MeshKit.cylinder(r, 0.06, 0.16, 0.9, at + Vector3(cos(a) * 0.12, 0.42, sin(a) * 0.12), "roof_thatch", 6)
+			sheaf.rotation = Vector3(sin(a) * 0.25, 0, -cos(a) * 0.25)
+	# A low post-and-rail fence on the two far sides.
+	for side in 2:
+		var length := size.x if side == 0 else size.y
+		var n := int(length / 1.5) + 1
+		for i in n + 1:
+			var t := -length / 2.0 + i * length / n
+			var at := Vector3(t, 0, -size.y / 2.0 - 0.3) if side == 0 else Vector3(size.x / 2.0 + 0.3, 0, t)
+			MeshKit.box(r, Vector3(0.1, 0.8, 0.1), at + Vector3(0, 0.4, 0), "wood_dark")
+		var rail := Vector3(length, 0.07, 0.06) if side == 0 else Vector3(0.06, 0.07, length)
+		var mid := Vector3(0, 0, -size.y / 2.0 - 0.3) if side == 0 else Vector3(size.x / 2.0 + 0.3, 0, 0)
+		for y: float in [0.38, 0.66]:
+			MeshKit.box(r, rail, mid + Vector3(0, y, 0), "wood")
+	return r
+
+
 ## A mustard plant grown tall: a slender stem that branches near the top, each
 ## branch ending in a loose cluster of small four-petalled yellow flowers with
 ## green seed pods below, and lobed leaves that shrink up the stem.

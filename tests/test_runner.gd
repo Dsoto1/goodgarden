@@ -826,6 +826,22 @@ func test_vertical_slice_end_to_end() -> void:
 	eq(int(WorldState.get_fact("village.baked_day", 0)), 7, "the bread was baked today")
 	var baking := _find_named(main.world, "BakingDay") as Node3D
 	check(baking != null and baking.visible, "the oven glows and fresh loaves cool beside it")
+
+	# The map: the real valley with a card for each place, travel from the
+	# places the child has been, and a marker where the child is.
+	main.open_map()
+	await frames(3)
+	var map := _find(main, MapPanel) as MapPanel
+	check(map != null, "the map opens")
+	if map:
+		var home_at := map.map_point(Vector3.ZERO)
+		var village_at := map.map_point(Vector3(6, 0, -27))
+		check(village_at.y < home_at.y, "the village is drawn north of home, across the river")
+		var travel := map.find_children("*", "Button", true, false).filter(func(b: Node) -> bool: return (b as Button).text in ["Home", "Miss Miriam's Garden", "The Village", "The Chapel"])
+		eq(travel.size(), Discovery.discovered_ids().filter(func(id: Variant) -> bool: return id in ["home", "garden", "village", "chapel"]).size(), "a travel card for each place the child has been")
+		check(_find(map, MapPanel.YouAreHere) != null, "the map shows where the child is")
+		map.close()
+		await frames(2)
 	main.quit_to_title()
 	await frames(2)
 	main.queue_free()

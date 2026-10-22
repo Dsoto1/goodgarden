@@ -77,6 +77,8 @@ func build() -> void:
 		add_child(lamb)
 	CraftedProps.hay_bale(self, Vector3(32.6, 0, -21.4), 0.3)
 	_lamb_troughs()
+	# A path from the village square out to the sheepfold gate.
+	path([Vector3(14.6, 0, -24.6), Vector3(17.6, 0, -23.4), Vector3(20.8, 0, -22.9), Vector3(23.4, 0, -22.5)], 1.3)
 	CraftedProps.hay_bale(self, Vector3(32.9, 0, -19.6), -0.2)
 	CraftedProps.haystack(self, Vector3(33.4, 0, -25.6))
 	# Life along the road and river.
@@ -197,11 +199,15 @@ func _trees() -> void:
 	mill.conditions = [{"day_at_least": 6}]
 	add_anchor("mill_tobias", mill_at + Vector3(3.6, 0, 3.6), PI * 0.75)
 	add_activity_focus(mill_at + Vector3(0, 1.2, 1.5))
+	# From the lane by home, along the south bank to the ford, and on to the mill.
+	var ford_south := Terrain.river_z(FORD_X) + Terrain.river_half_width(FORD_X, false) + 0.6
+	path([Vector3(5.0, 0, -6.4), Vector3(1.0, 0, -6.0), Vector3(-3.0, 0, -6.2), Vector3(-7.0, 0, -7.0), Vector3(-10.4, 0, ford_south + 0.9),
+		Vector3(FORD_X, 0, ford_south + 0.2), Vector3(-15.2, 0, ford_south + 1.2), Vector3(-18.0, 0, mill_at.z + 3.6), Vector3(mill_at.x + 2.4, 0, mill_at.z + 3.6)], 1.3)
 	_flour = group_node("FlourSacks")
 	for k in 3:
 		Props.place(_flour, "sack", mill_at + Vector3(3.3 + k * 0.55, 0, 2.6 + (k % 2) * 0.3), k * 0.7)
-	Props.place(self, "grain_field", Vector3(25, 0, 6), 0.3)
-	Props.place(self, "grain_field", Vector3(29, 0, 0), -0.2)
+	CraftedProps.grain_field(self, Vector3(25.5, 0, 6.5), Vector2(7.0, 4.4), 0.25, 3)
+	CraftedProps.grain_field(self, Vector3(29.5, 0, -0.5), Vector2(6.0, 4.4), -0.2, 4)
 	var rocks := ["rock", "rock_b", "rock_c"]
 	for r: Array in [[-7, 9], [17, -6], [-25, -28], [22, -8.5], [-26, 6], [2, -45]]:
 		Props.place(self, rocks[rng.randi() % 3], Vector3(r[0], Terrain.height(r[0], r[1]), r[1]), rng.randf() * TAU, rng.randf_range(0.7, 1.2))
@@ -382,7 +388,8 @@ func _boundary() -> void:
 
 ## Roughly the road network, so undergrowth never sits on a path.
 static func _on_path(p: Vector3) -> bool:
-	var roads := [Rect2(-1, 3.4, 7.5, 2.4), Rect2(4.0, -21, 2.9, 27), Rect2(-22, -23.0, 25, 4.0), Rect2(-32, -23.5, 11, 3.5), Rect2(5, -46, 2, 26)]
+	var roads := [Rect2(-1, 3.4, 7.5, 2.4), Rect2(4.0, -21, 2.9, 27), Rect2(-22, -23.0, 25, 4.0), Rect2(-32, -23.5, 11, 3.5), Rect2(5, -46, 2, 26),
+		Rect2(14, -25.5, 10, 3.6), Rect2(-12.5, -8, 18, 2.6), Rect2(-21, -11, 9, 4)]
 	for r: Rect2 in roads:
 		if r.grow(0.8).has_point(Vector2(p.x, p.z)):
 			return true

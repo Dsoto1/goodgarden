@@ -17,7 +17,7 @@ Avoid persistent quest clutter, minimap overload, currencies, XP bars, streaks, 
 - Conversation: gentle contextual framing.
 - Activity: close-up work surface.
 - Chapel/Atrium: intimate tabletop/presentation framing.
-- Map: illustrated overhead view.
+- Map: illustrated overhead view, after the concept art's "World Map (Fast Travel)". `MapPanel` renders the real valley from high above (a SubViewport sharing the world), warmed and edged like parchment, so it always matches the world. Each place has a picture card standing where it really is (tap to travel if visited, "?" if not, Bellhaven far away), landmarks have small badges (hold to hear their names), and a marker shows where the child is.
 
 ## Input
 Design interaction abstraction for mouse, touch, keyboard/gamepad. Touch targets must be generous. Dragging should include snap tolerance and undo/reset where appropriate.

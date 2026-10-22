@@ -169,6 +169,32 @@ static func draw(ci: CanvasItem, kind: String, r: Rect2, color := INK) -> void:
 			ci.draw_circle(c + Vector2(-0.32, -0.04) * s, 0.1 * s, Color("3b3430"))
 			for x: float in [-0.12, 0.14]:
 				ci.draw_line(c + Vector2(x, 0.2) * s, c + Vector2(x, 0.36) * s, Color("3b3430"), 2.0)
+		"mill":
+			# A water wheel.
+			ci.draw_circle(c, 0.36 * s, Color("b07a4f"))
+			ci.draw_circle(c, 0.24 * s, Color("efe4cf"))
+			for i in 8:
+				var a := TAU * i / 8.0
+				ci.draw_line(c + Vector2(cos(a), sin(a)) * 0.08 * s, c + Vector2(cos(a), sin(a)) * 0.4 * s, Color("7b5338"), maxf(1.5, s * 0.05))
+			ci.draw_circle(c, 0.08 * s, Color("7b5338"))
+		"fish":
+			var body := PackedVector2Array()
+			for i in 16:
+				var a := TAU * i / 16.0
+				body.append(c + Vector2(cos(a) * 0.3 - 0.05, sin(a) * 0.14) * s)
+			ci.draw_colored_polygon(body, Color("6f9fc0"))
+			ci.draw_colored_polygon(PackedVector2Array([c + Vector2(0.22, 0) * s, c + Vector2(0.42, -0.16) * s, c + Vector2(0.42, 0.16) * s]), Color("5f8aa8"))
+			ci.draw_circle(c + Vector2(-0.22, -0.03) * s, 0.03 * s, color)
+		"bridge":
+			ci.draw_rect(Rect2(c + Vector2(-0.42, -0.08) * s, Vector2(0.84, 0.14) * s), Color("b7aea0"))
+			ci.draw_arc(c + Vector2(0, 0.3) * s, 0.24 * s, PI, TAU, 14, Color("8f877b"), maxf(2.0, s * 0.08))
+			ci.draw_line(c + Vector2(-0.42, 0.3) * s, c + Vector2(0.42, 0.3) * s, Color("5f93b8"), maxf(2.0, s * 0.08))
+		"child":
+			# The child: a round face under a mop of brown hair.
+			ci.draw_circle(c + Vector2(0, 0.04) * s, 0.3 * s, Color("e9c9a4"))
+			ci.draw_colored_polygon(PackedVector2Array([c + Vector2(-0.34, 0.0) * s, c + Vector2(-0.3, -0.26) * s, c + Vector2(0, -0.36) * s, c + Vector2(0.3, -0.26) * s, c + Vector2(0.34, 0.0) * s, c + Vector2(0.1, -0.12) * s, c + Vector2(-0.12, -0.1) * s]), Color("5a3a24"))
+			for x: float in [-0.1, 0.1]:
+				ci.draw_circle(c + Vector2(x, 0.06) * s, 0.035 * s, color)
 		"sun_book":
 			ci.draw_rect(Rect2(c - Vector2(0.3, 0.38) * s, Vector2(0.6, 0.76) * s), Color("5f93b8"))
 			ci.draw_circle(c + Vector2(0, -0.04) * s, 0.16 * s, Color("f2c14e"))
