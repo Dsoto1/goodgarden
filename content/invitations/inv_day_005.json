@@ -9,7 +9,8 @@
 	"tasks": [
 		{
 			"text": "Feed the lambs at the sheepfold",
-			"activity": "sheepfold_hay"
+			"activity": "sheepfold_hay",
+			"icon": "sheep"
 		},
 		{
 			"text": "Stroke a cow in the pasture by the windmill",
@@ -18,7 +19,8 @@
 					"fact": "animals.cow.stroked_day",
 					"is_today": true
 				}
-			]
+			],
+			"icon": "heart"
 		},
 		{
 			"text": "Scatter grain for the hens at home",
@@ -27,7 +29,8 @@
 					"fact": "home.hens_fed_day",
 					"is_today": true
 				}
-			]
+			],
+			"icon": "hen"
 		}
 	]
 }

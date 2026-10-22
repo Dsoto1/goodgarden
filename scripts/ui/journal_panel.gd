@@ -82,7 +82,7 @@ func _letter_heading(e: Dictionary) -> String:
 func _render() -> void:
 	for c in _page.get_children():
 		c.queue_free()
-	_heading.text = tr("Day %d") % _day
+	_heading.text = tr("%s, week %d") % [Days.weekday_name(_day), (_day - 1) / 7 + 1]
 	var days := Journal.days_with_entries()
 	_prev.disabled = days.is_empty() or days[0] >= _day
 	_next.disabled = _day >= Days.current_day

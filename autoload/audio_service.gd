@@ -33,6 +33,9 @@ const FILES := {
 }
 ## How loud each recorded sound plays (dB), so they sit gently together.
 const LEVELS := {"place": -6.0, "return": -9.0, "step": -8.0, "page": -6.0, "foot_grass": -17.0, "foot_wood": -15.0, "foot_stone": -18.0}
+## World sounds that are synthesized when there is no recording, because
+## they synthesize well: a cat's purr, and the Sunday bells.
+const SYNTH_WORLD := ["purr", "bells"]
 ## Looping sounds, so their streams repeat seamlessly.
 const LOOPS := ["outdoor", "interior", "river", "waterfall", "fountain"]
 
@@ -148,8 +151,8 @@ func has_recording(sound: String) -> bool:
 ## null when there is no recording. Each call may pick a different variant.
 func world_stream(sound: String) -> AudioStream:
 	var options := _recorded(sound)
-	if options.is_empty() and sound == "purr":
-		return _stream(sound) # a purr synthesizes well
+	if options.is_empty() and sound in SYNTH_WORLD:
+		return _stream(sound)
 	return null if options.is_empty() else options.pick_random()
 
 
@@ -244,6 +247,8 @@ func _synthesize(sound: String) -> AudioStreamWAV:
 			return _wav(_wind(6.0, 0.03), true)
 		"purr":
 			return _wav(_purr(2.4), false)
+		"bells":
+			return _wav(_bells(), false)
 		"chapel":
 			return _wav(_pad([110.0, 165.0, 220.0, 277.25, 330.0], 8.0), true)
 	push_warning("AudioService: unknown sound '%s'" % sound)
@@ -281,6 +286,30 @@ func _purr(seconds: float) -> PackedFloat32Array:
 		var breath := sin(PI * fmod(t, seconds / 2.0) / (seconds / 2.0))
 		var pulse := pow(0.5 + 0.5 * sin(TAU * 26.0 * t), 3.0)
 		out[i] = lp2 * pulse * breath * 2.2
+	return out
+
+
+## Two church bells rung in turn, high and low, each note humming away.
+func _bells() -> PackedFloat32Array:
+	var strikes := 6
+	var gap := 1.1
+	var ring := 3.0
+	var n := int((gap * (strikes - 1) + ring) * MIX_RATE)
+	var out := PackedFloat32Array()
+	out.resize(n)
+	# Bell partials: the hum, the strike note and a bright, slightly sharp top.
+	var partials := [[0.5, 0.35, 1.2], [1.0, 0.5, 2.0], [2.4, 0.18, 4.5]]
+	for k in strikes:
+		var f := 392.0 if k % 2 == 0 else 329.63
+		var start := int(k * gap * MIX_RATE)
+		for i in int(ring * MIX_RATE):
+			if start + i >= n:
+				break
+			var t := float(i) / MIX_RATE
+			var v := 0.0
+			for p: Array in partials:
+				v += sin(TAU * f * float(p[0]) * t) * float(p[1]) * exp(-t * float(p[2]))
+			out[start + i] += v * minf(t / 0.004, 1.0) * 0.32
 	return out
 
 

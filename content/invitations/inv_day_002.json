@@ -13,7 +13,8 @@
 					"fact": "npc.miriam.greeted_day",
 					"is_today": true
 				}
-			]
+			],
+			"icon": "seedling"
 		},
 		{
 			"text": "Say hello to Mr. Tobias in the village",
@@ -22,7 +23,8 @@
 					"fact": "npc.tobias.greeted_day",
 					"is_today": true
 				}
-			]
+			],
+			"icon": "talk"
 		},
 		{
 			"text": "Stroke a lamb at the sheepfold",
@@ -31,7 +33,8 @@
 					"fact": "animals.lamb.stroked_day",
 					"is_today": true
 				}
-			]
+			],
+			"icon": "sheep"
 		}
 	]
 }

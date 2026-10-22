@@ -1,33 +1,7 @@
 {
 	"id": "inv_day_007",
-	"from": "tobias",
-	"body": "Good morning!\n\nThe dough is ready, and the oven is hot. Would you like to come and bake the bread with me?\n\nYou will find me at the oven, beside the bakery.",
-	"signature": "Mr. Tobias, the baker",
-	"suggests": "oven_bake",
-	"summary": "Bake bread with Mr. Tobias at the oven.",
-	"done": "The bread is baked, and everyone is greeted and fed. Thank you for helping!",
-	"tasks": [
-		{
-			"text": "Bake bread with Mr. Tobias",
-			"activity": "oven_bake"
-		},
-		{
-			"text": "Say hello to Miss Miriam in her garden",
-			"done_when": [
-				{
-					"fact": "npc.miriam.greeted_day",
-					"is_today": true
-				}
-			]
-		},
-		{
-			"text": "Scatter grain for the hens at home",
-			"done_when": [
-				{
-					"fact": "home.hens_fed_day",
-					"is_today": true
-				}
-			]
-		}
-	]
+	"from": "miriam",
+	"body": "Good morning, my friend!\n\nToday is Sunday, the day of rest. God rested on the seventh day, and He gives us days to rest, too.\n\nThere is no work to do today. The chapel bells are ringing, and the neighbors are gathering there. You might visit the chapel, read a book, or sit by the river and listen. I hope it is a happy, quiet day.",
+	"signature": "Miss Miriam",
+	"summary": "Sunday: a day of rest. No work today."
 }

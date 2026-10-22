@@ -82,6 +82,12 @@ func build() -> void:
 	path([Vector3(0, 0, 5.3), Vector3(0.1, 0, 6.4)], 2.4)
 	clearings.append({"a": Vector2(position.x, position.z + 6.5), "b": Vector2(position.x, position.z + 10.0), "width": 1.6})
 	add_anchor("chapel_door", Vector3(0, 0, 7.2), 0.0)
+	Days.day_started.connect(func(_d: int) -> void: _ring_if_sunday())
+	_ring_if_sunday.call_deferred()
+	# On Sundays the neighbours gather on either side of the path to the door.
+	add_anchor("chapel_miriam", Vector3(-1.9, 0, 8.6), -PI / 2.0 - 0.3)
+	add_anchor("chapel_tobias", Vector3(1.9, 0, 8.2), PI / 2.0 + 0.2)
+	add_anchor("chapel_ruth", Vector3(2.5, 0, 9.6), PI / 2.0 + 0.6)
 	add_discovery_zone(Vector3(0, 1, 2), Vector3(16, 3, 16))
 	# One interior across all three rooms, so the roofs stay lifted while the
 	# child walks between them.
@@ -90,6 +96,15 @@ func build() -> void:
 	add_place_zone("chapel_hall", Vector3(0, 1.5, -0.2), Vector3(6.6, 3, 9.4))
 	add_place_zone("atrium", Vector3(5.55, 1.5, 0), Vector3(3.7, 3, 4.4))
 	add_place_zone("library", Vector3(-5.05, 1.5, 0), Vector3(2.7, 3, 4.4))
+
+
+## On Sunday mornings the bells ring out over the valley.
+func _ring_if_sunday() -> void:
+	if not Days.is_sunday() or not is_inside_tree():
+		return
+	await get_tree().create_timer(2.0).timeout
+	if is_inside_tree():
+		SoundSpot.once(self, "bells", Vector3(0, 7.0, -2.0), 140.0, -3.0)
 
 
 ## A single-storey wing off one side of the nave (`side` -1 west, 1 east),

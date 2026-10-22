@@ -9,7 +9,8 @@
 	"tasks": [
 		{
 			"text": "Plant beans with Miss Miriam",
-			"activity": "garden_bean_row"
+			"activity": "garden_bean_row",
+			"icon": "seedling"
 		},
 		{
 			"text": "Set the table at home",
@@ -18,7 +19,8 @@
 					"fact": "home.table_set_day",
 					"is_today": true
 				}
-			]
+			],
+			"icon": "table"
 		},
 		{
 			"text": "Scatter grain for the hens at home",
@@ -27,7 +29,8 @@
 					"fact": "home.hens_fed_day",
 					"is_today": true
 				}
-			]
+			],
+			"icon": "hen"
 		}
 	]
 }

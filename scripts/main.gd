@@ -25,7 +25,7 @@ func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	_apply_theme()
 	Settings.changed.connect(func(key: String) -> void:
-		if key == "text_scale":
+		if key in ["text_scale", "work_level"]:
 			_apply_theme())
 	_hud_root = _layer(1, Node.PROCESS_MODE_PAUSABLE)
 	_activity_root = _layer(2, Node.PROCESS_MODE_PAUSABLE)
@@ -61,7 +61,7 @@ func _layer(index: int, mode: Node.ProcessMode) -> Control:
 
 ## Themes don't cross CanvasLayers, so every layer's root gets the theme.
 func _apply_theme() -> void:
-	_theme = UiStyle.build_theme(Settings.get_value("text_scale"))
+	_theme = UiStyle.build_theme(UiStyle.text_scale())
 	for root in get_tree().get_nodes_in_group("ui_roots"):
 		(root as Control).theme = _theme
 
@@ -97,7 +97,7 @@ func continue_game() -> bool:
 	if not SaveService.load_game():
 		return false
 	_enter_world()
-	show_caption(tr("Welcome back. Day %d.") % Days.current_day)
+	show_caption(tr("Welcome back. It's %s.") % Days.weekday_name())
 	return true
 
 
@@ -153,7 +153,9 @@ func rest_until_morning() -> void:
 	await get_tree().create_timer(0.4).timeout
 	await _fade_to(0.0)
 	GameState.pop_mode(GameState.Mode.TRANSITION)
-	var line := tr("Day %d. Good morning!") % Days.current_day
+	var line := tr("Good morning! It's %s.") % Days.weekday_name()
+	if Days.is_sunday():
+		line += " " + tr("Sunday is a day of rest. Listen: the chapel bells are ringing.")
 	if Invitations.has_unread():
 		line += " " + tr("A new letter is waiting by the door.")
 	show_caption(line, 6.0)

@@ -1,38 +1,31 @@
 {
 	"id": "inv_day_010",
-	"from": "miriam",
-	"body": "Dear friend,\n\nMrs. Ruth has been so kind to us. I have an idea for a little surprise for her. Would you please come to the garden?\n\nBring your best careful fingers!",
-	"signature": "Miss Miriam",
-	"suggests": "thank_you_card",
-	"summary": "Make a surprise for Mrs. Ruth with Miss Miriam.",
-	"done": "Mrs. Ruth has her card, and the hens and the cat are content. How kind of you!",
+	"from": "ruth",
+	"body": "Hello, little one!\n\nThe pond in the meadow is full of life this week. Would you like to look in my dipping net with me?\n\nI'll be waiting by the pond, past the young apple trees.",
+	"signature": "Mrs. Ruth",
+	"suggests": "pond_creatures",
+	"summary": "Look at the pond creatures with Mrs. Ruth.",
+	"done": "Every creature is back home, and the lambs are fed. Thank you!",
 	"tasks": [
 		{
-			"text": "Make a card for Mrs. Ruth and give it to her",
-			"done_when": [
-				{
-					"fact": "npc.ruth.card",
-					"equals": "given"
-				}
-			]
+			"text": "Look at the pond creatures with Mrs. Ruth",
+			"activity": "pond_creatures",
+			"icon": "fish"
 		},
 		{
-			"text": "Scatter grain for the hens at home",
-			"done_when": [
-				{
-					"fact": "home.hens_fed_day",
-					"is_today": true
-				}
-			]
+			"text": "Feed the lambs at the sheepfold",
+			"activity": "sheepfold_hay",
+			"icon": "sheep"
 		},
 		{
-			"text": "Stroke the cat by the cottage door",
+			"text": "Set the table at home",
 			"done_when": [
 				{
-					"fact": "animals.cat.stroked_day",
+					"fact": "home.table_set_day",
 					"is_today": true
 				}
-			]
+			],
+			"icon": "table"
 		}
 	]
 }

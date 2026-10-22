@@ -1,0 +1,31 @@
+{
+	"id": "inv_day_013",
+	"from": "tobias",
+	"body": "Good morning!\n\nIt is Saturday, and tomorrow is the day of rest, so every neighbor needs bread for two days. Would you help me fill the baskets again?\n\nCome to the bakery, by the square.",
+	"signature": "Mr. Tobias",
+	"summary": "Help Mr. Tobias fill the bread baskets for the weekend.",
+	"suggests": "bakery_baskets",
+	"tasks": [
+		{
+			"text": "Fill the bread baskets with Mr. Tobias",
+			"activity": "bakery_baskets",
+			"icon": "bread"
+		},
+		{
+			"text": "Feed the lambs at the sheepfold",
+			"activity": "sheepfold_hay",
+			"icon": "sheep"
+		},
+		{
+			"text": "Pat the little dog in the village square",
+			"done_when": [
+				{
+					"fact": "animals.dog.stroked_day",
+					"is_today": true
+				}
+			],
+			"icon": "heart"
+		}
+	],
+	"done": "Every neighbor has bread for the weekend, and the lambs are fed. Thank you!"
+}

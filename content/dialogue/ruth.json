@@ -9,8 +9,12 @@
 			"start": "card_give"
 		},
 		{
+			"when": [{"weekday": "sunday"}],
+			"start": "sunday"
+		},
+		{
 			"when": [
-				{"day": 9},
+				{"day": 10},
 				{"not": {"fact": "valley.pond_day", "is_today": true}}
 			],
 			"start": "pond_offer"
@@ -63,6 +67,7 @@
 		{"when": [], "start": "hello"}
 	],
 	"nodes": {
+		"sunday": {"mood": "joy", "text": "Good morning, little one! I love Sundays. We all come together, and nobody has to hurry anywhere."},
 		"hello": {"mood": "gentle", "text": "Hello, little one. I'm getting water from the well.", "next": "bridge"},
 		"bridge": {
 			"mood": "concern",

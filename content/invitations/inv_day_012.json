@@ -1,0 +1,36 @@
+{
+	"id": "inv_day_012",
+	"from": "miriam",
+	"body": "Good morning, my friend!\n\nThe sun has been hot all week, and our bean plants are thirsty. Look closely when you water them: there are little beans hanging down now!\n\nThe watering can is by the garden gate.",
+	"signature": "Miss Miriam",
+	"summary": "Give the bean plants a good drink.",
+	"suggests": "garden_water",
+	"tasks": [
+		{
+			"text": "Water the beans in the garden",
+			"activity": "garden_water",
+			"icon": "water"
+		},
+		{
+			"text": "Say hello to Mrs. Ruth in the village",
+			"done_when": [
+				{
+					"fact": "npc.ruth.greeted_day",
+					"is_today": true
+				}
+			],
+			"icon": "talk"
+		},
+		{
+			"text": "Scratch a pig's back in the sty by the mill",
+			"done_when": [
+				{
+					"fact": "animals.pig.stroked_day",
+					"is_today": true
+				}
+			],
+			"icon": "heart"
+		}
+	],
+	"done": "The beans have had a good drink, and everyone is greeted. Well done!"
+}

@@ -70,6 +70,58 @@ static func draw(ci: CanvasItem, kind: String, r: Rect2, color := INK) -> void:
 			# A green tick.
 			ci.draw_circle(c, 0.44 * s, Color("dcebc8"))
 			ci.draw_polyline(PackedVector2Array([c + Vector2(-0.22, 0.0) * s, c + Vector2(-0.06, 0.17) * s, c + Vector2(0.24, -0.18) * s]), Color("4f7a3a"), maxf(2.5, s * 0.12))
+		"table":
+			# A plate with a cup beside it: setting the table.
+			ci.draw_circle(c + Vector2(-0.08, 0.04) * s, 0.3 * s, Color("fbf5e8"))
+			ci.draw_arc(c + Vector2(-0.08, 0.04) * s, 0.3 * s, 0, TAU, 24, color, 1.5)
+			ci.draw_arc(c + Vector2(-0.08, 0.04) * s, 0.18 * s, 0, TAU, 20, Color("c9a86e"), 1.5)
+			ci.draw_rect(Rect2(c + Vector2(0.26, -0.2) * s, Vector2(0.16, 0.2) * s), Color("6f9fc0"))
+			ci.draw_rect(Rect2(c + Vector2(0.26, -0.2) * s, Vector2(0.16, 0.2) * s), color, false, 1.5)
+		"hen":
+			# A white hen with a red comb, pecking at grain.
+			ci.draw_circle(c + Vector2(0.04, 0.06) * s, 0.24 * s, Color("f6f1e4"))
+			ci.draw_circle(c + Vector2(-0.2, -0.16) * s, 0.13 * s, Color("f6f1e4"))
+			ci.draw_arc(c + Vector2(0.04, 0.06) * s, 0.24 * s, 0, TAU, 20, color, 1.5)
+			ci.draw_circle(c + Vector2(-0.2, -0.31) * s, 0.06 * s, Color("c8463a"))
+			ci.draw_colored_polygon(PackedVector2Array([c + Vector2(-0.32, -0.18) * s, c + Vector2(-0.44, -0.12) * s, c + Vector2(-0.32, -0.1) * s]), Color("e0a73a"))
+			for x: float in [-0.36, -0.26, -0.42]:
+				ci.draw_circle(c + Vector2(x, 0.38) * s, 0.025 * s, Color("e0a73a"))
+		"water":
+			# A watering can, pouring.
+			ci.draw_rect(Rect2(c + Vector2(-0.3, -0.12) * s, Vector2(0.4, 0.38) * s), Color("6f9fc0"))
+			ci.draw_rect(Rect2(c + Vector2(-0.3, -0.12) * s, Vector2(0.4, 0.38) * s), color, false, 1.5)
+			ci.draw_line(c + Vector2(0.1, 0.12) * s, c + Vector2(0.38, -0.14) * s, Color("5f8aa8"), maxf(2.0, s * 0.08))
+			ci.draw_arc(c + Vector2(-0.1, -0.12) * s, 0.14 * s, PI, TAU, 10, color, 1.5)
+			for k in 3:
+				ci.draw_circle(c + Vector2(0.42 + k * 0.02, -0.02 + k * 0.12) * s, 0.03 * s, Color("5f93b8"))
+		"bread":
+			# A round loaf with scored lines.
+			var loaf := PackedVector2Array()
+			for i in 18:
+				var a := PI + PI * i / 17.0
+				loaf.append(c + Vector2(cos(a) * 0.4, sin(a) * 0.3 + 0.12) * s)
+			ci.draw_colored_polygon(loaf, Color("d9a15c"))
+			ci.draw_line(c + Vector2(-0.4, 0.12) * s, c + Vector2(0.4, 0.12) * s, Color("a8733e"), 2.0)
+			for x: float in [-0.16, 0.0, 0.16]:
+				ci.draw_line(c + Vector2(x - 0.05, -0.02) * s, c + Vector2(x + 0.05, -0.12) * s, Color("a8733e"), 1.5)
+		"heart":
+			# Stroking an animal: a small heart.
+			ci.draw_circle(c + Vector2(-0.14, -0.06) * s, 0.17 * s, Color("e07a8a"))
+			ci.draw_circle(c + Vector2(0.14, -0.06) * s, 0.17 * s, Color("e07a8a"))
+			ci.draw_colored_polygon(PackedVector2Array([c + Vector2(-0.3, 0.0) * s, c + Vector2(0.3, 0.0) * s, c + Vector2(0, 0.36) * s]), Color("e07a8a"))
+		"tree":
+			# A young apple tree.
+			ci.draw_rect(Rect2(c + Vector2(-0.05, 0.02) * s, Vector2(0.1, 0.36) * s), Color("7b5338"))
+			ci.draw_circle(c + Vector2(0, -0.12) * s, 0.28 * s, Color("7fb35a"))
+			for p: Vector2 in [Vector2(-0.12, -0.16), Vector2(0.1, -0.04), Vector2(0.06, -0.26)]:
+				ci.draw_circle(c + p * s, 0.05 * s, Color("c8463a"))
+		"card":
+			# A folded card with a heart.
+			ci.draw_rect(Rect2(c + Vector2(-0.3, -0.36) * s, Vector2(0.6, 0.72) * s), Color("fbf5e8"))
+			ci.draw_rect(Rect2(c + Vector2(-0.3, -0.36) * s, Vector2(0.6, 0.72) * s), color, false, 1.5)
+			ci.draw_circle(c + Vector2(-0.07, -0.03) * s, 0.08 * s, Color("e07a8a"))
+			ci.draw_circle(c + Vector2(0.07, -0.03) * s, 0.08 * s, Color("e07a8a"))
+			ci.draw_colored_polygon(PackedVector2Array([c + Vector2(-0.15, 0.0) * s, c + Vector2(0.15, 0.0) * s, c + Vector2(0, 0.17) * s]), Color("e07a8a"))
 		"todo":
 			# An empty ring, waiting for its tick.
 			ci.draw_arc(c, 0.36 * s, 0, TAU, 32, Color("b89a78"), maxf(2.0, s * 0.08), true)

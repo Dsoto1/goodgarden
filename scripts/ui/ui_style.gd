@@ -25,16 +25,28 @@ const LEAF := Color("6f9a52")
 const LEAF_DARK := Color("4f7a3a")
 
 
-static func build_theme(text_scale: float) -> Theme:
+## How much larger than the base sizes text is drawn: the grown-up's "Text
+## size" setting, starting a little larger at the younger work level (about
+## 5-7, beginning readers), and never more than the largest setting.
+const YOUNGER_TEXT := 1.12
+const MAX_TEXT := 1.6
+
+
+static func text_scale() -> float:
+	var level := YOUNGER_TEXT if Settings.get_value("work_level") == "younger" else 1.0
+	return minf(float(Settings.get_value("text_scale")) * level, MAX_TEXT)
+
+
+static func build_theme(factor: float) -> Theme:
 	var t := Theme.new()
 	t.default_font = font()
-	t.default_font_size = roundi(24 * text_scale)
+	t.default_font_size = roundi(26 * factor)
 	t.set_color("font_color", "Label", INK)
-	_variation(t, "PromptLabel", "Label", roundi(29 * text_scale))
-	_variation(t, "SmallLabel", "Label", roundi(19 * text_scale))
-	_variation(t, "TitleLabel", "Label", roundi(56 * text_scale))
-	_variation(t, "HeadingLabel", "Label", roundi(32 * text_scale))
-	_variation(t, "LetterLabel", "Label", roundi(28 * text_scale))
+	_variation(t, "PromptLabel", "Label", roundi(30 * factor))
+	_variation(t, "SmallLabel", "Label", roundi(23 * factor))
+	_variation(t, "TitleLabel", "Label", roundi(56 * factor))
+	_variation(t, "HeadingLabel", "Label", roundi(32 * factor))
+	_variation(t, "LetterLabel", "Label", roundi(28 * factor))
 
 	t.set_stylebox("normal", "Button", _button_box(PAPER, PAPER_EDGE))
 	t.set_stylebox("hover", "Button", _button_box(Color("fffaf0"), Color("c9a86e")))

@@ -12,7 +12,7 @@
 	"concepts": ["matching shapes", "care and neatness"],
 	"formation_themes": ["gratitude", "manners", "honoring elders"],
 	"prerequisites": [
-		{"day_at_least": 10},
+		{"day_at_least": 11},
 		{"fact": "npc.ruth.card", "exists": false}
 	],
 	"intro": [

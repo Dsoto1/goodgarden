@@ -1,28 +1,36 @@
 {
 	"id": "inv_day_008",
-	"from": "miriam",
-	"body": "Good morning, my friend!\n\nThree little apple trees have come for the meadow beside your house. Would you please help me plant them?\n\nI'll be waiting in the meadow beside your house, past the woodpile.",
-	"signature": "Miss Miriam",
-	"suggests": "orchard_plant",
-	"summary": "Plant apple trees with Miss Miriam in the meadow.",
-	"done": "The apple trees are planted, the beans are watered and the pigs are happy. Well done!",
+	"from": "tobias",
+	"body": "Good morning!\n\nThe dough is ready, and the oven is hot. Would you like to come and bake the bread with me?\n\nYou will find me at the oven, beside the bakery.",
+	"signature": "Mr. Tobias, the baker",
+	"suggests": "oven_bake",
+	"summary": "Bake bread with Mr. Tobias at the oven.",
+	"done": "The bread is baked, and everyone is greeted and fed. Thank you for helping!",
 	"tasks": [
 		{
-			"text": "Plant apple trees with Miss Miriam",
-			"activity": "orchard_plant"
+			"text": "Bake bread with Mr. Tobias",
+			"activity": "oven_bake",
+			"icon": "bread"
 		},
 		{
-			"text": "Water the beans in the garden",
-			"activity": "garden_water"
-		},
-		{
-			"text": "Scratch a pig's back in the sty by the mill",
+			"text": "Say hello to Miss Miriam in her garden",
 			"done_when": [
 				{
-					"fact": "animals.pig.stroked_day",
+					"fact": "npc.miriam.greeted_day",
 					"is_today": true
 				}
-			]
+			],
+			"icon": "talk"
+		},
+		{
+			"text": "Scatter grain for the hens at home",
+			"done_when": [
+				{
+					"fact": "home.hens_fed_day",
+					"is_today": true
+				}
+			],
+			"icon": "hen"
 		}
 	]
 }

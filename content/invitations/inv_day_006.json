@@ -1,15 +1,16 @@
 {
 	"id": "inv_day_006",
 	"from": "tobias",
-	"body": "Good morning!\n\nI need flour for tomorrow's bread. Would you please meet me at the mill by the river? There is grain to clean, and flour to weigh.\n\nLook for the big water wheel.",
+	"body": "Good morning!\n\nI need flour for Monday's bread. Would you please meet me at the mill by the river? There is grain to clean, and flour to weigh.\n\nLook for the big water wheel.",
 	"signature": "Mr. Tobias, the baker",
 	"suggests": "mill_flour",
 	"summary": "Help Mr. Tobias make flour at the mill.",
-	"done": "The flour is ready for tomorrow, and the table is set. Well done!",
+	"done": "The flour is ready for Monday's bread, and the table is set. Well done!",
 	"tasks": [
 		{
 			"text": "Make flour with Mr. Tobias at the mill",
-			"activity": "mill_flour"
+			"activity": "mill_flour",
+			"icon": "mill"
 		},
 		{
 			"text": "Stroke the horse beside the mill",
@@ -18,7 +19,8 @@
 					"fact": "animals.horse.stroked_day",
 					"is_today": true
 				}
-			]
+			],
+			"icon": "heart"
 		},
 		{
 			"text": "Set the table at home",
@@ -27,7 +29,8 @@
 					"fact": "home.table_set_day",
 					"is_today": true
 				}
-			]
+			],
+			"icon": "table"
 		}
 	]
 }

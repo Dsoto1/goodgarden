@@ -3,6 +3,10 @@
 	"speaker": "tobias",
 	"entries": [
 		{
+			"when": [{"weekday": "sunday"}],
+			"start": "sunday"
+		},
+		{
 			"when": [
 				{"day": 6},
 				{"not": {"fact": "village.flour_day", "is_today": true}}
@@ -11,7 +15,7 @@
 		},
 		{
 			"when": [
-				{"day": 7},
+				{"day": 8},
 				{"fact": "village.flour_day", "exists": true},
 				{"not": {"fact": "village.baked_day", "is_today": true}}
 			],
@@ -71,6 +75,10 @@
 		{"when": [], "start": "hello"}
 	],
 	"nodes": {
+		"sunday": {
+			"mood": "gentle",
+			"text": "Good morning, and a happy Sunday! No baking today. The oven rests, and so do I. Did you hear the bells?"
+		},
 		"hello": {
 			"text": "Good day! I'm Mr. Tobias. I bake the bread for the whole village.",
 			"next": "bellhaven",
@@ -128,7 +136,7 @@
 		"flour": {
 			"reply": "I will! Thank you, Mr. Tobias.",
 			"mood": "joy",
-			"text": "You brought the flour! And it weighs just right. Tomorrow, come and bake it with me."
+			"text": "You brought the flour! And it weighs just right. On Monday, after the day of rest, come and bake it with me."
 		},
 		"baked": {
 			"reply": "Thank you for teaching me, Mr. Tobias!",

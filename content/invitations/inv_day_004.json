@@ -9,7 +9,8 @@
 	"tasks": [
 		{
 			"text": "Water the beans in the garden",
-			"activity": "garden_water"
+			"activity": "garden_water",
+			"icon": "water"
 		},
 		{
 			"text": "Say hello to Mrs. Ruth in the village",
@@ -18,7 +19,8 @@
 					"fact": "npc.ruth.greeted_day",
 					"is_today": true
 				}
-			]
+			],
+			"icon": "talk"
 		},
 		{
 			"text": "Set the table at home",
@@ -27,7 +29,8 @@
 					"fact": "home.table_set_day",
 					"is_today": true
 				}
-			]
+			],
+			"icon": "table"
 		}
 	]
 }

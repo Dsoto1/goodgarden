@@ -1,7 +1,41 @@
 {
 	"id": "inv_day_011",
 	"from": "miriam",
-	"body": "Good morning, my friend!\n\nToday is a day of rest. God rested on the seventh day, and He gives us days to rest, too.\n\nThere is no work to do today. You might visit the chapel, read a book, or sit by the river and listen. I hope it is a happy, quiet day.",
+	"body": "Dear friend,\n\nMrs. Ruth has been so kind to us. I have an idea for a little surprise for her. Would you please come to the garden?\n\nBring your best careful fingers!",
 	"signature": "Miss Miriam",
-	"summary": "A day of rest. No work today."
+	"suggests": "thank_you_card",
+	"summary": "Make a surprise for Mrs. Ruth with Miss Miriam.",
+	"done": "Mrs. Ruth has her card, and the hens and the cat are content. How kind of you!",
+	"tasks": [
+		{
+			"text": "Make a card for Mrs. Ruth and give it to her",
+			"done_when": [
+				{
+					"fact": "npc.ruth.card",
+					"equals": "given"
+				}
+			],
+			"icon": "card"
+		},
+		{
+			"text": "Scatter grain for the hens at home",
+			"done_when": [
+				{
+					"fact": "home.hens_fed_day",
+					"is_today": true
+				}
+			],
+			"icon": "hen"
+		},
+		{
+			"text": "Stroke the cat by the cottage door",
+			"done_when": [
+				{
+					"fact": "animals.cat.stroked_day",
+					"is_today": true
+				}
+			],
+			"icon": "heart"
+		}
+	]
 }

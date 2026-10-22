@@ -162,7 +162,7 @@ func _orchard_and_pond() -> void:
 	MeshKit.box(_saplings, Vector3(0.5, 0.25, 0.4), Vector3(-10.8, 0.12, 3.8), "cloth_tan")
 	var plant := Interactable.create(self, Vector3(-10.6, 0, 4.6), "Plant the apple trees", func() -> void:
 		get_tree().call_group("main", "start_activity_here", "orchard_plant", position + ORCHARD[1] + Vector3(0, 0.6, 0)), 0.7, 1.4)
-	plant.conditions = [{"day_at_least": 8}, {"fact": "orchard.planted", "exists": false}]
+	plant.conditions = [{"day_at_least": 9}, {"fact": "orchard.planted", "exists": false}]
 	add_anchor("orchard_miriam", Vector3(-10.2, 0, 6.2), -PI / 2.0)
 	add_activity_focus(ORCHARD[1] + Vector3(0, 0.6, 0))
 	add_clearing(ORCHARD[1], Vector2(9.0, 3.0))
@@ -170,7 +170,7 @@ func _orchard_and_pond() -> void:
 	add_clearing(POND, Vector2(9.4, 7.0))
 	var look := Interactable.create(self, POND + Vector3(4.4, 0, 0.8), "Look in the pond", func() -> void:
 		get_tree().call_group("main", "start_activity_here", "pond_creatures", position + POND + Vector3(0, 0.4, 0)), 0.8, 1.4)
-	look.conditions = [{"day_at_least": 9}]
+	look.conditions = [{"day_at_least": 10}]
 	add_anchor("pond_ruth", POND + Vector3(4.8, 0, -0.6), -PI / 2.0)
 	add_activity_focus(POND + Vector3(0, 0.4, 0))
 	# A path from home's door west past the orchard to the pond.

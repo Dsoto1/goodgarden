@@ -12,7 +12,7 @@
 	"concepts": ["classification", "habitats", "living things"],
 	"formation_themes": ["wonder at creation", "care for animals"],
 	"prerequisites": [
-		{"day_at_least": 9},
+		{"day_at_least": 10},
 		{"not": {"fact": "valley.pond_day", "is_today": true}}
 	],
 	"intro": [

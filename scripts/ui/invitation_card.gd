@@ -21,14 +21,9 @@ func show_invitation(invitation_id: String, mark_read := true) -> void:
 		content.add_child(heading)
 		spoken += "\n" + heading.text
 		for j: Dictionary in jobs:
-			var row := HBoxContainer.new()
-			row.add_theme_constant_override("separation", 8)
-			row.add_child(Icon.Glyph.new("yes" if j["done"] else "todo", 28))
-			var l := UiStyle.label(tr(j["text"]), "LetterLabel")
-			l.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-			row.add_child(l)
+			var row := TodaysWork.row(j, "LetterLabel", 36)
 			content.add_child(row)
-			spoken += "\n" + l.text
+			spoken += "\n" + tr(j["text"])
 	var hear := UiStyle.button(tr("Hear it"))
 	hear.pressed.connect(func() -> void:
 		Observations.record("read_aloud_requested", "", {"invitation": invitation_id})

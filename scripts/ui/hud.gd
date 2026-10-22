@@ -173,7 +173,7 @@ func refresh() -> void:
 		n.visible = exploring
 	_place.text = _place_name()
 	_place_chip.visible = exploring and not _place.text.is_empty()
-	_day.text = tr("Day %d  •  %s") % [Days.current_day, tr(Days.season())]
+	_day.text = "%s  •  %s" % [Days.weekday_name(), tr(Days.season())]
 	_invite_text.text = _invitation_summary()
 	# Once the day's work is done, the note says so plainly: a green tick and a
 	# thank-you, never the old request.
@@ -182,7 +182,7 @@ func refresh() -> void:
 	var listing := not jobs.is_empty() and not done
 	_invite_text.visible = not listing
 	_show_jobs(jobs if listing else [])
-	_invite_glyph.kind = "letter" if Invitations.has_unread() else ("yes" if done else "seedling")
+	_invite_glyph.kind = "letter" if Invitations.has_unread() else ("yes" if done else ("sun" if Days.is_sunday() else "seedling"))
 	_invite_glyph.queue_redraw()
 	_invite_heading.text = tr("Done today") if done else (tr("Today's jobs") if listing else tr("Today's Invitation"))
 	_invite_card.add_theme_stylebox_override("panel", _chip_box(Color("e4efd3"), Color("6f9a52")) if done else _chip_box())
@@ -252,6 +252,8 @@ func _invitation_summary() -> String:
 			# Say what comes next, so a finished day never leaves the child wondering.
 			return tr(str(data.get("done", "All done. Thank you for helping!"))) + "\n" + tr("When you're ready, rest in your bed at home for a new day.")
 		return tr(str(data.get("summary", "Read your letter again.")))
+	if Days.is_sunday():
+		return tr("Sunday is a day of rest. Go wherever you like.")
 	return tr("A free day. Go wherever you like.")
 
 
@@ -281,16 +283,8 @@ func _show_jobs(jobs: Array) -> void:
 		c.queue_free()
 	_jobs_box.visible = not jobs.is_empty()
 	for j: Dictionary in jobs:
-		var row := HBoxContainer.new()
-		row.add_theme_constant_override("separation", 6)
-		row.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		row.add_child(Icon.Glyph.new("yes" if j["done"] else "todo", 24))
-		var l := UiStyle.label(tr(j["text"]), "SmallLabel")
-		l.custom_minimum_size.x = 270
-		l.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		if j["done"]:
-			l.add_theme_color_override("font_color", Color("6b7f5a"))
-		row.add_child(l)
+		var row := TodaysWork.row(j, "SmallLabel", 30)
+		row.get_child(2).custom_minimum_size.x = 250
 		_jobs_box.add_child(row)
 
 

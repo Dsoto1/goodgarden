@@ -13,6 +13,9 @@ func _ready() -> void:
 			out_dir = arg.substr(6)
 	DirAccess.make_dir_recursive_absolute(out_dir)
 	Settings.persist = false
+	for arg in OS.get_cmdline_user_args():
+		if arg.begins_with("--text="):
+			Settings.set_value("text_scale", float(arg.substr(7))) # check layouts with large text
 	SaveService.path = "user://screenshot_tour/save.json"
 	SaveService.delete_save()
 	main = load("res://scenes/main.tscn").instantiate()

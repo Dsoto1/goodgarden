@@ -50,7 +50,7 @@ func reset() -> void:
 ##   {"fact": "home.table_set", "equals": true}
 ##   {"fact": "chapel.good_samaritan.visits", "at_least": 2}
 ##   {"fact": "home.table_set_day", "is_today": true}   (fact holds a day number)
-##   {"day_at_least": 2}  {"day": 1}
+##   {"day_at_least": 2}  {"day": 1}  {"weekday": "sunday"}
 ##   {"any": [ ...conditions... ]}  {"not": {...condition...}}
 func matches(conditions: Array) -> bool:
 	for condition: Variant in conditions:
@@ -71,6 +71,8 @@ func _matches_one(c: Dictionary) -> bool:
 		return Days.current_day == int(c["day"])
 	if c.has("day_at_least"):
 		return Days.current_day >= int(c["day_at_least"])
+	if c.has("weekday"):
+		return Days.weekday() == str(c["weekday"])
 	if c.has("fact"):
 		var key: String = c["fact"]
 		if c.has("exists"):

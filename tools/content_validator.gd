@@ -7,7 +7,7 @@ extends RefCounted
 
 const KNOWN_SURFACES := ["soil_bed", "wood_table", "atrium_felt"]
 const KNOWN_EFFECT_OPS := ["set", "increment", "clear"]
-const CONDITION_KEYS := ["fact", "day", "day_at_least", "any", "not"]
+const CONDITION_KEYS := ["fact", "day", "day_at_least", "weekday", "any", "not"]
 const THIRD_PARTY_DIR := "res://assets/third_party"
 
 var errors := PackedStringArray()
@@ -51,6 +51,8 @@ func _check_jobs(inv: Dictionary, id: String) -> void:
 		var job: Dictionary = jobs[i]
 		var where := "invitation %s job %d" % [id, i + 1]
 		_require_text(job, "text", where)
+		if not str(job.get("icon", "")) in TodaysWork.ICONS:
+			errors.append("%s needs an icon, one of %s" % [where, TodaysWork.ICONS])
 		if job.has("activity"):
 			var def := Content.get_activity(str(job["activity"]))
 			if def == null:

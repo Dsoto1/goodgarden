@@ -5,21 +5,21 @@
 	"entries": [
 		{
 			"when": [
-				{"day": 8},
+				{"day": 9},
 				{"fact": "orchard.planted", "exists": false}
 			],
 			"start": "orchard_offer"
 		},
 		{
 			"when": [
-				{"day": 10},
+				{"day": 11},
 				{"fact": "npc.ruth.card", "exists": false}
 			],
 			"start": "card_offer"
 		},
 		{
 			"when": [
-				{"day": 11}
+				{"weekday": "sunday"}
 			],
 			"start": "rest_day"
 		},
@@ -207,7 +207,7 @@
 		},
 		"rest_day": {
 			"mood": "gentle",
-			"text": "No work today, my friend. Even the garden rests. Listen: can you hear the birds?"
+			"text": "Good morning, my friend! It's Sunday, so there is no work today. Even the garden rests. Listen: can you hear the bells?"
 		}
 	}
 }

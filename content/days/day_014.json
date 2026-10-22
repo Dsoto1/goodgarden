@@ -1,0 +1,11 @@
+{
+	"id": "day_014",
+	"day": 14,
+	"week": 2,
+	"arc": "Creation & Home",
+	"invitation": "inv_day_014",
+	"npcs": {"miriam": "chapel_miriam", "tobias": "chapel_tobias", "ruth": "chapel_ruth"},
+	"free_work": ["home_set_table"],
+	"chapel": ["good_samaritan", "mustard_seed", "leaven", "lost_sheep", "fishers", "five_thousand", "good_shepherd"],
+	"season": "Spring"
+}

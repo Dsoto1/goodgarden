@@ -1,7 +1,7 @@
 extends Node
 ## Renders each hands-on board on its own, half done, without loading the 3D
 ## world: a quick way to review the look of the work surfaces.
-##   xvfb-run godot --path . --rendering-driver opengl3 --resolution 1280x800 res://tools/board_gallery.tscn -- --out=/abs/dir [--only=id,id] [--older]
+##   xvfb-run godot --path . --rendering-driver opengl3 --resolution 1280x800 res://tools/board_gallery.tscn -- --out=/abs/dir [--only=id,id] [--older] [--text=1.6]
 
 var out := "user://board_gallery"
 
@@ -15,10 +15,9 @@ func _ready() -> void:
 	layer.layer = -1
 	layer.add_child(bg)
 	add_child(layer)
-	get_tree().root.theme = UiStyle.build_theme(1.0)
 	await get_tree().process_frame
 	SaveService.new_game()
-	Days.current_day = 10
+	Days.current_day = 11
 	WorldState.set_fact("garden.bed_1", {"holes": 4, "planted_day": 1})
 	WorldState.set_fact("village.flour_day", 6)
 	var only := ""
@@ -29,6 +28,9 @@ func _ready() -> void:
 			out = a.substr(6)
 		elif a == "--older":
 			Settings.set_value("work_level", "older")
+		elif a.begins_with("--text="):
+			Settings.set_value("text_scale", float(a.substr(7)))
+	get_tree().root.theme = UiStyle.build_theme(UiStyle.text_scale())
 	DirAccess.make_dir_recursive_absolute(out)
 	for id: String in ["garden_bean_row", "garden_water", "bakery_baskets", "home_set_table", "sheepfold_hay", "mill_flour", "oven_bake", "good_shepherd", "orchard_plant", "pond_creatures", "thank_you_card"]:
 		if not only.is_empty() and not only.split(",").has(id):

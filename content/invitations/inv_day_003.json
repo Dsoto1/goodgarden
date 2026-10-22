@@ -9,7 +9,8 @@
 	"tasks": [
 		{
 			"text": "Fill the bread baskets with Mr. Tobias",
-			"activity": "bakery_baskets"
+			"activity": "bakery_baskets",
+			"icon": "bread"
 		},
 		{
 			"text": "Pat the little dog in the village square",
@@ -18,7 +19,8 @@
 					"fact": "animals.dog.stroked_day",
 					"is_today": true
 				}
-			]
+			],
+			"icon": "heart"
 		},
 		{
 			"text": "Scatter grain for the hens at home",
@@ -27,7 +29,8 @@
 					"fact": "home.hens_fed_day",
 					"is_today": true
 				}
-			]
+			],
+			"icon": "hen"
 		}
 	]
 }
