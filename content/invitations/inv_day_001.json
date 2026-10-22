@@ -8,29 +8,32 @@
 	"done": "The beans are planted, the table is set and the hens have had their grain. Thank you!",
 	"tasks": [
 		{
-			"text": "Plant beans with Miss Miriam",
+			"text": "Plant beans",
 			"activity": "garden_bean_row",
-			"icon": "seedling"
+			"icon": "seedling",
+			"where": "in Miss Miriam's garden"
 		},
 		{
-			"text": "Set the table at home",
+			"text": "Set the table",
 			"done_when": [
 				{
 					"fact": "home.table_set_day",
 					"is_today": true
 				}
 			],
-			"icon": "table"
+			"icon": "table",
+			"where": "at home"
 		},
 		{
-			"text": "Scatter grain for the hens at home",
+			"text": "Feed the hens",
 			"done_when": [
 				{
 					"fact": "home.hens_fed_day",
 					"is_today": true
 				}
 			],
-			"icon": "hen"
+			"icon": "hen",
+			"where": "by the coop at home"
 		}
 	]
 }

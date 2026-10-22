@@ -106,7 +106,7 @@ static func draw(ci: CanvasItem, kind: String, r: Rect2, color := INK) -> void:
 			for x: float in [-0.16, 0.0, 0.16]:
 				ci.draw_line(c + Vector2(x - 0.05, -0.02) * s, c + Vector2(x + 0.05, -0.12) * s, Color("a8733e"), 1.5)
 		"heart":
-			# Stroking an animal: a small heart.
+			# Petting an animal: a small heart.
 			ci.draw_circle(c + Vector2(-0.14, -0.06) * s, 0.17 * s, Color("e07a8a"))
 			ci.draw_circle(c + Vector2(0.14, -0.06) * s, 0.17 * s, Color("e07a8a"))
 			ci.draw_colored_polygon(PackedVector2Array([c + Vector2(-0.3, 0.0) * s, c + Vector2(0.3, 0.0) * s, c + Vector2(0, 0.36) * s]), Color("e07a8a"))

@@ -45,7 +45,7 @@ func relocate(world_pos: Vector3, r: float, facing_y := 0.0) -> void:
 	rotation.y = facing_y
 
 
-## Stands still for `seconds`, turned toward the child (while being stroked).
+## Stands still for `seconds`, turned toward the child (while being petted).
 func pause_for(seconds: float) -> void:
 	_face_player = seconds
 	_wait = maxf(_wait, seconds)

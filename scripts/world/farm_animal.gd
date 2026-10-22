@@ -2,7 +2,7 @@ class_name FarmAnimal
 extends Node3D
 ## A farm animal from Quaternius's LowPoly Animated Animals (CC0): sheep and
 ## lambs, cows, the horse, pigs and the village pug. It stands and breathes,
-## walks when its Wanderer moves it, and hops for joy when stroked. Faces -Z
+## walks when its Wanderer moves it, and hops for joy when petted. Faces -Z
 ## like the procedural animals in AnimalModel.
 
 const DIR := "res://assets/third_party/quaternius/farm_animals/"

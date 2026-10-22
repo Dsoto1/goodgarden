@@ -8,29 +8,32 @@
 	"done": "The lambs, the cows and the hens are all cared for. Thank you!",
 	"tasks": [
 		{
-			"text": "Feed the lambs at the sheepfold",
+			"text": "Feed the lambs",
 			"activity": "sheepfold_hay",
-			"icon": "sheep"
+			"icon": "sheep",
+			"where": "at the sheepfold"
 		},
 		{
-			"text": "Stroke a cow in the pasture by the windmill",
+			"text": "Pet a cow",
 			"done_when": [
 				{
-					"fact": "animals.cow.stroked_day",
+					"fact": "animals.cow.petted_day",
 					"is_today": true
 				}
 			],
-			"icon": "heart"
+			"icon": "heart",
+			"where": "in the pasture by the windmill"
 		},
 		{
-			"text": "Scatter grain for the hens at home",
+			"text": "Feed the hens",
 			"done_when": [
 				{
 					"fact": "home.hens_fed_day",
 					"is_today": true
 				}
 			],
-			"icon": "hen"
+			"icon": "hen",
+			"where": "by the coop at home"
 		}
 	]
 }

@@ -7,34 +7,37 @@
 	"done": "You saw the sprouts, greeted your neighbours and met the lambs. Wonderful!",
 	"tasks": [
 		{
-			"text": "See your bean sprouts and say hello to Miss Miriam",
+			"text": "Say hello to Miss Miriam",
 			"done_when": [
 				{
 					"fact": "npc.miriam.greeted_day",
 					"is_today": true
 				}
 			],
-			"icon": "seedling"
+			"icon": "seedling",
+			"where": "in her garden, by your beans"
 		},
 		{
-			"text": "Say hello to Mr. Tobias in the village",
+			"text": "Say hello to Mr. Tobias",
 			"done_when": [
 				{
 					"fact": "npc.tobias.greeted_day",
 					"is_today": true
 				}
 			],
-			"icon": "talk"
+			"icon": "talk",
+			"where": "in the village"
 		},
 		{
-			"text": "Stroke a lamb at the sheepfold",
+			"text": "Pet a lamb",
 			"done_when": [
 				{
-					"fact": "animals.lamb.stroked_day",
+					"fact": "animals.lamb.petted_day",
 					"is_today": true
 				}
 			],
-			"icon": "sheep"
+			"icon": "sheep",
+			"where": "at the sheepfold"
 		}
 	]
 }

@@ -8,29 +8,32 @@
 	"done": "The bread is baked, and everyone is greeted and fed. Thank you for helping!",
 	"tasks": [
 		{
-			"text": "Bake bread with Mr. Tobias",
+			"text": "Bake bread",
 			"activity": "oven_bake",
-			"icon": "bread"
+			"icon": "bread",
+			"where": "at the oven by the bakery"
 		},
 		{
-			"text": "Say hello to Miss Miriam in her garden",
+			"text": "Say hello to Miss Miriam",
 			"done_when": [
 				{
 					"fact": "npc.miriam.greeted_day",
 					"is_today": true
 				}
 			],
-			"icon": "talk"
+			"icon": "talk",
+			"where": "in her garden"
 		},
 		{
-			"text": "Scatter grain for the hens at home",
+			"text": "Feed the hens",
 			"done_when": [
 				{
 					"fact": "home.hens_fed_day",
 					"is_today": true
 				}
 			],
-			"icon": "hen"
+			"icon": "hen",
+			"where": "by the coop at home"
 		}
 	]
 }

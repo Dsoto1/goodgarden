@@ -8,29 +8,32 @@
 	"done": "The beans have had their drink, and the table is ready. Well done!",
 	"tasks": [
 		{
-			"text": "Water the beans in the garden",
+			"text": "Water the beans",
 			"activity": "garden_water",
-			"icon": "water"
+			"icon": "water",
+			"where": "in the garden"
 		},
 		{
-			"text": "Say hello to Mrs. Ruth in the village",
+			"text": "Say hello to Mrs. Ruth",
 			"done_when": [
 				{
 					"fact": "npc.ruth.greeted_day",
 					"is_today": true
 				}
 			],
-			"icon": "talk"
+			"icon": "talk",
+			"where": "in the village"
 		},
 		{
-			"text": "Set the table at home",
+			"text": "Set the table",
 			"done_when": [
 				{
 					"fact": "home.table_set_day",
 					"is_today": true
 				}
 			],
-			"icon": "table"
+			"icon": "table",
+			"where": "at home"
 		}
 	]
 }

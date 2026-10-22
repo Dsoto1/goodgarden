@@ -8,24 +8,27 @@
 	"done": "The apple trees are planted, the beans are watered and the pigs are happy. Well done!",
 	"tasks": [
 		{
-			"text": "Plant apple trees with Miss Miriam",
+			"text": "Plant apple trees",
 			"activity": "orchard_plant",
-			"icon": "tree"
+			"icon": "tree",
+			"where": "in the meadow by your house"
 		},
 		{
-			"text": "Water the beans in the garden",
+			"text": "Water the beans",
 			"activity": "garden_water",
-			"icon": "water"
+			"icon": "water",
+			"where": "in the garden"
 		},
 		{
-			"text": "Scratch a pig's back in the sty by the mill",
+			"text": "Pet a pig",
 			"done_when": [
 				{
-					"fact": "animals.pig.stroked_day",
+					"fact": "animals.pig.petted_day",
 					"is_today": true
 				}
 			],
-			"icon": "heart"
+			"icon": "heart",
+			"where": "in the sty by the mill"
 		}
 	]
 }

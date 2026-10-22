@@ -110,6 +110,16 @@ static func _colliders(root: Node3D, inner: float) -> void:
 		# Both windings: the navmesh baker only keeps upward-facing triangles,
 		# and which winding counts as "up" differs between physics and baking.
 		faces.append_array([a, c, b, a, d, c, a, b, c, a, c, d])
+	# The deck ends sit a little above the paths. A short ramp from the ground
+	# up to each end lets the avatar walk on, instead of catching on the lip.
+	for end: float in [-1.0, 1.0]:
+		var z_deck := end * LENGTH / 2.0
+		var z_ground := end * (LENGTH / 2.0 + 0.7)
+		var a := Vector3(-inner, deck_y(z_deck), z_deck)
+		var b := Vector3(inner, deck_y(z_deck), z_deck)
+		var c := Vector3(inner, -0.05, z_ground)
+		var d := Vector3(-inner, -0.05, z_ground)
+		faces.append_array([a, c, b, a, d, c, a, b, c, a, c, d])
 	var shape := ConcavePolygonShape3D.new()
 	shape.set_faces(faces)
 	shape.backface_collision = true

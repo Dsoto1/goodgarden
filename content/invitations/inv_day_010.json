@@ -8,24 +8,27 @@
 	"done": "Every creature is back home, and the lambs are fed. Thank you!",
 	"tasks": [
 		{
-			"text": "Look at the pond creatures with Mrs. Ruth",
+			"text": "Look in the pond",
 			"activity": "pond_creatures",
-			"icon": "fish"
+			"icon": "fish",
+			"where": "with Mrs. Ruth"
 		},
 		{
-			"text": "Feed the lambs at the sheepfold",
+			"text": "Feed the lambs",
 			"activity": "sheepfold_hay",
-			"icon": "sheep"
+			"icon": "sheep",
+			"where": "at the sheepfold"
 		},
 		{
-			"text": "Set the table at home",
+			"text": "Set the table",
 			"done_when": [
 				{
 					"fact": "home.table_set_day",
 					"is_today": true
 				}
 			],
-			"icon": "table"
+			"icon": "table",
+			"where": "at home"
 		}
 	]
 }

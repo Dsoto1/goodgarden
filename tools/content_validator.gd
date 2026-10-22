@@ -51,6 +51,8 @@ func _check_jobs(inv: Dictionary, id: String) -> void:
 		var job: Dictionary = jobs[i]
 		var where := "invitation %s job %d" % [id, i + 1]
 		_require_text(job, "text", where)
+		if str(job.get("text", "")).length() > 26:
+			errors.append("%s: keep the words short for the corner note (put the place in \"where\")" % where)
 		if not str(job.get("icon", "")) in TodaysWork.ICONS:
 			errors.append("%s needs an icon, one of %s" % [where, TodaysWork.ICONS])
 		if job.has("activity"):

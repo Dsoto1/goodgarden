@@ -1,21 +1,21 @@
 class_name AnimalMoments
 extends RefCounted
-## Small, unscored moments with the animals: stroke a lamb and it hops, the
+## Small, unscored moments with the animals: pet a lamb and it hops, the
 ## cat stays to be petted and purrs, scattered grain brings the hens running.
 ## Nothing is counted or required; they are there for a child who stops to
 ## look. Each moment says one short line, so a non-reader knows what happened.
 
-## Makes the animal walking about as `w` something the child can stroke.
+## Makes the animal walking about as `w` something the child can pet.
 ## `lines` are what the caption may say (one is picked each time); `sound`
 ## is a world sound name (see AudioService.FILES), played from the animal.
-## Stroking sets the fact "animals.<kind>.stroked_day" (lamb, sheep, cat,
+## Petting sets the fact "animals.<kind>.petted_day" (lamb, sheep, cat,
 ## dog, cow, horse, pig), so a day's letter can ask for it.
-static func strokable(w: Wanderer, prompt: String, lines: Array, sound := "") -> Interactable:
+static func pettable(w: Wanderer, prompt: String, lines: Array, sound := "") -> Interactable:
 	var it := Interactable.create(w, Vector3.ZERO, prompt, Callable(), 0.6, _marker_height(w))
 	it.reach = 1.6
 	it.action = func() -> void:
 		w.pause_for(5.0)
-		WorldState.set_fact("animals.%s.stroked_day" % kind_of(w), Days.current_day)
+		WorldState.set_fact("animals.%s.petted_day" % kind_of(w), Days.current_day)
 		if w.model is FarmAnimal and (w.model as FarmAnimal).kind in ["lamb", "dog", "pig"]:
 			(w.model as FarmAnimal).hop()
 		hearts(w, Vector3(0, _marker_height(w) - 0.4, 0))

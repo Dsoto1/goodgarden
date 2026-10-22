@@ -37,9 +37,15 @@ func build() -> void:
 		# Spare stock stacked neatly behind each stall, on the cobbles.
 		Props.place(self, ["barrel", "crate", "barrel", "crate"][i], at + Vector3(side * 1.05, 0, -0.45), 0.0)
 		Props.place(self, "sack", at + Vector3(side * 1.05, 0, 0.45), side * 0.3)
-	# Two benches on the south side, facing the fountain, either side of the road in.
-	for x: float in [-2.6, 2.6]:
-		_bench(Vector3(x, 0, 4.3), 0.0)
+	# Benches sit along the square's outer edge, each turned to face the
+	# fountain: either side of the road in from the bridge, on the south-east
+	# side, and by the north road. The middle of the square stays open.
+	var inset := SQUARE_RADIUS * cos(PI / 8.0) - 0.6
+	for b: Array in [[2.3, 90.0], [-1.5, 90.0], [0.0, 45.0], [2.2, -90.0]]:
+		var a := deg_to_rad(b[1])
+		var along := Vector2(-sin(a), cos(a)) * float(b[0])
+		var at := Vector2(cos(a), sin(a)) * inset + along
+		_bench(Vector3(at.x, 0, at.y), atan2(cos(a), sin(a)))
 	# A lantern at every other corner.
 	for k in [1, 3, 5, 7]:
 		var corner: Vector2 = square[k]
@@ -120,7 +126,7 @@ func build() -> void:
 	add_anchor("village_overlook", Vector3(0, 0, -14.5), 0.0)
 
 	_villager("tobias", World.look_for("tobias"), Vector3(-8.4, 0, -8.2), 1.2)
-	_villager("ruth", World.look_for("ruth"), Vector3(5.2, 0, 5.4), 1.2)
+	_villager("ruth", World.look_for("ruth"), Vector3(7.0, 0, 5.2), 0.8)
 	# Neighbours going about their day (ambient, no conversation yet).
 	var folk: Array = Content.get_world("characters").get("villagers", [])
 	var spots := [Vector3(-3.6, 0, 5.6), Vector3(3.8, 0, -5.2), Vector3(-3.4, 0, -5.8), Vector3(1.6, 0, 6.2), Vector3(7.2, 0, 0.8)]
@@ -198,7 +204,7 @@ func _village_life() -> void:
 	cat.pause_range = Vector2(6, 14)
 	cat.position = Vector3(2.4, 0, -4.4)
 	add_child(cat)
-	AnimalMoments.strokable(cat, "Stroke the cat", ["The cat purrs and rubs against your hand.", "Purr, purr. The cat stays to be stroked."], "purr")
+	AnimalMoments.pettable(cat, "Pet the cat", ["The cat purrs and rubs against your hand.", "Purr, purr. The cat stays to be petted."], "purr")
 	# The village dog, a friendly pug who potters about the square.
 	var dog := Wanderer.new().setup(AnimalModel.make("dog"), 78)
 	dog.speed = 0.5
@@ -206,7 +212,7 @@ func _village_life() -> void:
 	dog.pause_range = Vector2(3, 8)
 	dog.position = Vector3(-1.0, 0, 5.6)
 	add_child(dog)
-	AnimalMoments.strokable(dog, "Pat the dog", ["The little dog wags its tail and hops about.", "The dog sits for a pat, then hops with joy."], "dog")
+	AnimalMoments.pettable(dog, "Pet the dog", ["The little dog wags its tail and hops about.", "The dog sits for a pat, then hops with joy."], "dog")
 	for b: Array in [[Vector3(-10.6, 0, 1.8), "barrel"], [Vector3(11.4, 0, 1.6), "barrel"], [Vector3(9.9, 0, 5.4), "crate"], [Vector3(-16.0, 0, 2.2), "barrel"]]:
 		Props.place(self, b[1], b[0], b[0].x)
 	for f: Array in [[Vector3(9.8, 0, 7.9), "flower_pink"], [Vector3(-12.1, 0, 2.5), "flower_yellow"], [Vector3(-10.2, 0, -1.6), "flower_white"]]:

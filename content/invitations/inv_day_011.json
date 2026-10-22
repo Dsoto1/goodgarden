@@ -8,34 +8,37 @@
 	"done": "Mrs. Ruth has her card, and the hens and the cat are content. How kind of you!",
 	"tasks": [
 		{
-			"text": "Make a card for Mrs. Ruth and give it to her",
+			"text": "Give Mrs. Ruth a card",
 			"done_when": [
 				{
 					"fact": "npc.ruth.card",
 					"equals": "given"
 				}
 			],
-			"icon": "card"
+			"icon": "card",
+			"where": "make it with Miss Miriam"
 		},
 		{
-			"text": "Scatter grain for the hens at home",
+			"text": "Feed the hens",
 			"done_when": [
 				{
 					"fact": "home.hens_fed_day",
 					"is_today": true
 				}
 			],
-			"icon": "hen"
+			"icon": "hen",
+			"where": "by the coop at home"
 		},
 		{
-			"text": "Stroke the cat by the cottage door",
+			"text": "Pet the cat",
 			"done_when": [
 				{
-					"fact": "animals.cat.stroked_day",
+					"fact": "animals.cat.petted_day",
 					"is_today": true
 				}
 			],
-			"icon": "heart"
+			"icon": "heart",
+			"where": "by your cottage door"
 		}
 	]
 }

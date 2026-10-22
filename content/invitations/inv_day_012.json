@@ -7,29 +7,32 @@
 	"suggests": "garden_water",
 	"tasks": [
 		{
-			"text": "Water the beans in the garden",
+			"text": "Water the beans",
 			"activity": "garden_water",
-			"icon": "water"
+			"icon": "water",
+			"where": "in the garden"
 		},
 		{
-			"text": "Say hello to Mrs. Ruth in the village",
+			"text": "Say hello to Mrs. Ruth",
 			"done_when": [
 				{
 					"fact": "npc.ruth.greeted_day",
 					"is_today": true
 				}
 			],
-			"icon": "talk"
+			"icon": "talk",
+			"where": "in the village"
 		},
 		{
-			"text": "Scratch a pig's back in the sty by the mill",
+			"text": "Pet a pig",
 			"done_when": [
 				{
-					"fact": "animals.pig.stroked_day",
+					"fact": "animals.pig.petted_day",
 					"is_today": true
 				}
 			],
-			"icon": "heart"
+			"icon": "heart",
+			"where": "in the sty by the mill"
 		}
 	],
 	"done": "The beans have had a good drink, and everyone is greeted. Well done!"

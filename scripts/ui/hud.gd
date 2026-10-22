@@ -62,7 +62,7 @@ func _ready() -> void:
 	_invite = invite
 	invite.flat = true
 	invite.focus_mode = Control.FOCUS_NONE
-	invite.custom_minimum_size = Vector2(380, 0)
+	invite.custom_minimum_size = Vector2(330, 0)
 	invite.pressed.connect(_on_invitation_pressed)
 	var card := _chip()
 	_invite_card = card
@@ -278,7 +278,7 @@ func _say_day_done() -> void:
 ## text grows the note leftward instead of off the screen.
 func _fit_invite() -> void:
 	var want := _invite_card.get_combined_minimum_size()
-	_invite.custom_minimum_size = Vector2(maxf(380.0, want.x), want.y)
+	_invite.custom_minimum_size = Vector2(maxf(330.0, want.x), want.y)
 
 
 ## One line per job: an empty ring, or a green tick once it is done.
@@ -293,7 +293,7 @@ func _show_jobs(jobs: Array) -> void:
 	_fit_invite.call_deferred()
 	for j: Dictionary in jobs:
 		var row := TodaysWork.row(j, "SmallLabel", 34)
-		row.get_child(2).custom_minimum_size.x = 250 * UiStyle.text_scale()
+		row.get_child(2).custom_minimum_size.x = 220 * UiStyle.text_scale()
 		_jobs_box.add_child(row)
 
 

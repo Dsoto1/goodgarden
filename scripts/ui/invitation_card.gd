@@ -24,9 +24,9 @@ func show_invitation(invitation_id: String, mark_read := true) -> void:
 		list.add_child(heading)
 		spoken += "\n" + heading.text
 		for j: Dictionary in jobs:
-			var row := TodaysWork.row(j, "LetterLabel", 36)
+			var row := TodaysWork.row(j, "LetterLabel", 36, true)
 			list.add_child(row)
-			spoken += "\n" + tr(j["text"])
+			spoken += "\n" + (row.get_child(2) as Label).text
 	var hear := UiStyle.button(tr("Hear it"))
 	hear.pressed.connect(func() -> void:
 		Observations.record("read_aloud_requested", "", {"invitation": invitation_id})

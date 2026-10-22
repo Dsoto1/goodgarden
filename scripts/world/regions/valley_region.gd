@@ -81,7 +81,7 @@ func build() -> void:
 		lamb.speed = 0.4
 		lamb.pause_range = Vector2(2, 6)
 		add_child(lamb)
-		AnimalMoments.strokable(lamb, "Stroke the lamb", ["The lamb nuzzles your hand and gives a little hop.", "Soft, curly wool! The lamb hops for joy."], "sheep")
+		AnimalMoments.pettable(lamb, "Pet the lamb", ["The lamb nuzzles your hand and gives a little hop.", "Soft, curly wool! The lamb hops for joy."], "sheep")
 	CraftedProps.hay_bale(self, Vector3(32.6, 0, -21.4), 0.3)
 	_lamb_troughs()
 	_orchard_and_pond()
@@ -106,7 +106,7 @@ func build() -> void:
 		sheep.speed = 0.3
 		sheep.pause_range = Vector2(4, 10)
 		add_child(sheep)
-		AnimalMoments.strokable(sheep, "Stroke the sheep", ["The sheep stands still and lets you stroke its thick wool."], "sheep")
+		AnimalMoments.pettable(sheep, "Pet the sheep", ["The sheep stands still and lets you pet its thick wool."], "sheep")
 	_farm_animals()
 
 	_trees()
@@ -234,7 +234,7 @@ func _paddock(r: Rect2, gate: String) -> void:
 
 
 ## Cows in a pasture past the windmill, the horse in a paddock west of the
-## mill, and pigs in their sty beside it. Each can be stroked.
+## mill, and pigs in their sty beside it. Each can be petted.
 func _farm_animals() -> void:
 	_paddock(Rect2(26.5, -38.6, 7.0, 5.0), "s")
 	for i in 2:
@@ -244,7 +244,7 @@ func _farm_animals() -> void:
 		cow.speed = 0.35
 		cow.pause_range = Vector2(6, 14)
 		add_child(cow)
-		AnimalMoments.strokable(cow, "Stroke the cow", ["The cow is warm and calm. She turns her big eyes to you."], "cow")
+		AnimalMoments.pettable(cow, "Pet the cow", ["The cow is warm and calm. She turns her big eyes to you."], "cow")
 	CraftedProps.hay_bale(self, Vector3(32.4, 0, -37.6), 0.4)
 	CraftedProps.water_trough(self, Vector3(27.6, 0, -37.9))
 	SoundSpot.calling(self, "cow", Vector3(30.0, 1.0, -36.0), 30.0, Vector2(18, 40), -8.0)
@@ -256,7 +256,7 @@ func _farm_animals() -> void:
 	horse.speed = 0.5
 	horse.pause_range = Vector2(5, 12)
 	add_child(horse)
-	AnimalMoments.strokable(horse, "Stroke the horse", ["The horse lowers its head so you can stroke its soft nose."], "horse")
+	AnimalMoments.pettable(horse, "Pet the horse", ["The horse lowers its head so you can pet its soft nose."], "horse")
 	CraftedProps.hay_bale(self, Vector3(-31.0, 0, -7.6), 0.2)
 
 	_paddock(Rect2(-32.0, -1.4, 4.4, 3.6), "e")
@@ -269,7 +269,7 @@ func _farm_animals() -> void:
 		pig.speed = 0.3
 		pig.pause_range = Vector2(3, 9)
 		add_child(pig)
-		AnimalMoments.strokable(pig, "Scratch the pig's back", ["The pig gives a happy grunt and leans on you."], "pig")
+		AnimalMoments.pettable(pig, "Pet the pig", ["The pig gives a happy grunt and leans on you."], "pig")
 	SoundSpot.calling(self, "pig", Vector3(-30.0, 0.6, 0.4), 22.0, Vector2(12, 28), -8.0)
 
 
@@ -443,7 +443,11 @@ func _ford() -> void:
 		CraftedProps.stepping_stone(self, at, 60 + i)
 		z -= 0.78
 		i += 1
-	add_clearing(Vector3(FORD_X, 0, c), Vector2(2.4, south - north + 1.0))
+	add_clearing(Vector3(FORD_X, 0, c), Vector2(3.0, south - north + 2.0))
+	# On the north bank a short path joins the stones to the path along the
+	# bank, so no grass stands between them.
+	var bank := minf(-19.8, Terrain.river_z(FORD_X) - Terrain.river_half_width(FORD_X, true) - 2.2)
+	path([Vector3(FORD_X, 0, north + 0.2), Vector3(FORD_X + 0.2, 0, bank)], 1.3)
 
 
 ## Reeds gather on the inside of each bend, where the water slows, with a

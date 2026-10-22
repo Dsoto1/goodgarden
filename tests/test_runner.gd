@@ -573,11 +573,11 @@ func test_animal_moments() -> void:
 	lamb._target = lamb.position + Vector3(2, 0, 0)
 	await frames(3)
 	eq(model.anim.current_animation, FarmAnimal.WALK, "the lamb's legs walk as it moves")
-	# Stroking it: it stops, turns to the child, hops, and hearts float up.
-	var stroke := AnimalMoments.strokable(lamb, "Stroke the lamb", ["The lamb hops."], "sheep")
-	stroke.trigger()
+	# Petting it: it stops, turns to the child, hops, and hearts float up.
+	var pet := AnimalMoments.pettable(lamb, "Pet the lamb", ["The lamb hops."], "sheep")
+	pet.trigger()
 	await frames(2)
-	check(lamb._face_player > 0.0 and model.is_hopping(), "a stroked lamb stands still and hops for joy")
+	check(lamb._face_player > 0.0 and model.is_hopping(), "a petted lamb stands still and hops for joy")
 	eq(model.anim.current_animation, FarmAnimal.JUMP, "the hop is the model's own jump")
 	check(lamb.find_children("Heart*", "", true, false).size() > 0, "hearts float up from the lamb")
 	# Grain brings the hens to peck where it was scattered.
@@ -674,8 +674,8 @@ func test_vertical_slice_end_to_end() -> void:
 	for a in world.find_children("*", "FarmAnimal", true, false):
 		kinds[(a as FarmAnimal).kind] = true
 	eq(kinds.size(), FarmAnimal.KINDS.size(), "sheep, lambs, cows, the horse, pigs and the dog live in the valley and village")
-	var strokable := world.find_children("*", "Interactable", true, false).filter(func(it: Interactable) -> bool: return it.get_parent() is Wanderer)
-	check(strokable.size() >= 12, "the animals can be stroked (%d)" % strokable.size())
+	var pettable := world.find_children("*", "Interactable", true, false).filter(func(it: Interactable) -> bool: return it.get_parent() is Wanderer)
+	check(pettable.size() >= 12, "the animals can be petted (%d)" % pettable.size())
 	# The river winds, but the only ways over it are the bridge and the stepping stones.
 	for route: Array in [[Vector3(-3, 0, -6), Vector3(-3, 0, -22)], [Vector3(-14, 0, -6), Vector3(-14, 0, -23)], [Vector3(20, 0, -7), Vector3(20, 0, -21)]]:
 		var crossing := NavigationServer3D.map_get_path(world.get_world_3d().navigation_map, route[0], route[1], true)
@@ -689,6 +689,20 @@ func test_vertical_slice_end_to_end() -> void:
 	var to_sheep := NavigationServer3D.map_get_path(world.get_world_3d().navigation_map, Vector3(6, 0, -20), Vector3(27.5, 0, -22.5), true)
 	var sheep_end := to_sheep[to_sheep.size() - 1] if to_sheep.size() > 0 else Vector3.INF
 	check(Vector2(sheep_end.x, sheep_end.z).distance_to(Vector2(27.5, -22.5)) < 0.5, "the child can walk through the open gate in among the sheep")
+	# Walk over the stone bridge for real, both ways (its ends must not catch the feet).
+	var start_pos := world.player.global_position
+	for leg: Array in [[Vector3(5.5, 0.1, -8.5), Vector3(5.5, 0, -19.5)], [Vector3(5.5, 0.1, -19.5), Vector3(5.5, 0, -8.5)]]:
+		world.player.teleport(leg[0], 0.0)
+		await get_tree().physics_frame
+		world.player.walk_to(leg[1])
+		var walked := 0.0
+		while world.player.walk_goal() != null and walked < 12.0:
+			await get_tree().physics_frame
+			walked += get_physics_process_delta_time()
+		var end_at: Vector3 = world.player.global_position
+		check(Vector2(end_at.x, end_at.z).distance_to(Vector2(leg[1].x, leg[1].z)) < 0.6, "the child walks right over the stone bridge (ended at %s)" % end_at)
+	world.player.teleport(start_pos, 0.0)
+	await get_tree().physics_frame
 
 	# The camera keeps the child in view: the see-through hole is aimed at them,
 	# and while walking somewhere the view knows where they're going.
@@ -791,6 +805,9 @@ func test_vertical_slice_end_to_end() -> void:
 	check(world.regions["home"]._table_settings.visible, "table stays set in the world")
 	check(not table.is_available(), "table cannot be set twice in a day")
 	check(not main.hud.todays_work_done(), "two jobs done, one to go")
+	main.request_rest()
+	await frames(2)
+	check(_find(main, ConfirmCard) == null and main.hud.caption_text().contains("Feed the hens"), "the bed waits: it says which job is still to do")
 	# The third job: grain for the hens, by the coop at home.
 	var grain := _interactable("Scatter grain for the hens")
 	world.player.walk_to(grain.approach_point(world.player.global_position), grain)
@@ -808,6 +825,13 @@ func test_vertical_slice_end_to_end() -> void:
 		await wait(0.5)
 		waited += 0.5
 	check(main.hud.caption_text().contains("Today's work is done"), "then it says the day's work is done")
+	main.request_rest()
+	await frames(2)
+	var bedtime := _find(main, ConfirmCard) as ConfirmCard
+	check(bedtime != null, "with every job done, the bed offers rest")
+	if bedtime:
+		bedtime.close() # "Not yet": the day goes on
+	await frames(2)
 
 	# 9-11. Chapel/Atrium: choose the Good Samaritan, listen, retell, put away.
 	var shelf := _interactable("Choose The Good Samaritan")
@@ -1089,7 +1113,7 @@ func test_vertical_slice_end_to_end() -> void:
 	eq(str(WorldState.get_fact("npc.ruth.card", "")), "made", "the card is made")
 	check(not main.hud.todays_work_done(), "making the card isn't the end: it still has to be given")
 	WorldState.set_fact("home.hens_fed_day", Days.current_day)
-	WorldState.set_fact("animals.cat.stroked_day", Days.current_day)
+	WorldState.set_fact("animals.cat.petted_day", Days.current_day)
 	check(not main.hud.todays_work_done(), "with the small jobs done, the card still has to be given")
 	check(Dialogue.start("ruth"), "take the card to Mrs. Ruth")
 	check(str(Dialogue.current_line()["reply"]).contains("This card is for you, Mrs. Ruth"), "the child gives the card with a kind word")

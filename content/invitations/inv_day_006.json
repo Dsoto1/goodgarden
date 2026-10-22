@@ -8,29 +8,32 @@
 	"done": "The flour is ready for Monday's bread, and the table is set. Well done!",
 	"tasks": [
 		{
-			"text": "Make flour with Mr. Tobias at the mill",
+			"text": "Make flour",
 			"activity": "mill_flour",
-			"icon": "mill"
+			"icon": "mill",
+			"where": "at the mill"
 		},
 		{
-			"text": "Stroke the horse beside the mill",
+			"text": "Pet the horse",
 			"done_when": [
 				{
-					"fact": "animals.horse.stroked_day",
+					"fact": "animals.horse.petted_day",
 					"is_today": true
 				}
 			],
-			"icon": "heart"
+			"icon": "heart",
+			"where": "in the paddock by the mill"
 		},
 		{
-			"text": "Set the table at home",
+			"text": "Set the table",
 			"done_when": [
 				{
 					"fact": "home.table_set_day",
 					"is_today": true
 				}
 			],
-			"icon": "table"
+			"icon": "table",
+			"where": "at home"
 		}
 	]
 }

@@ -7,24 +7,27 @@
 	"suggests": "bakery_baskets",
 	"tasks": [
 		{
-			"text": "Fill the bread baskets with Mr. Tobias",
+			"text": "Fill the bread baskets",
 			"activity": "bakery_baskets",
-			"icon": "bread"
+			"icon": "bread",
+			"where": "at the bakery"
 		},
 		{
-			"text": "Feed the lambs at the sheepfold",
+			"text": "Feed the lambs",
 			"activity": "sheepfold_hay",
-			"icon": "sheep"
+			"icon": "sheep",
+			"where": "at the sheepfold"
 		},
 		{
-			"text": "Pat the little dog in the village square",
+			"text": "Pet the dog",
 			"done_when": [
 				{
-					"fact": "animals.dog.stroked_day",
+					"fact": "animals.dog.petted_day",
 					"is_today": true
 				}
 			],
-			"icon": "heart"
+			"icon": "heart",
+			"where": "in the village square"
 		}
 	],
 	"done": "Every neighbor has bread for the weekend, and the lambs are fed. Thank you!"

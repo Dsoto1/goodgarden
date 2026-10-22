@@ -8,29 +8,32 @@
 	"done": "Every neighbour has bread, and the dog and the hens are happy. Thank you!",
 	"tasks": [
 		{
-			"text": "Fill the bread baskets with Mr. Tobias",
+			"text": "Fill the bread baskets",
 			"activity": "bakery_baskets",
-			"icon": "bread"
+			"icon": "bread",
+			"where": "at the bakery"
 		},
 		{
-			"text": "Pat the little dog in the village square",
+			"text": "Pet the dog",
 			"done_when": [
 				{
-					"fact": "animals.dog.stroked_day",
+					"fact": "animals.dog.petted_day",
 					"is_today": true
 				}
 			],
-			"icon": "heart"
+			"icon": "heart",
+			"where": "in the village square"
 		},
 		{
-			"text": "Scatter grain for the hens at home",
+			"text": "Feed the hens",
 			"done_when": [
 				{
 					"fact": "home.hens_fed_day",
 					"is_today": true
 				}
 			],
-			"icon": "hen"
+			"icon": "hen",
+			"where": "by the coop at home"
 		}
 	]
 }

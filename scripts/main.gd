@@ -139,6 +139,15 @@ func quit_to_title() -> void:
 # --- Requests from the world (via the "main" group) ----------------------------
 
 func request_rest() -> void:
+	# Bedtime comes after the day's jobs: the bed says what is still waiting.
+	if Invitations.has_unread():
+		show_caption(tr("Not bedtime yet! Today's letter is waiting by the door."))
+		return
+	var left := TodaysWork.today().filter(func(j: Dictionary) -> bool: return not j["done"]).map(func(j: Dictionary) -> String: return tr(j["text"]))
+	if not left.is_empty():
+		var list: String = left[0] if left.size() == 1 else ", ".join(left.slice(0, left.size() - 1)) + " " + tr("and") + " " + left[left.size() - 1]
+		show_caption(tr("Not bedtime yet! Still to do: %s.") % list)
+		return
 	var c := ConfirmCard.new()
 	_overlay_root.add_child(c)
 	c.ask(tr("Rest until morning?"), tr("Yes, rest"), tr("Not yet"), rest_until_morning)
