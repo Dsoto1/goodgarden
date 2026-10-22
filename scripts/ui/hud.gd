@@ -20,6 +20,8 @@ var _caption: PanelContainer
 var _caption_label: Label
 var _caption_timer: SceneTreeTimer
 var _invite: Button
+var _invite_heading: Label
+var _invite_card: PanelContainer
 var _spoken_target: Interactable
 var _spoken_places := {}
 
@@ -56,6 +58,7 @@ func _ready() -> void:
 	invite.custom_minimum_size = Vector2(330, 0)
 	invite.pressed.connect(_on_invitation_pressed)
 	var card := _chip()
+	_invite_card = card
 	card.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	var row := HBoxContainer.new()
 	row.add_theme_constant_override("separation", 10)
@@ -67,6 +70,7 @@ func _ready() -> void:
 	col.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	var heading := UiStyle.label(tr("Today's Invitation"), "SmallLabel")
 	heading.add_theme_color_override("font_color", Color("7a4a26"))
+	_invite_heading = heading
 	col.add_child(heading)
 	_invite_text = UiStyle.label("", "SmallLabel")
 	_invite_text.custom_minimum_size.x = 250
@@ -129,18 +133,24 @@ func _ready() -> void:
 	AudioService.narration_unavailable.connect(func() -> void:
 		show_caption(tr("This device has no reading voice, so words can't be read aloud. A grown-up can add a voice in the device's settings."), 9.0))
 	Journal.changed.connect(refresh)
+	ActivityRunner.activity_finished.connect(func(_def: ActivityDefinition, _completed: bool) -> void: refresh())
+	WorldState.fact_changed.connect(func(_key: String, _value: Variant) -> void: refresh())
 	refresh()
 
 
 func _chip() -> PanelContainer:
 	var p := PanelContainer.new()
-	var box := UiStyle.card(UiStyle.PAPER, 12)
-	box.border_color = UiStyle.PAPER_EDGE
+	p.add_theme_stylebox_override("panel", _chip_box())
+	return p
+
+
+func _chip_box(fill := UiStyle.PAPER, edge := UiStyle.PAPER_EDGE) -> StyleBoxFlat:
+	var box := UiStyle.card(fill, 12)
+	box.border_color = edge
 	box.set_content_margin_all(10)
 	box.content_margin_left = 16
 	box.content_margin_right = 16
-	p.add_theme_stylebox_override("panel", box)
-	return p
+	return box
 
 
 func refresh() -> void:
@@ -151,9 +161,14 @@ func refresh() -> void:
 	_place_chip.visible = exploring and not _place.text.is_empty()
 	_day.text = tr("Day %d  •  %s") % [Days.current_day, tr(Days.season())]
 	_invite_text.text = _invitation_summary()
-	_invite_glyph.kind = "letter" if Invitations.has_unread() else "seedling"
+	# Once the day's work is done, the note says so plainly: a green tick and a
+	# thank-you, never the old request.
+	var done := todays_work_done()
+	_invite_glyph.kind = "letter" if Invitations.has_unread() else ("yes" if done else "seedling")
 	_invite_glyph.queue_redraw()
-	_invite.set_meta(&"spoken", tr("Today's Invitation") + ". " + _invite_text.text)
+	_invite_heading.text = tr("Done today") if done else tr("Today's Invitation")
+	_invite_card.add_theme_stylebox_override("panel", _chip_box(Color("e4efd3"), Color("6f9a52")) if done else _chip_box())
+	_invite.set_meta(&"spoken", _invite_heading.text + ". " + _invite_text.text)
 	_map_tile.visible = Discovery.map_unlocked()
 	var target := Interaction.focused
 	_prompt_panel.visible = exploring and target != null
@@ -201,8 +216,25 @@ func _invitation_summary() -> String:
 	var latest := Invitations.latest_read()
 	var data := Content.get_invitation(latest)
 	if not latest.is_empty() and Journal.has_entry("invitation", latest, Days.current_day):
+		if todays_work_done():
+			return tr(str(data.get("done", "All done. Thank you for helping!")))
 		return tr(str(data.get("summary", "Read your letter again.")))
 	return tr("A free day. Go wherever you like.")
+
+
+## True once the work today's letter asked for has been finished today.
+func todays_work_done() -> bool:
+	if Invitations.has_unread():
+		return false
+	var latest := Invitations.latest_read()
+	if latest.is_empty() or not Journal.has_entry("invitation", latest, Days.current_day):
+		return false
+	var data := Content.get_invitation(latest)
+	if data.has("done_when"):
+		return WorldState.matches(data["done_when"])
+	var asked := str(data.get("suggests", ""))
+	return not asked.is_empty() and int(WorldState.get_fact("activity.%s.last_day" % asked, 0)) == Days.current_day
+
 
 
 func _on_invitation_pressed() -> void:

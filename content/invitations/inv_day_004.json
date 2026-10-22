@@ -4,5 +4,6 @@
 	"body": "Good morning, my friend!\n\nThe sun has been hot, and our bean plants look thirsty. Would you please help me water them?\n\nThe watering can is in the garden, by the gate.",
 	"signature": "Miss Miriam",
 	"suggests": "garden_water",
-	"summary": "Water the thirsty bean plants in the garden."
+	"summary": "Water the thirsty bean plants in the garden.",
+	"done": "The beans have had their drink. Well done!"
 }

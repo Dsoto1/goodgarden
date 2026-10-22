@@ -4,5 +4,6 @@
 	"body": "Good morning, my friend!\n\nThe soil in my garden is warm and ready, and I have a little bag of bean seeds waiting for a home. Would you please come and help me plant them?\n\nYou'll find me by the garden rows, just past the gate.",
 	"signature": "Miss Miriam",
 	"suggests": "garden_bean_row",
-	"summary": "Miss Miriam needs help planting beans in her garden."
+	"summary": "Miss Miriam needs help planting beans in her garden.",
+	"done": "The beans are planted. Thank you, Miss Miriam's helper!"
 }

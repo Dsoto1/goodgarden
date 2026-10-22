@@ -70,7 +70,9 @@ func build() -> void:
 	# Two cottages: one by the lane to the sheepfold, one by the river path.
 	var east_cottage := CraftedProps.cottage(self, Vector3(11.6, 0, 6.8), -PI / 2.0 - 0.12, 2, Vector2(3.4, 4.0), "roof_red")
 	add_clearing(east_cottage.position, Vector2(5.2, 5.2))
-	var west_cottage := CraftedProps.cottage(self, Vector3(-12.2, 0, 8.4), PI + 0.1, 5, Vector2(3.2, 3.2), "roof_thatch")
+	# North of the river path to the Chapel (which runs at about z 7 here), so
+	# the path stays open.
+	var west_cottage := CraftedProps.cottage(self, Vector3(-14.0, 0, 4.2), PI / 2.0 + 0.08, 5, Vector2(3.2, 3.2), "roof_thatch")
 	add_clearing(west_cottage.position, Vector2(4.6, 4.6))
 	_bunting(Vector3(-3.0, 3.7, -9.4), Vector3(4.2, 3.7, -9.8))
 	_bunting(Vector3(-9.8, 3.4, -3.0), Vector3(-9.8, 3.4, 2.4))
@@ -80,7 +82,7 @@ func build() -> void:
 	Props.place(self, "lumber", Vector3(12.0, 0, -5.4), 0.4, 0.8)
 	Props.place(self, "wheelbarrow", Vector3(13.0, 0, -6.2), 2.2)
 	Props.place(self, "bucket", Vector3(5.6, 0, 6.8))
-	Props.place(self, "tree_a", Vector3(-16.0, 0, 6.4), 0.5)
+	Props.place(self, "tree_a", Vector3(-17.2, 0, 2.6), 0.5)
 	Props.place(self, "tree_b", Vector3(16.4, 0, 9.4), 1.2)
 	_village_life()
 	for f: Array in [[-7.4, 8.4, "flowers_a"], [8.4, 9.0, "flowers_b"], [-3.2, 8.9, "bush_flowers"], [3.4, 9.0, "flowers_a"]]:
@@ -95,7 +97,7 @@ func build() -> void:
 		[Vector3(-7.4, 0, -3.4), Vector3(-9.4, 0, -5.8), Vector3(-11.0, 0, -7.8), Vector3(-11.8, 0, -9.0)], # tall red house
 		[Vector3(7.2, 0, -3.4), Vector3(9.4, 0, -5.8), Vector3(11.4, 0, -7.8), Vector3(12.4, 0, -9.2)], # corner house
 		[Vector3(6.6, 0, 4.0), Vector3(8.2, 0, 5.8), Vector3(9.4, 0, 6.6)], # east cottage
-		[Vector3(-5.6, 0, 5.6), Vector3(-9.0, 0, 5.6), Vector3(-11.8, 0, 6.4)], # west cottage
+		[Vector3(-5.6, 0, 5.6), Vector3(-9.0, 0, 5.0), Vector3(-11.8, 0, 4.8)], # west cottage
 	]:
 		path(door, 1.3)
 
@@ -186,9 +188,9 @@ func _village_life() -> void:
 	cat.pause_range = Vector2(6, 14)
 	cat.position = Vector3(2.4, 0, -4.4)
 	add_child(cat)
-	for b: Array in [[Vector3(-10.6, 0, 1.8), "barrel"], [Vector3(11.4, 0, 1.6), "barrel"], [Vector3(9.9, 0, 5.4), "crate"], [Vector3(-13.6, 0, 6.8), "barrel"]]:
+	for b: Array in [[Vector3(-10.6, 0, 1.8), "barrel"], [Vector3(11.4, 0, 1.6), "barrel"], [Vector3(9.9, 0, 5.4), "crate"], [Vector3(-16.0, 0, 2.2), "barrel"]]:
 		Props.place(self, b[1], b[0], b[0].x)
-	for f: Array in [[Vector3(9.8, 0, 7.9), "flower_pink"], [Vector3(-11.2, 0, 6.6), "flower_yellow"], [Vector3(-10.2, 0, -1.6), "flower_white"]]:
+	for f: Array in [[Vector3(9.8, 0, 7.9), "flower_pink"], [Vector3(-12.1, 0, 2.5), "flower_yellow"], [Vector3(-10.2, 0, -1.6), "flower_white"]]:
 		CraftedProps.flower_pot(self, f[0], f[1])
 	CraftedProps.hand_cart(self, Vector3(8.8, 0, -8.6), 0.6)
 	# Low dry-stone walls either side of the road up from the bridge.
@@ -231,11 +233,13 @@ func _building(prop: String, at: Vector3, rot: float, sign_text: String, sign_he
 ## Tiered stone fountain, the heart of the plaza.
 func _fountain(at: Vector3) -> void:
 	MeshKit.cylinder(self, 1.7, 1.8, 0.55, at + Vector3(0, 0.27, 0), "stone", 16, true)
-	var pool := MeshKit.cylinder(self, 1.5, 1.5, 0.05, at + Vector3(0, 0.5, 0), "water", 16)
+	# Water surfaces sit a little above the stone they rest in (basin top 0.545,
+	# bowl top 1.73), never level with or inside it.
+	var pool := MeshKit.cylinder(self, 1.5, 1.5, 0.03, at + Vector3(0, 0.565, 0), "water", 16)
 	pool.material_override = Palette.mat("water")
 	MeshKit.cylinder(self, 0.25, 0.32, 1.3, at + Vector3(0, 1.0, 0), "stone", 10)
 	MeshKit.cylinder(self, 0.75, 0.5, 0.22, at + Vector3(0, 1.62, 0), "stone", 12)
-	MeshKit.cylinder(self, 0.65, 0.65, 0.04, at + Vector3(0, 1.72, 0), "water", 12)
+	MeshKit.cylinder(self, 0.65, 0.65, 0.03, at + Vector3(0, 1.75, 0), "water", 12)
 	MeshKit.cylinder(self, 0.1, 0.14, 0.6, at + Vector3(0, 1.98, 0), "stone", 8)
 	MeshKit.sphere(self, 0.16, at + Vector3(0, 2.36, 0), "stone", Vector3.ONE, 8, 4)
 	var spray := GPUParticles3D.new()

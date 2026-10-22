@@ -69,7 +69,7 @@ func _spoken_page() -> String:
 			"work":
 				parts.append(str(e["text"]))
 			"real_world":
-				parts.append(tr("Something to try at home:") + " " + str(e["text"]))
+				parts.append(tr("For home, with a grown-up:") + " " + str(e["text"]))
 	return " ".join(parts)
 
 
@@ -108,7 +108,7 @@ func _add_real_world(e: Dictionary) -> void:
 	_page.add_child(box)
 	var col := VBoxContainer.new()
 	box.add_child(col)
-	col.add_child(UiStyle.label(tr("Something to try at home:"), "SmallLabel"))
+	col.add_child(UiStyle.label(tr("For home, with a grown-up:"), "SmallLabel"))
 	col.add_child(UiStyle.label(e["text"]))
 	if Content.get_real_world(e["ref"]).get("checkable", true):
 		var tried := CheckButton.new()

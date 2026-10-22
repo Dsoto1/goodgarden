@@ -624,6 +624,7 @@ func test_vertical_slice_end_to_end() -> void:
 	await frames()
 	check(not Invitations.has_unread(), "letter read")
 	check(Journal.has_entry("invitation", "inv_day_001"), "letter kept in the journal")
+	check(not main.hud.todays_work_done(), "before planting, the note still asks for help")
 
 	# 3-5. Walk to the garden, talk to Miriam, accept.
 	var miriam: NPC = world.npcs["miriam"]
@@ -663,6 +664,9 @@ func test_vertical_slice_end_to_end() -> void:
 	await _play_outro(ws)
 	await wait(0.2)
 	check(not ActivityRunner.is_running(), "activity finished")
+	check(_find(main, DoneSeal) != null, "a clear Done seal shows the work is finished")
+	check(main.hud.todays_work_done() and main.hud._invite_heading.text == "Done today", "the note turns to Done, not the old request")
+	check(main.hud._invite_text.text.contains("beans are planted"), "and thanks the child for the beans")
 
 	# 7. The world shows the planted bed.
 	var bed: Variant = WorldState.get_fact("garden.bed_1")
@@ -721,6 +725,7 @@ func test_vertical_slice_end_to_end() -> void:
 	check(story._phase == story.Phase.RETELL, "reached retelling")
 	story.put_away()
 	await wait(1.6)
+	var seal_before := _find(main, DoneSeal)
 	var put_away := ws.current_step()
 	for slot: DropSlot in put_away.slots:
 		for p: DragPiece in put_away.pieces:
@@ -731,6 +736,7 @@ func test_vertical_slice_end_to_end() -> void:
 	await _play_outro(ws)
 	await wait(2.8)
 	eq(WorldState.get_fact("chapel.good_samaritan.visits"), 1, "visit remembered without a score")
+	check(seal_before == null and _find(main, DoneSeal) == null, "a story is never marked Done")
 
 	# 12. Save, quit, reload: world state remains.
 	var player_pos := world.player.global_position
@@ -929,6 +935,13 @@ func test_vertical_slice_end_to_end() -> void:
 	# Day 10: a thank-you card for Mrs. Ruth, given by the child.
 	await main.rest_until_morning()
 	await frames(3)
+	main.open_invitation(Invitations.pending_id) # read Miss Miriam's letter first
+	await frames(2)
+	var day10_letter := _find(main, InvitationCard) as InvitationCard
+	if day10_letter:
+		day10_letter.close()
+	await frames(2)
+	check(not main.hud.todays_work_done(), "day 10 starts with the letter's request")
 	var card_ws := ActivityRunner.workspace if await _start_by_talking("miriam") else null
 	if card_ws:
 		var deco := card_ws.current_step()
@@ -940,12 +953,14 @@ func test_vertical_slice_end_to_end() -> void:
 		check(deco.is_done, "every pressed flower in its place")
 		await _finish_activity(card_ws)
 	eq(str(WorldState.get_fact("npc.ruth.card", "")), "made", "the card is made")
+	check(not main.hud.todays_work_done(), "making the card isn't the end: it still has to be given")
 	check(Dialogue.start("ruth"), "take the card to Mrs. Ruth")
 	check(str(Dialogue.current_line()["reply"]).contains("This card is for you, Mrs. Ruth"), "the child gives the card with a kind word")
 	Dialogue.advance()
 	check(str(Dialogue.current_line()["text"]).contains("For me?"), "Mrs. Ruth is delighted")
 	Dialogue.advance()
 	eq(str(WorldState.get_fact("npc.ruth.card", "")), "given", "the card was given")
+	check(main.hud.todays_work_done(), "once given, day 10 is done")
 
 	# Day 11: a day of rest.
 	await main.rest_until_morning()

@@ -3,5 +3,12 @@
 	"from": "miriam",
 	"body": "Dear friend,\n\nDid you hear the rain in the night? Go and look at your bean row. Something is happening under the soil!\n\nCome and find me in the garden if you like.",
 	"signature": "Miss Miriam",
-	"summary": "Go and see what the rain did to your bean row."
+	"summary": "Go and see what the rain did to your bean row.",
+	"done": "You saw the beans sprouting. Wonderful!",
+	"done_when": [
+		{
+			"fact": "npc.miriam.greeted_day",
+			"is_today": true
+		}
+	]
 }

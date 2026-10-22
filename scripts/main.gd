@@ -303,6 +303,9 @@ func _on_activity_started(_def: ActivityDefinition) -> void:
 func _on_activity_finished(def: ActivityDefinition, completed: bool) -> void:
 	if world == null:
 		return
+	# A solid sign the work is finished (practical work only: stories are not "done").
+	if completed and not def.is_reflection():
+		DoneSeal.show_for(_overlay_root, tr(def.title))
 	if completed and _activity_focus != null:
 		# Linger on the changed world for a moment before handing control back.
 		GameState.push_mode(GameState.Mode.TRANSITION)
@@ -312,11 +315,8 @@ func _on_activity_finished(def: ActivityDefinition, completed: bool) -> void:
 	if world:
 		world.rig.release_focus()
 	_activity_focus = null
-	# Say the at-home invitation out loud too; it is also kept in the journal.
-	if completed and not def.real_world_invitation.is_empty() and Settings.get_value("real_world_invitations"):
-		var rwi := Content.get_real_world(def.real_world_invitation)
-		if not rwi.is_empty():
-			show_caption(tr("Something to try at home: %s It's in your journal too.") % tr(str(rwi.get("text", ""))), 10.0)
+	# The at-home idea is kept in the journal for a grown-up, not shown here: in
+	# the moment it read like a new task ("set the table" right after setting it).
 
 
 func _nearest_focus_point() -> Vector3:

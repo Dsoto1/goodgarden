@@ -25,7 +25,9 @@ Every file has an `"id"`. All text is plain English for now and passes through `
 
 ## Invitations — `content/invitations/*.json`
 
-`{"id", "from", "body", "signature", "suggests"?}`. `body` may contain blank lines. A day's letter waits by the cottage door until it is read.
+`{"id", "from", "body", "signature", "suggests"?, "summary", "done"?, "done_when"?}`. `body` may contain blank lines. A day's letter waits by the cottage door until it is read.
+
+Once read, the corner note shows `summary` (the request) until the work is done, then turns green with `done` (a short thank-you). The work counts as done when the `suggests` activity was finished today, or, if given, when the `done_when` conditions match (same format as dialogue `when`), e.g. `[{"fact": "npc.ruth.card", "equals": "given"}]` for work that ends with a conversation.
 
 ## Real-world invitations — `content/real_world/*.json`
 

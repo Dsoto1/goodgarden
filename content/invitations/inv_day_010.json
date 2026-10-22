@@ -4,5 +4,12 @@
 	"body": "Dear friend,\n\nMrs. Ruth has been so kind to us. I have an idea for a little surprise for her. Would you please come to the garden?\n\nBring your best careful fingers!",
 	"signature": "Miss Miriam",
 	"suggests": "thank_you_card",
-	"summary": "Make a surprise for Mrs. Ruth with Miss Miriam."
+	"summary": "Make a surprise for Mrs. Ruth with Miss Miriam.",
+	"done": "Mrs. Ruth has her card. How kind of you!",
+	"done_when": [
+		{
+			"fact": "npc.ruth.card",
+			"equals": "given"
+		}
+	]
 }

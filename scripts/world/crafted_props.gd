@@ -301,7 +301,9 @@ static func birdbath(parent: Node3D, pos: Vector3) -> Node3D:
 	MeshKit.cylinder(r, 0.25, 0.3, 0.12, Vector3(0, 0.06, 0), "stone", 10)
 	MeshKit.cylinder(r, 0.1, 0.13, 0.7, Vector3(0, 0.45, 0), "stone", 10)
 	MeshKit.cylinder(r, 0.45, 0.2, 0.14, Vector3(0, 0.86, 0), "stone", 14)
-	MeshKit.cylinder(r, 0.38, 0.38, 0.02, Vector3(0, 0.92, 0), "water", 14)
+	# The water sits clearly above the bowl's top (0.93), not level with it,
+	# or the two surfaces flicker against each other.
+	MeshKit.cylinder(r, 0.38, 0.38, 0.02, Vector3(0, 0.945, 0), "water", 14)
 	MeshKit.sphere(r, 0.06, Vector3(0.36, 1.0, 0.05), "cloth_blue", Vector3(1.4, 1.0, 1.0), 8, 4)
 	MeshKit.sphere(r, 0.04, Vector3(0.3, 1.06, 0.05), "cloth_blue", Vector3.ONE, 6, 3)
 	MeshKit.cone(r, 0.015, 0.05, Vector3(0.25, 1.06, 0.05), "flower_yellow", 4).rotation.z = PI / 2.0
@@ -728,5 +730,5 @@ static func fishing_spot(parent: Node3D, pos: Vector3, rot_y: float, water_y: fl
 	MeshKit.box(r, Vector3(0.45, 0.36, 0.38), Vector3(0.1, 0.18, 0.55), "wood")
 	MeshKit.box(r, Vector3(0.47, 0.04, 0.4), Vector3(0.1, 0.36, 0.55), "wood_dark")
 	MeshKit.cylinder(r, 0.14, 0.12, 0.26, Vector3(-0.55, 0.13, 0.5), "stone", 10)
-	MeshKit.cylinder(r, 0.12, 0.12, 0.02, Vector3(-0.55, 0.24, 0.5), "water", 10)
+	MeshKit.cylinder(r, 0.12, 0.12, 0.01, Vector3(-0.55, 0.27, 0.5), "water", 10)
 	return r

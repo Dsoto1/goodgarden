@@ -20,7 +20,12 @@ func _ready() -> void:
 	add_to_group("camera_rig")
 	camera = Camera3D.new()
 	camera.fov = DEFAULT_FRAMING["fov"]
-	camera.near = 0.3
+	# A near plane well away from the lens keeps depth precise far into the
+	# scene. Tablets and browsers often have coarse depth buffers, and with a
+	# near plane of 0.3 m, window glass, shutters and beams a few centimetres off
+	# a wall flickered at village distances. The camera never frames anything
+	# closer than about 3 m.
+	camera.near = 0.8
 	camera.far = 400.0
 	add_child(camera)
 	camera.make_current()

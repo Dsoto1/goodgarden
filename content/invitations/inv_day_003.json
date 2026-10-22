@@ -3,5 +3,7 @@
 	"from": "tobias",
 	"body": "Good morning!\n\nI baked early this morning, and now there are warm rolls for our neighbors. Would you help me fill their baskets? Each basket shows how many rolls it needs.\n\nYou will find me by the bakery in the village square.",
 	"signature": "Mr. Tobias, the baker",
-	"summary": "Help Mr. Tobias fill the neighbors' bread baskets."
+	"summary": "Help Mr. Tobias fill the neighbors' bread baskets.",
+	"suggests": "bakery_baskets",
+	"done": "Every neighbor has bread. Thank you!"
 }
