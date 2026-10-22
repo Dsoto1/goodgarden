@@ -76,3 +76,25 @@ static func row(job: Dictionary, label_type: String, edge: float, show_where := 
 static func all_done() -> bool:
 	var list := today()
 	return not list.is_empty() and list.all(func(j: Dictionary) -> bool: return j["done"])
+
+
+## A job's picture, small, with a green tick on its corner once it is done.
+class Badge:
+	extends Control
+	var icon := ""
+	var done := false
+
+	func _init(icon_kind: String, is_done: bool, edge: float) -> void:
+		icon = icon_kind
+		done = is_done
+		custom_minimum_size = Vector2(edge, edge)
+		mouse_filter = Control.MOUSE_FILTER_IGNORE
+
+	func _draw() -> void:
+		var r := Rect2(Vector2.ZERO, size)
+		draw_circle(r.get_center(), size.x * 0.5, Color("efe4cf") if not done else Color("e4efd3"))
+		draw_arc(r.get_center(), size.x * 0.5 - 1.0, 0, TAU, 28, Color("c9a86e") if not done else Color("6f9a52"), 2.0, true)
+		Icon.draw(self, icon, r.grow(-size.x * 0.12))
+		if done:
+			var t := size.x * 0.46
+			Icon.draw(self, "yes", Rect2(size - Vector2(t, t) + Vector2(t * 0.15, t * 0.15), Vector2(t, t)))

@@ -19,8 +19,9 @@ without help tells us what the game needs.
   says there is no reading voice, the child can still play; a grown-up can
   read the letters aloud.
 - The game saves by itself. The **Pause** tile (bottom right) holds Settings,
-  the grown-ups' panel (work level: younger / older), and **Save and stop
-  playing**, which returns to the title. Settings are also on the title screen.
+  the grown-ups' panel (work level: younger / older), **Save and go to the
+  main menu**, and **Save and close the game**. The title screen has
+  Settings and **Close the game** too.
 - Plan for one in-game day per sitting (about 10–20 minutes). Days 1–11 are
   ready. Resting in bed ends the day.
 

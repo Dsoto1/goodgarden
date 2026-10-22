@@ -82,6 +82,7 @@ func show_title() -> void:
 		else:
 			start_new_game())
 	title.settings_pressed.connect(open_settings)
+	title.close_pressed.connect(quit_game)
 	_overlay_root.add_child(title)
 
 
@@ -134,6 +135,19 @@ func _teardown_world() -> void:
 func quit_to_title() -> void:
 	SaveService.save_game()
 	show_title()
+
+
+## Saves (when a garden is open) and closes the game.
+func quit_game() -> void:
+	if world:
+		SaveService.save_game()
+	get_tree().quit()
+
+
+## Whether the game can close itself: on a computer, yes; in a browser tab or
+## on a phone or tablet the system closes apps, so there is no button for it.
+static func can_close_itself() -> bool:
+	return not (OS.has_feature("web") or OS.has_feature("ios") or OS.has_feature("android"))
 
 
 # --- Requests from the world (via the "main" group) ----------------------------

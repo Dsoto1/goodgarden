@@ -5,6 +5,7 @@ extends Control
 signal continue_pressed
 signal new_pressed
 signal settings_pressed
+signal close_pressed
 
 
 func _ready() -> void:
@@ -38,6 +39,10 @@ func _ready() -> void:
 	var settings := UiStyle.button(tr("Settings"), false, "settings")
 	settings.pressed.connect(func() -> void: settings_pressed.emit())
 	col.add_child(settings)
+	if Main.can_close_itself():
+		var bye := UiStyle.button(tr("Close the game"), false, "door")
+		bye.pressed.connect(func() -> void: close_pressed.emit())
+		col.add_child(bye)
 
 
 func _draw() -> void:

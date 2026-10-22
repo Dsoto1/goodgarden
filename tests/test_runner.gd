@@ -781,7 +781,9 @@ func test_vertical_slice_end_to_end() -> void:
 	eq(jobs.size(), 3, "day 1 has three jobs")
 	check(jobs[0]["done"] and not jobs[1]["done"] and not jobs[2]["done"], "planting ticks off the first job")
 	check(not main.hud.todays_work_done() and main.hud._invite_heading.text == "Today's jobs", "the corner note lists what is left")
-	eq(main.hud._jobs_box.get_child_count(), 3, "one line per job")
+	var job_parts := main.hud._jobs_box.get_children().filter(func(c: Node) -> bool: return not c.is_queued_for_deletion())
+	eq(job_parts[0].get_child_count(), 3, "one small picture per job")
+	check((job_parts[1] as Label).text == "Next: Set the table", "and only the next job in words")
 
 	# 7. The world shows the planted bed.
 	var bed: Variant = WorldState.get_fact("garden.bed_1")
@@ -833,6 +835,7 @@ func test_vertical_slice_end_to_end() -> void:
 	check(main.hud.todays_work_done() and main.hud._invite_heading.text == "Done today", "the note turns to Done once all three jobs are finished")
 	check(main.hud._invite_text.text.contains("beans are planted"), "and thanks the child for the work")
 	check(main.hud.caption_text().contains("hens come running"), "the hens' moment is told first")
+	check(_find_named(main.world, "RockC") == null or (_find_named(main.world, "RockC") as Node3D).global_position.distance_to(Vector3(-22, 0, -28)) > 8.0, "no boulder stands in the Chapel")
 	var waited := 0.0
 	while not main.hud.caption_text().contains("Today's work is done") and waited < 14.0:
 		await wait(0.5)
@@ -1175,16 +1178,18 @@ func test_vertical_slice_end_to_end() -> void:
 	var pause := _find(main, PauseMenu) as PauseMenu
 	check(pause != null, "the Pause tile opens the menu")
 	if pause:
-		var stop: Button = pause.find_children("*", "Button", true, false).filter(func(b: Node) -> bool: return (b as Button).text == "Save and stop playing")[0]
+		var labels := pause.find_children("*", "Button", true, false).map(func(b: Node) -> String: return (b as Button).text)
+		check("Save and close the game" in labels, "on a computer the game can be closed from the pause menu")
+		var stop: Button = pause.find_children("*", "Button", true, false).filter(func(b: Node) -> bool: return (b as Button).text == "Save and go to the main menu")[0]
 		stop.pressed.emit()
 		await frames(2)
 		var ask := _find(main, ConfirmCard) as ConfirmCard
 		check(ask != null, "stopping asks first")
 		if ask:
-			var yes: Button = ask.find_children("*", "Button", true, false).filter(func(b: Node) -> bool: return (b as Button).text == "Yes, stop")[0]
+			var yes: Button = ask.find_children("*", "Button", true, false).filter(func(b: Node) -> bool: return (b as Button).text == "Yes, save and go")[0]
 			yes.pressed.emit()
 			await frames(3)
-	check(main.world == null, "Yes, stop saves and goes back to the title")
+	check(main.world == null, "Yes saves and goes back to the main menu")
 	check(SaveService.has_save(), "the garden was saved")
 	check(main.continue_game() and Days.current_day == day_before, "and continues on the same day")
 	await frames(3)

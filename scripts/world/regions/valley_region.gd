@@ -331,7 +331,8 @@ func _trees() -> void:
 	CraftedProps.grain_field(self, Vector3(25.5, 0, 6.5), Vector2(7.0, 4.4), 0.25, 3)
 	CraftedProps.grain_field(self, Vector3(29.5, 0, -0.5), Vector2(6.0, 4.4), -0.2, 4)
 	var rocks := ["rock", "rock_b", "rock_c"]
-	for r: Array in [[-7, 9], [17, -6], [-25, -28], [22, -8.5], [-31, 1.5], [2, -45]]:
+	# Out in the open meadow, clear of buildings, pens and paths.
+	for r: Array in [[-9.5, 12.5], [17, -6], [-29, -38.5], [22, -8.5], [-34.5, 6.5], [2, -45]]:
 		Props.place(self, rocks[rng.randi() % 3], Vector3(r[0], Terrain.height(r[0], r[1]), r[1]), rng.randf() * TAU, rng.randf_range(0.7, 1.2))
 	# Pebbles at the water's edge, lilies in the slow water, reeds on the banks.
 	for i in 14:

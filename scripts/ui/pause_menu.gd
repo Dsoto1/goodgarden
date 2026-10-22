@@ -12,8 +12,8 @@ func show_menu() -> void:
 		[tr("Keep playing"), close, true, "next"],
 		[tr("Settings"), func() -> void: _sub("open_settings"), false, "settings"],
 		[tr("For grown-ups"), func() -> void: _sub("open_parents"), false, "lock"],
-		[tr("Save and stop playing"), _ask_to_stop, false, "door"],
-	]:
+		[tr("Save and go to the main menu"), _ask_to_stop, false, "home"],
+	] + ([[tr("Save and close the game"), _ask_to_close, false, "door"]] if Main.can_close_itself() else []):
 		var b := UiStyle.button(item[0], item[2], item[3])
 		b.pressed.connect(item[1])
 		content.add_child(b)
@@ -29,7 +29,16 @@ func _ask_to_stop() -> void:
 	close()
 	var card := ConfirmCard.new()
 	parent.add_child(card)
-	card.ask(tr("Stop playing for now? Your garden will be saved."), tr("Yes, stop"), tr("Keep playing"), Callable(main, "quit_to_title"))
+	card.ask(tr("Go to the main menu? Your garden will be saved."), tr("Yes, save and go"), tr("Keep playing"), Callable(main, "quit_to_title"))
+
+
+func _ask_to_close() -> void:
+	var main := get_tree().get_first_node_in_group("main")
+	var parent := get_parent()
+	close()
+	var card := ConfirmCard.new()
+	parent.add_child(card)
+	card.ask(tr("Close the game? Your garden will be saved."), tr("Yes, save and close"), tr("Keep playing"), Callable(main, "quit_game"))
 
 
 func _sub(method: String) -> void:

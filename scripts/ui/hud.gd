@@ -62,7 +62,7 @@ func _ready() -> void:
 	_invite = invite
 	invite.flat = true
 	invite.focus_mode = Control.FOCUS_NONE
-	invite.custom_minimum_size = Vector2(330, 0)
+	invite.custom_minimum_size = Vector2(260, 0)
 	invite.pressed.connect(_on_invitation_pressed)
 	var card := _chip()
 	_invite_card = card
@@ -278,7 +278,11 @@ func _say_day_done() -> void:
 ## text grows the note leftward instead of off the screen.
 func _fit_invite() -> void:
 	var want := _invite_card.get_combined_minimum_size()
-	_invite.custom_minimum_size = Vector2(maxf(330.0, want.x), want.y)
+	_invite.custom_minimum_size = Vector2(maxf(260.0, want.x), want.y)
+	# Shrink back too (when jobs are ticked off or the day ends), still
+	# pinned to the top-right corner.
+	_right.reset_size()
+	_right.set_anchors_and_offsets_preset(Control.PRESET_TOP_RIGHT, Control.PRESET_MODE_MINSIZE, 16)
 
 
 ## One line per job: an empty ring, or a green tick once it is done.
@@ -288,13 +292,25 @@ func _show_jobs(jobs: Array) -> void:
 		return
 	_jobs_key = key
 	for c in _jobs_box.get_children():
+		_jobs_box.remove_child(c) # so the note's size forgets it at once
 		c.queue_free()
 	_jobs_box.visible = not jobs.is_empty()
 	_fit_invite.call_deferred()
+	if jobs.is_empty():
+		return
+	# Compact: one picture per job (a green tick appears on each as it is
+	# done), and only the next job in words. Tapping the note shows the letter
+	# with the full list.
+	var badges := HBoxContainer.new()
+	badges.add_theme_constant_override("separation", 8)
+	badges.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	for j: Dictionary in jobs:
-		var row := TodaysWork.row(j, "SmallLabel", 34)
-		row.get_child(2).custom_minimum_size.x = 220 * UiStyle.text_scale()
-		_jobs_box.add_child(row)
+		badges.add_child(TodaysWork.Badge.new(j["icon"], j["done"], 40 * UiStyle.text_scale()))
+	_jobs_box.add_child(badges)
+	var next: Dictionary = jobs.filter(func(j: Dictionary) -> bool: return not j["done"]).front()
+	var line := UiStyle.label(tr("Next: %s") % tr(next["text"]), "SmallLabel")
+	line.custom_minimum_size.x = 200 * UiStyle.text_scale()
+	_jobs_box.add_child(line)
 
 
 
