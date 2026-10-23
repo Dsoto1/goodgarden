@@ -33,15 +33,28 @@ const RIVER_KNOTS := [
 ## (centre, flat radius) cut into the hills, where the concept map puts it.
 ## A site's level is the land's own height at its centre, unless given.
 const SITES := {
-	"wilderness": [Vector2(-47, 3), 10.0],
-	"bellhaven": [Vector2(26, -128), 16.0],
-	"mountains": [Vector2(92, -100), 13.0],
-	"monastery": [Vector2(102, -40), 14.0],
-	"coast": [Vector2(176, 4), 14.0, 1.2],
-	"lake": [Vector2(58, 28), 9.0, 1.0],
-	"farmlands": [Vector2(10, 76), 18.0],
+	"wilderness": [Vector2(-68, 18), 17.0],
+	"bellhaven": [Vector2(26, -124), 23.0],
+	"mountains": [Vector2(98, -106), 19.0],
+	"monastery": [Vector2(108, -44), 19.0],
+	"coast": [Vector2(172, 6), 18.0, 1.2],
+	"lake": [Vector2(52, 46), 14.0, 1.0],
+	"farmlands": [Vector2(6, 84), 27.0],
 }
 ## The sea, east beyond the river's mouth, and a lake in the south-east hills.
+## Dirt roads out of the valley to each place beyond it (world x/z), painted
+## onto the land by the ground shader. Each ends where the place's own path
+## begins.
+const ROADS := [
+	[Vector2(-34, 6), Vector2(-44, 12), Vector2(-50, 22), Vector2(-53, 27)], # wilderness
+	[Vector2(4, 18), Vector2(9, 32), Vector2(4, 46), Vector2(6, 60)], # farmlands
+	[Vector2(30, 18), Vector2(29, 30), Vector2(33, 42), Vector2(37, 50)], # lake
+	[Vector2(38, -4), Vector2(62, -3), Vector2(86, 2), Vector2(112, 4), Vector2(134, 9), Vector2(152, 12)], # coast
+	[Vector2(98, 1), Vector2(104, -10), Vector2(103, -20), Vector2(108, -27)], # monastery
+	[Vector2(96, -42), Vector2(90, -56), Vector2(91, -72), Vector2(85, -91)], # mountains
+	[Vector2(6, -50), Vector2(10, -66), Vector2(18, -82), Vector2(24, -96), Vector2(26, -104)], # Bellhaven
+]
+const PEAKS := Vector2(130, -146)
 const SEA_X := 192.0
 const SEA_LEVEL := -0.55
 const LAKE := Vector2(82, 46)
@@ -125,6 +138,25 @@ static func height(x: float, z: float) -> float:
 	return _with_river(x, z, _with_sites(x, z, _land(x, z)))
 
 
+## The roads as segments (a.x, a.y, b.x, b.y) for the ground shader.
+static func road_segments() -> Array[Vector4]:
+	var out: Array[Vector4] = []
+	for road: Array in ROADS:
+		for i in road.size() - 1:
+			out.append(Vector4(road[i].x, road[i].y, road[i + 1].x, road[i + 1].y))
+	return out
+
+
+## How far (x, z) is from the nearest road.
+static func road_distance(x: float, z: float) -> float:
+	var best := INF
+	var p := Vector2(x, z)
+	for road: Array in ROADS:
+		for i in road.size() - 1:
+			best = minf(best, p.distance_to(Geometry2D.get_closest_point_to_segment(p, road[i], road[i + 1])))
+	return best
+
+
 ## A site's ground level.
 static func site_level(id: String) -> float:
 	if not _site_levels.has(id):
@@ -151,8 +183,8 @@ static func in_site(x: float, z: float, margin := 1.6) -> bool:
 
 
 ## Levels each site, sloping gently back into the hills around it. A site
-## by the water (given its own level) only cuts the hills down, so the sea
-## and the lake still come up to its edge.
+## by the water (given its own level) only cuts the hills down, never fills
+## in, so the sea and the lake keep their natural shores at its edge.
 static func _with_sites(x: float, z: float, h: float) -> float:
 	for id: String in SITES:
 		var s: Array = SITES[id]
@@ -161,7 +193,7 @@ static func _with_sites(x: float, z: float, h: float) -> float:
 		if d >= r * 2.2:
 			continue
 		var level := site_level(id)
-		if s.size() > 2 and d > r and h < level:
+		if s.size() > 2 and h < level:
 			continue
 		h = lerpf(level, h, smoothstep(r, r * 2.2, d))
 	return h
@@ -175,7 +207,10 @@ static func _land(x: float, z: float) -> float:
 	var n := _hills.get_noise_2d(x, z) * 0.5 + 0.5
 	var hills := (smoothstep(0.0, 45.0, d) * 16.0 + maxf(d - 45.0, 0.0) * 0.12) * (0.45 + 0.75 * n)
 	var mountains := smoothstep(80.0, 200.0, d) * pow(_ridges.get_noise_2d(x, z) * 0.5 + 0.5, 1.5) * 150.0
-	var h := hills + mountains
+	# A range of snowy peaks rises north-east, behind the shepherd's meadow.
+	var range_d := Vector2(x, z).distance_to(PEAKS)
+	var peaks := (1.0 - smoothstep(10.0, 85.0, range_d)) * (75.0 + 85.0 * (_ridges.get_noise_2d(x * 1.6, z * 1.6) * 0.5 + 0.5))
+	var h := hills + maxf(mountains, peaks)
 	# A low corridor north toward Bellhaven keeps the city visible from the overlook.
 	var to_city := absf(x - lerpf(6.0, BELLHAVEN.x, clampf((-z - 46.0) / 130.0, 0.0, 1.0)))
 	if z < FLOOR.position.y:

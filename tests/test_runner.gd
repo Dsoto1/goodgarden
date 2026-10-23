@@ -1633,7 +1633,7 @@ func test_vertical_slice_end_to_end() -> void:
 	for i in 20:
 		await get_tree().physics_frame
 	var at_coast := world.player.global_position
-	check(at_coast.distance_to(Terrain.site_center("coast")) < 16.0 and absf(at_coast.y - Terrain.site_level("coast")) < 0.3, "the child stands on the harbour's ground (at %s)" % at_coast)
+	check(at_coast.distance_to(Terrain.site_center("coast")) < 22.0 and absf(at_coast.y - Terrain.site_level("coast")) < 0.3, "the child stands on the harbour's ground (at %s)" % at_coast)
 	var to_mara := NavigationServer3D.map_get_path(world.get_world_3d().navigation_map, at_coast, world.anchor("coast_mara").global_position, true)
 	check(to_mara.size() > 1 and to_mara[to_mara.size() - 1].distance_to(world.anchor("coast_mara").global_position) < 1.0, "and can walk over to Captain Mara")
 	world.travel_to("home")

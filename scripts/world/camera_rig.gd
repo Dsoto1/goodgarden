@@ -98,7 +98,11 @@ func _update(delta: float, instant: bool) -> void:
 	var pitch: float = deg_to_rad(_params["pitch"])
 	var offset: Vector3 = Vector3(0, sin(pitch), cos(pitch)) * float(_params["distance"])
 	offset = offset.rotated(Vector3.UP, deg_to_rad(_params["yaw"]))
-	camera.global_position = _look + offset * _clearance(_look, offset)
+	var at := _look + offset * _clearance(_look, offset)
+	# Out in the hills, keep the camera above the slope behind the child.
+	if Terrain.outside(at.x, at.z) > 0.0:
+		at.y = maxf(at.y, Terrain.height(at.x, at.z) + 1.5)
+	camera.global_position = at
 	camera.fov = _params["fov"]
 	camera.look_at(_look, Vector3.UP)
 	# Tell the storybook shaders what to keep in view (see-through cutaway):

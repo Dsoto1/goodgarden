@@ -70,7 +70,8 @@ func build() -> void:
 	var land := MeshInstance3D.new()
 	land.name = "Landscape"
 	land.mesh = Terrain.build_mesh()
-	land.material_override = Style.material("ground", {"wrap": 0.3})
+	var roads := Terrain.road_segments()
+	land.material_override = Style.material("ground", {"wrap": 0.3, "roads": roads, "road_count": roads.size()})
 	add_child(land)
 	_patches()
 

@@ -108,13 +108,21 @@ func show_wide(wide: bool) -> void:
 	if _toggle:
 		_toggle.text = tr("The valley") if wide else tr("The wider world")
 	if wide:
-		_camera.position = Vector3(62, 235, 118)
-		_camera.look_at(Vector3(62, 0, -22))
+		# Seen at a slant from the south, like a painted map: the hills and
+		# the far peaks stand up, the sea and the lake catch the light.
+		_camera.fov = 55.0
+		_camera.position = Vector3(64, 215, 172)
+		_camera.look_at(Vector3(64, 0, -75))
 		_camera.far = 1200.0
+		if _camera.environment:
+			_camera.environment.fog_density = 0.00025
 	else:
+		_camera.fov = 42.0
 		_camera.position = Vector3(0, 74, 40)
 		_camera.look_at(Vector3(0, 0, -19))
 		_camera.far = 600.0
+		if _camera.environment:
+			_camera.environment.fog_density = 0.0006
 	_view.render_target_update_mode = SubViewport.UPDATE_ONCE
 	for c in _pins.get_children():
 		c.queue_free()
@@ -179,7 +187,7 @@ func _place_pins(world: World) -> void:
 ## place that has opened (or been visited) is a button that travels there;
 ## the others wait, greyed, until their day comes.
 func _place_world_pins(world: World) -> void:
-	var home := UiStyle.button(tr("The Valley"), false, "home")
+	var home := _tag("home", tr("The Valley"))
 	home.pressed.connect(func() -> void:
 		close()
 		get_tree().call_group("main", "travel_to", "home"))
@@ -192,19 +200,43 @@ func _place_world_pins(world: World) -> void:
 		var icon := str(entry.get("icon", "hand"))
 		var pin: Control
 		if World.is_open(entry) or Discovery.is_discovered(id):
-			var b := UiStyle.button(tr(str(entry["name"])), false, icon)
+			var b := _tag(icon, tr(str(entry["name"])))
 			b.pressed.connect(func() -> void:
 				close()
 				get_tree().call_group("main", "travel_to", id))
 			pin = b
 		else:
-			pin = _card(icon, tr("%s (not yet)") % tr(str(entry["name"])), false)
-			pin.modulate = Color(1, 1, 1, 0.75)
+			var later := _tag(icon, tr(str(entry["name"])))
+			later.disabled = true
+			later.tooltip_text = tr("%s (not yet)") % tr(str(entry["name"]))
+			later.modulate = Color(1, 1, 1, 0.7)
+			pin = later
 		_add_pin(pin, at)
 	if world and world.player:
 		var you := YouAreHere.new()
 		you.position = map_point(world.player.global_position)
 		_pins.add_child(you)
+
+
+## A small painted label on the wider-world map, like the mockup's: a
+## picture and the place's name, tappable to travel there.
+func _tag(icon_kind: String, text: String) -> Button:
+	var b := Icon.IconButton.new(icon_kind, text)
+	b.add_theme_font_size_override("font_size", get_theme_font_size("font_size", "SmallLabel"))
+	b.add_theme_constant_override("h_separation", 6)
+	b.custom_minimum_size = Vector2(0, 44)
+	for state: String in ["normal", "hover", "pressed", "disabled", "focus"]:
+		var box := UiStyle.card(Color("fbf3dc") if state != "hover" else Color("fff8e6"), 8)
+		box.content_margin_left = 8
+		box.content_margin_right = 10
+		box.content_margin_top = 4
+		box.content_margin_bottom = 4
+		box.shadow_size = 4
+		box.set_border_width_all(2)
+		if state == "focus":
+			box.draw_center = false
+		b.add_theme_stylebox_override(state, box)
+	return b
 
 
 func _add_pin(pin: Control, at: Vector2) -> void:

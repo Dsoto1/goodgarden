@@ -1,61 +1,63 @@
 class_name CityRegion
 extends FarRegion
-## Bellhaven: the market street inside the city's south gate. Houses and
-## shops close round a cobbled street that climbs to the cathedral, with
-## the castle on its hill beyond. Mrs. Greta keeps the spice and cloth stall,
-## and the library stands by the street.
+## Bellhaven: inside the city's south gate. A long cobbled high street runs
+## north between houses and shops to a market square with a fountain, and on
+## to the inner wall and gate, with the cathedral and the castle beyond.
+## Mrs. Greta keeps her stall in the square; the library stands on the street.
 
 
 func build() -> void:
-	area = Rect2(-13, -15, 26, 30)
-	lay_ground(Vector3(0, 0, 12.5), 0.0)
-	# The cobbled street, north to the cathedral steps.
-	path([Vector3(0, 0, 15.0), Vector3(0.4, 0, 6.0), Vector3(-0.3, 0, -3.0), Vector3(0, 0, -11.5)], 6.5, "cobble")
-	path([Vector3(-6.5, 0, -4.0), Vector3(6.5, 0, -4.0)], 4.0, "cobble")
-	add_clearing(Vector3(0, 0, -4.0), Vector2(5, 5))
-	# The city wall behind, with its gate standing open to the cathedral.
-	Props.place(self, "cathedral", Vector3(0, 0, -22), 0.0)
-	for x: float in [-11.0, -5.6, 5.6, 11.0]:
-		Props.place(self, "city_wall", Vector3(x, 0, -14.6), 0.0)
-	Props.place(self, "city_gate", Vector3(0, 0, -14.6), 0.0)
-	Props.place(self, "tower_red", Vector3(-15.5, 0, -15.5), 0.0)
-	Props.place(self, "tower_blue", Vector3(15.5, 0, -15.5), 0.0)
-	# Houses and shops along both sides, fronts to the street.
-	var west := [["house_tall_red", -9.0, 8.5], ["tavern_red", -9.5, 1.5], ["house_b_yellow", -9.0, -8.0]]
-	var east := [["house_b_blue", 9.0, 8.5], ["tower_blue", 9.5, 1.2], ["house_yellow", 9.0, -8.0]]
-	for h: Array in west:
-		Props.place(self, str(h[0]), Vector3(h[1], 0, h[2]), PI / 2.0)
-	for h: Array in east:
-		Props.place(self, str(h[0]), Vector3(h[1], 0, h[2]), -PI / 2.0)
-	_sign(Vector3(6.6, 3.2, 1.2), -PI / 2.0, "Library")
-	_sign(Vector3(-6.7, 3.0, 1.5), PI / 2.0, "The Bell Inn")
-	# Market stalls along the street.
-	_stall(Vector3(-4.2, 0, 4.0), PI / 2.0, "awning_red", ["crate_carrots", "crate_lettuce"])
-	_stall(Vector3(4.2, 0, 4.0), -PI / 2.0, "awning_blue", ["crate_open", "crate_carrots"])
-	_stall(Vector3(4.2, 0, -1.6), -PI / 2.0, "awning_green", ["crate_lettuce", "crate_open"])
-	for p: Array in [["barrel", Vector3(-5.8, 0, 6.8)], ["crate_big", Vector3(-6.0, 0, 5.6)], ["crate_long", Vector3(6.2, 0, 6.4)], ["barrel", Vector3(6.0, 0, -3.4)], ["sack", Vector3(-5.6, 0, -2.0)]]:
-		Props.place(self, str(p[0]), p[1], 0.3)
-	# The fountain where the cross street meets the high street, lanterns
-	# along the way, and a fruit seller's cart.
-	Props.place(self, "town_fountain", Vector3(0, 0, -4.0), 0.0, 1.4)
-	for l: Vector3 in [Vector3(-2.9, 0, 10.0), Vector3(2.9, 0, 10.0), Vector3(-2.9, 0, -9.5), Vector3(2.9, 0, -9.5)]:
-		Props.place(self, "lantern_post", l, 0.0)
-	Props.place(self, "market_cart", Vector3(-4.4, 0, -1.0), PI / 2.0)
-	for p: Array in [["apple_crate", Vector3(-4.6, 0.78, 3.6)], ["coin_pile", Vector3(-3.6, 0.82, 4.4)], ["apple_barrel", Vector3(5.6, 0, 1.0)], ["carrot_crate", Vector3(-5.8, 0, 3.0)]]:
-		Props.place(self, str(p[0]), p[1], 0.3)
-	Props.place(self, "garden_bench", Vector3(3.2, 0, -7.0), PI)
-	for f: Array in [["flag_red", Vector3(-3.6, 0, -12.5)], ["flag_blue", Vector3(3.6, 0, -12.5)], ["flag_red", Vector3(-6.5, 0, 12.0)], ["flag_blue", Vector3(6.5, 0, 12.0)]]:
+	area = Rect2(-19, -22, 38, 43)
+	lay_ground(Vector3(0, 0, 17.5), 0.0)
+	# The high street, and the market square it opens into.
+	path([Vector3(0, 0, 21.0), Vector3(0.4, 0, 12.0), Vector3(-0.3, 0, 4.0), Vector3(0, 0, -2.0)], 6.0, "cobble")
+	path([Vector3(-10.0, 0, -7.0), Vector3(10.0, 0, -7.0)], 11.0, "cobble")
+	path([Vector3(0, 0, -12.0), Vector3(0, 0, -19.5)], 5.0, "cobble")
+	add_clearing(Vector3(0, 0, -7.0), Vector2(21, 12))
+	add_clearing(Vector3(0, 0, 8.0), Vector2(7, 28))
+	# The inner wall and its open gate, the cathedral and towers beyond.
+	Props.place(self, "cathedral", Vector3(0, 0, -33.0), 0.0, 1.1)
+	for x: float in [-16.5, -11.0, -5.6, 5.6, 11.0, 16.5]:
+		Props.place(self, "city_wall", Vector3(x, 0, -20.5), 0.0)
+	Props.place(self, "city_gate", Vector3(0, 0, -20.5), 0.0)
+	Props.place(self, "tower_red", Vector3(-21.5, 0, -21.0), 0.0)
+	Props.place(self, "tower_blue", Vector3(21.5, 0, -21.0), 0.0)
+	for f: Array in [["flag_red", Vector3(-3.6, 0, -18.6)], ["flag_blue", Vector3(3.6, 0, -18.6)], ["flag_red", Vector3(-4.2, 0, 19.0)], ["flag_blue", Vector3(4.2, 0, 19.0)]]:
 		Props.place(self, str(f[0]), f[1], 0.0)
+	# Houses and shops, fronts to the street and the square.
+	var west := [["house_tall_red", 15.0], ["tavern_red", 6.5], ["house_b_yellow", -2.5], ["market_red", -11.5]]
+	var east := [["house_b_blue", 15.0], ["tower_blue", 6.5], ["house_blue", -2.5], ["tavern_yellow", -11.5]]
+	for h: Array in west:
+		Props.place(self, str(h[0]), Vector3(-14.5, 0, h[1]), PI / 2.0)
+	for h: Array in east:
+		Props.place(self, str(h[0]), Vector3(14.5, 0, h[1]), -PI / 2.0)
+	_sign(Vector3(11.6, 3.2, 6.5), -PI / 2.0, "Library")
+	_sign(Vector3(-11.7, 3.0, 6.5), PI / 2.0, "The Bell Inn")
+	# The square: fountain in the middle, stalls round it.
+	Props.place(self, "town_fountain", Vector3(0, 0, -7.0), 0.0, 1.5)
+	_stall(Vector3(-7.0, 0, -3.0), PI / 2.0, "awning_red", ["crate_carrots", "crate_lettuce"])
+	Props.place(self, "stall_green", Vector3(7.0, 0, -3.0), -PI / 2.0)
+	Props.place(self, "stall_red", Vector3(-7.0, 0, -11.0), PI / 2.0)
+	_stall(Vector3(7.0, 0, -11.0), -PI / 2.0, "awning_blue", ["crate_open", "crate_carrots"])
+	Props.place(self, "market_cart", Vector3(-4.5, 0, 9.5), PI / 2.0)
+	for p: Array in [["apple_crate", Vector3(-7.4, 0.78, -2.6)], ["coin_pile", Vector3(-6.6, 0.82, -3.6)], ["apple_barrel", Vector3(8.8, 0, -1.2)],
+			["carrot_crate", Vector3(-9.0, 0, -4.6)], ["barrel", Vector3(9.4, 0, -12.6)], ["crate_big", Vector3(-9.2, 0, -12.4)], ["sack", Vector3(9.0, 0, -9.4)],
+			["crate_long", Vector3(5.0, 0, 13.0)], ["barrel", Vector3(-5.2, 0, 13.6)]]:
+		Props.place(self, str(p[0]), p[1], 0.3)
+	for l: Vector3 in [Vector3(-3.6, 0, 16.0), Vector3(3.6, 0, 16.0), Vector3(-3.6, 0, 6.0), Vector3(3.6, 0, 6.0), Vector3(-9.5, 0, -13.5), Vector3(9.5, 0, -13.5)]:
+		Props.place(self, "lantern_post", l, 0.0)
+	for b: Array in [[Vector3(-3.4, 0, -12.6), 0.0], [Vector3(3.4, 0, -12.6), 0.0]]:
+		Props.place(self, "garden_bench", b[0], b[1])
+	Props.place(self, "well", Vector3(10.5, 0, 11.0), 0.4, 0.9)
 	# Townsfolk about their day.
 	var folk: Array = Content.get_world("characters").get("villagers", [])
-	var spots := [Vector3(-1.6, 0, 7.0), Vector3(2.0, 0, 0.0), Vector3(-2.2, 0, -5.0), Vector3(1.8, 0, -9.0), Vector3(-1.0, 0, 2.5)]
+	var spots := [Vector3(-1.6, 0, 11.0), Vector3(2.0, 0, 2.0), Vector3(-3.2, 0, -9.0), Vector3(3.0, 0, -5.0), Vector3(-1.0, 0, -15.0), Vector3(1.5, 0, 16.0)]
 	for i in spots.size():
 		if folk.size() > 0:
-			passerby(folk[(i + 2) % folk.size()], spots[i], 600 + i, 2.0)
-	neighbour("greta", Vector3(-2.8, 0, 4.0), 0.6)
-	add_anchor("city_greta", Vector3(-2.8, 0, 4.0), PI / 2.0)
-	add_clearing(Vector3(0, 0, 0), Vector2(14, 28))
-	add_activity_focus(Vector3(0, 0.8, 2.0))
+			passerby(folk[(i + 2) % folk.size()], spots[i], 600 + i, 2.5)
+	neighbour("greta", Vector3(-5.2, 0, -3.0), 0.6)
+	add_anchor("city_greta", Vector3(-5.2, 0, -3.0), PI / 2.0)
+	add_activity_focus(Vector3(0, 0.8, -4.0))
 
 
 ## A hanging shop sign with the shop's name.

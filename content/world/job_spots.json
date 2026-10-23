@@ -365,9 +365,9 @@
 		{
 			"region": "wilderness",
 			"at": [
-				-5.0,
+				-7.4,
 				0,
-				3.6
+				4.6
 			],
 			"prompt": "Sort the fallen leaves",
 			"activity": "wild_leaves",
@@ -378,9 +378,9 @@
 		{
 			"region": "wilderness",
 			"at": [
-				2.6,
+				5.8,
 				0,
-				2.4
+				3.0
 			],
 			"prompt": "Read the trail map",
 			"activity": "wild_trail",
@@ -391,9 +391,9 @@
 		{
 			"region": "farmlands",
 			"at": [
-				-2.4,
+				-6.6,
 				0,
-				-2.4
+				-7.0
 			],
 			"prompt": "Stand up the sheaves",
 			"activity": "farm_sheaves",
@@ -404,9 +404,9 @@
 		{
 			"region": "farmlands",
 			"at": [
-				8.4,
+				4.6,
 				0,
-				-2.0
+				7.0
 			],
 			"prompt": "Share hay for the cows",
 			"activity": "farm_feed",
@@ -417,9 +417,9 @@
 		{
 			"region": "city",
 			"at": [
-				-3.0,
+				-4.2,
 				0,
-				6.6
+				-0.4
 			],
 			"prompt": "Count Mrs. Greta's coins",
 			"activity": "city_coins",
@@ -430,9 +430,9 @@
 		{
 			"region": "city",
 			"at": [
-				3.0,
+				4.4,
 				0,
-				6.6
+				-0.8
 			],
 			"prompt": "Help at Mrs. Greta's stall",
 			"activity": "city_change",
@@ -443,9 +443,9 @@
 		{
 			"region": "monastery",
 			"at": [
-				2.4,
+				10.4,
 				0,
-				9.4
+				11.2
 			],
 			"prompt": "Copy a page",
 			"activity": "monastery_copy",
@@ -456,9 +456,9 @@
 		{
 			"region": "monastery",
 			"at": [
-				-2.6,
+				6.6,
 				0,
-				8.8
+				11.6
 			],
 			"prompt": "Look at the old map",
 			"activity": "monastery_maps",
@@ -469,9 +469,9 @@
 		{
 			"region": "coast",
 			"at": [
-				5.6,
+				16.0,
 				0,
-				1.6
+				-1.2
 			],
 			"prompt": "Load the ship's stores",
 			"activity": "coast_supplies",
@@ -482,7 +482,7 @@
 		{
 			"region": "coast",
 			"at": [
-				1.2,
+				13.0,
 				0,
 				5.2
 			],
@@ -495,7 +495,7 @@
 		{
 			"region": "mountains",
 			"at": [
-				1.6,
+				2.8,
 				0,
 				1.6
 			],
@@ -508,9 +508,9 @@
 		{
 			"region": "mountains",
 			"at": [
-				-4.2,
+				-5.2,
 				0,
-				0.0
+				3.8
 			],
 			"prompt": "Read Mr. Silas's map",
 			"activity": "mountain_trail",
@@ -521,9 +521,9 @@
 		{
 			"region": "lake",
 			"at": [
-				-2.4,
+				5.4,
 				0,
-				-1.6
+				-2.2
 			],
 			"prompt": "Help with the catch",
 			"activity": "lake_fish",
@@ -534,9 +534,9 @@
 		{
 			"region": "lake",
 			"at": [
-				0.6,
+				8.4,
 				0,
-				-4.6
+				1.6
 			],
 			"prompt": "See who lives in the lake",
 			"activity": "lake_creatures",
