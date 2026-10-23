@@ -262,8 +262,9 @@ static func _with_river(x: float, z: float, h: float) -> float:
 		h = lerpf(h, maxf(h, FALLS_TOP), west * band)
 	var bed := lerpf(RIVER_LEVEL - 0.4, FALLS_TOP - 0.7, west)
 	# The bank slopes from a metre inside the water's edge to under a metre
-	# beyond it, more gently where the land stands high above the water.
-	var carve := 1.0 - smoothstep(-0.9, 0.7 + maxf(h - bed - 2.0, 0.0) * 0.9, river_bank_distance(x, z))
+	# beyond it; where the land stands higher, it eases down over a wide,
+	# shallow bank (about one in four), so the river never looks like a trench.
+	var carve := 1.0 - smoothstep(-0.9, 0.7 + maxf(h - bed - 1.0, 0.0) * 4.0, river_bank_distance(x, z))
 	return lerpf(h, minf(h, bed), carve)
 
 
