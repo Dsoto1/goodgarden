@@ -1,0 +1,10 @@
+{
+	"id": "day_069",
+	"day": 69,
+	"week": 10,
+	"arc": "Forgiveness & Cooperation",
+	"npcs": {"miriam": "garden_miriam"},
+	"free_work": ["home_set_table"],
+	"chapel": ["good_samaritan", "mustard_seed", "leaven", "lost_sheep", "fishers", "five_thousand", "good_shepherd"],
+	"season": "Summer"
+}

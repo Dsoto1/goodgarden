@@ -1,0 +1,29 @@
+{
+	"id": "inv_day_074",
+	"from": "tobias",
+	"body": "Hello, friend!\n\nSo many people are coming to the supper! I've worked out how much food we need.\n\nCome to the bakery and help me count it out?",
+	"signature": "Mr. Tobias, the baker",
+	"suggests": "supper_list",
+	"summary": "Count out the food for the supper.",
+	"done": "Enough for everyone!",
+	"tasks": [
+		{
+			"text": "Count out the food",
+			"activity": "supper_list",
+			"icon": "bread",
+			"where": "at the bakery"
+		},
+		{
+			"text": "Collect the eggs",
+			"activity": "home_eggs",
+			"icon": "egg",
+			"where": "at the coop by your house"
+		},
+		{
+			"text": "Look in the pond",
+			"activity": "pond_creatures",
+			"icon": "fish",
+			"where": "at the pond west of home"
+		}
+	]
+}

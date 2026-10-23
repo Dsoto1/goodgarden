@@ -1,0 +1,29 @@
+{
+	"id": "inv_day_080",
+	"from": "ruth",
+	"body": "Good morning!\n\nThe cups are on the long table. Let's practise pouring milk, so everything is perfect on Friday.\n\nSteady hands!",
+	"signature": "Mrs. Ruth",
+	"suggests": "feast_milk",
+	"summary": "Practise pouring milk for the feast.",
+	"done": "Not a drop spilled!",
+	"tasks": [
+		{
+			"text": "Pour the milk",
+			"activity": "feast_milk",
+			"icon": "water",
+			"where": "in the village square"
+		},
+		{
+			"text": "Collect the eggs",
+			"activity": "home_eggs",
+			"icon": "egg",
+			"where": "at the coop by your house"
+		},
+		{
+			"text": "Feed the lambs",
+			"activity": "sheepfold_hay",
+			"icon": "sheep",
+			"where": "at the sheepfold"
+		}
+	]
+}

@@ -1,0 +1,39 @@
+{
+	"id": "inv_day_043",
+	"from": "ruth",
+	"body": "Good morning, dear!\n\nI was tidying my old chest, and look what I found: a map of our valley, drawn by my grandson Sam when he was little. He lives in Bellhaven now.\n\nCome and see it! We can follow the squares together.",
+	"signature": "Mrs. Ruth",
+	"suggests": "community_map",
+	"summary": "Read Sam's old map with Mrs. Ruth.",
+	"done": "You followed the map all the way to the chapel!",
+	"tasks": [
+		{
+			"text": "Follow Sam's map",
+			"activity": "community_map",
+			"icon": "map",
+			"where": "at Mrs. Ruth's house"
+		},
+		{
+			"text": "Feed the hens",
+			"done_when": [
+				{
+					"fact": "home.hens_fed_day",
+					"is_today": true
+				}
+			],
+			"icon": "hen",
+			"where": "by the coop at home"
+		},
+		{
+			"text": "Pet the cat",
+			"done_when": [
+				{
+					"fact": "animals.cat.petted_day",
+					"is_today": true
+				}
+			],
+			"icon": "heart",
+			"where": "at home"
+		}
+	]
+}

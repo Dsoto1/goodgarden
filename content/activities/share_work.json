@@ -1,0 +1,87 @@
+{
+	"id": "share_work",
+	"title": "Sharing the Work",
+	"mode": "task",
+	"location": "village",
+	"surface": "wood_table",
+	"readiness": {
+		"ages": [
+			5,
+			9
+		],
+		"math": "sharing equally: division (older: with a remainder)",
+		"reading": "pre-reader friendly; all text can be read aloud"
+	},
+	"concepts": [
+		"sharing equally",
+		"division",
+		"fair shares"
+	],
+	"formation_themes": [
+		"cooperation",
+		"fairness"
+	],
+	"prerequisites": [
+		{
+			"not": {
+				"fact": "project.share_day",
+				"is_today": true
+			}
+		}
+	],
+	"intro": [
+		{
+			"speaker": "tobias",
+			"text": "There's a big pile of nails to hammer in. If we share the work fairly, it'll go quickly."
+		},
+		{
+			"speaker": "tobias",
+			"text": "Let's give each worker the same number of nails."
+		}
+	],
+	"steps": [
+		{
+			"id": "share",
+			"primitive": "share_equally",
+			"speaker": "tobias",
+			"prompt": "Share the nails so each worker has the same.",
+			"hint": "Show me",
+			"piece": "nail",
+			"total": 12,
+			"plates": 3,
+			"look": "plate",
+			"names": [
+				"Mr. Amos",
+				"Mr. Tobias",
+				"you"
+			],
+			"older": {
+				"total": 20,
+				"plates": 3,
+				"leftover": true,
+				"prompt": "Share the nails fairly among three. Put any that can't be shared fairly in the left-over bowl."
+			},
+			"feedback": {
+				"all_good": "Fair shares: {n} nails each! Many hands make light work."
+			}
+		}
+	],
+	"outro": [
+		{
+			"speaker": "tobias",
+			"text": "Many hands make light work! And it's more fun together, too.",
+			"button": "Thank you, Mr. Tobias"
+		}
+	],
+	"world_effects": [
+		{
+			"op": "set",
+			"fact": "project.share_day",
+			"value": "$day"
+		}
+	],
+	"replay": "free",
+	"real_world_invitation": "rw_share_snack",
+	"journal_line": "I shared the work fairly with Mr. Amos and Mr. Tobias.",
+	"unavailable_text": "The work is shared for today."
+}

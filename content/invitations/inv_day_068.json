@@ -1,0 +1,29 @@
+{
+	"id": "inv_day_068",
+	"from": "tobias",
+	"body": "Hello!\n\nToday we carry the tables and benches to the square. I've chalked a plan on the cobbles.\n\nWill you help us put everything in its place?",
+	"signature": "Mr. Tobias, the baker",
+	"suggests": "arrange_tables",
+	"summary": "Arrange the tables and benches in the square.",
+	"done": "The square is ready for a feast!",
+	"tasks": [
+		{
+			"text": "Arrange the tables",
+			"activity": "arrange_tables",
+			"icon": "table",
+			"where": "in the village square"
+		},
+		{
+			"text": "Collect the eggs",
+			"activity": "home_eggs",
+			"icon": "egg",
+			"where": "at the coop by your house"
+		},
+		{
+			"text": "Fill the bird feeders",
+			"activity": "grove_bird_feeders",
+			"icon": "bird",
+			"where": "in the grove"
+		}
+	]
+}

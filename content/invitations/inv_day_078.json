@@ -1,0 +1,29 @@
+{
+	"id": "inv_day_078",
+	"from": "tobias",
+	"body": "Good morning, friend!\n\nThis week is the biggest bake of the year: bread for the Harvest Supper! Every loaf needs just the right flour.\n\nCome and weigh it with me?",
+	"signature": "Mr. Tobias, the baker",
+	"suggests": "feast_flour",
+	"summary": "Weigh flour for the feast with Mr. Tobias.",
+	"done": "The flour is weighed!",
+	"tasks": [
+		{
+			"text": "Weigh the flour",
+			"activity": "feast_flour",
+			"icon": "scales",
+			"where": "at the bakery"
+		},
+		{
+			"text": "Collect the eggs",
+			"activity": "home_eggs",
+			"icon": "egg",
+			"where": "at the coop by your house"
+		},
+		{
+			"text": "Pour water for supper",
+			"activity": "home_pour_water",
+			"icon": "water",
+			"where": "at the jug in your kitchen"
+		}
+	]
+}

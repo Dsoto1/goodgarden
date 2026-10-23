@@ -1,0 +1,34 @@
+{
+	"id": "inv_day_060",
+	"from": "miriam",
+	"body": "Dear friend,\n\nRuth's note made me cry, the happy kind of crying. Of course I forgive her!\n\nToday we're planting the border again, together. Will you help us?",
+	"signature": "Miss Miriam",
+	"suggests": "replant_border",
+	"summary": "Replant the flower border with Miss Miriam and Mrs. Ruth.",
+	"done": "The border is planted again, together!",
+	"tasks": [
+		{
+			"text": "Replant the border",
+			"activity": "replant_border",
+			"icon": "flower",
+			"where": "in Miss Miriam's garden"
+		},
+		{
+			"text": "Collect the eggs",
+			"activity": "home_eggs",
+			"icon": "egg",
+			"where": "at the coop by your house"
+		},
+		{
+			"text": "Pet the lost lamb",
+			"done_when": [
+				{
+					"fact": "animals.lamb.petted_day",
+					"is_today": true
+				}
+			],
+			"icon": "heart",
+			"where": "at the sheepfold"
+		}
+	]
+}

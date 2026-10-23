@@ -1,0 +1,204 @@
+{
+	"id": "arrange_tables",
+	"title": "Tables in the Square",
+	"mode": "task",
+	"location": "village",
+	"surface": "wood_table",
+	"readiness": {
+		"ages": [
+			5,
+			9
+		],
+		"math": "fitting shapes by turning them; arranging a space",
+		"reading": "pre-reader friendly; all text can be read aloud"
+	},
+	"concepts": [
+		"shape matching",
+		"rotation",
+		"planning a space"
+	],
+	"formation_themes": [
+		"cooperation",
+		"hospitality"
+	],
+	"prerequisites": [
+		{
+			"fact": "project.painted",
+			"exists": true
+		},
+		{
+			"fact": "project.tables",
+			"exists": false
+		}
+	],
+	"intro": [
+		{
+			"speaker": "tobias",
+			"text": "Here come the tables and benches! Where shall they all go in the square?"
+		},
+		{
+			"speaker": "tobias",
+			"text": "I've chalked a plan on the cobbles. Fit each table and bench where it belongs. Tap one to turn it."
+		}
+	],
+	"steps": [
+		{
+			"id": "arrange",
+			"primitive": "fit_shapes",
+			"speaker": "tobias",
+			"picture": "floor",
+			"size": [
+				68,
+				68
+			],
+			"prompt": "Fit each table and bench into its chalk outline. Tap one to turn it.",
+			"hint": "Show me",
+			"shapes": [
+				{
+					"kind": "shape_rect",
+					"pos": [
+						500,
+						120
+					],
+					"turn": 0,
+					"size": [
+						200,
+						60
+					]
+				},
+				{
+					"kind": "shape_rect",
+					"pos": [
+						500,
+						240
+					],
+					"turn": 0,
+					"size": [
+						200,
+						60
+					]
+				},
+				{
+					"kind": "shape_rect",
+					"pos": [
+						360,
+						180
+					],
+					"turn": 1,
+					"size": [
+						120,
+						40
+					]
+				},
+				{
+					"kind": "shape_rect",
+					"pos": [
+						640,
+						180
+					],
+					"turn": 1,
+					"size": [
+						120,
+						40
+					]
+				}
+			],
+			"older": {
+				"prompt": "Fit each table, bench and stool into its chalk outline. Tap one to turn it.",
+				"shapes": [
+					{
+						"kind": "shape_rect",
+						"pos": [
+							500,
+							120
+						],
+						"turn": 0,
+						"size": [
+							200,
+							60
+						]
+					},
+					{
+						"kind": "shape_rect",
+						"pos": [
+							500,
+							240
+						],
+						"turn": 0,
+						"size": [
+							200,
+							60
+						]
+					},
+					{
+						"kind": "shape_rect",
+						"pos": [
+							360,
+							180
+						],
+						"turn": 1,
+						"size": [
+							120,
+							40
+						]
+					},
+					{
+						"kind": "shape_rect",
+						"pos": [
+							640,
+							180
+						],
+						"turn": 1,
+						"size": [
+							120,
+							40
+						]
+					},
+					{
+						"kind": "shape_circle",
+						"pos": [
+							330,
+							80
+						],
+						"size": [
+							50,
+							50
+						]
+					},
+					{
+						"kind": "shape_circle",
+						"pos": [
+							670,
+							280
+						],
+						"size": [
+							50,
+							50
+						]
+					}
+				]
+			},
+			"feedback": {
+				"all_good": "Everything fits! There's room for everyone."
+			}
+		}
+	],
+	"outro": [
+		{
+			"speaker": "tobias",
+			"text": "Look at that: room for the whole valley. All it needs now is food and friends.",
+			"button": "Thank you, Mr. Tobias"
+		}
+	],
+	"world_effects": [
+		{
+			"op": "set",
+			"fact": "project.tables",
+			"value": "$day"
+		}
+	],
+	"replay": "once",
+	"real_world_invitation": "rw_shape_hunt",
+	"journal_line": "I helped arrange the new tables and benches in the square.",
+	"unavailable_text": "The tables are in the square."
+}

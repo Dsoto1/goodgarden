@@ -1,0 +1,39 @@
+{
+	"id": "inv_day_057",
+	"from": "ruth",
+	"body": "Oh, my dear!\n\nDid you hear the storm last night? The wind blew part of the sheepfold fence right down!\n\nWill you come and help me mend it? Bring strong hands!",
+	"signature": "Mrs. Ruth",
+	"suggests": "mend_fence",
+	"summary": "Help Mrs. Ruth mend the sheepfold fence after the storm.",
+	"done": "The fence is mended!",
+	"tasks": [
+		{
+			"text": "Mend the fence",
+			"activity": "mend_fence",
+			"icon": "hammer",
+			"where": "at the sheepfold"
+		},
+		{
+			"text": "Feed the hens",
+			"done_when": [
+				{
+					"fact": "home.hens_fed_day",
+					"is_today": true
+				}
+			],
+			"icon": "hen",
+			"where": "by the coop at home"
+		},
+		{
+			"text": "Say hello to Miss Miriam",
+			"done_when": [
+				{
+					"fact": "npc.miriam.greeted_day",
+					"is_today": true
+				}
+			],
+			"icon": "seedling",
+			"where": "in her garden"
+		}
+	]
+}

@@ -22,9 +22,10 @@ without help tells us what the game needs.
   the grown-ups' panel (work level: younger / older), **Save and go to the
   main menu**, and **Save and close the game**. The title screen has
   Settings and **Close the game** too.
-- Plan for one in-game day per sitting (about 10–20 minutes). Six weeks are
-  ready: in week 4 a Grove opens behind the chapel, in week 5 the child
-  meets Mr. Amos at his workshop, and week 6 is market week. Monday to Friday
+- Plan for one in-game day per sitting (about 10–20 minutes). The whole
+  twelve-week season is ready: a Grove opens in week 4, the child meets
+  Mr. Amos in week 5, week 6 is market week, and day 82 is the Harvest
+  Supper. Monday to Friday
   each have a letter and three jobs, Saturday is a free day, Sunday a day
   of rest. Resting in bed ends the day; the bed
   reminds the child of any job still waiting but lets them choose.

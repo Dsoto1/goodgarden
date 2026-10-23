@@ -1,0 +1,34 @@
+{
+	"id": "inv_day_065",
+	"from": "amos",
+	"body": "Good morning!\n\nWe're ready to start building. I need things from my shelf, and I've written a list.\n\nCome to the workshop and fetch them for me?",
+	"signature": "Mr. Amos, the carpenter",
+	"suggests": "fetch_for_tables",
+	"summary": "Read Mr. Amos's list and fetch what we need.",
+	"done": "Everything is fetched. Let's build!",
+	"tasks": [
+		{
+			"text": "Fetch for the tables",
+			"activity": "fetch_for_tables",
+			"icon": "note",
+			"where": "at Mr. Amos's workshop"
+		},
+		{
+			"text": "Feed the hens",
+			"done_when": [
+				{
+					"fact": "home.hens_fed_day",
+					"is_today": true
+				}
+			],
+			"icon": "hen",
+			"where": "by the coop at home"
+		},
+		{
+			"text": "Pour water for supper",
+			"activity": "home_pour_water",
+			"icon": "water",
+			"where": "at the jug in your kitchen"
+		}
+	]
+}

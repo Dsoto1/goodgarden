@@ -26,7 +26,7 @@ Beyond the slice:
 | Design target | Now |
 |---|---|
 | 12 weeks × 5 guided days = 60 guided days | 10 guided days written (weeks 1–2) |
-| 12–15 reusable activity types (`LEARNING_DESIGN.md`) | 17: spacing along a line, counting into slots, matching to outlines, sorting into bins, balance scale, sequence cards, story figures, building words, labelling pictures, measuring with units, pouring to a line, paying with coins, looking closely, continuing a pattern, fitting shapes, giving change, filling an order from a note |
+| 12–15 reusable activity types (`LEARNING_DESIGN.md`) | 20: spacing along a line, counting into slots, matching to outlines, sorting into bins, balance scale, sequence cards, story figures, building words, labelling pictures, measuring with units, pouring to a line, paying with coins, looking closely, continuing a pattern, fitting shapes, giving change, filling an order from a note, writing a letter, following directions on a map, sharing equally |
 | 15–20 Scripture presentations at launch (`CHAPEL_ATRIUM.md`) | 7 (paused at the owner's request) |
 | Regions: homestead, valley/village, farm & mill, forest/grove, Bellhaven later | Forest/grove not built; Bellhaven visible, not reachable |
 
@@ -145,14 +145,34 @@ or list and fetch just what it says).
   - Fri 40: mind the bread stall alone; a customer overpays and the child
     checks (`give_change` with `mistaken_pay`)
 
-## Phase E: weeks 7–12
+## Phase E: weeks 7–12 ✓
 
-- **Weeks 7–8:** the road to Bellhaven, sharing, maps, letters.
-- **Weeks 9–10:** multi-step community projects, forgiveness and
-  cooperation.
-- **Weeks 11–12:** the harvest celebration. The beans, orchard, bread and
-  animals come together in a shared supper with the neighbours. The beans
-  keep growing until then.
+The whole first season is written: 60 guided days, Saturdays free and
+Sundays of rest, ending in the Harvest Supper. Three new activity types:
+`compose_letter` (write by choosing a word for each coloured space; the
+child's own letter, never one right answer), `follow_directions` (a
+squared map of the valley: "Go 3 squares east") and `share_equally`
+(division by dealing out, with a "left over" bowl for older children).
+Each day's work starts at a **job spot** (`content/world/job_spots.json`),
+so new days need no code.
+
+- [x] Weeks 7–8, Compassion & Community: Mrs. Ruth's grandson Sam's map
+  of the valley; a letter to Sam in Bellhaven; sharing rolls with families
+  from over the hills; words for the new signpost by the bridge (it then
+  stands there); packing a cart for Bellhaven and planning its way; seeds
+  for every neighbour; a get-well card for Mr. Amos, and tidying for him;
+  welcoming travellers.
+- [x] Weeks 9–10, Forgiveness & Cooperation: a storm; mending the
+  sheepfold fence; finding the lost lamb with the map (she waits in the
+  grove); helping Mrs. Ruth write a sorry note, and replanting Miss
+  Miriam's border together; patching the coop roof; then a project with
+  Mr. Amos and Mr. Tobias: plan, fetch, share the work, paint, and arrange
+  long tables in the square.
+- [x] Weeks 11–12, Gratitude & Harvest: picking the beans planted on day 1;
+  apples shared among the houses; invitations; counting out food; bunting
+  across the square; weighing flour, setting the long table, pouring,
+  sharing the pies in quarters; and on day 82 the Harvest Supper, with
+  everyone (Sam too) at the table, and the child's own thank-you.
 
 ## Alongside, when it fits
 

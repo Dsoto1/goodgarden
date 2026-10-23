@@ -1,0 +1,34 @@
+{
+	"id": "inv_day_044",
+	"from": "ruth",
+	"body": "Dear friend,\n\nI've been thinking about Sam all night. He's far away in Bellhaven, and I think he's lonely.\n\nWould you write him a letter? A letter from a new friend might be just the thing. I'll send it with the mail cart.",
+	"signature": "Mrs. Ruth",
+	"suggests": "letter_to_sam",
+	"summary": "Write a letter to Sam in Bellhaven.",
+	"done": "Your letter is on its way to Sam!",
+	"tasks": [
+		{
+			"text": "Write to Sam",
+			"activity": "letter_to_sam",
+			"icon": "letter",
+			"where": "at the table by your door"
+		},
+		{
+			"text": "Collect the eggs",
+			"activity": "home_eggs",
+			"icon": "egg",
+			"where": "at the coop by your house"
+		},
+		{
+			"text": "Say hello to Mrs. Ruth",
+			"done_when": [
+				{
+					"fact": "npc.ruth.greeted_day",
+					"is_today": true
+				}
+			],
+			"icon": "heart",
+			"where": "at her house by the square"
+		}
+	]
+}

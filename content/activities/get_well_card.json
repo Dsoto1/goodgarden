@@ -1,0 +1,132 @@
+{
+	"id": "get_well_card",
+	"title": "A Card for Mr. Amos",
+	"mode": "task",
+	"location": "home",
+	"surface": "wood_table",
+	"readiness": {
+		"ages": [
+			5,
+			9
+		],
+		"math": "none",
+		"reading": "choosing and reading words to write a card"
+	},
+	"concepts": [
+		"writing a card",
+		"reading words"
+	],
+	"formation_themes": [
+		"compassion",
+		"kindness"
+	],
+	"prerequisites": [
+		{
+			"fact": "community.amos_card",
+			"exists": false
+		}
+	],
+	"intro": [
+		{
+			"speaker": "narrator",
+			"text": "Mr. Amos hurt his hand with a hammer. It will mend, but it's sore, and he can't work for a few days."
+		},
+		{
+			"speaker": "narrator",
+			"text": "A card would cheer him up. Choose a word for each coloured space."
+		}
+	],
+	"steps": [
+		{
+			"id": "card",
+			"primitive": "compose_letter",
+			"speaker": "narrator",
+			"prompt": "Write the card: choose a word for each coloured space.",
+			"hint": "Show me",
+			"lines": [
+				"Dear Mr. Amos,",
+				"I am sorry your hand is {hurt}.",
+				"I will help you {help}.",
+				"Get well {when}!"
+			],
+			"choices": {
+				"hurt": [
+					"sore",
+					"hurt"
+				],
+				"help": [
+					{
+						"word": "tidy up",
+						"icon": "box"
+					},
+					{
+						"word": "carry wood",
+						"icon": "plank"
+					},
+					{
+						"word": "sweep",
+						"icon": "home"
+					}
+				],
+				"when": [
+					"soon",
+					"quickly"
+				]
+			},
+			"signature": "your friend",
+			"older": {
+				"lines": [
+					"Dear Mr. Amos,",
+					"I am {feel} that your hand is {hurt}.",
+					"I will {help} until it is better.",
+					"We are {pray} for you.",
+					"Get well {when}!"
+				],
+				"choices": {
+					"feel": [
+						"sorry",
+						"sad"
+					],
+					"hurt": [
+						"sore",
+						"hurt"
+					],
+					"help": [
+						"tidy your nails",
+						"carry wood",
+						"fetch water"
+					],
+					"pray": [
+						"praying",
+						"thinking of you"
+					],
+					"when": [
+						"soon",
+						"quickly"
+					]
+				}
+			},
+			"feedback": {
+				"all_good": "What a kind card. Take it to Mr. Amos at his workshop."
+			}
+		}
+	],
+	"outro": [
+		{
+			"speaker": "narrator",
+			"text": "The card is ready. Kind words help hurts to heal.",
+			"button": "Done"
+		}
+	],
+	"world_effects": [
+		{
+			"op": "set",
+			"fact": "community.amos_card",
+			"value": "$card.text"
+		}
+	],
+	"replay": "once",
+	"real_world_invitation": "rw_write_letter",
+	"journal_line": "I made a get-well card for Mr. Amos.",
+	"unavailable_text": "The card for Mr. Amos is made."
+}

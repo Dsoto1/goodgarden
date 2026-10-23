@@ -1,0 +1,29 @@
+{
+	"id": "inv_day_058",
+	"from": "ruth",
+	"body": "Dear friend,\n\nOne of my lambs is still missing. Someone saw her near the grove, far across the valley.\n\nWill you help me find her? Bring Sam's map! Meet me at the sheepfold.",
+	"signature": "Mrs. Ruth",
+	"suggests": "find_lamb",
+	"summary": "Find Mrs. Ruth's lost lamb with the map.",
+	"done": "The lost lamb is found!",
+	"tasks": [
+		{
+			"text": "Find the lost lamb",
+			"activity": "find_lamb",
+			"icon": "sheep",
+			"where": "at the sheepfold"
+		},
+		{
+			"text": "Collect the eggs",
+			"activity": "home_eggs",
+			"icon": "egg",
+			"where": "at the coop by your house"
+		},
+		{
+			"text": "Fill the bird feeders",
+			"activity": "grove_bird_feeders",
+			"icon": "bird",
+			"where": "in the grove"
+		}
+	]
+}

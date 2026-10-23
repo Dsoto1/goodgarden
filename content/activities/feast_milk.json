@@ -1,0 +1,97 @@
+{
+	"id": "feast_milk",
+	"title": "Milk for Every Cup",
+	"mode": "task",
+	"location": "village",
+	"surface": "wood_table",
+	"readiness": {
+		"ages": [
+			5,
+			9
+		],
+		"math": "filling to a line; fractions (older)",
+		"reading": "pre-reader friendly; all text can be read aloud"
+	},
+	"concepts": [
+		"capacity",
+		"filling to a mark",
+		"fractions (older)"
+	],
+	"formation_themes": [
+		"hospitality"
+	],
+	"prerequisites": [
+		{
+			"not": {
+				"fact": "harvest.milk_day",
+				"is_today": true
+			}
+		}
+	],
+	"intro": [
+		{
+			"speaker": "ruth",
+			"text": "The cups are on the table. Let's practise pouring, so tomorrow's cups are just right."
+		},
+		{
+			"speaker": "ruth",
+			"text": "Steady hands! Stop at the line."
+		}
+	],
+	"steps": [
+		{
+			"id": "pour",
+			"primitive": "pour_to_line",
+			"speaker": "ruth",
+			"prompt": "Fill each cup to its line. Hold the jug over a cup, and let go at the line.",
+			"hint": "Show me",
+			"lines": [
+				0.6,
+				0.6,
+				0.6,
+				0.6
+			],
+			"rate": 0.25,
+			"tolerance": 0.08,
+			"liquid": "milk",
+			"older": {
+				"lines": [
+					0.75,
+					0.25,
+					0.5,
+					1.0
+				],
+				"labels": [
+					"three quarters",
+					"a quarter",
+					"half",
+					"full"
+				],
+				"rate": 0.35,
+				"tolerance": 0.05,
+				"prompt": "Fill each cup to its line: three quarters, a quarter, half, and full."
+			},
+			"feedback": {
+				"all_good": "Not a drop spilled!"
+			}
+		}
+	],
+	"outro": [
+		{
+			"speaker": "ruth",
+			"text": "You pour like you've been doing it all your life.",
+			"button": "Thank you, Mrs. Ruth"
+		}
+	],
+	"world_effects": [
+		{
+			"op": "set",
+			"fact": "harvest.milk_day",
+			"value": "$day"
+		}
+	],
+	"replay": "free",
+	"real_world_invitation": "rw_pour_home",
+	"journal_line": "I poured milk for the harvest table.",
+	"unavailable_text": "The milk is poured for today."
+}

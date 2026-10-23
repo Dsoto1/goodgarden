@@ -1,0 +1,125 @@
+{
+	"id": "supper_list",
+	"title": "How Much for the Supper?",
+	"mode": "task",
+	"location": "village",
+	"surface": "wood_table",
+	"readiness": {
+		"ages": [
+			5,
+			9
+		],
+		"math": "counting out larger sets to match a list",
+		"reading": "reading a list (older: no pictures)"
+	},
+	"concepts": [
+		"reading numerals",
+		"counting out a set",
+		"planning quantities"
+	],
+	"formation_themes": [
+		"hospitality",
+		"stewardship"
+	],
+	"prerequisites": [
+		{
+			"not": {
+				"fact": "harvest.list_day",
+				"is_today": true
+			}
+		}
+	],
+	"intro": [
+		{
+			"speaker": "tobias",
+			"text": "So many people are coming! We need enough for everyone, but not so much that it's wasted."
+		},
+		{
+			"speaker": "tobias",
+			"text": "Here's the list I worked out. Can you put out the right number of each?"
+		}
+	],
+	"steps": [
+		{
+			"id": "list",
+			"primitive": "fill_order",
+			"speaker": "tobias",
+			"note_title": "For the supper:",
+			"note_from": "Mr. Tobias",
+			"basket_label": "the supper basket",
+			"prompt": "Read the list. Put out the right number of each, then press Done.",
+			"hint": "Show me",
+			"order": [
+				{
+					"item": "bread_roll",
+					"count": 6,
+					"word": "roll",
+					"words": "rolls"
+				},
+				{
+					"item": "apple",
+					"count": 4
+				},
+				{
+					"item": "jam_jar",
+					"count": 2,
+					"word": "jar of jam",
+					"words": "jars of jam"
+				}
+			],
+			"extra": [
+				"egg"
+			],
+			"pictures": true,
+			"older": {
+				"order": [
+					{
+						"item": "bread_roll",
+						"count": 10,
+						"word": "roll",
+						"words": "rolls"
+					},
+					{
+						"item": "apple",
+						"count": 8
+					},
+					{
+						"item": "jam_jar",
+						"count": 3,
+						"word": "jar of jam",
+						"words": "jars of jam"
+					},
+					{
+						"item": "egg",
+						"count": 6
+					}
+				],
+				"extra": [],
+				"pictures": false,
+				"spare": 2,
+				"prompt": "Read the list: no pictures. Put out the right number of each, then press Done."
+			},
+			"feedback": {
+				"all_good": "Just right: enough for everyone, and nothing wasted."
+			}
+		}
+	],
+	"outro": [
+		{
+			"speaker": "tobias",
+			"text": "Enough for everyone, and some to share. That's God's way.",
+			"button": "Thank you, Mr. Tobias"
+		}
+	],
+	"world_effects": [
+		{
+			"op": "set",
+			"fact": "harvest.list_day",
+			"value": "$day"
+		}
+	],
+	"replay": "free",
+	"real_world_invitation": "rw_read_list",
+	"journal_line": "I counted out what we need for the Harvest Supper.",
+	"unavailable_text": "The supper food is counted for today."
+}

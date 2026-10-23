@@ -1,0 +1,39 @@
+{
+	"id": "inv_day_052",
+	"from": "miriam",
+	"body": "Dear friend,\n\nPoor Mr. Amos hurt his hand with his hammer. It will mend, but it's sore, and he can't work for a few days.\n\nA card might cheer him up. Will you make one?",
+	"signature": "Miss Miriam",
+	"suggests": "get_well_card",
+	"summary": "Make a get-well card for Mr. Amos.",
+	"done": "Your card will cheer Mr. Amos up!",
+	"tasks": [
+		{
+			"text": "Make a card",
+			"activity": "get_well_card",
+			"icon": "card",
+			"where": "at the table by your door"
+		},
+		{
+			"text": "Feed the hens",
+			"done_when": [
+				{
+					"fact": "home.hens_fed_day",
+					"is_today": true
+				}
+			],
+			"icon": "hen",
+			"where": "by the coop at home"
+		},
+		{
+			"text": "Visit Mr. Amos",
+			"done_when": [
+				{
+					"fact": "npc.amos.greeted_day",
+					"is_today": true
+				}
+			],
+			"icon": "plank",
+			"where": "at his workshop"
+		}
+	]
+}

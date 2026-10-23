@@ -1,0 +1,29 @@
+{
+	"id": "inv_day_051",
+	"from": "miriam",
+	"body": "Dear friend,\n\nOur bean plants have made lots of seeds. I'd love every neighbor to have some for their own garden.\n\nWill you help me share them out fairly?",
+	"signature": "Miss Miriam",
+	"suggests": "share_seeds",
+	"summary": "Share bean seeds fairly with the neighbors.",
+	"done": "Every neighbor has seeds for next year!",
+	"tasks": [
+		{
+			"text": "Share the seeds",
+			"activity": "share_seeds",
+			"icon": "seedling",
+			"where": "in Miss Miriam's garden"
+		},
+		{
+			"text": "Pour water for supper",
+			"activity": "home_pour_water",
+			"icon": "water",
+			"where": "at the jug in your kitchen"
+		},
+		{
+			"text": "Fill the bird feeders",
+			"activity": "grove_bird_feeders",
+			"icon": "bird",
+			"where": "in the grove"
+		}
+	]
+}

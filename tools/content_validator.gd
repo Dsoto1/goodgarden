@@ -7,7 +7,7 @@ extends RefCounted
 
 const KNOWN_SURFACES := ["soil_bed", "wood_table", "atrium_felt"]
 const KNOWN_EFFECT_OPS := ["set", "increment", "clear"]
-const CONDITION_KEYS := ["fact", "day", "day_at_least", "weekday", "any", "not"]
+const CONDITION_KEYS := ["fact", "day", "day_at_least", "weekday", "any", "not", "can_start"]
 const THIRD_PARTY_DIR := "res://assets/third_party"
 
 var errors := PackedStringArray()
@@ -36,6 +36,13 @@ func run() -> PackedStringArray:
 			errors.append("atrium shelf lists unknown activity '%s'" % item.get("activity", ""))
 		elif not def.is_reflection():
 			errors.append("atrium shelf item '%s' must be a reflection-mode activity" % def.id)
+	for spot: Dictionary in Content.get_world("job_spots").get("spots", []):
+		var where := "job spot '%s'" % spot.get("prompt", "?")
+		if not str(spot.get("region", "")) in region_ids:
+			errors.append("%s is in unknown region '%s'" % [where, spot.get("region", "")])
+		if Content.get_activity(str(spot.get("activity", ""))) == null:
+			errors.append("%s starts unknown activity '%s'" % [where, spot.get("activity", "")])
+		_check_conditions(spot.get("conditions", []), where)
 	_check_looks()
 	_check_third_party()
 	return errors

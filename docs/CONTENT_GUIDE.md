@@ -68,6 +68,7 @@ A day's `"npcs"` can send a neighbour somewhere for the day (`"ruth": "sheepfold
 | `{"fact": "k", "is_today": true}` | fact holds today's day number |
 | `{"day": 3}` / `{"day_at_least": 2}` | current day |
 | `{"weekday": "sunday"}` | day of the week (`"monday"` … `"sunday"`) |
+| `{"can_start": "garden_weed"}` | the activity could be started now (its prerequisites hold, and it is not done if it runs once) |
 | `{"any": [...]}` / `{"not": {...}}` | combine |
 
 ## Activities — `content/activities/*.json`
@@ -130,6 +131,16 @@ Hands-on activities serve ages 5 to 10 through a grown-up's **Work level** setti
 **`give_change`** (minding a stall): `sales` (`[{"item", "price", "paid": [coins], "icon"?}]`), `cash` (coins in the cash box), `mistaken_pay` (on the last sale the customer pays one coin too many; the child is asked to check, never scored). The child counts change onto the counter and presses Give change; the customer says what is missing or hands back the extra. `prompt` may use `{item}`, `{price}`, `{paid}`. Result: `sales`, `honest`. Feedback: `short`, `too_much`, `right`, `honest`, `all_good` (`{n}` filled in).
 
 **`fill_order`** (reading in context): `order` (`[{"item": kind, "count", "word"?, "words"?}]`, written on the note as "3 nails"), `pictures` (little pictures beside the lines; default true), `extra` (things on the shelf the note doesn't ask for), `spare`, `note_title`, `note_from`, `basket_label`. Tapping a line reads it aloud; Done checks the basket line by line. Result: `order`. Feedback: `missing`, `too_many`, `not_on_note`, `all_good`.
+
+**`compose_letter`** (writing): `lines` (the letter, with blanks written `{key}`), `choices` (`{key: [word | {"word", "icon"}]}`), `signature`. Each blank and its cards share a colour; a card fits only a blank of its colour, and a new choice replaces the old one. There is no single right answer. When every blank is filled the letter is read back, and "Send it" finishes. Result: `words` (`{key: word}`), `text` (the whole letter; save it with a world effect such as `"value": "$letter.text"`). Feedback: `wrong_place`, `read_back`, `all_good`.
+
+**`follow_directions`** (maps and direction): `grid` (`[cols, rows]`), `places` (`[{"icon", "at": [c, r], "name"}]`), `start`, `steps` (`[{"dir": "north"|"south"|"east"|"west", "n"}]`), `arrows` (an arrow and dots with each direction; default true). North is up. The walker stays only where the direction ends. Result: `steps`, `end`. Feedback: `wrong_way`, `count_again`, `arrived`, `all_good` (`{place}` filled in).
+
+**`share_equally`** (division): `piece`, `total`, `plates`, `names` (under each plate), `look` (`"basket"` or `"plate"`), `leftover` (a "left over" bowl, for shares that aren't even). Nothing says how many each: the child deals them out. "Done" checks the pile is shared, the plates match, and the bowl couldn't go round once more. Result: `each`, `left`. Feedback: `not_shared`, `not_equal`, `share_more`, `all_good` (`{n}`, `{left}`).
+
+### Where work starts: job spots
+
+`content/world/job_spots.json` lists where each day's work is started in the world: `{"region", "at": [x, y, z] (region-local), "prompt", "activity", "from_day", "until_day"? (default: that week's Saturday), "look": "crate"|"basket"|"table"|"none", "conditions"?}`. The little prop shows from `from_day` to `until_day`; the prompt only while the activity can be started (the condition `{"can_start": "activity_id"}`, which any condition list may use).
 
 Answer buttons from a step (numbers to choose) start with none selected, so no answer looks suggested; a single main button (Pay, Continue) starts selected.
 

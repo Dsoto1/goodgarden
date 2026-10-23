@@ -23,6 +23,9 @@ const PRIMITIVES := {
 	"fit_shapes": "res://scripts/activity/primitives/fit_shapes.gd",
 	"give_change": "res://scripts/activity/primitives/give_change.gd",
 	"fill_order": "res://scripts/activity/primitives/fill_order.gd",
+	"compose_letter": "res://scripts/activity/primitives/compose_letter.gd",
+	"follow_directions": "res://scripts/activity/primitives/follow_directions.gd",
+	"share_equally": "res://scripts/activity/primitives/share_equally.gd",
 }
 
 

@@ -1,0 +1,39 @@
+{
+	"id": "inv_day_073",
+	"from": "miriam",
+	"body": "Dear friend,\n\nThe Harvest Supper is next week! Everyone must be invited.\n\nWill you write the invitations? You write such lovely letters now.",
+	"signature": "Miss Miriam",
+	"suggests": "harvest_invitations",
+	"summary": "Write invitations to the Harvest Supper.",
+	"done": "The invitations are on their way!",
+	"tasks": [
+		{
+			"text": "Write the invitations",
+			"activity": "harvest_invitations",
+			"icon": "letter",
+			"where": "at the table by your door"
+		},
+		{
+			"text": "Feed the hens",
+			"done_when": [
+				{
+					"fact": "home.hens_fed_day",
+					"is_today": true
+				}
+			],
+			"icon": "hen",
+			"where": "by the coop at home"
+		},
+		{
+			"text": "Pet the cat",
+			"done_when": [
+				{
+					"fact": "animals.cat.petted_day",
+					"is_today": true
+				}
+			],
+			"icon": "heart",
+			"where": "at home"
+		}
+	]
+}

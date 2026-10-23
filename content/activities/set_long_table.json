@@ -1,0 +1,167 @@
+{
+	"id": "set_long_table",
+	"title": "Setting the Long Table",
+	"mode": "task",
+	"location": "village",
+	"surface": "wood_table",
+	"readiness": {
+		"ages": [
+			5,
+			9
+		],
+		"math": "matching to outlines; one-to-one correspondence",
+		"reading": "pre-reader friendly; all text can be read aloud"
+	},
+	"concepts": [
+		"one-to-one correspondence",
+		"matching",
+		"order"
+	],
+	"formation_themes": [
+		"hospitality",
+		"gratitude"
+	],
+	"prerequisites": [
+		{
+			"fact": "project.tables",
+			"exists": true
+		},
+		{
+			"fact": "harvest.table_set",
+			"exists": false
+		}
+	],
+	"intro": [
+		{
+			"speaker": "ruth",
+			"text": "The tables are in the square. Now we set every place, so each guest feels welcome."
+		},
+		{
+			"speaker": "ruth",
+			"text": "Each thing has its place on the mat. You remember how!"
+		}
+	],
+	"steps": [
+		{
+			"id": "places",
+			"primitive": "match_to_outline",
+			"speaker": "ruth",
+			"prompt": "Each thing has a place on the placemat. Find the shape it fits.",
+			"hint": "Watch: this one goes here. Can you find the next?",
+			"mats": [
+				[
+					110,
+					40,
+					360,
+					250
+				],
+				[
+					530,
+					40,
+					360,
+					250
+				]
+			],
+			"tray": [
+				90,
+				330,
+				820,
+				210
+			],
+			"slots": [
+				{
+					"kind": "napkin",
+					"pos": [
+						160,
+						170
+					]
+				},
+				{
+					"kind": "fork",
+					"pos": [
+						218,
+						170
+					]
+				},
+				{
+					"kind": "plate",
+					"pos": [
+						300,
+						170
+					]
+				},
+				{
+					"kind": "spoon",
+					"pos": [
+						380,
+						170
+					]
+				},
+				{
+					"kind": "cup",
+					"pos": [
+						425,
+						85
+					]
+				},
+				{
+					"kind": "napkin",
+					"pos": [
+						580,
+						170
+					]
+				},
+				{
+					"kind": "fork",
+					"pos": [
+						638,
+						170
+					]
+				},
+				{
+					"kind": "plate",
+					"pos": [
+						720,
+						170
+					]
+				},
+				{
+					"kind": "spoon",
+					"pos": [
+						800,
+						170
+					]
+				},
+				{
+					"kind": "cup",
+					"pos": [
+						845,
+						85
+					]
+				}
+			],
+			"feedback": {
+				"mismatch": "Hmm, that doesn't fit there. Look closely at the shape.",
+				"all_good": "Every place is set!"
+			}
+		}
+	],
+	"outro": [
+		{
+			"speaker": "ruth",
+			"text": "Every place is ready. There's a place for everyone at God's table, too.",
+			"button": "Thank you, Mrs. Ruth"
+		}
+	],
+	"world_effects": [
+		{
+			"op": "set",
+			"fact": "harvest.table_set",
+			"value": "$day"
+		}
+	],
+	"replay": "once",
+	"real_world_invitation": "rw_set_table",
+	"journal_line": "I set the long table for the Harvest Supper.",
+	"unavailable_text": "The long table is set."
+}

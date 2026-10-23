@@ -1,0 +1,12 @@
+{
+	"id": "day_066",
+	"day": 66,
+	"week": 10,
+	"arc": "Forgiveness & Cooperation",
+	"invitation": "inv_day_066",
+	"npcs": {"miriam": "garden_miriam"},
+	"primary_activity": "share_work",
+	"free_work": ["home_set_table"],
+	"chapel": ["good_samaritan", "mustard_seed", "leaven", "lost_sheep", "fishers", "five_thousand", "good_shepherd"],
+	"season": "Summer"
+}

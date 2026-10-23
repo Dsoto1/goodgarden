@@ -32,7 +32,7 @@ func _ready() -> void:
 			Settings.set_value("text_scale", float(a.substr(7)))
 	get_tree().root.theme = UiStyle.build_theme(UiStyle.text_scale())
 	DirAccess.make_dir_recursive_absolute(out)
-	for id: String in ["workshop_shapes", "workshop_window", "workshop_order", "workshop_planks", "workshop_birdhouse", "market_sell_eggs", "market_scales", "market_list", "market_count_coins", "market_stall_day", "home_eggs", "garden_weed", "village_pantry", "garden_flower_border", "garden_measure_again", "grove_leaves", "grove_trail_signs", "grove_acorns", "grove_stone_path", "grove_bird_feeders", "home_pour_water", "market_buy", "garden_look_closely", "garden_measure", "market_labels", "home_animal_signs", "garden_bean_row", "garden_water", "bakery_baskets", "home_set_table", "sheepfold_hay", "mill_flour", "oven_bake", "good_shepherd", "orchard_plant", "pond_creatures", "thank_you_card"]:
+	for id: String in ["community_map", "letter_to_sam", "share_rolls", "mend_signpost", "pack_cart", "cart_route", "share_seeds", "get_well_card", "tidy_workshop", "welcome_travellers", "mend_fence", "find_lamb", "sorry_note", "replant_border", "patch_roof", "plan_tables", "fetch_for_tables", "share_work", "paint_tables", "arrange_tables", "harvest_beans", "pick_apples", "harvest_invitations", "supper_list", "make_bunting", "feast_flour", "set_long_table", "feast_milk", "share_pies", "harvest_thanks", "workshop_shapes", "workshop_window", "workshop_order", "workshop_planks", "workshop_birdhouse", "market_sell_eggs", "market_scales", "market_list", "market_count_coins", "market_stall_day", "home_eggs", "garden_weed", "village_pantry", "garden_flower_border", "garden_measure_again", "grove_leaves", "grove_trail_signs", "grove_acorns", "grove_stone_path", "grove_bird_feeders", "home_pour_water", "market_buy", "garden_look_closely", "garden_measure", "market_labels", "home_animal_signs", "garden_bean_row", "garden_water", "bakery_baskets", "home_set_table", "sheepfold_hay", "mill_flour", "oven_bake", "good_shepherd", "orchard_plant", "pond_creatures", "thank_you_card"]:
 		if not only.is_empty() and not only.split(",").has(id):
 			continue
 		if not ActivityRunner.start(id):
@@ -70,7 +70,22 @@ func _ready() -> void:
 
 ## Puts about `part` of the pieces where they belong.
 func _fill(step: ActivityStep, part: float) -> void:
-	if step.get("outlines") != null:
+	if step.get("blanks") != null:
+		# A letter partly written.
+		for i in int(step.blanks.size() * part + 0.5):
+			var blank: DropSlot = step.blanks[i]
+			for c: DragPiece in step.cards:
+				if str(c.data["key"]) == blank.accepts and c.placed_in == null:
+					_place(c, blank.center())
+					break
+	elif step.get("walker") != null:
+		# The first direction followed.
+		_place(step.walker, step.cell_center(step.target()))
+	elif step.get("plates") != null:
+		# Shared out partway, one each, round and round.
+		for i in int(step.pieces.size() * part):
+			_place(step.pieces[i], step.plates[i % step.plates.size()].center())
+	elif step.get("outlines") != null:
 		# Shapes partly fitted: the first few turned and set in place.
 		for i in int(step.outlines.size() * part + 0.5):
 			var slot: DropSlot = step.outlines[i]

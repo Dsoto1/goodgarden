@@ -1,0 +1,39 @@
+{
+	"id": "inv_day_081",
+	"from": "tobias",
+	"body": "Hello, friend!\n\nI've baked apple pies from the apples you picked! Each pie is cut into four slices.\n\nWill you help me share them fairly among the tables?",
+	"signature": "Mr. Tobias, the baker",
+	"suggests": "share_pies",
+	"summary": "Share the pie slices fairly among the tables.",
+	"done": "Every table has its share!",
+	"tasks": [
+		{
+			"text": "Share the pies",
+			"activity": "share_pies",
+			"icon": "pie",
+			"where": "in the village square"
+		},
+		{
+			"text": "Feed the hens",
+			"done_when": [
+				{
+					"fact": "home.hens_fed_day",
+					"is_today": true
+				}
+			],
+			"icon": "hen",
+			"where": "by the coop at home"
+		},
+		{
+			"text": "Pet the pig",
+			"done_when": [
+				{
+					"fact": "animals.pig.petted_day",
+					"is_today": true
+				}
+			],
+			"icon": "heart",
+			"where": "in the pig's pen"
+		}
+	]
+}

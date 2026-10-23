@@ -1,0 +1,34 @@
+{
+	"id": "inv_day_066",
+	"from": "tobias",
+	"body": "Hello, friend!\n\nI'm helping Mr. Amos build the tables today. There's a big pile of nails to hammer!\n\nWill you share out the work, so it's fair?",
+	"signature": "Mr. Tobias, the baker",
+	"suggests": "share_work",
+	"summary": "Share out the work fairly.",
+	"done": "Many hands make light work!",
+	"tasks": [
+		{
+			"text": "Share the work",
+			"activity": "share_work",
+			"icon": "hammer",
+			"where": "at Mr. Amos's workshop"
+		},
+		{
+			"text": "Collect the eggs",
+			"activity": "home_eggs",
+			"icon": "egg",
+			"where": "at the coop by your house"
+		},
+		{
+			"text": "Pet the horse",
+			"done_when": [
+				{
+					"fact": "animals.horse.petted_day",
+					"is_today": true
+				}
+			],
+			"icon": "heart",
+			"where": "in the paddock by the mill"
+		}
+	]
+}

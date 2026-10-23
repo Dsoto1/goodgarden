@@ -15,6 +15,7 @@ var _border: Node3D # the flower border along the south fence, once planted
 var _flower_tray: Node3D # the tray of flowers waiting to be planted
 var _birdhouse: Node3D # the birdhouse the child built with Mr. Amos
 var _nesting: Node3D # a bird at its door, from the day after it went up
+var _bean_baskets: Node3D # the harvested beans, in baskets by the row
 
 ## The flower border runs along the inside of the south fence.
 const BORDER_Z := 4.85
@@ -132,6 +133,12 @@ func build() -> void:
 	MeshKit.box(_birdhouse, Vector3(0.36, 0.36, 0.36), bh + Vector3(0, 2.01, 0), "wood_light")
 	MeshKit.roof(_birdhouse, 0.5, 0.22, 0.46, bh + Vector3(0, 2.3, 0), "roof_red")
 	MeshKit.sphere(_birdhouse, 0.07, bh + Vector3(0, 2.05, 0.18), "dark", Vector3(1, 1, 0.2), 8, 3)
+	# At harvest, the picked beans wait in baskets at the end of the row.
+	_bean_baskets = group_node("BeanBaskets")
+	for k in 3:
+		var bb := Vector3(BED_X - BED_LENGTH / 2.0 - 0.5 + k * 0.55, 0, BED_ROWS["bed_1"] - 1.2)
+		MeshKit.cylinder(_bean_baskets, 0.22, 0.17, 0.24, bb + Vector3(0, 0.12, 0), "wood_light", 10)
+		MeshKit.sphere(_bean_baskets, 0.19, bb + Vector3(0, 0.26, 0), "leaf_light", Vector3(1, 0.4, 1), 8, 3)
 	_nesting = group_node("Nesting")
 	var bird := AnimalModel.make("bird")
 	bird.position = bh + Vector3(0.08, 1.84, 0.26)
@@ -202,6 +209,7 @@ static func growth_stage(bed: Dictionary) -> int:
 
 
 func sync_with_world() -> void:
+	_bean_baskets.visible = WorldState.has_fact("harvest.beans")
 	var built: Variant = WorldState.get_fact("workshop.birdhouse")
 	_birdhouse.visible = built != null
 	_nesting.visible = built != null and Days.current_day > int(built)

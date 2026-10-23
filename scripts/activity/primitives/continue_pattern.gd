@@ -15,7 +15,8 @@ extends ActivityStep
 ##   length: int        places in the row (default 10)
 ##   given: int         places already set at the start (default one unit's worth)
 ##   names: {kind: String}   what each piece is called aloud
-##   look: "border" | "path"  a soil border, or a path of earth (default "border")
+##   look: "border" | "path" | "plank" | "bunting"   a soil border, a path of
+##         earth, a painted plank, or a string of bunting (default "border")
 ## Feedback keys: "wrong", "all_good".
 ## Result: {"unit": [kind], "length": int}
 
@@ -144,10 +145,17 @@ func _on_dropped(p: DragPiece) -> void:
 
 
 func _draw() -> void:
-	if str(config.get("look", "border")) == "path":
-		BoardArt._fill(self, BoardArt._round_rect(Rect2(20, _row_y - 56, BOARD_SIZE.x - 40, 112), 40), Color("c9a774"))
-	else:
-		BoardArt.soil_row(self, Rect2(20, _row_y - 50, BOARD_SIZE.x - 40, 100))
+	match str(config.get("look", "border")):
+		"path":
+			BoardArt._fill(self, BoardArt._round_rect(Rect2(20, _row_y - 56, BOARD_SIZE.x - 40, 112), 40), Color("c9a774"))
+		"plank":
+			BoardArt._fill(self, BoardArt._round_rect(Rect2(20, _row_y - 50, BOARD_SIZE.x - 40, 100), 8), Color("c79a62"))
+			for k in 3:
+				draw_line(Vector2(40, _row_y - 30 + k * 30), Vector2(BOARD_SIZE.x - 40, _row_y - 26 + k * 30), Color(0.45, 0.3, 0.18, 0.3), 2.0)
+		"bunting":
+			draw_line(Vector2(20, _row_y - 34), Vector2(BOARD_SIZE.x - 20, _row_y - 34), Color("8a6446"), 4.0)
+		_:
+			BoardArt.soil_row(self, Rect2(20, _row_y - 50, BOARD_SIZE.x - 40, 100))
 	BoardArt.basket(self, Rect2(60, 390, BOARD_SIZE.x - 120, 100))
 	for place in places:
 		if place.contents.is_empty():

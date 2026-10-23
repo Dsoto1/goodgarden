@@ -1,0 +1,94 @@
+{
+	"id": "harvest_beans",
+	"title": "Picking the Beans",
+	"mode": "task",
+	"location": "garden",
+	"surface": "wood_table",
+	"readiness": {
+		"ages": [
+			5,
+			9
+		],
+		"math": "counting into groups; reading numerals (older)",
+		"reading": "pre-reader friendly; all text can be read aloud"
+	},
+	"concepts": [
+		"counting",
+		"one-to-one correspondence",
+		"reading numerals"
+	],
+	"formation_themes": [
+		"gratitude",
+		"patience"
+	],
+	"prerequisites": [
+		{
+			"fact": "garden.bed_1",
+			"exists": true
+		},
+		{
+			"fact": "harvest.beans",
+			"exists": false
+		}
+	],
+	"intro": [
+		{
+			"speaker": "miriam",
+			"text": "Do you remember the day you planted these beans? Three seeds in each hole, one stick apart."
+		},
+		{
+			"speaker": "miriam",
+			"text": "Look at them now! It's time to pick them. Let's fill a basket for each table at the supper."
+		}
+	],
+	"steps": [
+		{
+			"id": "pick",
+			"primitive": "count_into_slots",
+			"speaker": "miriam",
+			"prompt": "Put the bean pods in the baskets: the number on each basket.",
+			"hint": "Count the pods as you put them in.",
+			"counts": [
+				3,
+				4,
+				5
+			],
+			"container": "basket",
+			"piece": "bean_pod",
+			"supply_label": "just picked",
+			"spare": 2,
+			"older": {
+				"counts": [
+					6,
+					8,
+					7
+				],
+				"show_dimples": false,
+				"spare": 3,
+				"prompt": "Read the number on each basket, and count that many pods in."
+			},
+			"feedback": {
+				"full": "This basket has its {n}. Try another.",
+				"all_good": "So many beans, from those few little seeds!"
+			}
+		}
+	],
+	"outro": [
+		{
+			"speaker": "miriam",
+			"text": "Remember the mustard seed? Something tiny, given time and care, grows into something wonderful. Thank God for the harvest!",
+			"button": "Thank you, Miss Miriam"
+		}
+	],
+	"world_effects": [
+		{
+			"op": "set",
+			"fact": "harvest.beans",
+			"value": "$day"
+		}
+	],
+	"replay": "once",
+	"real_world_invitation": "rw_seed_look",
+	"journal_line": "I picked the beans I planted on my very first day.",
+	"unavailable_text": "The beans are picked."
+}

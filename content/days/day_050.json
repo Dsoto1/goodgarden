@@ -1,0 +1,12 @@
+{
+	"id": "day_050",
+	"day": 50,
+	"week": 8,
+	"arc": "Compassion & Community",
+	"invitation": "inv_day_050",
+	"npcs": {"miriam": "garden_miriam"},
+	"primary_activity": "cart_route",
+	"free_work": ["home_set_table"],
+	"chapel": ["good_samaritan", "mustard_seed", "leaven", "lost_sheep", "fishers", "five_thousand", "good_shepherd"],
+	"season": "Summer"
+}

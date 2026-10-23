@@ -1,0 +1,34 @@
+{
+	"id": "inv_day_067",
+	"from": "amos",
+	"body": "Good morning!\n\nThe tables are built! Now they need a cheerful pattern painted along the edges.\n\nWill you paint it with me?",
+	"signature": "Mr. Amos, the carpenter",
+	"suggests": "paint_tables",
+	"summary": "Paint a pattern on the new tables.",
+	"done": "The tables look festive!",
+	"tasks": [
+		{
+			"text": "Paint the tables",
+			"activity": "paint_tables",
+			"icon": "paint",
+			"where": "at Mr. Amos's workshop"
+		},
+		{
+			"text": "Feed the hens",
+			"done_when": [
+				{
+					"fact": "home.hens_fed_day",
+					"is_today": true
+				}
+			],
+			"icon": "hen",
+			"where": "by the coop at home"
+		},
+		{
+			"text": "Feed the lambs",
+			"activity": "sheepfold_hay",
+			"icon": "sheep",
+			"where": "at the sheepfold"
+		}
+	]
+}

@@ -1,0 +1,29 @@
+{
+	"id": "inv_day_047",
+	"from": "tobias",
+	"body": "Good morning!\n\nThe neighbors want to send food to families in Bellhaven who need it. The cart goes soon!\n\nWill you read our list and pack it? You're such a good list-reader.",
+	"signature": "Mr. Tobias, the baker",
+	"suggests": "pack_cart",
+	"summary": "Read the list and pack the cart for Bellhaven.",
+	"done": "The cart is packed with love!",
+	"tasks": [
+		{
+			"text": "Pack the cart",
+			"activity": "pack_cart",
+			"icon": "box",
+			"where": "on the north road out of the village"
+		},
+		{
+			"text": "Collect the eggs",
+			"activity": "home_eggs",
+			"icon": "egg",
+			"where": "at the coop by your house"
+		},
+		{
+			"text": "Look in the pond",
+			"activity": "pond_creatures",
+			"icon": "fish",
+			"where": "at the pond west of home"
+		}
+	]
+}

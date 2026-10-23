@@ -1,0 +1,92 @@
+{
+	"id": "share_rolls",
+	"title": "Bread to Share",
+	"mode": "task",
+	"location": "village",
+	"surface": "wood_table",
+	"readiness": {
+		"ages": [
+			5,
+			9
+		],
+		"math": "sharing equally: division by dealing out (older: with some left over)",
+		"reading": "pre-reader friendly; all text can be read aloud"
+	},
+	"concepts": [
+		"sharing equally",
+		"division",
+		"fair shares"
+	],
+	"formation_themes": [
+		"compassion",
+		"generosity"
+	],
+	"prerequisites": [
+		{
+			"not": {
+				"fact": "community.shared_day",
+				"is_today": true
+			}
+		}
+	],
+	"intro": [
+		{
+			"speaker": "tobias",
+			"text": "Some families have come over the hills from Bellhaven. Times are hard there, and they're hungry."
+		},
+		{
+			"speaker": "tobias",
+			"text": "I baked extra rolls. Let's share them out fairly, so each family gets the same."
+		}
+	],
+	"steps": [
+		{
+			"id": "share",
+			"primitive": "share_equally",
+			"speaker": "tobias",
+			"prompt": "Share the rolls so each family has the same. One each, round and round.",
+			"hint": "Show me",
+			"piece": "bread_roll",
+			"total": 12,
+			"plates": 3,
+			"names": [
+				"the Ellis family",
+				"the Moss family",
+				"the Hart family"
+			],
+			"older": {
+				"total": 14,
+				"plates": 4,
+				"leftover": true,
+				"names": [
+					"the Ellis family",
+					"the Moss family",
+					"the Hart family",
+					"the Lane family"
+				],
+				"prompt": "Share the rolls fairly among four families. If some can't be shared fairly, put them in the left-over bowl."
+			},
+			"feedback": {
+				"all_good": "Fair shares: {n} rolls each!"
+			}
+		}
+	],
+	"outro": [
+		{
+			"speaker": "tobias",
+			"text": "Jesus fed a great crowd with five loaves and two fish. We can only share a little, but sharing is how love grows.",
+			"button": "Thank you, Mr. Tobias"
+		}
+	],
+	"world_effects": [
+		{
+			"op": "set",
+			"fact": "community.shared_day",
+			"value": "$day"
+		}
+	],
+	"replay": "free",
+	"real_world_invitation": "rw_share_snack",
+	"journal_line": "I shared rolls fairly among families who came over the hills.",
+	"unavailable_text": "The rolls are shared for today."
+}

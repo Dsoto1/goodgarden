@@ -1,0 +1,34 @@
+{
+	"id": "inv_day_071",
+	"from": "miriam",
+	"body": "My dear friend,\n\nDo you remember the very first letter I sent you? We planted a row of beans together.\n\nCome and see them now! It's time to pick them.",
+	"signature": "Miss Miriam",
+	"suggests": "harvest_beans",
+	"summary": "Pick the beans you planted on your very first day.",
+	"done": "Look how much grew from those little seeds!",
+	"tasks": [
+		{
+			"text": "Pick the beans",
+			"activity": "harvest_beans",
+			"icon": "seedling",
+			"where": "in Miss Miriam's garden"
+		},
+		{
+			"text": "Feed the hens",
+			"done_when": [
+				{
+					"fact": "home.hens_fed_day",
+					"is_today": true
+				}
+			],
+			"icon": "hen",
+			"where": "by the coop at home"
+		},
+		{
+			"text": "Pour water for supper",
+			"activity": "home_pour_water",
+			"icon": "water",
+			"where": "at the jug in your kitchen"
+		}
+	]
+}

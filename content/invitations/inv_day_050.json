@@ -1,0 +1,39 @@
+{
+	"id": "inv_day_050",
+	"from": "tobias",
+	"body": "Hello, my friend!\n\nThe cart is packed and ready. But how will it get to the Bellhaven road? Let's plan the way on Sam's map.\n\nMeet me on the north road.",
+	"signature": "Mr. Tobias, the baker",
+	"suggests": "cart_route",
+	"summary": "Plan the cart's way to the Bellhaven road.",
+	"done": "The cart is on its way to Bellhaven!",
+	"tasks": [
+		{
+			"text": "Plan the cart's way",
+			"activity": "cart_route",
+			"icon": "map",
+			"where": "on the north road out of the village"
+		},
+		{
+			"text": "Feed the hens",
+			"done_when": [
+				{
+					"fact": "home.hens_fed_day",
+					"is_today": true
+				}
+			],
+			"icon": "hen",
+			"where": "by the coop at home"
+		},
+		{
+			"text": "Pet the horse",
+			"done_when": [
+				{
+					"fact": "animals.horse.petted_day",
+					"is_today": true
+				}
+			],
+			"icon": "heart",
+			"where": "in the paddock by the mill"
+		}
+	]
+}

@@ -335,6 +335,52 @@ static func draw(ci: CanvasItem, kind: String, r: Rect2, color := INK) -> void:
 				ci.draw_line(c + Vector2(side * 0.38, -0.26) * s, c + Vector2(side * 0.38, 0.0) * s, color, 1.5)
 				ci.draw_arc(c + Vector2(side * 0.38, 0.0) * s, 0.14 * s, 0, PI, 10, Color("b8913a"), maxf(2.0, s * 0.05))
 			ci.draw_line(c + Vector2(-0.16, 0.36) * s, c + Vector2(0.16, 0.36) * s, Color("8a5a3a"), maxf(2.0, s * 0.06))
+		"well":
+			ci.draw_rect(Rect2(c + Vector2(-0.3, 0.02) * s, Vector2(0.6, 0.32) * s), Color("b7aea0"))
+			for x: float in [-0.26, 0.22]:
+				ci.draw_rect(Rect2(c + Vector2(x, -0.34) * s, Vector2(0.06, 0.38) * s), Color("8a5a3a"))
+			ci.draw_colored_polygon(PackedVector2Array([c + Vector2(-0.38, -0.3) * s, c + Vector2(0, -0.46) * s, c + Vector2(0.38, -0.3) * s]), Color("b8392f"))
+			ci.draw_line(c + Vector2(0, -0.3) * s, c + Vector2(0, -0.08) * s, color, 1.5)
+			ci.draw_rect(Rect2(c + Vector2(-0.06, -0.1) * s, Vector2(0.12, 0.1) * s), Color("8a5a3a"))
+		"hill":
+			var hillside := PackedVector2Array()
+			for k in 17:
+				var a := PI + PI * k / 16.0
+				hillside.append(c + Vector2(cos(a) * 0.44, 0.3 + sin(a) * 0.5) * s)
+			ci.draw_colored_polygon(hillside, Color("6fa84f"))
+			ci.draw_circle(c + Vector2(0.22, -0.3) * s, 0.1 * s, Color("e0b64c"))
+		"road":
+			ci.draw_colored_polygon(PackedVector2Array([c + Vector2(-0.4, 0.42) * s, c + Vector2(-0.06, -0.4) * s, c + Vector2(0.06, -0.4) * s, c + Vector2(0.4, 0.42) * s]), Color("d9b98a"))
+			for k in 3:
+				ci.draw_line(c + Vector2(0, 0.3 - k * 0.26) * s, c + Vector2(0, 0.18 - k * 0.26) * s, Color("fbf5e8"), maxf(2.0, s * 0.04))
+		"hammer":
+			ci.draw_line(c + Vector2(-0.3, 0.36) * s, c + Vector2(0.14, -0.16) * s, Color("8a5a3a"), maxf(3.0, s * 0.09))
+			ci.draw_colored_polygon(PackedVector2Array([c + Vector2(-0.02, -0.4) * s, c + Vector2(0.4, -0.04) * s, c + Vector2(0.3, 0.06) * s, c + Vector2(-0.12, -0.3) * s]), Color("75706a"))
+		"paint":
+			# A paint pot and a brush.
+			ci.draw_rect(Rect2(c + Vector2(-0.34, -0.02) * s, Vector2(0.38, 0.38) * s), Color("8fb6d6"))
+			ci.draw_rect(Rect2(c + Vector2(-0.34, -0.06) * s, Vector2(0.38, 0.1) * s), Color("5f8fd0"))
+			ci.draw_line(c + Vector2(0.1, 0.1) * s, c + Vector2(0.38, -0.36) * s, Color("8a5a3a"), maxf(3.0, s * 0.06))
+			ci.draw_circle(c + Vector2(0.1, 0.1) * s, 0.06 * s, Color("5f8fd0"))
+		"apple":
+			ci.draw_circle(c + Vector2(0, 0.06) * s, 0.3 * s, Color("c8322a"))
+			ci.draw_line(c + Vector2(0, -0.2) * s, c + Vector2(0.04, -0.36) * s, Color("5a3d28"), maxf(2.0, s * 0.05))
+			ci.draw_circle(c + Vector2(0.14, -0.3) * s, 0.07 * s, Color("6fa84f"))
+		"pie":
+			ci.draw_colored_polygon(PackedVector2Array([c + Vector2(-0.38, 0.18) * s, c + Vector2(0.38, 0.18) * s, c + Vector2(0.3, 0.32) * s, c + Vector2(-0.3, 0.32) * s]), Color("b8863a"))
+			var top := PackedVector2Array()
+			for k in 17:
+				var a := PI + PI * k / 16.0
+				top.append(c + Vector2(cos(a) * 0.38, 0.18 + sin(a) * 0.3) * s)
+			ci.draw_colored_polygon(top, Color("e8c27a"))
+			for k in 3:
+				ci.draw_line(c + Vector2(-0.16 + k * 0.16, -0.02) * s, c + Vector2(-0.1 + k * 0.16, 0.1) * s, Color("b8863a"), maxf(1.5, s * 0.03))
+		"flag":
+			ci.draw_line(c + Vector2(-0.44, -0.3) * s, c + Vector2(0.44, -0.3) * s, Color("8a6446"), maxf(2.0, s * 0.04))
+			for k in 4:
+				var fc: Color = [Color("d9473c"), Color("f2c14e"), Color("5f8fd0"), Color("6fa84f")][k]
+				var x0 := -0.42 + k * 0.22
+				ci.draw_colored_polygon(PackedVector2Array([c + Vector2(x0, -0.3) * s, c + Vector2(x0 + 0.18, -0.3) * s, c + Vector2(x0 + 0.09, 0.1) * s]), fc)
 		"todo":
 			# An empty ring, waiting for its tick.
 			ci.draw_arc(c, 0.36 * s, 0, TAU, 32, Color("b89a78"), maxf(2.0, s * 0.08), true)

@@ -1,0 +1,34 @@
+{
+	"id": "inv_day_059",
+	"from": "ruth",
+	"body": "Dear friend,\n\nI must tell you something. Before we found her, my lamb wandered through Miss Miriam's garden and trampled her flowers.\n\nI feel terrible. Will you help me write a note to say sorry?",
+	"signature": "Mrs. Ruth",
+	"suggests": "sorry_note",
+	"summary": "Help Mrs. Ruth write a sorry note to Miss Miriam.",
+	"done": "Miss Miriam forgave Mrs. Ruth.",
+	"tasks": [
+		{
+			"text": "Help write a note",
+			"activity": "sorry_note",
+			"icon": "letter",
+			"where": "at Mrs. Ruth's house"
+		},
+		{
+			"text": "Feed the hens",
+			"done_when": [
+				{
+					"fact": "home.hens_fed_day",
+					"is_today": true
+				}
+			],
+			"icon": "hen",
+			"where": "by the coop at home"
+		},
+		{
+			"text": "Pour water for supper",
+			"activity": "home_pour_water",
+			"icon": "water",
+			"where": "at the jug in your kitchen"
+		}
+	]
+}

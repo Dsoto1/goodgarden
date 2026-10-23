@@ -1,0 +1,39 @@
+{
+	"id": "inv_day_054",
+	"from": "ruth",
+	"body": "Good morning, dear!\n\nTravellers have come from Bellhaven to see our valley. They've walked such a long way, and they'll be thirsty.\n\nWill you help me welcome them? Meet me in the square.",
+	"signature": "Mrs. Ruth",
+	"suggests": "welcome_travellers",
+	"summary": "Welcome the travellers with cups of milk.",
+	"done": "The travellers feel so welcome!",
+	"tasks": [
+		{
+			"text": "Welcome the travellers",
+			"activity": "welcome_travellers",
+			"icon": "water",
+			"where": "in the village square"
+		},
+		{
+			"text": "Feed the hens",
+			"done_when": [
+				{
+					"fact": "home.hens_fed_day",
+					"is_today": true
+				}
+			],
+			"icon": "hen",
+			"where": "by the coop at home"
+		},
+		{
+			"text": "Pet the pig",
+			"done_when": [
+				{
+					"fact": "animals.pig.petted_day",
+					"is_today": true
+				}
+			],
+			"icon": "heart",
+			"where": "in the pig's pen"
+		}
+	]
+}

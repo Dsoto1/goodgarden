@@ -1,0 +1,234 @@
+{
+	"id": "patch_roof",
+	"title": "Patching the Coop Roof",
+	"mode": "task",
+	"location": "home",
+	"surface": "wood_table",
+	"readiness": {
+		"ages": [
+			5,
+			9
+		],
+		"math": "fitting shapes by turning them",
+		"reading": "pre-reader friendly; all text can be read aloud"
+	},
+	"concepts": [
+		"shape matching",
+		"rotation",
+		"parts make a whole"
+	],
+	"formation_themes": [
+		"care for animals",
+		"work well done"
+	],
+	"prerequisites": [
+		{
+			"fact": "community.coop_roof",
+			"exists": false
+		}
+	],
+	"intro": [
+		{
+			"speaker": "narrator",
+			"text": "The storm blew some shingles off the hen house roof. The hens don't like the drips!"
+		},
+		{
+			"speaker": "narrator",
+			"text": "Mr. Amos left some new shingles. Fit each one into its gap. Tap a shingle to turn it."
+		}
+	],
+	"steps": [
+		{
+			"id": "roof",
+			"primitive": "fit_shapes",
+			"speaker": "narrator",
+			"picture": "floor",
+			"size": [
+				68,
+				68
+			],
+			"prompt": "Fit each shingle into its gap. Tap one to turn it.",
+			"hint": "Show me",
+			"shapes": [
+				{
+					"kind": "shape_rect",
+					"pos": [
+						430,
+						100
+					],
+					"turn": 0,
+					"size": [
+						138,
+						68
+					]
+				},
+				{
+					"kind": "shape_rect",
+					"pos": [
+						570,
+						100
+					],
+					"turn": 0,
+					"size": [
+						138,
+						68
+					]
+				},
+				{
+					"kind": "shape_square",
+					"pos": [
+						395,
+						170
+					]
+				},
+				{
+					"kind": "shape_rect",
+					"pos": [
+						500,
+						170
+					],
+					"turn": 0,
+					"size": [
+						138,
+						68
+					]
+				},
+				{
+					"kind": "shape_square",
+					"pos": [
+						605,
+						170
+					]
+				},
+				{
+					"kind": "shape_rect",
+					"pos": [
+						430,
+						240
+					],
+					"turn": 0,
+					"size": [
+						138,
+						68
+					]
+				},
+				{
+					"kind": "shape_rect",
+					"pos": [
+						570,
+						240
+					],
+					"turn": 0,
+					"size": [
+						138,
+						68
+					]
+				}
+			],
+			"older": {
+				"prompt": "Fit each shingle into its gap. The edges need triangles! Tap a shingle to turn it.",
+				"shapes": [
+					{
+						"kind": "shape_triangle",
+						"pos": [
+							395,
+							100
+						],
+						"turn": 3
+					},
+					{
+						"kind": "shape_rect",
+						"pos": [
+							500,
+							100
+						],
+						"turn": 0,
+						"size": [
+							138,
+							68
+						]
+					},
+					{
+						"kind": "shape_triangle",
+						"pos": [
+							605,
+							100
+						],
+						"turn": 0
+					},
+					{
+						"kind": "shape_square",
+						"pos": [
+							395,
+							170
+						]
+					},
+					{
+						"kind": "shape_rect",
+						"pos": [
+							500,
+							170
+						],
+						"turn": 0,
+						"size": [
+							138,
+							68
+						]
+					},
+					{
+						"kind": "shape_square",
+						"pos": [
+							605,
+							170
+						]
+					},
+					{
+						"kind": "shape_rect",
+						"pos": [
+							430,
+							240
+						],
+						"turn": 0,
+						"size": [
+							138,
+							68
+						]
+					},
+					{
+						"kind": "shape_rect",
+						"pos": [
+							570,
+							240
+						],
+						"turn": 0,
+						"size": [
+							138,
+							68
+						]
+					}
+				]
+			},
+			"feedback": {
+				"all_good": "No more drips! The hens are snug."
+			}
+		}
+	],
+	"outro": [
+		{
+			"speaker": "narrator",
+			"text": "The hens cluck happily. A mended roof is a kind of care, too.",
+			"button": "Done"
+		}
+	],
+	"world_effects": [
+		{
+			"op": "set",
+			"fact": "community.coop_roof",
+			"value": "$day"
+		}
+	],
+	"replay": "once",
+	"real_world_invitation": "rw_shape_hunt",
+	"journal_line": "I patched the hen house roof after the storm.",
+	"unavailable_text": "The coop roof is mended."
+}

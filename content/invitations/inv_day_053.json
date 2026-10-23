@@ -1,0 +1,29 @@
+{
+	"id": "inv_day_053",
+	"from": "amos",
+	"body": "Hello, friend,\n\nThank you for your card! It's on my workbench, where I can see it.\n\nMy hand is still sore, and my nails and screws have got all mixed up. Could you sort them for me?",
+	"signature": "Mr. Amos, the carpenter",
+	"suggests": "tidy_workshop",
+	"summary": "Sort Mr. Amos's nails and screws while his hand heals.",
+	"done": "Mr. Amos's workshop is tidy again!",
+	"tasks": [
+		{
+			"text": "Sort the nails",
+			"activity": "tidy_workshop",
+			"icon": "hammer",
+			"where": "at Mr. Amos's workshop"
+		},
+		{
+			"text": "Collect the eggs",
+			"activity": "home_eggs",
+			"icon": "egg",
+			"where": "at the coop by your house"
+		},
+		{
+			"text": "Feed the lambs",
+			"activity": "sheepfold_hay",
+			"icon": "sheep",
+			"where": "at the sheepfold"
+		}
+	]
+}

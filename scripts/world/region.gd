@@ -17,9 +17,54 @@ var clearings: Array[Dictionary] = []
 
 func _ready() -> void:
 	build()
+	_build_job_spots()
 	WorldState.fact_changed.connect(_on_fact_changed)
 	Days.day_started.connect(func(_d: int) -> void: sync_with_world())
+	Days.day_started.connect(func(_d: int) -> void: _sync_job_spots())
 	sync_with_world()
+	_sync_job_spots()
+
+
+## Job spots (content/world/job_spots.json): places in this region where a
+## day's work is started, each with a little sign of the work waiting (a
+## crate, a basket, a table). The thing shows from its first day until the
+## end of that week ("until_day"); the prompt only while the activity can be
+## started.
+##   {"region", "at": [x, y, z], "prompt", "activity", "from_day", "until_day"?,
+##    "look": "crate"|"basket"|"table"|"none", "conditions"?: [...]}
+var _job_props: Array[Array] = [] # [node, from_day, until_day]
+
+
+func _build_job_spots() -> void:
+	for spot: Dictionary in Content.get_world("job_spots").get("spots", []):
+		if str(spot.get("region", "")) != region_id:
+			continue
+		var a: Array = spot["at"]
+		var at := Vector3(a[0], a[1], a[2])
+		var activity := str(spot["activity"])
+		var from_day := int(spot.get("from_day", 1))
+		var until_day := int(spot.get("until_day", from_day + 5 - (from_day - 1) % 7))
+		var holder := group_node("JobSpot_" + activity)
+		match str(spot.get("look", "crate")):
+			"crate":
+				MeshKit.box(holder, Vector3(0.6, 0.4, 0.45), at + Vector3(0, 0.2, 0), "wood")
+				MeshKit.box(holder, Vector3(0.5, 0.04, 0.35), at + Vector3(0, 0.41, 0), "wood_light")
+			"basket":
+				MeshKit.cylinder(holder, 0.24, 0.18, 0.26, at + Vector3(0, 0.13, 0), "wood_light", 10)
+			"table":
+				MeshKit.box(holder, Vector3(1.0, 0.06, 0.6), at + Vector3(0, 0.7, 0), "wood_light")
+				for x: float in [-0.42, 0.42]:
+					MeshKit.box(holder, Vector3(0.06, 0.7, 0.5), at + Vector3(x, 0.35, 0), "wood_dark")
+		_job_props.append([holder, from_day, until_day])
+		var focus := position + at + Vector3(0, 0.8, 0)
+		var it := Interactable.create(self, at + Vector3(0, 0, 0.7), str(spot["prompt"]), func() -> void:
+			get_tree().call_group("main", "start_activity_here", activity, focus), 0.7, 1.3)
+		it.conditions = [{"day_at_least": from_day}, {"not": {"day_at_least": until_day + 1}}, {"can_start": activity}] + spot.get("conditions", [])
+
+
+func _sync_job_spots() -> void:
+	for entry: Array in _job_props:
+		(entry[0] as Node3D).visible = Days.current_day >= int(entry[1]) and Days.current_day <= int(entry[2])
 
 
 ## Construct static geometry, interactables and zones. Override.

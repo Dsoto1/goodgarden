@@ -1,0 +1,87 @@
+{
+	"id": "plan_tables",
+	"title": "Planning the Tables",
+	"mode": "task",
+	"location": "village",
+	"surface": "wood_table",
+	"readiness": {
+		"ages": [
+			5,
+			9
+		],
+		"math": "ordering the steps of a job",
+		"reading": "pre-reader friendly; all text can be read aloud"
+	},
+	"concepts": [
+		"sequencing",
+		"planning"
+	],
+	"formation_themes": [
+		"cooperation",
+		"work well done"
+	],
+	"prerequisites": [
+		{
+			"fact": "project.plan",
+			"exists": false
+		}
+	],
+	"intro": [
+		{
+			"speaker": "amos",
+			"text": "Big news! For the harvest, all the neighbors will eat supper together in the square. We'll need long tables and benches!"
+		},
+		{
+			"speaker": "amos",
+			"text": "Tobias and I will build them, with your help. First, let's plan: what do we do first, and what comes next?"
+		}
+	],
+	"steps": [
+		{
+			"id": "plan",
+			"primitive": "sequence_cards",
+			"speaker": "amos",
+			"prompt": "Put the steps in order: what do we do first?",
+			"hint": "What must happen before we can cut the wood?",
+			"cards": [
+				"card_icon:note",
+				"card_icon:measure",
+				"card_icon:plank",
+				"card_icon:hammer",
+				"card_icon:paint"
+			],
+			"labels": [
+				"draw a plan",
+				"measure",
+				"saw",
+				"nail",
+				"paint"
+			],
+			"older": {
+				"show_dots": false
+			},
+			"feedback": {
+				"out_of_order": "Some steps came back. Which must come first?",
+				"all_good": "Plan, measure, saw, nail, paint. That's how good work is done!"
+			}
+		}
+	],
+	"outro": [
+		{
+			"speaker": "amos",
+			"text": "With a plan, even a big job is just one step after another.",
+			"button": "Thank you, Mr. Amos"
+		}
+	],
+	"world_effects": [
+		{
+			"op": "set",
+			"fact": "project.plan",
+			"value": "$day"
+		}
+	],
+	"replay": "once",
+	"real_world_invitation": "rw_line_up",
+	"journal_line": "I helped Mr. Amos plan how to build tables for the harvest supper.",
+	"unavailable_text": "The plan is made."
+}

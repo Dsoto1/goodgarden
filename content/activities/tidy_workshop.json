@@ -1,0 +1,151 @@
+{
+	"id": "tidy_workshop",
+	"title": "Tidying for Mr. Amos",
+	"mode": "task",
+	"location": "village",
+	"surface": "wood_table",
+	"readiness": {
+		"ages": [
+			5,
+			9
+		],
+		"math": "sorting by kind",
+		"reading": "pre-reader friendly; all text can be read aloud"
+	},
+	"concepts": [
+		"classification",
+		"order"
+	],
+	"formation_themes": [
+		"compassion",
+		"helpfulness"
+	],
+	"prerequisites": [
+		{
+			"not": {
+				"fact": "community.tidy_day",
+				"is_today": true
+			}
+		}
+	],
+	"intro": [
+		{
+			"speaker": "amos",
+			"text": "Thank you for coming. With my sore hand, I can't pick up the little things. My nails and screws are all mixed up!"
+		},
+		{
+			"speaker": "amos",
+			"text": "Could you sort them into their pots for me?"
+		}
+	],
+	"steps": [
+		{
+			"id": "sort",
+			"primitive": "sort_into_bins",
+			"speaker": "amos",
+			"prompt": "Put the nails, the screws and the hooks each in their own pot.",
+			"hint": "Nails are smooth. Screws have a twist. Hooks are bent.",
+			"piece_size": [
+				52,
+				52
+			],
+			"pieces": [
+				{
+					"kind": "nail",
+					"count": 5
+				},
+				{
+					"kind": "screw",
+					"count": 4
+				}
+			],
+			"bins": [
+				{
+					"kind": "nail",
+					"label": "nails",
+					"look": "pot",
+					"pos": [
+						280,
+						170
+					]
+				},
+				{
+					"kind": "screw",
+					"label": "screws",
+					"look": "pot",
+					"pos": [
+						720,
+						170
+					]
+				}
+			],
+			"older": {
+				"pieces": [
+					{
+						"kind": "nail",
+						"count": 6
+					},
+					{
+						"kind": "screw",
+						"count": 5
+					},
+					{
+						"kind": "hook",
+						"count": 4
+					}
+				],
+				"bins": [
+					{
+						"kind": "nail",
+						"label": "nails",
+						"look": "pot",
+						"pos": [
+							190,
+							170
+						]
+					},
+					{
+						"kind": "screw",
+						"label": "screws",
+						"look": "pot",
+						"pos": [
+							500,
+							170
+						]
+					},
+					{
+						"kind": "hook",
+						"label": "hooks",
+						"look": "pot",
+						"pos": [
+							810,
+							170
+						]
+					}
+				]
+			},
+			"feedback": {
+				"mismatch": "Look closely: is it a nail, a screw, or a hook?",
+				"all_good": "All sorted! You've been my good right hand today."
+			}
+		}
+	],
+	"outro": [
+		{
+			"speaker": "amos",
+			"text": "When one of us is hurting, the others carry them a little. That's what neighbors are for.",
+			"button": "Thank you, Mr. Amos"
+		}
+	],
+	"world_effects": [
+		{
+			"op": "set",
+			"fact": "community.tidy_day",
+			"value": "$day"
+		}
+	],
+	"replay": "free",
+	"real_world_invitation": "rw_count_out",
+	"journal_line": "I sorted Mr. Amos's nails and screws while his hand was sore.",
+	"unavailable_text": "The workshop is tidy for today."
+}

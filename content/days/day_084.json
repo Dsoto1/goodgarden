@@ -1,0 +1,11 @@
+{
+	"id": "day_084",
+	"day": 84,
+	"week": 12,
+	"arc": "Gratitude & Harvest",
+	"invitation": "inv_day_084",
+	"npcs": {"miriam": "chapel_miriam", "tobias": "chapel_tobias", "ruth": "chapel_ruth", "amos": "chapel_amos"},
+	"free_work": ["home_set_table"],
+	"chapel": ["good_samaritan", "mustard_seed", "leaven", "lost_sheep", "fishers", "five_thousand", "good_shepherd"],
+	"season": "Autumn"
+}

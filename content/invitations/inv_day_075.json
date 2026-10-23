@@ -1,0 +1,34 @@
+{
+	"id": "inv_day_075",
+	"from": "miriam",
+	"body": "Dear friend,\n\nA celebration needs decorations! Let's make bunting to hang across the square.\n\nMeet me in the square, by the stalls.",
+	"signature": "Miss Miriam",
+	"suggests": "make_bunting",
+	"summary": "Make bunting for the square.",
+	"done": "The bunting is up!",
+	"tasks": [
+		{
+			"text": "Make the bunting",
+			"activity": "make_bunting",
+			"icon": "flag",
+			"where": "in the village square"
+		},
+		{
+			"text": "Feed the hens",
+			"done_when": [
+				{
+					"fact": "home.hens_fed_day",
+					"is_today": true
+				}
+			],
+			"icon": "hen",
+			"where": "by the coop at home"
+		},
+		{
+			"text": "Feed the lambs",
+			"activity": "sheepfold_hay",
+			"icon": "sheep",
+			"where": "at the sheepfold"
+		}
+	]
+}

@@ -1,0 +1,96 @@
+{
+	"id": "feast_flour",
+	"title": "Flour for the Feast",
+	"mode": "task",
+	"location": "village",
+	"surface": "wood_table",
+	"readiness": {
+		"ages": [
+			5,
+			9
+		],
+		"math": "balancing a weight (older: big scoops weigh two)",
+		"reading": "pre-reader friendly; all text can be read aloud"
+	},
+	"concepts": [
+		"weight",
+		"balance",
+		"the same as"
+	],
+	"formation_themes": [
+		"gratitude",
+		"honesty"
+	],
+	"prerequisites": [
+		{
+			"not": {
+				"fact": "harvest.flour_day",
+				"is_today": true
+			}
+		}
+	],
+	"intro": [
+		{
+			"speaker": "tobias",
+			"text": "The biggest bake of the year! Every loaf needs just the right flour. Let's weigh it on the honest scales."
+		},
+		{
+			"speaker": "tobias",
+			"text": "Add scoops until the beam hangs level."
+		}
+	],
+	"steps": [
+		{
+			"id": "weigh",
+			"primitive": "balance_scale",
+			"speaker": "tobias",
+			"prompt": "Add scoops of flour until the beam hangs level.",
+			"hint": "Is the beam tipping? Add a scoop, or take one out.",
+			"weight": 6,
+			"scoops": [
+				{
+					"kind": "flour_scoop",
+					"weight": 1,
+					"count": 8
+				}
+			],
+			"older": {
+				"weight": 9,
+				"scoops": [
+					{
+						"kind": "flour_scoop",
+						"weight": 1,
+						"count": 4
+					},
+					{
+						"kind": "flour_scoop_big",
+						"weight": 2,
+						"count": 5
+					}
+				]
+			},
+			"feedback": {
+				"heavy": "Too much! Take a scoop out.",
+				"all_good": "Level! Into the bowl it goes."
+			}
+		}
+	],
+	"outro": [
+		{
+			"speaker": "tobias",
+			"text": "Do you remember your first bake with me? Look how much you've learned!",
+			"button": "Thank you, Mr. Tobias"
+		}
+	],
+	"world_effects": [
+		{
+			"op": "set",
+			"fact": "harvest.flour_day",
+			"value": "$day"
+		}
+	],
+	"replay": "free",
+	"real_world_invitation": "rw_bake_together",
+	"journal_line": "I weighed flour for the Harvest Supper bread.",
+	"unavailable_text": "The flour is weighed for today."
+}

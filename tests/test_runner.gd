@@ -68,7 +68,7 @@ func test_content_is_valid() -> void:
 		printerr("  content: ", e)
 	eq(errors.size(), 0, "authored content has no validation errors")
 	# Every working day asks for three jobs; the day of rest asks for none.
-	for d in range(1, 43):
+	for d in range(1, 85):
 		var weekend := d % 7 == 0 or d % 7 == 6
 		eq(TodaysWork.jobs(Content.get_invitation("inv_day_%03d" % d)).size(), 0 if weekend else 3, "day %d has %s" % [d, "no jobs (weekend)" if weekend else "three jobs"])
 
@@ -678,19 +678,66 @@ func test_fill_order() -> void:
 	step.queue_free()
 
 
-## Every activity from weeks 3 to 6 builds at both work levels.
-func test_weeks_3_to_6_activities_build() -> void:
+func test_compose_letter() -> void:
+	var step := _make_step("compose_letter", {"id": "l", "lines": ["Dear {to},", "Thank you for the {thing}."], "choices": {"to": ["Sam"], "thing": ["bread", "eggs"]}})
+	eq(step.blanks.size(), 2, "a coloured space for each blank")
+	var bread: DragPiece = step.cards.filter(func(c: DragPiece) -> bool: return c.kind == "word:bread")[0]
+	var sam: DragPiece = step.cards.filter(func(c: DragPiece) -> bool: return c.kind == "word:Sam")[0]
+	_drop(bread, step.blanks[0].center())
+	check(bread.placed_in == null, "a word only goes in a space of its own colour")
+	_drop(sam, step.blanks[0].center())
+	_drop(bread, step.blanks[1].center())
+	eq(step.letter_text(), "Dear Sam,\nThank you for the bread.", "the letter reads with the chosen words")
+	var eggs: DragPiece = step.cards.filter(func(c: DragPiece) -> bool: return c.kind == "word:eggs")[0]
+	_drop(eggs, step.blanks[1].center())
+	check(bread.placed_in == null and step.letter_text().ends_with("eggs."), "a new choice replaces the old word")
+	step.send()
+	check(step.is_done, "a full letter can be sent")
+	step.queue_free()
+
+
+func test_follow_directions() -> void:
+	var step := _make_step("follow_directions", {"id": "m", "grid": [6, 4], "start": [0, 3], "steps": [{"dir": "east", "n": 2}, {"dir": "north", "n": 3}], "places": [{"icon": "chapel", "at": [2, 0], "name": "chapel"}]})
+	_drop(step.walker, step.cell_center(Vector2i(0, 1)))
+	eq(step.at, Vector2i(0, 3), "the wrong way: the walker hops back")
+	_drop(step.walker, step.cell_center(Vector2i(1, 3)))
+	eq(step.at, Vector2i(0, 3), "one square short: count again")
+	_drop(step.walker, step.cell_center(Vector2i(2, 3)))
+	eq(step.at, Vector2i(2, 3), "two squares east")
+	_drop(step.walker, step.cell_center(Vector2i(2, 0)))
+	check(step.is_done and step.place_at(step.at) == "chapel", "three north reaches the chapel")
+	step.queue_free()
+
+
+func test_share_equally() -> void:
+	var step := _make_step("share_equally", {"id": "s", "piece": "apple", "total": 7, "plates": 2, "leftover": true})
+	for i in 6:
+		_drop(step.pieces[i], step.plates[0 if i < 4 else 1].center())
+	_drop(step.pieces[6], step.leftover.center())
+	step.check()
+	check(not step.is_done, "four and two aren't fair shares")
+	_drop(step.pieces[0], step.plates[1].center())
+	step.check()
+	check(step.is_done, "three each, one left over")
+	step.queue_free()
+
+
+## Every activity from weeks 3 to 12 builds at both work levels.
+func test_weeks_3_to_12_activities_build() -> void:
 	var ids := ["home_eggs", "garden_weed", "village_pantry", "garden_flower_border", "garden_measure_again",
 		"grove_leaves", "grove_trail_signs", "grove_acorns", "grove_stone_path", "grove_bird_feeders",
 		"workshop_shapes", "workshop_window", "workshop_order", "workshop_planks", "workshop_birdhouse",
-		"market_sell_eggs", "market_scales", "market_list", "market_count_coins", "market_stall_day"]
+		"market_sell_eggs", "market_scales", "market_list", "market_count_coins", "market_stall_day",
+		"community_map", "letter_to_sam", "share_rolls", "mend_signpost", "pack_cart", "cart_route", "share_seeds", "get_well_card", "tidy_workshop", "welcome_travellers",
+		"mend_fence", "find_lamb", "sorry_note", "replant_border", "patch_roof", "plan_tables", "fetch_for_tables", "share_work", "paint_tables", "arrange_tables",
+		"harvest_beans", "pick_apples", "harvest_invitations", "supper_list", "make_bunting", "feast_flour", "set_long_table", "feast_milk", "share_pies", "harvest_thanks"]
 	for id: String in ids:
 		var def := Content.get_activity(id)
 		check(def != null, "%s exists" % id)
 		if def == null:
 			continue
 		for level: String in ["younger", "older"]:
-			var ctx := {"space_holes": {"count": 4, "positions": [0.2, 0.4, 0.6, 0.8]}}
+			var ctx := {"space_holes": {"count": 4, "positions": [0.2, 0.4, 0.6, 0.8]}, "space_posts": {"count": 4, "positions": [0.2, 0.4, 0.6, 0.8]}}
 			for cfg: Dictionary in def.at_level(level).steps:
 				var step := _make_step(str(cfg["primitive"]), cfg, ctx)
 				check(step != null and not step.is_done and step.get_child_count() > 0, "%s (%s): step %s builds" % [id, level, cfg["id"]])
@@ -1531,10 +1578,19 @@ func test_vertical_slice_end_to_end() -> void:
 	eq(Days.npc_anchor("ruth"), "egg_stall_ruth", "day 36: Mrs. Ruth minds her egg stall")
 	var eggs := _interactable("Help Mrs. Ruth sell eggs")
 	check(eggs != null and eggs.is_available(), "the eggs can be sold")
-	for i in 13:
+	# Weeks 7 to 12 lead to the Harvest Supper, with everyone at the long table.
+	for i in 46:
 		await main.rest_until_morning()
 	await frames(3)
-	eq(Days.current_day, 49, "a Sunday past the written days")
+	eq(Days.current_day, 82, "day 82: the Harvest Supper")
+	eq(Days.npc_anchor("tobias"), "supper_tobias", "everyone gathers at the long table")
+	check(world.anchor("supper_amos") != null, "there's a place at the table for Mr. Amos")
+	var thanks := _interactable("Give thanks")
+	check(thanks != null and thanks.is_available(), "the child can give thanks at the supper")
+	for i in 9:
+		await main.rest_until_morning()
+	await frames(3)
+	eq(Days.current_day, 91, "a Sunday past the written days")
 	eq(Days.npc_anchor("amos"), "chapel_amos", "on every Sunday the neighbours gather at the Chapel")
 
 	# The map: the real valley with a card for each place, travel from the

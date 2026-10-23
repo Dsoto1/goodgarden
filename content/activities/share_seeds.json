@@ -1,0 +1,88 @@
+{
+	"id": "share_seeds",
+	"title": "Seeds for Everyone",
+	"mode": "task",
+	"location": "garden",
+	"surface": "wood_table",
+	"readiness": {
+		"ages": [
+			5,
+			9
+		],
+		"math": "sharing equally: division by dealing out (older: with a remainder)",
+		"reading": "pre-reader friendly; all text can be read aloud"
+	},
+	"concepts": [
+		"sharing equally",
+		"division",
+		"remainders (older)"
+	],
+	"formation_themes": [
+		"generosity",
+		"stewardship"
+	],
+	"prerequisites": [
+		{
+			"not": {
+				"fact": "community.seeds_day",
+				"is_today": true
+			}
+		}
+	],
+	"intro": [
+		{
+			"speaker": "miriam",
+			"text": "Our beans made so many seeds! I'd like every neighbor to have some for their own gardens."
+		},
+		{
+			"speaker": "miriam",
+			"text": "Let's share them out fairly. One for each, round and round."
+		}
+	],
+	"steps": [
+		{
+			"id": "share",
+			"primitive": "share_equally",
+			"speaker": "miriam",
+			"prompt": "Share the seeds so every neighbor has the same.",
+			"hint": "Show me",
+			"piece": "bean_seed",
+			"total": 15,
+			"plates": 5,
+			"look": "plate",
+			"names": [
+				"Miss Miriam",
+				"Mr. Tobias",
+				"Mrs. Ruth",
+				"Mr. Amos",
+				"you"
+			],
+			"older": {
+				"total": 17,
+				"leftover": true,
+				"prompt": "Share the seeds fairly among five. Any that can't be shared fairly go in the left-over bowl."
+			},
+			"feedback": {
+				"all_good": "Fair shares: {n} seeds each!"
+			}
+		}
+	],
+	"outro": [
+		{
+			"speaker": "miriam",
+			"text": "A seed shared becomes a garden shared. Next year the whole valley will have beans!",
+			"button": "Thank you, Miss Miriam"
+		}
+	],
+	"world_effects": [
+		{
+			"op": "set",
+			"fact": "community.seeds_day",
+			"value": "$day"
+		}
+	],
+	"replay": "free",
+	"real_world_invitation": "rw_share_snack",
+	"journal_line": "I shared bean seeds fairly with all the neighbors.",
+	"unavailable_text": "The seeds are shared for today."
+}

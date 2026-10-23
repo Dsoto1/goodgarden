@@ -1,0 +1,29 @@
+{
+	"id": "inv_day_064",
+	"from": "amos",
+	"body": "Big news, friend!\n\nFor the harvest, the whole valley will eat supper together in the square. We'll need long tables and benches, and Mr. Tobias and I will build them.\n\nWill you help us plan?",
+	"signature": "Mr. Amos, the carpenter",
+	"suggests": "plan_tables",
+	"summary": "Plan the supper tables with Mr. Amos.",
+	"done": "The plan is made!",
+	"tasks": [
+		{
+			"text": "Plan the tables",
+			"activity": "plan_tables",
+			"icon": "note",
+			"where": "at Mr. Amos's workshop"
+		},
+		{
+			"text": "Collect the eggs",
+			"activity": "home_eggs",
+			"icon": "egg",
+			"where": "at the coop by your house"
+		},
+		{
+			"text": "Look in the pond",
+			"activity": "pond_creatures",
+			"icon": "fish",
+			"where": "at the pond west of home"
+		}
+	]
+}

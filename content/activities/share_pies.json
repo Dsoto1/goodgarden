@@ -1,0 +1,85 @@
+{
+	"id": "share_pies",
+	"title": "Sharing the Pies",
+	"mode": "task",
+	"location": "village",
+	"surface": "wood_table",
+	"readiness": {
+		"ages": [
+			5,
+			9
+		],
+		"math": "fair shares of a whole: halves and quarters; division",
+		"reading": "pre-reader friendly; all text can be read aloud"
+	},
+	"concepts": [
+		"fractions",
+		"sharing equally",
+		"division"
+	],
+	"formation_themes": [
+		"generosity",
+		"fairness"
+	],
+	"prerequisites": [
+		{
+			"fact": "harvest.pies",
+			"exists": false
+		}
+	],
+	"intro": [
+		{
+			"speaker": "tobias",
+			"text": "Two apple pies, made with the apples you picked! I've cut each one into four slices: quarters."
+		},
+		{
+			"speaker": "tobias",
+			"text": "Let's share the slices fairly among the tables."
+		}
+	],
+	"steps": [
+		{
+			"id": "share",
+			"primitive": "share_equally",
+			"speaker": "tobias",
+			"prompt": "Share the slices so every table has the same.",
+			"hint": "Show me",
+			"piece": "pie_slice",
+			"total": 8,
+			"plates": 4,
+			"look": "plate",
+			"names": [
+				"table 1",
+				"table 2",
+				"table 3",
+				"table 4"
+			],
+			"older": {
+				"total": 12,
+				"plates": 4,
+				"prompt": "Three pies, each cut into quarters: twelve slices. Share them so every table has the same."
+			},
+			"feedback": {
+				"all_good": "Fair shares: {n} slices each! That's half a pie for every table."
+			}
+		}
+	],
+	"outro": [
+		{
+			"speaker": "tobias",
+			"text": "Two quarters make a half. And sharing makes everything taste better!",
+			"button": "Thank you, Mr. Tobias"
+		}
+	],
+	"world_effects": [
+		{
+			"op": "set",
+			"fact": "harvest.pies",
+			"value": "$day"
+		}
+	],
+	"replay": "once",
+	"real_world_invitation": "rw_share_snack",
+	"journal_line": "I shared the apple pie slices fairly among the tables.",
+	"unavailable_text": "The pies are shared."
+}

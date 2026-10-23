@@ -1,0 +1,29 @@
+{
+	"id": "inv_day_072",
+	"from": "miriam",
+	"body": "Good morning!\n\nThe old apple trees by the orchard are heavy with fruit. Let's pick them and share them with every house.\n\nMeet me by the young apple trees you planted.",
+	"signature": "Miss Miriam",
+	"suggests": "pick_apples",
+	"summary": "Pick apples and share them fairly.",
+	"done": "Every house has its apples!",
+	"tasks": [
+		{
+			"text": "Pick the apples",
+			"activity": "pick_apples",
+			"icon": "apple",
+			"where": "by the orchard west of home"
+		},
+		{
+			"text": "Collect the eggs",
+			"activity": "home_eggs",
+			"icon": "egg",
+			"where": "at the coop by your house"
+		},
+		{
+			"text": "Feed the lambs",
+			"activity": "sheepfold_hay",
+			"icon": "sheep",
+			"where": "at the sheepfold"
+		}
+	]
+}

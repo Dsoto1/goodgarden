@@ -1,0 +1,96 @@
+{
+	"id": "mend_signpost",
+	"title": "Words for the Signpost",
+	"mode": "task",
+	"location": "valley",
+	"surface": "wood_table",
+	"readiness": {
+		"ages": [
+			5,
+			9
+		],
+		"math": "none",
+		"reading": "building short words from their sounds (older: without letters shown)"
+	},
+	"concepts": [
+		"phonemes",
+		"spelling",
+		"signs"
+	],
+	"formation_themes": [
+		"helping neighbors",
+		"community"
+	],
+	"prerequisites": [
+		{
+			"fact": "community.signpost",
+			"exists": false
+		}
+	],
+	"intro": [
+		{
+			"speaker": "amos",
+			"text": "The old signpost by the bridge blew down, and the visitors keep getting lost! I've made new arms for it."
+		},
+		{
+			"speaker": "amos",
+			"text": "Each arm needs its word painted on. Can you make the words? Tap a picture to hear what it says."
+		}
+	],
+	"steps": [
+		{
+			"id": "signs",
+			"primitive": "build_word",
+			"speaker": "amos",
+			"prompt": "Listen to the word. Which sounds do you hear? Put each letter in its place.",
+			"hint": "Show me the next sound.",
+			"words": [
+				"mill",
+				"well",
+				"hill"
+			],
+			"pictures": {
+				"mill": "mill",
+				"well": "well",
+				"hill": "hill",
+				"road": "road"
+			},
+			"show_letters": true,
+			"extra_letters": 0,
+			"older": {
+				"words": [
+					"mill",
+					"well",
+					"hill",
+					"road"
+				],
+				"show_letters": false,
+				"extra_letters": 3,
+				"prompt": "Listen to the word. Which sounds do you hear, first to last? Find each letter in the box."
+			},
+			"feedback": {
+				"wrong": "Listen again: {word}. That sound goes somewhere else.",
+				"word_done": "{word}! That arm is ready.",
+				"all_good": "Every arm has its word."
+			}
+		}
+	],
+	"outro": [
+		{
+			"speaker": "amos",
+			"text": "Up it goes! Now nobody will lose their way.",
+			"button": "Thank you, Mr. Amos"
+		}
+	],
+	"world_effects": [
+		{
+			"op": "set",
+			"fact": "community.signpost",
+			"value": "$signs.words"
+		}
+	],
+	"replay": "once",
+	"real_world_invitation": "rw_sound_hunt",
+	"journal_line": "I made the words for the new signpost by the bridge.",
+	"unavailable_text": "The signpost is mended."
+}

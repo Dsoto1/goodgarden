@@ -52,6 +52,7 @@ func reset() -> void:
 ##   {"fact": "home.table_set_day", "is_today": true}   (fact holds a day number)
 ##   {"day_at_least": 2}  {"day": 1}  {"weekday": "sunday"}
 ##   {"any": [ ...conditions... ]}  {"not": {...condition...}}
+##   {"can_start": "activity_id"}  the activity could be started now
 func matches(conditions: Array) -> bool:
 	for condition: Variant in conditions:
 		if not _matches_one(condition):
@@ -73,6 +74,8 @@ func _matches_one(c: Dictionary) -> bool:
 		return Days.current_day >= int(c["day_at_least"])
 	if c.has("weekday"):
 		return Days.weekday() == str(c["weekday"])
+	if c.has("can_start"):
+		return ActivityRunner.can_start(str(c["can_start"]))
 	if c.has("fact"):
 		var key: String = c["fact"]
 		if c.has("exists"):

@@ -1,0 +1,11 @@
+{
+	"id": "day_049",
+	"day": 49,
+	"week": 7,
+	"arc": "Compassion & Community",
+	"invitation": "inv_day_049",
+	"npcs": {"miriam": "chapel_miriam", "tobias": "chapel_tobias", "ruth": "chapel_ruth", "amos": "chapel_amos"},
+	"free_work": ["home_set_table"],
+	"chapel": ["good_samaritan", "mustard_seed", "leaven", "lost_sheep", "fishers", "five_thousand", "good_shepherd"],
+	"season": "Summer"
+}

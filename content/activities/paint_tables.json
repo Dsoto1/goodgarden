@@ -1,0 +1,92 @@
+{
+	"id": "paint_tables",
+	"title": "Painting the Tables",
+	"mode": "task",
+	"location": "village",
+	"surface": "wood_table",
+	"readiness": {
+		"ages": [
+			5,
+			9
+		],
+		"math": "continuing a repeating pattern (older: ABC)",
+		"reading": "pre-reader friendly; all text can be read aloud"
+	},
+	"concepts": [
+		"repeating patterns",
+		"shapes"
+	],
+	"formation_themes": [
+		"beauty",
+		"cooperation"
+	],
+	"prerequisites": [
+		{
+			"fact": "project.painted",
+			"exists": false
+		}
+	],
+	"intro": [
+		{
+			"speaker": "amos",
+			"text": "The tables are built! Now let's paint a pattern along the edges, to make them festive."
+		},
+		{
+			"speaker": "amos",
+			"text": "I've started. You carry it on."
+		}
+	],
+	"steps": [
+		{
+			"id": "paint",
+			"primitive": "continue_pattern",
+			"speaker": "amos",
+			"look": "plank",
+			"prompt": "Carry on the pattern along the table's edge. What comes next?",
+			"hint": "Show me",
+			"unit": [
+				"shape_circle",
+				"shape_square"
+			],
+			"length": 10,
+			"given": 4,
+			"names": {
+				"shape_circle": "circle",
+				"shape_square": "square",
+				"shape_triangle": "triangle"
+			},
+			"older": {
+				"unit": [
+					"shape_circle",
+					"shape_square",
+					"shape_triangle"
+				],
+				"length": 12,
+				"given": 3,
+				"prompt": "Carry on the pattern: circle, square, triangle. What comes next?"
+			},
+			"feedback": {
+				"wrong": "Listen to the pattern: {pattern}",
+				"all_good": "What a cheerful table!"
+			}
+		}
+	],
+	"outro": [
+		{
+			"speaker": "amos",
+			"text": "Tomorrow we'll carry them to the square. They look ready for a feast!",
+			"button": "Thank you, Mr. Amos"
+		}
+	],
+	"world_effects": [
+		{
+			"op": "set",
+			"fact": "project.painted",
+			"value": "$paint.unit"
+		}
+	],
+	"replay": "once",
+	"real_world_invitation": "rw_patterns",
+	"journal_line": "I painted a pattern along the edges of the new tables.",
+	"unavailable_text": "The tables are painted."
+}

@@ -1,0 +1,98 @@
+{
+	"id": "welcome_travellers",
+	"title": "Welcome, Travellers",
+	"mode": "task",
+	"location": "village",
+	"surface": "wood_table",
+	"readiness": {
+		"ages": [
+			5,
+			9
+		],
+		"math": "filling to a line; half and quarter (older)",
+		"reading": "pre-reader friendly; all text can be read aloud"
+	},
+	"concepts": [
+		"capacity",
+		"filling to a mark",
+		"fractions (older)"
+	],
+	"formation_themes": [
+		"hospitality",
+		"compassion"
+	],
+	"prerequisites": [
+		{
+			"not": {
+				"fact": "community.welcome_day",
+				"is_today": true
+			}
+		}
+	],
+	"intro": [
+		{
+			"speaker": "ruth",
+			"text": "Travellers from Bellhaven have come to see our valley. They've walked a long way, and they're thirsty."
+		},
+		{
+			"speaker": "ruth",
+			"text": "Let's welcome them with cups of milk. Fill each cup to its line."
+		}
+	],
+	"steps": [
+		{
+			"id": "pour",
+			"primitive": "pour_to_line",
+			"speaker": "ruth",
+			"prompt": "Fill each cup to its line. Hold the jug over a cup, and let go at the line.",
+			"hint": "Show me",
+			"lines": [
+				0.6,
+				0.6,
+				0.6,
+				0.6
+			],
+			"rate": 0.25,
+			"tolerance": 0.08,
+			"liquid": "milk",
+			"older": {
+				"lines": [
+					0.5,
+					0.75,
+					0.25,
+					0.5
+				],
+				"labels": [
+					"half",
+					"three quarters",
+					"a quarter",
+					"half"
+				],
+				"rate": 0.35,
+				"tolerance": 0.05,
+				"prompt": "Fill each cup to its line: half, three quarters, a quarter, half."
+			},
+			"feedback": {
+				"all_good": "Every cup is ready. Welcome, travellers!"
+			}
+		}
+	],
+	"outro": [
+		{
+			"speaker": "ruth",
+			"text": "\"I was a stranger, and you welcomed me.\" That's what Jesus said. Today you did just that.",
+			"button": "Thank you, Mrs. Ruth"
+		}
+	],
+	"world_effects": [
+		{
+			"op": "set",
+			"fact": "community.welcome_day",
+			"value": "$day"
+		}
+	],
+	"replay": "free",
+	"real_world_invitation": "rw_pour_home",
+	"journal_line": "I welcomed travellers from Bellhaven with cups of milk.",
+	"unavailable_text": "The travellers are welcomed for today."
+}

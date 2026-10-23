@@ -1,0 +1,12 @@
+{
+	"id": "day_078",
+	"day": 78,
+	"week": 12,
+	"arc": "Gratitude & Harvest",
+	"invitation": "inv_day_078",
+	"npcs": {"miriam": "garden_miriam"},
+	"primary_activity": "feast_flour",
+	"free_work": ["home_set_table"],
+	"chapel": ["good_samaritan", "mustard_seed", "leaven", "lost_sheep", "fishers", "five_thousand", "good_shepherd"],
+	"season": "Autumn"
+}

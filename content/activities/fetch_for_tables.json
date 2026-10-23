@@ -1,0 +1,109 @@
+{
+	"id": "fetch_for_tables",
+	"title": "Fetching for the Tables",
+	"mode": "task",
+	"location": "village",
+	"surface": "wood_table",
+	"readiness": {
+		"ages": [
+			5,
+			9
+		],
+		"math": "counting out sets to match a list (older: larger numbers)",
+		"reading": "reading a list (older: no pictures)"
+	},
+	"concepts": [
+		"reading numerals",
+		"counting out a set"
+	],
+	"formation_themes": [
+		"cooperation",
+		"attention"
+	],
+	"prerequisites": [
+		{
+			"not": {
+				"fact": "project.fetch_day",
+				"is_today": true
+			}
+		}
+	],
+	"intro": [
+		{
+			"speaker": "amos",
+			"text": "We're ready to build! Here's my list of what we need from the shelf."
+		},
+		{
+			"speaker": "amos",
+			"text": "Read it carefully: the right number of each."
+		}
+	],
+	"steps": [
+		{
+			"id": "fetch",
+			"primitive": "fill_order",
+			"speaker": "amos",
+			"note_from": "Mr. Amos",
+			"prompt": "Read the list. Put the right things in the basket, then press Done.",
+			"hint": "Show me",
+			"order": [
+				{
+					"item": "nail",
+					"count": 4
+				},
+				{
+					"item": "screw",
+					"count": 3
+				},
+				{
+					"item": "hook",
+					"count": 2
+				}
+			],
+			"extra": [
+				"marker_peg"
+			],
+			"pictures": true,
+			"older": {
+				"order": [
+					{
+						"item": "nail",
+						"count": 8
+					},
+					{
+						"item": "screw",
+						"count": 6
+					},
+					{
+						"item": "hook",
+						"count": 3
+					}
+				],
+				"pictures": false,
+				"spare": 3,
+				"prompt": "Read the list: no pictures. Fetch the right number of each, then press Done."
+			},
+			"feedback": {
+				"all_good": "Everything we need. Let's build!"
+			}
+		}
+	],
+	"outro": [
+		{
+			"speaker": "amos",
+			"text": "With your careful counting, we didn't waste a single nail.",
+			"button": "Thank you, Mr. Amos"
+		}
+	],
+	"world_effects": [
+		{
+			"op": "set",
+			"fact": "project.fetch_day",
+			"value": "$day"
+		}
+	],
+	"replay": "free",
+	"real_world_invitation": "rw_read_list",
+	"journal_line": "I read Mr. Amos's list and fetched what we needed for the tables.",
+	"unavailable_text": "Everything is fetched for today."
+}

@@ -24,7 +24,18 @@ static func draw(ci: CanvasItem, kind: String, size: Vector2, outline: bool, dat
 		_letter_tile(ci, kind.substr(7), size, outline)
 		return
 	if kind.begins_with("word:"):
-		_word_card(ci, kind.substr(5), size, outline)
+		_word_card(ci, kind.substr(5), size, outline, data)
+		return
+	if kind.begins_with("card_icon:"):
+		# A picture card showing a step of some work, drawn from the icon set.
+		var r := Rect2(Vector2(4, 4), size - Vector2(8, 8))
+		_shape(ci, _rect(r), Color("fbf3dc"), outline)
+		if not outline:
+			var label := str(data.get("label", ""))
+			var pic := minf(r.size.x - 16, r.size.y - (34 if not label.is_empty() else 16))
+			Icon.draw(ci, kind.substr(10), Rect2(Vector2(c.x - pic / 2.0, r.position.y + 8), Vector2(pic, pic)))
+			if not label.is_empty():
+				ci.draw_string(UiStyle.font(), Vector2(r.position.x, r.end.y - 8), label, HORIZONTAL_ALIGNMENT_CENTER, r.size.x, 16, Color("5a3d28"))
 		return
 	if kind.begins_with("card_plank_"):
 		# A plank stood on end on a card; plank N is N steps tall (1 to 8).
@@ -50,6 +61,32 @@ static func draw(ci: CanvasItem, kind: String, size: Vector2, outline: bool, dat
 			ci.draw_string(UiStyle.font(), Vector2(0, c.y + fsize * 0.35), value, HORIZONTAL_ALIGNMENT_CENTER, size.x, fsize, metal.darkened(0.55))
 		return
 	match kind:
+		"bean_pod":
+			# A green bean pod with the beans showing as bumps.
+			var pod := PackedVector2Array()
+			for k in 20:
+				var t := k / 19.0
+				pod.append(Vector2(size.x * (0.12 + 0.76 * t), size.y * (0.5 - 0.16 * sin(t * PI)) - size.y * 0.1 * sin(t * PI)))
+			for k in 20:
+				var t := 1.0 - k / 19.0
+				pod.append(Vector2(size.x * (0.12 + 0.76 * t), size.y * (0.5 + 0.12 * sin(t * PI)) - size.y * 0.1 * sin(t * PI)))
+			_shape(ci, pod, Color("7fb04a"), outline)
+			if not outline:
+				for k in 3:
+					ci.draw_circle(Vector2(size.x * (0.3 + k * 0.2), size.y * 0.42), size.y * 0.07, Color("9cc766"))
+		"pie_slice":
+			# A wedge of apple pie, crust edge at the back.
+			var tip := Vector2(size.x * 0.18, size.y * 0.78)
+			_shape(ci, PackedVector2Array([tip, Vector2(size.x * 0.86, size.y * 0.42), Vector2(size.x * 0.78, size.y * 0.2), Vector2(size.x * 0.6, size.y * 0.14)]), Color("e8c27a"), outline)
+			if not outline:
+				ci.draw_line(Vector2(size.x * 0.6, size.y * 0.14), Vector2(size.x * 0.86, size.y * 0.42), Color("b8863a"), 5.0)
+				ci.draw_line(tip, Vector2(size.x * 0.72, size.y * 0.3), Color("c99a4e"), 1.5)
+		"flag_red", "flag_yellow", "flag_blue", "flag_green":
+			# A bunting pennant hanging from its string.
+			var cloth: Color = {"flag_red": Color("d9473c"), "flag_yellow": Color("f2c14e"), "flag_blue": Color("5f8fd0"), "flag_green": Color("6fa84f")}[kind]
+			_shape(ci, PackedVector2Array([Vector2(size.x * 0.12, size.y * 0.16), Vector2(size.x * 0.88, size.y * 0.16), Vector2(c.x, size.y * 0.9)]), cloth, outline)
+			if not outline:
+				ci.draw_line(Vector2(0, size.y * 0.14), Vector2(size.x, size.y * 0.14), Color("8a6446"), 3.0)
 		"shape_square", "shape_rect", "shape_triangle", "shape_semicircle", "shape_circle":
 			# Wooden geometric insets, each its own colour, with a little knob.
 			var fill: Color = {"shape_square": Color("5f8fd0"), "shape_rect": Color("6fa84f"), "shape_triangle": Color("d9473c"), "shape_semicircle": Color("e0b64c"), "shape_circle": Color("d9733a")}[kind]
@@ -559,15 +596,25 @@ static func _letter_tile(ci: CanvasItem, letter: String, size: Vector2, outline:
 
 ## A written label card: the word in plain dark print on cream card, like a
 ## Montessori picture-and-label set (the word, not its colours, is the clue).
-static func _word_card(ci: CanvasItem, word: String, size: Vector2, outline: bool) -> void:
+## A written word on a card. With data "icon", a little picture sits at its
+## left (for children still learning to read); data "tint" colours the edge.
+static func _word_card(ci: CanvasItem, word: String, size: Vector2, outline: bool, data: Dictionary = {}) -> void:
 	var r := Rect2(Vector2(2, 2), size - Vector2(4, 4))
 	if outline:
 		_dashed(ci, _rect(r))
 		return
 	ci.draw_rect(r, Color("fffaf0"))
-	ci.draw_rect(r, Color("c9a86e"), false, 2.0)
+	ci.draw_rect(r, data.get("tint", Color("c9a86e")), false, 3.0 if data.has("tint") else 2.0)
+	var left := 0.0
+	var icon := str(data.get("icon", ""))
+	if not icon.is_empty():
+		Icon.draw(ci, icon, Rect2(Vector2(6, 4), Vector2(size.y - 8, size.y - 8)))
+		left = size.y - 4
 	var fsize := int(size.y * 0.62)
-	ci.draw_string(UiStyle.font(), Vector2(0, size.y * 0.5 + fsize * 0.33), word, HORIZONTAL_ALIGNMENT_CENTER, size.x, fsize, INK)
+	var room := size.x - left - 8
+	while fsize > 12 and UiStyle.font().get_string_size(word, HORIZONTAL_ALIGNMENT_LEFT, -1, fsize).x > room:
+		fsize -= 1
+	ci.draw_string(UiStyle.font(), Vector2(left + 4, size.y * 0.5 + fsize * 0.33), word, HORIZONTAL_ALIGNMENT_CENTER, room, fsize, INK)
 
 
 static func _sheep(ci: CanvasItem, at: Vector2, r: float, outline: bool) -> void:

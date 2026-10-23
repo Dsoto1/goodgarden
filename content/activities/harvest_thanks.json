@@ -1,0 +1,172 @@
+{
+	"id": "harvest_thanks",
+	"title": "Giving Thanks",
+	"mode": "task",
+	"location": "village",
+	"surface": "wood_table",
+	"readiness": {
+		"ages": [
+			5,
+			9
+		],
+		"math": "none",
+		"reading": "choosing and reading words to write a thank-you prayer"
+	},
+	"concepts": [
+		"writing",
+		"reading words",
+		"reflection"
+	],
+	"formation_themes": [
+		"gratitude",
+		"joy"
+	],
+	"prerequisites": [
+		{
+			"fact": "harvest.thanks",
+			"exists": false
+		}
+	],
+	"intro": [
+		{
+			"speaker": "miriam",
+			"text": "Everyone is here: the neighbors, the travellers, and, look, even Sam from Bellhaven! Before we eat, we give thanks."
+		},
+		{
+			"speaker": "miriam",
+			"text": "Will you write our thank-you, for everyone to hear? Choose what you're most thankful for."
+		}
+	],
+	"steps": [
+		{
+			"id": "thanks",
+			"primitive": "compose_letter",
+			"speaker": "miriam",
+			"prompt": "Write the thank-you: choose a word for each coloured space.",
+			"hint": "Show me",
+			"lines": [
+				"Thank you, God,",
+				"for the {food},",
+				"for our {people},",
+				"and for {gift}.",
+				"Amen."
+			],
+			"choices": {
+				"food": [
+					{
+						"word": "beans",
+						"icon": "seedling"
+					},
+					{
+						"word": "bread",
+						"icon": "bread"
+					},
+					{
+						"word": "apples",
+						"icon": "apple"
+					}
+				],
+				"people": [
+					{
+						"word": "neighbors",
+						"icon": "heart"
+					},
+					{
+						"word": "friends",
+						"icon": "talk"
+					},
+					{
+						"word": "families",
+						"icon": "home"
+					}
+				],
+				"gift": [
+					{
+						"word": "the animals",
+						"icon": "sheep"
+					},
+					{
+						"word": "the rain",
+						"icon": "water"
+					},
+					{
+						"word": "this day",
+						"icon": "sun"
+					}
+				]
+			},
+			"older": {
+				"lines": [
+					"Thank you, God,",
+					"for the {food} we grew,",
+					"for {people} who helped,",
+					"for the {time} we {did},",
+					"and most of all for {gift}.",
+					"Amen."
+				],
+				"choices": {
+					"food": [
+						"beans",
+						"apples",
+						"bread"
+					],
+					"people": [
+						"neighbors",
+						"friends"
+					],
+					"time": [
+						"day",
+						"week"
+					],
+					"did": [
+						"shared",
+						"forgave",
+						"worked together"
+					],
+					"gift": [
+						"each other",
+						"your love",
+						"this valley"
+					]
+				}
+			},
+			"feedback": {
+				"all_good": "Beautiful. Everyone is listening."
+			}
+		}
+	],
+	"outro": [
+		{
+			"speaker": "miriam",
+			"text": "Amen! Now, everyone, let's eat!"
+		},
+		{
+			"speaker": "tobias",
+			"text": "Pass the bread, and the beans the child grew!"
+		},
+		{
+			"speaker": "ruth",
+			"text": "Sam, you came all this way! Look, here's the map you drew, and the friends who read it."
+		},
+		{
+			"speaker": "amos",
+			"text": "To good work, good neighbors, and a good God!"
+		},
+		{
+			"speaker": "miriam",
+			"text": "My friend, look how much has grown since that first little letter. Thank you for everything.",
+			"button": "Thank you, everyone"
+		}
+	],
+	"world_effects": [
+		{
+			"op": "set",
+			"fact": "harvest.thanks",
+			"value": "$thanks.text"
+		}
+	],
+	"replay": "once",
+	"real_world_invitation": "rw_give_thanks_share",
+	"journal_line": "At the Harvest Supper, I wrote our thank-you, and we all ate together.",
+	"unavailable_text": "The Harvest Supper is a happy memory."
+}

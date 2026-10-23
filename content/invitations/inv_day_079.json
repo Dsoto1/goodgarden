@@ -1,0 +1,34 @@
+{
+	"id": "inv_day_079",
+	"from": "ruth",
+	"body": "Dear friend,\n\nThe tables are in the square, and now every place must be set, so each guest feels welcome.\n\nWill you help me?",
+	"signature": "Mrs. Ruth",
+	"suggests": "set_long_table",
+	"summary": "Set the long table for the supper.",
+	"done": "Every place is set!",
+	"tasks": [
+		{
+			"text": "Set the long table",
+			"activity": "set_long_table",
+			"icon": "table",
+			"where": "in the village square"
+		},
+		{
+			"text": "Feed the hens",
+			"done_when": [
+				{
+					"fact": "home.hens_fed_day",
+					"is_today": true
+				}
+			],
+			"icon": "hen",
+			"where": "by the coop at home"
+		},
+		{
+			"text": "Fill the bird feeders",
+			"activity": "grove_bird_feeders",
+			"icon": "bird",
+			"where": "in the grove"
+		}
+	]
+}

@@ -1,0 +1,10 @@
+{
+	"id": "day_076",
+	"day": 76,
+	"week": 11,
+	"arc": "Gratitude & Harvest",
+	"npcs": {"miriam": "garden_miriam"},
+	"free_work": ["home_set_table"],
+	"chapel": ["good_samaritan", "mustard_seed", "leaven", "lost_sheep", "fishers", "five_thousand", "good_shepherd"],
+	"season": "Autumn"
+}

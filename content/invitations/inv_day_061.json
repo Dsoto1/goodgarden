@@ -1,0 +1,34 @@
+{
+	"id": "inv_day_061",
+	"from": "amos",
+	"body": "Hello, friend!\n\nMy hand is all better. Hooray! But the storm blew shingles off your hen house roof, and the hens are getting dripped on.\n\nI've cut new shingles. Will you fit them?",
+	"signature": "Mr. Amos, the carpenter",
+	"suggests": "patch_roof",
+	"summary": "Patch the hen house roof.",
+	"done": "The hens are snug and dry!",
+	"tasks": [
+		{
+			"text": "Patch the coop roof",
+			"activity": "patch_roof",
+			"icon": "shapes",
+			"where": "at the coop by your house"
+		},
+		{
+			"text": "Feed the hens",
+			"done_when": [
+				{
+					"fact": "home.hens_fed_day",
+					"is_today": true
+				}
+			],
+			"icon": "hen",
+			"where": "by the coop at home"
+		},
+		{
+			"text": "Feed the lambs",
+			"activity": "sheepfold_hay",
+			"icon": "sheep",
+			"where": "at the sheepfold"
+		}
+	]
+}

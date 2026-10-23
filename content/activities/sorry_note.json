@@ -1,0 +1,135 @@
+{
+	"id": "sorry_note",
+	"title": "A Note to Say Sorry",
+	"mode": "task",
+	"location": "village",
+	"surface": "wood_table",
+	"readiness": {
+		"ages": [
+			5,
+			9
+		],
+		"math": "none",
+		"reading": "choosing and reading words to write a note"
+	},
+	"concepts": [
+		"writing a note",
+		"reading words"
+	],
+	"formation_themes": [
+		"forgiveness",
+		"honesty"
+	],
+	"prerequisites": [
+		{
+			"fact": "community.sorry_note",
+			"exists": false
+		}
+	],
+	"intro": [
+		{
+			"speaker": "ruth",
+			"text": "Oh, I feel dreadful. Before we found her, my lamb wandered through Miss Miriam's garden and trampled her flowers."
+		},
+		{
+			"speaker": "ruth",
+			"text": "I want to tell Miriam I'm sorry. Will you help me write a note?"
+		}
+	],
+	"steps": [
+		{
+			"id": "note",
+			"primitive": "compose_letter",
+			"speaker": "ruth",
+			"prompt": "Help Mrs. Ruth write her note: choose a word for each coloured space.",
+			"hint": "Show me",
+			"lines": [
+				"Dear Miriam,",
+				"I am {sorry} my lamb {did}.",
+				"I will help you {fix}.",
+				"Please forgive me."
+			],
+			"choices": {
+				"sorry": [
+					"so sorry",
+					"very sorry"
+				],
+				"did": [
+					"ran in",
+					"squashed your flowers"
+				],
+				"fix": [
+					{
+						"word": "plant",
+						"icon": "seedling"
+					},
+					{
+						"word": "weed",
+						"icon": "weed"
+					},
+					{
+						"word": "water",
+						"icon": "water"
+					}
+				]
+			},
+			"signature": "Ruth",
+			"older": {
+				"lines": [
+					"Dear Miriam,",
+					"I am {sorry} that my lamb {did}.",
+					"It was my fault, because {why}.",
+					"I will help you {fix}.",
+					"Please {ask}."
+				],
+				"choices": {
+					"sorry": [
+						"so sorry",
+						"very sorry"
+					],
+					"did": [
+						"trampled your flowers",
+						"got into your garden"
+					],
+					"why": [
+						"I left the gate open",
+						"I didn't check the fence"
+					],
+					"fix": [
+						"plant new flowers",
+						"mend your border"
+					],
+					"ask": [
+						"forgive me",
+						"let me help"
+					]
+				}
+			},
+			"feedback": {
+				"all_good": "That's a good, honest note. Let's take it to Miss Miriam."
+			}
+		}
+	],
+	"outro": [
+		{
+			"speaker": "ruth",
+			"text": "Miriam read it, and hugged me! She said, \"Of course I forgive you. Let's plant them again together.\""
+		},
+		{
+			"speaker": "ruth",
+			"text": "Saying sorry is hard. Forgiving is a gift. Thank you for helping me.",
+			"button": "Thank you, Mrs. Ruth"
+		}
+	],
+	"world_effects": [
+		{
+			"op": "set",
+			"fact": "community.sorry_note",
+			"value": "$note.text"
+		}
+	],
+	"replay": "once",
+	"real_world_invitation": "rw_write_letter",
+	"journal_line": "I helped Mrs. Ruth write a note to say sorry, and Miss Miriam forgave her.",
+	"unavailable_text": "The sorry note is written and given."
+}

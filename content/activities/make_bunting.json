@@ -1,0 +1,95 @@
+{
+	"id": "make_bunting",
+	"title": "Bunting for the Square",
+	"mode": "task",
+	"location": "village",
+	"surface": "wood_table",
+	"readiness": {
+		"ages": [
+			5,
+			9
+		],
+		"math": "continuing a repeating pattern (older: ABCD)",
+		"reading": "pre-reader friendly; all text can be read aloud"
+	},
+	"concepts": [
+		"repeating patterns",
+		"predicting"
+	],
+	"formation_themes": [
+		"beauty",
+		"gratitude"
+	],
+	"prerequisites": [
+		{
+			"fact": "harvest.bunting",
+			"exists": false
+		}
+	],
+	"intro": [
+		{
+			"speaker": "miriam",
+			"text": "A celebration needs decorations! Let's make bunting to hang across the square."
+		},
+		{
+			"speaker": "miriam",
+			"text": "I've begun the pattern. You carry it on."
+		}
+	],
+	"steps": [
+		{
+			"id": "flags",
+			"primitive": "continue_pattern",
+			"speaker": "miriam",
+			"look": "bunting",
+			"prompt": "Carry on the pattern of flags. What comes next?",
+			"hint": "Show me",
+			"unit": [
+				"flag_red",
+				"flag_yellow",
+				"flag_blue"
+			],
+			"length": 12,
+			"given": 3,
+			"names": {
+				"flag_red": "red",
+				"flag_yellow": "yellow",
+				"flag_blue": "blue",
+				"flag_green": "green"
+			},
+			"older": {
+				"unit": [
+					"flag_red",
+					"flag_yellow",
+					"flag_blue",
+					"flag_green"
+				],
+				"length": 12,
+				"given": 4,
+				"prompt": "Carry on the pattern: red, yellow, blue, green. What comes next?"
+			},
+			"feedback": {
+				"wrong": "Listen to the pattern: {pattern}",
+				"all_good": "Our bunting is ready to hang!"
+			}
+		}
+	],
+	"outro": [
+		{
+			"speaker": "miriam",
+			"text": "Up it goes, all across the square! It looks like a party already.",
+			"button": "Thank you, Miss Miriam"
+		}
+	],
+	"world_effects": [
+		{
+			"op": "set",
+			"fact": "harvest.bunting",
+			"value": "$flags.unit"
+		}
+	],
+	"replay": "once",
+	"real_world_invitation": "rw_patterns",
+	"journal_line": "I made bunting for the square in a pattern.",
+	"unavailable_text": "The bunting is up."
+}

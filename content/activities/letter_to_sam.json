@@ -1,0 +1,146 @@
+{
+	"id": "letter_to_sam",
+	"title": "A Letter to Sam",
+	"mode": "task",
+	"location": "home",
+	"surface": "wood_table",
+	"readiness": {
+		"ages": [
+			5,
+			9
+		],
+		"math": "none",
+		"reading": "choosing and reading words to write a letter"
+	},
+	"concepts": [
+		"writing a letter",
+		"reading words",
+		"sentences"
+	],
+	"formation_themes": [
+		"friendship",
+		"compassion"
+	],
+	"prerequisites": [
+		{
+			"fact": "community.sam_letter",
+			"exists": false
+		}
+	],
+	"intro": [
+		{
+			"speaker": "narrator",
+			"text": "Mrs. Ruth's grandson Sam lives far away in Bellhaven. A letter from the valley would cheer him up."
+		},
+		{
+			"speaker": "narrator",
+			"text": "Choose a word for each coloured space. Tap a line to hear your letter so far."
+		}
+	],
+	"steps": [
+		{
+			"id": "letter",
+			"primitive": "compose_letter",
+			"speaker": "narrator",
+			"prompt": "Write your letter: choose a word for each coloured space.",
+			"hint": "Show me",
+			"lines": [
+				"Dear Sam,",
+				"I live in the valley near your grandma.",
+				"I like to {do} with my {friend}.",
+				"Please come and visit {when}!"
+			],
+			"choices": {
+				"do": [
+					{
+						"word": "plant beans",
+						"icon": "seedling"
+					},
+					{
+						"word": "bake bread",
+						"icon": "bread"
+					},
+					{
+						"word": "feed the hens",
+						"icon": "hen"
+					}
+				],
+				"friend": [
+					{
+						"word": "cat",
+						"icon": "cat"
+					},
+					{
+						"word": "lambs",
+						"icon": "sheep"
+					},
+					{
+						"word": "neighbors",
+						"icon": "heart"
+					}
+				],
+				"when": [
+					"soon",
+					"in the summer",
+					"for the harvest"
+				]
+			},
+			"signature": "your new friend",
+			"older": {
+				"lines": [
+					"Dear Sam,",
+					"My name is on this letter, and I live in the {where}.",
+					"This week I {did}, and it was {how}.",
+					"Your grandma {grandma}.",
+					"Please come {when}!"
+				],
+				"choices": {
+					"where": [
+						"valley",
+						"cottage by the river"
+					],
+					"did": [
+						"read your map",
+						"sold eggs",
+						"built a birdhouse"
+					],
+					"how": [
+						"fun",
+						"hard work",
+						"wonderful"
+					],
+					"grandma": [
+						"misses you",
+						"has a new window",
+						"sends her love"
+					],
+					"when": [
+						"soon",
+						"for the harvest"
+					]
+				}
+			},
+			"feedback": {
+				"all_good": "Your letter is ready to send. Mrs. Ruth will put it in the mail cart to Bellhaven."
+			}
+		}
+	],
+	"outro": [
+		{
+			"speaker": "narrator",
+			"text": "The letter is folded and sealed. It will travel all the way over the hills to Bellhaven.",
+			"button": "Done"
+		}
+	],
+	"world_effects": [
+		{
+			"op": "set",
+			"fact": "community.sam_letter",
+			"value": "$letter.text"
+		}
+	],
+	"replay": "once",
+	"real_world_invitation": "rw_write_letter",
+	"journal_line": "I wrote a letter to Sam in Bellhaven.",
+	"unavailable_text": "Your letter to Sam is on its way."
+}

@@ -1,0 +1,104 @@
+{
+	"id": "mend_fence",
+	"title": "After the Storm",
+	"mode": "task",
+	"location": "valley",
+	"surface": "wood_table",
+	"readiness": {
+		"ages": [
+			5,
+			9
+		],
+		"math": "equal spacing with a measuring stick; counting nails",
+		"reading": "pre-reader friendly; all text can be read aloud"
+	},
+	"concepts": [
+		"measuring with a unit",
+		"equal groups",
+		"counting"
+	],
+	"formation_themes": [
+		"cooperation",
+		"care for animals"
+	],
+	"prerequisites": [
+		{
+			"fact": "community.fence",
+			"exists": false
+		}
+	],
+	"intro": [
+		{
+			"speaker": "ruth",
+			"text": "What a storm last night! The wind blew part of the sheepfold fence right down."
+		},
+		{
+			"speaker": "ruth",
+			"text": "Mr. Amos's hand is better now. He's cut the posts. Let's space them with the stick, then nail on the rails."
+		}
+	],
+	"steps": [
+		{
+			"id": "space_posts",
+			"primitive": "space_along_line",
+			"speaker": "ruth",
+			"prompt": "Put a post one stick away from the stone. Then one stick away from that post, and so on.",
+			"hint": "Lay the stick next to the stone. Where does the other end reach? Put a post there.",
+			"markers": 4,
+			"stick_length": 170,
+			"tolerance": 34,
+			"older": {
+				"tolerance": 18
+			},
+			"feedback": {
+				"placed_all": "Now let's check with the stick.",
+				"crowded": "The stick covers a post there. Can it move further away?",
+				"far": "There's a gap past the end of the stick. Can that post move closer?",
+				"all_good": "Every space is one stick long. A good straight fence!"
+			}
+		},
+		{
+			"id": "nails",
+			"primitive": "count_into_slots",
+			"speaker": "ruth",
+			"prompt": "Now two nails in each post, to hold the rails. Count: one, two.",
+			"hint": "Find a post with an empty dip and put a nail there.",
+			"slots_from": "space_posts",
+			"per_slot": 2,
+			"piece": "nail",
+			"supply_label": "nail tin",
+			"spare": 2,
+			"older": {
+				"per_slot": 3,
+				"show_dimples": false,
+				"prompt": "Three nails in each post this time. No dips: count them yourself."
+			},
+			"feedback": {
+				"full": "That post has its nails. Try another.",
+				"all_good": "The fence is mended!"
+			}
+		}
+	],
+	"outro": [
+		{
+			"speaker": "ruth",
+			"text": "Oh dear, look: the gate swung open in the night. One of my lambs is missing!"
+		},
+		{
+			"speaker": "ruth",
+			"text": "We'll look for her tomorrow, at first light. Don't worry. A good shepherd never stops looking.",
+			"button": "Thank you, Mrs. Ruth"
+		}
+	],
+	"world_effects": [
+		{
+			"op": "set",
+			"fact": "community.fence",
+			"value": "$day"
+		}
+	],
+	"replay": "once",
+	"real_world_invitation": "rw_measure_home",
+	"journal_line": "After the storm, I helped mend the sheepfold fence.",
+	"unavailable_text": "The fence is mended."
+}

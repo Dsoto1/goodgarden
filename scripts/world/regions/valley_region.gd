@@ -46,6 +46,15 @@ var _stone_pile: Node3D
 var _stones: Node3D
 var _fed_birds: Node3D
 
+## Weeks 7-12: marks the community's work leaves in the valley.
+const NEW_SIGNPOST := Vector3(0.4, 0, -17.0)
+const SIGN_ARMS := {"mill": PI / 2.0, "well": -PI / 2.0, "hill": 0.0, "road": 0.35}
+var _signpost: Node3D # the mended signpost by the bridge
+var _fallen_post: Node3D # the old one lying in the grass, until mended
+var _storm_planks: Node3D # fence rails blown down by the storm
+var _lost_lamb: Node3D # the lamb in the grove, until found
+var _apples: Node3D # apples on the orchard trees, until picked
+
 
 func build() -> void:
 	var ground := StaticBody3D.new()
@@ -136,6 +145,7 @@ func build() -> void:
 		AnimalMoments.pettable(sheep, "Pet the sheep", ["The sheep stands still and lets you pet its thick wool."], "sheep")
 	_farm_animals()
 	_grove()
+	_community_marks()
 
 	_trees()
 	_boundary()
@@ -224,8 +234,8 @@ func _sync_orchard() -> void:
 		# A second, smaller lump so the crown isn't a perfect ball.
 		MeshKit.sphere(_orchard, crown * 0.6, top + Vector3(crown * 0.45, crown * 0.3, -crown * 0.25), "leaf", Vector3.ONE, 7, 4)
 		MeshKit.sphere(_orchard, 0.4, at + Vector3(0, 0.03, 0), "soil_dark", Vector3(1, 0.06, 1), 8, 2)
-		if age >= 2:
-			# Spring blossom, dotted over the outside of the crown.
+		if age >= 2 and Days.current_day < 43:
+			# Spring blossom, dotted over the outside of the crown (gone by summer).
 			for k in 24:
 				var a := TAU * k / 24.0 * 5.0 + i
 				var up := lerpf(-0.2, 0.85, fmod(k * 0.618, 1.0))
@@ -245,6 +255,8 @@ func sync_with_world() -> void:
 		_flour.visible = WorldState.get_fact("village.flour_day") != null
 	if _trail_signs:
 		_sync_grove()
+	if _signpost:
+		_sync_community()
 
 
 ## A wooden fence around `r` (x, z, width, depth) with an open gate in the
@@ -703,3 +715,44 @@ func _sync_grove() -> void:
 			var big := str(pattern[i % pattern.size()]) == "stone_big"
 			MeshKit.sphere(_stones, 0.34 if big else 0.2, at + Vector3(0, 0.02, 0), "stone", Vector3(1, 0.12, 0.85), 8, 2)
 	_fed_birds.visible = WorldState.matches([{"fact": "grove.birds_fed_day", "is_today": true}])
+
+
+## Weeks 7-12 in the valley: the signpost by the bridge (blown down, then
+## mended with the child's words), the storm's damage at the sheepfold, the
+## lost lamb waiting in the grove, and apples on the orchard trees at harvest.
+func _community_marks() -> void:
+	_signpost = group_node("NewSignpost")
+	_fallen_post = group_node("FallenPost")
+	MeshKit.box(_fallen_post, Vector3(0.12, 0.12, 2.0), NEW_SIGNPOST + Vector3(0.3, 0.06, 0.4), "wood_dark").rotation.y = 0.5
+	MeshKit.box(_fallen_post, Vector3(0.05, 0.24, 1.0), NEW_SIGNPOST + Vector3(-0.6, 0.05, 0.9), "wood_light").rotation = Vector3(PI / 2.0, 0.9, 0)
+	add_anchor("signpost_amos", NEW_SIGNPOST + Vector3(1.6, 0, 0.8), PI / 2.0)
+	_storm_planks = group_node("StormPlanks")
+	for k in 4:
+		var plank := MeshKit.box(_storm_planks, Vector3(1.6, 0.05, 0.14), Vector3(25.2 + k * 0.5, 0.03, -17.6 + (k % 2) * 0.4), "wood")
+		plank.rotation.y = 0.3 * (k - 1.5)
+	_lost_lamb = group_node("LostLamb")
+	var lamb := AnimalModel.make("lamb")
+	lamb.position = GROVE + Vector3(-4.0, 0, -1.4)
+	lamb.rotation.y = 0.8
+	_lost_lamb.add_child(lamb)
+	# Apples on the outside of each crown (crown 0.7 at 1.8 + 0.2 up).
+	_apples = group_node("OrchardApples")
+	for at: Vector3 in ORCHARD:
+		for k in 10:
+			var a := k * 2.1
+			var up := lerpf(-0.5, 0.6, fmod(k * 0.618, 1.0))
+			var dir := Vector3(cos(a) * sqrt(1.0 - up * up), up, sin(a) * sqrt(1.0 - up * up))
+			MeshKit.sphere(_apples, 0.09, at + Vector3(0, 2.0, 0) + dir * Vector3(0.72, 0.62, 0.72), "cloth_red", Vector3.ONE, 6, 3)
+
+
+func _sync_community() -> void:
+	var words: Variant = WorldState.get_fact("community.signpost")
+	_fallen_post.visible = Days.current_day >= 46 and words == null
+	if words is Array and _signpost.get_child_count() == 0:
+		var arms: Array = []
+		for w: Variant in words:
+			arms.append([str(w), SIGN_ARMS.get(str(w), 0.0)])
+		CraftedProps.signpost(_signpost, NEW_SIGNPOST, arms)
+	_storm_planks.visible = Days.current_day >= 57 and not WorldState.has_fact("community.fence")
+	_lost_lamb.visible = WorldState.has_fact("community.fence") and not WorldState.has_fact("community.lamb_found")
+	_apples.visible = Days.current_day >= 70 and WorldState.has_fact("orchard.planted") and not WorldState.has_fact("harvest.apples")

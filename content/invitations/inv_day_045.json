@@ -1,0 +1,29 @@
+{
+	"id": "inv_day_045",
+	"from": "tobias",
+	"body": "Good morning!\n\nSome families have come over the hills from Bellhaven. Times are hard for them there, and they're hungry.\n\nI've baked extra rolls. Will you help me share them out fairly?",
+	"signature": "Mr. Tobias, the baker",
+	"suggests": "share_rolls",
+	"summary": "Share rolls fairly with families from Bellhaven.",
+	"done": "Every family has a fair share. Thank you!",
+	"tasks": [
+		{
+			"text": "Share the rolls",
+			"activity": "share_rolls",
+			"icon": "bread",
+			"where": "at the bakery"
+		},
+		{
+			"text": "Pour water for supper",
+			"activity": "home_pour_water",
+			"icon": "water",
+			"where": "at the jug in your kitchen"
+		},
+		{
+			"text": "Feed the lambs",
+			"activity": "sheepfold_hay",
+			"icon": "sheep",
+			"where": "at the sheepfold"
+		}
+	]
+}

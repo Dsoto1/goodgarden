@@ -1,0 +1,11 @@
+{
+	"id": "day_070",
+	"day": 70,
+	"week": 10,
+	"arc": "Forgiveness & Cooperation",
+	"invitation": "inv_day_070",
+	"npcs": {"miriam": "chapel_miriam", "tobias": "chapel_tobias", "ruth": "chapel_ruth", "amos": "chapel_amos"},
+	"free_work": ["home_set_table"],
+	"chapel": ["good_samaritan", "mustard_seed", "leaven", "lost_sheep", "fishers", "five_thousand", "good_shepherd"],
+	"season": "Summer"
+}

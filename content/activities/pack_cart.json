@@ -1,0 +1,120 @@
+{
+	"id": "pack_cart",
+	"title": "Packing the Cart",
+	"mode": "task",
+	"location": "village",
+	"surface": "wood_table",
+	"readiness": {
+		"ages": [
+			5,
+			9
+		],
+		"math": "counting out sets to match a list",
+		"reading": "reading a list (older: no pictures)"
+	},
+	"concepts": [
+		"reading numerals",
+		"reading words",
+		"counting out a set"
+	],
+	"formation_themes": [
+		"compassion",
+		"generosity"
+	],
+	"prerequisites": [
+		{
+			"fact": "community.cart_packed",
+			"exists": false
+		}
+	],
+	"intro": [
+		{
+			"speaker": "tobias",
+			"text": "The neighbors want to send food to the families in Bellhaven who need it. The cart goes tomorrow."
+		},
+		{
+			"speaker": "tobias",
+			"text": "Here's what we've promised. Can you read the list and pack the cart?"
+		}
+	],
+	"steps": [
+		{
+			"id": "pack",
+			"primitive": "fill_order",
+			"speaker": "tobias",
+			"note_title": "For Bellhaven:",
+			"note_from": "the neighbors",
+			"basket_label": "the cart",
+			"prompt": "Read the list. Put the right things in the cart's basket, then press Done.",
+			"hint": "Show me",
+			"order": [
+				{
+					"item": "bread_roll",
+					"count": 4,
+					"word": "roll",
+					"words": "rolls"
+				},
+				{
+					"item": "apple",
+					"count": 3
+				},
+				{
+					"item": "egg",
+					"count": 2
+				}
+			],
+			"extra": [
+				"jam_jar"
+			],
+			"pictures": true,
+			"older": {
+				"order": [
+					{
+						"item": "bread_roll",
+						"count": 6,
+						"word": "roll",
+						"words": "rolls"
+					},
+					{
+						"item": "apple",
+						"count": 5
+					},
+					{
+						"item": "egg",
+						"count": 4
+					},
+					{
+						"item": "jam_jar",
+						"count": 2,
+						"word": "jar of jam",
+						"words": "jars of jam"
+					}
+				],
+				"extra": [],
+				"pictures": false,
+				"prompt": "Read the list: no pictures this time. Pack the cart, then press Done."
+			},
+			"feedback": {
+				"all_good": "Everything on the list is packed. Bellhaven will be glad of it!"
+			}
+		}
+	],
+	"outro": [
+		{
+			"speaker": "tobias",
+			"text": "There, it's packed. Tomorrow we'll work out the best way to take it to the Bellhaven road.",
+			"button": "Thank you, Mr. Tobias"
+		}
+	],
+	"world_effects": [
+		{
+			"op": "set",
+			"fact": "community.cart_packed",
+			"value": "$day"
+		}
+	],
+	"replay": "once",
+	"real_world_invitation": "rw_read_list",
+	"journal_line": "I packed the cart with food for families in Bellhaven.",
+	"unavailable_text": "The cart is packed."
+}

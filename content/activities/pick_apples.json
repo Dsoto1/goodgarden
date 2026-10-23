@@ -1,0 +1,91 @@
+{
+	"id": "pick_apples",
+	"title": "Apples for the Neighbors",
+	"mode": "task",
+	"location": "valley",
+	"surface": "wood_table",
+	"readiness": {
+		"ages": [
+			5,
+			9
+		],
+		"math": "sharing equally: division (older: with a remainder)",
+		"reading": "pre-reader friendly; all text can be read aloud"
+	},
+	"concepts": [
+		"sharing equally",
+		"division"
+	],
+	"formation_themes": [
+		"gratitude",
+		"generosity"
+	],
+	"prerequisites": [
+		{
+			"fact": "harvest.apples",
+			"exists": false
+		}
+	],
+	"intro": [
+		{
+			"speaker": "miriam",
+			"text": "The old apple trees by the river are heavy with fruit. Our little trees will give apples like these one day!"
+		},
+		{
+			"speaker": "miriam",
+			"text": "Let's share these out fairly: a basket for each house."
+		}
+	],
+	"steps": [
+		{
+			"id": "share",
+			"primitive": "share_equally",
+			"speaker": "miriam",
+			"prompt": "Share the apples so every house gets the same.",
+			"hint": "Show me",
+			"piece": "apple",
+			"total": 16,
+			"plates": 4,
+			"names": [
+				"Miss Miriam",
+				"Mr. Tobias",
+				"Mrs. Ruth",
+				"Mr. Amos"
+			],
+			"older": {
+				"total": 22,
+				"plates": 5,
+				"leftover": true,
+				"names": [
+					"Miss Miriam",
+					"Mr. Tobias",
+					"Mrs. Ruth",
+					"Mr. Amos",
+					"your house"
+				],
+				"prompt": "Share the apples fairly among five houses. Any that can't be shared fairly go in the left-over bowl, for pies!"
+			},
+			"feedback": {
+				"all_good": "Fair shares: {n} apples each!"
+			}
+		}
+	],
+	"outro": [
+		{
+			"speaker": "miriam",
+			"text": "And the left-overs go in Tobias's pies. Nothing wasted, everyone fed.",
+			"button": "Thank you, Miss Miriam"
+		}
+	],
+	"world_effects": [
+		{
+			"op": "set",
+			"fact": "harvest.apples",
+			"value": "$day"
+		}
+	],
+	"replay": "once",
+	"real_world_invitation": "rw_share_snack",
+	"journal_line": "I picked apples and shared them fairly among the houses.",
+	"unavailable_text": "The apples are picked and shared."
+}

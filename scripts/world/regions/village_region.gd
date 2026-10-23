@@ -19,6 +19,16 @@ var _ruth_window: Node3D # Mrs. Ruth's mended window, once mended
 var _broken_window: Node3D # the empty window frame waiting at the workshop
 var _shape_boxes: Node3D # the sorted shape boxes on the workbench
 var _egg_trays: Node3D # Mrs. Ruth's eggs for sale, from the market week
+var _cart: Node3D # the cart packed for Bellhaven, until it goes
+var _tables: Node3D # the long table and benches for the Harvest Supper
+var _table_pattern: Node3D # the pattern painted along the table's edge
+var _place_settings: Node3D
+var _feast: Node3D # food on the table, from the pies
+var _flags_up: Node3D # the harvest bunting the child made, across the square
+var _sam: Node3D # Mrs. Ruth's grandson, come from Bellhaven for the supper
+
+## The long table for the Harvest Supper, north of the fountain.
+const LONG_TABLE := Vector3(0, 0, -4.6)
 
 ## The workshop's jobs, by the day each is first offered.
 const WORKSHOP_JOBS := [[29, "workshop_shapes"], [30, "workshop_window"], [31, "workshop_order"], [32, "workshop_planks"], [33, "workshop_birdhouse"]]
@@ -145,6 +155,7 @@ func build() -> void:
 	_villager("tobias", World.look_for("tobias"), Vector3(-8.4, 0, -8.2), 1.2)
 	_villager("ruth", World.look_for("ruth"), Vector3(7.0, 0, 5.2), 0.8)
 	_villager("amos", World.look_for("amos"), Vector3(10.0, 0, -8.6), 0.8)
+	_harvest_square()
 	_workshop_yard(Vector3(10.8, 0, -9.9))
 	_pantry_shelf(Vector3(8.7, 0, 4.3))
 	# Neighbours going about their day (ambient, no conversation yet).
@@ -425,6 +436,8 @@ func sync_with_world() -> void:
 	_sync_stall_labels()
 	if _pantry_labels:
 		_pantry_labels.visible = WorldState.has_fact("village.pantry_labels")
+	if _tables:
+		_sync_harvest()
 	if _ruth_window:
 		_ruth_window.visible = WorldState.has_fact("workshop.window")
 		_broken_window.visible = Days.current_day >= 30 and not WorldState.has_fact("workshop.window")
@@ -522,6 +535,86 @@ func _workshop_yard(at: Vector3) -> void:
 	for k in 6:
 		var pane: String = ["cloth_blue", "cloth_gold", "cloth_red", "cloth_green", "cloth_blue", "cloth_gold"][k]
 		MeshKit.box(leaning, Vector3(0.24, 0.26, 0.02), Vector3(-0.28 + (k % 3) * 0.28, 0.35 + (k / 3) * 0.3, 0.035), pane)
+
+
+## Weeks 7-12 in the village: the cart packed for Bellhaven on the north
+## road, then the Harvest Supper taking shape in the square: the long table
+## and benches the child helped build, their painted edge, the bunting, the
+## place settings, the food, and finally everyone together.
+func _harvest_square() -> void:
+	_cart = group_node("BellhavenCart")
+	var cart := CraftedProps.hand_cart(_cart, Vector3(1.4, 0, -13.4), 0.2)
+	for k in 5:
+		MeshKit.box(cart, Vector3(0.3, 0.22, 0.3), Vector3(-0.3 + (k % 3) * 0.3, 0.7, -0.3 + (k / 3) * 0.5), "cloth_tan" if k % 2 == 0 else "wood_light")
+	_tables = group_node("SupperTables")
+	var t := LONG_TABLE
+	MeshKit.box(_tables, Vector3(5.0, 0.08, 1.0), t + Vector3(0, 0.76, 0), "wood_light")
+	for x: float in [-2.3, 0.0, 2.3]:
+		for z: float in [-0.4, 0.4]:
+			MeshKit.box(_tables, Vector3(0.08, 0.76, 0.08), t + Vector3(x, 0.38, z), "wood_dark")
+	for z: float in [-0.95, 0.95]:
+		MeshKit.box(_tables, Vector3(4.8, 0.06, 0.34), t + Vector3(0, 0.45, z), "wood")
+		for x: float in [-2.1, 2.1]:
+			MeshKit.box(_tables, Vector3(0.08, 0.45, 0.28), t + Vector3(x, 0.22, z), "wood_dark")
+	MeshKit.solid(_tables, Vector3(5.0, 0.9, 2.3), t + Vector3(0, 0.45, 0))
+	_table_pattern = group_node("TablePattern")
+	_place_settings = group_node("PlaceSettings")
+	for k in 8:
+		var x := -2.0 + (k % 4) * 1.33
+		var z := -0.3 if k < 4 else 0.3
+		MeshKit.cylinder(_place_settings, 0.15, 0.15, 0.02, t + Vector3(x, 0.81, z), "cloth_cream", 12)
+		MeshKit.cylinder(_place_settings, 0.04, 0.035, 0.1, t + Vector3(x + 0.22, 0.85, z), "cloth_blue", 8)
+	_feast = group_node("Feast")
+	for k in 3:
+		var at := t + Vector3(-1.6 + k * 1.6, 0.8, 0)
+		MeshKit.cylinder(_feast, 0.2, 0.16, 0.08, at + Vector3(0, 0.04, 0), "wood_light", 10)
+		MeshKit.sphere(_feast, 0.16, at + Vector3(0, 0.1, 0), ["cloth_gold", "leaf", "cloth_red"][k], Vector3(1, 0.5, 1), 8, 3)
+	for k in 2:
+		MeshKit.sphere(_feast, 0.14, t + Vector3(-0.8 + k * 1.6, 0.86, 0.05), "cloth_gold", Vector3(1.4, 0.7, 1), 8, 3)
+	_flags_up = group_node("Bunting")
+	var poles := [Vector3(-5.4, 0, -5.4), Vector3(5.4, 0, 5.4), Vector3(5.4, 0, -5.4), Vector3(-5.4, 0, 5.4)]
+	for p: Vector3 in poles:
+		MeshKit.cylinder(_flags_up, 0.05, 0.06, 3.6, p + Vector3(0, 1.8, 0), "wood_dark", 6)
+	for pair: Array in [[0, 1], [2, 3]]:
+		var a: Vector3 = poles[pair[0]] + Vector3(0, 3.5, 0)
+		var b: Vector3 = poles[pair[1]] + Vector3(0, 3.5, 0)
+		for k in 22:
+			var f := (k + 0.5) / 22.0
+			var at := a.lerp(b, f) - Vector3(0, sin(f * PI) * 0.9, 0)
+			var flag := MeshKit.box(_flags_up, Vector3(0.22, 0.26, 0.01), at - Vector3(0, 0.14, 0), "cloth_red")
+			flag.rotation.y = atan2(b.x - a.x, b.z - a.z) + PI / 2.0
+			flag.set_meta(&"index", k)
+	_sam = group_node("Sam")
+	var sam := CharacterModel.new().build({"skin": "skin_3", "hair": "hair_black", "hair_style": "short", "shirt": "cloth_green", "pants": "cloth_brown", "height": 0.98})
+	sam.position = t + Vector3(0, 0, 1.45)
+	_sam.add_child(sam)
+	for id: String in ["miriam", "ruth", "tobias", "amos"]:
+		var i := ["miriam", "ruth", "tobias", "amos"].find(id)
+		var side := 1.0 if i < 2 else -1.0
+		add_anchor("supper_" + id, t + Vector3(-1.5 + (i % 2) * 3.0, 0, side * 1.45), 0.0 if side > 0 else PI)
+
+
+func _sync_harvest() -> void:
+	_cart.visible = WorldState.has_fact("community.cart_packed") and not WorldState.has_fact("community.cart_sent")
+	_tables.visible = WorldState.has_fact("project.tables")
+	_place_settings.visible = WorldState.has_fact("harvest.table_set")
+	_feast.visible = WorldState.has_fact("harvest.pies")
+	_sam.visible = WorldState.has_fact("harvest.invitations") and Days.current_day >= 82
+	var flags: Variant = WorldState.get_fact("harvest.bunting")
+	_flags_up.visible = flags is Array
+	if flags is Array and not (flags as Array).is_empty():
+		var colours := {"flag_red": "cloth_red", "flag_yellow": "cloth_gold", "flag_blue": "cloth_blue", "flag_green": "cloth_green"}
+		for c in _flags_up.get_children():
+			if c.has_meta(&"index"):
+				var m := c as MeshInstance3D
+				m.material_override = Palette.mat(str(colours.get(str(flags[int(c.get_meta(&"index")) % flags.size()]), "cloth_red")))
+	# The pattern the child painted, in little squares along the table's edge.
+	var painted: Variant = WorldState.get_fact("project.painted")
+	if painted is Array and _table_pattern.get_child_count() == 0 and not (painted as Array).is_empty():
+		var shades := {"shape_circle": "cloth_gold", "shape_square": "cloth_blue", "shape_triangle": "cloth_red"}
+		for k in 16:
+			MeshKit.box(_table_pattern, Vector3(0.16, 0.06, 0.01), LONG_TABLE + Vector3(-2.3 + k * 0.307, 0.74, 0.51), str(shades.get(str(painted[k % painted.size()]), "cloth_red")))
+	_table_pattern.visible = _tables.visible
 
 
 ## Today's job from a neighbour's list ([[first day, activity], ...]): the

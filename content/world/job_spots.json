@@ -1,0 +1,366 @@
+{
+	"id": "job_spots",
+	"comment": "Where each day's work starts (see Region._build_job_spots).",
+	"spots": [
+		{
+			"region": "village",
+			"at": [
+				8.4,
+				0,
+				6.8
+			],
+			"prompt": "Look at Mrs. Ruth's map",
+			"activity": "community_map",
+			"from_day": 43,
+			"look": "table"
+		},
+		{
+			"region": "home",
+			"at": [
+				-2.4,
+				0,
+				7.4
+			],
+			"prompt": "Write a letter to Sam",
+			"activity": "letter_to_sam",
+			"from_day": 44,
+			"look": "table"
+		},
+		{
+			"region": "village",
+			"at": [
+				-6.3,
+				0,
+				-7.4
+			],
+			"prompt": "Share the rolls",
+			"activity": "share_rolls",
+			"from_day": 45,
+			"look": "basket"
+		},
+		{
+			"region": "valley",
+			"at": [
+				1.6,
+				0,
+				-17.6
+			],
+			"prompt": "Make words for the signpost",
+			"activity": "mend_signpost",
+			"from_day": 46,
+			"look": "crate"
+		},
+		{
+			"region": "village",
+			"at": [
+				1.9,
+				0,
+				-11.8
+			],
+			"prompt": "Pack the cart for Bellhaven",
+			"activity": "pack_cart",
+			"from_day": 47,
+			"look": "crate"
+		},
+		{
+			"region": "village",
+			"at": [
+				-1.9,
+				0,
+				-12.4
+			],
+			"prompt": "Plan the cart's way",
+			"activity": "cart_route",
+			"from_day": 50,
+			"look": "table"
+		},
+		{
+			"region": "garden",
+			"at": [
+				-3.8,
+				0,
+				-2.4
+			],
+			"prompt": "Share the seeds",
+			"activity": "share_seeds",
+			"from_day": 51,
+			"look": "basket"
+		},
+		{
+			"region": "home",
+			"at": [
+				-2.4,
+				0,
+				7.4
+			],
+			"prompt": "Make a card for Mr. Amos",
+			"activity": "get_well_card",
+			"from_day": 52,
+			"look": "table"
+		},
+		{
+			"region": "village",
+			"at": [
+				12.2,
+				0,
+				-11.2
+			],
+			"prompt": "Sort Mr. Amos's nails",
+			"activity": "tidy_workshop",
+			"from_day": 53,
+			"look": "crate"
+		},
+		{
+			"region": "village",
+			"at": [
+				-1.6,
+				0,
+				-5.0
+			],
+			"prompt": "Pour milk for the travellers",
+			"activity": "welcome_travellers",
+			"from_day": 54,
+			"look": "table"
+		},
+		{
+			"region": "valley",
+			"at": [
+				26.0,
+				0,
+				-18.2
+			],
+			"prompt": "Mend the sheepfold fence",
+			"activity": "mend_fence",
+			"from_day": 57,
+			"look": "crate"
+		},
+		{
+			"region": "valley",
+			"at": [
+				22.6,
+				0,
+				-21.4
+			],
+			"prompt": "Look for the lost lamb",
+			"activity": "find_lamb",
+			"from_day": 58,
+			"look": "table"
+		},
+		{
+			"region": "village",
+			"at": [
+				8.4,
+				0,
+				6.8
+			],
+			"prompt": "Help Mrs. Ruth write a note",
+			"activity": "sorry_note",
+			"from_day": 59,
+			"look": "table"
+		},
+		{
+			"region": "garden",
+			"at": [
+				-4.9,
+				0,
+				3.3
+			],
+			"prompt": "Replant the flower border",
+			"activity": "replant_border",
+			"from_day": 60,
+			"look": "basket"
+		},
+		{
+			"region": "home",
+			"at": [
+				-8.4,
+				0,
+				9.4
+			],
+			"prompt": "Patch the coop roof",
+			"activity": "patch_roof",
+			"from_day": 61,
+			"look": "crate"
+		},
+		{
+			"region": "village",
+			"at": [
+				12.6,
+				0,
+				-8.8
+			],
+			"prompt": "Plan the supper tables",
+			"activity": "plan_tables",
+			"from_day": 64,
+			"look": "table"
+		},
+		{
+			"region": "village",
+			"at": [
+				12.2,
+				0,
+				-11.2
+			],
+			"prompt": "Read Mr. Amos's list",
+			"activity": "fetch_for_tables",
+			"from_day": 65,
+			"look": "crate"
+		},
+		{
+			"region": "village",
+			"at": [
+				9.2,
+				0,
+				-11.4
+			],
+			"prompt": "Share out the nails",
+			"activity": "share_work",
+			"from_day": 66,
+			"look": "basket"
+		},
+		{
+			"region": "village",
+			"at": [
+				13.4,
+				0,
+				-10.2
+			],
+			"prompt": "Paint the tables",
+			"activity": "paint_tables",
+			"from_day": 67,
+			"look": "crate"
+		},
+		{
+			"region": "village",
+			"at": [
+				-1.6,
+				0,
+				-5.0
+			],
+			"prompt": "Arrange the tables",
+			"activity": "arrange_tables",
+			"from_day": 68,
+			"look": "none"
+		},
+		{
+			"region": "garden",
+			"at": [
+				-1.2,
+				0,
+				1.8
+			],
+			"prompt": "Pick the beans",
+			"activity": "harvest_beans",
+			"from_day": 71,
+			"look": "basket"
+		},
+		{
+			"region": "valley",
+			"at": [
+				-14.0,
+				0,
+				3.6
+			],
+			"prompt": "Pick the apples",
+			"activity": "pick_apples",
+			"from_day": 72,
+			"look": "basket"
+		},
+		{
+			"region": "home",
+			"at": [
+				-2.4,
+				0,
+				7.4
+			],
+			"prompt": "Write the invitations",
+			"activity": "harvest_invitations",
+			"from_day": 73,
+			"look": "table"
+		},
+		{
+			"region": "village",
+			"at": [
+				-6.3,
+				0,
+				-7.4
+			],
+			"prompt": "Count out the supper food",
+			"activity": "supper_list",
+			"from_day": 74,
+			"look": "basket"
+		},
+		{
+			"region": "village",
+			"at": [
+				2.4,
+				0,
+				-5.2
+			],
+			"prompt": "Make the bunting",
+			"activity": "make_bunting",
+			"from_day": 75,
+			"look": "basket"
+		},
+		{
+			"region": "village",
+			"at": [
+				-5.6,
+				0,
+				-11.0
+			],
+			"prompt": "Weigh flour for the feast",
+			"activity": "feast_flour",
+			"from_day": 78,
+			"look": "crate"
+		},
+		{
+			"region": "village",
+			"at": [
+				3.4,
+				0,
+				-4.4
+			],
+			"prompt": "Set the long table",
+			"activity": "set_long_table",
+			"from_day": 79,
+			"look": "none"
+		},
+		{
+			"region": "village",
+			"at": [
+				-3.4,
+				0,
+				-4.4
+			],
+			"prompt": "Pour milk for the feast",
+			"activity": "feast_milk",
+			"from_day": 80,
+			"look": "none"
+		},
+		{
+			"region": "village",
+			"at": [
+				3.4,
+				0,
+				-4.4
+			],
+			"prompt": "Share the pies",
+			"activity": "share_pies",
+			"from_day": 81,
+			"look": "none"
+		},
+		{
+			"region": "village",
+			"at": [
+				0.0,
+				0,
+				-6.2
+			],
+			"prompt": "Give thanks",
+			"activity": "harvest_thanks",
+			"from_day": 82,
+			"look": "none"
+		}
+	]
+}

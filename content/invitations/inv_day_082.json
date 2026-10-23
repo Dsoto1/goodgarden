@@ -1,0 +1,29 @@
+{
+	"id": "inv_day_082",
+	"from": "miriam",
+	"body": "My dear friend,\n\nToday is the Harvest Supper! Everyone is coming: the neighbors, the travellers, and someone special from Bellhaven.\n\nCome to the square this evening. We will give thanks for everything that has grown this season, and for you.",
+	"signature": "Miss Miriam",
+	"suggests": "harvest_thanks",
+	"summary": "The Harvest Supper! Come to the square and give thanks.",
+	"done": "What a wonderful supper. Thank you for this season!",
+	"tasks": [
+		{
+			"text": "Give thanks",
+			"activity": "harvest_thanks",
+			"icon": "heart",
+			"where": "in the village square"
+		},
+		{
+			"text": "Collect the eggs",
+			"activity": "home_eggs",
+			"icon": "egg",
+			"where": "at the coop by your house"
+		},
+		{
+			"text": "Feed the lambs",
+			"activity": "sheepfold_hay",
+			"icon": "sheep",
+			"where": "at the sheepfold"
+		}
+	]
+}

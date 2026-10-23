@@ -1,0 +1,39 @@
+{
+	"id": "inv_day_046",
+	"from": "amos",
+	"body": "Hello, friend!\n\nThe storm knocked down the old signpost by the bridge, and the visitors from Bellhaven keep getting lost!\n\nI've made new arms for it. Will you make the words?",
+	"signature": "Mr. Amos, the carpenter",
+	"suggests": "mend_signpost",
+	"summary": "Make the words for the new signpost by the bridge.",
+	"done": "The signpost is up. Nobody will get lost now!",
+	"tasks": [
+		{
+			"text": "Mend the signpost",
+			"activity": "mend_signpost",
+			"icon": "road",
+			"where": "by the bridge, on the village side"
+		},
+		{
+			"text": "Feed the hens",
+			"done_when": [
+				{
+					"fact": "home.hens_fed_day",
+					"is_today": true
+				}
+			],
+			"icon": "hen",
+			"where": "by the coop at home"
+		},
+		{
+			"text": "Pet the dog",
+			"done_when": [
+				{
+					"fact": "animals.dog.petted_day",
+					"is_today": true
+				}
+			],
+			"icon": "heart",
+			"where": "in the village"
+		}
+	]
+}
