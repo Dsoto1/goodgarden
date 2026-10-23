@@ -108,8 +108,9 @@ func show_wide(wide: bool) -> void:
 	if _toggle:
 		_toggle.text = tr("The valley") if wide else tr("The wider world")
 	if wide:
-		# Seen at a slant from the south, like a painted map: the hills and
-		# the far peaks stand up, the sea and the lake catch the light.
+		# Seen at a slant from the south, like the concept's painted map: the
+		# hills and the snowy ranges to the north stand up, the sea and the
+		# lake catch the light.
 		_camera.fov = 55.0
 		_camera.position = Vector3(64, 215, 172)
 		_camera.look_at(Vector3(64, 0, -75))

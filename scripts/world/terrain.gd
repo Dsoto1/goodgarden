@@ -54,6 +54,17 @@ const ROADS := [
 	[Vector2(96, -42), Vector2(90, -56), Vector2(91, -72), Vector2(85, -91)], # mountains
 	[Vector2(6, -50), Vector2(10, -66), Vector2(18, -82), Vector2(24, -96), Vector2(26, -104)], # Bellhaven
 ]
+## Scenery along the roads (world x/z, kind, yaw): see Waysides.
+const WAYSIDES := [
+	[Vector2(-45, 2), "cottage", 0.6], [Vector2(-48, 6), "woodpile", 0.2], # woodcutter by the wilderness road
+	[Vector2(17, 38), "cottage", -1.2], [Vector2(18, 45), "field", 0.3], [Vector2(13, 31), "haystack", 0.0], [Vector2(-6, 44), "windmill", 0.8], # farmstead on the farm road
+	[Vector2(22, 30), "house_yellow", 1.4], # by the lake road
+	[Vector2(68, -7), "watermill", PI], [Vector2(78, 12), "windmill", -0.4], [Vector2(113, 14), "house_b_blue", 3.0], [Vector2(127, 19), "house_yellow", 2.6],
+	[Vector2(119, 27), "field", 0.2], [Vector2(130, 0), "house_tall_red", 2.9], # mill, windmill and hamlet along the coast road
+	[Vector2(103.5, -14.2), "bridge", 0.0], # the monastery road over the river
+	[Vector2(84, -58), "cottage", 1.0], [Vector2(86, -63), "woodpile", 0.5], # shepherd's hut on the mountain road
+	[Vector2(-2, -72), "tower_red", 0.4], [Vector2(19, -64), "house_b_yellow", -0.8], [Vector2(15, -60), "house_blue", -0.6], # a watchtower and cottages on the Bellhaven road
+]
 const PEAKS := Vector2(130, -146)
 const SEA_X := 192.0
 const SEA_LEVEL := -0.55
@@ -145,6 +156,14 @@ static func road_segments() -> Array[Vector4]:
 		for i in road.size() - 1:
 			out.append(Vector4(road[i].x, road[i].y, road[i + 1].x, road[i + 1].y))
 	return out
+
+
+## True near a wayside building, where trees keep off.
+static func near_wayside(x: float, z: float, r := 9.0) -> bool:
+	for w: Array in WAYSIDES:
+		if Vector2(x, z).distance_to(w[0]) < r:
+			return true
+	return false
 
 
 ## How far (x, z) is from the nearest road.

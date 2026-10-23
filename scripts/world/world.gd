@@ -30,6 +30,10 @@ func _ready() -> void:
 		_load_region(entry)
 	_bake_navigation()
 	_grow_ground_cover()
+	var waysides := Waysides.new()
+	waysides.name = "Waysides"
+	add_child(waysides)
+	waysides.build()
 	var forest := Forest.new()
 	forest.name = "Forest"
 	add_child(forest)
