@@ -25,6 +25,7 @@ func _ready() -> void:
 	Quality.apply_viewport(get_viewport())
 	Settings.changed.connect(_on_setting_changed)
 	_build_environment()
+	_water_bodies()
 	for entry: Dictionary in Content.get_world("regions").get("regions", []):
 		_load_region(entry)
 	_bake_navigation()
@@ -99,6 +100,33 @@ func _build_environment() -> void:
 	add_child(sun)
 
 
+## The sea beyond the river's mouth, and the lake in the south-eastern hills.
+func _water_bodies() -> void:
+	var sea := MeshInstance3D.new()
+	sea.name = "Sea"
+	var plane := PlaneMesh.new()
+	plane.size = Vector2(900, 1200)
+	plane.subdivide_width = 24
+	plane.subdivide_depth = 24
+	sea.mesh = plane
+	sea.position = Vector3(Terrain.SEA_X - 40.0 + 450.0, Terrain.SEA_LEVEL, 0)
+	sea.material_override = Palette.mat("water")
+	sea.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	add_child(sea)
+	var lake := MeshInstance3D.new()
+	lake.name = "Lake"
+	var disc := CylinderMesh.new()
+	disc.top_radius = Terrain.LAKE_RADIUS + 1.5
+	disc.bottom_radius = Terrain.LAKE_RADIUS + 1.5
+	disc.height = 0.02
+	disc.radial_segments = 48
+	lake.mesh = disc
+	lake.position = Vector3(Terrain.LAKE.x, Terrain.LAKE_LEVEL, Terrain.LAKE.y)
+	lake.material_override = Palette.mat("water")
+	lake.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	add_child(lake)
+
+
 func _grow_ground_cover() -> void:
 	var clearings: Array[Dictionary] = []
 	for region: Region in regions.values():
@@ -110,6 +138,13 @@ func _grow_ground_cover() -> void:
 	var density: float = Quality.value("cover_density")
 	cover.build(area, clearings, density, 2024)
 	cover.fringe_paths(clearings, density, 2025)
+	for far: Region in regions.values():
+		if far is FarRegion:
+			var a := (far as FarRegion).area
+			var far_cover := GroundCover.new()
+			far_cover.name = "GroundCover_" + far.region_id
+			add_child(far_cover)
+			far_cover.build(Rect2(Vector2(far.position.x, far.position.z) + a.position, a.size).grow(4.0), clearings, density, far.region_id.hash())
 
 
 ## Bakes walkable ground from the static colliders of every region, so tap-to-walk
@@ -133,6 +168,18 @@ func _bake_navigation() -> void:
 	region.navigation_mesh = nav
 	add_child(region)
 	region.bake_navigation_mesh(false)
+	# Each place in the wider world gets walking ground of its own.
+	for far: Region in regions.values():
+		if not far is FarRegion:
+			continue
+		var a := (far as FarRegion).area
+		var far_nav: NavigationMesh = nav.duplicate()
+		far_nav.filter_baking_aabb = AABB(far.position + Vector3(a.position.x, -1, a.position.y), Vector3(a.size.x, 5, a.size.y))
+		var far_region := NavigationRegion3D.new()
+		far_region.name = "Navigation_" + far.region_id
+		far_region.navigation_mesh = far_nav
+		add_child(far_region)
+		far_region.bake_navigation_mesh(false)
 
 
 func _load_region(entry: Dictionary) -> void:
@@ -145,7 +192,9 @@ func _load_region(entry: Dictionary) -> void:
 	region.display_name = tr(str(entry.get("name", entry["id"])))
 	var o: Array = entry.get("origin", [0, 0, 0])
 	region.position = Vector3(o[0], o[1], o[2])
-	if entry.get("on_terrain", false):
+	if entry.has("site"):
+		region.position = Terrain.site_center(str(entry["site"]))
+	elif entry.get("on_terrain", false):
 		region.position.y = Terrain.height(o[0], o[2])
 	add_child(region)
 	regions[region.region_id] = region
@@ -175,15 +224,22 @@ func move_player_to_anchor(anchor_id: String) -> void:
 		rig.snap()
 
 
-## Fast travel from the map: only to discovered places.
+## Fast travel from the map: to places the child has been, and to places in
+## the wider world once they have opened.
 func travel_to(region_id: String) -> bool:
-	if not Discovery.is_discovered(region_id):
-		return false
 	for entry: Dictionary in Content.get_world("regions").get("regions", []):
-		if entry["id"] == region_id and entry.has("arrive"):
-			move_player_to_anchor(str(entry["arrive"]))
-			return true
+		if entry["id"] != region_id or not entry.has("arrive"):
+			continue
+		if not (Discovery.is_discovered(region_id) or is_open(entry)):
+			return false
+		move_player_to_anchor(str(entry["arrive"]))
+		return true
 	return false
+
+
+## A place in the wider world is open once its "open_when" conditions hold.
+static func is_open(entry: Dictionary) -> bool:
+	return entry.get("reachable", true) and entry.has("open_when") and WorldState.matches(entry["open_when"])
 
 
 func _spawn_npcs() -> void:

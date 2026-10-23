@@ -1,0 +1,156 @@
+{
+	"id": "silas",
+	"speaker": "silas",
+	"entries": [
+		{
+			"when": [
+				{
+					"weekday": "sunday"
+				}
+			],
+			"start": "sunday"
+		},
+		{
+			"when": [
+				{
+					"fact": "npc.silas.met",
+					"exists": false
+				}
+			],
+			"start": "hello"
+		},
+		{
+			"when": [
+				{
+					"fact": "places.mountain_cairn_day",
+					"is_today": true
+				},
+				{
+					"fact": "places.mountain_trail_day",
+					"is_today": true
+				}
+			],
+			"start": "thanks"
+		},
+		{
+			"when": [
+				{
+					"fact": "places.mountain_cairn_day",
+					"is_today": true
+				}
+			],
+			"start": "offer_b"
+		},
+		{
+			"when": [
+				{
+					"fact": "places.mountain_trail_day",
+					"is_today": true
+				}
+			],
+			"start": "offer_a"
+		},
+		{
+			"when": [],
+			"start": "offer"
+		}
+	],
+	"nodes": {
+		"sunday": {
+			"mood": "gentle",
+			"text": "A happy Sunday to you! No work today. It's a day for rest, and for thanks."
+		},
+		"hello": {
+			"mood": "joy",
+			"text": "Well, a visitor! I'm Mr. Silas. I keep the sheep up here, where the grass is sweet.",
+			"next": "offer",
+			"actions": [
+				{
+					"op": "set_fact",
+					"fact": "npc.silas.met",
+					"value": true
+				}
+			]
+		},
+		"offer": {
+			"text": "Shall we mark the trail with stones, or climb to the top?",
+			"choices": [
+				{
+					"text": "Mark the trail",
+					"next": "go",
+					"actions": [
+						{
+							"op": "start_activity",
+							"id": "mountain_cairn"
+						}
+					]
+				},
+				{
+					"text": "Climb to the top",
+					"next": "go",
+					"actions": [
+						{
+							"op": "start_activity",
+							"id": "mountain_trail"
+						}
+					]
+				},
+				{
+					"text": "Not now, thank you.",
+					"next": "later"
+				}
+			]
+		},
+		"offer_a": {
+			"text": "Good to see you. The air's clear today: a fine day for walking.",
+			"choices": [
+				{
+					"text": "Mark the trail",
+					"next": "go",
+					"actions": [
+						{
+							"op": "start_activity",
+							"id": "mountain_cairn"
+						}
+					]
+				},
+				{
+					"text": "Not now, thank you.",
+					"next": "later"
+				}
+			]
+		},
+		"offer_b": {
+			"text": "Good to see you. The air's clear today: a fine day for walking.",
+			"choices": [
+				{
+					"text": "Climb to the top",
+					"next": "go",
+					"actions": [
+						{
+							"op": "start_activity",
+							"id": "mountain_trail"
+						}
+					]
+				},
+				{
+					"text": "Not now, thank you.",
+					"next": "later"
+				}
+			]
+		},
+		"go": {
+			"mood": "joy",
+			"text": "Wonderful. Let's begin!"
+		},
+		"later": {
+			"mood": "gentle",
+			"text": "Another time, then. You're always welcome here."
+		},
+		"thanks": {
+			"mood": "joy",
+			"text": "Thank you for all your help today. Come back soon!",
+			"reply": "Goodbye!"
+		}
+	}
+}

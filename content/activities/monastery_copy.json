@@ -1,0 +1,98 @@
+{
+	"id": "monastery_copy",
+	"title": "Copying a Page",
+	"mode": "task",
+	"location": "monastery",
+	"surface": "wood_table",
+	"readiness": {
+		"ages": [
+			5,
+			9
+		],
+		"math": "none",
+		"reading": "copying words letter by letter, from their sounds (older: without letters shown)"
+	},
+	"concepts": [
+		"phonemes",
+		"spelling",
+		"handwriting care"
+	],
+	"formation_themes": [
+		"patience",
+		"reverence"
+	],
+	"prerequisites": [
+		{
+			"not": {
+				"fact": "places.monastery_copy_day",
+				"is_today": true
+			}
+		}
+	],
+	"intro": [
+		{
+			"speaker": "elias",
+			"text": "Long ago, before there were printing presses, monks copied every book by hand, letter by letter."
+		},
+		{
+			"speaker": "elias",
+			"text": "This page needs its words. Listen to each one, and set the letters in their places, as carefully as you can."
+		}
+	],
+	"steps": [
+		{
+			"id": "copy",
+			"primitive": "build_word",
+			"speaker": "elias",
+			"prompt": "Listen to the word. Which sounds do you hear? Put each letter in its place.",
+			"hint": "Show me the next sound.",
+			"words": [
+				"sun",
+				"fish",
+				"lamb"
+			],
+			"pictures": {
+				"sun": "sun",
+				"fish": "fish",
+				"lamb": "sheep",
+				"tree": "tree"
+			},
+			"show_letters": true,
+			"extra_letters": 0,
+			"older": {
+				"words": [
+					"sun",
+					"fish",
+					"lamb",
+					"tree"
+				],
+				"show_letters": false,
+				"extra_letters": 3,
+				"prompt": "Listen to the word. Which sounds do you hear, first to last? Find each letter in the box."
+			},
+			"feedback": {
+				"wrong": "Listen again: {word}. That sound goes somewhere else.",
+				"word_done": "{word}! Beautifully copied.",
+				"all_good": "A whole page, copied with care!"
+			}
+		}
+	],
+	"outro": [
+		{
+			"speaker": "elias",
+			"text": "Every word copied is a word kept for the children who come after us. Thank you, little scribe.",
+			"button": "Thank you, Brother Elias"
+		}
+	],
+	"world_effects": [
+		{
+			"op": "set",
+			"fact": "places.monastery_copy_day",
+			"value": "$day"
+		}
+	],
+	"replay": "free",
+	"real_world_invitation": "rw_write_letter",
+	"journal_line": "At the monastery, I copied a page of words with Brother Elias.",
+	"unavailable_text": "The page is copied for today."
+}

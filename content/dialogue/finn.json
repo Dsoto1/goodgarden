@@ -1,0 +1,156 @@
+{
+	"id": "finn",
+	"speaker": "finn",
+	"entries": [
+		{
+			"when": [
+				{
+					"weekday": "sunday"
+				}
+			],
+			"start": "sunday"
+		},
+		{
+			"when": [
+				{
+					"fact": "npc.finn.met",
+					"exists": false
+				}
+			],
+			"start": "hello"
+		},
+		{
+			"when": [
+				{
+					"fact": "places.lake_fish_day",
+					"is_today": true
+				},
+				{
+					"fact": "places.lake_creatures_day",
+					"is_today": true
+				}
+			],
+			"start": "thanks"
+		},
+		{
+			"when": [
+				{
+					"fact": "places.lake_fish_day",
+					"is_today": true
+				}
+			],
+			"start": "offer_b"
+		},
+		{
+			"when": [
+				{
+					"fact": "places.lake_creatures_day",
+					"is_today": true
+				}
+			],
+			"start": "offer_a"
+		},
+		{
+			"when": [],
+			"start": "offer"
+		}
+	],
+	"nodes": {
+		"sunday": {
+			"mood": "gentle",
+			"text": "A happy Sunday to you! No work today. It's a day for rest, and for thanks."
+		},
+		"hello": {
+			"mood": "joy",
+			"text": "Hello there! I'm Mr. Finn. I've fished this lake since I was smaller than you.",
+			"next": "offer",
+			"actions": [
+				{
+					"op": "set_fact",
+					"fact": "npc.finn.met",
+					"value": true
+				}
+			]
+		},
+		"offer": {
+			"text": "Would you like to help with the catch, or see who lives in the lake?",
+			"choices": [
+				{
+					"text": "Help with the catch",
+					"next": "go",
+					"actions": [
+						{
+							"op": "start_activity",
+							"id": "lake_fish"
+						}
+					]
+				},
+				{
+					"text": "See who lives here",
+					"next": "go",
+					"actions": [
+						{
+							"op": "start_activity",
+							"id": "lake_creatures"
+						}
+					]
+				},
+				{
+					"text": "Not now, thank you.",
+					"next": "later"
+				}
+			]
+		},
+		"offer_a": {
+			"text": "Back again! The fish are jumping today.",
+			"choices": [
+				{
+					"text": "Help with the catch",
+					"next": "go",
+					"actions": [
+						{
+							"op": "start_activity",
+							"id": "lake_fish"
+						}
+					]
+				},
+				{
+					"text": "Not now, thank you.",
+					"next": "later"
+				}
+			]
+		},
+		"offer_b": {
+			"text": "Back again! The fish are jumping today.",
+			"choices": [
+				{
+					"text": "See who lives here",
+					"next": "go",
+					"actions": [
+						{
+							"op": "start_activity",
+							"id": "lake_creatures"
+						}
+					]
+				},
+				{
+					"text": "Not now, thank you.",
+					"next": "later"
+				}
+			]
+		},
+		"go": {
+			"mood": "joy",
+			"text": "Wonderful. Let's begin!"
+		},
+		"later": {
+			"mood": "gentle",
+			"text": "Another time, then. You're always welcome here."
+		},
+		"thanks": {
+			"mood": "joy",
+			"text": "Thank you for all your help today. Come back soon!",
+			"reply": "Goodbye!"
+		}
+	}
+}

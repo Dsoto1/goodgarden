@@ -1,0 +1,190 @@
+{
+	"id": "wild_trail",
+	"title": "The Forest Trail",
+	"mode": "task",
+	"location": "wilderness",
+	"surface": "wood_table",
+	"readiness": {
+		"ages": [
+			5,
+			9
+		],
+		"math": "position and direction (older: without arrows)",
+		"reading": "direction words"
+	},
+	"concepts": [
+		"maps",
+		"directions",
+		"compass points"
+	],
+	"formation_themes": [
+		"wonder at creation"
+	],
+	"prerequisites": [
+		{
+			"not": {
+				"fact": "places.wild_trail_day",
+				"is_today": true
+			}
+		}
+	],
+	"intro": [
+		{
+			"speaker": "narrator",
+			"text": "Someone has drawn a map of the forest trail on the signpost. It shows the way to the waterfall."
+		},
+		{
+			"speaker": "narrator",
+			"text": "Follow the directions, square by square."
+		}
+	],
+	"steps": [
+		{
+			"id": "walk",
+			"speaker": "narrator",
+			"primitive": "follow_directions",
+			"grid": [
+				8,
+				5
+			],
+			"places": [
+				{
+					"icon": "tree",
+					"at": [
+						0,
+						4
+					],
+					"name": "big oak"
+				},
+				{
+					"icon": "fox",
+					"at": [
+						2,
+						3
+					],
+					"name": "fox den"
+				},
+				{
+					"icon": "flower",
+					"at": [
+						5,
+						4
+					],
+					"name": "flowers"
+				},
+				{
+					"icon": "leaf",
+					"at": [
+						3,
+						1
+					],
+					"name": "ferns"
+				},
+				{
+					"icon": "bird",
+					"at": [
+						6,
+						2
+					],
+					"name": "nest"
+				},
+				{
+					"icon": "water",
+					"at": [
+						1,
+						0
+					],
+					"name": "waterfall"
+				},
+				{
+					"icon": "hill",
+					"at": [
+						7,
+						0
+					],
+					"name": "lookout"
+				}
+			],
+			"start": [
+				0,
+				4
+			],
+			"steps": [
+				{
+					"dir": "east",
+					"n": 2
+				},
+				{
+					"dir": "north",
+					"n": 3
+				},
+				{
+					"dir": "west",
+					"n": 2
+				},
+				{
+					"dir": "north",
+					"n": 1
+				}
+			],
+			"prompt": "Follow each direction along the trail.",
+			"hint": "Show me",
+			"arrows": true,
+			"older": {
+				"start": [
+					5,
+					4
+				],
+				"steps": [
+					{
+						"dir": "north",
+						"n": 2
+					},
+					{
+						"dir": "west",
+						"n": 2
+					},
+					{
+						"dir": "north",
+						"n": 1
+					},
+					{
+						"dir": "west",
+						"n": 1
+					},
+					{
+						"dir": "north",
+						"n": 1
+					},
+					{
+						"dir": "west",
+						"n": 1
+					}
+				],
+				"arrows": false,
+				"prompt": "Follow each direction: no arrows this time. North is at the top."
+			},
+			"feedback": {
+				"all_good": "You found the {place}! Listen to it roar."
+			}
+		}
+	],
+	"outro": [
+		{
+			"speaker": "narrator",
+			"text": "The waterfall sends up a cool mist. What a wonderful place God has made.",
+			"button": "Done"
+		}
+	],
+	"world_effects": [
+		{
+			"op": "set",
+			"fact": "places.wild_trail_day",
+			"value": "$day"
+		}
+	],
+	"replay": "free",
+	"real_world_invitation": "rw_draw_map",
+	"journal_line": "I followed the forest trail map to the waterfall.",
+	"unavailable_text": "You've walked the trail today."
+}

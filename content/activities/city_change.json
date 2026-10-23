@@ -1,0 +1,151 @@
+{
+	"id": "city_change",
+	"title": "Mrs. Greta's Stall",
+	"mode": "task",
+	"location": "city",
+	"surface": "wood_table",
+	"readiness": {
+		"ages": [
+			5,
+			9
+		],
+		"math": "counting on from a price to give change",
+		"reading": "pre-reader friendly; all text can be read aloud"
+	},
+	"concepts": [
+		"counting on",
+		"giving change",
+		"money"
+	],
+	"formation_themes": [
+		"honesty",
+		"trustworthiness"
+	],
+	"prerequisites": [
+		{
+			"not": {
+				"fact": "places.city_change_day",
+				"is_today": true
+			}
+		}
+	],
+	"intro": [
+		{
+			"speaker": "greta",
+			"text": "The market's busy! Will you help me serve? When someone pays, count the change on from the price."
+		},
+		{
+			"speaker": "greta",
+			"text": "If it costs 3 and they give 5: four, five. That's two back."
+		}
+	],
+	"steps": [
+		{
+			"id": "sell",
+			"primitive": "give_change",
+			"speaker": "greta",
+			"prompt": "The {item} costs {price}. The customer gave you {paid}. Count the change, then press Give change.",
+			"hint": "Show me",
+			"sales": [
+				{
+					"item": "ribbon",
+					"icon": "flag",
+					"price": 2,
+					"paid": [
+						5
+					]
+				},
+				{
+					"item": "pot of honey",
+					"icon": "jam",
+					"price": 4,
+					"paid": [
+						5
+					]
+				},
+				{
+					"item": "spice",
+					"icon": "seedling",
+					"price": 3,
+					"paid": [
+						5
+					]
+				}
+			],
+			"cash": [
+				1,
+				1,
+				1,
+				1,
+				1,
+				1,
+				1,
+				1,
+				1,
+				1
+			],
+			"older": {
+				"sales": [
+					{
+						"item": "cloth",
+						"icon": "flag",
+						"price": 7,
+						"paid": [
+							10
+						]
+					},
+					{
+						"item": "pot of honey",
+						"icon": "jam",
+						"price": 6,
+						"paid": [
+							10
+						]
+					},
+					{
+						"item": "spice",
+						"icon": "seedling",
+						"price": 3,
+						"paid": [
+							5
+						]
+					}
+				],
+				"cash": [
+					1,
+					1,
+					1,
+					1,
+					1,
+					1,
+					2,
+					2,
+					2,
+					5
+				],
+				"mistaken_pay": true
+			},
+			"feedback": {
+				"all_good": "What a helper! Every coin of change was right."
+			}
+		}
+	],
+	"outro": [
+		{
+			"speaker": "greta",
+			"text": "You've a good head and an honest heart. Come back any market day!",
+			"button": "Thank you, Mrs. Greta"
+		}
+	],
+	"world_effects": [
+		{
+			"op": "set",
+			"fact": "places.city_change_day",
+			"value": "$day"
+		}
+	],
+	"replay": "free",
+	"real_world_invitation": "rw_shop_home",
+	"journal_line": "I helped Mrs. Greta serve at her stall in Bellhaven, counting the change.",
+	"unavailable_text": "Mrs. Greta's stall is minded for today."
+}

@@ -1,0 +1,210 @@
+{
+	"id": "lake_creatures",
+	"title": "Life in the Lake",
+	"mode": "task",
+	"location": "lake",
+	"surface": "wood_table",
+	"readiness": {
+		"ages": [
+			5,
+			9
+		],
+		"math": "sorting by a property (classification)",
+		"reading": "pre-reader friendly; all text can be read aloud"
+	},
+	"concepts": [
+		"classification",
+		"habitats",
+		"living things"
+	],
+	"formation_themes": [
+		"wonder at creation",
+		"care for animals"
+	],
+	"prerequisites": [
+		{
+			"not": {
+				"fact": "places.lake_creatures_day",
+				"is_today": true
+			}
+		}
+	],
+	"intro": [
+		{
+			"speaker": "finn",
+			"text": "Look at all the creatures that live round the lake! Some swim, some walk, and some fly."
+		},
+		{
+			"speaker": "finn",
+			"text": "Can you sort them by where they live?"
+		}
+	],
+	"steps": [
+		{
+			"id": "sort",
+			"primitive": "sort_into_bins",
+			"speaker": "finn",
+			"prompt": "Put the creatures that live in the water in the lake, and the ones on land in the grass.",
+			"hint": "Does it swim? Then it lives in the water.",
+			"piece_size": [
+				56,
+				46
+			],
+			"pieces": [
+				{
+					"kind": "minnow",
+					"count": 1
+				},
+				{
+					"kind": "tadpole",
+					"count": 1
+				},
+				{
+					"kind": "duckling",
+					"count": 1
+				},
+				{
+					"kind": "rabbit",
+					"count": 1
+				},
+				{
+					"kind": "worm",
+					"count": 1
+				},
+				{
+					"kind": "ladybird",
+					"count": 1
+				}
+			],
+			"bins": [
+				{
+					"kind": "",
+					"label": "the lake",
+					"look": "pond",
+					"group": "pond",
+					"pos": [
+						280,
+						170
+					]
+				},
+				{
+					"kind": "",
+					"label": "the land",
+					"look": "meadow",
+					"group": "land",
+					"pos": [
+						720,
+						170
+					]
+				}
+			],
+			"groups": {
+				"tadpole": "pond",
+				"minnow": "pond",
+				"water_snail": "pond",
+				"duckling": "pond",
+				"rabbit": "land",
+				"ladybird": "land",
+				"worm": "land",
+				"butterfly": "sky",
+				"bee": "sky",
+				"swallow": "sky"
+			},
+			"older": {
+				"prompt": "Sort them by where they live: in the water, on the land, or in the sky.",
+				"pieces": [
+					{
+						"kind": "minnow",
+						"count": 1
+					},
+					{
+						"kind": "tadpole",
+						"count": 1
+					},
+					{
+						"kind": "water_snail",
+						"count": 1
+					},
+					{
+						"kind": "rabbit",
+						"count": 1
+					},
+					{
+						"kind": "worm",
+						"count": 1
+					},
+					{
+						"kind": "ladybird",
+						"count": 1
+					},
+					{
+						"kind": "butterfly",
+						"count": 1
+					},
+					{
+						"kind": "swallow",
+						"count": 1
+					},
+					{
+						"kind": "bee",
+						"count": 1
+					}
+				],
+				"bins": [
+					{
+						"kind": "",
+						"label": "the lake",
+						"look": "pond",
+						"group": "pond",
+						"pos": [
+							190,
+							170
+						]
+					},
+					{
+						"kind": "",
+						"label": "the land",
+						"look": "meadow",
+						"group": "land",
+						"pos": [
+							500,
+							170
+						]
+					},
+					{
+						"kind": "",
+						"label": "the sky",
+						"look": "sky",
+						"group": "sky",
+						"pos": [
+							810,
+							170
+						]
+					}
+				]
+			},
+			"feedback": {
+				"mismatch": "Think about how it moves. Does it swim, walk, or fly?",
+				"all_good": "Every creature is home!"
+			}
+		}
+	],
+	"outro": [
+		{
+			"speaker": "finn",
+			"text": "Every creature has its place. Our job is to keep the lake clean, so they can all live well.",
+			"button": "Thank you, Mr. Finn"
+		}
+	],
+	"world_effects": [
+		{
+			"op": "set",
+			"fact": "places.lake_creatures_day",
+			"value": "$day"
+		}
+	],
+	"replay": "free",
+	"real_world_invitation": "rw_creature_hunt",
+	"journal_line": "I sorted the lake's creatures by where they live with Mr. Finn.",
+	"unavailable_text": "The creatures are sorted for today."
+}

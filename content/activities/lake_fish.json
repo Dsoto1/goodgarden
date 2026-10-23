@@ -1,0 +1,92 @@
+{
+	"id": "lake_fish",
+	"title": "Mr. Finn's Catch",
+	"mode": "task",
+	"location": "lake",
+	"surface": "wood_table",
+	"readiness": {
+		"ages": [
+			5,
+			9
+		],
+		"math": "counting into groups; reading numerals",
+		"reading": "pre-reader friendly; all text can be read aloud"
+	},
+	"concepts": [
+		"counting",
+		"reading numerals",
+		"one-to-one correspondence"
+	],
+	"formation_themes": [
+		"gratitude",
+		"stewardship"
+	],
+	"prerequisites": [
+		{
+			"not": {
+				"fact": "places.lake_fish_day",
+				"is_today": true
+			}
+		}
+	],
+	"intro": [
+		{
+			"speaker": "finn",
+			"text": "Hello there! The nets came in full this morning. Each family in the village has ordered some fish."
+		},
+		{
+			"speaker": "finn",
+			"text": "Put the right number in each basket: the number's on the label."
+		}
+	],
+	"steps": [
+		{
+			"id": "baskets",
+			"primitive": "count_into_slots",
+			"speaker": "finn",
+			"prompt": "Put that many fish in each basket: the number on the label.",
+			"hint": "Count the fish as you put them in.",
+			"counts": [
+				2,
+				3,
+				4
+			],
+			"container": "basket",
+			"piece": "minnow",
+			"supply_label": "the catch",
+			"spare": 2,
+			"older": {
+				"counts": [
+					5,
+					7,
+					6
+				],
+				"show_dimples": false,
+				"spare": 3,
+				"prompt": "Read the number on each basket and count that many fish in."
+			},
+			"feedback": {
+				"full": "That basket has its {n}. Try another.",
+				"all_good": "Every family has its fish!"
+			}
+		}
+	],
+	"outro": [
+		{
+			"speaker": "finn",
+			"text": "And the little ones go back in the lake, to grow. We take only what we need.",
+			"button": "Thank you, Mr. Finn"
+		}
+	],
+	"world_effects": [
+		{
+			"op": "set",
+			"fact": "places.lake_fish_day",
+			"value": "$day"
+		}
+	],
+	"replay": "free",
+	"real_world_invitation": "rw_count_out",
+	"journal_line": "I helped Mr. Finn put fish in the baskets for the families.",
+	"unavailable_text": "The fish are packed for today."
+}

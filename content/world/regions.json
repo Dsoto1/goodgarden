@@ -50,11 +50,18 @@
 			"name": "Bellhaven",
 			"scene": "res://scenes/world/regions/bellhaven_vista.tscn",
 			"origin": [26, 0, -175],
-			"on_map": true,
+			"on_map": false,
 			"reachable": false,
 			"map_pos": [0.72, 0.06],
 			"on_terrain": true
-		}
+		},
+		{"id": "wilderness", "name": "The Wilderness", "scene": "res://scenes/world/regions/wilderness.tscn", "site": "wilderness", "world_map": true, "icon": "tree", "arrive": "wilderness_arrive", "open_when": [{"day_at_least": 22}]},
+		{"id": "farmlands", "name": "The Farmlands", "scene": "res://scenes/world/regions/farmlands.tscn", "site": "farmlands", "world_map": true, "icon": "wheat", "arrive": "farmlands_arrive", "open_when": [{"day_at_least": 36}]},
+		{"id": "lake", "name": "The Lake", "scene": "res://scenes/world/regions/lake.tscn", "site": "lake", "world_map": true, "icon": "boat", "arrive": "lake_arrive", "open_when": [{"day_at_least": 43}]},
+		{"id": "city", "name": "Bellhaven", "scene": "res://scenes/world/regions/city.tscn", "site": "bellhaven", "world_map": true, "icon": "castle", "arrive": "city_arrive", "open_when": [{"day_at_least": 50}]},
+		{"id": "monastery", "name": "The Monastery", "scene": "res://scenes/world/regions/monastery.tscn", "site": "monastery", "world_map": true, "icon": "cross", "arrive": "monastery_arrive", "open_when": [{"day_at_least": 57}]},
+		{"id": "coast", "name": "The Coast", "scene": "res://scenes/world/regions/coast.tscn", "site": "coast", "world_map": true, "icon": "anchor", "arrive": "coast_arrive", "open_when": [{"day_at_least": 64}]},
+		{"id": "mountains", "name": "The Mountains", "scene": "res://scenes/world/regions/mountains.tscn", "site": "mountains", "world_map": true, "icon": "mountain", "arrive": "mountains_arrive", "open_when": [{"day_at_least": 71}]}
 	],
 	"places": [
 		{"id": "river", "name": "The River"},

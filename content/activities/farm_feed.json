@@ -1,0 +1,91 @@
+{
+	"id": "farm_feed",
+	"title": "Hay for the Cows",
+	"mode": "task",
+	"location": "farmlands",
+	"surface": "wood_table",
+	"readiness": {
+		"ages": [
+			5,
+			9
+		],
+		"math": "sharing equally: division (older: with a remainder)",
+		"reading": "pre-reader friendly; all text can be read aloud"
+	},
+	"concepts": [
+		"sharing equally",
+		"division"
+	],
+	"formation_themes": [
+		"care for animals",
+		"fairness"
+	],
+	"prerequisites": [
+		{
+			"not": {
+				"fact": "places.farm_feed_day",
+				"is_today": true
+			}
+		}
+	],
+	"intro": [
+		{
+			"speaker": "hannah",
+			"text": "The cows are hungry, and they each need the same, or there'll be squabbles!"
+		},
+		{
+			"speaker": "hannah",
+			"text": "Share the hay out fairly, one bundle each, round and round."
+		}
+	],
+	"steps": [
+		{
+			"id": "share",
+			"primitive": "share_equally",
+			"speaker": "hannah",
+			"prompt": "Share the hay so every cow has the same.",
+			"hint": "Show me",
+			"piece": "hay",
+			"total": 12,
+			"plates": 3,
+			"names": [
+				"Daisy",
+				"Bramble",
+				"Clover"
+			],
+			"older": {
+				"total": 14,
+				"plates": 4,
+				"leftover": true,
+				"names": [
+					"Daisy",
+					"Bramble",
+					"Clover",
+					"Buttercup"
+				],
+				"prompt": "Share the hay fairly among four cows. Any left over goes in the spare bowl."
+			},
+			"feedback": {
+				"all_good": "Fair shares: {n} bundles each! Happy cows."
+			}
+		}
+	],
+	"outro": [
+		{
+			"speaker": "hannah",
+			"text": "Listen to them munch! A good farmer feeds her animals before herself.",
+			"button": "Thank you, Mrs. Hannah"
+		}
+	],
+	"world_effects": [
+		{
+			"op": "set",
+			"fact": "places.farm_feed_day",
+			"value": "$day"
+		}
+	],
+	"replay": "free",
+	"real_world_invitation": "rw_share_snack",
+	"journal_line": "I shared the hay fairly among Mrs. Hannah's cows.",
+	"unavailable_text": "The cows are fed for today."
+}

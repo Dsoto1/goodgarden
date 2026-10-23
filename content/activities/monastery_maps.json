@@ -1,0 +1,188 @@
+{
+	"id": "monastery_maps",
+	"title": "The Old Maps",
+	"mode": "task",
+	"location": "monastery",
+	"surface": "wood_table",
+	"readiness": {
+		"ages": [
+			5,
+			9
+		],
+		"math": "position and direction (older: without arrows)",
+		"reading": "direction words"
+	},
+	"concepts": [
+		"maps",
+		"directions",
+		"compass points",
+		"geography"
+	],
+	"formation_themes": [
+		"wonder",
+		"community"
+	],
+	"prerequisites": [
+		{
+			"not": {
+				"fact": "places.monastery_maps_day",
+				"is_today": true
+			}
+		}
+	],
+	"intro": [
+		{
+			"speaker": "elias",
+			"text": "This is the oldest map in our library. It shows the whole land: your valley, Bellhaven, the lake, the sea..."
+		},
+		{
+			"speaker": "elias",
+			"text": "Shall we travel it with our fingers? Follow the directions, and see where you arrive."
+		}
+	],
+	"steps": [
+		{
+			"id": "walk",
+			"speaker": "elias",
+			"primitive": "follow_directions",
+			"grid": [
+				8,
+				5
+			],
+			"places": [
+				{
+					"icon": "home",
+					"at": [
+						1,
+						3
+					],
+					"name": "valley"
+				},
+				{
+					"icon": "castle",
+					"at": [
+						3,
+						0
+					],
+					"name": "Bellhaven"
+				},
+				{
+					"icon": "cross",
+					"at": [
+						5,
+						1
+					],
+					"name": "monastery"
+				},
+				{
+					"icon": "mountain",
+					"at": [
+						6,
+						0
+					],
+					"name": "mountains"
+				},
+				{
+					"icon": "anchor",
+					"at": [
+						7,
+						2
+					],
+					"name": "coast"
+				},
+				{
+					"icon": "boat",
+					"at": [
+						5,
+						3
+					],
+					"name": "lake"
+				},
+				{
+					"icon": "wheat",
+					"at": [
+						3,
+						4
+					],
+					"name": "farmlands"
+				},
+				{
+					"icon": "tree",
+					"at": [
+						0,
+						1
+					],
+					"name": "wilderness"
+				}
+			],
+			"start": [
+				1,
+				3
+			],
+			"steps": [
+				{
+					"dir": "east",
+					"n": 2
+				},
+				{
+					"dir": "north",
+					"n": 3
+				}
+			],
+			"prompt": "Follow each direction across the old map.",
+			"hint": "Show me",
+			"arrows": true,
+			"older": {
+				"start": [
+					1,
+					3
+				],
+				"steps": [
+					{
+						"dir": "north",
+						"n": 2
+					},
+					{
+						"dir": "east",
+						"n": 4
+					},
+					{
+						"dir": "north",
+						"n": 1
+					},
+					{
+						"dir": "east",
+						"n": 2
+					},
+					{
+						"dir": "south",
+						"n": 2
+					}
+				],
+				"arrows": false,
+				"prompt": "Follow each direction: no arrows this time. North is at the top."
+			},
+			"feedback": {
+				"all_good": "You've arrived at the {place}!"
+			}
+		}
+	],
+	"outro": [
+		{
+			"speaker": "elias",
+			"text": "Maps are a kind of letter from the people who walked before us. Thank you for reading this one with me.",
+			"button": "Thank you, Brother Elias"
+		}
+	],
+	"world_effects": [
+		{
+			"op": "set",
+			"fact": "places.monastery_maps_day",
+			"value": "$day"
+		}
+	],
+	"replay": "free",
+	"real_world_invitation": "rw_draw_map",
+	"journal_line": "Brother Elias showed me the oldest map, and I followed it across the land.",
+	"unavailable_text": "The old map is put away for today."
+}

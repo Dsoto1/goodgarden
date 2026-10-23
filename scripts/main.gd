@@ -190,7 +190,21 @@ func rest_until_morning() -> void:
 		line += " " + tr("Saturday is a free day. Play, explore, or do any work you like.")
 	if Invitations.has_unread():
 		line += " " + tr("A new letter is waiting by the door.")
+	for place in newly_open_places():
+		line += " " + tr("Something new: %s is open on the map!") % place
 	show_caption(line, 6.0)
+
+
+## Places in the wider world that opened this morning.
+func newly_open_places() -> Array[String]:
+	var out: Array[String] = []
+	for entry: Dictionary in Content.get_world("regions").get("regions", []):
+		if not World.is_open(entry):
+			continue
+		for c: Dictionary in entry["open_when"]:
+			if int(c.get("day_at_least", -1)) == Days.current_day:
+				out.append(tr(str(entry["name"])))
+	return out
 
 
 func open_invitation(invitation_id: String) -> void:

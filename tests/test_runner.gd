@@ -79,6 +79,17 @@ func test_validator_catches_errors() -> void:
 	check(errors.size() >= 3, "unknown primitive, duplicate step id and bad replay are reported (%s)" % [errors])
 
 
+func test_wider_world_opens_in_time() -> void:
+	Days.current_day = 1
+	var coast: Dictionary = Content.get_world("regions")["regions"].filter(func(e: Dictionary) -> bool: return e["id"] == "coast")[0]
+	check(not World.is_open(coast), "the coast is not open on day 1")
+	Days.current_day = 64
+	check(World.is_open(coast), "the coast opens in week 10")
+	check(Terrain.height(Terrain.SEA_X + 30.0, 0.0) < Terrain.SEA_LEVEL, "beyond the shore is the sea")
+	check(absf(Terrain.height(Terrain.SITES["coast"][0].x, Terrain.SITES["coast"][0].y) - Terrain.site_level("coast")) < 0.01, "the harbour stands on level ground")
+	Days.current_day = 1
+
+
 func test_conditions_and_tokens() -> void:
 	Days.current_day = 3
 	WorldState.set_fact("garden.bed_1", {"crop": "beans"})
@@ -730,7 +741,9 @@ func test_weeks_3_to_12_activities_build() -> void:
 		"market_sell_eggs", "market_scales", "market_list", "market_count_coins", "market_stall_day",
 		"community_map", "letter_to_sam", "share_rolls", "mend_signpost", "pack_cart", "cart_route", "share_seeds", "get_well_card", "tidy_workshop", "welcome_travellers",
 		"mend_fence", "find_lamb", "sorry_note", "replant_border", "patch_roof", "plan_tables", "fetch_for_tables", "share_work", "paint_tables", "arrange_tables",
-		"harvest_beans", "pick_apples", "harvest_invitations", "supper_list", "make_bunting", "feast_flour", "set_long_table", "feast_milk", "share_pies", "harvest_thanks"]
+		"harvest_beans", "pick_apples", "harvest_invitations", "supper_list", "make_bunting", "feast_flour", "set_long_table", "feast_milk", "share_pies", "harvest_thanks",
+		"wild_leaves", "wild_trail", "farm_sheaves", "farm_feed", "lake_fish", "lake_creatures", "city_coins", "city_change",
+		"monastery_copy", "monastery_maps", "coast_supplies", "coast_catch", "mountain_cairn", "mountain_trail"]
 	for id: String in ids:
 		var def := Content.get_activity(id)
 		check(def != null, "%s exists" % id)
@@ -1607,9 +1620,24 @@ func test_vertical_slice_end_to_end() -> void:
 		var travel := map.find_children("*", "Button", true, false).filter(func(b: Node) -> bool: return (b as Button).text in ["Home", "Miss Miriam's Garden", "The Village", "The Chapel"])
 		eq(travel.size(), Discovery.discovered_ids().filter(func(id: Variant) -> bool: return id in ["home", "garden", "village", "chapel"]).size(), "a travel card for each place the child has been")
 		check(_find(map, MapPanel.YouAreHere) != null, "the map shows where the child is")
+		# By now the wider world has opened: Bellhaven, the coast and the rest.
+		map.show_wide(true)
+		await frames(2)
+		var far := map.find_children("*", "Button", true, false).map(func(b: Node) -> String: return (b as Button).text)
+		check("Bellhaven" in far and "The Coast" in far and "The Mountains" in far, "the wider world map offers travel to the places that have opened (%s)" % [far])
 		map.close()
 		await frames(2)
 		check(CameraRig.see_through_on, "and the see-through returns after the map")
+	# Travel out into the wider world and stand on its ground.
+	check(world.travel_to("coast"), "the child can travel to the coast")
+	for i in 20:
+		await get_tree().physics_frame
+	var at_coast := world.player.global_position
+	check(at_coast.distance_to(Terrain.site_center("coast")) < 16.0 and absf(at_coast.y - Terrain.site_level("coast")) < 0.3, "the child stands on the harbour's ground (at %s)" % at_coast)
+	var to_mara := NavigationServer3D.map_get_path(world.get_world_3d().navigation_map, at_coast, world.anchor("coast_mara").global_position, true)
+	check(to_mara.size() > 1 and to_mara[to_mara.size() - 1].distance_to(world.anchor("coast_mara").global_position) < 1.0, "and can walk over to Captain Mara")
+	world.travel_to("home")
+	await frames(2)
 	# Save and stop through the real buttons, as a child or parent would.
 	var day_before := Days.current_day
 	main.open_pause()

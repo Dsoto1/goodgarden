@@ -174,6 +174,28 @@ so new days need no code.
   sharing the pies in quarters; and on day 82 the Harvest Supper, with
   everyone (Sam too) at the table, and the child's own thank-you.
 
+## The wider world ✓
+
+The places on the concept map beyond the valley, each built on a level site
+cut into the real landscape where the map puts it, and reached from the
+map's new **wider world** view once it opens (`regions.json` `open_when`).
+Each has someone to meet and two jobs (free work, any day after it opens):
+
+| Place | Opens | Who | Work |
+|---|---|---|---|
+| The Wilderness (by the great waterfall, west) | day 22 | (deer) | sort leaves by shape; follow the trail map to the waterfall |
+| The Farmlands (south) | day 36 | Mrs. Hannah | stand sheaves in stooks (groups of); share hay among the cows |
+| The Lake (south-east hills) | day 43 | Mr. Finn | count the catch into baskets; who lives in the lake |
+| Bellhaven (the city, north) | day 50 | Mrs. Greta | count coins in fives; mind her stall, giving change |
+| The Monastery (east hill) | day 57 | Brother Elias | copy a page; follow the oldest map across the land |
+| The Coast and harbour (east, where the river meets the sea) | day 64 | Captain Mara | load the ship's stores from a list; sort the catch |
+| The Mountains (north-east) | day 71 | Mr. Silas | mark the trail with a pattern of stones; climb the trail map to the peak |
+
+The landscape now has a sea beyond the river's mouth and a lake in the
+south-eastern hills. Next for these places: story days that visit them
+(a second season), interiors (the library, the scriptorium, the ship), and
+walking roads between them.
+
 ## Alongside, when it fits
 
 - **Chapel library:** more presentations toward 15–20, when the owner

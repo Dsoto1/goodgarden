@@ -58,6 +58,7 @@ Every step runs on a 1000×560 design-unit board that the workspace scales to fi
 
 ## World
 
+- **The wider world:** `FarRegion` places (Bellhaven, the monastery, the coast, the lake, the farmlands, the wilderness, the mountains) each stand on a level site in `Terrain.SITES`, cut into the hills where the concept map puts them (`regions.json` `"site"`). Each brings its own ground collider, invisible edges, arrival anchor and a camera zone turned toward its view; `World` bakes a navigation mesh and grows grass for each. They open by day (`"open_when"`), and the map's "wider world" view travels there. `Terrain` also lowers the land into a sea east of `SEA_X` and a lake hollow at `LAKE`, which `World` covers with water.
 - **Regions** (`scripts/world/regions/*.gd`) are independent scenes placed by `content/world/regions.json`. Each builds its geometry in local space, publishes **anchors** (spawn points, NPC spots), **discovery zones**, **interior zones** (which hide the roof and front wall and set the mood) and **camera zones** (e.g. the Bellhaven vista). Streaming regions by distance later only changes how `World` loads them.
 - **Navigation:** `World` bakes a navigation mesh at runtime from the static colliders (about half a second), so tap-to-walk goes through doors and gates. Characters use their own physics layer and are left out of the bake.
 - **Camera:** `CameraRig` follows at a fixed elevated three-quarter angle. Zones and focus requests reframe it (conversation, activity close-up, chapel, vista); with reduced motion it cuts instead of gliding.

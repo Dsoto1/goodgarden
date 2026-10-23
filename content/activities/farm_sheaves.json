@@ -1,0 +1,85 @@
+{
+	"id": "farm_sheaves",
+	"title": "Stooking the Sheaves",
+	"mode": "task",
+	"location": "farmlands",
+	"surface": "wood_table",
+	"readiness": {
+		"ages": [
+			5,
+			9
+		],
+		"math": "equal groups: so many groups of so many (early multiplication)",
+		"reading": "pre-reader friendly; all text can be read aloud"
+	},
+	"concepts": [
+		"equal groups",
+		"counting",
+		"multiplication (groups of)"
+	],
+	"formation_themes": [
+		"work well done",
+		"gratitude"
+	],
+	"prerequisites": [
+		{
+			"not": {
+				"fact": "places.farm_sheaves_day",
+				"is_today": true
+			}
+		}
+	],
+	"intro": [
+		{
+			"speaker": "hannah",
+			"text": "Welcome to the farm! The wheat is cut, and tied in bundles called sheaves."
+		},
+		{
+			"speaker": "hannah",
+			"text": "We stand them up in little groups, called stooks, so they can dry in the sun. Three sheaves to a stook!"
+		}
+	],
+	"steps": [
+		{
+			"id": "stooks",
+			"primitive": "count_into_slots",
+			"speaker": "hannah",
+			"prompt": "Put three sheaves in each stook. Count: one, two, three.",
+			"hint": "Find a stook with an empty dip, and stand a sheaf there.",
+			"slots": 4,
+			"per_slot": 3,
+			"piece": "sheaf",
+			"container": "plant",
+			"supply_label": "sheaves",
+			"spare": 2,
+			"older": {
+				"slots": 5,
+				"per_slot": 4,
+				"show_dimples": false,
+				"prompt": "Four sheaves in each stook this time, and five stooks. No dips: count them yourself."
+			},
+			"feedback": {
+				"full": "That stook has its sheaves. Try the next one.",
+				"all_good": "Four stooks of three: twelve sheaves, drying in the sun!"
+			}
+		}
+	],
+	"outro": [
+		{
+			"speaker": "hannah",
+			"text": "Twelve sheaves, in four groups of three. Bread for many families, from one field!",
+			"button": "Thank you, Mrs. Hannah"
+		}
+	],
+	"world_effects": [
+		{
+			"op": "set",
+			"fact": "places.farm_sheaves_day",
+			"value": "$day"
+		}
+	],
+	"replay": "free",
+	"real_world_invitation": "rw_count_out",
+	"journal_line": "I stood the wheat sheaves in stooks with Mrs. Hannah.",
+	"unavailable_text": "The sheaves are standing for today."
+}

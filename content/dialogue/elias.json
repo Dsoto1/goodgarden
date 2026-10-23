@@ -1,0 +1,156 @@
+{
+	"id": "elias",
+	"speaker": "elias",
+	"entries": [
+		{
+			"when": [
+				{
+					"weekday": "sunday"
+				}
+			],
+			"start": "sunday"
+		},
+		{
+			"when": [
+				{
+					"fact": "npc.elias.met",
+					"exists": false
+				}
+			],
+			"start": "hello"
+		},
+		{
+			"when": [
+				{
+					"fact": "places.monastery_copy_day",
+					"is_today": true
+				},
+				{
+					"fact": "places.monastery_maps_day",
+					"is_today": true
+				}
+			],
+			"start": "thanks"
+		},
+		{
+			"when": [
+				{
+					"fact": "places.monastery_copy_day",
+					"is_today": true
+				}
+			],
+			"start": "offer_b"
+		},
+		{
+			"when": [
+				{
+					"fact": "places.monastery_maps_day",
+					"is_today": true
+				}
+			],
+			"start": "offer_a"
+		},
+		{
+			"when": [],
+			"start": "offer"
+		}
+	],
+	"nodes": {
+		"sunday": {
+			"mood": "gentle",
+			"text": "A happy Sunday to you! No work today. It's a day for rest, and for thanks."
+		},
+		"hello": {
+			"mood": "joy",
+			"text": "Peace be with you, young traveller. I am Brother Elias. Welcome to our home.",
+			"next": "offer",
+			"actions": [
+				{
+					"op": "set_fact",
+					"fact": "npc.elias.met",
+					"value": true
+				}
+			]
+		},
+		"offer": {
+			"text": "Would you like to help copy a page, or learn about the old maps today?",
+			"choices": [
+				{
+					"text": "Help with the manuscript.",
+					"next": "go",
+					"actions": [
+						{
+							"op": "start_activity",
+							"id": "monastery_copy"
+						}
+					]
+				},
+				{
+					"text": "Tell me about the maps.",
+					"next": "go",
+					"actions": [
+						{
+							"op": "start_activity",
+							"id": "monastery_maps"
+						}
+					]
+				},
+				{
+					"text": "Not now, thank you.",
+					"next": "later"
+				}
+			]
+		},
+		"offer_a": {
+			"text": "Welcome back, my friend. The garden is lovely today, isn't it?",
+			"choices": [
+				{
+					"text": "Help with the manuscript.",
+					"next": "go",
+					"actions": [
+						{
+							"op": "start_activity",
+							"id": "monastery_copy"
+						}
+					]
+				},
+				{
+					"text": "Not now, thank you.",
+					"next": "later"
+				}
+			]
+		},
+		"offer_b": {
+			"text": "Welcome back, my friend. The garden is lovely today, isn't it?",
+			"choices": [
+				{
+					"text": "Tell me about the maps.",
+					"next": "go",
+					"actions": [
+						{
+							"op": "start_activity",
+							"id": "monastery_maps"
+						}
+					]
+				},
+				{
+					"text": "Not now, thank you.",
+					"next": "later"
+				}
+			]
+		},
+		"go": {
+			"mood": "joy",
+			"text": "Wonderful. Let's begin!"
+		},
+		"later": {
+			"mood": "gentle",
+			"text": "Another time, then. You're always welcome here."
+		},
+		"thanks": {
+			"mood": "joy",
+			"text": "Thank you for all your help today. Come back soon!",
+			"reply": "Goodbye!"
+		}
+	}
+}

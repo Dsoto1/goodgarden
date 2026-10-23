@@ -29,6 +29,27 @@ const RIVER_KNOTS := [
 	[25.0, -0.4, 2.9], [37.0, 3.6, 3.8], [52.0, -3.5, 3.4], [70.0, 3.5, 3.6],
 	[100.0, 0.0, 3.4], [260.0, 0.0, 3.4],
 ]
+## The wider world beyond the valley: each place stands on a level site
+## (centre, flat radius) cut into the hills, where the concept map puts it.
+## A site's level is the land's own height at its centre, unless given.
+const SITES := {
+	"wilderness": [Vector2(-47, 3), 10.0],
+	"bellhaven": [Vector2(26, -128), 16.0],
+	"mountains": [Vector2(92, -100), 13.0],
+	"monastery": [Vector2(102, -40), 14.0],
+	"coast": [Vector2(176, 4), 14.0, 1.2],
+	"lake": [Vector2(58, 28), 9.0, 1.0],
+	"farmlands": [Vector2(10, 76), 18.0],
+}
+## The sea, east beyond the river's mouth, and a lake in the south-east hills.
+const SEA_X := 192.0
+const SEA_LEVEL := -0.55
+const LAKE := Vector2(82, 46)
+const LAKE_RADIUS := 18.0
+const LAKE_LEVEL := -0.3
+
+static var _site_levels := {}
+
 ## Ground within this many metres of the river is meshed finely so its banks
 ## can curve (the rest of the land uses a coarse grid).
 const RIVER_DETAIL_BAND := 12.0
@@ -101,7 +122,49 @@ static func outside(x: float, z: float) -> float:
 
 
 static func height(x: float, z: float) -> float:
-	return _with_river(x, z, _land(x, z))
+	return _with_river(x, z, _with_sites(x, z, _land(x, z)))
+
+
+## A site's ground level.
+static func site_level(id: String) -> float:
+	if not _site_levels.has(id):
+		var s: Array = SITES[id]
+		var c: Vector2 = s[0]
+		_site_levels[id] = float(s[2]) if s.size() > 2 else _land(c.x, c.y)
+	return _site_levels[id]
+
+
+## World position of a site's centre, on its level ground.
+static func site_center(id: String) -> Vector3:
+	var c: Vector2 = SITES[id][0]
+	return Vector3(c.x, site_level(id), c.y)
+
+
+## How far (x, z) is inside the nearest site's blend zone: 0 well outside,
+## 1 on level ground. Trees keep off sites.
+static func in_site(x: float, z: float, margin := 1.6) -> bool:
+	for id: String in SITES:
+		var s: Array = SITES[id]
+		if Vector2(x, z).distance_to(s[0]) < float(s[1]) * margin:
+			return true
+	return false
+
+
+## Levels each site, sloping gently back into the hills around it. A site
+## by the water (given its own level) only cuts the hills down, so the sea
+## and the lake still come up to its edge.
+static func _with_sites(x: float, z: float, h: float) -> float:
+	for id: String in SITES:
+		var s: Array = SITES[id]
+		var r: float = s[1]
+		var d := Vector2(x, z).distance_to(s[0])
+		if d >= r * 2.2:
+			continue
+		var level := site_level(id)
+		if s.size() > 2 and d > r and h < level:
+			continue
+		h = lerpf(level, h, smoothstep(r, r * 2.2, d))
+	return h
 
 
 static func _land(x: float, z: float) -> float:
@@ -122,6 +185,13 @@ static func _land(x: float, z: float) -> float:
 	# Bellhaven stands on a broad, modest rise so it shows above the near hills.
 	var city := Vector2(x, z).distance_to(BELLHAVEN)
 	h = lerpf(CITY_PLATEAU, h, smoothstep(35.0, 75.0, city))
+	# Eastward the land falls to the sea, the coast wandering a little.
+	var shore := SEA_X + 8.0 * sin(z * 0.035) + 4.0 * sin(z * 0.11)
+	h = lerpf(h, 1.2, smoothstep(shore - 60.0, shore - 14.0, x))
+	h = lerpf(h, SEA_LEVEL - 3.0, smoothstep(shore - 4.0, shore + 6.0, x))
+	# The lake lies in a hollow among the south-eastern hills.
+	var lake := Vector2(x, z).distance_to(LAKE)
+	h = lerpf(LAKE_LEVEL - 2.5, h, smoothstep(LAKE_RADIUS - 3.0, LAKE_RADIUS + 9.0, lake))
 	return h
 
 

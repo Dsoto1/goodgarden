@@ -138,6 +138,10 @@ Hands-on activities serve ages 5 to 10 through a grown-up's **Work level** setti
 
 **`share_equally`** (division): `piece`, `total`, `plates`, `names` (under each plate), `look` (`"basket"` or `"plate"`), `leftover` (a "left over" bowl, for shares that aren't even). Nothing says how many each: the child deals them out. "Done" checks the pile is shared, the plates match, and the bowl couldn't go round once more. Result: `each`, `left`. Feedback: `not_shared`, `not_equal`, `share_more`, `all_good` (`{n}`, `{left}`).
 
+### Places in the wider world
+
+A place beyond the valley is a `regions.json` entry with `"site"` (a key of `Terrain.SITES`: centre, flat radius, optional fixed level), `"world_map": true`, an `"icon"`, an `"arrive"` anchor, and `"open_when"` (conditions, usually `{"day_at_least": n}`). Its scene's script extends `FarRegion`: set `area`, call `lay_ground(arrive_at, facing)`, then build with props, `neighbour(id, at)` for someone to talk to (with a character in `characters.json` and a dialogue file of the same id), and `passerby(look, at, seed)` for background people. Its work starts at job spots with `"until_day": 9999`.
+
 ### Where work starts: job spots
 
 `content/world/job_spots.json` lists where each day's work is started in the world: `{"region", "at": [x, y, z] (region-local), "prompt", "activity", "from_day", "until_day"? (default: that week's Saturday), "look": "crate"|"basket"|"table"|"none", "conditions"?}`. The little prop shows from `from_day` to `until_day`; the prompt only while the activity can be started (the condition `{"can_start": "activity_id"}`, which any condition list may use).

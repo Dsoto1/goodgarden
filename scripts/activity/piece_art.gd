@@ -61,6 +61,38 @@ static func draw(ci: CanvasItem, kind: String, size: Vector2, outline: bool, dat
 			ci.draw_string(UiStyle.font(), Vector2(0, c.y + fsize * 0.35), value, HORIZONTAL_ALIGNMENT_CENTER, size.x, fsize, metal.darkened(0.55))
 		return
 	match kind:
+		"sheaf":
+			# A bundle of wheat stalks tied round the middle, ears at the top.
+			if outline:
+				ci.draw_rect(Rect2(c.x - size.x * 0.2, size.y * 0.1, size.x * 0.4, size.y * 0.8), OUTLINE, false, 2.0)
+			else:
+				for k in 7:
+					var dx := (k - 3) * size.x * 0.05
+					ci.draw_line(Vector2(c.x + dx * 0.5, size.y * 0.9), Vector2(c.x + dx * 1.6, size.y * 0.28), Color("c9a23a"), 2.5)
+					ci.draw_colored_polygon(_ellipse(Vector2(c.x + dx * 1.7, size.y * 0.2), Vector2(size.x * 0.05, size.y * 0.1), 8), Color("e0b64c"))
+				ci.draw_rect(Rect2(c.x - size.x * 0.16, size.y * 0.55, size.x * 0.32, size.y * 0.07), Color("8a5a3a"))
+		"shell":
+			# A scallop shell: a fan with ridges.
+			var fan := PackedVector2Array([Vector2(c.x, size.y * 0.85)])
+			for k in 13:
+				var a := PI + PI * k / 12.0
+				fan.append(Vector2(c.x + cos(a) * size.x * 0.4, size.y * 0.62 + sin(a) * size.y * 0.45))
+			_shape(ci, fan, Color("f1d3c0"), outline)
+			if not outline:
+				for k in 5:
+					var a := PI + PI * (k + 1) / 6.0
+					ci.draw_line(Vector2(c.x, size.y * 0.85), Vector2(c.x + cos(a) * size.x * 0.38, size.y * 0.62 + sin(a) * size.y * 0.42), Color("d9a48a"), 1.5)
+		"crab":
+			# A red crab: round body, eyes on stalks, claws and legs.
+			if not outline:
+				for side: float in [-1.0, 1.0]:
+					for k in 3:
+						ci.draw_line(c + Vector2(side * size.x * 0.2, size.y * (0.02 + k * 0.08)), c + Vector2(side * size.x * 0.44, size.y * (0.1 + k * 0.12)), Color("b8392f"), 2.5)
+					ci.draw_line(c + Vector2(side * size.x * 0.2, -size.y * 0.06), c + Vector2(side * size.x * 0.34, -size.y * 0.26), Color("b8392f"), 3.0)
+					ci.draw_circle(c + Vector2(side * size.x * 0.36, -size.y * 0.32), size.x * 0.09, Color("d9473c"))
+					ci.draw_line(c + Vector2(side * size.x * 0.08, -size.y * 0.1), c + Vector2(side * size.x * 0.1, -size.y * 0.24), Color("3a2a22"), 2.0)
+					ci.draw_circle(c + Vector2(side * size.x * 0.1, -size.y * 0.26), 3.0, Color("2a2420"))
+			_shape(ci, _ellipse(c + Vector2(0, size.y * 0.04), Vector2(size.x * 0.24, size.y * 0.17), 14), Color("d9473c"), outline)
 		"bean_pod":
 			# A green bean pod with the beans showing as bumps.
 			var pod := PackedVector2Array()

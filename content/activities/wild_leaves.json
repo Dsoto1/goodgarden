@@ -1,0 +1,135 @@
+{
+	"id": "wild_leaves",
+	"title": "Leaves of the Wild Wood",
+	"mode": "task",
+	"location": "wilderness",
+	"surface": "wood_table",
+	"readiness": {
+		"ages": [
+			5,
+			9
+		],
+		"math": "sorting by shape; comparing attributes",
+		"reading": "pre-reader friendly; all text can be read aloud"
+	},
+	"concepts": [
+		"classification",
+		"comparing shapes",
+		"trees"
+	],
+	"formation_themes": [
+		"wonder at creation"
+	],
+	"prerequisites": [
+		{
+			"not": {
+				"fact": "places.wild_leaves_day",
+				"is_today": true
+			}
+		}
+	],
+	"intro": [
+		{
+			"speaker": "narrator",
+			"text": "Under the old trees, the ground is covered in leaves. Look: no two trees have quite the same leaf."
+		},
+		{
+			"speaker": "narrator",
+			"text": "Can you find three different kinds, and sort them by their shape?"
+		}
+	],
+	"steps": [
+		{
+			"id": "sort",
+			"primitive": "sort_into_bins",
+			"speaker": "narrator",
+			"prompt": "Put each leaf in the basket with leaves of the same shape.",
+			"hint": "Look at the edges: wavy, pointy, or smooth and round?",
+			"piece_size": [
+				60,
+				60
+			],
+			"pieces": [
+				{
+					"kind": "leaf_oak",
+					"count": 2
+				},
+				{
+					"kind": "leaf_maple",
+					"count": 2
+				},
+				{
+					"kind": "leaf_round",
+					"count": 2
+				}
+			],
+			"bins": [
+				{
+					"kind": "leaf_oak",
+					"label": "wavy",
+					"look": "basket",
+					"pos": [
+						190,
+						170
+					]
+				},
+				{
+					"kind": "leaf_maple",
+					"label": "pointy",
+					"look": "basket",
+					"pos": [
+						500,
+						170
+					]
+				},
+				{
+					"kind": "leaf_round",
+					"label": "round",
+					"look": "basket",
+					"pos": [
+						810,
+						170
+					]
+				}
+			],
+			"older": {
+				"pieces": [
+					{
+						"kind": "leaf_oak",
+						"count": 4
+					},
+					{
+						"kind": "leaf_maple",
+						"count": 4
+					},
+					{
+						"kind": "leaf_round",
+						"count": 4
+					}
+				]
+			},
+			"feedback": {
+				"mismatch": "Compare the edges. Is it wavy, pointy, or round?",
+				"all_good": "Three kinds of leaves, from three kinds of trees!"
+			}
+		}
+	],
+	"outro": [
+		{
+			"speaker": "narrator",
+			"text": "God made every tree its own way, and every leaf too. Can you find which tree each one fell from?",
+			"button": "Done"
+		}
+	],
+	"world_effects": [
+		{
+			"op": "set",
+			"fact": "places.wild_leaves_day",
+			"value": "$day"
+		}
+	],
+	"replay": "free",
+	"real_world_invitation": "rw_leaf_hunt",
+	"journal_line": "In the wilderness I sorted fallen leaves by their shapes.",
+	"unavailable_text": "The leaves are sorted for today."
+}

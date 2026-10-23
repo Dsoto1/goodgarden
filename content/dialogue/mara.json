@@ -1,0 +1,156 @@
+{
+	"id": "mara",
+	"speaker": "mara",
+	"entries": [
+		{
+			"when": [
+				{
+					"weekday": "sunday"
+				}
+			],
+			"start": "sunday"
+		},
+		{
+			"when": [
+				{
+					"fact": "npc.mara.met",
+					"exists": false
+				}
+			],
+			"start": "hello"
+		},
+		{
+			"when": [
+				{
+					"fact": "places.coast_supplies_day",
+					"is_today": true
+				},
+				{
+					"fact": "places.coast_catch_day",
+					"is_today": true
+				}
+			],
+			"start": "thanks"
+		},
+		{
+			"when": [
+				{
+					"fact": "places.coast_supplies_day",
+					"is_today": true
+				}
+			],
+			"start": "offer_b"
+		},
+		{
+			"when": [
+				{
+					"fact": "places.coast_catch_day",
+					"is_today": true
+				}
+			],
+			"start": "offer_a"
+		},
+		{
+			"when": [],
+			"start": "offer"
+		}
+	],
+	"nodes": {
+		"sunday": {
+			"mood": "gentle",
+			"text": "A happy Sunday to you! No work today. It's a day for rest, and for thanks."
+		},
+		"hello": {
+			"mood": "joy",
+			"text": "Ahoy there! I'm Captain Mara, and that's my ship, the Dove. We sail to the islands and back.",
+			"next": "offer",
+			"actions": [
+				{
+					"op": "set_fact",
+					"fact": "npc.mara.met",
+					"value": true
+				}
+			]
+		},
+		"offer": {
+			"text": "Will you help me load the ship's stores, or sort the fishing boats' catch?",
+			"choices": [
+				{
+					"text": "Load the stores",
+					"next": "go",
+					"actions": [
+						{
+							"op": "start_activity",
+							"id": "coast_supplies"
+						}
+					]
+				},
+				{
+					"text": "Sort the catch",
+					"next": "go",
+					"actions": [
+						{
+							"op": "start_activity",
+							"id": "coast_catch"
+						}
+					]
+				},
+				{
+					"text": "Not now, thank you.",
+					"next": "later"
+				}
+			]
+		},
+		"offer_a": {
+			"text": "Ahoy, shipmate! Fair winds today.",
+			"choices": [
+				{
+					"text": "Load the stores",
+					"next": "go",
+					"actions": [
+						{
+							"op": "start_activity",
+							"id": "coast_supplies"
+						}
+					]
+				},
+				{
+					"text": "Not now, thank you.",
+					"next": "later"
+				}
+			]
+		},
+		"offer_b": {
+			"text": "Ahoy, shipmate! Fair winds today.",
+			"choices": [
+				{
+					"text": "Sort the catch",
+					"next": "go",
+					"actions": [
+						{
+							"op": "start_activity",
+							"id": "coast_catch"
+						}
+					]
+				},
+				{
+					"text": "Not now, thank you.",
+					"next": "later"
+				}
+			]
+		},
+		"go": {
+			"mood": "joy",
+			"text": "Wonderful. Let's begin!"
+		},
+		"later": {
+			"mood": "gentle",
+			"text": "Another time, then. You're always welcome here."
+		},
+		"thanks": {
+			"mood": "joy",
+			"text": "Thank you for all your help today. Come back soon!",
+			"reply": "Goodbye!"
+		}
+	}
+}

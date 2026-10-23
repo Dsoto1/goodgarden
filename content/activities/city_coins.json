@@ -1,0 +1,86 @@
+{
+	"id": "city_coins",
+	"title": "Counting for the Merchant",
+	"mode": "task",
+	"location": "city",
+	"surface": "wood_table",
+	"readiness": {
+		"ages": [
+			5,
+			9
+		],
+		"math": "counting in fives (older: tens); equal groups",
+		"reading": "pre-reader friendly; all text can be read aloud"
+	},
+	"concepts": [
+		"equal groups",
+		"skip counting",
+		"money"
+	],
+	"formation_themes": [
+		"honesty",
+		"helpfulness"
+	],
+	"prerequisites": [
+		{
+			"not": {
+				"fact": "places.city_coins_day",
+				"is_today": true
+			}
+		}
+	],
+	"intro": [
+		{
+			"speaker": "greta",
+			"text": "Welcome to Bellhaven, little one! You must be the friend of Mrs. Ruth's Sam."
+		},
+		{
+			"speaker": "greta",
+			"text": "Before the market opens, I count my coins. Will you help? Piles of five, then we count the piles."
+		}
+	],
+	"steps": [
+		{
+			"id": "piles",
+			"primitive": "count_into_slots",
+			"speaker": "greta",
+			"prompt": "Make piles of five coins. Count: one, two, three, four, five.",
+			"hint": "Find a pile with an empty dip.",
+			"slots": 4,
+			"per_slot": 5,
+			"piece": "coin:1",
+			"container": "basket",
+			"supply_label": "money box",
+			"spare": 2,
+			"older": {
+				"slots": 3,
+				"per_slot": 10,
+				"show_dimples": false,
+				"spare": 3,
+				"prompt": "Piles of ten this time. Count them yourself."
+			},
+			"feedback": {
+				"full": "That pile has its {n}. Start another.",
+				"all_good": "Five, ten, fifteen, twenty! Ready for the market."
+			}
+		}
+	],
+	"outro": [
+		{
+			"speaker": "greta",
+			"text": "Honest counting makes honest trading. Thank you, my dear!",
+			"button": "Thank you, Mrs. Greta"
+		}
+	],
+	"world_effects": [
+		{
+			"op": "set",
+			"fact": "places.city_coins_day",
+			"value": "$day"
+		}
+	],
+	"replay": "free",
+	"real_world_invitation": "rw_count_out",
+	"journal_line": "In Bellhaven, I counted Mrs. Greta's coins before the market.",
+	"unavailable_text": "The coins are counted for today."
+}

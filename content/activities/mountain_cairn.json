@@ -1,0 +1,93 @@
+{
+	"id": "mountain_cairn",
+	"title": "Building the Cairn",
+	"mode": "task",
+	"location": "mountains",
+	"surface": "wood_table",
+	"readiness": {
+		"ages": [
+			5,
+			9
+		],
+		"math": "continuing a repeating pattern (older: ABB)",
+		"reading": "pre-reader friendly; all text can be read aloud"
+	},
+	"concepts": [
+		"repeating patterns",
+		"size"
+	],
+	"formation_themes": [
+		"care for others",
+		"order"
+	],
+	"prerequisites": [
+		{
+			"not": {
+				"fact": "places.mountain_cairn_day",
+				"is_today": true
+			}
+		}
+	],
+	"intro": [
+		{
+			"speaker": "silas",
+			"text": "Up here, the mist can come down fast. Walkers find their way by the cairns: little heaps of stones along the trail."
+		},
+		{
+			"speaker": "silas",
+			"text": "Let's mark the trail with a row of stones, in a pattern anyone can follow."
+		}
+	],
+	"steps": [
+		{
+			"id": "stones",
+			"primitive": "continue_pattern",
+			"speaker": "silas",
+			"look": "path",
+			"prompt": "Carry on the pattern of stones. What comes next?",
+			"hint": "Show me",
+			"unit": [
+				"stone_small",
+				"stone_big"
+			],
+			"length": 10,
+			"given": 4,
+			"names": {
+				"stone_big": "big",
+				"stone_small": "small"
+			},
+			"older": {
+				"unit": [
+					"stone_big",
+					"stone_small",
+					"stone_small"
+				],
+				"length": 12,
+				"given": 3,
+				"prompt": "Carry on the pattern: big, small, small. What comes next?"
+			},
+			"feedback": {
+				"wrong": "Listen to the pattern: {pattern}",
+				"all_good": "Now no one will lose the way, even in the mist."
+			}
+		}
+	],
+	"outro": [
+		{
+			"speaker": "silas",
+			"text": "A good shepherd marks the way for those who come after. Thank you!",
+			"button": "Thank you, Mr. Silas"
+		}
+	],
+	"world_effects": [
+		{
+			"op": "set",
+			"fact": "places.mountain_cairn_day",
+			"value": "$day"
+		}
+	],
+	"replay": "free",
+	"real_world_invitation": "rw_patterns",
+	"journal_line": "In the mountains, I marked the trail with Mr. Silas's stones.",
+	"unavailable_text": "The trail is marked for today."
+}

@@ -66,6 +66,94 @@
 				"build": 1.1
 			}
 		},
+		"greta": {
+			"name": "Mrs. Greta",
+			"role": "A merchant in Bellhaven's market street; sells spices and cloth.",
+			"look": {
+				"skin": "skin_3",
+				"hair": "hair_red",
+				"hair_style": "bun",
+				"shirt": "cloth_gold",
+				"skirt": "cloth_green",
+				"pants": "cloth_green",
+				"apron": "cloth_cream",
+				"height": 0.97
+			}
+		},
+		"elias": {
+			"name": "Brother Elias",
+			"role": "A monk at the monastery; copies old books and keeps the old maps.",
+			"look": {
+				"skin": "skin_1",
+				"hair": "hair_grey",
+				"hair_style": "cropped",
+				"beard": "hair_grey",
+				"shirt": "monk_brown",
+				"pants": "monk_brown",
+				"apron": "monk_brown",
+				"belt": "cloth_cream",
+				"height": 1.0
+			}
+		},
+		"mara": {
+			"name": "Captain Mara",
+			"role": "Captain of a small sailing ship in the harbour.",
+			"look": {
+				"skin": "skin_4",
+				"hair": "hair_black",
+				"hair_style": "braid",
+				"shirt": "cloth_blue",
+				"pants": "cloth_tan",
+				"vest": "leather",
+				"hat": "scarf",
+				"hat_color": "cloth_red",
+				"height": 1.0
+			}
+		},
+		"finn": {
+			"name": "Mr. Finn",
+			"role": "A fisherman at the lake; knows every creature in it.",
+			"look": {
+				"skin": "skin_2",
+				"hair": "hair_blond",
+				"hair_style": "tousled",
+				"beard": "hair_blond",
+				"shirt": "cloth_green",
+				"pants": "cloth_brown",
+				"hat": "straw",
+				"height": 1.02
+			}
+		},
+		"hannah": {
+			"name": "Mrs. Hannah",
+			"role": "A farmer in the farmlands south of the valley.",
+			"look": {
+				"skin": "skin_3",
+				"hair": "hair_brown",
+				"hair_style": "long",
+				"shirt": "cloth_red",
+				"skirt": "cloth_blue",
+				"pants": "cloth_blue",
+				"apron": "cloth_cream",
+				"hat": "straw",
+				"hat_band": "cloth_green",
+				"height": 0.98
+			}
+		},
+		"silas": {
+			"name": "Mr. Silas",
+			"role": "A shepherd in the high mountain meadows.",
+			"look": {
+				"skin": "skin_4",
+				"hair": "hair_grey",
+				"hair_style": "short",
+				"beard": "hair_grey",
+				"shirt": "cloth_tan",
+				"pants": "cloth_brown",
+				"vest": "cloth_red",
+				"height": 1.0
+			}
+		},
 		"narrator": {"name": ""},
 		"player": {
 			"name": "",

@@ -23,6 +23,10 @@ var _view: SubViewport
 var _picture: TextureRect
 var _pins: Control
 var _taken: Array[Rect2] = [] # cards already placed, so neighbours don't cover each other
+var _wide := false # showing the wider world rather than the valley
+var _title: Label
+var _toggle: Button
+var _world: World
 
 
 func show_map() -> void:
@@ -32,9 +36,14 @@ func show_map() -> void:
 	closed.connect(func() -> void: CameraRig.set_see_through(true))
 	var top := HBoxContainer.new()
 	content.add_child(top)
-	var title := UiStyle.label(tr("The Valley"), "HeadingLabel")
-	title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	top.add_child(title)
+	_title = UiStyle.label(tr("The Valley"), "HeadingLabel")
+	_title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	top.add_child(_title)
+	# Once a place beyond the valley has opened, the map can show the whole land.
+	if wider_world_open():
+		_toggle = UiStyle.button(tr("The wider world"), false, "map")
+		_toggle.pressed.connect(func() -> void: show_wide(not _wide))
+		top.add_child(_toggle)
 	var close_x := UiStyle.button("", false, "back")
 	close_x.set_meta(&"spoken", tr("Close the map"))
 	close_x.pressed.connect(close)
@@ -59,6 +68,7 @@ func show_map() -> void:
 	_camera.current = true
 	var main := get_tree().get_first_node_in_group("main")
 	var world: World = main.world if main else null
+	_world = world
 	if world and world.environment:
 		# Clearer air than at ground level, so the map isn't lost in haze.
 		var env: Environment = world.environment.duplicate()
@@ -75,10 +85,41 @@ func show_map() -> void:
 	_pins.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	frame.add_child(_pins)
 	_place_pins(world)
+	if world and world.player and _toggle and Terrain.outside(world.player.global_position.x, world.player.global_position.z) > 8.0:
+		show_wide(true)
 
 	var done := UiStyle.button(tr("Close the map"), true, "yes")
 	done.pressed.connect(close)
 	add_buttons([done])
+
+
+## True once any place in the wider world has opened (or been visited).
+static func wider_world_open() -> bool:
+	for entry: Dictionary in Content.get_world("regions").get("regions", []):
+		if entry.get("world_map", false) and (World.is_open(entry) or Discovery.is_discovered(str(entry["id"]))):
+			return true
+	return false
+
+
+## Switches between the valley and the whole land, seen from much higher.
+func show_wide(wide: bool) -> void:
+	_wide = wide
+	_title.text = tr("The Wider World") if wide else tr("The Valley")
+	if _toggle:
+		_toggle.text = tr("The valley") if wide else tr("The wider world")
+	if wide:
+		_camera.position = Vector3(62, 235, 118)
+		_camera.look_at(Vector3(62, 0, -22))
+		_camera.far = 1200.0
+	else:
+		_camera.position = Vector3(0, 74, 40)
+		_camera.look_at(Vector3(0, 0, -19))
+		_camera.far = 600.0
+	_view.render_target_update_mode = SubViewport.UPDATE_ONCE
+	for c in _pins.get_children():
+		c.queue_free()
+	_taken.clear()
+	_place_pins(_world)
 
 
 ## Screen spot in the map picture for a world position (clamped inside it).
@@ -88,6 +129,9 @@ func map_point(world_pos: Vector3) -> Vector2:
 
 
 func _place_pins(world: World) -> void:
+	if _wide:
+		_place_world_pins(world)
+		return
 	for l: Array in LANDMARKS:
 		var badge := Button.new()
 		badge.flat = true
@@ -131,17 +175,58 @@ func _place_pins(world: World) -> void:
 		_pins.add_child(you)
 
 
+## The wider world: a card for the valley and for every place beyond it. A
+## place that has opened (or been visited) is a button that travels there;
+## the others wait, greyed, until their day comes.
+func _place_world_pins(world: World) -> void:
+	var home := UiStyle.button(tr("The Valley"), false, "home")
+	home.pressed.connect(func() -> void:
+		close()
+		get_tree().call_group("main", "travel_to", "home"))
+	_add_pin(home, map_point(Vector3(0, 0, -14)))
+	for entry: Dictionary in Content.get_world("regions").get("regions", []):
+		if not entry.get("world_map", false):
+			continue
+		var id := str(entry["id"])
+		var at := map_point(Terrain.site_center(str(entry["site"])))
+		var icon := str(entry.get("icon", "hand"))
+		var pin: Control
+		if World.is_open(entry) or Discovery.is_discovered(id):
+			var b := UiStyle.button(tr(str(entry["name"])), false, icon)
+			b.pressed.connect(func() -> void:
+				close()
+				get_tree().call_group("main", "travel_to", id))
+			pin = b
+		else:
+			pin = _card(icon, tr("%s (not yet)") % tr(str(entry["name"])), false)
+			pin.modulate = Color(1, 1, 1, 0.75)
+		_add_pin(pin, at)
+	if world and world.player:
+		var you := YouAreHere.new()
+		you.position = map_point(world.player.global_position)
+		_pins.add_child(you)
+
+
+func _add_pin(pin: Control, at: Vector2) -> void:
+	_pins.add_child(pin)
+	pin.reset_size()
+	pin.position = _free_spot(at - Vector2(pin.size.x / 2.0, pin.size.y + 6), pin.size)
+	_taken.append(Rect2(pin.position, pin.size))
+	_pins.add_child(_stake(at))
+
+
 ## Nudges a card off any card already placed (places close together, like
 ## home and the garden, get their cards side by side). With large text the
 ## cards are big, so it tries further spots too, and if none is fully clear
 ## takes the one that overlaps least.
 func _free_spot(want: Vector2, card: Vector2) -> Vector2:
-	var shifts: Array[Vector2] = [Vector2.ZERO]
-	for k: float in [0.6, 1.1, 1.6]:
+	# Nearest first: a little aside, then above or below, then further off.
+	var shifts: Array[Vector2] = [Vector2.ZERO, Vector2(-card.x * 0.6, 0), Vector2(card.x * 0.6, 0),
+		Vector2(0, -(card.y + 6)), Vector2(0, card.y + 18),
+		Vector2(-card.x * 0.6, -card.y - 6), Vector2(card.x * 0.6, -card.y - 6), Vector2(-card.x * 0.6, card.y + 18), Vector2(card.x * 0.6, card.y + 18)]
+	for k: float in [1.1, 1.6]:
 		shifts.append_array([Vector2(-card.x * k, 0), Vector2(card.x * k, 0)])
-	for k: float in [1.0, 2.0]:
-		shifts.append_array([Vector2(0, -(card.y + 6) * k), Vector2(0, (card.y + 18) * k)])
-	shifts.append_array([Vector2(-card.x * 0.6, -card.y - 6), Vector2(card.x * 0.6, -card.y - 6), Vector2(-card.x * 0.6, card.y + 18), Vector2(card.x * 0.6, card.y + 18)])
+	shifts.append_array([Vector2(0, -(card.y + 6) * 2.0), Vector2(0, (card.y + 18) * 2.0)])
 	var best := want
 	var best_overlap := INF
 	for shift: Vector2 in shifts:

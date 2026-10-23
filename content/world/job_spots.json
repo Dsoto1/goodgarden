@@ -361,6 +361,188 @@
 			"activity": "harvest_thanks",
 			"from_day": 82,
 			"look": "none"
+		},
+		{
+			"region": "wilderness",
+			"at": [
+				-5.0,
+				0,
+				3.6
+			],
+			"prompt": "Sort the fallen leaves",
+			"activity": "wild_leaves",
+			"from_day": 22,
+			"until_day": 9999,
+			"look": "basket"
+		},
+		{
+			"region": "wilderness",
+			"at": [
+				2.6,
+				0,
+				2.4
+			],
+			"prompt": "Read the trail map",
+			"activity": "wild_trail",
+			"from_day": 22,
+			"until_day": 9999,
+			"look": "none"
+		},
+		{
+			"region": "farmlands",
+			"at": [
+				-2.4,
+				0,
+				-2.4
+			],
+			"prompt": "Stand up the sheaves",
+			"activity": "farm_sheaves",
+			"from_day": 36,
+			"until_day": 9999,
+			"look": "crate"
+		},
+		{
+			"region": "farmlands",
+			"at": [
+				8.4,
+				0,
+				-2.0
+			],
+			"prompt": "Share hay for the cows",
+			"activity": "farm_feed",
+			"from_day": 36,
+			"until_day": 9999,
+			"look": "basket"
+		},
+		{
+			"region": "city",
+			"at": [
+				-3.0,
+				0,
+				6.6
+			],
+			"prompt": "Count Mrs. Greta's coins",
+			"activity": "city_coins",
+			"from_day": 50,
+			"until_day": 9999,
+			"look": "table"
+		},
+		{
+			"region": "city",
+			"at": [
+				3.0,
+				0,
+				6.6
+			],
+			"prompt": "Help at Mrs. Greta's stall",
+			"activity": "city_change",
+			"from_day": 50,
+			"until_day": 9999,
+			"look": "crate"
+		},
+		{
+			"region": "monastery",
+			"at": [
+				2.4,
+				0,
+				9.4
+			],
+			"prompt": "Copy a page",
+			"activity": "monastery_copy",
+			"from_day": 57,
+			"until_day": 9999,
+			"look": "none"
+		},
+		{
+			"region": "monastery",
+			"at": [
+				-2.6,
+				0,
+				8.8
+			],
+			"prompt": "Look at the old map",
+			"activity": "monastery_maps",
+			"from_day": 57,
+			"until_day": 9999,
+			"look": "table"
+		},
+		{
+			"region": "coast",
+			"at": [
+				5.6,
+				0,
+				1.6
+			],
+			"prompt": "Load the ship's stores",
+			"activity": "coast_supplies",
+			"from_day": 64,
+			"until_day": 9999,
+			"look": "crate"
+		},
+		{
+			"region": "coast",
+			"at": [
+				1.2,
+				0,
+				5.2
+			],
+			"prompt": "Sort the catch",
+			"activity": "coast_catch",
+			"from_day": 64,
+			"until_day": 9999,
+			"look": "basket"
+		},
+		{
+			"region": "mountains",
+			"at": [
+				1.6,
+				0,
+				1.6
+			],
+			"prompt": "Mark the trail",
+			"activity": "mountain_cairn",
+			"from_day": 71,
+			"until_day": 9999,
+			"look": "none"
+		},
+		{
+			"region": "mountains",
+			"at": [
+				-4.2,
+				0,
+				0.0
+			],
+			"prompt": "Read Mr. Silas's map",
+			"activity": "mountain_trail",
+			"from_day": 71,
+			"until_day": 9999,
+			"look": "table"
+		},
+		{
+			"region": "lake",
+			"at": [
+				-2.4,
+				0,
+				-1.6
+			],
+			"prompt": "Help with the catch",
+			"activity": "lake_fish",
+			"from_day": 43,
+			"until_day": 9999,
+			"look": "basket"
+		},
+		{
+			"region": "lake",
+			"at": [
+				0.6,
+				0,
+				-4.6
+			],
+			"prompt": "See who lives in the lake",
+			"activity": "lake_creatures",
+			"from_day": 43,
+			"until_day": 9999,
+			"look": "none"
 		}
 	]
 }

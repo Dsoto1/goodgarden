@@ -1,0 +1,156 @@
+{
+	"id": "hannah",
+	"speaker": "hannah",
+	"entries": [
+		{
+			"when": [
+				{
+					"weekday": "sunday"
+				}
+			],
+			"start": "sunday"
+		},
+		{
+			"when": [
+				{
+					"fact": "npc.hannah.met",
+					"exists": false
+				}
+			],
+			"start": "hello"
+		},
+		{
+			"when": [
+				{
+					"fact": "places.farm_sheaves_day",
+					"is_today": true
+				},
+				{
+					"fact": "places.farm_feed_day",
+					"is_today": true
+				}
+			],
+			"start": "thanks"
+		},
+		{
+			"when": [
+				{
+					"fact": "places.farm_sheaves_day",
+					"is_today": true
+				}
+			],
+			"start": "offer_b"
+		},
+		{
+			"when": [
+				{
+					"fact": "places.farm_feed_day",
+					"is_today": true
+				}
+			],
+			"start": "offer_a"
+		},
+		{
+			"when": [],
+			"start": "offer"
+		}
+	],
+	"nodes": {
+		"sunday": {
+			"mood": "gentle",
+			"text": "A happy Sunday to you! No work today. It's a day for rest, and for thanks."
+		},
+		"hello": {
+			"mood": "joy",
+			"text": "Welcome to the farm! I'm Mrs. Hannah. The wheat that makes Mr. Tobias's bread grows right here.",
+			"next": "offer",
+			"actions": [
+				{
+					"op": "set_fact",
+					"fact": "npc.hannah.met",
+					"value": true
+				}
+			]
+		},
+		"offer": {
+			"text": "Would you like to help with the sheaves, or feed the cows?",
+			"choices": [
+				{
+					"text": "Stand up the sheaves",
+					"next": "go",
+					"actions": [
+						{
+							"op": "start_activity",
+							"id": "farm_sheaves"
+						}
+					]
+				},
+				{
+					"text": "Feed the cows",
+					"next": "go",
+					"actions": [
+						{
+							"op": "start_activity",
+							"id": "farm_feed"
+						}
+					]
+				},
+				{
+					"text": "Not now, thank you.",
+					"next": "later"
+				}
+			]
+		},
+		"offer_a": {
+			"text": "Hello again! Mind the hens, they're everywhere.",
+			"choices": [
+				{
+					"text": "Stand up the sheaves",
+					"next": "go",
+					"actions": [
+						{
+							"op": "start_activity",
+							"id": "farm_sheaves"
+						}
+					]
+				},
+				{
+					"text": "Not now, thank you.",
+					"next": "later"
+				}
+			]
+		},
+		"offer_b": {
+			"text": "Hello again! Mind the hens, they're everywhere.",
+			"choices": [
+				{
+					"text": "Feed the cows",
+					"next": "go",
+					"actions": [
+						{
+							"op": "start_activity",
+							"id": "farm_feed"
+						}
+					]
+				},
+				{
+					"text": "Not now, thank you.",
+					"next": "later"
+				}
+			]
+		},
+		"go": {
+			"mood": "joy",
+			"text": "Wonderful. Let's begin!"
+		},
+		"later": {
+			"mood": "gentle",
+			"text": "Another time, then. You're always welcome here."
+		},
+		"thanks": {
+			"mood": "joy",
+			"text": "Thank you for all your help today. Come back soon!",
+			"reply": "Goodbye!"
+		}
+	}
+}

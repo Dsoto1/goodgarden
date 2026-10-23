@@ -1,0 +1,135 @@
+{
+	"id": "coast_catch",
+	"title": "Sorting the Catch",
+	"mode": "task",
+	"location": "coast",
+	"surface": "wood_table",
+	"readiness": {
+		"ages": [
+			5,
+			9
+		],
+		"math": "sorting by kind",
+		"reading": "pre-reader friendly; all text can be read aloud"
+	},
+	"concepts": [
+		"classification",
+		"sea creatures"
+	],
+	"formation_themes": [
+		"wonder at creation",
+		"stewardship"
+	],
+	"prerequisites": [
+		{
+			"not": {
+				"fact": "places.coast_catch_day",
+				"is_today": true
+			}
+		}
+	],
+	"intro": [
+		{
+			"speaker": "mara",
+			"text": "The fishing boats are in! Their nets have fish, crabs, and plenty of shells."
+		},
+		{
+			"speaker": "mara",
+			"text": "Fish in the basket, crabs in the crab pot, and the shells go back to the sea."
+		}
+	],
+	"steps": [
+		{
+			"id": "sort",
+			"primitive": "sort_into_bins",
+			"speaker": "mara",
+			"prompt": "Sort the catch: fish, crabs, and shells.",
+			"hint": "Fish have fins. Crabs have claws. Shells are empty homes.",
+			"piece_size": [
+				56,
+				50
+			],
+			"pieces": [
+				{
+					"kind": "minnow",
+					"count": 4
+				},
+				{
+					"kind": "crab",
+					"count": 3
+				},
+				{
+					"kind": "shell",
+					"count": 3
+				}
+			],
+			"bins": [
+				{
+					"kind": "minnow",
+					"label": "fish basket",
+					"look": "basket",
+					"pos": [
+						190,
+						170
+					]
+				},
+				{
+					"kind": "crab",
+					"label": "crab pot",
+					"look": "pot",
+					"pos": [
+						500,
+						170
+					]
+				},
+				{
+					"kind": "shell",
+					"label": "back to the sea",
+					"look": "pond",
+					"pos": [
+						810,
+						170
+					]
+				}
+			],
+			"older": {
+				"pieces": [
+					{
+						"kind": "minnow",
+						"count": 6
+					},
+					{
+						"kind": "crab",
+						"count": 5
+					},
+					{
+						"kind": "shell",
+						"count": 5
+					}
+				]
+			},
+			"feedback": {
+				"mismatch": "Look again: fins, claws, or an empty shell?",
+				"all_good": "All sorted, shipshape!"
+			}
+		}
+	],
+	"outro": [
+		{
+			"speaker": "mara",
+			"text": "The sea is full of God's creatures. We take care to catch only what we need.",
+			"button": "Thank you, Captain Mara"
+		}
+	],
+	"world_effects": [
+		{
+			"op": "set",
+			"fact": "places.coast_catch_day",
+			"value": "$day"
+		}
+	],
+	"replay": "free",
+	"real_world_invitation": "rw_creature_hunt",
+	"journal_line": "At the harbour, I sorted the fishing boats' catch with Captain Mara.",
+	"unavailable_text": "The catch is sorted for today."
+}

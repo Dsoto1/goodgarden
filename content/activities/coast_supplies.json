@@ -1,0 +1,122 @@
+{
+	"id": "coast_supplies",
+	"title": "Supplies for the Voyage",
+	"mode": "task",
+	"location": "coast",
+	"surface": "wood_table",
+	"readiness": {
+		"ages": [
+			5,
+			9
+		],
+		"math": "counting out sets to match a list",
+		"reading": "reading a list (older: no pictures)"
+	},
+	"concepts": [
+		"reading numerals",
+		"reading words",
+		"counting out a set"
+	],
+	"formation_themes": [
+		"helpfulness",
+		"attention"
+	],
+	"prerequisites": [
+		{
+			"not": {
+				"fact": "places.coast_supplies_day",
+				"is_today": true
+			}
+		}
+	],
+	"intro": [
+		{
+			"speaker": "mara",
+			"text": "Ahoy! We sail with the tide this evening, and the ship needs her stores."
+		},
+		{
+			"speaker": "mara",
+			"text": "Here's the list. Read it carefully: at sea, you can't pop back to the shop!"
+		}
+	],
+	"steps": [
+		{
+			"id": "load",
+			"primitive": "fill_order",
+			"speaker": "mara",
+			"note_title": "Ship's stores:",
+			"note_from": "Captain Mara",
+			"basket_label": "the ship's chest",
+			"prompt": "Read the list. Put the right things in the chest, then press Done.",
+			"hint": "Show me",
+			"order": [
+				{
+					"item": "apple",
+					"count": 4
+				},
+				{
+					"item": "bread_roll",
+					"count": 3,
+					"word": "roll",
+					"words": "rolls"
+				},
+				{
+					"item": "jam_jar",
+					"count": 1,
+					"word": "jar of jam",
+					"words": "jars of jam"
+				}
+			],
+			"extra": [
+				"egg"
+			],
+			"pictures": true,
+			"older": {
+				"order": [
+					{
+						"item": "apple",
+						"count": 8
+					},
+					{
+						"item": "bread_roll",
+						"count": 6,
+						"word": "roll",
+						"words": "rolls"
+					},
+					{
+						"item": "jam_jar",
+						"count": 3,
+						"word": "jar of jam",
+						"words": "jars of jam"
+					}
+				],
+				"extra": [
+					"egg"
+				],
+				"pictures": false,
+				"prompt": "Read the list: no pictures. Load the right number of each, then press Done."
+			},
+			"feedback": {
+				"all_good": "Stores aboard! We won't go hungry."
+			}
+		}
+	],
+	"outro": [
+		{
+			"speaker": "mara",
+			"text": "Thank you, shipmate! The sailors in the Bible trusted God on the wild sea. We will too.",
+			"button": "Thank you, Captain Mara"
+		}
+	],
+	"world_effects": [
+		{
+			"op": "set",
+			"fact": "places.coast_supplies_day",
+			"value": "$day"
+		}
+	],
+	"replay": "free",
+	"real_world_invitation": "rw_read_list",
+	"journal_line": "At the harbour, I read Captain Mara's list and loaded the ship's stores.",
+	"unavailable_text": "The ship is loaded for today."
+}

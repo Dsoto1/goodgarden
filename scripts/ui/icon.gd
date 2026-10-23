@@ -381,6 +381,35 @@ static func draw(ci: CanvasItem, kind: String, r: Rect2, color := INK) -> void:
 				var fc: Color = [Color("d9473c"), Color("f2c14e"), Color("5f8fd0"), Color("6fa84f")][k]
 				var x0 := -0.42 + k * 0.22
 				ci.draw_colored_polygon(PackedVector2Array([c + Vector2(x0, -0.3) * s, c + Vector2(x0 + 0.18, -0.3) * s, c + Vector2(x0 + 0.09, 0.1) * s]), fc)
+		"wheat":
+			for k in 3:
+				var dx := (k - 1) * 0.16
+				ci.draw_line(c + Vector2(dx * 0.4, 0.42) * s, c + Vector2(dx, -0.1) * s, Color("c9a23a"), maxf(2.0, s * 0.04))
+				for g in 4:
+					ci.draw_colored_polygon(_oval(c + Vector2(dx + (0.05 if g % 2 else -0.05), -0.14 - g * 0.08) * s, Vector2(0.05, 0.07) * s), Color("e0b64c"))
+		"boat":
+			ci.draw_colored_polygon(PackedVector2Array([c + Vector2(-0.42, 0.12) * s, c + Vector2(0.42, 0.12) * s, c + Vector2(0.3, 0.32) * s, c + Vector2(-0.3, 0.32) * s]), Color("8a5a3a"))
+			ci.draw_line(c + Vector2(0, 0.12) * s, c + Vector2(0, -0.42) * s, Color("5a3d28"), maxf(2.0, s * 0.04))
+			ci.draw_colored_polygon(PackedVector2Array([c + Vector2(0.03, -0.4) * s, c + Vector2(0.32, 0.06) * s, c + Vector2(0.03, 0.06) * s]), Color("fbf5e8"))
+			ci.draw_line(c + Vector2(-0.46, 0.38) * s, c + Vector2(0.46, 0.38) * s, Color("5f8fd0"), maxf(2.0, s * 0.04))
+		"castle":
+			ci.draw_rect(Rect2(c + Vector2(-0.34, -0.1) * s, Vector2(0.68, 0.46) * s), Color("b7aea0"))
+			for x: float in [-0.38, 0.22]:
+				ci.draw_rect(Rect2(c + Vector2(x, -0.34) * s, Vector2(0.16, 0.7) * s), Color("9a9184"))
+				ci.draw_colored_polygon(PackedVector2Array([c + Vector2(x - 0.02, -0.34) * s, c + Vector2(x + 0.08, -0.48) * s, c + Vector2(x + 0.18, -0.34) * s]), Color("5f8fd0"))
+			ci.draw_rect(Rect2(c + Vector2(-0.08, 0.1) * s, Vector2(0.16, 0.26) * s), Color("5a3d28"))
+		"cross":
+			ci.draw_rect(Rect2(c + Vector2(-0.06, -0.4) * s, Vector2(0.12, 0.8) * s), Color("8a5a3a"))
+			ci.draw_rect(Rect2(c + Vector2(-0.28, -0.2) * s, Vector2(0.56, 0.12) * s), Color("8a5a3a"))
+		"anchor":
+			ci.draw_line(c + Vector2(0, -0.3) * s, c + Vector2(0, 0.36) * s, Color("5a5550"), maxf(3.0, s * 0.06))
+			ci.draw_arc(c + Vector2(0, -0.36) * s, 0.08 * s, 0, TAU, 12, Color("5a5550"), maxf(2.0, s * 0.04))
+			ci.draw_line(c + Vector2(-0.18, -0.16) * s, c + Vector2(0.18, -0.16) * s, Color("5a5550"), maxf(2.0, s * 0.05))
+			ci.draw_arc(c + Vector2(0, 0.08) * s, 0.3 * s, PI * 0.15, PI * 0.85, 12, Color("5a5550"), maxf(3.0, s * 0.06))
+		"mountain":
+			ci.draw_colored_polygon(PackedVector2Array([c + Vector2(-0.46, 0.36) * s, c + Vector2(-0.06, -0.38) * s, c + Vector2(0.34, 0.36) * s]), Color("8a8f96"))
+			ci.draw_colored_polygon(PackedVector2Array([c + Vector2(-0.18, -0.16) * s, c + Vector2(-0.06, -0.38) * s, c + Vector2(0.06, -0.16) * s]), Color("fbf5e8"))
+			ci.draw_colored_polygon(PackedVector2Array([c + Vector2(0.06, 0.36) * s, c + Vector2(0.26, -0.06) * s, c + Vector2(0.46, 0.36) * s]), Color("6a7078"))
 		"todo":
 			# An empty ring, waiting for its tick.
 			ci.draw_arc(c, 0.36 * s, 0, TAU, 32, Color("b89a78"), maxf(2.0, s * 0.08), true)
