@@ -36,7 +36,7 @@ const SITES := {
 	"wilderness": [Vector2(-68, 18), 17.0],
 	"bellhaven": [Vector2(26, -124), 23.0],
 	"mountains": [Vector2(98, -106), 19.0],
-	"monastery": [Vector2(108, -44), 19.0],
+	"monastery": [Vector2(108, -53), 19.0],
 	"coast": [Vector2(172, 6), 18.0, 1.2],
 	"lake": [Vector2(52, 46), 14.0, 1.0],
 	"farmlands": [Vector2(6, 84), 27.0],
@@ -50,8 +50,8 @@ const ROADS := [
 	[Vector2(4, 18), Vector2(9, 32), Vector2(4, 46), Vector2(6, 60)], # farmlands
 	[Vector2(30, 18), Vector2(29, 30), Vector2(33, 42), Vector2(37, 50)], # lake
 	[Vector2(38, -4), Vector2(62, -3), Vector2(86, 2), Vector2(112, 4), Vector2(134, 9), Vector2(152, 12)], # coast
-	[Vector2(98, 1), Vector2(104, -10), Vector2(103, -20), Vector2(108, -27)], # monastery
-	[Vector2(96, -42), Vector2(90, -56), Vector2(91, -72), Vector2(85, -91)], # mountains
+	[Vector2(98, 1), Vector2(104, -10), Vector2(103, -20), Vector2(106, -28), Vector2(108, -36)], # monastery
+	[Vector2(105, -28), Vector2(92, -40), Vector2(86, -56), Vector2(89, -72), Vector2(85, -91)], # mountains
 	[Vector2(6, -50), Vector2(10, -66), Vector2(18, -82), Vector2(24, -96), Vector2(26, -104)], # Bellhaven
 ]
 ## Scenery along the roads (world x/z, kind, yaw): see Waysides.
@@ -214,7 +214,11 @@ static func _with_sites(x: float, z: float, h: float) -> float:
 		var level := site_level(id)
 		if s.size() > 2 and h < level:
 			continue
-		h = lerpf(level, h, smoothstep(r, r * 2.2, d))
+		# Beyond the level ground, the river keeps its own valley: a site's
+		# slope gives way to the natural land near the water.
+		var t := smoothstep(r, r * 2.2, d)
+		t = maxf(t, (1.0 - smoothstep(6.0, 16.0, river_bank_distance(x, z))) * smoothstep(r, r * 1.4, d))
+		h = lerpf(level, h, t)
 	return h
 
 
@@ -257,8 +261,9 @@ static func _with_river(x: float, z: float, h: float) -> float:
 		var band := 1.0 - smoothstep(14.0, 32.0, absf(z - river_z(FALLS_X)))
 		h = lerpf(h, maxf(h, FALLS_TOP), west * band)
 	var bed := lerpf(RIVER_LEVEL - 0.4, FALLS_TOP - 0.7, west)
-	# The bank slopes from a metre inside the water's edge to under a metre beyond it.
-	var carve := 1.0 - smoothstep(-0.9, 0.7, river_bank_distance(x, z))
+	# The bank slopes from a metre inside the water's edge to under a metre
+	# beyond it, more gently where the land stands high above the water.
+	var carve := 1.0 - smoothstep(-0.9, 0.7 + maxf(h - bed - 2.0, 0.0) * 0.9, river_bank_distance(x, z))
 	return lerpf(h, minf(h, bed), carve)
 
 
