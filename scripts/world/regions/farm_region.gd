@@ -14,13 +14,20 @@ func build() -> void:
 	for f: Array in [[Vector3(-8.5, 0, 7.5), 0.0], [Vector3(8.5, 0, 7.5), 0.0], [Vector3(-8.5, 0, -5.0), PI / 2.0]]:
 		CraftedProps.grain_field(self, f[0], Vector2(10, 7), f[1], int(f[0].x * 3 + f[0].z))
 		add_clearing(f[0], Vector2(10.5, 7.5))
-	Props.place(self, "windmill", Vector3(12.0, 0, -9.0), -0.6)
-	CraftedProps.cottage(self, Vector3(4.5, 0, -8.5), 0.0, 23, Vector2(4.0, 4.4), "roof_red")
+	Props.place(self, "windmill", Vector3(14.0, 0, -12.0), -0.6)
+	# The farmyard: Mrs. Hannah's big barn and silo, the hen house and the well.
+	Props.place(self, "barn_big", Vector3(6.5, 0, -11.0), PI)
+	Props.place(self, "silo", Vector3(-5.5, 0, -12.5), 0.0)
+	Props.place(self, "barn_small", Vector3(-14.0, 0, -12.6), PI / 2.0, 0.8)
+	Props.place(self, "chicken_coop", Vector3(5.6, 0, -4.8), PI)
+	Props.place(self, "farm_well", Vector3(-3.2, 0, -5.4), 0.4)
+	for c: Array in [["apple_crate", Vector3(0.8, 0, -5.8)], ["carrot_crate", Vector3(1.8, 0, -6.0)], ["apple_barrel", Vector3(-0.4, 0, -6.2)], ["town_cart_high", Vector3(-5.6, 0, -2.4)]]:
+		Props.place(self, str(c[0]), c[1], c[1].x)
 	Props.place(self, "grain_field", Vector3(-1.0, 0, 13.0), 0.2)
 	for h: Vector3 in [Vector3(14.0, 0, 6.0), Vector3(14.5, 0, 9.0)]:
 		CraftedProps.haystack(self, h)
-	CraftedProps.hay_bale(self, Vector3(3.2, 0, -3.2), 0.4)
-	CraftedProps.hay_bale(self, Vector3(4.6, 0, -3.6), -0.3)
+	CraftedProps.hay_bale(self, Vector3(11.6, 0, -7.6), 0.4)
+	CraftedProps.hay_bale(self, Vector3(12.8, 0, -8.2), -0.3)
 	CraftedProps.scarecrow(self, Vector3(-8.0, 0, 7.5), 0.4)
 	CraftedProps.water_trough(self, Vector3(13.0, 0, -2.6), PI / 2.0)
 	# A meadow fenced for the cows.
@@ -37,7 +44,7 @@ func build() -> void:
 		AnimalMoments.pettable(cow, "Pet the cow", ["The cow lowers her big head for a scratch.", "Moo! The cow seems to like you."], "cow")
 	for i in 4:
 		var hen := Wanderer.new().setup(AnimalModel.make("chicken"), 920 + i)
-		hen.position = Vector3(2.5 + i * 0.6, 0, -4.8)
+		hen.position = Vector3(4.0 + i * 0.6, 0, -3.4)
 		hen.radius = 1.6
 		add_child(hen)
 	var worker := {"skin": "skin_4", "hair": "hair_black", "hair_style": "short", "shirt": "cloth_cream", "pants": "cloth_blue", "hat": "straw", "height": 1.0}

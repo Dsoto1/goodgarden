@@ -12,6 +12,7 @@ func build() -> void:
 	# The cobbled street, north to the cathedral steps.
 	path([Vector3(0, 0, 15.0), Vector3(0.4, 0, 6.0), Vector3(-0.3, 0, -3.0), Vector3(0, 0, -11.5)], 6.5, "cobble")
 	path([Vector3(-6.5, 0, -4.0), Vector3(6.5, 0, -4.0)], 4.0, "cobble")
+	add_clearing(Vector3(0, 0, -4.0), Vector2(5, 5))
 	# The city wall behind, with its gate standing open to the cathedral.
 	Props.place(self, "cathedral", Vector3(0, 0, -22), 0.0)
 	for x: float in [-11.0, -5.6, 5.6, 11.0]:
@@ -34,7 +35,15 @@ func build() -> void:
 	_stall(Vector3(4.2, 0, -1.6), -PI / 2.0, "awning_green", ["crate_lettuce", "crate_open"])
 	for p: Array in [["barrel", Vector3(-5.8, 0, 6.8)], ["crate_big", Vector3(-6.0, 0, 5.6)], ["crate_long", Vector3(6.2, 0, 6.4)], ["barrel", Vector3(6.0, 0, -3.4)], ["sack", Vector3(-5.6, 0, -2.0)]]:
 		Props.place(self, str(p[0]), p[1], 0.3)
-	Props.place(self, "well", Vector3(-3.2, 0, -6.4), 0.4, 0.9)
+	# The fountain where the cross street meets the high street, lanterns
+	# along the way, and a fruit seller's cart.
+	Props.place(self, "town_fountain", Vector3(0, 0, -4.0), 0.0, 1.4)
+	for l: Vector3 in [Vector3(-2.9, 0, 10.0), Vector3(2.9, 0, 10.0), Vector3(-2.9, 0, -9.5), Vector3(2.9, 0, -9.5)]:
+		Props.place(self, "lantern_post", l, 0.0)
+	Props.place(self, "market_cart", Vector3(-4.4, 0, -1.0), PI / 2.0)
+	for p: Array in [["apple_crate", Vector3(-4.6, 0.78, 3.6)], ["coin_pile", Vector3(-3.6, 0.82, 4.4)], ["apple_barrel", Vector3(5.6, 0, 1.0)], ["carrot_crate", Vector3(-5.8, 0, 3.0)]]:
+		Props.place(self, str(p[0]), p[1], 0.3)
+	Props.place(self, "garden_bench", Vector3(3.2, 0, -7.0), PI)
 	for f: Array in [["flag_red", Vector3(-3.6, 0, -12.5)], ["flag_blue", Vector3(3.6, 0, -12.5)], ["flag_red", Vector3(-6.5, 0, 12.0)], ["flag_blue", Vector3(6.5, 0, 12.0)]]:
 		Props.place(self, str(f[0]), f[1], 0.0)
 	# Townsfolk about their day.

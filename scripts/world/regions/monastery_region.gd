@@ -19,7 +19,15 @@ func build() -> void:
 		CraftedProps.stone_wall(self, wall[0], wall[1], int(wall[0].x * 10 + wall[0].z))
 	path([Vector3(0, 0, 12.5), Vector3(0, 0, 6.5), Vector3(0, 0, 1.5), Vector3(0, 0, -5.5)], 2.0, "path")
 	path([Vector3(-6.2, 0, 1.5), Vector3(6.2, 0, 1.5)], 1.6, "path")
-	_fountain(Vector3(0, 0, 1.5))
+	Props.place(self, "town_fountain", Vector3(0, 0, 1.5), 0.0)
+	add_clearing(Vector3(0, 0, 1.5), Vector2(3.6, 3.6))
+	for v: Vector3 in [Vector3(-1.9, 0, -0.6), Vector3(1.9, 0, 3.6)]:
+		Props.place(self, "clay_vase", v, v.x)
+	for b: Array in [[Vector3(-5.2, 0, 1.5), PI / 2.0], [Vector3(5.2, 0, 1.5), -PI / 2.0]]:
+		Props.place(self, "garden_bench", b[0], b[1])
+	# Low hedges along the cloister walks.
+	for h: Array in [[Vector3(-6.2, 0, 0.6), Vector3(-1.4, 0, 0.6)], [Vector3(1.4, 0, 0.6), Vector3(6.2, 0, 0.6)], [Vector3(-6.2, 0, 2.4), Vector3(-1.4, 0, 2.4)], [Vector3(1.4, 0, 2.4), Vector3(6.2, 0, 2.4)]]:
+		Props.fence(self, "hedge", h[0], h[1])
 	for bed: Vector3 in [Vector3(-3.8, 0, -0.6), Vector3(3.8, 0, -0.6), Vector3(-3.8, 0, 3.8), Vector3(3.8, 0, 3.8)]:
 		MeshKit.box(self, Vector3(3.6, 0.22, 2.4), bed + Vector3(0, 0.11, 0), "soil")
 		MeshKit.flowers(self, bed + Vector3(0, 0.22, 0), 1.0, 9, int(bed.x * 7 + bed.z))
@@ -35,12 +43,16 @@ func build() -> void:
 		MeshKit.box(self, Vector3(0.08, 0.78, 0.6), desk + Vector3(x, 0.39, 0), "wood_dark")
 	MeshKit.box(self, Vector3(0.5, 0.02, 0.36), desk + Vector3(-0.2, 0.83, 0), "cloth_cream")
 	MeshKit.cylinder(self, 0.04, 0.05, 0.08, desk + Vector3(0.4, 0.86, 0.1), "dark", 6)
+	Props.place(self, "book_stack", desk + Vector3(0.45, 0.82, -0.15), 0.3)
+	Props.place(self, "scroll", desk + Vector3(-0.5, 0.83, 0.18), 0.6)
+	Props.place(self, "book_stand", desk + Vector3(1.5, 0, 0.3), -0.5)
+	Props.place(self, "candle_stand", desk + Vector3(-2.6, 0, 0.2), 0.0)
 	MeshKit.solid(self, Vector3(1.4, 0.9, 0.7), desk + Vector3(0, 0.45, 0))
 	var awning := MeshKit.box(self, Vector3(2.4, 0.06, 1.6), desk + Vector3(0, 2.2, -0.2), "awning_red")
 	awning.rotation.x = 0.2
 	for x: float in [-1.1, 1.1]:
 		MeshKit.box(self, Vector3(0.08, 2.2, 0.08), desk + Vector3(x, 1.1, -0.9), "wood_dark")
-	CraftedProps.bookcase(self, desk + Vector3(-1.6, 0, -0.6), 0.0, 9)
+	Props.place(self, "bookcase_tall", desk + Vector3(-1.6, 0, -0.75), 0.0)
 	neighbour("elias", desk + Vector3(0.2, 0, -1.0), 0.4)
 	add_anchor("monastery_elias", desk + Vector3(0.2, 0, -1.0), PI)
 	# Monks at work in the garden.
@@ -52,15 +64,6 @@ func build() -> void:
 	passerby(robe2, Vector3(4.6, 0, -1.6), 702, 1.6)
 	SoundSpot.looping(self, "fountain", Vector3(0, 0.8, 1.5), 9.0, -10.0)
 	add_activity_focus(desk + Vector3(0, 0.9, 0))
-
-
-func _fountain(at: Vector3) -> void:
-	MeshKit.cylinder(self, 1.1, 1.2, 0.5, at + Vector3(0, 0.25, 0), "stone", 14, true)
-	var pool := MeshKit.cylinder(self, 0.95, 0.95, 0.03, at + Vector3(0, 0.52, 0), "water", 14)
-	pool.material_override = Palette.mat("water")
-	MeshKit.cylinder(self, 0.16, 0.2, 1.0, at + Vector3(0, 0.8, 0), "stone", 8)
-	MeshKit.cylinder(self, 0.45, 0.3, 0.14, at + Vector3(0, 1.3, 0), "stone", 10)
-	add_clearing(at, Vector2(3.0, 3.0))
 
 
 func _cypress(at: Vector3) -> void:

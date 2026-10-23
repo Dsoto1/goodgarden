@@ -14,24 +14,27 @@ func build() -> void:
 	Props.place(self, "lumbermill", Vector3(-3.0, 0, -9.0), 0.0, 0.8)
 	path([Vector3(-12.5, 0, 5.0), Vector3(-6.0, 0, 3.5), Vector3(0.0, 0, 1.5), Vector3(8.0, 0, 0.8)], 2.4, "cobble")
 	path([Vector3(-6.0, 0, 3.5), Vector3(-5.0, 0, -4.5)], 1.8, "cobble")
-	# The dock: from the quay out over the water to where the ship lies.
-	var dock := Node3D.new()
-	dock.name = "Dock"
-	add_child(dock)
-	MeshKit.box(dock, Vector3(16.0, 0.16, 3.0), Vector3(17.0, 0.35, 0.8), "wood")
-	for x in range(10, 26, 2):
-		for z: float in [-0.6, 2.2]:
-			MeshKit.cylinder(dock, 0.13, 0.13, 3.0, Vector3(x, -0.9, z), "wood_dark", 6)
-	MeshKit.box(dock, Vector3(3.0, 0.16, 6.0), Vector3(24.0, 0.35, 2.4), "wood")
+	# The dock: plank platforms on posts, from the quay out over the water.
+	var sea_y := Terrain.SEA_LEVEL - position.y
+	for i in 6:
+		Props.place(self, "dock_tile", Vector3(10.5 + i * 3.0, 0.4 - 1.57, 0.8), 0.0)
+	Props.place(self, "dock_tile_small", Vector3(25.5, 0.4 - 1.57, 3.8), 0.0)
 	MeshKit.solid(self, Vector3(4.0, 1.0, 3.0), Vector3(12.0, 0.0, 0.8))
 	add_clearing(Vector3(11.0, 0, 0.8), Vector2(6.0, 3.4))
-	# The ship at anchor beside the end of the dock.
-	_ship(Vector3(22.5, Terrain.SEA_LEVEL - position.y, 7.6), 0.15)
-	CraftedProps.rowboat(self, Vector3(16.5, Terrain.SEA_LEVEL - position.y - 0.05, -3.2), 0.4)
+	# Captain Mara's ship at anchor beside the end of the dock, a smaller one
+	# further out, and rowboats tied up.
+	Props.place(self, "ship_large", Vector3(23.0, sea_y - 0.9, 9.5), PI / 2.0 + 0.1)
+	Props.place(self, "ship_medium", Vector3(44.0, sea_y - 0.9, -10.0), 2.2, 0.9)
+	Props.place(self, "rowboat_kit", Vector3(16.5, sea_y - 0.35, -3.0), 0.4)
+	Props.place(self, "rowboat_small", Vector3(19.5, sea_y - 0.35, -2.6), -0.2)
+	# Dolphins playing out in the bay.
+	for k in 2:
+		Props.place(self, "dolphin", Vector3(36.0 + k * 3.0, sea_y - 0.4, 2.0 + k * 2.5), 1.2 + k * 0.3)
 	# The lighthouse on its rocks, out to sea.
 	_lighthouse(Vector3(30.0, Terrain.SEA_LEVEL - position.y, -14.0))
 	# Work on the quay: crates, barrels, nets, ropes.
-	for p: Array in [["crate_big", Vector3(6.0, 0, -2.6)], ["crate_long", Vector3(4.2, 0, -3.4)], ["barrel", Vector3(7.4, 0, 3.4)], ["barrel", Vector3(6.6, 0, 4.2)], ["sack", Vector3(5.2, 0, 3.8)], ["crate_open", Vector3(2.8, 0, -3.0)]]:
+	for p: Array in [["crate_big", Vector3(6.0, 0, -2.6)], ["crate_long", Vector3(4.2, 0, -3.4)], ["barrel", Vector3(7.4, 0, 3.4)], ["barrel", Vector3(6.6, 0, 4.2)], ["sack", Vector3(5.2, 0, 3.8)],
+			["crate_bottles", Vector3(2.8, 0, -3.0)], ["sea_chest", Vector3(9.6, 0.4, -0.2)], ["rope_coil", Vector3(11.5, 0.42, 1.8)], ["wood_bucket", Vector3(10.8, 0.42, -0.2)], ["apple_barrel", Vector3(4.6, 0, 4.4)]]:
 		Props.place(self, str(p[0]), p[1], p[1].x)
 	CraftedProps.net_rack(self, Vector3(-1.0, 0, 7.5), 0.2)
 	CraftedProps.creel_and_rope(self, Vector3(3.0, 0, 6.4), 0.5)
@@ -50,26 +53,6 @@ func build() -> void:
 	ring_of_trees(["pine_wide", "tree_b"], 6, 0.6, 51)
 	SoundSpot.looping(self, "river", Vector3(16, 0.2, 0), 26.0, -8.0)
 	add_activity_focus(Vector3(5.0, 0.8, 0.5))
-
-
-## A small sailing ship: hull, deck, cabin, mast and a cream sail.
-func _ship(at: Vector3, rot: float) -> void:
-	var s := Node3D.new()
-	s.name = "Ship"
-	s.position = at
-	s.rotation.y = rot
-	add_child(s)
-	MeshKit.box(s, Vector3(2.6, 1.3, 8.0), Vector3(0, 0.55, 0), "wood_dark")
-	MeshKit.box(s, Vector3(1.8, 1.0, 1.8), Vector3(0, 0.4, -4.6), "wood_dark").rotation.y = PI / 4.0
-	MeshKit.box(s, Vector3(2.5, 0.1, 7.6), Vector3(0, 1.22, 0), "wood")
-	MeshKit.box(s, Vector3(2.7, 0.18, 8.1), Vector3(0, 0.9, 0), "cloth_red")
-	MeshKit.box(s, Vector3(2.0, 1.2, 1.8), Vector3(0, 1.85, 2.8), "wood_light")
-	MeshKit.roof(s, 2.3, 0.4, 2.0, Vector3(0, 2.6, 2.8), "roof_red", PI / 2.0)
-	MeshKit.cylinder(s, 0.1, 0.13, 7.0, Vector3(0, 4.7, -0.6), "wood_dark", 6)
-	MeshKit.box(s, Vector3(0.12, 0.12, 3.2), Vector3(0, 7.4, -0.6), "wood_dark")
-	var sail := MeshKit.box(s, Vector3(0.05, 4.2, 3.0), Vector3(0.1, 5.2, -0.6), "cloth_cream")
-	sail.rotation.y = 0.12
-	MeshKit.cylinder(s, 0.03, 0.03, 4.0, Vector3(0, 3.2, -3.0), "wood_dark", 4).rotation.x = 0.7
 
 
 ## A white-and-red lighthouse on a heap of rocks.

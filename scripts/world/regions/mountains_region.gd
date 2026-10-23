@@ -13,8 +13,16 @@ func build() -> void:
 	path([Vector3(-11.5, 0, 9.0), Vector3(-6.0, 0, 5.0), Vector3(-1.0, 0, 1.0), Vector3(4.0, 0, -3.5), Vector3(8.5, 0, -9.5)], 1.4, "path")
 	Props.place(self, "mine", Vector3(7.5, 0, -7.5), -0.8)
 	CraftedProps.cottage(self, Vector3(-6.5, 0, -4.5), PI / 2.0 + 0.3, 31, Vector2(3.2, 3.6), "roof_slate")
-	Props.place(self, "tent", Vector3(-2.0, 0, -8.0), 0.4)
-	CraftedProps.woodpile(self, Vector3(-4.0, 0, -6.6), 0.4)
+	# Mr. Silas's camp by the hut: tent, fire, firewood, a workbench.
+	Props.place(self, "camp_tent", Vector3(-1.8, 0, -8.2), 0.4)
+	Props.place(self, "campfire", Vector3(-1.2, 0, -5.6), 0.0)
+	Props.place(self, "firewood", Vector3(-2.6, 0, -5.4), 0.6)
+	Props.place(self, "bedroll", Vector3(0.2, 0, -7.4), 1.2)
+	Props.place(self, "camp_workbench", Vector3(-4.6, 0, -7.2), 0.2)
+	CraftedProps.woodpile(self, Vector3(-4.0, 0, -6.0), 0.4)
+	Props.place(self, "pickaxe", Vector3(6.0, 0, -5.6), 0.5)
+	Props.place(self, "fallen_log", Vector3(-9.0, 0, -1.0), 0.3)
+	Props.place(self, "trail_sign", Vector3(-1.6, 0, 3.0), -0.8)
 	# The cairn: a heap of stones marking the trail up.
 	_cairn(Vector3(3.0, 0, 0.0))
 	for r: Array in [["rock", Vector3(-9.0, 0, -9.0)], ["rock_b", Vector3(9.5, 0, 3.0)], ["rock_c", Vector3(5.0, 0, 8.5)], ["rock", Vector3(-3.0, 0, 9.5)], ["stone_pile", Vector3(5.5, 0, -4.8)], ["rock_flat", Vector3(-1.5, 0, 4.5)]]:

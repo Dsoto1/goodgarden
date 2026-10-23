@@ -16,7 +16,12 @@ func build() -> void:
 	var start := to_lake * 6.5
 	var yaw := atan2(to_lake.x, to_lake.z)
 	CraftedProps.jetty(self, start + Vector3(0, 0, 0), yaw + PI, 6.0)
-	CraftedProps.rowboat(self, start + to_lake * 5.0 + to_lake.cross(Vector3.UP) * 2.0 + Vector3(0, water_y - 0.05, 0), yaw + 0.4)
+	Props.place(self, "rowboat_small", start + to_lake * 5.0 + to_lake.cross(Vector3.UP) * 2.0 + Vector3(0, water_y - 0.3, 0), yaw + 0.4)
+	# Mr. Finn's fire on the shore, with a fish cooking, and his catch.
+	Props.place(self, "campfire", Vector3(-1.8, 0, -1.0), 0.0)
+	Props.place(self, "fishing_stand", Vector3(-1.8, 0, -1.0), 0.6)
+	Props.place(self, "wood_bucket", start - to_lake * 0.8 + Vector3(-0.6, 0, 0.4), 0.0)
+	Props.place(self, "fish_small", Vector3(2.0, 0.46, -4.0), 0.4)
 	# Mr. Finn's hut, nets drying, and a bench to watch the water.
 	CraftedProps.cottage(self, Vector3(-5.5, 0, 3.5), PI * 0.75, 11, Vector2(3.2, 3.6), "roof_thatch")
 	CraftedProps.net_rack(self, Vector3(-1.5, 0, 6.0), 0.5)

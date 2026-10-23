@@ -47,6 +47,15 @@ static func place(parent: Node3D, id: String, pos: Vector3, rot_y := 0.0, scale_
 	model.position = _vec3(p.get("offset", [0, 0, 0])) * s
 	root.add_child(model)
 	Style.apply(model, grade_for(id), float(p.get("sway", 0.0)), id)
+	# Creatures that come with a swim or idle cycle play it on a loop.
+	if p.get("animate", false):
+		for ap in model.find_children("*", "AnimationPlayer", true, false):
+			var player := ap as AnimationPlayer
+			var names := player.get_animation_list()
+			if not names.is_empty():
+				var anim := player.get_animation(names[0])
+				anim.loop_mode = Animation.LOOP_LINEAR
+				player.play(names[0])
 	# Small things (flowers, pebbles, crates) skip the shadow pass on lighter tiers.
 	var small: bool = not Quality.value("small_shadows") and bounds(root).size.y < 1.0
 	if p.get("shadow", true) == false or small:

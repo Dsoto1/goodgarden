@@ -23,6 +23,8 @@ func build() -> void:
 	for m: Vector3 in [Vector3(-5.6, 0, 1.6), Vector3(-5.2, 0, 2.2), Vector3(5.4, 0, -3.6), Vector3(-2.4, 0, -5.8)]:
 		Props.place(self, "mushroom", m, m.x)
 	MeshKit.flowers(self, Vector3(-1.5, 0, 2.5), 2.2, 18, 83)
+	Props.place(self, "fallen_log", Vector3(3.6, 0, 0.4), 0.7)
+	Props.place(self, "fallen_log", Vector3(-4.6, 0, -1.6), 2.2, 0.8)
 	# Fallen leaves of different shapes at the foot of the big trees.
 	var colours := ["cloth_gold", "leaf_autumn", "leaf_light", "cloth_red"]
 	for k in 26:
