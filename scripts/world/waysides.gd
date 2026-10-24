@@ -20,7 +20,7 @@ const LANDMARKS := [
 	[Vector2(40, -128), "tower_blue", -0.3, 3.0, ""],
 	[Vector2(108, -72), "church_yellow", 0.0, 3.2, ""],
 	[Vector2(212, 30), "ship_large", 1.7, 2.6, "sea"],
-	[Vector2(84, 44), "rowboat_small", 0.6, 6.0, "lake"],
+	[Vector2(84, 44), "rowboat_small", 0.6, 3.5, "lake"],
 	[Vector2(-8, 74), "barn_big", PI, 2.4, ""],
 	[Vector2(2, 74), "silo", 0.0, 2.4, ""],
 	[Vector2(122, -156), "mine", -0.8, 2.6, ""],

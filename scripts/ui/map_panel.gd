@@ -108,13 +108,12 @@ func show_wide(wide: bool) -> void:
 	if _toggle:
 		_toggle.text = tr("The valley") if wide else tr("The wider world")
 	if wide:
-		# Seen at a slant from the south, like the concept's painted map: the
-		# hills and the snowy ranges to the north stand up, the sea and the
-		# lake catch the light.
+		# Seen low from the south, like the concept's painted map: the land
+		# runs back to a row of snowy peaks along the top.
 		_camera.cull_mask |= Waysides.MAP_LAYER
 		_camera.fov = 55.0
-		_camera.position = Vector3(64, 215, 172)
-		_camera.look_at(Vector3(64, 0, -75))
+		_camera.position = Vector3(64, 180, 217)
+		_camera.look_at(Vector3(64, 0, -135))
 		_camera.far = 1200.0
 		if _camera.environment:
 			_camera.environment.fog_density = 0.00025
