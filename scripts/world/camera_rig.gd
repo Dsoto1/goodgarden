@@ -27,6 +27,7 @@ var _params := DEFAULT_FRAMING.duplicate()
 func _ready() -> void:
 	add_to_group("camera_rig")
 	camera = Camera3D.new()
+	camera.cull_mask &= ~Waysides.MAP_LAYER # the map's painted landmarks
 	camera.fov = DEFAULT_FRAMING["fov"]
 	# A near plane well away from the lens keeps depth precise far into the
 	# scene. Tablets and browsers often have coarse depth buffers, and with a

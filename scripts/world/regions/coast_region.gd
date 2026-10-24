@@ -64,12 +64,16 @@ func build() -> void:
 	add_activity_focus(Vector3(shore - 7.0, 0.8, 0.5))
 
 
-## How far east of the site's centre the sea begins (local x).
+## How far east of the site's centre the sea begins (local x), at the
+## nearest point of the wandering shore along the place's length.
 func _shore_x() -> float:
-	var x := 8.0
-	while x < 40.0 and Terrain.height(position.x + x, position.z) > Terrain.SEA_LEVEL + 0.9:
-		x += 0.5
-	return x
+	var nearest := 40.0
+	for z in range(-16, 17, 2):
+		var x := 8.0
+		while x < 40.0 and Terrain.height(position.x + x, position.z + z) > Terrain.SEA_LEVEL + 0.9:
+			x += 0.5
+		nearest = minf(nearest, x)
+	return nearest
 
 
 ## A white-and-red lighthouse on a heap of rocks.

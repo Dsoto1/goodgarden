@@ -1628,6 +1628,18 @@ func test_vertical_slice_end_to_end() -> void:
 		map.close()
 		await frames(2)
 		check(CameraRig.see_through_on, "and the see-through returns after the map")
+	# Every place beyond the valley stands on its level site: the land drawn
+	# under its walkable area is where the child actually walks (no floating
+	# or buried ground).
+	for far: Node in world.find_children("*", "FarRegion", true, false):
+		var region := far as FarRegion
+		var worst := 0.0
+		var inner := region.area.grow(-1.0)
+		for gx in range(int(inner.position.x), int(inner.end.x) + 1, 3):
+			for gz in range(int(inner.position.y), int(inner.end.y) + 1, 3):
+				var p := region.to_global(Vector3(gx, 0, gz))
+				worst = maxf(worst, absf(Terrain.height(p.x, p.z) - p.y))
+		check(worst < 0.3, "%s's ground lies level under its walkable area (off by up to %.2f m)" % [region.region_id, worst])
 	# Travel out into the wider world and stand on its ground.
 	check(world.travel_to("coast"), "the child can travel to the coast")
 	for i in 20:

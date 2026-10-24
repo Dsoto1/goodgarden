@@ -111,6 +111,7 @@ func show_wide(wide: bool) -> void:
 		# Seen at a slant from the south, like the concept's painted map: the
 		# hills and the snowy ranges to the north stand up, the sea and the
 		# lake catch the light.
+		_camera.cull_mask |= Waysides.MAP_LAYER
 		_camera.fov = 55.0
 		_camera.position = Vector3(64, 215, 172)
 		_camera.look_at(Vector3(64, 0, -75))
@@ -118,6 +119,7 @@ func show_wide(wide: bool) -> void:
 		if _camera.environment:
 			_camera.environment.fog_density = 0.00025
 	else:
+		_camera.cull_mask &= ~Waysides.MAP_LAYER
 		_camera.fov = 42.0
 		_camera.position = Vector3(0, 74, 40)
 		_camera.look_at(Vector3(0, 0, -19))

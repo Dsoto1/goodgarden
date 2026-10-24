@@ -32,40 +32,45 @@ const RIVER_KNOTS := [
 ## The wider world beyond the valley: each place stands on a level site
 ## (centre, flat radius) cut into the hills, where the concept map puts it.
 ## A site's level is the land's own height at its centre, unless given.
+## How far each site's level ground slopes back into the land around it.
+const SITE_SLOPE := 24.0
+## The places beyond the valley: centre, radius of level ground (covering
+## the place's whole walkable area), optionally its own level, and whether
+## it lies by the water (it never fills in the water beside it).
 const SITES := {
-	"wilderness": [Vector2(-68, 18), 17.0],
-	"bellhaven": [Vector2(26, -124), 23.0],
-	"mountains": [Vector2(98, -106), 19.0],
-	"monastery": [Vector2(108, -53), 19.0],
-	"coast": [Vector2(172, 6), 18.0, 1.2],
-	"lake": [Vector2(52, 46), 14.0, 1.0],
-	"farmlands": [Vector2(6, 84), 27.0],
+	"wilderness": [Vector2(-68, 36), 25.0],
+	"bellhaven": [Vector2(26, -124), 30.0],
+	"mountains": [Vector2(110, -145), 28.0, 40.0],
+	"monastery": [Vector2(108, -62), 26.0],
+	"coast": [Vector2(172, 24), 28.0, 1.2, true],
+	"lake": [Vector2(52, 46), 22.0, 1.0, true],
+	"farmlands": [Vector2(-20, 90), 36.0],
 }
 ## The sea, east beyond the river's mouth, and a lake in the south-east hills.
 ## Dirt roads out of the valley to each place beyond it (world x/z), painted
 ## onto the land by the ground shader. Each ends where the place's own path
 ## begins.
 const ROADS := [
-	[Vector2(-34, 6), Vector2(-44, 12), Vector2(-50, 22), Vector2(-53, 27)], # wilderness
-	[Vector2(4, 18), Vector2(9, 32), Vector2(4, 46), Vector2(6, 60)], # farmlands
+	[Vector2(-34, 6), Vector2(-44, 12), Vector2(-50, 24), Vector2(-53, 36), Vector2(-55, 46)], # wilderness
+	[Vector2(4, 18), Vector2(2, 34), Vector2(-8, 50), Vector2(-16, 62), Vector2(-20, 68)], # farmlands
 	[Vector2(30, 18), Vector2(29, 30), Vector2(33, 42), Vector2(37, 50)], # lake
-	[Vector2(38, -4), Vector2(62, -3), Vector2(86, 2), Vector2(112, 4), Vector2(134, 9), Vector2(152, 12)], # coast
-	[Vector2(98, 1), Vector2(104, -10), Vector2(103, -20), Vector2(106, -28), Vector2(108, -36)], # monastery
-	[Vector2(105, -28), Vector2(92, -40), Vector2(86, -56), Vector2(89, -72), Vector2(85, -91)], # mountains
+	[Vector2(38, -4), Vector2(62, -3), Vector2(86, 2), Vector2(112, 4), Vector2(134, 12), Vector2(150, 24), Vector2(156, 29)], # coast
+	[Vector2(98, 1), Vector2(104, -10), Vector2(103, -20), Vector2(106, -30), Vector2(107, -38), Vector2(108, -45)], # monastery
+	[Vector2(105, -28), Vector2(88, -42), Vector2(80, -58), Vector2(82, -80), Vector2(88, -104), Vector2(96, -128)], # mountains
 	[Vector2(6, -50), Vector2(10, -66), Vector2(18, -82), Vector2(24, -96), Vector2(26, -104)], # Bellhaven
 ]
 ## Scenery along the roads (world x/z, kind, yaw): see Waysides.
 const WAYSIDES := [
 	[Vector2(-45, 2), "cottage", 0.6], [Vector2(-48, 6), "woodpile", 0.2], # woodcutter by the wilderness road
-	[Vector2(17, 38), "cottage", -1.2], [Vector2(18, 45), "field", 0.3], [Vector2(13, 31), "haystack", 0.0], [Vector2(-6, 44), "windmill", 0.8], # farmstead on the farm road
+	[Vector2(10, 36), "cottage", -1.2], [Vector2(13, 45), "field", 0.3], [Vector2(9, 28), "haystack", 0.0], [Vector2(-19, 45), "windmill", 0.8], # farmstead on the farm road
 	[Vector2(22, 30), "house_yellow", 1.4], # by the lake road
 	[Vector2(68, -7), "watermill", PI], [Vector2(78, 12), "windmill", -0.4], [Vector2(113, 14), "house_b_blue", 3.0], [Vector2(127, 19), "house_yellow", 2.6],
 	[Vector2(119, 27), "field", 0.2], [Vector2(130, 0), "house_tall_red", 2.9], # mill, windmill and hamlet along the coast road
 	[Vector2(103.5, -14.2), "bridge", 0.0], # the monastery road over the river
-	[Vector2(84, -58), "cottage", 1.0], [Vector2(86, -63), "woodpile", 0.5], # shepherd's hut on the mountain road
+	[Vector2(71, -62), "cottage", 1.0], [Vector2(73, -67), "woodpile", 0.5], # shepherd's hut on the mountain road
 	[Vector2(-2, -72), "tower_red", 0.4], [Vector2(19, -64), "house_b_yellow", -0.8], [Vector2(15, -60), "house_blue", -0.6], # a watchtower and cottages on the Bellhaven road
 ]
-const PEAKS := Vector2(130, -146)
+const PEAKS := Vector2(135, -200)
 const SEA_X := 192.0
 const SEA_LEVEL := -0.55
 const LAKE := Vector2(82, 46)
@@ -202,24 +207,39 @@ static func in_site(x: float, z: float, margin := 1.6) -> bool:
 
 
 ## Levels each site, sloping gently back into the hills around it. A site
-## by the water (given its own level) only cuts the hills down, never fills
-## in, so the sea and the lake keep their natural shores at its edge.
+## by the water never fills in the water itself, so
+## the sea and the lake keep their natural shores at its edge.
 static func _with_sites(x: float, z: float, h: float) -> float:
+	# Each site pulls the land toward its level, fully on its level ground and
+	# fading over its slope. Where two slopes overlap, the stronger pull
+	# decides the level smoothly (weights sharpened), so one site's level
+	# ground is never raised by its neighbour and no cliff forms between them.
+	var pull := 0.0
+	var levels := 0.0
+	var weights := 0.0
 	for id: String in SITES:
 		var s: Array = SITES[id]
 		var r: float = s[1]
 		var d := Vector2(x, z).distance_to(s[0])
-		if d >= r * 2.2:
+		if d >= r + SITE_SLOPE:
 			continue
 		var level := site_level(id)
-		if s.size() > 2 and h < level:
+		if s.size() > 3 and h < level - 1.2:
 			continue
 		# Beyond the level ground, the river keeps its own valley: a site's
 		# slope gives way to the natural land near the water.
-		var t := smoothstep(r, r * 2.2, d)
-		t = maxf(t, (1.0 - smoothstep(6.0, 16.0, river_bank_distance(x, z))) * smoothstep(r, r * 1.4, d))
-		h = lerpf(level, h, t)
-	return h
+		var t := smoothstep(r, r + SITE_SLOPE, d)
+		t = maxf(t, (1.0 - smoothstep(6.0, 30.0, river_bank_distance(x, z))) * smoothstep(r, r + 8.0, d))
+		var w := 1.0 - t
+		var sharp := pow(w, 8.0)
+		pull = maxf(pull, w)
+		levels += sharp * level
+		weights += sharp
+	if weights <= 0.0:
+		return h
+	# The valley floor itself is never lifted by a site beyond it.
+	pull *= smoothstep(0.0, 8.0, outside(x, z))
+	return lerpf(h, levels / weights, pull)
 
 
 static func _land(x: float, z: float) -> float:
@@ -239,7 +259,7 @@ static func _land(x: float, z: float) -> float:
 	if z < FLOOR.position.y:
 		h *= lerpf(0.25, 1.0, smoothstep(18.0, 60.0, to_city)) if z > BELLHAVEN.y + 40.0 else 1.0
 	# The river leaves the valley east and west through gentle low ground.
-	h *= lerpf(0.15, 1.0, smoothstep(5.0, 22.0, absf(z - river_z(x))))
+	h *= lerpf(0.15, 1.0, smoothstep(5.0, 42.0, absf(z - river_z(x))))
 	# Bellhaven stands on a broad, modest rise so it shows above the near hills.
 	var city := Vector2(x, z).distance_to(BELLHAVEN)
 	h = lerpf(CITY_PLATEAU, h, smoothstep(35.0, 75.0, city))
@@ -249,6 +269,7 @@ static func _land(x: float, z: float) -> float:
 	h = lerpf(h, SEA_LEVEL - 3.0, smoothstep(shore - 4.0, shore + 6.0, x))
 	# The lake lies in a hollow among the south-eastern hills.
 	var lake := Vector2(x, z).distance_to(LAKE)
+	h *= lerpf(0.3, 1.0, smoothstep(LAKE_RADIUS + 8.0, LAKE_RADIUS + 70.0, lake)) # a broad, open basin
 	h = lerpf(LAKE_LEVEL - 2.5, h, smoothstep(LAKE_RADIUS - 3.0, LAKE_RADIUS + 9.0, lake))
 	return h
 
@@ -264,7 +285,7 @@ static func _with_river(x: float, z: float, h: float) -> float:
 	# The bank slopes from a metre inside the water's edge to under a metre
 	# beyond it; where the land stands higher, it eases down over a wide,
 	# shallow bank (about one in four), so the river never looks like a trench.
-	var carve := 1.0 - smoothstep(-0.9, 0.7 + maxf(h - bed - 1.0, 0.0) * 4.0, river_bank_distance(x, z))
+	var carve := 1.0 - smoothstep(-0.9, 0.7 + minf(maxf(h - bed - 1.0, 0.0) * 4.0, 14.0), river_bank_distance(x, z))
 	return lerpf(h, minf(h, bed), carve)
 
 
