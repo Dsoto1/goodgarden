@@ -194,7 +194,8 @@ Each has someone to meet and two jobs (free work, any day after it opens):
 The landscape now has a sea beyond the river's mouth and a lake in the
 south-eastern hills. Next for these places: story days that visit them
 (a second season), interiors (the library, the scriptorium, the ship), and
-walking roads between them.
+walking along the roads between them (the roads, farmsteads, mills and the
+river bridge are there to see; travel is still by the map).
 
 ## Alongside, when it fits
 
