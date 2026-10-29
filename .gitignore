@@ -5,3 +5,5 @@
 # Local tooling
 /build/
 /screenshots/
+# Control Center
+.control-center/session-summary.json
