@@ -21,7 +21,7 @@ Every file has an `"id"`. All text is plain English for now and passes through `
 }
 ```
 
-A day may also set `"snow"` (0 to 1: how deep the snow lies over the world; a light frost is about 0.3) and `"snowfall": true` (flakes falling around the child, out of doors).
+A day may also set `"snow"` (0 to 1: how deep the snow lies over the world; a hard frost is about 0.45) and `"snowfall": true` (flakes falling around the child, out of doors).
 
 `npcs` maps a character to an **anchor** placed by a region (e.g. `garden_miriam`, `home_spawn`, `village_plaza`, `chapel_door`, `village_overlook`). Leave a character out and they stay away that day. Day `0` is the template for days past the written content.
 

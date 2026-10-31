@@ -221,7 +221,7 @@ the new bean row echoes day 1. On days 166–167 the friends from every place
 stand round the long table in the square (`village_region.gd`).
 
 Snow lies over the world in the winter weeks: a day's `"snow"` (0 to 1) sets
-how deep (a frost in week 13, deep snow from the first snowfall on day 92, a
+how deep (a hard frost in week 13, deep snow from the first snowfall on day 92, a
 thaw in week 18) and `"snowfall"` brings flakes down around the child.
 
 Not yet: the second season's new bean row doesn't show in the garden bed.

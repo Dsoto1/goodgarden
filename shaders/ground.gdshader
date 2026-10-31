@@ -66,7 +66,7 @@ void fragment() {
 	float drift = 0.85 + 0.3 * noise(p * 0.15);
 	float lie = gg_snow * (1.0 - smoothstep(0.35, 0.7, steep)) * clamp(drift, 0.0, 1.0);
 	lie *= mix(0.55, 1.0, smoothstep(1.2, 2.4, road));
-	c = mix(c, vec3(0.82, 0.86, 0.93) * (0.96 + 0.06 * noise(p * 1.3)), clamp(lie * 1.1, 0.0, 1.0));
+	c = mix(c, vec3(0.82, 0.86, 0.93) * (0.96 + 0.06 * noise(p * 1.3)), clamp(lie * 1.65, 0.0, 1.0));
 	float snowline = 78.0 + 18.0 * noise(p * 0.02);
 	c = mix(c, snow, smoothstep(snowline, snowline + 10.0, h) * smoothstep(0.75, 0.35, steep));
 	ALBEDO = grade(c);

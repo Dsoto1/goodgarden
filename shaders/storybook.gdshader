@@ -9,6 +9,9 @@ render_mode specular_disabled, cull_back;
 // 0 none, 1 wood, 2 stone, 3 shingles, 4 thatch, 5 plaster, 6 path, 7 soil, 8 cloth, 9 cobble, 10 awning stripes.
 uniform int pattern = 0;
 uniform float pattern_strength = 1.0;
+// Grass and low plants (set by their grade): frosted all over on a frosty
+// morning, rather than only on their flat tops.
+uniform bool up_normals = false;
 
 varying vec3 world_pos;
 varying vec3 world_normal;
@@ -41,7 +44,9 @@ void fragment() {
 		float stripe = step(0.5, fract(across / 0.5));
 		ALBEDO = mix(grade(c.rgb), vec3(0.96, 0.93, 0.86), stripe);
 	}
-	if (pattern != 6 && pattern != 7 && pattern != 9) {
+	if (up_normals) {
+		ALBEDO = mix(ALBEDO, vec3(0.86, 0.91, 0.98), clamp(gg_snow * 2.2, 0.0, 0.9) * 0.8 * snow_cover);
+	} else if (pattern != 6 && pattern != 7 && pattern != 9) {
 		ALBEDO = mix(ALBEDO, SNOW, snow_amount(world_pos, world_normal));
 	}
 	EMISSION = emission_color;
