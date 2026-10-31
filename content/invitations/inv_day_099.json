@@ -1,0 +1,29 @@
+{
+	"id": "inv_day_099",
+	"from": "ruth",
+	"body": "My dear friend,\n\nA letter came from my grandson Sam in Bellhaven. He says the winter market opens today, and in two weeks there'll be Lantern Night, when the whole city glows!\n\nMrs. Greta would love your help at her stall. Will you take the map and go? Give Sam my love.",
+	"signature": "Mrs. Ruth",
+	"suggests": "city_winter_stall",
+	"summary": "Help Mrs. Greta stock her stall at Bellhaven's winter market.",
+	"done": "The stall is ready for the market!",
+	"tasks": [
+		{
+			"text": "Stock the stall",
+			"activity": "city_winter_stall",
+			"icon": "castle",
+			"where": "in Bellhaven (take the map)"
+		},
+		{
+			"text": "Collect the eggs",
+			"activity": "home_eggs",
+			"icon": "egg",
+			"where": "at the coop by your house"
+		},
+		{
+			"text": "Pour water for supper",
+			"activity": "home_pour_water",
+			"icon": "water",
+			"where": "from the jug in your kitchen"
+		}
+	]
+}

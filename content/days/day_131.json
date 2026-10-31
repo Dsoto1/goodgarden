@@ -1,0 +1,24 @@
+{
+	"id": "day_131",
+	"day": 131,
+	"week": 19,
+	"arc": "Waking Waters",
+	"invitation": "inv_day_131",
+	"npcs": {
+		"miriam": "garden_miriam"
+	},
+	"primary_activity": "wild_waterfall",
+	"free_work": [
+		"home_set_table"
+	],
+	"chapel": [
+		"good_samaritan",
+		"mustard_seed",
+		"leaven",
+		"lost_sheep",
+		"fishers",
+		"five_thousand",
+		"good_shepherd"
+	],
+	"season": "Spring"
+}

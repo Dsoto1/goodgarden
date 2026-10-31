@@ -1,0 +1,192 @@
+{
+	"id": "mountain_summit",
+	"title": "To the Top",
+	"mode": "task",
+	"location": "mountains",
+	"surface": "wood_table",
+	"readiness": {
+		"ages": [
+			5,
+			9
+		],
+		"math": "counting squares on a grid",
+		"reading": "reading a map"
+	},
+	"concepts": [
+		"maps",
+		"directions: north, south, east, west",
+		"counting steps"
+	],
+	"formation_themes": [
+		"wonder",
+		"belonging"
+	],
+	"prerequisites": [
+		{
+			"fact": "season2.mountain_summit_day",
+			"exists": false
+		}
+	],
+	"intro": [
+		{
+			"speaker": "silas",
+			"text": "Today's the day: the sky is clear, and we'll climb to the top! From there you can see the whole land."
+		},
+		{
+			"speaker": "silas",
+			"text": "Here's my map of the trail. Follow it step by step, and stay close."
+		}
+	],
+	"steps": [
+		{
+			"id": "climb",
+			"primitive": "follow_directions",
+			"speaker": "silas",
+			"grid": [
+				7,
+				6
+			],
+			"places": [
+				{
+					"icon": "home",
+					"at": [
+						0,
+						5
+					],
+					"name": "shepherd's hut"
+				},
+				{
+					"icon": "sheep",
+					"at": [
+						2,
+						5
+					],
+					"name": "sheep pen"
+				},
+				{
+					"icon": "stone",
+					"at": [
+						2,
+						3
+					],
+					"name": "cairn"
+				},
+				{
+					"icon": "tree",
+					"at": [
+						4,
+						4
+					],
+					"name": "last pine"
+				},
+				{
+					"icon": "water",
+					"at": [
+						5,
+						2
+					],
+					"name": "mountain spring"
+				},
+				{
+					"icon": "log",
+					"at": [
+						1,
+						1
+					],
+					"name": "old mine"
+				},
+				{
+					"icon": "flag",
+					"at": [
+						6,
+						0
+					],
+					"name": "summit"
+				}
+			],
+			"start": [
+				0,
+				5
+			],
+			"steps": [
+				{
+					"dir": "east",
+					"n": 2
+				},
+				{
+					"dir": "north",
+					"n": 2
+				},
+				{
+					"dir": "east",
+					"n": 4
+				},
+				{
+					"dir": "north",
+					"n": 3
+				}
+			],
+			"prompt": "Follow each direction. Move the walker square by square.",
+			"hint": "Show me",
+			"arrows": true,
+			"older": {
+				"start": [
+					0,
+					5
+				],
+				"steps": [
+					{
+						"dir": "north",
+						"n": 2
+					},
+					{
+						"dir": "east",
+						"n": 2
+					},
+					{
+						"dir": "north",
+						"n": 1
+					},
+					{
+						"dir": "east",
+						"n": 3
+					},
+					{
+						"dir": "north",
+						"n": 2
+					},
+					{
+						"dir": "east",
+						"n": 1
+					}
+				],
+				"arrows": false,
+				"prompt": "Follow each direction: there are no arrows this time. North is at the top of the map."
+			},
+			"feedback": {
+				"all_good": "You made it to the {place}! Look at the view!"
+			}
+		}
+	],
+	"outro": [
+		{
+			"speaker": "silas",
+			"text": "Look: there's the city, and the monastery on its hill, and the sea shining, and the lake, and the farm. And there, far below: your valley."
+		},
+		{
+			"speaker": "silas",
+			"text": "You've been to every one of those places this year. You have friends in all of them."
+		}
+	],
+	"world_effects": [
+		{
+			"op": "set",
+			"fact": "season2.mountain_summit_day",
+			"value": "$day"
+		}
+	],
+	"replay": "once",
+	"real_world_invitation": "rw_draw_map",
+	"journal_line": "I climbed to the top of the mountain with Mr. Silas, and saw the whole land.",
+	"unavailable_text": "That's all done. Thank you!"
+}

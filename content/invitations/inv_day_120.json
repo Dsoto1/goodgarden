@@ -1,0 +1,29 @@
+{
+	"id": "inv_day_120",
+	"from": "elias",
+	"body": "Dear friend,\n\nThe snow is deep this week, and some of the little ones in the village asked me: will winter ever end?\n\nCome to the monastery, and I'll show you something that answers that question.",
+	"signature": "Brother Elias",
+	"suggests": "abbey_seasons",
+	"summary": "Put the seasons of the year in order.",
+	"done": "Winter will turn to spring!",
+	"tasks": [
+		{
+			"text": "Order the seasons",
+			"activity": "abbey_seasons",
+			"icon": "seedling",
+			"where": "at the monastery (take the map)"
+		},
+		{
+			"text": "Collect the eggs",
+			"activity": "home_eggs",
+			"icon": "egg",
+			"where": "at the coop by your house"
+		},
+		{
+			"text": "Pour water for supper",
+			"activity": "home_pour_water",
+			"icon": "water",
+			"where": "from the jug in your kitchen"
+		}
+	]
+}

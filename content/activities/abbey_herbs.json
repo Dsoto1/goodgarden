@@ -1,0 +1,132 @@
+{
+	"id": "abbey_herbs",
+	"title": "Herbs for Winter",
+	"mode": "task",
+	"location": "monastery",
+	"surface": "wood_table",
+	"readiness": {
+		"ages": [
+			5,
+			9
+		],
+		"math": "none",
+		"reading": "pre-reader friendly"
+	},
+	"concepts": [
+		"sorting by shape",
+		"observing leaves"
+	],
+	"formation_themes": [
+		"order",
+		"providence"
+	],
+	"prerequisites": [
+		{
+			"fact": "season2.abbey_herbs_day",
+			"exists": false
+		}
+	],
+	"intro": [
+		{
+			"speaker": "elias",
+			"text": "In summer we dried herbs from the garden: mint for tea, sage for soup, and bay for the stew. Now they've all got jumbled!"
+		},
+		{
+			"speaker": "elias",
+			"text": "Each herb has a leaf of a different shape. Would you sort them into their jars?"
+		}
+	],
+	"steps": [
+		{
+			"id": "sort",
+			"primitive": "sort_into_bins",
+			"speaker": "elias",
+			"prompt": "Put each leaf in the jar with the same shape on it.",
+			"hint": "Look at the shape of the leaf's edge.",
+			"piece_size": [
+				52,
+				52
+			],
+			"pieces": [
+				{
+					"kind": "leaf_oak",
+					"count": 3
+				},
+				{
+					"kind": "leaf_maple",
+					"count": 3
+				},
+				{
+					"kind": "leaf_round",
+					"count": 3
+				}
+			],
+			"bins": [
+				{
+					"kind": "leaf_oak",
+					"label": "sage",
+					"look": "basket",
+					"pos": [
+						200,
+						170
+					]
+				},
+				{
+					"kind": "leaf_maple",
+					"label": "mint",
+					"look": "basket",
+					"pos": [
+						500,
+						170
+					]
+				},
+				{
+					"kind": "leaf_round",
+					"label": "bay",
+					"look": "basket",
+					"pos": [
+						800,
+						170
+					]
+				}
+			],
+			"older": {
+				"pieces": [
+					{
+						"kind": "leaf_oak",
+						"count": 5
+					},
+					{
+						"kind": "leaf_maple",
+						"count": 4
+					},
+					{
+						"kind": "leaf_round",
+						"count": 6
+					}
+				]
+			},
+			"feedback": {
+				"mismatch": "Look again at that leaf's shape.",
+				"all_good": "Every herb in its jar. Mint tea tonight!"
+			}
+		}
+	],
+	"outro": [
+		{
+			"speaker": "elias",
+			"text": "Now we'll have tea and soup and stew all winter long, with a taste of summer in every spoonful."
+		}
+	],
+	"world_effects": [
+		{
+			"op": "set",
+			"fact": "season2.abbey_herbs_day",
+			"value": "$day"
+		}
+	],
+	"replay": "once",
+	"real_world_invitation": "rw_leaf_hunt",
+	"journal_line": "I sorted dried herbs into their jars at the monastery.",
+	"unavailable_text": "That's all done. Thank you!"
+}

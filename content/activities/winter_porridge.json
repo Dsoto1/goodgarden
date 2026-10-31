@@ -1,0 +1,97 @@
+{
+	"id": "winter_porridge",
+	"title": "Warm Porridge",
+	"mode": "task",
+	"location": "village",
+	"surface": "wood_table",
+	"readiness": {
+		"ages": [
+			5,
+			9
+		],
+		"math": "comparing weights",
+		"reading": "pre-reader friendly"
+	},
+	"concepts": [
+		"weighing",
+		"balance",
+		"equal amounts"
+	],
+	"formation_themes": [
+		"hospitality",
+		"care for others"
+	],
+	"prerequisites": [
+		{
+			"not": {
+				"fact": "season2.winter_porridge_day",
+				"is_today": true
+			}
+		}
+	],
+	"intro": [
+		{
+			"speaker": "tobias",
+			"text": "On a snowy morning there's nothing better than warm porridge! I'm making a big pot to take out to the farm."
+		},
+		{
+			"speaker": "tobias",
+			"text": "Would you please weigh the oats? The beam hangs level when it's just right."
+		}
+	],
+	"steps": [
+		{
+			"id": "weigh",
+			"primitive": "balance_scale",
+			"speaker": "tobias",
+			"prompt": "Add scoops of oats until the beam hangs level.",
+			"hint": "Is the beam tipping? Add a scoop, or take one out.",
+			"weight": 7,
+			"scoops": [
+				{
+					"kind": "flour_scoop",
+					"weight": 1,
+					"count": 9
+				}
+			],
+			"weight_label": "the porridge pot",
+			"supply_label": "oats",
+			"older": {
+				"weight": 11,
+				"scoops": [
+					{
+						"kind": "flour_scoop",
+						"weight": 1,
+						"count": 5
+					},
+					{
+						"kind": "flour_scoop_big",
+						"weight": 2,
+						"count": 6
+					}
+				]
+			},
+			"feedback": {
+				"heavy": "Too much! Take a scoop out.",
+				"all_good": "Level! Into the pot they go."
+			}
+		}
+	],
+	"outro": [
+		{
+			"speaker": "tobias",
+			"text": "Mmm. Oats, milk and a little honey. That will warm everyone right down to their toes!"
+		}
+	],
+	"world_effects": [
+		{
+			"op": "set",
+			"fact": "season2.winter_porridge_day",
+			"value": "$day"
+		}
+	],
+	"replay": "free",
+	"real_world_invitation": "rw_heavy_light",
+	"journal_line": "I weighed oats for warm winter porridge with Mr. Tobias.",
+	"unavailable_text": "Done for today. Thank you!"
+}

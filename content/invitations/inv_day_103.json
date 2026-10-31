@@ -1,0 +1,29 @@
+{
+	"id": "inv_day_103",
+	"from": "greta",
+	"body": "My dear friend,\n\nIn winter, some families in Bellhaven don't have enough. Today the baker gave us a great pile of loaves to share.\n\nWill you help me make sure every family gets the same?",
+	"signature": "Mrs. Greta, in Bellhaven",
+	"suggests": "city_share_bread",
+	"summary": "Share bread fairly among families in Bellhaven.",
+	"done": "Every family has bread tonight!",
+	"tasks": [
+		{
+			"text": "Share the bread",
+			"activity": "city_share_bread",
+			"icon": "bread",
+			"where": "in Bellhaven (take the map)"
+		},
+		{
+			"text": "Collect the eggs",
+			"activity": "home_eggs",
+			"icon": "egg",
+			"where": "at the coop by your house"
+		},
+		{
+			"text": "Fill the bird feeders",
+			"activity": "grove_bird_feeders",
+			"icon": "bird",
+			"where": "in the grove behind the chapel"
+		}
+	]
+}

@@ -26,6 +26,7 @@ var _place_settings: Node3D
 var _feast: Node3D # food on the table, from the pies
 var _flags_up: Node3D # the harvest bunting the child made, across the square
 var _sam: Node3D # Mrs. Ruth's grandson, come from Bellhaven for the supper
+var _guests: Node3D # friends from the wider world, at the Spring Festival
 
 ## The long table for the Harvest Supper, north of the fountain.
 const LONG_TABLE := Vector3(0, 0, -4.6)
@@ -588,6 +589,16 @@ func _harvest_square() -> void:
 	var sam := CharacterModel.new().build({"skin": "skin_3", "hair": "hair_black", "hair_style": "short", "shirt": "cloth_green", "pants": "cloth_brown", "height": 0.98})
 	sam.position = t + Vector3(0, 0, 1.45)
 	_sam.add_child(sam)
+	# The Spring Festival (the second season's end): the friends from every
+	# place beyond the valley, gathered round the long table.
+	_guests = group_node("FestivalGuests")
+	var guests := ["hannah", "finn", "greta", "elias", "mara", "silas"]
+	for i in guests.size():
+		var guest := CharacterModel.new().build(World.look_for(guests[i]))
+		var side := 1.0 if i % 2 == 0 else -1.0
+		guest.position = t + Vector3(-3.4 + (i / 2) * 3.4, 0, side * 2.3)
+		guest.rotation.y = 0.0 if side > 0 else PI
+		_guests.add_child(guest)
 	for id: String in ["miriam", "ruth", "tobias", "amos"]:
 		var i := ["miriam", "ruth", "tobias", "amos"].find(id)
 		var side := 1.0 if i < 2 else -1.0
@@ -599,7 +610,9 @@ func _sync_harvest() -> void:
 	_tables.visible = WorldState.has_fact("project.tables")
 	_place_settings.visible = WorldState.has_fact("harvest.table_set")
 	_feast.visible = WorldState.has_fact("harvest.pies")
-	_sam.visible = WorldState.has_fact("harvest.invitations") and Days.current_day >= 82
+	var festival := Days.current_day in [166, 167]
+	_sam.visible = (WorldState.has_fact("harvest.invitations") and Days.current_day >= 82 and Days.current_day <= 84) or festival
+	_guests.visible = festival
 	var flags: Variant = WorldState.get_fact("harvest.bunting")
 	_flags_up.visible = flags is Array
 	if flags is Array and not (flags as Array).is_empty():

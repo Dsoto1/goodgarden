@@ -1,0 +1,128 @@
+{
+	"id": "coast_festival_chest",
+	"title": "Gifts from the Sea",
+	"mode": "task",
+	"location": "coast",
+	"surface": "wood_table",
+	"readiness": {
+		"ages": [
+			5,
+			9
+		],
+		"math": "counting out sets",
+		"reading": "reading a list (older: no pictures)"
+	},
+	"concepts": [
+		"reading a list",
+		"reading numerals",
+		"counting out a set"
+	],
+	"formation_themes": [
+		"generosity",
+		"joy"
+	],
+	"prerequisites": [
+		{
+			"fact": "season2.coast_festival_chest_day",
+			"exists": false
+		}
+	],
+	"intro": [
+		{
+			"speaker": "mara",
+			"text": "Here's the secret plan! Miss Miriam has written to everyone in the land: there'll be a Spring Festival in your valley."
+		},
+		{
+			"speaker": "mara",
+			"text": "I'll sail up the river and bring friends from the coast! Would you help me pack a chest of gifts from the sea? Here's my list."
+		}
+	],
+	"steps": [
+		{
+			"id": "pack",
+			"primitive": "fill_order",
+			"speaker": "mara",
+			"note_title": "For the festival:",
+			"note_from": "Captain Mara",
+			"basket_label": "the sea chest",
+			"prompt": "Read the list. Put the right things in the chest, then press Done.",
+			"hint": "Show me",
+			"order": [
+				{
+					"item": "shell",
+					"count": 4
+				},
+				{
+					"item": "minnow",
+					"count": 2,
+					"word": "fish",
+					"words": "fish"
+				},
+				{
+					"item": "jam_jar",
+					"count": 1,
+					"word": "jar of jam",
+					"words": "jars of jam"
+				}
+			],
+			"extra": [
+				"egg"
+			],
+			"pictures": true,
+			"older": {
+				"order": [
+					{
+						"item": "shell",
+						"count": 7
+					},
+					{
+						"item": "minnow",
+						"count": 5,
+						"word": "fish",
+						"words": "fish"
+					},
+					{
+						"item": "jam_jar",
+						"count": 3,
+						"word": "jar of jam",
+						"words": "jars of jam"
+					},
+					{
+						"item": "pebble",
+						"count": 2,
+						"word": "lucky pebble",
+						"words": "lucky pebbles"
+					}
+				],
+				"pictures": false,
+				"spare": 3,
+				"prompt": "Read the list: no pictures this time. Put the right things in the chest, then press Done."
+			},
+			"feedback": {
+				"all_good": "The chest is packed! The valley will love these."
+			}
+		}
+	],
+	"outro": [
+		{
+			"speaker": "mara",
+			"text": "Two weeks from now, look out for my sails coming up the river!"
+		},
+		{
+			"speaker": "mara",
+			"text": "Fair winds, my friend. You're a true sailor now.",
+			"button": "Fair winds, Captain Mara!"
+		}
+	],
+	"world_effects": [
+		{
+			"op": "set",
+			"fact": "season2.coast_festival_chest_day",
+			"value": "$day"
+		}
+	],
+	"replay": "once",
+	"real_world_invitation": "rw_read_list",
+	"journal_line": "I packed a sea chest of gifts for the Spring Festival with Captain Mara.",
+	"unavailable_text": "That's all done. Thank you!"
+}

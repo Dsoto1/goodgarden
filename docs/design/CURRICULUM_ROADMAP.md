@@ -23,5 +23,17 @@ Multi-step projects, social problem solving, letters, planning, division/fractio
 ### Weeks 11–12 — Gratitude & Harvest Celebration
 Integrate learned systems: grow/prepare food, construct/repair, write invitations, calculate quantities, resolve community needs, decorate with patterns/geometry, gather for celebration and reflection.
 
+## Second Season (weeks 13–24, winter into spring)
+The same week shape, out in the wider world: each two-week arc is built round one or two of the places beyond the valley and the people there, with the skills of the first season revisited at a step up (counting in fives and tens, fair shares with remainders, change from ten, maps without arrows, fractions of a quarter, longer letters).
+
+- **Weeks 13–14 — Preparing for Winter** (the farm): providence and diligence.
+- **Weeks 15–16 — Light in the Dark** (Bellhaven): generosity, honesty.
+- **Weeks 17–18 — Wisdom & Patience** (the monastery): patience, love of learning, hope.
+- **Weeks 19–20 — Waking Waters** (the lake and the wilderness): wonder at creation.
+- **Weeks 21–22 — The Wide Sea** (the coast): courage, trust, care for creatures.
+- **Weeks 23–24 — New Life & Homecoming** (the mountains, then home): gratitude and community, ending in the Spring Festival.
+
+Progress is tracked in `docs/ROADMAP.md`.
+
 ## Content Rule
 A day is a chapter in the world's life, not a disguised worksheet. Activities should connect across days: crops planted earlier grow; characters prepare for later events; repaired infrastructure changes routes; letters foreshadow future needs.

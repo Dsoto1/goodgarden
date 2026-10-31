@@ -1,0 +1,29 @@
+{
+	"id": "inv_day_124",
+	"from": "elias",
+	"body": "Dear friend,\n\nThis is my last letter for a while, and it's a hopeful one. Today we sow seeds for the spring!\n\nIt seems odd to sow seeds with snow outside. But that's what hope is: getting ready for something good that you can't see yet.",
+	"signature": "Brother Elias",
+	"suggests": "abbey_sow_pots",
+	"summary": "Sow seeds in pots, ready for the spring.",
+	"done": "The seeds are waiting for spring!",
+	"tasks": [
+		{
+			"text": "Sow seeds for spring",
+			"activity": "abbey_sow_pots",
+			"icon": "seedling",
+			"where": "at the monastery (take the map)"
+		},
+		{
+			"text": "Collect the eggs",
+			"activity": "home_eggs",
+			"icon": "egg",
+			"where": "at the coop by your house"
+		},
+		{
+			"text": "Fill the bird feeders",
+			"activity": "grove_bird_feeders",
+			"icon": "bird",
+			"where": "in the grove behind the chapel"
+		}
+	]
+}

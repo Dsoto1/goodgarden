@@ -1,0 +1,29 @@
+{
+	"id": "inv_day_142",
+	"from": "mara",
+	"body": "Good morning, shipmate!\n\nYou asked me how a sailor finds the way with no roads to follow. Today I'll show you!\n\nCome to the harbour. I'll have my sea charts spread out on the table.",
+	"signature": "Captain Mara",
+	"suggests": "coast_chart",
+	"summary": "Learn to read Captain Mara's sea chart.",
+	"done": "You can find your way at sea!",
+	"tasks": [
+		{
+			"text": "Read the sea chart",
+			"activity": "coast_chart",
+			"icon": "map",
+			"where": "at the coast (take the map)"
+		},
+		{
+			"text": "Set the table",
+			"activity": "home_set_table",
+			"icon": "table",
+			"where": "at home"
+		},
+		{
+			"text": "Feed the lambs",
+			"activity": "sheepfold_hay",
+			"icon": "sheep",
+			"where": "at the sheepfold"
+		}
+	]
+}

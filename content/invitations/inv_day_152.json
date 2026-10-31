@@ -1,0 +1,29 @@
+{
+	"id": "inv_day_152",
+	"from": "mara",
+	"body": "Ahoy, shipmate!\n\nI have news, and a secret plan! A letter came from Miss Miriam this morning. Come down to the harbour, and I'll tell you all about it.\n\nIt involves a sea chest. And a festival!",
+	"signature": "Captain Mara",
+	"suggests": "coast_festival_chest",
+	"summary": "Pack a chest of gifts from the sea with Captain Mara.",
+	"done": "The sea chest is packed!",
+	"tasks": [
+		{
+			"text": "Pack the sea chest",
+			"activity": "coast_festival_chest",
+			"icon": "box",
+			"where": "at the coast (take the map)"
+		},
+		{
+			"text": "Collect the eggs",
+			"activity": "home_eggs",
+			"icon": "egg",
+			"where": "at the coop by your house"
+		},
+		{
+			"text": "Fill the bird feeders",
+			"activity": "grove_bird_feeders",
+			"icon": "bird",
+			"where": "in the grove behind the chapel"
+		}
+	]
+}

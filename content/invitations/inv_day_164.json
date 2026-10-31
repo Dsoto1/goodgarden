@@ -1,0 +1,29 @@
+{
+	"id": "inv_day_164",
+	"from": "ruth",
+	"body": "My dear friend,\n\nThe Spring Festival is on Friday, and Miss Miriam has asked me to find our best letter-writer to do the invitations. I said: I know just the one!\n\nThere's paper on the table by your door.",
+	"signature": "Mrs. Ruth",
+	"suggests": "festival_invitations",
+	"summary": "Write the invitations to the Spring Festival.",
+	"done": "The invitations are on their way!",
+	"tasks": [
+		{
+			"text": "Write the invitations",
+			"activity": "festival_invitations",
+			"icon": "letter",
+			"where": "at the table by your door"
+		},
+		{
+			"text": "Collect the eggs",
+			"activity": "home_eggs",
+			"icon": "egg",
+			"where": "at the coop by your house"
+		},
+		{
+			"text": "Fill the bread baskets",
+			"activity": "bakery_baskets",
+			"icon": "bread",
+			"where": "at the bakery"
+		}
+	]
+}

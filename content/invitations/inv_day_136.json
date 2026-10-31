@@ -1,0 +1,29 @@
+{
+	"id": "inv_day_136",
+	"from": "finn",
+	"body": "Dear friend,\n\nDo you remember who slept all winter? This morning one of them woke up on my windowsill!\n\nCome and look closely with my magnifying glass. Quietly, mind!",
+	"signature": "Mr. Finn, at the lake",
+	"suggests": "lake_ladybird",
+	"summary": "Look closely at the first ladybird of spring.",
+	"done": "What a lot you noticed!",
+	"tasks": [
+		{
+			"text": "Look at the ladybird",
+			"activity": "lake_ladybird",
+			"icon": "lens",
+			"where": "at the lake (take the map)"
+		},
+		{
+			"text": "Collect the eggs",
+			"activity": "home_eggs",
+			"icon": "egg",
+			"where": "at the coop by your house"
+		},
+		{
+			"text": "Fill the bread baskets",
+			"activity": "bakery_baskets",
+			"icon": "bread",
+			"where": "at the bakery"
+		}
+	]
+}

@@ -1,0 +1,150 @@
+{
+	"id": "lake_sell_fish",
+	"title": "Fish for Sale",
+	"mode": "task",
+	"location": "lake",
+	"surface": "wood_table",
+	"readiness": {
+		"ages": [
+			5,
+			9
+		],
+		"math": "making change from 5 (older: from 10)",
+		"reading": "pre-reader friendly"
+	},
+	"concepts": [
+		"money",
+		"subtraction as finding change",
+		"honesty"
+	],
+	"formation_themes": [
+		"honesty",
+		"helpfulness"
+	],
+	"prerequisites": [
+		{
+			"not": {
+				"fact": "season2.lake_sell_fish_day",
+				"is_today": true
+			}
+		}
+	],
+	"intro": [
+		{
+			"speaker": "finn",
+			"text": "On market days, folk come to the lake to buy fresh fish. I've got my hands full with the nets!"
+		},
+		{
+			"speaker": "finn",
+			"text": "Would you mind the table for me? Count out the change carefully."
+		}
+	],
+	"steps": [
+		{
+			"id": "sell",
+			"primitive": "give_change",
+			"speaker": "finn",
+			"prompt": "The {item} costs {price}. The customer gave you {paid}. Count the change, then press Give change.",
+			"hint": "Show me",
+			"sales": [
+				{
+					"item": "little fish",
+					"icon": "fish",
+					"price": 1,
+					"paid": [
+						5
+					]
+				},
+				{
+					"item": "big fish",
+					"icon": "fish",
+					"price": 3,
+					"paid": [
+						5
+					]
+				},
+				{
+					"item": "two fish",
+					"icon": "fish",
+					"price": 4,
+					"paid": [
+						5
+					]
+				}
+			],
+			"cash": [
+				1,
+				1,
+				1,
+				1,
+				1,
+				1,
+				1,
+				1,
+				1,
+				1
+			],
+			"older": {
+				"sales": [
+					{
+						"item": "basket of fish",
+						"icon": "fish",
+						"price": 8,
+						"paid": [
+							10
+						]
+					},
+					{
+						"item": "big fish",
+						"icon": "fish",
+						"price": 3,
+						"paid": [
+							5
+						]
+					},
+					{
+						"item": "smoked fish",
+						"icon": "fish",
+						"price": 6,
+						"paid": [
+							10
+						]
+					}
+				],
+				"cash": [
+					1,
+					1,
+					1,
+					1,
+					1,
+					1,
+					2,
+					2,
+					2,
+					5
+				],
+				"mistaken_pay": true
+			},
+			"feedback": {
+				"all_good": "Every coin of change was right. You're a fine fishmonger!"
+			}
+		}
+	],
+	"outro": [
+		{
+			"speaker": "finn",
+			"text": "Thank you! Honest change, and every customer happy. That's how you keep friends."
+		}
+	],
+	"world_effects": [
+		{
+			"op": "set",
+			"fact": "season2.lake_sell_fish_day",
+			"value": "$day"
+		}
+	],
+	"replay": "free",
+	"real_world_invitation": "rw_shop_home",
+	"journal_line": "I minded Mr. Finn's fish table and gave the right change.",
+	"unavailable_text": "Done for today. Thank you!"
+}

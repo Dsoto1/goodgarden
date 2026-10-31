@@ -1,0 +1,29 @@
+{
+	"id": "inv_day_143",
+	"from": "mara",
+	"body": "Ahoy!\n\nMy crew are getting ready for a short trip around the bay on Friday. There's a lot to remember when a ship sets sail!\n\nCome and learn how it's done.",
+	"signature": "Captain Mara",
+	"suggests": "coast_set_sail",
+	"summary": "Put the steps for setting sail in order.",
+	"done": "You know how a ship sets sail!",
+	"tasks": [
+		{
+			"text": "Learn to set sail",
+			"activity": "coast_set_sail",
+			"icon": "boat",
+			"where": "at the coast (take the map)"
+		},
+		{
+			"text": "Collect the eggs",
+			"activity": "home_eggs",
+			"icon": "egg",
+			"where": "at the coop by your house"
+		},
+		{
+			"text": "Fill the bread baskets",
+			"activity": "bakery_baskets",
+			"icon": "bread",
+			"where": "at the bakery"
+		}
+	]
+}

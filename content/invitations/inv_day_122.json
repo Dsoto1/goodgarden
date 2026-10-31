@@ -1,0 +1,29 @@
+{
+	"id": "inv_day_122",
+	"from": "elias",
+	"body": "Dear friend,\n\nYou asked me so many good questions about the old map: about the sea, the ships, the far places.\n\nI know the very person to ask: Captain Mara, at the coast! Why not write to her? A good question is the beginning of wisdom.",
+	"signature": "Brother Elias",
+	"suggests": "letter_to_mara",
+	"summary": "Write a letter to Captain Mara about the sea.",
+	"done": "Your letter is on its way to the coast!",
+	"tasks": [
+		{
+			"text": "Write to Captain Mara",
+			"activity": "letter_to_mara",
+			"icon": "letter",
+			"where": "at the table by your door"
+		},
+		{
+			"text": "Collect the eggs",
+			"activity": "home_eggs",
+			"icon": "egg",
+			"where": "at the coop by your house"
+		},
+		{
+			"text": "Fill the bread baskets",
+			"activity": "bakery_baskets",
+			"icon": "bread",
+			"where": "at the bakery"
+		}
+	]
+}

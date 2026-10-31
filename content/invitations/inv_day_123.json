@@ -1,0 +1,29 @@
+{
+	"id": "inv_day_123",
+	"from": "elias",
+	"body": "Dear friend,\n\nThe frost has been mischievous again! It lifted some of the old tiles in our cloister floor.\n\nWould you help me fit them back, before someone trips?",
+	"signature": "Brother Elias",
+	"suggests": "abbey_floor",
+	"summary": "Fit the tiles back into the cloister floor.",
+	"done": "The floor is smooth again!",
+	"tasks": [
+		{
+			"text": "Mend the floor",
+			"activity": "abbey_floor",
+			"icon": "shapes",
+			"where": "at the monastery (take the map)"
+		},
+		{
+			"text": "Pour water for supper",
+			"activity": "home_pour_water",
+			"icon": "water",
+			"where": "from the jug in your kitchen"
+		},
+		{
+			"text": "Set the table",
+			"activity": "home_set_table",
+			"icon": "table",
+			"where": "at home"
+		}
+	]
+}

@@ -1,0 +1,27 @@
+{
+	"id": "day_166",
+	"day": 166,
+	"week": 24,
+	"arc": "New Life & Homecoming",
+	"invitation": "inv_day_166",
+	"npcs": {
+		"miriam": "supper_miriam",
+		"tobias": "supper_tobias",
+		"ruth": "supper_ruth",
+		"amos": "supper_amos"
+	},
+	"primary_activity": "spring_festival",
+	"free_work": [
+		"home_set_table"
+	],
+	"chapel": [
+		"good_samaritan",
+		"mustard_seed",
+		"leaven",
+		"lost_sheep",
+		"fishers",
+		"five_thousand",
+		"good_shepherd"
+	],
+	"season": "Spring"
+}

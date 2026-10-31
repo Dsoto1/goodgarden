@@ -60,6 +60,10 @@ static func draw(ci: CanvasItem, kind: String, size: Vector2, outline: bool, dat
 			var fsize := int(size.y * 0.5)
 			ci.draw_string(UiStyle.font(), Vector2(0, c.y + fsize * 0.35), value, HORIZONTAL_ALIGNMENT_CENTER, size.x, fsize, metal.darkened(0.55))
 		return
+	# A robin or a sheep as a piece of its own, drawn like the story figures' ones.
+	if kind in ["bird", "sheep"]:
+		_parable_shape(ci, kind, size, size.y, outline, Color("9a6b4a"))
+		return
 	match kind:
 		"sheaf":
 			# A bundle of wheat stalks tied round the middle, ears at the top.

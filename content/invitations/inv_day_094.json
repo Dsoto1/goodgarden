@@ -1,0 +1,29 @@
+{
+	"id": "inv_day_094",
+	"from": "amos",
+	"body": "Good morning, my friend!\n\nMrs. Hannah needs a sled to pull hay across the snowy fields to her animals. I'm building one in the workshop today.\n\nCould you fetch what I need from my shelves? I've written a note.",
+	"signature": "Mr. Amos",
+	"suggests": "winter_sled",
+	"summary": "Read Mr. Amos's note and fetch what he needs for the sled.",
+	"done": "The sled can be built!",
+	"tasks": [
+		{
+			"text": "Fetch for the sled",
+			"activity": "winter_sled",
+			"icon": "hammer",
+			"where": "at Mr. Amos's workshop in the village"
+		},
+		{
+			"text": "Pour water for supper",
+			"activity": "home_pour_water",
+			"icon": "water",
+			"where": "from the jug in your kitchen"
+		},
+		{
+			"text": "Feed the lambs",
+			"activity": "sheepfold_hay",
+			"icon": "sheep",
+			"where": "at the sheepfold"
+		}
+	]
+}

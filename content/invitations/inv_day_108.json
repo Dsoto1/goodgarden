@@ -1,0 +1,29 @@
+{
+	"id": "inv_day_108",
+	"from": "ruth",
+	"body": "My dear friend,\n\nSam wrote again: he's so excited that you're coming to Lantern Night!\n\nWouldn't it be nice to send him a card back? There's paper on the table by your door.",
+	"signature": "Mrs. Ruth",
+	"suggests": "card_for_sam",
+	"summary": "Write a card to Sam for Lantern Night.",
+	"done": "Your card is on its way to Sam!",
+	"tasks": [
+		{
+			"text": "Write to Sam",
+			"activity": "card_for_sam",
+			"icon": "card",
+			"where": "at the table by your door"
+		},
+		{
+			"text": "Collect the eggs",
+			"activity": "home_eggs",
+			"icon": "egg",
+			"where": "at the coop by your house"
+		},
+		{
+			"text": "Fill the bread baskets",
+			"activity": "bakery_baskets",
+			"icon": "bread",
+			"where": "at the bakery"
+		}
+	]
+}

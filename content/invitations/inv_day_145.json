@@ -1,0 +1,29 @@
+{
+	"id": "inv_day_145",
+	"from": "mara",
+	"body": "Ahoy, shipmate!\n\nToday's the day! The tide is right and the wind is fair. We sail around the bay this morning, and you're one of the crew.\n\nCome down to the harbour. Captain's orders!",
+	"signature": "Captain Mara",
+	"suggests": "coast_ships_log",
+	"summary": "Sail around the bay and write the ship's log.",
+	"done": "What a voyage!",
+	"tasks": [
+		{
+			"text": "Sail around the bay",
+			"activity": "coast_ships_log",
+			"icon": "boat",
+			"where": "at the coast (take the map)"
+		},
+		{
+			"text": "Collect the eggs",
+			"activity": "home_eggs",
+			"icon": "egg",
+			"where": "at the coop by your house"
+		},
+		{
+			"text": "Fill the bird feeders",
+			"activity": "grove_bird_feeders",
+			"icon": "bird",
+			"where": "in the grove behind the chapel"
+		}
+	]
+}

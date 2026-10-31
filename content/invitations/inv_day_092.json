@@ -1,0 +1,29 @@
+{
+	"id": "inv_day_092",
+	"from": "miriam",
+	"body": "Good morning!\n\nLook out of your window: the first snow! The valley is all white and quiet.\n\nThe swallows have flown away south, but some little friends stay with us all winter. Come and find out who, in the grove behind the chapel.",
+	"signature": "Miss Miriam",
+	"suggests": "winter_birds",
+	"summary": "Find out which creatures stay for the winter.",
+	"done": "Now you know who needs our help in winter!",
+	"tasks": [
+		{
+			"text": "Who stays for winter?",
+			"activity": "winter_birds",
+			"icon": "bird",
+			"where": "in the grove behind the chapel"
+		},
+		{
+			"text": "Fill the bird feeders",
+			"activity": "grove_bird_feeders",
+			"icon": "bird",
+			"where": "in the grove behind the chapel"
+		},
+		{
+			"text": "Pour water for supper",
+			"activity": "home_pour_water",
+			"icon": "water",
+			"where": "from the jug in your kitchen"
+		}
+	]
+}

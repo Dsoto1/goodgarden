@@ -192,10 +192,37 @@ Each has someone to meet and two jobs (free work, any day after it opens):
 | The Mountains (north-east) | day 71 | Mr. Silas | mark the trail with a pattern of stones; climb the trail map to the peak |
 
 The landscape now has a sea beyond the river's mouth and a lake in the
-south-eastern hills. Next for these places: story days that visit them
-(a second season), interiors (the library, the scriptorium, the ship), and
+south-eastern hills. Next for these places: interiors (the library, the scriptorium, the ship), and
 walking along the roads between them (the roads, farmsteads, mills and the
 river bridge are there to see; travel is still by the map).
+
+## Season two: the wider world ✓
+
+Days 85 to 168 (weeks 13 to 24), winter into spring, run like the first
+season: guided Monday to Friday (a letter and three jobs), Saturday free,
+Sunday rest at the Chapel. Each arc's main jobs take the child out to the
+places beyond the valley (by the map); the two small jobs stay at home.
+Generated content lives in the usual folders (activities, days,
+invitations, job spots); the jobs' facts are `season2.<activity>_day`.
+
+| Weeks | Arc | Where, with whom | Work |
+|---|---|---|---|
+| 13–14 | Preparing for Winter | the farm, Mrs. Hannah; the grove | apples into crates (fives, tens), hay shared fairly, the cellar list, a frosty window, store labels, who stays for winter, sheep into the barn, a sled order, oats weighed, baskets through the snow (map) |
+| 15–16 | Light in the Dark | Bellhaven, Mrs. Greta and Sam | stocking the winter stall, minding it (change), Sam's library cards, lantern panes, bread for families in need, flags for Lantern Night, the mitten box (fives, tens), a card to Sam, lantern buns, Lantern Night through the streets (map) |
+| 17–18 | Wisdom & Patience | the monastery, Brother Elias | copying a page, the order of a monastery day, herbs sorted, glasshouse seedlings measured, the map of the whole land, the seasons in order, beeswax weighed, a letter to Captain Mara, the cloister floor, seeds sown for spring |
+| 19–20 | Waking Waters | the lake, Mr. Finn; the wilderness, Miss Miriam | the first spring fish, who lives at the lake, trail flowers (pattern), selling fish (change), the waterfall in flood (map), rain jars (fractions), swallows home in twos, the first ladybird, young trees measured, spring news to Mrs. Hannah |
+| 21–22 | The Wide Sea | the coast, Captain Mara | unloading the ship, the sea chart (map), setting sail in order, weighing cargo, a trip round the bay and the ship's log, rock pools (living things go back), the lighthouse keeper's jugs, the harbour shop, nets of ten, a sea chest for the festival |
+| 23–24 | New Life & Homecoming | the mountains, Mr. Silas; then home | lambs into pens, trail stones (pattern), the hut's stores, the summit (map), a letter home; a new bean row a year on, flowers for every friend, festival invitations, the festival table, and the **Spring Festival**: every friend from the wider world in the valley square, and the child's thank-you |
+
+Threads that carry across: the swallows sorted away in week 14 come home in
+week 20; the seeds sown at the monastery in week 18 are the festival's
+flowers in week 24; Captain Mara answers the child's letter from week 18;
+the new bean row echoes day 1. On days 166–167 the friends from every place
+stand round the long table in the square (`village_region.gd`).
+
+Not yet: snow in the world during the winter weeks (the season chip says
+Winter, the land is still green), and the second season's new bean row
+doesn't yet show in the garden bed.
 
 ## Alongside, when it fits
 

@@ -1,0 +1,29 @@
+{
+	"id": "inv_day_087",
+	"from": "hannah",
+	"body": "Good morning!\n\nToday we fill the cellar. I've written a list of everything we need, and I'd love you to read it for me while I see to the hens.\n\nCome when you're ready. The kettle is on!",
+	"signature": "Mrs. Hannah, at the farm",
+	"suggests": "winter_cellar",
+	"summary": "Read Mrs. Hannah's list and fill the winter cellar.",
+	"done": "The cellar is full for the winter!",
+	"tasks": [
+		{
+			"text": "Fill the cellar",
+			"activity": "winter_cellar",
+			"icon": "note",
+			"where": "at Mrs. Hannah's farm (take the map)"
+		},
+		{
+			"text": "Collect the eggs",
+			"activity": "home_eggs",
+			"icon": "egg",
+			"where": "at the coop by your house"
+		},
+		{
+			"text": "Fill the bread baskets",
+			"activity": "bakery_baskets",
+			"icon": "bread",
+			"where": "at the bakery"
+		}
+	]
+}

@@ -1,0 +1,29 @@
+{
+	"id": "inv_day_117",
+	"from": "elias",
+	"body": "Dear friend,\n\nIn our library there's a map so old that nobody knows who drew it. It shows the whole land: your valley, the city, the sea, the mountains, everything!\n\nWould you like to see it?",
+	"signature": "Brother Elias",
+	"suggests": "abbey_land_map",
+	"summary": "Journey across the oldest map in the monastery.",
+	"done": "What a journey!",
+	"tasks": [
+		{
+			"text": "Read the old map",
+			"activity": "abbey_land_map",
+			"icon": "map",
+			"where": "at the monastery (take the map)"
+		},
+		{
+			"text": "Collect the eggs",
+			"activity": "home_eggs",
+			"icon": "egg",
+			"where": "at the coop by your house"
+		},
+		{
+			"text": "Fill the bird feeders",
+			"activity": "grove_bird_feeders",
+			"icon": "bird",
+			"where": "in the grove behind the chapel"
+		}
+	]
+}

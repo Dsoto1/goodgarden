@@ -1,0 +1,29 @@
+{
+	"id": "inv_day_089",
+	"from": "hannah",
+	"body": "Dear friend,\n\nWhat a week! Apples in the cellar, hay for the cows, a snug new window.\n\nOne last thing: the boxes in my store have no labels, and in the dark winter mornings I can't tell the logs from the jam! Could you write some labels for me?",
+	"signature": "Mrs. Hannah, at the farm",
+	"suggests": "winter_labels",
+	"summary": "Write labels for the boxes in Mrs. Hannah's store.",
+	"done": "Every box has a label!",
+	"tasks": [
+		{
+			"text": "Write the labels",
+			"activity": "winter_labels",
+			"icon": "letters",
+			"where": "at Mrs. Hannah's farm (take the map)"
+		},
+		{
+			"text": "Collect the eggs",
+			"activity": "home_eggs",
+			"icon": "egg",
+			"where": "at the coop by your house"
+		},
+		{
+			"text": "Fill the bird feeders",
+			"activity": "grove_bird_feeders",
+			"icon": "bird",
+			"where": "in the grove behind the chapel"
+		}
+	]
+}

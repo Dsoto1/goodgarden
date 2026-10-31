@@ -1,0 +1,29 @@
+{
+	"id": "inv_day_155",
+	"from": "silas",
+	"body": "Dear friend,\n\nGreetings from the mountain! The snow is melting up here at last, and the lambs are coming, one after another.\n\nI could use a steady pair of hands. Will you climb up and help? Take the map; the trail is clear now.",
+	"signature": "Mr. Silas, on the mountain",
+	"suggests": "mountain_lambs",
+	"summary": "Help Mr. Silas settle the ewes and their new lambs.",
+	"done": "Every lamb is snug with its mother!",
+	"tasks": [
+		{
+			"text": "Help with the lambs",
+			"activity": "mountain_lambs",
+			"icon": "sheep",
+			"where": "on the mountain (take the map)"
+		},
+		{
+			"text": "Collect the eggs",
+			"activity": "home_eggs",
+			"icon": "egg",
+			"where": "at the coop by your house"
+		},
+		{
+			"text": "Pour water for supper",
+			"activity": "home_pour_water",
+			"icon": "water",
+			"where": "from the jug in your kitchen"
+		}
+	]
+}

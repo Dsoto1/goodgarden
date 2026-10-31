@@ -1,0 +1,29 @@
+{
+	"id": "inv_day_159",
+	"from": "silas",
+	"body": "Dear friend,\n\nWhat a week we've had: lambs, trail stones, and the top of the mountain!\n\nBefore you go home for the festival, why not write a letter to send down with the mule? Come up to the hut.",
+	"signature": "Mr. Silas, on the mountain",
+	"suggests": "letter_from_mountain",
+	"summary": "Write a letter home from the mountain.",
+	"done": "Your letter is on its way down the mountain!",
+	"tasks": [
+		{
+			"text": "Write a letter home",
+			"activity": "letter_from_mountain",
+			"icon": "letter",
+			"where": "on the mountain (take the map)"
+		},
+		{
+			"text": "Collect the eggs",
+			"activity": "home_eggs",
+			"icon": "egg",
+			"where": "at the coop by your house"
+		},
+		{
+			"text": "Fill the bird feeders",
+			"activity": "grove_bird_feeders",
+			"icon": "bird",
+			"where": "in the grove behind the chapel"
+		}
+	]
+}

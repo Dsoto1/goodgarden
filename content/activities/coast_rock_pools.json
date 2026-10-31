@@ -1,0 +1,142 @@
+{
+	"id": "coast_rock_pools",
+	"title": "Rock Pools",
+	"mode": "task",
+	"location": "coast",
+	"surface": "wood_table",
+	"readiness": {
+		"ages": [
+			5,
+			9
+		],
+		"math": "none",
+		"reading": "pre-reader friendly"
+	},
+	"concepts": [
+		"living and not living",
+		"sorting",
+		"habitats"
+	],
+	"formation_themes": [
+		"care for creatures",
+		"respect"
+	],
+	"prerequisites": [
+		{
+			"fact": "season2.coast_rock_pools_day",
+			"exists": false
+		}
+	],
+	"intro": [
+		{
+			"speaker": "mara",
+			"text": "When the tide goes out, it leaves little pools in the rocks, full of creatures!"
+		},
+		{
+			"speaker": "mara",
+			"text": "We can take home empty shells and pretty pebbles. But anything alive goes back in the pool, where it lives."
+		}
+	],
+	"steps": [
+		{
+			"id": "sort",
+			"primitive": "sort_into_bins",
+			"speaker": "mara",
+			"prompt": "Put the crabs back in the rock pool. Put the shells and pebbles in the bucket.",
+			"hint": "Is it alive? Then it goes back in the pool.",
+			"piece_size": [
+				54,
+				50
+			],
+			"pieces": [
+				{
+					"kind": "crab",
+					"count": 2
+				},
+				{
+					"kind": "shell",
+					"count": 3
+				},
+				{
+					"kind": "pebble",
+					"count": 2
+				}
+			],
+			"bins": [
+				{
+					"kind": "",
+					"label": "back in the pool",
+					"look": "pond",
+					"group": "alive",
+					"pos": [
+						280,
+						170
+					]
+				},
+				{
+					"kind": "",
+					"label": "the bucket",
+					"look": "basket",
+					"group": "keep",
+					"pos": [
+						720,
+						170
+					]
+				}
+			],
+			"groups": {
+				"crab": "alive",
+				"minnow": "alive",
+				"water_snail": "alive",
+				"shell": "keep",
+				"pebble": "keep"
+			},
+			"older": {
+				"pieces": [
+					{
+						"kind": "crab",
+						"count": 2
+					},
+					{
+						"kind": "minnow",
+						"count": 1
+					},
+					{
+						"kind": "water_snail",
+						"count": 1
+					},
+					{
+						"kind": "shell",
+						"count": 4
+					},
+					{
+						"kind": "pebble",
+						"count": 3
+					}
+				],
+				"prompt": "Anything alive goes back in the rock pool. Empty shells and pebbles go in the bucket."
+			},
+			"feedback": {
+				"mismatch": "Hmm, is that one alive? Think again.",
+				"all_good": "Every creature is home, and you've a bucket of treasures!"
+			}
+		}
+	],
+	"outro": [
+		{
+			"speaker": "mara",
+			"text": "Good sailor's manners: look, wonder, and leave every creature where it lives."
+		}
+	],
+	"world_effects": [
+		{
+			"op": "set",
+			"fact": "season2.coast_rock_pools_day",
+			"value": "$day"
+		}
+	],
+	"replay": "once",
+	"real_world_invitation": "rw_creature_hunt",
+	"journal_line": "I explored the rock pools with Captain Mara, and put every creature back.",
+	"unavailable_text": "That's all done. Thank you!"
+}

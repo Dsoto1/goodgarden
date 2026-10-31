@@ -1,0 +1,29 @@
+{
+	"id": "inv_day_085",
+	"from": "miriam",
+	"body": "Good morning, my friend!\n\nDid you see the frost on the grass this morning? It sparkles like sugar. Winter is coming.\n\nMrs. Hannah at the farm needs help getting ready for the cold months. Would you go and help her? Use your map to find the way.",
+	"signature": "Miss Miriam",
+	"suggests": "winter_apples",
+	"summary": "Help Mrs. Hannah pack apples for the winter.",
+	"done": "The apples are safe for the winter!",
+	"tasks": [
+		{
+			"text": "Pack the apples",
+			"activity": "winter_apples",
+			"icon": "apple",
+			"where": "at Mrs. Hannah's farm (take the map)"
+		},
+		{
+			"text": "Collect the eggs",
+			"activity": "home_eggs",
+			"icon": "egg",
+			"where": "at the coop by your house"
+		},
+		{
+			"text": "Pour water for supper",
+			"activity": "home_pour_water",
+			"icon": "water",
+			"where": "from the jug in your kitchen"
+		}
+	]
+}

@@ -1,0 +1,29 @@
+{
+	"id": "inv_day_101",
+	"from": "greta",
+	"body": "Hello, my dear!\n\nSam asked me to write: he's been making reading cards for the little ones at the library, but somebody muddled up all the labels!\n\nWould you help put them right? The library is the tall blue building on the high street.",
+	"signature": "Mrs. Greta, in Bellhaven",
+	"suggests": "city_library",
+	"summary": "Put the reading cards right in Bellhaven's library.",
+	"done": "The reading cards are all in order!",
+	"tasks": [
+		{
+			"text": "Sort the reading cards",
+			"activity": "city_library",
+			"icon": "book",
+			"where": "at the library in Bellhaven (take the map)"
+		},
+		{
+			"text": "Collect the eggs",
+			"activity": "home_eggs",
+			"icon": "egg",
+			"where": "at the coop by your house"
+		},
+		{
+			"text": "Fill the bread baskets",
+			"activity": "bakery_baskets",
+			"icon": "bread",
+			"where": "at the bakery"
+		}
+	]
+}

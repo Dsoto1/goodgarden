@@ -1,0 +1,29 @@
+{
+	"id": "inv_day_129",
+	"from": "miriam",
+	"body": "Good morning, my friend!\n\nSpring is here! I'm walking out to the wilderness today with a basket of little flower plants, to make a border along the trail.\n\nWould you come too? We might see the deer and their new fawns.",
+	"signature": "Miss Miriam",
+	"suggests": "wild_spring_flowers",
+	"summary": "Plant a border of flowers along the wilderness trail.",
+	"done": "The trail is full of flowers!",
+	"tasks": [
+		{
+			"text": "Plant trail flowers",
+			"activity": "wild_spring_flowers",
+			"icon": "flower",
+			"where": "in the wilderness (take the map)"
+		},
+		{
+			"text": "Collect the eggs",
+			"activity": "home_eggs",
+			"icon": "egg",
+			"where": "at the coop by your house"
+		},
+		{
+			"text": "Fill the bread baskets",
+			"activity": "bakery_baskets",
+			"icon": "bread",
+			"where": "at the bakery"
+		}
+	]
+}

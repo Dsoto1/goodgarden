@@ -1,0 +1,29 @@
+{
+	"id": "inv_day_156",
+	"from": "silas",
+	"body": "Good morning!\n\nThe winter storms have knocked down the stones that mark the mountain trail. If the mist comes down, walkers could lose their way.\n\nWould you help me put them back?",
+	"signature": "Mr. Silas, on the mountain",
+	"suggests": "mountain_trail_stones",
+	"summary": "Mark the mountain trail with a pattern of stones.",
+	"done": "The trail is marked again!",
+	"tasks": [
+		{
+			"text": "Mark the trail",
+			"activity": "mountain_trail_stones",
+			"icon": "stone",
+			"where": "on the mountain (take the map)"
+		},
+		{
+			"text": "Set the table",
+			"activity": "home_set_table",
+			"icon": "table",
+			"where": "at home"
+		},
+		{
+			"text": "Feed the lambs",
+			"activity": "sheepfold_hay",
+			"icon": "sheep",
+			"where": "at the sheepfold"
+		}
+	]
+}

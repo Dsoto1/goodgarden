@@ -1,0 +1,29 @@
+{
+	"id": "inv_day_163",
+	"from": "miriam",
+	"body": "Good morning!\n\nA cart came from the monastery this morning, full of flowers in pots. Brother Elias says they're the very seeds you sowed with him in the winter!\n\nCome and see them, and help me share them out as gifts for our festival guests.",
+	"signature": "Miss Miriam",
+	"suggests": "share_spring_flowers",
+	"summary": "Share flowers among the friends coming to the festival.",
+	"done": "Every friend has flowers!",
+	"tasks": [
+		{
+			"text": "Share the flowers",
+			"activity": "share_spring_flowers",
+			"icon": "flower",
+			"where": "in Miss Miriam's garden"
+		},
+		{
+			"text": "Set the table",
+			"activity": "home_set_table",
+			"icon": "table",
+			"where": "at home"
+		},
+		{
+			"text": "Feed the lambs",
+			"activity": "sheepfold_hay",
+			"icon": "sheep",
+			"where": "at the sheepfold"
+		}
+	]
+}

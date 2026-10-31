@@ -1,0 +1,29 @@
+{
+	"id": "inv_day_149",
+	"from": "mara",
+	"body": "Good morning, shipmate!\n\nToday we row out to the lighthouse with fresh water for old Mr. Gill, the keeper.\n\nWould you help fill his jugs? Careful pouring, now!",
+	"signature": "Captain Mara",
+	"suggests": "coast_lighthouse",
+	"summary": "Fill water jugs for the lighthouse keeper.",
+	"done": "Mr. Gill's jugs are full!",
+	"tasks": [
+		{
+			"text": "Help the lighthouse",
+			"activity": "coast_lighthouse",
+			"icon": "water",
+			"where": "at the coast (take the map)"
+		},
+		{
+			"text": "Set the table",
+			"activity": "home_set_table",
+			"icon": "table",
+			"where": "at home"
+		},
+		{
+			"text": "Feed the lambs",
+			"activity": "sheepfold_hay",
+			"icon": "sheep",
+			"where": "at the sheepfold"
+		}
+	]
+}

@@ -1,0 +1,29 @@
+{
+	"id": "inv_day_116",
+	"from": "elias",
+	"body": "Dear friend,\n\nDid you know that things can grow even in the middle of winter? In our glasshouse, seedlings are waiting for spring.\n\nCome and measure them with me!",
+	"signature": "Brother Elias",
+	"suggests": "abbey_seedlings",
+	"summary": "Measure the seedlings in the monastery glasshouse.",
+	"done": "Every seedling is measured!",
+	"tasks": [
+		{
+			"text": "Measure the seedlings",
+			"activity": "abbey_seedlings",
+			"icon": "measure",
+			"where": "at the monastery (take the map)"
+		},
+		{
+			"text": "Pour water for supper",
+			"activity": "home_pour_water",
+			"icon": "water",
+			"where": "from the jug in your kitchen"
+		},
+		{
+			"text": "Set the table",
+			"activity": "home_set_table",
+			"icon": "table",
+			"where": "at home"
+		}
+	]
+}

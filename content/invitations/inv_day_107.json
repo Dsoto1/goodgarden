@@ -1,0 +1,29 @@
+{
+	"id": "inv_day_107",
+	"from": "greta",
+	"body": "Hello again, my dear!\n\nThe mitten box is full to the brim! Every winter we buy mittens for the children of Bellhaven with the coins people give.\n\nWould you help me count them?",
+	"signature": "Mrs. Greta, in Bellhaven",
+	"suggests": "city_mitten_coins",
+	"summary": "Count the coins in Bellhaven's mitten box.",
+	"done": "Enough for lots of warm mittens!",
+	"tasks": [
+		{
+			"text": "Count the mitten coins",
+			"activity": "city_mitten_coins",
+			"icon": "coin",
+			"where": "in Bellhaven (take the map)"
+		},
+		{
+			"text": "Set the table",
+			"activity": "home_set_table",
+			"icon": "table",
+			"where": "at home"
+		},
+		{
+			"text": "Feed the lambs",
+			"activity": "sheepfold_hay",
+			"icon": "sheep",
+			"where": "at the sheepfold"
+		}
+	]
+}

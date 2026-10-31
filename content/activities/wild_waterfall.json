@@ -1,0 +1,189 @@
+{
+	"id": "wild_waterfall",
+	"title": "The Great Waterfall in Spring",
+	"mode": "task",
+	"location": "wilderness",
+	"surface": "wood_table",
+	"readiness": {
+		"ages": [
+			5,
+			9
+		],
+		"math": "counting squares on a grid",
+		"reading": "reading a map"
+	},
+	"concepts": [
+		"maps",
+		"directions: north, south, east, west",
+		"counting steps"
+	],
+	"formation_themes": [
+		"wonder at creation",
+		"joy"
+	],
+	"prerequisites": [
+		{
+			"fact": "season2.wild_waterfall_day",
+			"exists": false
+		}
+	],
+	"intro": [
+		{
+			"speaker": "miriam",
+			"text": "Listen! Can you hear it? All the melted snow from the mountains is pouring over the great waterfall."
+		},
+		{
+			"speaker": "miriam",
+			"text": "Let's find our way there. Follow the trail map, step by step."
+		}
+	],
+	"steps": [
+		{
+			"id": "walk",
+			"primitive": "follow_directions",
+			"speaker": "miriam",
+			"grid": [
+				7,
+				5
+			],
+			"places": [
+				{
+					"icon": "home",
+					"at": [
+						6,
+						4
+					],
+					"name": "trail start"
+				},
+				{
+					"icon": "tree",
+					"at": [
+						4,
+						3
+					],
+					"name": "old oak"
+				},
+				{
+					"icon": "stone",
+					"at": [
+						3,
+						4
+					],
+					"name": "big rock"
+				},
+				{
+					"icon": "flower",
+					"at": [
+						2,
+						2
+					],
+					"name": "flower meadow"
+				},
+				{
+					"icon": "log",
+					"at": [
+						5,
+						1
+					],
+					"name": "fallen log"
+				},
+				{
+					"icon": "leaf",
+					"at": [
+						1,
+						3
+					],
+					"name": "fern hollow"
+				},
+				{
+					"icon": "water",
+					"at": [
+						0,
+						0
+					],
+					"name": "great waterfall"
+				}
+			],
+			"start": [
+				6,
+				4
+			],
+			"steps": [
+				{
+					"dir": "west",
+					"n": 4
+				},
+				{
+					"dir": "north",
+					"n": 2
+				},
+				{
+					"dir": "west",
+					"n": 2
+				},
+				{
+					"dir": "north",
+					"n": 2
+				}
+			],
+			"prompt": "Follow each direction. Move the walker square by square.",
+			"hint": "Show me",
+			"arrows": true,
+			"older": {
+				"start": [
+					6,
+					4
+				],
+				"steps": [
+					{
+						"dir": "north",
+						"n": 1
+					},
+					{
+						"dir": "west",
+						"n": 2
+					},
+					{
+						"dir": "north",
+						"n": 2
+					},
+					{
+						"dir": "west",
+						"n": 4
+					},
+					{
+						"dir": "north",
+						"n": 1
+					}
+				],
+				"arrows": false,
+				"prompt": "Follow each direction: there are no arrows this time. North is at the top of the map."
+			},
+			"feedback": {
+				"all_good": "You found the way to the {place}! Feel the spray!"
+			}
+		}
+	],
+	"outro": [
+		{
+			"speaker": "miriam",
+			"text": "Look at it roar! All that water was snow on the mountains a week ago. Now it's rushing down to the lake, and the river, and the sea."
+		},
+		{
+			"speaker": "miriam",
+			"text": "What a week of waking up. Thank you for coming with me.",
+			"button": "Thank you, Miss Miriam!"
+		}
+	],
+	"world_effects": [
+		{
+			"op": "set",
+			"fact": "season2.wild_waterfall_day",
+			"value": "$day"
+		}
+	],
+	"replay": "once",
+	"real_world_invitation": "rw_draw_map",
+	"journal_line": "I followed the trail map to the great waterfall in spring.",
+	"unavailable_text": "That's all done. Thank you!"
+}

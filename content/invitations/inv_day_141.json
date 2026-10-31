@@ -1,0 +1,29 @@
+{
+	"id": "inv_day_141",
+	"from": "mara",
+	"body": "Ahoy, young friend!\n\nYour letter found me far out at sea, and I read it under the stars. What good questions you ask!\n\nMy ship is coming into harbour today. Come down to the coast and I'll answer them all. And bring strong arms: there's cargo to unload!",
+	"signature": "Captain Mara",
+	"suggests": "coast_unload",
+	"summary": "Help Captain Mara unload her ship.",
+	"done": "The cargo is all sorted!",
+	"tasks": [
+		{
+			"text": "Unload the ship",
+			"activity": "coast_unload",
+			"icon": "anchor",
+			"where": "at the coast (take the map)"
+		},
+		{
+			"text": "Collect the eggs",
+			"activity": "home_eggs",
+			"icon": "egg",
+			"where": "at the coop by your house"
+		},
+		{
+			"text": "Pour water for supper",
+			"activity": "home_pour_water",
+			"icon": "water",
+			"where": "from the jug in your kitchen"
+		}
+	]
+}

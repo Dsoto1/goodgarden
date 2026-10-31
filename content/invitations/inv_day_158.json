@@ -1,0 +1,29 @@
+{
+	"id": "inv_day_158",
+	"from": "silas",
+	"body": "Dear friend,\n\nThe weather's set fair, and the last of the snow has gone from the trail. Today we can climb all the way to the top!\n\nWear your strongest boots, and meet me at the hut.",
+	"signature": "Mr. Silas, on the mountain",
+	"suggests": "mountain_summit",
+	"summary": "Climb to the top of the mountain with Mr. Silas.",
+	"done": "You saw the whole land!",
+	"tasks": [
+		{
+			"text": "Climb to the top",
+			"activity": "mountain_summit",
+			"icon": "mountain",
+			"where": "on the mountain (take the map)"
+		},
+		{
+			"text": "Pour water for supper",
+			"activity": "home_pour_water",
+			"icon": "water",
+			"where": "from the jug in your kitchen"
+		},
+		{
+			"text": "Set the table",
+			"activity": "home_set_table",
+			"icon": "table",
+			"where": "at home"
+		}
+	]
+}

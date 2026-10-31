@@ -1,0 +1,24 @@
+{
+	"id": "day_158",
+	"day": 158,
+	"week": 23,
+	"arc": "New Life & Homecoming",
+	"invitation": "inv_day_158",
+	"npcs": {
+		"miriam": "garden_miriam"
+	},
+	"primary_activity": "mountain_summit",
+	"free_work": [
+		"home_set_table"
+	],
+	"chapel": [
+		"good_samaritan",
+		"mustard_seed",
+		"leaven",
+		"lost_sheep",
+		"fishers",
+		"five_thousand",
+		"good_shepherd"
+	],
+	"season": "Spring"
+}

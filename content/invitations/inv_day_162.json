@@ -1,0 +1,29 @@
+{
+	"id": "inv_day_162",
+	"from": "miriam",
+	"body": "My dear friend,\n\nWelcome home! The valley has missed you.\n\nDo you remember the very first letter I ever sent you? We planted beans together. It's spring again, and the garden is ready. Shall we plant a new row?",
+	"signature": "Miss Miriam",
+	"suggests": "spring_bean_row",
+	"summary": "Plant a new row of beans with Miss Miriam.",
+	"done": "A new row, ready to grow!",
+	"tasks": [
+		{
+			"text": "Plant a new bean row",
+			"activity": "spring_bean_row",
+			"icon": "seedling",
+			"where": "in Miss Miriam's garden"
+		},
+		{
+			"text": "Collect the eggs",
+			"activity": "home_eggs",
+			"icon": "egg",
+			"where": "at the coop by your house"
+		},
+		{
+			"text": "Pour water for supper",
+			"activity": "home_pour_water",
+			"icon": "water",
+			"where": "from the jug in your kitchen"
+		}
+	]
+}

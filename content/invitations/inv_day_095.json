@@ -1,0 +1,29 @@
+{
+	"id": "inv_day_095",
+	"from": "tobias",
+	"body": "Hello, friend!\n\nIt's a two-scarf kind of day! I'm cooking a big pot of porridge to take to everyone working out at the farm.\n\nCome to the bakery and weigh the oats with me?",
+	"signature": "Mr. Tobias, the baker",
+	"suggests": "winter_porridge",
+	"summary": "Weigh oats for warm porridge with Mr. Tobias.",
+	"done": "The porridge is cooking!",
+	"tasks": [
+		{
+			"text": "Weigh the oats",
+			"activity": "winter_porridge",
+			"icon": "scales",
+			"where": "at the bakery"
+		},
+		{
+			"text": "Collect the eggs",
+			"activity": "home_eggs",
+			"icon": "egg",
+			"where": "at the coop by your house"
+		},
+		{
+			"text": "Fill the bread baskets",
+			"activity": "bakery_baskets",
+			"icon": "bread",
+			"where": "at the bakery"
+		}
+	]
+}

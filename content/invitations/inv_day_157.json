@@ -1,0 +1,29 @@
+{
+	"id": "inv_day_157",
+	"from": "silas",
+	"body": "Hello, friend!\n\nThe pack mule came up the trail this morning with supplies for my hut, and the bags are all in a heap.\n\nWould you read my list and put things straight?",
+	"signature": "Mr. Silas, on the mountain",
+	"suggests": "mountain_hut_stores",
+	"summary": "Read Mr. Silas's list and stock the shepherd's hut.",
+	"done": "The hut is stocked!",
+	"tasks": [
+		{
+			"text": "Stock the hut",
+			"activity": "mountain_hut_stores",
+			"icon": "note",
+			"where": "on the mountain (take the map)"
+		},
+		{
+			"text": "Collect the eggs",
+			"activity": "home_eggs",
+			"icon": "egg",
+			"where": "at the coop by your house"
+		},
+		{
+			"text": "Fill the bread baskets",
+			"activity": "bakery_baskets",
+			"icon": "bread",
+			"where": "at the bakery"
+		}
+	]
+}

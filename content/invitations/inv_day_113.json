@@ -1,0 +1,29 @@
+{
+	"id": "inv_day_113",
+	"from": "elias",
+	"body": "Dear young friend,\n\nPeace be with you! Winter is our quiet season here at the monastery. We copy old books by candlelight, so their words aren't lost.\n\nOne precious book is fading. Would you come and help me copy it?",
+	"signature": "Brother Elias",
+	"suggests": "abbey_copy_page",
+	"summary": "Help Brother Elias copy an old book.",
+	"done": "The page is copied!",
+	"tasks": [
+		{
+			"text": "Copy the old page",
+			"activity": "abbey_copy_page",
+			"icon": "book",
+			"where": "at the monastery (take the map)"
+		},
+		{
+			"text": "Collect the eggs",
+			"activity": "home_eggs",
+			"icon": "egg",
+			"where": "at the coop by your house"
+		},
+		{
+			"text": "Pour water for supper",
+			"activity": "home_pour_water",
+			"icon": "water",
+			"where": "from the jug in your kitchen"
+		}
+	]
+}

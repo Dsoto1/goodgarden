@@ -1,0 +1,159 @@
+{
+	"id": "coast_ships_log",
+	"title": "The Ship's Log",
+	"mode": "task",
+	"location": "coast",
+	"surface": "wood_table",
+	"readiness": {
+		"ages": [
+			5,
+			9
+		],
+		"math": "none",
+		"reading": "choosing and reading words to write a log"
+	},
+	"concepts": [
+		"writing a record",
+		"reading words",
+		"sentences"
+	],
+	"formation_themes": [
+		"courage",
+		"trust"
+	],
+	"prerequisites": [
+		{
+			"fact": "season2.coast_ships_log_day",
+			"exists": false
+		}
+	],
+	"intro": [
+		{
+			"speaker": "mara",
+			"text": "What a trip! The wind in the sails, the spray on our faces, and the dolphins leaping alongside!"
+		},
+		{
+			"speaker": "mara",
+			"text": "Every ship keeps a log: a book where the captain writes what happened each day. Would you write today's page?"
+		}
+	],
+	"steps": [
+		{
+			"id": "log",
+			"primitive": "compose_letter",
+			"speaker": "mara",
+			"prompt": "Write the log: choose a word for each coloured space.",
+			"hint": "Show me",
+			"lines": [
+				"The Ship's Log.",
+				"Today we sailed {where}.",
+				"The wind was {wind}.",
+				"We saw {thing}!"
+			],
+			"choices": {
+				"where": [
+					{
+						"word": "around the bay",
+						"icon": "boat"
+					},
+					{
+						"word": "to Gull Island",
+						"icon": "mountain"
+					}
+				],
+				"wind": [
+					{
+						"word": "strong",
+						"icon": "flag"
+					},
+					{
+						"word": "gentle",
+						"icon": "leaf"
+					}
+				],
+				"thing": [
+					{
+						"word": "dolphins",
+						"icon": "fish"
+					},
+					{
+						"word": "the lighthouse",
+						"icon": "sun"
+					},
+					{
+						"word": "seals",
+						"icon": "fish"
+					}
+				]
+			},
+			"signature": "the youngest sailor",
+			"older": {
+				"lines": [
+					"The Ship's Log.",
+					"Today we sailed {where}.",
+					"The wind was {wind}, and the sea was {sea}.",
+					"We saw {thing}",
+					"and {thing2}.",
+					"I felt {felt}."
+				],
+				"choices": {
+					"where": [
+						"around the bay",
+						"to Gull Island",
+						"past the lighthouse"
+					],
+					"wind": [
+						"strong",
+						"gentle",
+						"gusty"
+					],
+					"sea": [
+						"calm",
+						"choppy",
+						"sparkling"
+					],
+					"thing": [
+						"dolphins",
+						"seals",
+						"a whale's spout"
+					],
+					"thing2": [
+						"the lighthouse",
+						"Gull Island",
+						"the harbour lights"
+					],
+					"felt": [
+						"brave",
+						"happy",
+						"a little seasick"
+					]
+				}
+			},
+			"feedback": {
+				"all_good": "A fine page. That log will be read for years to come!"
+			}
+		}
+	],
+	"outro": [
+		{
+			"speaker": "mara",
+			"text": "You were brave out there, my friend. The sea can be big and wild, but with good friends and a good captain, there's nothing to fear."
+		},
+		{
+			"speaker": "mara",
+			"text": "Next week: rock pools, the lighthouse, and a secret plan!",
+			"button": "A secret plan?"
+		}
+	],
+	"world_effects": [
+		{
+			"op": "set",
+			"fact": "season2.coast_ships_log_day",
+			"value": "$day"
+		}
+	],
+	"replay": "once",
+	"real_world_invitation": "rw_write_letter",
+	"journal_line": "I sailed around the bay with Captain Mara, and wrote in the ship's log.",
+	"unavailable_text": "That's all done. Thank you!"
+}

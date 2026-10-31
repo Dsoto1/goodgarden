@@ -1,0 +1,119 @@
+{
+	"id": "mountain_hut_stores",
+	"title": "Stores for the Hut",
+	"mode": "task",
+	"location": "mountains",
+	"surface": "wood_table",
+	"readiness": {
+		"ages": [
+			5,
+			9
+		],
+		"math": "counting out sets",
+		"reading": "reading a list (older: no pictures)"
+	},
+	"concepts": [
+		"reading a list",
+		"reading numerals",
+		"counting out a set"
+	],
+	"formation_themes": [
+		"helpfulness",
+		"attention"
+	],
+	"prerequisites": [
+		{
+			"fact": "season2.mountain_hut_stores_day",
+			"exists": false
+		}
+	],
+	"intro": [
+		{
+			"speaker": "silas",
+			"text": "The pack mule brought supplies up from the valley this morning. Everything's in a muddle!"
+		},
+		{
+			"speaker": "silas",
+			"text": "Here's my list for the hut. Would you read it, and put just what it says on the shelf?"
+		}
+	],
+	"steps": [
+		{
+			"id": "stores",
+			"primitive": "fill_order",
+			"speaker": "silas",
+			"note_title": "For the hut:",
+			"note_from": "Mr. Silas",
+			"basket_label": "the hut shelf",
+			"prompt": "Read the list. Put the right things on the shelf, then press Done.",
+			"hint": "Show me",
+			"order": [
+				{
+					"item": "loaf_round",
+					"count": 2,
+					"word": "loaf",
+					"words": "loaves"
+				},
+				{
+					"item": "egg",
+					"count": 5
+				},
+				{
+					"item": "apple",
+					"count": 3
+				}
+			],
+			"extra": [
+				"shell"
+			],
+			"pictures": true,
+			"older": {
+				"order": [
+					{
+						"item": "loaf_round",
+						"count": 4,
+						"word": "loaf",
+						"words": "loaves"
+					},
+					{
+						"item": "egg",
+						"count": 9
+					},
+					{
+						"item": "apple",
+						"count": 6
+					},
+					{
+						"item": "jam_jar",
+						"count": 2,
+						"word": "jar of jam",
+						"words": "jars of jam"
+					}
+				],
+				"pictures": false,
+				"spare": 3,
+				"prompt": "Read the list: no pictures this time. Put the right things on the shelf, then press Done."
+			},
+			"feedback": {
+				"all_good": "Just what the list says! Enough to last till the shearing."
+			}
+		}
+	],
+	"outro": [
+		{
+			"speaker": "silas",
+			"text": "A full shelf! A shepherd can't pop down to the shop. Thank you, friend."
+		}
+	],
+	"world_effects": [
+		{
+			"op": "set",
+			"fact": "season2.mountain_hut_stores_day",
+			"value": "$day"
+		}
+	],
+	"replay": "once",
+	"real_world_invitation": "rw_read_list",
+	"journal_line": "I read Mr. Silas's list and stocked the shepherd's hut.",
+	"unavailable_text": "That's all done. Thank you!"
+}

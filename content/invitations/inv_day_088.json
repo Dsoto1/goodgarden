@@ -1,0 +1,29 @@
+{
+	"id": "inv_day_088",
+	"from": "amos",
+	"body": "Hello, friend!\n\nThe first hard frost cracked the glass in Mrs. Hannah's kitchen window. I'm taking my tools out to the farm today to mend it.\n\nWould you meet me there? Two pairs of hands are better than one.",
+	"signature": "Mr. Amos",
+	"suggests": "winter_window",
+	"summary": "Help Mr. Amos mend the frosty window at the farm.",
+	"done": "The window is snug and warm!",
+	"tasks": [
+		{
+			"text": "Mend the window",
+			"activity": "winter_window",
+			"icon": "window",
+			"where": "at Mrs. Hannah's farm (take the map)"
+		},
+		{
+			"text": "Pour water for supper",
+			"activity": "home_pour_water",
+			"icon": "water",
+			"where": "from the jug in your kitchen"
+		},
+		{
+			"text": "Set the table",
+			"activity": "home_set_table",
+			"icon": "table",
+			"where": "at home"
+		}
+	]
+}

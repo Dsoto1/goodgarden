@@ -1,0 +1,24 @@
+{
+	"id": "day_087",
+	"day": 87,
+	"week": 13,
+	"arc": "Preparing for Winter",
+	"invitation": "inv_day_087",
+	"npcs": {
+		"miriam": "garden_miriam"
+	},
+	"primary_activity": "winter_cellar",
+	"free_work": [
+		"home_set_table"
+	],
+	"chapel": [
+		"good_samaritan",
+		"mustard_seed",
+		"leaven",
+		"lost_sheep",
+		"fishers",
+		"five_thousand",
+		"good_shepherd"
+	],
+	"season": "Winter"
+}

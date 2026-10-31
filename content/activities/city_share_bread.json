@@ -1,0 +1,91 @@
+{
+	"id": "city_share_bread",
+	"title": "Bread for Every Family",
+	"mode": "task",
+	"location": "city",
+	"surface": "wood_table",
+	"readiness": {
+		"ages": [
+			5,
+			9
+		],
+		"math": "division as fair sharing",
+		"reading": "pre-reader friendly"
+	},
+	"concepts": [
+		"sharing equally",
+		"division",
+		"remainders (older)"
+	],
+	"formation_themes": [
+		"generosity",
+		"compassion"
+	],
+	"prerequisites": [
+		{
+			"fact": "season2.city_share_bread_day",
+			"exists": false
+		}
+	],
+	"intro": [
+		{
+			"speaker": "greta",
+			"text": "Not everyone in Bellhaven has enough to eat in winter. The baker gave us loaves to share with families who need them."
+		},
+		{
+			"speaker": "greta",
+			"text": "Would you please share them out fairly, the same for every family?"
+		}
+	],
+	"steps": [
+		{
+			"id": "share",
+			"primitive": "share_equally",
+			"speaker": "greta",
+			"prompt": "Share the loaves so every family has the same.",
+			"hint": "Show me",
+			"piece": "loaf_round",
+			"total": 15,
+			"plates": 5,
+			"look": "basket",
+			"names": [
+				"the Millers",
+				"the Brooks",
+				"the Carters",
+				"the Fletchers",
+				"the Fishers"
+			],
+			"older": {
+				"total": 23,
+				"plates": 5,
+				"leftover": true,
+				"prompt": "Share twenty-three loaves fairly among five families. Any left over go to the soup kitchen."
+			},
+			"feedback": {
+				"all_good": "{n} loaves for every family. Nobody will go hungry tonight."
+			}
+		}
+	],
+	"outro": [
+		{
+			"speaker": "greta",
+			"text": "Thank you, my dear. When we share what we have, there's always enough to go round."
+		},
+		{
+			"speaker": "greta",
+			"text": "What a week you've had in Bellhaven! Next week: Lantern Night.",
+			"button": "I can't wait!"
+		}
+	],
+	"world_effects": [
+		{
+			"op": "set",
+			"fact": "season2.city_share_bread_day",
+			"value": "$day"
+		}
+	],
+	"replay": "once",
+	"real_world_invitation": "rw_share_bread",
+	"journal_line": "I shared bread fairly among families in Bellhaven who needed it.",
+	"unavailable_text": "That's all done. Thank you!"
+}

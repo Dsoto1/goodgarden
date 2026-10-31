@@ -1,0 +1,29 @@
+{
+	"id": "inv_day_151",
+	"from": "mara",
+	"body": "Good morning, shipmate!\n\nThe fishing boats came in at dawn with a huge catch! The fishermen need help counting it all before the market.\n\nCome and help? Bring your counting voice!",
+	"signature": "Captain Mara",
+	"suggests": "coast_nets",
+	"summary": "Count the fishermen's catch into nets.",
+	"done": "The whole catch is counted!",
+	"tasks": [
+		{
+			"text": "Count the catch",
+			"activity": "coast_nets",
+			"icon": "fish",
+			"where": "at the coast (take the map)"
+		},
+		{
+			"text": "Pour water for supper",
+			"activity": "home_pour_water",
+			"icon": "water",
+			"where": "from the jug in your kitchen"
+		},
+		{
+			"text": "Set the table",
+			"activity": "home_set_table",
+			"icon": "table",
+			"where": "at home"
+		}
+	]
+}

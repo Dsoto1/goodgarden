@@ -1,0 +1,29 @@
+{
+	"id": "inv_day_130",
+	"from": "finn",
+	"body": "Hello, friend!\n\nIt's market day at the lake, and folk will be coming to buy fresh fish. But the nets need mending too, and I can't do both!\n\nWould you mind the fish table for me?",
+	"signature": "Mr. Finn, at the lake",
+	"suggests": "lake_sell_fish",
+	"summary": "Mind Mr. Finn's fish table and give the right change.",
+	"done": "Every customer got the right change!",
+	"tasks": [
+		{
+			"text": "Sell the fish",
+			"activity": "lake_sell_fish",
+			"icon": "coin",
+			"where": "at the lake (take the map)"
+		},
+		{
+			"text": "Pour water for supper",
+			"activity": "home_pour_water",
+			"icon": "water",
+			"where": "from the jug in your kitchen"
+		},
+		{
+			"text": "Set the table",
+			"activity": "home_set_table",
+			"icon": "table",
+			"where": "at home"
+		}
+	]
+}

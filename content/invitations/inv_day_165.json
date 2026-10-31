@@ -1,0 +1,34 @@
+{
+	"id": "inv_day_165",
+	"from": "tobias",
+	"body": "Good morning, friend!\n\nTomorrow's the big day! I've been baking since dawn, and the long tables are out in the square.\n\nCould you come and set the places? We'll need a lot of them!",
+	"signature": "Mr. Tobias, the baker",
+	"suggests": "festival_table",
+	"summary": "Set the long table for the Spring Festival.",
+	"done": "The table is ready for the guests!",
+	"tasks": [
+		{
+			"text": "Set the festival table",
+			"activity": "festival_table",
+			"icon": "table",
+			"where": "in the village square"
+		},
+		{
+			"text": "Pour water for supper",
+			"activity": "home_pour_water",
+			"icon": "water",
+			"where": "from the jug in your kitchen"
+		},
+		{
+			"text": "Feed the hens",
+			"done_when": [
+				{
+					"fact": "home.hens_fed_day",
+					"is_today": true
+				}
+			],
+			"icon": "hen",
+			"where": "by the coop at home"
+		}
+	]
+}

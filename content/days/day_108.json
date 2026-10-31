@@ -1,0 +1,24 @@
+{
+	"id": "day_108",
+	"day": 108,
+	"week": 16,
+	"arc": "Light in the Dark",
+	"invitation": "inv_day_108",
+	"npcs": {
+		"miriam": "garden_miriam"
+	},
+	"primary_activity": "card_for_sam",
+	"free_work": [
+		"home_set_table"
+	],
+	"chapel": [
+		"good_samaritan",
+		"mustard_seed",
+		"leaven",
+		"lost_sheep",
+		"fishers",
+		"five_thousand",
+		"good_shepherd"
+	],
+	"season": "Winter"
+}

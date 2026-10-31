@@ -1,0 +1,29 @@
+{
+	"id": "inv_day_114",
+	"from": "elias",
+	"body": "Dear friend,\n\nThank you for your careful copying yesterday!\n\nToday I'd like to show you how we spend our days here. There's a time for everything. Come and see!",
+	"signature": "Brother Elias",
+	"suggests": "abbey_day",
+	"summary": "Put the cards of a monastery day in order.",
+	"done": "Every card is in its place!",
+	"tasks": [
+		{
+			"text": "Order the day",
+			"activity": "abbey_day",
+			"icon": "sun",
+			"where": "at the monastery (take the map)"
+		},
+		{
+			"text": "Set the table",
+			"activity": "home_set_table",
+			"icon": "table",
+			"where": "at home"
+		},
+		{
+			"text": "Feed the lambs",
+			"activity": "sheepfold_hay",
+			"icon": "sheep",
+			"where": "at the sheepfold"
+		}
+	]
+}

@@ -9,9 +9,12 @@ Last updated: 2026-10-28.
 
 ## Where things stand
 
-- **The full 12-week season is built**: 85 days in `content/days/`, from the
-  first letter to the Harvest Supper. 87 activities in `content/activities/`
-  use about 20 reusable activity types.
+- **Two full seasons are written**: 169 days in `content/days/` (day 0 is the
+  free-day template). The first season (days 1–84) runs from the first letter
+  to the Harvest Supper; the second (days 85–168) goes out into the wider
+  world, winter into spring, and ends at the Spring Festival with every
+  friend in the valley. 147 activities in `content/activities/` use about
+  20 reusable activity types. `docs/ROADMAP.md` has both seasons, arc by arc.
 - **The valley** is the home world: home, Miss Miriam's garden, the
   village, the chapel and Atrium, the mill, the oven, the orchard, the
   pond, the sheepfold and the Grove.
@@ -25,7 +28,7 @@ Last updated: 2026-10-28.
   guide for the world, the map and the places. Its bottom row shows
   in-game mockups of the village, the city, the harbour, the monastery,
   the wilderness and the map.
-- **Tests:** 928 checks, all passing, as of the last commit.
+- **Tests:** all passing as of the last commit (`tests/test_runner.tscn`).
 
 ## How to work here
 
@@ -114,6 +117,17 @@ comes from a test that checks future saves are refused.
   - make sure sites stay apart: their flat ground plus about 20 m of slope
     shouldn't overlap a neighbour's, especially when their levels differ.
 
+## Writing days
+
+A guided day is four files: `content/days/day_NNN.json`, its letter
+`content/invitations/inv_day_NNN.json` (main job plus two everyday ones),
+the main activity in `content/activities/`, and a job spot in
+`content/world/job_spots.json` saying where it starts. `docs/CONTENT_GUIDE.md`
+explains every field. Run the validator, then render the new boards with
+`tools/board_gallery.tscn -- --out=<dir> --only=<ids>` (and `--older`) and
+look at each: some piece kinds only draw on story figures and show as grey
+squares (see the guide).
+
 ## Lessons learned the hard way
 
 - **Probe heights before rendering.** For any terrain change, sample
@@ -135,8 +149,9 @@ want them. Confirm with the owner before starting anything large.
 1. **Map polish.** A pale rocky hill sits in the bottom-right corner of the
    wider-world map, south of the coast. Soften it, for example by lowering
    or greening the southern hills near the sea.
-2. **Second season.** Write story days that visit the wider-world places,
-   rather than only free jobs there (`docs/ROADMAP.md`, "The wider world").
+2. **Second season polish.** Snow in the world during the winter weeks
+   (days 85–126), and the spring bean row (day 162) showing in the garden
+   bed. A third season could follow the same pattern.
 3. **Interiors.** The Bellhaven library, the monastery scriptorium and
    Captain Mara's ship.
 4. **Walking between places.** Travel is by the map today. The painted

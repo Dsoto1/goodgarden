@@ -1,0 +1,29 @@
+{
+	"id": "inv_day_127",
+	"from": "finn",
+	"body": "Hello, friend!\n\nGood news from the lake: the ice has melted at last! The water's sparkling, and the fish have come back to the shallows.\n\nCome and help me with the first catch of spring?",
+	"signature": "Mr. Finn, at the lake",
+	"suggests": "lake_spring_fish",
+	"summary": "Help Mr. Finn count the first spring catch.",
+	"done": "Spring has come to the lake!",
+	"tasks": [
+		{
+			"text": "Count the fish",
+			"activity": "lake_spring_fish",
+			"icon": "fish",
+			"where": "at the lake (take the map)"
+		},
+		{
+			"text": "Collect the eggs",
+			"activity": "home_eggs",
+			"icon": "egg",
+			"where": "at the coop by your house"
+		},
+		{
+			"text": "Pour water for supper",
+			"activity": "home_pour_water",
+			"icon": "water",
+			"where": "from the jug in your kitchen"
+		}
+	]
+}

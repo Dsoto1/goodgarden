@@ -1,0 +1,29 @@
+{
+	"id": "inv_day_086",
+	"from": "hannah",
+	"body": "Dear friend,\n\nThank you for your help yesterday! The apples are tucked away in the cellar.\n\nToday the cows need their winter hay. It must be shared fairly, so every cow has the same. I could use a good counter!",
+	"signature": "Mrs. Hannah, at the farm",
+	"suggests": "winter_hay",
+	"summary": "Share the winter hay fairly among the cows.",
+	"done": "Every cow has her fair share!",
+	"tasks": [
+		{
+			"text": "Share the hay",
+			"activity": "winter_hay",
+			"icon": "wheat",
+			"where": "at Mrs. Hannah's farm (take the map)"
+		},
+		{
+			"text": "Set the table",
+			"activity": "home_set_table",
+			"icon": "table",
+			"where": "at home"
+		},
+		{
+			"text": "Feed the lambs",
+			"activity": "sheepfold_hay",
+			"icon": "sheep",
+			"where": "at the sheepfold"
+		}
+	]
+}

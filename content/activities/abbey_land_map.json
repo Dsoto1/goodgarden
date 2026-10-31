@@ -1,0 +1,180 @@
+{
+	"id": "abbey_land_map",
+	"title": "The Map of the Whole Land",
+	"mode": "task",
+	"location": "monastery",
+	"surface": "wood_table",
+	"readiness": {
+		"ages": [
+			5,
+			9
+		],
+		"math": "counting squares on a grid",
+		"reading": "reading a map"
+	},
+	"concepts": [
+		"maps",
+		"directions: north, south, east, west",
+		"places in the land"
+	],
+	"formation_themes": [
+		"wonder",
+		"belonging"
+	],
+	"prerequisites": [
+		{
+			"fact": "season2.abbey_land_map_day",
+			"exists": false
+		}
+	],
+	"intro": [
+		{
+			"speaker": "elias",
+			"text": "Here is the oldest map in our library: a map of the whole land! Can you find your valley on it?"
+		},
+		{
+			"speaker": "elias",
+			"text": "Let's take a journey on the map. Follow the directions, square by square."
+		}
+	],
+	"steps": [
+		{
+			"id": "walk",
+			"primitive": "follow_directions",
+			"speaker": "elias",
+			"grid": [
+				8,
+				6
+			],
+			"places": [
+				{
+					"icon": "home",
+					"at": [
+						2,
+						4
+					],
+					"name": "valley"
+				},
+				{
+					"icon": "castle",
+					"at": [
+						2,
+						0
+					],
+					"name": "Bellhaven"
+				},
+				{
+					"icon": "cross",
+					"at": [
+						5,
+						2
+					],
+					"name": "monastery"
+				},
+				{
+					"icon": "anchor",
+					"at": [
+						7,
+						3
+					],
+					"name": "coast"
+				},
+				{
+					"icon": "boat",
+					"at": [
+						5,
+						5
+					],
+					"name": "lake"
+				},
+				{
+					"icon": "wheat",
+					"at": [
+						1,
+						5
+					],
+					"name": "farmlands"
+				},
+				{
+					"icon": "tree",
+					"at": [
+						0,
+						3
+					],
+					"name": "wilderness"
+				},
+				{
+					"icon": "mountain",
+					"at": [
+						6,
+						0
+					],
+					"name": "mountains"
+				}
+			],
+			"start": [
+				2,
+				4
+			],
+			"steps": [
+				{
+					"dir": "east",
+					"n": 3
+				},
+				{
+					"dir": "north",
+					"n": 2
+				}
+			],
+			"prompt": "Follow each direction. Move the walker square by square.",
+			"hint": "Show me",
+			"arrows": true,
+			"older": {
+				"start": [
+					2,
+					4
+				],
+				"steps": [
+					{
+						"dir": "north",
+						"n": 2
+					},
+					{
+						"dir": "east",
+						"n": 3
+					},
+					{
+						"dir": "north",
+						"n": 2
+					},
+					{
+						"dir": "east",
+						"n": 1
+					}
+				],
+				"arrows": false,
+				"prompt": "Follow each direction: there are no arrows this time. North is at the top of the map."
+			},
+			"feedback": {
+				"all_good": "You've journeyed all the way to the {place}!"
+			}
+		}
+	],
+	"outro": [
+		{
+			"speaker": "elias",
+			"text": "You know the whole land now, don't you? Every place on this map has people in it, and every one of them is a neighbour."
+		}
+	],
+	"world_effects": [
+		{
+			"op": "set",
+			"fact": "season2.abbey_land_map_day",
+			"value": "$day"
+		}
+	],
+	"replay": "once",
+	"real_world_invitation": "rw_draw_map",
+	"journal_line": "I followed the oldest map in the monastery across the whole land.",
+	"unavailable_text": "That's all done. Thank you!"
+}

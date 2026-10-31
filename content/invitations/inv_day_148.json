@@ -1,0 +1,29 @@
+{
+	"id": "inv_day_148",
+	"from": "mara",
+	"body": "Ahoy!\n\nThe tide goes far out this morning, and the rock pools will be full of creatures. It's the best time for exploring!\n\nCome and look with me. Bring your sharpest eyes.",
+	"signature": "Captain Mara",
+	"suggests": "coast_rock_pools",
+	"summary": "Explore the rock pools with Captain Mara.",
+	"done": "Every creature is safe at home!",
+	"tasks": [
+		{
+			"text": "Explore the rock pools",
+			"activity": "coast_rock_pools",
+			"icon": "lens",
+			"where": "at the coast (take the map)"
+		},
+		{
+			"text": "Collect the eggs",
+			"activity": "home_eggs",
+			"icon": "egg",
+			"where": "at the coop by your house"
+		},
+		{
+			"text": "Pour water for supper",
+			"activity": "home_pour_water",
+			"icon": "water",
+			"where": "from the jug in your kitchen"
+		}
+	]
+}

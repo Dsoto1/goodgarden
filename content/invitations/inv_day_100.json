@@ -1,0 +1,29 @@
+{
+	"id": "inv_day_100",
+	"from": "greta",
+	"body": "Good morning, my dear!\n\nYou did such a fine job yesterday. Today the market will be busier still, and I must fetch more buns from the baker.\n\nWould you mind my stall while I'm gone?",
+	"signature": "Mrs. Greta, in Bellhaven",
+	"suggests": "city_winter_sell",
+	"summary": "Mind Mrs. Greta's market stall and give the right change.",
+	"done": "Every coin of change was right!",
+	"tasks": [
+		{
+			"text": "Mind the stall",
+			"activity": "city_winter_sell",
+			"icon": "coin",
+			"where": "in Bellhaven (take the map)"
+		},
+		{
+			"text": "Set the table",
+			"activity": "home_set_table",
+			"icon": "table",
+			"where": "at home"
+		},
+		{
+			"text": "Feed the lambs",
+			"activity": "sheepfold_hay",
+			"icon": "sheep",
+			"where": "at the sheepfold"
+		}
+	]
+}

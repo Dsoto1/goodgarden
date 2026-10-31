@@ -1,0 +1,29 @@
+{
+	"id": "inv_day_137",
+	"from": "miriam",
+	"body": "Good morning!\n\nI found something wonderful in the wilderness: dozens of little trees, sprung up from the acorns the squirrels buried last autumn!\n\nShall we measure them, so we can watch them grow?",
+	"signature": "Miss Miriam",
+	"suggests": "wild_saplings",
+	"summary": "Measure the young trees in the wilderness.",
+	"done": "Every young tree is measured!",
+	"tasks": [
+		{
+			"text": "Measure young trees",
+			"activity": "wild_saplings",
+			"icon": "tree",
+			"where": "in the wilderness (take the map)"
+		},
+		{
+			"text": "Pour water for supper",
+			"activity": "home_pour_water",
+			"icon": "water",
+			"where": "from the jug in your kitchen"
+		},
+		{
+			"text": "Set the table",
+			"activity": "home_set_table",
+			"icon": "table",
+			"where": "at home"
+		}
+	]
+}

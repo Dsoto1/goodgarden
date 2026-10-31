@@ -1,0 +1,29 @@
+{
+	"id": "inv_day_102",
+	"from": "greta",
+	"body": "Dear friend,\n\nA big wind blew through Bellhaven last night and knocked the glass out of one of the great lanterns!\n\nLantern Night is only a week away. Would you help put the panes back?",
+	"signature": "Mrs. Greta, in Bellhaven",
+	"suggests": "city_lantern_panes",
+	"summary": "Fit the glass panes back into the great lantern.",
+	"done": "The lantern is whole again!",
+	"tasks": [
+		{
+			"text": "Mend the lantern",
+			"activity": "city_lantern_panes",
+			"icon": "window",
+			"where": "in Bellhaven (take the map)"
+		},
+		{
+			"text": "Pour water for supper",
+			"activity": "home_pour_water",
+			"icon": "water",
+			"where": "from the jug in your kitchen"
+		},
+		{
+			"text": "Set the table",
+			"activity": "home_set_table",
+			"icon": "table",
+			"where": "at home"
+		}
+	]
+}

@@ -1,0 +1,95 @@
+{
+	"id": "coast_lighthouse",
+	"title": "The Lighthouse Keeper",
+	"mode": "task",
+	"location": "coast",
+	"surface": "wood_table",
+	"readiness": {
+		"ages": [
+			5,
+			9
+		],
+		"math": "comparing amounts (older: fractions)",
+		"reading": "pre-reader friendly"
+	},
+	"concepts": [
+		"measuring liquids",
+		"fractions: half, quarter (older)",
+		"pouring carefully"
+	],
+	"formation_themes": [
+		"kindness",
+		"service"
+	],
+	"prerequisites": [
+		{
+			"fact": "season2.coast_lighthouse_day",
+			"exists": false
+		}
+	],
+	"intro": [
+		{
+			"speaker": "mara",
+			"text": "Old Mr. Gill keeps the lighthouse, all alone on the rocks. His light keeps every ship safe at night."
+		},
+		{
+			"speaker": "mara",
+			"text": "We row out to him with fresh water each week. Would you please fill his jugs to their lines?"
+		}
+	],
+	"steps": [
+		{
+			"id": "pour",
+			"primitive": "pour_to_line",
+			"speaker": "mara",
+			"prompt": "Fill each jug to its line. Hold the big jug over a jug, and let go at the line.",
+			"hint": "Show me",
+			"lines": [
+				0.7,
+				0.7,
+				0.7
+			],
+			"rate": 0.25,
+			"tolerance": 0.08,
+			"liquid": "water",
+			"older": {
+				"lines": [
+					1.0,
+					0.5,
+					0.75,
+					0.25
+				],
+				"labels": [
+					"full",
+					"half",
+					"three quarters",
+					"a quarter"
+				],
+				"rate": 0.35,
+				"tolerance": 0.05,
+				"prompt": "Fill each jug to its line: full, half, three quarters, and a quarter."
+			},
+			"feedback": {
+				"too_full": "Oops, that one's over the line. Tap it to pour it back.",
+				"all_good": "Every jug filled just right. Mr. Gill will be grateful!"
+			}
+		}
+	],
+	"outro": [
+		{
+			"speaker": "mara",
+			"text": "Mr. Gill keeps his light burning for strangers he'll never meet. That's a kind of love, isn't it?"
+		}
+	],
+	"world_effects": [
+		{
+			"op": "set",
+			"fact": "season2.coast_lighthouse_day",
+			"value": "$day"
+		}
+	],
+	"replay": "once",
+	"real_world_invitation": "rw_pour_home",
+	"journal_line": "I filled water jugs for the lighthouse keeper with Captain Mara.",
+	"unavailable_text": "That's all done. Thank you!"
+}

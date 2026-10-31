@@ -1,0 +1,29 @@
+{
+	"id": "inv_day_096",
+	"from": "hannah",
+	"body": "My dear friend,\n\nSome of our neighbours live far out across the snowy fields, and the drifts are deep. I've packed baskets of food for them.\n\nI've drawn a map of the way. Would you help me carry them?",
+	"signature": "Mrs. Hannah, at the farm",
+	"suggests": "winter_baskets",
+	"summary": "Follow Mrs. Hannah's map to deliver winter baskets.",
+	"done": "Every basket found its way home!",
+	"tasks": [
+		{
+			"text": "Carry the baskets",
+			"activity": "winter_baskets",
+			"icon": "map",
+			"where": "at Mrs. Hannah's farm (take the map)"
+		},
+		{
+			"text": "Set the table",
+			"activity": "home_set_table",
+			"icon": "table",
+			"where": "at home"
+		},
+		{
+			"text": "Fill the bird feeders",
+			"activity": "grove_bird_feeders",
+			"icon": "bird",
+			"where": "in the grove behind the chapel"
+		}
+	]
+}

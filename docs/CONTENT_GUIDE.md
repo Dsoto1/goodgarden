@@ -152,6 +152,8 @@ Answer buttons from a step (numbers to choose) start with none selected, so no a
 
 Positions are in **board units** (1000 × 560); the workspace scales the board to the screen.
 
+**Piece kinds:** use the kinds `PieceArt` draws as pieces (apple, egg, minnow, swallow, sheep, bird, coin, hay, shell, crab, pebble, flags, flowers, stones, leaves, loaves, bean_seed and so on). A few story-figure shapes (`seed`, `sprout`, `fish`, `flour`, `flock`...) draw only on story figures and show as grey squares on a board: use `bean_seed` and `minnow` instead. Check new boards with `tools/board_gallery.tscn -- --only=<ids>` (any ids, at both levels with `--older`).
+
 ## Atrium shelf — `content/world/atrium_shelf.json`
 
 `{"items": [{"activity", "label", "tray_color"}]}`. Each item adds a tray to the Chapel shelf. Only `reflection` activities may be listed.

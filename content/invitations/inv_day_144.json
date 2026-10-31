@@ -1,0 +1,29 @@
+{
+	"id": "inv_day_144",
+	"from": "mara",
+	"body": "Good morning, shipmate!\n\nTomorrow we sail around the bay, and the hold must be loaded just right.\n\nWould you help me weigh the cargo?",
+	"signature": "Captain Mara",
+	"suggests": "coast_weigh",
+	"summary": "Weigh the cargo for Captain Mara's ship.",
+	"done": "The ship is loaded just right!",
+	"tasks": [
+		{
+			"text": "Weigh the cargo",
+			"activity": "coast_weigh",
+			"icon": "scales",
+			"where": "at the coast (take the map)"
+		},
+		{
+			"text": "Pour water for supper",
+			"activity": "home_pour_water",
+			"icon": "water",
+			"where": "from the jug in your kitchen"
+		},
+		{
+			"text": "Set the table",
+			"activity": "home_set_table",
+			"icon": "table",
+			"where": "at home"
+		}
+	]
+}

@@ -1,0 +1,89 @@
+{
+	"id": "winter_flock",
+	"title": "Into the Barn",
+	"mode": "task",
+	"location": "farmlands",
+	"surface": "wood_table",
+	"readiness": {
+		"ages": [
+			5,
+			9
+		],
+		"math": "division as fair sharing",
+		"reading": "pre-reader friendly"
+	},
+	"concepts": [
+		"sharing equally",
+		"division",
+		"remainders (older)"
+	],
+	"formation_themes": [
+		"care for animals",
+		"fairness"
+	],
+	"prerequisites": [
+		{
+			"fact": "season2.winter_flock_day",
+			"exists": false
+		}
+	],
+	"intro": [
+		{
+			"speaker": "hannah",
+			"text": "Brr! Snow on the hills. Tonight will be bitterly cold, so the sheep sleep in the barn."
+		},
+		{
+			"speaker": "hannah",
+			"text": "There are three pens. Would you please share the sheep out, the same number in each, so they're not squashed?"
+		}
+	],
+	"steps": [
+		{
+			"id": "pens",
+			"primitive": "share_equally",
+			"speaker": "hannah",
+			"prompt": "Share the sheep so every pen has the same.",
+			"hint": "Show me",
+			"piece": "sheep",
+			"total": 9,
+			"plates": 3,
+			"names": [
+				"the big pen",
+				"the middle pen",
+				"the corner pen"
+			],
+			"older": {
+				"total": 14,
+				"plates": 4,
+				"leftover": true,
+				"names": [
+					"pen one",
+					"pen two",
+					"pen three",
+					"pen four"
+				],
+				"prompt": "Share fourteen sheep among four pens. Any left over can sleep by the kitchen fire!"
+			},
+			"feedback": {
+				"all_good": "{n} sheep in each pen. Cosy and fair!"
+			}
+		}
+	],
+	"outro": [
+		{
+			"speaker": "hannah",
+			"text": "Snug as can be. Listen to them! That's a happy, sleepy sound."
+		}
+	],
+	"world_effects": [
+		{
+			"op": "set",
+			"fact": "season2.winter_flock_day",
+			"value": "$day"
+		}
+	],
+	"replay": "once",
+	"real_world_invitation": "rw_share_fairly",
+	"journal_line": "I helped Mrs. Hannah share her sheep into the barn pens for a snowy night.",
+	"unavailable_text": "That's all done. Thank you!"
+}

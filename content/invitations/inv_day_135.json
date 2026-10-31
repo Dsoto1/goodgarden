@@ -1,0 +1,29 @@
+{
+	"id": "inv_day_135",
+	"from": "finn",
+	"body": "Hello, friend!\n\nThis morning I heard a sound I've missed all winter: swallows chattering under my roof! They're back from the south.\n\nCome and help me count them?",
+	"signature": "Mr. Finn, at the lake",
+	"suggests": "lake_swallows",
+	"summary": "Count the swallows coming home with Mr. Finn.",
+	"done": "The swallows are home!",
+	"tasks": [
+		{
+			"text": "Count the swallows",
+			"activity": "lake_swallows",
+			"icon": "bird",
+			"where": "at the lake (take the map)"
+		},
+		{
+			"text": "Pour water for supper",
+			"activity": "home_pour_water",
+			"icon": "water",
+			"where": "from the jug in your kitchen"
+		},
+		{
+			"text": "Feed the lambs",
+			"activity": "sheepfold_hay",
+			"icon": "sheep",
+			"where": "at the sheepfold"
+		}
+	]
+}

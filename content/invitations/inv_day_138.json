@@ -1,0 +1,29 @@
+{
+	"id": "inv_day_138",
+	"from": "miriam",
+	"body": "My dear friend,\n\nWhat a lot of spring you've seen this week: fish and tadpoles, swallows and a ladybird, young trees and a roaring waterfall!\n\nMrs. Hannah would love to hear about it all. Why not write and tell her?",
+	"signature": "Miss Miriam",
+	"suggests": "letter_spring_news",
+	"summary": "Write a letter of spring news to Mrs. Hannah.",
+	"done": "Your letter is on its way to the farm!",
+	"tasks": [
+		{
+			"text": "Write spring news",
+			"activity": "letter_spring_news",
+			"icon": "letter",
+			"where": "at the table by your door"
+		},
+		{
+			"text": "Collect the eggs",
+			"activity": "home_eggs",
+			"icon": "egg",
+			"where": "at the coop by your house"
+		},
+		{
+			"text": "Fill the bird feeders",
+			"activity": "grove_bird_feeders",
+			"icon": "bird",
+			"where": "in the grove behind the chapel"
+		}
+	]
+}

@@ -1,0 +1,29 @@
+{
+	"id": "inv_day_109",
+	"from": "tobias",
+	"body": "Good morning, friend!\n\nTomorrow is Lantern Night, and the baker always brings lantern buns! I'm baking a whole basket to carry to Bellhaven.\n\nCome and help me load the oven?",
+	"signature": "Mr. Tobias, the baker",
+	"suggests": "lantern_buns",
+	"summary": "Load the oven with Lantern Night buns.",
+	"done": "The buns are baking!",
+	"tasks": [
+		{
+			"text": "Bake lantern buns",
+			"activity": "lantern_buns",
+			"icon": "bread",
+			"where": "at the bakery"
+		},
+		{
+			"text": "Pour water for supper",
+			"activity": "home_pour_water",
+			"icon": "water",
+			"where": "from the jug in your kitchen"
+		},
+		{
+			"text": "Set the table",
+			"activity": "home_set_table",
+			"icon": "table",
+			"where": "at home"
+		}
+	]
+}

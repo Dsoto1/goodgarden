@@ -1,0 +1,26 @@
+{
+	"id": "day_105",
+	"day": 105,
+	"week": 15,
+	"arc": "Light in the Dark",
+	"invitation": "inv_day_105",
+	"npcs": {
+		"miriam": "chapel_miriam",
+		"tobias": "chapel_tobias",
+		"ruth": "chapel_ruth",
+		"amos": "chapel_amos"
+	},
+	"free_work": [
+		"home_set_table"
+	],
+	"chapel": [
+		"good_samaritan",
+		"mustard_seed",
+		"leaven",
+		"lost_sheep",
+		"fishers",
+		"five_thousand",
+		"good_shepherd"
+	],
+	"season": "Winter"
+}

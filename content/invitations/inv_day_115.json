@@ -1,0 +1,29 @@
+{
+	"id": "inv_day_115",
+	"from": "elias",
+	"body": "Good morning, friend!\n\nIn our store room, the dried herbs from summer have got all mixed up. Brother Thomas can't tell the mint from the sage!\n\nWould you come and help us sort them?",
+	"signature": "Brother Elias",
+	"suggests": "abbey_herbs",
+	"summary": "Sort the dried herbs into their jars.",
+	"done": "The herbs are all sorted!",
+	"tasks": [
+		{
+			"text": "Sort the herbs",
+			"activity": "abbey_herbs",
+			"icon": "leaf",
+			"where": "at the monastery (take the map)"
+		},
+		{
+			"text": "Collect the eggs",
+			"activity": "home_eggs",
+			"icon": "egg",
+			"where": "at the coop by your house"
+		},
+		{
+			"text": "Fill the bread baskets",
+			"activity": "bakery_baskets",
+			"icon": "bread",
+			"where": "at the bakery"
+		}
+	]
+}

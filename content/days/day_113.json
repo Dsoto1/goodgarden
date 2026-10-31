@@ -1,0 +1,24 @@
+{
+	"id": "day_113",
+	"day": 113,
+	"week": 17,
+	"arc": "Wisdom & Patience",
+	"invitation": "inv_day_113",
+	"npcs": {
+		"miriam": "garden_miriam"
+	},
+	"primary_activity": "abbey_copy_page",
+	"free_work": [
+		"home_set_table"
+	],
+	"chapel": [
+		"good_samaritan",
+		"mustard_seed",
+		"leaven",
+		"lost_sheep",
+		"fishers",
+		"five_thousand",
+		"good_shepherd"
+	],
+	"season": "Winter"
+}

@@ -1,0 +1,29 @@
+{
+	"id": "inv_day_150",
+	"from": "mara",
+	"body": "Ahoy!\n\nThe harbour shop opens early on Wednesdays, and I need a few things for the ship. But my hands are full of tar and rope!\n\nWould you go shopping for me? I'll give you my purse.",
+	"signature": "Captain Mara",
+	"suggests": "coast_harbour_shop",
+	"summary": "Buy things at the harbour shop for Captain Mara.",
+	"done": "Every coin counted!",
+	"tasks": [
+		{
+			"text": "Shop for the ship",
+			"activity": "coast_harbour_shop",
+			"icon": "coin",
+			"where": "at the coast (take the map)"
+		},
+		{
+			"text": "Collect the eggs",
+			"activity": "home_eggs",
+			"icon": "egg",
+			"where": "at the coop by your house"
+		},
+		{
+			"text": "Fill the bread baskets",
+			"activity": "bakery_baskets",
+			"icon": "bread",
+			"where": "at the bakery"
+		}
+	]
+}

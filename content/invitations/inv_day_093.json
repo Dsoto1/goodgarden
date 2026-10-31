@@ -1,0 +1,29 @@
+{
+	"id": "inv_day_093",
+	"from": "hannah",
+	"body": "Dear friend,\n\nSnow is falling on the farm! It's beautiful, but the nights will be very cold now.\n\nThe sheep must come into the barn tonight. Would you help me share them out among the pens?",
+	"signature": "Mrs. Hannah, at the farm",
+	"suggests": "winter_flock",
+	"summary": "Help Mrs. Hannah bring the sheep into the barn.",
+	"done": "The sheep are snug in the barn!",
+	"tasks": [
+		{
+			"text": "Bring the sheep in",
+			"activity": "winter_flock",
+			"icon": "sheep",
+			"where": "at Mrs. Hannah's farm (take the map)"
+		},
+		{
+			"text": "Collect the eggs",
+			"activity": "home_eggs",
+			"icon": "egg",
+			"where": "at the coop by your house"
+		},
+		{
+			"text": "Set the table",
+			"activity": "home_set_table",
+			"icon": "table",
+			"where": "at home"
+		}
+	]
+}

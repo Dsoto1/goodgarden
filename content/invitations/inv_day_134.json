@@ -1,0 +1,29 @@
+{
+	"id": "inv_day_134",
+	"from": "miriam",
+	"body": "Good morning!\n\nWhat a rainy week it's been! Puddles everywhere, and the garden is so green.\n\nI've set out jars to catch the rain. Would you help me measure how much fell?",
+	"signature": "Miss Miriam",
+	"suggests": "garden_rain_gauge",
+	"summary": "Measure the spring rain with Miss Miriam.",
+	"done": "Now we know how much rain fell!",
+	"tasks": [
+		{
+			"text": "Measure the rain",
+			"activity": "garden_rain_gauge",
+			"icon": "water",
+			"where": "in Miss Miriam's garden"
+		},
+		{
+			"text": "Collect the eggs",
+			"activity": "home_eggs",
+			"icon": "egg",
+			"where": "at the coop by your house"
+		},
+		{
+			"text": "Set the table",
+			"activity": "home_set_table",
+			"icon": "table",
+			"where": "at home"
+		}
+	]
+}

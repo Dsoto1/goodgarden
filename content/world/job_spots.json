@@ -543,6 +543,728 @@
 			"from_day": 43,
 			"until_day": 9999,
 			"look": "none"
+		},
+		{
+			"region": "farmlands",
+			"at": [
+				-3.6,
+				0,
+				-11.0
+			],
+			"prompt": "Pack apples for the winter",
+			"activity": "winter_apples",
+			"from_day": 85,
+			"look": "crate"
+		},
+		{
+			"region": "farmlands",
+			"at": [
+				12.5,
+				0,
+				-8.5
+			],
+			"prompt": "Share the hay",
+			"activity": "winter_hay",
+			"from_day": 86,
+			"look": "basket"
+		},
+		{
+			"region": "farmlands",
+			"at": [
+				-2.8,
+				0,
+				-15.5
+			],
+			"prompt": "Fill the cellar",
+			"activity": "winter_cellar",
+			"from_day": 87,
+			"look": "basket"
+		},
+		{
+			"region": "farmlands",
+			"at": [
+				-4.0,
+				0,
+				-6.0
+			],
+			"prompt": "Mend the window",
+			"activity": "winter_window",
+			"from_day": 88,
+			"look": "table"
+		},
+		{
+			"region": "farmlands",
+			"at": [
+				-2.4,
+				0,
+				-2.4
+			],
+			"prompt": "Label the store boxes",
+			"activity": "winter_labels",
+			"from_day": 89,
+			"look": "table"
+		},
+		{
+			"region": "valley",
+			"at": [
+				-20.4,
+				0,
+				-40.0
+			],
+			"prompt": "Who stays for winter?",
+			"activity": "winter_birds",
+			"from_day": 92,
+			"look": "none"
+		},
+		{
+			"region": "farmlands",
+			"at": [
+				3.8,
+				0,
+				4.2
+			],
+			"prompt": "Bring the sheep in",
+			"activity": "winter_flock",
+			"from_day": 93,
+			"look": "none"
+		},
+		{
+			"region": "village",
+			"at": [
+				12.2,
+				0,
+				-11.2
+			],
+			"prompt": "Fetch things for the sled",
+			"activity": "winter_sled",
+			"from_day": 94,
+			"look": "crate"
+		},
+		{
+			"region": "village",
+			"at": [
+				-5.6,
+				0,
+				-11.0
+			],
+			"prompt": "Weigh the oats",
+			"activity": "winter_porridge",
+			"from_day": 95,
+			"look": "crate"
+		},
+		{
+			"region": "farmlands",
+			"at": [
+				-2.4,
+				0,
+				-2.4
+			],
+			"prompt": "Carry the baskets",
+			"activity": "winter_baskets",
+			"from_day": 96,
+			"look": "basket"
+		},
+		{
+			"region": "city",
+			"at": [
+				2.2,
+				0,
+				3.0
+			],
+			"prompt": "Stock Mrs. Greta's stall",
+			"activity": "city_winter_stall",
+			"from_day": 99,
+			"look": "crate"
+		},
+		{
+			"region": "city",
+			"at": [
+				-6.0,
+				0,
+				-7.0
+			],
+			"prompt": "Mind the stall",
+			"activity": "city_winter_sell",
+			"from_day": 100,
+			"look": "none"
+		},
+		{
+			"region": "city",
+			"at": [
+				9.6,
+				0,
+				6.5
+			],
+			"prompt": "Sort the reading cards",
+			"activity": "city_library",
+			"from_day": 101,
+			"look": "table"
+		},
+		{
+			"region": "city",
+			"at": [
+				-2.2,
+				0,
+				11.0
+			],
+			"prompt": "Mend the lantern",
+			"activity": "city_lantern_panes",
+			"from_day": 102,
+			"look": "table"
+		},
+		{
+			"region": "city",
+			"at": [
+				6.0,
+				0,
+				-7.0
+			],
+			"prompt": "Share the bread",
+			"activity": "city_share_bread",
+			"from_day": 103,
+			"look": "basket"
+		},
+		{
+			"region": "village",
+			"at": [
+				2.4,
+				0,
+				-5.2
+			],
+			"prompt": "Make flags for Lantern Night",
+			"activity": "lantern_flags",
+			"from_day": 106,
+			"look": "table"
+		},
+		{
+			"region": "city",
+			"at": [
+				-4.2,
+				0,
+				3.0
+			],
+			"prompt": "Count the mitten coins",
+			"activity": "city_mitten_coins",
+			"from_day": 107,
+			"look": "crate"
+		},
+		{
+			"region": "home",
+			"at": [
+				-2.4,
+				0,
+				7.4
+			],
+			"prompt": "Write a card to Sam",
+			"activity": "card_for_sam",
+			"from_day": 108,
+			"look": "table"
+		},
+		{
+			"region": "village",
+			"at": [
+				-5.6,
+				0,
+				-11.0
+			],
+			"prompt": "Bake the buns",
+			"activity": "lantern_buns",
+			"from_day": 109,
+			"look": "crate"
+		},
+		{
+			"region": "city",
+			"at": [
+				0.0,
+				0,
+				-15.0
+			],
+			"prompt": "Lead the lantern parade",
+			"activity": "lantern_night",
+			"from_day": 110,
+			"look": "none"
+		},
+		{
+			"region": "monastery",
+			"at": [
+				3.0,
+				0,
+				9.5
+			],
+			"prompt": "Copy the old page",
+			"activity": "abbey_copy_page",
+			"from_day": 113,
+			"look": "table"
+		},
+		{
+			"region": "monastery",
+			"at": [
+				-4.0,
+				0,
+				9.5
+			],
+			"prompt": "Order the day",
+			"activity": "abbey_day",
+			"from_day": 114,
+			"look": "table"
+		},
+		{
+			"region": "monastery",
+			"at": [
+				-9.0,
+				0,
+				1.0
+			],
+			"prompt": "Sort the herbs",
+			"activity": "abbey_herbs",
+			"from_day": 115,
+			"look": "basket"
+		},
+		{
+			"region": "monastery",
+			"at": [
+				12.0,
+				0,
+				4.0
+			],
+			"prompt": "Measure the seedlings",
+			"activity": "abbey_seedlings",
+			"from_day": 116,
+			"look": "table"
+		},
+		{
+			"region": "monastery",
+			"at": [
+				12.0,
+				0,
+				-1.0
+			],
+			"prompt": "Read the old map",
+			"activity": "abbey_land_map",
+			"from_day": 117,
+			"look": "table"
+		},
+		{
+			"region": "monastery",
+			"at": [
+				3.0,
+				0,
+				9.5
+			],
+			"prompt": "Order the seasons",
+			"activity": "abbey_seasons",
+			"from_day": 120,
+			"look": "table"
+		},
+		{
+			"region": "monastery",
+			"at": [
+				-9.0,
+				0,
+				-5.5
+			],
+			"prompt": "Weigh the wax",
+			"activity": "abbey_candles",
+			"from_day": 121,
+			"look": "crate"
+		},
+		{
+			"region": "home",
+			"at": [
+				-2.4,
+				0,
+				7.4
+			],
+			"prompt": "Write to Captain Mara",
+			"activity": "letter_to_mara",
+			"from_day": 122,
+			"look": "table"
+		},
+		{
+			"region": "monastery",
+			"at": [
+				-4.0,
+				0,
+				9.5
+			],
+			"prompt": "Mend the floor",
+			"activity": "abbey_floor",
+			"from_day": 123,
+			"look": "table"
+		},
+		{
+			"region": "monastery",
+			"at": [
+				12.0,
+				0,
+				4.0
+			],
+			"prompt": "Sow seeds for spring",
+			"activity": "abbey_sow_pots",
+			"from_day": 124,
+			"look": "basket"
+		},
+		{
+			"region": "lake",
+			"at": [
+				0.0,
+				0,
+				-3.0
+			],
+			"prompt": "Count the fish",
+			"activity": "lake_spring_fish",
+			"from_day": 127,
+			"look": "basket"
+		},
+		{
+			"region": "lake",
+			"at": [
+				2.0,
+				0,
+				3.5
+			],
+			"prompt": "Who lives at the lake?",
+			"activity": "lake_spring_life",
+			"from_day": 128,
+			"look": "none"
+		},
+		{
+			"region": "wilderness",
+			"at": [
+				1.5,
+				0,
+				-5.0
+			],
+			"prompt": "Plant the trail flowers",
+			"activity": "wild_spring_flowers",
+			"from_day": 129,
+			"look": "basket"
+		},
+		{
+			"region": "lake",
+			"at": [
+				-10.0,
+				0,
+				-2.0
+			],
+			"prompt": "Mind the fish table",
+			"activity": "lake_sell_fish",
+			"from_day": 130,
+			"look": "table"
+		},
+		{
+			"region": "wilderness",
+			"at": [
+				-5.0,
+				0,
+				7.5
+			],
+			"prompt": "Find the waterfall",
+			"activity": "wild_waterfall",
+			"from_day": 131,
+			"look": "none"
+		},
+		{
+			"region": "garden",
+			"at": [
+				-3.8,
+				0,
+				-2.4
+			],
+			"prompt": "Measure the rain",
+			"activity": "garden_rain_gauge",
+			"from_day": 134,
+			"look": "table"
+		},
+		{
+			"region": "lake",
+			"at": [
+				-2.0,
+				0,
+				10.5
+			],
+			"prompt": "Count the swallows",
+			"activity": "lake_swallows",
+			"from_day": 135,
+			"look": "none"
+		},
+		{
+			"region": "lake",
+			"at": [
+				0.0,
+				0,
+				-3.0
+			],
+			"prompt": "Look at the ladybird",
+			"activity": "lake_ladybird",
+			"from_day": 136,
+			"look": "none"
+		},
+		{
+			"region": "wilderness",
+			"at": [
+				1.5,
+				0,
+				-5.0
+			],
+			"prompt": "Measure the young trees",
+			"activity": "wild_saplings",
+			"from_day": 137,
+			"look": "table"
+		},
+		{
+			"region": "home",
+			"at": [
+				-2.4,
+				0,
+				7.4
+			],
+			"prompt": "Write spring news",
+			"activity": "letter_spring_news",
+			"from_day": 138,
+			"look": "table"
+		},
+		{
+			"region": "coast",
+			"at": [
+				6.0,
+				0,
+				1.0
+			],
+			"prompt": "Sort the cargo",
+			"activity": "coast_unload",
+			"from_day": 141,
+			"look": "crate"
+		},
+		{
+			"region": "coast",
+			"at": [
+				-4.0,
+				0,
+				6.5
+			],
+			"prompt": "Read the sea chart",
+			"activity": "coast_chart",
+			"from_day": 142,
+			"look": "table"
+		},
+		{
+			"region": "coast",
+			"at": [
+				8.0,
+				0,
+				6.0
+			],
+			"prompt": "Order the sailing steps",
+			"activity": "coast_set_sail",
+			"from_day": 143,
+			"look": "table"
+		},
+		{
+			"region": "coast",
+			"at": [
+				-12.0,
+				0,
+				0.5
+			],
+			"prompt": "Weigh the cargo",
+			"activity": "coast_weigh",
+			"from_day": 144,
+			"look": "crate"
+		},
+		{
+			"region": "coast",
+			"at": [
+				16.0,
+				0,
+				-1.2
+			],
+			"prompt": "Write the ship's log",
+			"activity": "coast_ships_log",
+			"from_day": 145,
+			"look": "table",
+			"until_day": 146
+		},
+		{
+			"region": "coast",
+			"at": [
+				16.0,
+				0,
+				-1.2
+			],
+			"prompt": "Explore the rock pools",
+			"activity": "coast_rock_pools",
+			"from_day": 148,
+			"look": "basket"
+		},
+		{
+			"region": "coast",
+			"at": [
+				8.0,
+				0,
+				6.0
+			],
+			"prompt": "Fill the keeper's jugs",
+			"activity": "coast_lighthouse",
+			"from_day": 149,
+			"look": "crate"
+		},
+		{
+			"region": "coast",
+			"at": [
+				-4.0,
+				0,
+				6.5
+			],
+			"prompt": "Shop at the harbour",
+			"activity": "coast_harbour_shop",
+			"from_day": 150,
+			"look": "none"
+		},
+		{
+			"region": "coast",
+			"at": [
+				6.0,
+				0,
+				1.0
+			],
+			"prompt": "Count the catch",
+			"activity": "coast_nets",
+			"from_day": 151,
+			"look": "basket"
+		},
+		{
+			"region": "coast",
+			"at": [
+				-12.0,
+				0,
+				0.5
+			],
+			"prompt": "Pack the sea chest",
+			"activity": "coast_festival_chest",
+			"from_day": 152,
+			"look": "crate"
+		},
+		{
+			"region": "mountains",
+			"at": [
+				9.0,
+				0,
+				15.5
+			],
+			"prompt": "Settle the lambs",
+			"activity": "mountain_lambs",
+			"from_day": 155,
+			"look": "none"
+		},
+		{
+			"region": "mountains",
+			"at": [
+				-1.0,
+				0,
+				-3.0
+			],
+			"prompt": "Mark the trail",
+			"activity": "mountain_trail_stones",
+			"from_day": 156,
+			"look": "crate"
+		},
+		{
+			"region": "mountains",
+			"at": [
+				-12.0,
+				0,
+				9.0
+			],
+			"prompt": "Stock the hut",
+			"activity": "mountain_hut_stores",
+			"from_day": 157,
+			"look": "crate"
+		},
+		{
+			"region": "mountains",
+			"at": [
+				5.0,
+				0,
+				-8.0
+			],
+			"prompt": "Climb to the top",
+			"activity": "mountain_summit",
+			"from_day": 158,
+			"look": "none"
+		},
+		{
+			"region": "mountains",
+			"at": [
+				-1.0,
+				0,
+				-3.0
+			],
+			"prompt": "Write a letter home",
+			"activity": "letter_from_mountain",
+			"from_day": 159,
+			"look": "table",
+			"until_day": 160
+		},
+		{
+			"region": "garden",
+			"at": [
+				-1.2,
+				0,
+				1.8
+			],
+			"prompt": "Plant a new bean row",
+			"activity": "spring_bean_row",
+			"from_day": 162,
+			"look": "none"
+		},
+		{
+			"region": "garden",
+			"at": [
+				-3.8,
+				0,
+				-2.4
+			],
+			"prompt": "Share the flowers",
+			"activity": "share_spring_flowers",
+			"from_day": 163,
+			"look": "basket"
+		},
+		{
+			"region": "home",
+			"at": [
+				-2.4,
+				0,
+				7.4
+			],
+			"prompt": "Write the invitations",
+			"activity": "festival_invitations",
+			"from_day": 164,
+			"look": "table"
+		},
+		{
+			"region": "village",
+			"at": [
+				3.4,
+				0,
+				-4.4
+			],
+			"prompt": "Set the festival table",
+			"activity": "festival_table",
+			"from_day": 165,
+			"look": "table"
+		},
+		{
+			"region": "village",
+			"at": [
+				0.0,
+				0,
+				-6.2
+			],
+			"prompt": "Join the Spring Festival",
+			"activity": "spring_festival",
+			"from_day": 166,
+			"look": "none"
 		}
 	]
 }

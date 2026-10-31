@@ -1,0 +1,26 @@
+{
+	"id": "day_133",
+	"day": 133,
+	"week": 19,
+	"arc": "Waking Waters",
+	"invitation": "inv_day_133",
+	"npcs": {
+		"miriam": "chapel_miriam",
+		"tobias": "chapel_tobias",
+		"ruth": "chapel_ruth",
+		"amos": "chapel_amos"
+	},
+	"free_work": [
+		"home_set_table"
+	],
+	"chapel": [
+		"good_samaritan",
+		"mustard_seed",
+		"leaven",
+		"lost_sheep",
+		"fishers",
+		"five_thousand",
+		"good_shepherd"
+	],
+	"season": "Spring"
+}

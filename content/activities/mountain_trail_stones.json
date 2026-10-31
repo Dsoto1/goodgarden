@@ -1,0 +1,93 @@
+{
+	"id": "mountain_trail_stones",
+	"title": "Marking the Trail",
+	"mode": "task",
+	"location": "mountains",
+	"surface": "wood_table",
+	"readiness": {
+		"ages": [
+			5,
+			9
+		],
+		"math": "repeating patterns",
+		"reading": "pre-reader friendly"
+	},
+	"concepts": [
+		"patterns",
+		"repeating units"
+	],
+	"formation_themes": [
+		"service",
+		"care for others"
+	],
+	"prerequisites": [
+		{
+			"fact": "season2.mountain_trail_stones_day",
+			"exists": false
+		}
+	],
+	"intro": [
+		{
+			"speaker": "silas",
+			"text": "The winter storms knocked over the stones that mark the trail. Without them, walkers could get lost in the mist."
+		},
+		{
+			"speaker": "silas",
+			"text": "We mark it with a pattern, so anyone can tell it's the trail. Can you carry on the pattern?"
+		}
+	],
+	"steps": [
+		{
+			"id": "stones",
+			"primitive": "continue_pattern",
+			"speaker": "silas",
+			"look": "path",
+			"prompt": "Carry on the pattern of stones. What comes next?",
+			"hint": "Show me",
+			"unit": [
+				"stone_big",
+				"stone_small",
+				"stone_small"
+			],
+			"length": 12,
+			"given": 3,
+			"names": {
+				"stone_big": "big",
+				"stone_small": "small"
+			},
+			"older": {
+				"unit": [
+					"stone_big",
+					"stone_big",
+					"stone_small",
+					"stone_big",
+					"stone_small"
+				],
+				"length": 15,
+				"given": 5,
+				"prompt": "Carry on the pattern: big, big, small, big, small. What comes next?"
+			},
+			"feedback": {
+				"wrong": "Listen to the pattern: {pattern}",
+				"all_good": "The trail is marked all the way up. Nobody will get lost now!"
+			}
+		}
+	],
+	"outro": [
+		{
+			"speaker": "silas",
+			"text": "A walker in the mist will see those stones and know they're on the right path. You've helped someone you'll never meet."
+		}
+	],
+	"world_effects": [
+		{
+			"op": "set",
+			"fact": "season2.mountain_trail_stones_day",
+			"value": "$day"
+		}
+	],
+	"replay": "once",
+	"real_world_invitation": "rw_patterns",
+	"journal_line": "I marked the mountain trail with a pattern of stones with Mr. Silas.",
+	"unavailable_text": "That's all done. Thank you!"
+}

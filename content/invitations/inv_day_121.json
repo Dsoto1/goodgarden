@@ -1,0 +1,29 @@
+{
+	"id": "inv_day_121",
+	"from": "elias",
+	"body": "Good morning!\n\nOur candles are running low, and the nights are so long now. Today we're making new ones from beeswax.\n\nWould you come and help weigh the wax?",
+	"signature": "Brother Elias",
+	"suggests": "abbey_candles",
+	"summary": "Weigh beeswax for the monastery's candles.",
+	"done": "Enough wax for many candles!",
+	"tasks": [
+		{
+			"text": "Weigh the wax",
+			"activity": "abbey_candles",
+			"icon": "scales",
+			"where": "at the monastery (take the map)"
+		},
+		{
+			"text": "Set the table",
+			"activity": "home_set_table",
+			"icon": "table",
+			"where": "at home"
+		},
+		{
+			"text": "Feed the lambs",
+			"activity": "sheepfold_hay",
+			"icon": "sheep",
+			"where": "at the sheepfold"
+		}
+	]
+}

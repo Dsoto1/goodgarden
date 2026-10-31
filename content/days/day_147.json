@@ -1,0 +1,26 @@
+{
+	"id": "day_147",
+	"day": 147,
+	"week": 21,
+	"arc": "The Wide Sea",
+	"invitation": "inv_day_147",
+	"npcs": {
+		"miriam": "chapel_miriam",
+		"tobias": "chapel_tobias",
+		"ruth": "chapel_ruth",
+		"amos": "chapel_amos"
+	},
+	"free_work": [
+		"home_set_table"
+	],
+	"chapel": [
+		"good_samaritan",
+		"mustard_seed",
+		"leaven",
+		"lost_sheep",
+		"fishers",
+		"five_thousand",
+		"good_shepherd"
+	],
+	"season": "Spring"
+}

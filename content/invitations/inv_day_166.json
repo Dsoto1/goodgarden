@@ -1,0 +1,29 @@
+{
+	"id": "inv_day_166",
+	"from": "miriam",
+	"body": "My dear friend,\n\nToday is the Spring Festival! Listen: can you hear wheels on the road, and voices, and a ship's bell from the river?\n\nOur friends are coming from every corner of the land. Come to the square!",
+	"signature": "Miss Miriam",
+	"suggests": "spring_festival",
+	"summary": "Join the Spring Festival in the village square.",
+	"done": "What a festival!",
+	"tasks": [
+		{
+			"text": "Go to the festival",
+			"activity": "spring_festival",
+			"icon": "flag",
+			"where": "in the village square"
+		},
+		{
+			"text": "Collect the eggs",
+			"activity": "home_eggs",
+			"icon": "egg",
+			"where": "at the coop by your house"
+		},
+		{
+			"text": "Set the table",
+			"activity": "home_set_table",
+			"icon": "table",
+			"where": "at home"
+		}
+	]
+}

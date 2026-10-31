@@ -1,0 +1,29 @@
+{
+	"id": "inv_day_110",
+	"from": "greta",
+	"body": "My dear friend,\n\nTonight is Lantern Night! When the cathedral bell rings, everyone carries a lantern through the old streets to the great square.\n\nSam has saved you a lantern. Come to Bellhaven and lead the way!",
+	"signature": "Mrs. Greta, in Bellhaven",
+	"suggests": "lantern_night",
+	"summary": "Carry a lantern through Bellhaven on Lantern Night.",
+	"done": "What a glowing, happy night!",
+	"tasks": [
+		{
+			"text": "Go to Lantern Night",
+			"activity": "lantern_night",
+			"icon": "sun",
+			"where": "in Bellhaven (take the map)"
+		},
+		{
+			"text": "Collect the eggs",
+			"activity": "home_eggs",
+			"icon": "egg",
+			"where": "at the coop by your house"
+		},
+		{
+			"text": "Fill the bird feeders",
+			"activity": "grove_bird_feeders",
+			"icon": "bird",
+			"where": "in the grove behind the chapel"
+		}
+	]
+}

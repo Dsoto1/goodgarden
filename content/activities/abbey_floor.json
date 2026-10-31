@@ -1,0 +1,185 @@
+{
+	"id": "abbey_floor",
+	"title": "The Cloister Floor",
+	"mode": "task",
+	"location": "monastery",
+	"surface": "wood_table",
+	"readiness": {
+		"ages": [
+			5,
+			9
+		],
+		"math": "geometry: squares, rectangles, triangles",
+		"reading": "pre-reader friendly"
+	},
+	"concepts": [
+		"shapes",
+		"turning shapes",
+		"tiling"
+	],
+	"formation_themes": [
+		"work well done",
+		"care for others"
+	],
+	"prerequisites": [
+		{
+			"fact": "season2.abbey_floor_day",
+			"exists": false
+		}
+	],
+	"intro": [
+		{
+			"speaker": "elias",
+			"text": "The frost has lifted some tiles from the cloister floor. The brothers keep tripping over them!"
+		},
+		{
+			"speaker": "elias",
+			"text": "Would you fit the tiles back? Turn each one until it fits."
+		}
+	],
+	"steps": [
+		{
+			"id": "tiles",
+			"primitive": "fit_shapes",
+			"speaker": "elias",
+			"picture": "floor",
+			"size": [
+				68,
+				68
+			],
+			"prompt": "Fit each tile into the floor. Tap a tile to turn it.",
+			"hint": "Show me",
+			"shapes": [
+				{
+					"kind": "shape_square",
+					"pos": [
+						430,
+						95
+					],
+					"turn": 0
+				},
+				{
+					"kind": "shape_square",
+					"pos": [
+						570,
+						95
+					],
+					"turn": 0
+				},
+				{
+					"kind": "shape_rect",
+					"pos": [
+						500,
+						165
+					],
+					"turn": 0,
+					"size": [
+						138,
+						68
+					]
+				},
+				{
+					"kind": "shape_square",
+					"pos": [
+						430,
+						235
+					],
+					"turn": 0
+				},
+				{
+					"kind": "shape_square",
+					"pos": [
+						570,
+						235
+					],
+					"turn": 0
+				}
+			],
+			"older": {
+				"prompt": "Fit each tile into the floor. Some squares are made of two triangles: turn them to fit!",
+				"shapes": [
+					{
+						"kind": "shape_triangle",
+						"pos": [
+							430,
+							95
+						],
+						"turn": 0
+					},
+					{
+						"kind": "shape_triangle",
+						"pos": [
+							430,
+							95
+						],
+						"turn": 2
+					},
+					{
+						"kind": "shape_square",
+						"pos": [
+							570,
+							95
+						],
+						"turn": 0
+					},
+					{
+						"kind": "shape_rect",
+						"pos": [
+							500,
+							165
+						],
+						"turn": 0,
+						"size": [
+							138,
+							68
+						]
+					},
+					{
+						"kind": "shape_square",
+						"pos": [
+							430,
+							235
+						],
+						"turn": 0
+					},
+					{
+						"kind": "shape_triangle",
+						"pos": [
+							570,
+							235
+						],
+						"turn": 1
+					},
+					{
+						"kind": "shape_triangle",
+						"pos": [
+							570,
+							235
+						],
+						"turn": 3
+					}
+				]
+			},
+			"feedback": {
+				"all_good": "Every tile fits. Nobody will trip now!"
+			}
+		}
+	],
+	"outro": [
+		{
+			"speaker": "elias",
+			"text": "A smooth floor again. Thank you! The brothers will walk the cloister in peace."
+		}
+	],
+	"world_effects": [
+		{
+			"op": "set",
+			"fact": "season2.abbey_floor_day",
+			"value": "$day"
+		}
+	],
+	"replay": "once",
+	"real_world_invitation": "rw_shape_hunt",
+	"journal_line": "I fitted the tiles back into the monastery's cloister floor.",
+	"unavailable_text": "That's all done. Thank you!"
+}

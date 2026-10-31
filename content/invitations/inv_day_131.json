@@ -1,0 +1,29 @@
+{
+	"id": "inv_day_131",
+	"from": "miriam",
+	"body": "My dear friend,\n\nThe snow on the mountains is melting fast, and they say the great waterfall in the wilderness has never been so loud!\n\nShall we go and see it together? I'll bring the trail map.",
+	"signature": "Miss Miriam",
+	"suggests": "wild_waterfall",
+	"summary": "Follow the trail map to the great waterfall.",
+	"done": "What a roaring waterfall!",
+	"tasks": [
+		{
+			"text": "Go to the waterfall",
+			"activity": "wild_waterfall",
+			"icon": "water",
+			"where": "in the wilderness (take the map)"
+		},
+		{
+			"text": "Collect the eggs",
+			"activity": "home_eggs",
+			"icon": "egg",
+			"where": "at the coop by your house"
+		},
+		{
+			"text": "Fill the bird feeders",
+			"activity": "grove_bird_feeders",
+			"icon": "bird",
+			"where": "in the grove behind the chapel"
+		}
+	]
+}

@@ -1,0 +1,29 @@
+{
+	"id": "inv_day_128",
+	"from": "finn",
+	"body": "Hello again!\n\nThe whole lake is busy this morning: tadpoles wriggling in the reeds, ducklings following their mother, bees buzzing in the blossom.\n\nCome and see who's woken up!",
+	"signature": "Mr. Finn, at the lake",
+	"suggests": "lake_spring_life",
+	"summary": "Find out who lives at the lake in spring.",
+	"done": "The lake is full of life!",
+	"tasks": [
+		{
+			"text": "Who lives at the lake?",
+			"activity": "lake_spring_life",
+			"icon": "fish",
+			"where": "at the lake (take the map)"
+		},
+		{
+			"text": "Set the table",
+			"activity": "home_set_table",
+			"icon": "table",
+			"where": "at home"
+		},
+		{
+			"text": "Feed the lambs",
+			"activity": "sheepfold_hay",
+			"icon": "sheep",
+			"where": "at the sheepfold"
+		}
+	]
+}

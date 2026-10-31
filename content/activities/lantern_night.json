@@ -1,0 +1,201 @@
+{
+	"id": "lantern_night",
+	"title": "Lantern Night",
+	"mode": "task",
+	"location": "city",
+	"surface": "wood_table",
+	"readiness": {
+		"ages": [
+			5,
+			9
+		],
+		"math": "counting squares on a grid",
+		"reading": "reading a map"
+	},
+	"concepts": [
+		"maps",
+		"directions: north, south, east, west",
+		"counting steps"
+	],
+	"formation_themes": [
+		"joy",
+		"community"
+	],
+	"prerequisites": [
+		{
+			"fact": "season2.lantern_night_day",
+			"exists": false
+		}
+	],
+	"intro": [
+		{
+			"speaker": "greta",
+			"text": "It's Lantern Night! When the bell rings, everyone carries a lantern through the streets to the great square."
+		},
+		{
+			"speaker": "greta",
+			"text": "Here's a map of the old streets. Will you lead the way with your lantern?"
+		}
+	],
+	"steps": [
+		{
+			"id": "walk",
+			"primitive": "follow_directions",
+			"speaker": "greta",
+			"grid": [
+				7,
+				5
+			],
+			"places": [
+				{
+					"icon": "door",
+					"at": [
+						0,
+						4
+					],
+					"name": "city gate"
+				},
+				{
+					"icon": "bun",
+					"at": [
+						2,
+						4
+					],
+					"name": "bakery"
+				},
+				{
+					"icon": "book",
+					"at": [
+						1,
+						2
+					],
+					"name": "library"
+				},
+				{
+					"icon": "well",
+					"at": [
+						3,
+						3
+					],
+					"name": "old well"
+				},
+				{
+					"icon": "coin",
+					"at": [
+						5,
+						4
+					],
+					"name": "market"
+				},
+				{
+					"icon": "bridge",
+					"at": [
+						5,
+						2
+					],
+					"name": "bridge"
+				},
+				{
+					"icon": "cross",
+					"at": [
+						3,
+						0
+					],
+					"name": "cathedral"
+				},
+				{
+					"icon": "castle",
+					"at": [
+						6,
+						0
+					],
+					"name": "great square"
+				}
+			],
+			"start": [
+				0,
+				4
+			],
+			"steps": [
+				{
+					"dir": "east",
+					"n": 3
+				},
+				{
+					"dir": "north",
+					"n": 2
+				},
+				{
+					"dir": "east",
+					"n": 3
+				},
+				{
+					"dir": "north",
+					"n": 2
+				}
+			],
+			"prompt": "Follow each direction. Move the walker square by square.",
+			"hint": "Show me",
+			"arrows": true,
+			"older": {
+				"start": [
+					0,
+					4
+				],
+				"steps": [
+					{
+						"dir": "north",
+						"n": 2
+					},
+					{
+						"dir": "east",
+						"n": 2
+					},
+					{
+						"dir": "north",
+						"n": 1
+					},
+					{
+						"dir": "east",
+						"n": 4
+					},
+					{
+						"dir": "north",
+						"n": 1
+					}
+				],
+				"arrows": false,
+				"prompt": "Follow each direction: there are no arrows this time. North is at the top of the map."
+			},
+			"feedback": {
+				"all_good": "You led everyone to the {place}! Look at all the lights!"
+			}
+		}
+	],
+	"outro": [
+		{
+			"speaker": "greta",
+			"text": "Look! Every lantern in Bellhaven, all together. The whole city is glowing."
+		},
+		{
+			"speaker": "greta",
+			"text": "One little light doesn't seem like much. But together they light up the whole night."
+		},
+		{
+			"speaker": "greta",
+			"text": "Thank you for everything you did for Bellhaven, my dear.",
+			"button": "Thank you, Mrs. Greta!"
+		}
+	],
+	"world_effects": [
+		{
+			"op": "set",
+			"fact": "season2.lantern_night_day",
+			"value": "$day"
+		}
+	],
+	"replay": "once",
+	"real_world_invitation": "rw_draw_map",
+	"journal_line": "I carried a lantern through Bellhaven on Lantern Night.",
+	"unavailable_text": "That's all done. Thank you!"
+}

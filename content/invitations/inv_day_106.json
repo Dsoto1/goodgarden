@@ -1,0 +1,29 @@
+{
+	"id": "inv_day_106",
+	"from": "miriam",
+	"body": "Good morning, my friend!\n\nLantern Night in Bellhaven is this Friday! The whole valley has been invited.\n\nWe're making strings of paper flags to bring as a gift. Will you come to the square and help?",
+	"signature": "Miss Miriam",
+	"suggests": "lantern_flags",
+	"summary": "Make patterned flags to bring to Lantern Night.",
+	"done": "The flags are ready!",
+	"tasks": [
+		{
+			"text": "Make the flags",
+			"activity": "lantern_flags",
+			"icon": "flag",
+			"where": "in the village square"
+		},
+		{
+			"text": "Collect the eggs",
+			"activity": "home_eggs",
+			"icon": "egg",
+			"where": "at the coop by your house"
+		},
+		{
+			"text": "Pour water for supper",
+			"activity": "home_pour_water",
+			"icon": "water",
+			"where": "from the jug in your kitchen"
+		}
+	]
+}

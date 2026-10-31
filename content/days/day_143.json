@@ -1,0 +1,24 @@
+{
+	"id": "day_143",
+	"day": 143,
+	"week": 21,
+	"arc": "The Wide Sea",
+	"invitation": "inv_day_143",
+	"npcs": {
+		"miriam": "garden_miriam"
+	},
+	"primary_activity": "coast_set_sail",
+	"free_work": [
+		"home_set_table"
+	],
+	"chapel": [
+		"good_samaritan",
+		"mustard_seed",
+		"leaven",
+		"lost_sheep",
+		"fishers",
+		"five_thousand",
+		"good_shepherd"
+	],
+	"season": "Spring"
+}
