@@ -91,6 +91,37 @@ static func apply(root: Node, grade: Dictionary, sway: float, cache_key: String)
 				mi.set_surface_override_material(i, convert_material(source, grade, sway, cache_key))
 
 
+## Keeps snow off a model in the winter weeks (people and animals): its
+## storybook materials are swapped for copies with snow_cover 0, shared
+## between models.
+static func no_snow(root: Node) -> void:
+	for node in root.find_children("*", "MeshInstance3D", true, false):
+		var mi := node as MeshInstance3D
+		if mi.material_override:
+			mi.material_override = _snow_free(mi.material_override)
+		if mi.mesh == null:
+			continue
+		for i in mi.mesh.get_surface_count():
+			var m := mi.get_active_material(i)
+			if m and not mi.material_override:
+				mi.set_surface_override_material(i, _snow_free(m))
+
+
+static var _snow_free_cache := {}
+
+
+static func _snow_free(m: Material) -> Material:
+	var sm := m as ShaderMaterial
+	if sm == null:
+		return m
+	var key := sm.get_instance_id()
+	if not _snow_free_cache.has(key):
+		var copy := sm.duplicate() as ShaderMaterial
+		copy.set_shader_parameter("snow_cover", 0.0)
+		_snow_free_cache[key] = copy
+	return _snow_free_cache[key]
+
+
 ## Wind follows the "Less motion" setting.
 static func apply_settings() -> void:
 	RenderingServer.global_shader_parameter_set("gg_wind", 0.0 if Settings.get_value("reduced_motion") else 1.0)

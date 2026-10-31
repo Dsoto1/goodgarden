@@ -72,7 +72,7 @@ func build(look: Dictionary) -> CharacterModel:
 	var mesh := MeshInstance3D.new()
 	mesh.name = "Body"
 	mesh.mesh = BodyMesh.build(look, w)
-	mesh.material_override = Style.material("solid", {"use_vertex_color": true, "wrap": 0.45, "rim_strength": 0.1})
+	mesh.material_override = Style.material("solid", {"use_vertex_color": true, "wrap": 0.45, "rim_strength": 0.1, "snow_cover": 0.0})
 	_skeleton.add_child(mesh)
 	mesh.skeleton = NodePath("..")
 	mesh.skin = _skeleton.create_skin_from_rest_transforms()
@@ -122,6 +122,7 @@ func build(look: Dictionary) -> CharacterModel:
 	for part: Node in [_eyes, _mouth] + _brows:
 		for g in part.find_children("*", "GeometryInstance3D", true, false):
 			(g as GeometryInstance3D).visibility_range_end = face_range
+	Style.no_snow(self)
 	return self
 
 

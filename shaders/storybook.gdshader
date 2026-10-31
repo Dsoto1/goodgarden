@@ -41,5 +41,8 @@ void fragment() {
 		float stripe = step(0.5, fract(across / 0.5));
 		ALBEDO = mix(grade(c.rgb), vec3(0.96, 0.93, 0.86), stripe);
 	}
+	if (pattern != 6 && pattern != 7 && pattern != 9) {
+		ALBEDO = mix(ALBEDO, SNOW, snow_amount(world_pos, world_normal));
+	}
 	EMISSION = emission_color;
 }

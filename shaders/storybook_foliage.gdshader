@@ -15,10 +15,12 @@ global uniform float gg_wind;
 
 varying float height_frac;
 varying vec3 world_pos;
+varying vec3 world_normal;
 
 void vertex() {
 	vec3 world = (MODEL_MATRIX * vec4(VERTEX, 1.0)).xyz;
 	world_pos = world;
+	world_normal = normalize((MODEL_MATRIX * vec4(NORMAL, 0.0)).xyz);
 	// Sway grows with height above the plant's base, so trunks and roots stay put.
 	float h = clamp((world.y - MODEL_MATRIX[3].y) / 4.0, 0.0, 1.0);
 	height_frac = clamp((world.y - MODEL_MATRIX[3].y) / 0.45, 0.0, 1.0);
@@ -39,6 +41,7 @@ void fragment() {
 		c *= COLOR;
 	}
 	ALBEDO = grade(c.rgb) * mix(root_shade, 1.0, height_frac);
+	ALBEDO = mix(ALBEDO, SNOW, up_normals ? gg_snow * snow_cover * 0.7 : snow_amount(world_pos, world_normal) * 0.85);
 	ALPHA = c.a;
 	ALPHA_SCISSOR_THRESHOLD = alpha_cut;
 	if (up_normals) {

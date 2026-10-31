@@ -63,6 +63,16 @@ func season() -> String:
 	return str(definition().get("season", "Spring"))
 
 
+## How much snow lies today, 0 to 1 (a day's "snow"; the winter weeks).
+func snow() -> float:
+	return float(definition().get("snow", 0.0))
+
+
+## True on a day when snow is falling (a day's "snowfall").
+func snowing() -> bool:
+	return bool(definition().get("snowfall", false))
+
+
 ## Where an NPC should stand today, as an anchor id placed by a region.
 func npc_anchor(npc_id: String) -> String:
 	return str(definition().get("npcs", {}).get(npc_id, ""))

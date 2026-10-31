@@ -21,6 +21,8 @@ Every file has an `"id"`. All text is plain English for now and passes through `
 }
 ```
 
+A day may also set `"snow"` (0 to 1: how deep the snow lies over the world; a light frost is about 0.3) and `"snowfall": true` (flakes falling around the child, out of doors).
+
 `npcs` maps a character to an **anchor** placed by a region (e.g. `garden_miriam`, `home_spawn`, `village_plaza`, `chapel_door`, `village_overlook`). Leave a character out and they stay away that day. Day `0` is the template for days past the written content.
 
 The days run in weeks, and day 1 is a Monday. **Monday to Friday** each have a letter with three jobs. **Saturday** is a free day: a day file with no `invitation`, for open play and free work. **Sunday** is the day of rest: a short letter and no jobs, with the neighbours at the Chapel (`chapel_miriam`, `chapel_tobias`, `chapel_ruth`, `chapel_amos`); Sundays past the written days do the same on their own. Twelve weeks make the season's 60 guided days.

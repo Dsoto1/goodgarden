@@ -87,6 +87,26 @@ gg_see_through={
 "type": "float",
 "value": 1.0
 }
+gg_snow={
+"type": "float",
+"value": 0.0
+}
+gg_snow_hole_0={
+"type": "vec4",
+"value": Vector4(0, 0, 0, 0)
+}
+gg_snow_hole_1={
+"type": "vec4",
+"value": Vector4(0, 0, 0, 0)
+}
+gg_snow_hole_2={
+"type": "vec4",
+"value": Vector4(0, 0, 0, 0)
+}
+gg_snow_hole_3={
+"type": "vec4",
+"value": Vector4(0, 0, 0, 0)
+}
 
 [rendering]
 

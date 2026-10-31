@@ -20,5 +20,7 @@
 		"five_thousand",
 		"good_shepherd"
 	],
-	"season": "Winter"
+	"season": "Winter",
+	"snow": 0.6,
+	"snowfall": true
 }

@@ -13,6 +13,7 @@ var display_name := ""
 ## Areas (world space) where ground cover must not grow: floors, paths, beds.
 ## Each is {"rect": Rect2} in x/z, or {"a": Vector2, "b": Vector2, "width": float}.
 var clearings: Array[Dictionary] = []
+var interiors: Array[Zone] = [] # rooms indoors (no snow falls in them)
 
 
 func _ready() -> void:
@@ -124,6 +125,7 @@ func add_place_zone(place_id: String, center: Vector3, size: Vector3) -> Zone:
 ## World which mood to use ("home" or "chapel").
 func add_interior(mood: String, center: Vector3, size: Vector3, cutaway: Array[Node3D]) -> Zone:
 	var z := Zone.create(self, center, size)
+	interiors.append(z)
 	z.player_entered.connect(func() -> void:
 		for n in cutaway:
 			n.visible = false

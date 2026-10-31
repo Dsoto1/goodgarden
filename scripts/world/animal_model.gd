@@ -7,7 +7,9 @@ extends RefCounted
 
 static func make(kind: String) -> Node3D:
 	if FarmAnimal.is_kind(kind):
-		return FarmAnimal.make(kind)
+		var animal := FarmAnimal.make(kind)
+		Style.no_snow(animal)
+		return animal
 	var root := Node3D.new()
 	match kind:
 		"chicken":
@@ -50,4 +52,5 @@ static func make(kind: String) -> Node3D:
 			for side: float in [-1.0, 1.0]:
 				var wing := MeshKit.box(root, Vector3(0.09, 0.005, 0.07), Vector3(0.05 * side, 0, 0), "flower_yellow")
 				wing.name = "Wing%d" % (0 if side < 0 else 1)
+	Style.no_snow(root)
 	return root

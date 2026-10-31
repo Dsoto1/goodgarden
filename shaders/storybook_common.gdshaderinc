@@ -57,6 +57,35 @@ bool see_through_cut(vec3 p, vec2 frag) {
 	return (bayer[i] + 0.5) / 16.0 < fade;
 }
 
+// Snow: in the winter weeks (gg_snow, 0 to 1, from the day) snow lies on
+// every upward-facing surface out of doors: roofs, wall tops, tree crowns.
+// Characters and animals opt out (snow_cover 0), and nothing indoors gets
+// any: the four gg_snow_hole rects (x0, z0, x1, z1) are the interiors, below
+// their ceilings.
+uniform float snow_cover = 1.0;
+global uniform float gg_snow;
+global uniform vec4 gg_snow_hole_0;
+global uniform vec4 gg_snow_hole_1;
+global uniform vec4 gg_snow_hole_2;
+global uniform vec4 gg_snow_hole_3;
+const vec3 SNOW = vec3(0.84, 0.88, 0.95);
+
+bool in_snow_hole(vec3 p, vec4 r) {
+	return p.x > r.x && p.x < r.z && p.z > r.y && p.z < r.w && p.y < 3.2;
+}
+
+float snow_amount(vec3 p, vec3 world_normal) {
+	if (gg_snow <= 0.0 || snow_cover <= 0.0) {
+		return 0.0;
+	}
+	if (in_snow_hole(p, gg_snow_hole_0) || in_snow_hole(p, gg_snow_hole_1) || in_snow_hole(p, gg_snow_hole_2) || in_snow_hole(p, gg_snow_hole_3)) {
+		return 0.0;
+	}
+	// A frost (low gg_snow) only whitens the flattest tops; deep snow covers more.
+	float lie = smoothstep(mix(0.92, 0.45, gg_snow), mix(0.98, 0.75, gg_snow), world_normal.y);
+	return lie * min(1.0, gg_snow * 1.15) * snow_cover;
+}
+
 vec3 grade(vec3 c) {
 	float luma = dot(c, vec3(0.299, 0.587, 0.114));
 	return mix(vec3(luma), c, saturation) * tint;

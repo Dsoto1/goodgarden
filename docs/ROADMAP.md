@@ -220,9 +220,11 @@ flowers in week 24; Captain Mara answers the child's letter from week 18;
 the new bean row echoes day 1. On days 166–167 the friends from every place
 stand round the long table in the square (`village_region.gd`).
 
-Not yet: snow in the world during the winter weeks (the season chip says
-Winter, the land is still green), and the second season's new bean row
-doesn't yet show in the garden bed.
+Snow lies over the world in the winter weeks: a day's `"snow"` (0 to 1) sets
+how deep (a frost in week 13, deep snow from the first snowfall on day 92, a
+thaw in week 18) and `"snowfall"` brings flakes down around the child.
+
+Not yet: the second season's new bean row doesn't show in the garden bed.
 
 ## Alongside, when it fits
 

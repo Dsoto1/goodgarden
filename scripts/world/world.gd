@@ -49,6 +49,10 @@ func _ready() -> void:
 	_spawn_npcs()
 	_place_player()
 	rig.snap()
+	_build_snowfall()
+	_mark_snow_holes()
+	_apply_snow()
+	Days.day_started.connect(func(_d: int) -> void: _apply_snow())
 	SaveService.player_provider = player.save_state
 	Days.day_started.connect(func(_d: int) -> void: _place_npcs())
 	AudioService.set_ambience("outdoor", 1.0)
@@ -293,4 +297,67 @@ func set_mood(new_mood: String) -> void:
 	for light in get_tree().get_nodes_in_group("chapel_light"):
 		t.tween_property(light, "light_energy", m["chapel_light"], seconds)
 	AudioService.set_ambience(m["sound"], 2.5 if new_mood == "chapel" else 1.5)
+	_apply_snow()
 	get_tree().call_group("hud", "set_quiet", new_mood == "chapel")
+
+
+## The winter weeks: snow lies over the land as deep as the day says (the
+## shaders read gg_snow), the grass is under it, and on snowy days flakes
+## drift down around the child (not indoors, and not with "Less motion").
+func _apply_snow() -> void:
+	var snow := Days.snow()
+	RenderingServer.global_shader_parameter_set(&"gg_snow", snow)
+	# The land below the horizon, beyond the edge of the world, is snowy too.
+	var sky_mat := environment.sky.sky_material as ProceduralSkyMaterial
+	sky_mat.ground_bottom_color = Color("7f9f68").lerp(Color("cfd6e2"), snow)
+	for cover in find_children("GroundCover*", "GroundCover", false, false):
+		(cover as Node3D).visible = snow < 0.5
+	if _snowfall:
+		_snowfall.emitting = Days.snowing() and mood == "outdoor" and not Settings.get_value("reduced_motion")
+
+
+var _snowfall: CPUParticles3D
+
+
+func _build_snowfall() -> void:
+	_snowfall = CPUParticles3D.new()
+	_snowfall.name = "Snowfall"
+	_snowfall.emitting = false
+	_snowfall.amount = int(360 * clampf(Quality.value("forest_density"), 0.4, 1.0))
+	_snowfall.lifetime = 7.0
+	_snowfall.preprocess = 7.0
+	_snowfall.local_coords = false
+	_snowfall.emission_shape = CPUParticles3D.EMISSION_SHAPE_BOX
+	_snowfall.emission_box_extents = Vector3(14, 0.5, 14)
+	_snowfall.direction = Vector3(0.15, -1, 0.05)
+	_snowfall.spread = 12.0
+	_snowfall.gravity = Vector3(0, -0.6, 0)
+	_snowfall.initial_velocity_min = 0.6
+	_snowfall.initial_velocity_max = 1.1
+	_snowfall.scale_amount_min = 0.6
+	_snowfall.scale_amount_max = 1.2
+	var flake := QuadMesh.new()
+	flake.size = Vector2(0.07, 0.07)
+	var m := StandardMaterial3D.new()
+	m.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+	m.albedo_color = Color(1, 1, 1, 0.9)
+	m.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+	m.billboard_mode = BaseMaterial3D.BILLBOARD_ENABLED
+	flake.material = m
+	_snowfall.mesh = flake
+	_snowfall.position = Vector3(0, 7, 0)
+	player.add_child(_snowfall)
+
+
+## Snow never lies indoors: the interiors' floor plans go to the shaders.
+func _mark_snow_holes() -> void:
+	var holes: Array[Vector4] = []
+	for region: Region in regions.values():
+		for zone in region.interiors:
+			for shape in zone.find_children("*", "CollisionShape3D", false, false):
+				var cs := shape as CollisionShape3D
+				var half := (cs.shape as BoxShape3D).size / 2.0
+				var c := cs.global_position
+				holes.append(Vector4(c.x - half.x, c.z - half.z, c.x + half.x, c.z + half.z))
+	for i in 4:
+		RenderingServer.global_shader_parameter_set(StringName("gg_snow_hole_%d" % i), holes[i] if i < holes.size() else Vector4.ZERO)
