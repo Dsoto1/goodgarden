@@ -190,7 +190,9 @@ func _on_bed_used() -> void:
 
 
 func _describe_bed() -> String:
-	var bed: Variant = WorldState.get_fact("garden.bed_1")
+	var bed: Variant = active_bed()
+	if bed == null and Days.current_day >= SECOND_SEASON and Days.current_day < SPRING_PLANTING:
+		return tr("The bed is resting for the winter, under its blanket of soil.")
 	if bed == null:
 		return tr("The soil is smooth and ready. A little bag of bean seeds sits at the end of the row.")
 	match growth_stage(bed):
@@ -203,13 +205,29 @@ func _describe_bed() -> String:
 			return tr("The bean plants are climbing their poles.")
 
 
+## The first season's row ("garden.bed_1") grows until the harvest; from the
+## second season the bed rests through the winter, is made ready again just
+## before the spring planting, and then shows the new row ("garden.bed_spring").
+const SECOND_SEASON := 85
+const SPRING_PLANTING := 160
+
+
+## The row the bed shows today, or null while it rests or waits to be sown.
+static func active_bed() -> Variant:
+	if WorldState.has_fact("garden.bed_spring"):
+		return WorldState.get_fact("garden.bed_spring")
+	if Days.current_day >= SECOND_SEASON:
+		return null
+	return WorldState.get_fact("garden.bed_1")
+
+
 ## 0 = just sown, 1 = sprouts, 2 = seedlings, 3 = climbing plants.
 static func growth_stage(bed: Dictionary) -> int:
 	return clampi(Days.current_day - int(bed.get("planted_day", Days.current_day)), 0, 3)
 
 
 func sync_with_world() -> void:
-	_bean_baskets.visible = WorldState.has_fact("harvest.beans")
+	_bean_baskets.visible = WorldState.has_fact("harvest.beans") and Days.current_day < SECOND_SEASON
 	var built: Variant = WorldState.get_fact("workshop.birdhouse")
 	_birdhouse.visible = built != null
 	_nesting.visible = built != null and Days.current_day > int(built)
@@ -217,8 +235,9 @@ func sync_with_world() -> void:
 	_sync_border()
 	for c in _bed_1_plants.get_children():
 		c.queue_free()
-	var bed: Variant = WorldState.get_fact("garden.bed_1")
-	_bed_1_ready.visible = bed == null
+	var bed: Variant = active_bed()
+	# Ready to sow: before the first planting, and again for the spring one.
+	_bed_1_ready.visible = bed == null and (Days.current_day < SECOND_SEASON or Days.current_day >= SPRING_PLANTING)
 	if bed == null:
 		return
 	var z1: float = BED_ROWS["bed_1"]

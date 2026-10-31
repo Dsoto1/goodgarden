@@ -149,8 +149,7 @@ want them. Confirm with the owner before starting anything large.
 1. **Map polish.** A pale rocky hill sits in the bottom-right corner of the
    wider-world map, south of the coast. Soften it, for example by lowering
    or greening the southern hills near the sea.
-2. **Second season polish.** The spring bean row (day 162) showing in the
-   garden bed. A third season could follow the same pattern.
+2. **A third season** could follow the same pattern as the second.
 3. **Interiors.** The Bellhaven library, the monastery scriptorium and
    Captain Mara's ship.
 4. **Walking between places.** Travel is by the map today. The painted

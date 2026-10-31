@@ -224,7 +224,7 @@ Snow lies over the world in the winter weeks: a day's `"snow"` (0 to 1) sets
 how deep (a hard frost in week 13, deep snow from the first snowfall on day 92, a
 thaw in week 18) and `"snowfall"` brings flakes down around the child.
 
-Not yet: the second season's new bean row doesn't show in the garden bed.
+The garden bed shows the spring row as it grows (`garden.bed_spring`): after the harvest it rests through the winter, and is made ready again just before day 162.
 
 ## Alongside, when it fits
 

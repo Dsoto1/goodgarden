@@ -91,6 +91,17 @@
 			"op": "set",
 			"fact": "season2.spring_bean_row_day",
 			"value": "$day"
+		},
+		{
+			"op": "set",
+			"fact": "garden.bed_spring",
+			"value": {
+				"crop": "beans",
+				"holes": "$space_holes.count",
+				"positions": "$space_holes.positions",
+				"seeds_per_hole": "$sow.per_slot",
+				"planted_day": "$day"
+			}
 		}
 	],
 	"replay": "once",
