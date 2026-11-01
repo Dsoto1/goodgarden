@@ -1,0 +1,315 @@
+{
+	"id": "spring_market",
+	"title": "The Festival Market",
+	"mode": "task",
+	"location": "village",
+	"surface": "wood_table",
+	"readiness": {
+		"ages": [
+			5,
+			9
+		],
+		"math": "making change from 5 (older: from 10)",
+		"reading": "pre-reader friendly"
+	},
+	"concepts": [
+		"sorting by where food comes from",
+		"money",
+		"giving change"
+	],
+	"formation_themes": [
+		"helpfulness",
+		"honesty",
+		"community"
+	],
+	"prerequisites": [
+		{
+			"not": {
+				"fact": "season2.spring_market_day",
+				"is_today": true
+			}
+		}
+	],
+	"intro": [
+		{
+			"speaker": "greta",
+			"text": "Good morning, my dear! The festival isn't over yet: today is the festival market, and I've come all the way from Bellhaven to run it!"
+		},
+		{
+			"speaker": "greta",
+			"text": "Our friends brought good things from every corner of the land. First, would you please help me set out the stalls?"
+		}
+	],
+	"steps": [
+		{
+			"id": "stalls",
+			"primitive": "sort_into_bins",
+			"speaker": "greta",
+			"prompt": "Set out the stalls: baking on the baker's stall, and the things that grow on the farm stall.",
+			"hint": "Was it baked in an oven, or did it grow in a field?",
+			"piece_size": [
+				60,
+				54
+			],
+			"pieces": [
+				{
+					"kind": "cake",
+					"count": 1
+				},
+				{
+					"kind": "pretzel",
+					"count": 2
+				},
+				{
+					"kind": "baguette",
+					"count": 1
+				},
+				{
+					"kind": "pumpkin",
+					"count": 1
+				},
+				{
+					"kind": "corn",
+					"count": 2
+				},
+				{
+					"kind": "turnip",
+					"count": 1
+				}
+			],
+			"bins": [
+				{
+					"kind": "",
+					"label": "the baker's stall",
+					"look": "basket",
+					"group": "baked",
+					"pos": [
+						280,
+						170
+					]
+				},
+				{
+					"kind": "",
+					"label": "the farm stall",
+					"look": "sack",
+					"group": "grown",
+					"pos": [
+						720,
+						170
+					]
+				}
+			],
+			"groups": {
+				"cake": "baked",
+				"pretzel": "baked",
+				"baguette": "baked",
+				"loaf_round": "baked",
+				"pumpkin": "grown",
+				"corn": "grown",
+				"turnip": "grown",
+				"melon": "grown",
+				"mushroom": "grown"
+			},
+			"older": {
+				"prompt": "Set out three stalls: baking on the baker's stall, things that grow in fields and gardens on the farm stall, and what was gathered in the woods on the forager's stall.",
+				"hint": "Baked in an oven, grown in a field, or found in the woods?",
+				"pieces": [
+					{
+						"kind": "cake",
+						"count": 1
+					},
+					{
+						"kind": "pretzel",
+						"count": 2
+					},
+					{
+						"kind": "baguette",
+						"count": 2
+					},
+					{
+						"kind": "loaf_round",
+						"count": 1
+					},
+					{
+						"kind": "pumpkin",
+						"count": 1
+					},
+					{
+						"kind": "corn",
+						"count": 2
+					},
+					{
+						"kind": "turnip",
+						"count": 2
+					},
+					{
+						"kind": "melon",
+						"count": 1
+					},
+					{
+						"kind": "mushroom",
+						"count": 3
+					}
+				],
+				"bins": [
+					{
+						"kind": "",
+						"label": "the baker's stall",
+						"look": "basket",
+						"group": "baked",
+						"pos": [
+							190,
+							170
+						]
+					},
+					{
+						"kind": "",
+						"label": "the farm stall",
+						"look": "sack",
+						"group": "grown",
+						"pos": [
+							500,
+							170
+						]
+					},
+					{
+						"kind": "",
+						"label": "the forager's stall",
+						"look": "basket",
+						"group": "woods",
+						"pos": [
+							810,
+							170
+						]
+					}
+				],
+				"groups": {
+					"cake": "baked",
+					"pretzel": "baked",
+					"baguette": "baked",
+					"loaf_round": "baked",
+					"pumpkin": "grown",
+					"corn": "grown",
+					"turnip": "grown",
+					"melon": "grown",
+					"mushroom": "woods"
+				}
+			},
+			"feedback": {
+				"mismatch": "Hmm, does that belong on this stall? Think about where it came from.",
+				"all_good": "The stalls look wonderful! Here come the first customers."
+			}
+		},
+		{
+			"id": "sell",
+			"primitive": "give_change",
+			"speaker": "greta",
+			"prompt": "The {item} costs {price}. The customer gave you {paid}. Count the change, then press Give change.",
+			"hint": "Show me",
+			"sales": [
+				{
+					"item": "pretzel",
+					"icon": "bread",
+					"price": 2,
+					"paid": [
+						5
+					]
+				},
+				{
+					"item": "cob of corn",
+					"icon": "wheat",
+					"price": 1,
+					"paid": [
+						5
+					]
+				},
+				{
+					"item": "slice of cake",
+					"icon": "pie",
+					"price": 3,
+					"paid": [
+						5
+					]
+				}
+			],
+			"cash": [
+				1,
+				1,
+				1,
+				1,
+				1,
+				1,
+				1,
+				1,
+				1,
+				1
+			],
+			"older": {
+				"sales": [
+					{
+						"item": "pumpkin",
+						"icon": "apple",
+						"price": 6,
+						"paid": [
+							10
+						]
+					},
+					{
+						"item": "basket of mushrooms",
+						"icon": "leaf",
+						"price": 4,
+						"paid": [
+							5
+						]
+					},
+					{
+						"item": "whole cake",
+						"icon": "pie",
+						"price": 8,
+						"paid": [
+							10
+						]
+					}
+				],
+				"cash": [
+					1,
+					1,
+					1,
+					1,
+					1,
+					1,
+					2,
+					2,
+					2,
+					5
+				],
+				"mistaken_pay": true
+			},
+			"feedback": {
+				"all_good": "Every coin of change was right. What a festival market!"
+			}
+		}
+	],
+	"outro": [
+		{
+			"speaker": "greta",
+			"text": "Everything set out beautifully, and every customer happy. You've learned a lot about markets this year, haven't you?"
+		},
+		{
+			"speaker": "greta",
+			"text": "Thank you, my dear. Come back and help whenever you like.",
+			"button": "Thank you, Mrs. Greta!"
+		}
+	],
+	"world_effects": [
+		{
+			"op": "set",
+			"fact": "season2.spring_market_day",
+			"value": "$day"
+		}
+	],
+	"replay": "free",
+	"real_world_invitation": "rw_shop_home",
+	"journal_line": "I set out the stalls and sold at the Spring Festival market with Mrs. Greta.",
+	"unavailable_text": "Done for today. Thank you!"
+}

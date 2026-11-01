@@ -1265,6 +1265,19 @@
 			"activity": "spring_festival",
 			"from_day": 166,
 			"look": "none"
+		},
+		{
+			"region": "village",
+			"at": [
+				2.2,
+				0,
+				4.4
+			],
+			"prompt": "Help at the festival market",
+			"activity": "spring_market",
+			"from_day": 167,
+			"look": "basket",
+			"until_day": 9999
 		}
 	]
 }
