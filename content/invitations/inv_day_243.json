@@ -1,0 +1,34 @@
+{
+	"id": "inv_day_243",
+	"from": "ruth",
+	"body": "Hello, friend!\n\nThe chapel door needs its harvest garland, and I've gathered all the flowers.\n\nWill you come to the square and make it with me?",
+	"signature": "Mrs. Ruth",
+	"suggests": "harvest_garland",
+	"summary": "Make the harvest garland for the chapel door.",
+	"done": "The garland is made!",
+	"tasks": [
+		{
+			"text": "Make the harvest garland",
+			"activity": "harvest_garland",
+			"icon": "flower",
+			"where": "in the village square"
+		},
+		{
+			"text": "Collect the eggs",
+			"activity": "home_eggs",
+			"icon": "egg",
+			"where": "at the coop by your house"
+		},
+		{
+			"text": "Feed the hens",
+			"done_when": [
+				{
+					"fact": "home.hens_fed_day",
+					"is_today": true
+				}
+			],
+			"icon": "hen",
+			"where": "by the coop at home"
+		}
+	]
+}

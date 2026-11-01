@@ -1,0 +1,150 @@
+{
+	"id": "lake_regatta_stall",
+	"title": "The Regatta Stall",
+	"mode": "task",
+	"location": "lake",
+	"surface": "wood_table",
+	"readiness": {
+		"ages": [
+			5,
+			9
+		],
+		"math": "making change from 5 (older: from 10)",
+		"reading": "pre-reader friendly"
+	},
+	"concepts": [
+		"money",
+		"subtraction as finding change",
+		"honesty"
+	],
+	"formation_themes": [
+		"honesty",
+		"trustworthiness"
+	],
+	"prerequisites": [
+		{
+			"not": {
+				"fact": "season3.lake_regatta_stall_day",
+				"is_today": true
+			}
+		}
+	],
+	"intro": [
+		{
+			"speaker": "finn",
+			"text": "So many folk came to watch the regatta! I've set up a stall to sell smoked fish and lemonade."
+		},
+		{
+			"speaker": "finn",
+			"text": "Will you mind it while I help with the boats? Count the change carefully."
+		}
+	],
+	"steps": [
+		{
+			"id": "sell",
+			"primitive": "give_change",
+			"speaker": "finn",
+			"prompt": "The {item} costs {price}. The customer gave you {paid}. Count the change, then press Give change.",
+			"hint": "Show me",
+			"sales": [
+				{
+					"item": "smoked fish",
+					"icon": "fish",
+					"price": 3,
+					"paid": [
+						5
+					]
+				},
+				{
+					"item": "little fish",
+					"icon": "fish",
+					"price": 1,
+					"paid": [
+						5
+					]
+				},
+				{
+					"item": "warm bun",
+					"icon": "bun",
+					"price": 2,
+					"paid": [
+						5
+					]
+				}
+			],
+			"cash": [
+				1,
+				1,
+				1,
+				1,
+				1,
+				1,
+				1,
+				1,
+				1,
+				1
+			],
+			"older": {
+				"sales": [
+					{
+						"item": "basket of fish",
+						"icon": "fish",
+						"price": 7,
+						"paid": [
+							10
+						]
+					},
+					{
+						"item": "smoked fish",
+						"icon": "fish",
+						"price": 3,
+						"paid": [
+							5
+						]
+					},
+					{
+						"item": "two fish",
+						"icon": "fish",
+						"price": 6,
+						"paid": [
+							10
+						]
+					}
+				],
+				"cash": [
+					1,
+					1,
+					1,
+					1,
+					1,
+					1,
+					2,
+					2,
+					2,
+					5
+				],
+				"mistaken_pay": true
+			},
+			"feedback": {
+				"all_good": "Every coin right. An honest stall is a happy stall!"
+			}
+		}
+	],
+	"outro": [
+		{
+			"speaker": "finn",
+			"text": "Sold out! And every customer went away smiling. Thank you, friend."
+		}
+	],
+	"world_effects": [
+		{
+			"op": "set",
+			"fact": "season3.lake_regatta_stall_day",
+			"value": "$day"
+		}
+	],
+	"replay": "free",
+	"real_world_invitation": "rw_shop_home",
+	"journal_line": "I minded Mr. Finn's stall at the regatta.",
+	"unavailable_text": "Done for today. Thank you!"
+}

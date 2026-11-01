@@ -1,0 +1,26 @@
+{
+	"id": "day_231",
+	"day": 231,
+	"week": 33,
+	"arc": "Wool & Honey",
+	"invitation": "inv_day_231",
+	"npcs": {
+		"miriam": "chapel_miriam",
+		"tobias": "chapel_tobias",
+		"ruth": "chapel_ruth",
+		"amos": "chapel_amos"
+	},
+	"free_work": [
+		"home_set_table"
+	],
+	"chapel": [
+		"good_samaritan",
+		"mustard_seed",
+		"leaven",
+		"lost_sheep",
+		"fishers",
+		"five_thousand",
+		"good_shepherd"
+	],
+	"season": "Autumn"
+}

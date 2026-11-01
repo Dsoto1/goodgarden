@@ -1,0 +1,29 @@
+{
+	"id": "inv_day_240",
+	"from": "tobias",
+	"body": "Good morning!\n\nThe first flour from this year's harvest has come from the mill. It's time to start baking for Harvest Home!\n\nCome into the bakery and help me weigh it.",
+	"signature": "Mr. Tobias, the baker",
+	"suggests": "harvest_flour",
+	"summary": "Weigh the new flour for the harvest loaf.",
+	"done": "The flour is weighed!",
+	"tasks": [
+		{
+			"text": "Weigh the new flour",
+			"activity": "harvest_flour",
+			"icon": "scales",
+			"where": "in the bakery"
+		},
+		{
+			"text": "Set the table",
+			"activity": "home_set_table",
+			"icon": "table",
+			"where": "at home"
+		},
+		{
+			"text": "Feed the lambs",
+			"activity": "sheepfold_hay",
+			"icon": "sheep",
+			"where": "at the sheepfold"
+		}
+	]
+}

@@ -1,0 +1,34 @@
+{
+	"id": "inv_day_173",
+	"from": "finn",
+	"body": "Hello there!\n\nIt's a hot summer day, and the lake is cool and sparkling. Miss Miriam says she'll send a picnic.\n\nWhy not walk down the lake road and join us? It's the shortest road out of the valley.",
+	"signature": "Mr. Finn, at the lake",
+	"suggests": "road_picnic",
+	"summary": "Walk to the lake and share a picnic.",
+	"done": "What a lovely picnic!",
+	"tasks": [
+		{
+			"text": "Picnic at the lake",
+			"activity": "road_picnic",
+			"icon": "apple",
+			"where": "at the lake (walk the road, or take the map)"
+		},
+		{
+			"text": "Collect the eggs",
+			"activity": "home_eggs",
+			"icon": "egg",
+			"where": "at the coop by your house"
+		},
+		{
+			"text": "Feed the hens",
+			"done_when": [
+				{
+					"fact": "home.hens_fed_day",
+					"is_today": true
+				}
+			],
+			"icon": "hen",
+			"where": "by the coop at home"
+		}
+	]
+}

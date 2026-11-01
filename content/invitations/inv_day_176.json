@@ -1,0 +1,29 @@
+{
+	"id": "inv_day_176",
+	"from": "amos",
+	"body": "Good morning!\n\nSo many folk are walking the roads this summer that the old footbridge over the river is wearing out.\n\nI've cut new planks. Come and help me fit them, at the bridge north of your house.",
+	"signature": "Mr. Amos",
+	"suggests": "road_footbridge",
+	"summary": "Fit new planks into the footbridge.",
+	"done": "The footbridge is mended!",
+	"tasks": [
+		{
+			"text": "Mend the footbridge",
+			"activity": "road_footbridge",
+			"icon": "plank",
+			"where": "at the footbridge over the river"
+		},
+		{
+			"text": "Collect the eggs",
+			"activity": "home_eggs",
+			"icon": "egg",
+			"where": "at the coop by your house"
+		},
+		{
+			"text": "Pour water for supper",
+			"activity": "home_pour_water",
+			"icon": "water",
+			"where": "from the jug in your kitchen"
+		}
+	]
+}

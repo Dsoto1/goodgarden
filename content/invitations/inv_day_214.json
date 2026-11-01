@@ -1,0 +1,29 @@
+{
+	"id": "inv_day_214",
+	"from": "mara",
+	"body": "Shipmate!\n\nWe sail for home tomorrow. Before we go, the water casks must be filled with fresh water.\n\nCome aboard, to my cabin, and help.",
+	"signature": "Captain Mara",
+	"suggests": "sea_water_casks",
+	"summary": "Fill the water casks for the voyage home.",
+	"done": "The casks are full!",
+	"tasks": [
+		{
+			"text": "Fill the water casks",
+			"activity": "sea_water_casks",
+			"icon": "water",
+			"where": "aboard Captain Mara's ship, at the coast (walk the coast road, or take the map)"
+		},
+		{
+			"text": "Pour water for supper",
+			"activity": "home_pour_water",
+			"icon": "water",
+			"where": "from the jug in your kitchen"
+		},
+		{
+			"text": "Set the table",
+			"activity": "home_set_table",
+			"icon": "table",
+			"where": "at home"
+		}
+	]
+}

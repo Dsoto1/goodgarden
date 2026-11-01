@@ -1,0 +1,29 @@
+{
+	"id": "inv_day_172",
+	"from": "miriam",
+	"body": "Dear friend,\n\nI've been drawing a map of every road out of our valley, to the farm, the lake, the sea and beyond.\n\nCome and learn to read it with me. I'll bring it to your house.",
+	"signature": "Miss Miriam",
+	"suggests": "road_map",
+	"summary": "Learn to read the map of the roads.",
+	"done": "You can read the map!",
+	"tasks": [
+		{
+			"text": "Read the road map",
+			"activity": "road_map",
+			"icon": "map",
+			"where": "at home"
+		},
+		{
+			"text": "Pour water for supper",
+			"activity": "home_pour_water",
+			"icon": "water",
+			"where": "from the jug in your kitchen"
+		},
+		{
+			"text": "Set the table",
+			"activity": "home_set_table",
+			"icon": "table",
+			"where": "at home"
+		}
+	]
+}

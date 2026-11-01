@@ -238,6 +238,28 @@ thaw in week 18) and `"snowfall"` brings flakes down around the child.
 
 The garden bed shows the spring row as it grows (`garden.bed_spring`): after the harvest it rests through the winter, and is made ready again just before day 162.
 
+## Season three: the open roads ✓
+
+Days 169 to 252 (weeks 25 to 36), summer into autumn, run like the other
+seasons. Now that the roads are walkable, the letters say "walk the road,
+or take the map", and the work uses the rooms indoors as well as the places
+outside. The jobs' facts are `season3.<activity>_day`.
+
+| Weeks | Arc | Where, with whom | Work |
+|---|---|---|---|
+| 25–26 | The Open Road | Mr. Amos's workshop, the valley edge, the lake, the farm, Bellhaven | signposts for the roads (words), milestones along the farm road (spacing), packing Mr. Tobias's cart (a list), the map of the roads, a picnic by the lake (sharing), the footbridge mended (shapes), the drovers' sheep (fives), welcome flags on Bellhaven's gate, bread for the harbour, a letter to Mrs. Hannah |
+| 27–28 | Summer at the Farm | the farm and Mrs. Hannah's farmhouse | haymaking (fours), milk to the line, fruit or vegetable, sugar for plum jam (balance), the haymakers' lunch, eggs in sixes, the market cart (a list), fence posts (spacing), from seed to bread (order), pantry labels |
+| 29–30 | Books & Bells | the scriptorium, Bellhaven and its library, the monastery garden | a border of flowers for the new book, carrying it to Bellhaven (map), Sam's picture cards, the summer stall (change), singing glasses, animals and plants on the nature shelf, the sunflowers from winter's seeds (measuring), shopping for the fair (coins), bunting, a letter to Sam |
+| 31–32 | Summer Sea | the coast, Captain Mara's cabin, the lake | provisions for a voyage, the morning catch (fives, tens), living or not in the rock pool, fresh water casks, signal flags, the lake regatta (map), the regatta stall (change), fish cakes (balance), breakfast for the crews, a letter to the Captain |
+| 33–34 | Wool & Honey | the mountain and Mr. Silas's hut, the monastery and scriptorium | the flock down from the high pasture (threes), the wool carried to the monastery (map), labels for the hut, honey to the line, who visits the flowers, honey in crates (fours), copy cards for the village children, the monastery orchard (fives, tens), a house for wild bees, a letter to Mr. Silas |
+| 35–36 | Harvest Home | the garden, the bakery, the village square | the bean harvest from spring's row, the new flour (balance), harvest baskets for the neighbours, the invitation, the chapel garland, Mr. Silas's long road (map), pies for every friend, the harvest loaves, jugs for the feast, and **Harvest Home**: every friend walks the roads to the valley |
+
+Threads that carry across: the sunflowers measured in week 30 grew from the
+seeds sown at the monastery in season two; the lambs penned in spring come
+down grown in week 33; the bean row planted on day 162 is harvested on day
+239. On days 250–251 the friends stand round the long table in the square
+again (`village_region.gd`), as at the Spring Festival.
+
 ## Alongside, when it fits
 
 - **Chapel library:** more presentations toward 15–20, when the owner

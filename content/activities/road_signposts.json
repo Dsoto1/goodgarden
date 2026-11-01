@@ -1,0 +1,94 @@
+{
+	"id": "road_signposts",
+	"title": "Signposts for the Roads",
+	"mode": "task",
+	"location": "village",
+	"surface": "wood_table",
+	"readiness": {
+		"ages": [
+			5,
+			9
+		],
+		"math": "none",
+		"reading": "building four-letter words"
+	},
+	"concepts": [
+		"sounds in words",
+		"spelling short words"
+	],
+	"formation_themes": [
+		"helpfulness",
+		"care for others"
+	],
+	"prerequisites": [
+		{
+			"fact": "season3.road_signposts_day",
+			"exists": false
+		}
+	],
+	"intro": [
+		{
+			"speaker": "amos",
+			"text": "Summer's here, and the roads out of the valley are dry and open. Folk will be walking them all summer long!"
+		},
+		{
+			"speaker": "amos",
+			"text": "But a walker needs signposts. I've cut the boards. Will you help me paint the words on them?"
+		}
+	],
+	"steps": [
+		{
+			"id": "signs",
+			"primitive": "build_word",
+			"speaker": "amos",
+			"prompt": "Listen to the word. Which sounds do you hear? Put each letter in its place.",
+			"hint": "Show me the next sound.",
+			"words": [
+				"road",
+				"mill",
+				"hill"
+			],
+			"pictures": {
+				"road": "road",
+				"mill": "mill",
+				"hill": "hill",
+				"well": "well"
+			},
+			"show_letters": true,
+			"extra_letters": 0,
+			"older": {
+				"words": [
+					"road",
+					"mill",
+					"hill",
+					"well"
+				],
+				"show_letters": false,
+				"extra_letters": 3,
+				"prompt": "Listen to the word. Which sounds do you hear, first to last? Find each letter in the box."
+			},
+			"feedback": {
+				"wrong": "Listen again: {word}. That sound goes somewhere else.",
+				"word_done": "{word}! That sign is ready.",
+				"all_good": "Every signpost painted. Nobody will lose their way this summer!"
+			}
+		}
+	],
+	"outro": [
+		{
+			"speaker": "amos",
+			"text": "Fine lettering! We'll set these up where the roads leave the valley. When you walk past one, you'll know you made it."
+		}
+	],
+	"world_effects": [
+		{
+			"op": "set",
+			"fact": "season3.road_signposts_day",
+			"value": "$day"
+		}
+	],
+	"replay": "once",
+	"real_world_invitation": "rw_kitchen_labels",
+	"journal_line": "I painted words on the new signposts with Mr. Amos.",
+	"unavailable_text": "That's all done. Thank you!"
+}

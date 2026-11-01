@@ -1,0 +1,34 @@
+{
+	"id": "inv_day_201",
+	"from": "greta",
+	"body": "Dear friend,\n\nThe cathedral bell-ringer is teaching the children to play tunes on glasses of water. Can you believe it?\n\nCome to the square and try it. Bring your listening ears!",
+	"signature": "Mrs. Greta, in Bellhaven",
+	"suggests": "city_bell_glasses",
+	"summary": "Fill glasses to play a tune.",
+	"done": "Ting, tang, tong!",
+	"tasks": [
+		{
+			"text": "Fill the singing glasses",
+			"activity": "city_bell_glasses",
+			"icon": "water",
+			"where": "in Bellhaven (walk the north road, or take the map)"
+		},
+		{
+			"text": "Collect the eggs",
+			"activity": "home_eggs",
+			"icon": "egg",
+			"where": "at the coop by your house"
+		},
+		{
+			"text": "Feed the hens",
+			"done_when": [
+				{
+					"fact": "home.hens_fed_day",
+					"is_today": true
+				}
+			],
+			"icon": "hen",
+			"where": "by the coop at home"
+		}
+	]
+}

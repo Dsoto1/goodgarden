@@ -1,0 +1,94 @@
+{
+	"id": "abbey_copy_words",
+	"title": "Copying Words",
+	"mode": "task",
+	"location": "monastery",
+	"surface": "wood_table",
+	"readiness": {
+		"ages": [
+			5,
+			9
+		],
+		"math": "none",
+		"reading": "building short words"
+	},
+	"concepts": [
+		"sounds in words",
+		"spelling short words"
+	],
+	"formation_themes": [
+		"love of learning",
+		"service"
+	],
+	"prerequisites": [
+		{
+			"fact": "season3.abbey_copy_words_day",
+			"exists": false
+		}
+	],
+	"intro": [
+		{
+			"speaker": "elias",
+			"text": "Brother Thomas is teaching the village children to write. He's asked you to help make their first copy cards."
+		},
+		{
+			"speaker": "elias",
+			"text": "Listen to each word, and set its letters in order, neatly."
+		}
+	],
+	"steps": [
+		{
+			"id": "words",
+			"primitive": "build_word",
+			"speaker": "elias",
+			"prompt": "Listen to the word. Which sounds do you hear? Put each letter in its place.",
+			"hint": "Show me the next sound.",
+			"words": [
+				"sun",
+				"bug",
+				"web"
+			],
+			"pictures": {
+				"sun": "sun",
+				"bug": "bug",
+				"web": "web",
+				"tree": "tree"
+			},
+			"show_letters": true,
+			"extra_letters": 0,
+			"older": {
+				"words": [
+					"sun",
+					"bug",
+					"web",
+					"tree"
+				],
+				"show_letters": false,
+				"extra_letters": 3,
+				"prompt": "Listen to the word. Which sounds do you hear, first to last? Find each letter in the box."
+			},
+			"feedback": {
+				"wrong": "Listen again: {word}. That sound goes somewhere else.",
+				"word_done": "{word}! A fine copy card.",
+				"all_good": "Every card ready. The children will learn to write from your letters!"
+			}
+		}
+	],
+	"outro": [
+		{
+			"speaker": "elias",
+			"text": "Your letters will teach others to write. That's how learning travels: from one hand to the next."
+		}
+	],
+	"world_effects": [
+		{
+			"op": "set",
+			"fact": "season3.abbey_copy_words_day",
+			"value": "$day"
+		}
+	],
+	"replay": "once",
+	"real_world_invitation": "rw_kitchen_labels",
+	"journal_line": "I made copy cards for the village children in the scriptorium.",
+	"unavailable_text": "That's all done. Thank you!"
+}

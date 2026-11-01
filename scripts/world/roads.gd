@@ -281,8 +281,8 @@ func _name_zone(i: int) -> void:
 		var steps := maxi(1, int(ceil(line[k - 1].distance_to(line[k]) / 4.0)))
 		for s in steps:
 			var p := line[k - 1].lerp(line[k], float(s) / steps)
-			if ValleyRegion.BOUNDS.has_point(p) or _in_area(p, 0.0):
-				continue
+			if ValleyRegion.BOUNDS.grow(3.0).has_point(p) or _in_area(p, 3.0):
+				continue # (the zone reaches 3 m round each point)
 			var at := Vector3(p.x, Terrain.height(p.x, p.y) + 1.5, p.y)
 			if zone == null:
 				zone = Zone.create(self, at, Vector3(6, 5, 6))

@@ -1,0 +1,29 @@
+{
+	"id": "inv_day_184",
+	"from": "hannah",
+	"body": "Hello again!\n\nThe cows have been grazing on sweet summer grass, and they gave buckets of milk this morning.\n\nCome into my farmhouse kitchen and help me pour it out.",
+	"signature": "Mrs. Hannah, at the farm",
+	"suggests": "farm_milk",
+	"summary": "Pour milk for the dairy with Mrs. Hannah.",
+	"done": "The milk is poured!",
+	"tasks": [
+		{
+			"text": "Pour the milk",
+			"activity": "farm_milk",
+			"icon": "water",
+			"where": "in Mrs. Hannah's farmhouse (walk the farm road, or take the map)"
+		},
+		{
+			"text": "Set the table",
+			"activity": "home_set_table",
+			"icon": "table",
+			"where": "at home"
+		},
+		{
+			"text": "Feed the lambs",
+			"activity": "sheepfold_hay",
+			"icon": "sheep",
+			"where": "at the sheepfold"
+		}
+	]
+}

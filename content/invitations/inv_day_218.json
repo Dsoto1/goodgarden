@@ -1,0 +1,29 @@
+{
+	"id": "inv_day_218",
+	"from": "finn",
+	"body": "Hello there!\n\nIt's regatta week at the lake! All the little boats race round the flags.\n\nWill you walk down the lake road and steer my boat for me?",
+	"signature": "Mr. Finn, at the lake",
+	"suggests": "lake_regatta",
+	"summary": "Steer Mr. Finn's boat round the regatta course.",
+	"done": "What a race!",
+	"tasks": [
+		{
+			"text": "Race in the regatta",
+			"activity": "lake_regatta",
+			"icon": "boat",
+			"where": "at the lake (walk the lake road, or take the map)"
+		},
+		{
+			"text": "Collect the eggs",
+			"activity": "home_eggs",
+			"icon": "egg",
+			"where": "at the coop by your house"
+		},
+		{
+			"text": "Pour water for supper",
+			"activity": "home_pour_water",
+			"icon": "water",
+			"where": "from the jug in your kitchen"
+		}
+	]
+}

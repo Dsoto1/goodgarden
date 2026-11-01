@@ -5,16 +5,18 @@ Good Garden. Read this first, then `docs/ROADMAP.md` (what is built and what
 comes next) and `docs/ARCHITECTURE.md` (how it fits together). The design
 intent lives in `docs/design/`, starting with `AGENT_START_HERE.md`.
 
-Last updated: 2026-11-01.
+Last updated: 2026-11-01 (season three, walkable roads, seven rooms).
 
 ## Where things stand
 
-- **Two full seasons are written**: 169 days in `content/days/` (day 0 is the
-  free-day template). The first season (days 1–84) runs from the first letter
-  to the Harvest Supper; the second (days 85–168) goes out into the wider
-  world, winter into spring, and ends at the Spring Festival with every
-  friend in the valley. 147 activities in `content/activities/` use about
-  20 reusable activity types. `docs/ROADMAP.md` has both seasons, arc by arc.
+- **Three full seasons are written**: 253 days in `content/days/` (day 0 is
+  the free-day template). The first season (days 1–84) runs from the first
+  letter to the Harvest Supper; the second (days 85–168) goes out into the
+  wider world, winter into spring, and ends at the Spring Festival; the third
+  (days 169–252) walks the open roads, summer into autumn, and ends at
+  Harvest Home, when every friend walks the roads to the valley. 208
+  activities in `content/activities/` use about 20 reusable activity types.
+  `docs/ROADMAP.md` has every season, arc by arc.
 - **The valley** is the home world: home, Miss Miriam's garden, the
   village, the chapel and Atrium, the mill, the oven, the orchard, the
   pond, the sheepfold and the Grove.
@@ -22,7 +24,11 @@ Last updated: 2026-11-01.
   day 71: the Wilderness, the Farmlands, the Lake, Bellhaven, the
   Monastery, the Coast and the Mountains. Each has someone to meet and two
   jobs. `docs/ROADMAP.md` has the table of who is where and when each
-  opens.
+  opens. The child can walk there along the roads (`Roads`) or travel by
+  the map.
+- **Seven rooms** to step into (`RoomRegion`): the Bellhaven library, the
+  scriptorium, Captain Mara's cabin, the village bakery and workshop,
+  Mrs. Hannah's farmhouse and Mr. Silas's hut.
 - **The wider-world map** is laid out after the owner's concept image,
   `docs/design/reference/concept_map.png`. Use that image as the visual
   guide for the world, the map and the places. Its bottom row shows
@@ -150,7 +156,9 @@ squares (see the guide).
 These are the open threads, roughly in the order the owner would likely
 want them. Confirm with the owner before starting anything large.
 
-1. **A third season** could follow the same pattern as the second.
+1. **A fourth season** could follow the same pattern (season three's
+   generator scripts were throwaway Python like season two's; the content
+   files are the source of truth).
 2. **Along the roads.** The roads are walkable now (see `Roads` in
    `docs/ARCHITECTURE.md`); things to meet and do along them could follow.
    After moving a road or a place, check the tests "the … road climbs

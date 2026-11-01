@@ -1,0 +1,24 @@
+{
+	"id": "day_187",
+	"day": 187,
+	"week": 27,
+	"arc": "Summer at the Farm",
+	"invitation": "inv_day_187",
+	"npcs": {
+		"miriam": "garden_miriam"
+	},
+	"primary_activity": "farm_lunch",
+	"free_work": [
+		"home_set_table"
+	],
+	"chapel": [
+		"good_samaritan",
+		"mustard_seed",
+		"leaven",
+		"lost_sheep",
+		"fishers",
+		"five_thousand",
+		"good_shepherd"
+	],
+	"season": "Summer"
+}

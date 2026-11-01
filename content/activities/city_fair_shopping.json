@@ -1,0 +1,112 @@
+{
+	"id": "city_fair_shopping",
+	"title": "Shopping for the Fair",
+	"mode": "task",
+	"location": "city",
+	"surface": "wood_table",
+	"readiness": {
+		"ages": [
+			5,
+			9
+		],
+		"math": "paying amounts up to 10",
+		"reading": "pre-reader friendly"
+	},
+	"concepts": [
+		"money",
+		"counting coins",
+		"making amounts (older)"
+	],
+	"formation_themes": [
+		"honesty",
+		"responsibility"
+	],
+	"prerequisites": [
+		{
+			"not": {
+				"fact": "season3.city_fair_shopping_day",
+				"is_today": true
+			}
+		}
+	],
+	"intro": [
+		{
+			"speaker": "greta",
+			"text": "The Bellhaven summer fair is on Friday! Sam and I are making a picnic for it."
+		},
+		{
+			"speaker": "greta",
+			"text": "Here's a little purse. Would you buy a few things for us at the stalls?"
+		}
+	],
+	"steps": [
+		{
+			"id": "buy",
+			"primitive": "pay_with_coins",
+			"speaker": "greta",
+			"prompt": "The {item} costs {n}. Put that many coins on the dish, then press Pay.",
+			"hint": "Show me",
+			"buy": [
+				{
+					"item": "bun",
+					"price": 2,
+					"icon": "bun"
+				},
+				{
+					"item": "apple",
+					"price": 1,
+					"icon": "apple"
+				},
+				{
+					"item": "jar of jam",
+					"price": 3,
+					"icon": "jam"
+				}
+			],
+			"older": {
+				"buy": [
+					{
+						"item": "bun",
+						"price": 4,
+						"icon": "bun"
+					},
+					{
+						"item": "jar of jam",
+						"price": 7,
+						"icon": "jam"
+					}
+				],
+				"purse": [
+					1,
+					1,
+					2,
+					2,
+					5,
+					5
+				],
+				"mistaken_change": true,
+				"prompt": "The {item} costs {n}. Make {n} with your coins. If you put more, you'll get change."
+			},
+			"feedback": {
+				"all_good": "Just right! Our picnic basket is filling up."
+			}
+		}
+	],
+	"outro": [
+		{
+			"speaker": "greta",
+			"text": "Buns, apples and jam! Sam's already peeking in the basket."
+		}
+	],
+	"world_effects": [
+		{
+			"op": "set",
+			"fact": "season3.city_fair_shopping_day",
+			"value": "$day"
+		}
+	],
+	"replay": "free",
+	"real_world_invitation": "rw_shop_home",
+	"journal_line": "I bought things for the summer fair in Bellhaven.",
+	"unavailable_text": "Done for today. Thank you!"
+}

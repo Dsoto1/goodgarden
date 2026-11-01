@@ -1,0 +1,29 @@
+{
+	"id": "inv_day_219",
+	"from": "finn",
+	"body": "Good morning!\n\nThe regatta brought crowds to the lake! I've set up a stall, but I'm needed with the boats.\n\nCould you mind it for me?",
+	"signature": "Mr. Finn, at the lake",
+	"suggests": "lake_regatta_stall",
+	"summary": "Mind Mr. Finn's stall at the regatta.",
+	"done": "The stall sold out!",
+	"tasks": [
+		{
+			"text": "Mind the regatta stall",
+			"activity": "lake_regatta_stall",
+			"icon": "coin",
+			"where": "at the lake (walk the lake road, or take the map)"
+		},
+		{
+			"text": "Set the table",
+			"activity": "home_set_table",
+			"icon": "table",
+			"where": "at home"
+		},
+		{
+			"text": "Feed the lambs",
+			"activity": "sheepfold_hay",
+			"icon": "sheep",
+			"where": "at the sheepfold"
+		}
+	]
+}

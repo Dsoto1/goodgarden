@@ -1,0 +1,158 @@
+{
+	"id": "harvest_silas_way",
+	"title": "The Longest Road",
+	"mode": "task",
+	"location": "home",
+	"surface": "wood_table",
+	"readiness": {
+		"ages": [
+			5,
+			9
+		],
+		"math": "counting squares on a grid",
+		"reading": "reading a map"
+	},
+	"concepts": [
+		"maps",
+		"directions: north, south, east, west",
+		"counting steps"
+	],
+	"formation_themes": [
+		"friendship",
+		"hospitality"
+	],
+	"prerequisites": [
+		{
+			"fact": "season3.harvest_silas_way_day",
+			"exists": false
+		}
+	],
+	"intro": [
+		{
+			"speaker": "miriam",
+			"text": "A letter from Mr. Silas! He's coming to Harvest Home, but it's the longest road of all, down the mountain and over the bridge."
+		},
+		{
+			"speaker": "miriam",
+			"text": "He's drawn his way. Can you follow it, so we know when to look out for him?"
+		}
+	],
+	"steps": [
+		{
+			"id": "way",
+			"primitive": "follow_directions",
+			"speaker": "miriam",
+			"grid": [
+				7,
+				6
+			],
+			"places": [
+				{
+					"icon": "mountain",
+					"at": [
+						6,
+						0
+					],
+					"name": "the mountain meadow"
+				},
+				{
+					"icon": "tree",
+					"at": [
+						4,
+						0
+					],
+					"name": "the pine wood"
+				},
+				{
+					"icon": "home",
+					"at": [
+						4,
+						2
+					],
+					"name": "the shepherd's hut by the road"
+				},
+				{
+					"icon": "bridge",
+					"at": [
+						2,
+						2
+					],
+					"name": "the stone bridge"
+				},
+				{
+					"icon": "mill",
+					"at": [
+						2,
+						4
+					],
+					"name": "the mill"
+				},
+				{
+					"icon": "village",
+					"at": [
+						0,
+						5
+					],
+					"name": "our valley"
+				}
+			],
+			"start": [
+				6,
+				0
+			],
+			"steps": [
+				{
+					"dir": "west",
+					"n": 2
+				},
+				{
+					"dir": "south",
+					"n": 2
+				},
+				{
+					"dir": "west",
+					"n": 2
+				},
+				{
+					"dir": "south",
+					"n": 2
+				},
+				{
+					"dir": "west",
+					"n": 2
+				},
+				{
+					"dir": "south",
+					"n": 1
+				}
+			],
+			"prompt": "Follow each direction. Move the walker square by square.",
+			"hint": "Show me",
+			"arrows": true,
+			"older": {
+				"arrows": false,
+				"prompt": "Follow each direction: there are no arrows this time. North is at the top of the map."
+			},
+			"feedback": {
+				"all_good": "{place}! He'll be here by Friday."
+			}
+		}
+	],
+	"outro": [
+		{
+			"speaker": "miriam",
+			"text": "Two days' walk! He's setting off tomorrow. We'll save him the best seat at the table."
+		}
+	],
+	"world_effects": [
+		{
+			"op": "set",
+			"fact": "season3.harvest_silas_way_day",
+			"value": "$day"
+		}
+	],
+	"replay": "once",
+	"real_world_invitation": "rw_draw_map",
+	"journal_line": "I followed Mr. Silas's long road down to the valley on his map.",
+	"unavailable_text": "That's all done. Thank you!"
+}

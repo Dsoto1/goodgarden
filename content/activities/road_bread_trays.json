@@ -1,0 +1,138 @@
+{
+	"id": "road_bread_trays",
+	"title": "Bread for the Harbour",
+	"mode": "task",
+	"location": "village",
+	"surface": "wood_table",
+	"readiness": {
+		"ages": [
+			5,
+			9
+		],
+		"math": "matching shapes",
+		"reading": "pre-reader friendly"
+	},
+	"concepts": [
+		"shapes",
+		"matching shapes"
+	],
+	"formation_themes": [
+		"generosity",
+		"work well done"
+	],
+	"prerequisites": [
+		{
+			"fact": "season3.road_bread_trays_day",
+			"exists": false
+		}
+	],
+	"intro": [
+		{
+			"speaker": "tobias",
+			"text": "I'm back from the harbour, and they want more bread! The sailors loved it."
+		},
+		{
+			"speaker": "tobias",
+			"text": "Will you load the oven? Every loaf has a place just its shape."
+		}
+	],
+	"steps": [
+		{
+			"id": "oven",
+			"primitive": "match_to_outline",
+			"speaker": "tobias",
+			"prompt": "Put each loaf in the place that fits its shape.",
+			"hint": "Watch: the long loaf goes in the long place. Can you find the next?",
+			"oven": [
+				200,
+				30,
+				600,
+				310
+			],
+			"tray": [
+				80,
+				370,
+				840,
+				170
+			],
+			"slots": [
+				{
+					"kind": "loaf_long",
+					"pos": [
+						500,
+						160
+					]
+				},
+				{
+					"kind": "loaf_long",
+					"pos": [
+						500,
+						230
+					]
+				},
+				{
+					"kind": "loaf_round",
+					"pos": [
+						330,
+						190
+					]
+				},
+				{
+					"kind": "loaf_round",
+					"pos": [
+						670,
+						190
+					]
+				},
+				{
+					"kind": "bread_roll",
+					"pos": [
+						400,
+						285
+					]
+				},
+				{
+					"kind": "bread_roll",
+					"pos": [
+						470,
+						285
+					]
+				},
+				{
+					"kind": "bread_roll",
+					"pos": [
+						540,
+						285
+					]
+				},
+				{
+					"kind": "bread_roll",
+					"pos": [
+						610,
+						285
+					]
+				}
+			],
+			"feedback": {
+				"all_good": "A full oven! The harbour will smell of bread by tomorrow."
+			}
+		}
+	],
+	"outro": [
+		{
+			"speaker": "tobias",
+			"text": "Into the oven they go. Bread that travels a long road should be baked with care."
+		}
+	],
+	"world_effects": [
+		{
+			"op": "set",
+			"fact": "season3.road_bread_trays_day",
+			"value": "$day"
+		}
+	],
+	"replay": "once",
+	"real_world_invitation": "rw_bake_together",
+	"journal_line": "I loaded the oven with bread for the harbour with Mr. Tobias.",
+	"unavailable_text": "That's all done. Thank you!"
+}

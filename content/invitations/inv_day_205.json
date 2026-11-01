@@ -1,0 +1,29 @@
+{
+	"id": "inv_day_205",
+	"from": "elias",
+	"body": "Dear friend,\n\nThe little seeds we sowed together in the winter have grown into sunflowers, taller than I am!\n\nCome to the monastery garden and measure them with me.",
+	"signature": "Brother Elias",
+	"suggests": "abbey_sunflowers",
+	"summary": "Measure the sunflowers at the monastery.",
+	"done": "The sunflowers are measured!",
+	"tasks": [
+		{
+			"text": "Measure the sunflowers",
+			"activity": "abbey_sunflowers",
+			"icon": "measure",
+			"where": "at the monastery (walk the road, or take the map)"
+		},
+		{
+			"text": "Set the table",
+			"activity": "home_set_table",
+			"icon": "table",
+			"where": "at home"
+		},
+		{
+			"text": "Feed the lambs",
+			"activity": "sheepfold_hay",
+			"icon": "sheep",
+			"where": "at the sheepfold"
+		}
+	]
+}

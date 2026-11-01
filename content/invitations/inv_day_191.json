@@ -1,0 +1,29 @@
+{
+	"id": "inv_day_191",
+	"from": "hannah",
+	"body": "Dear friend,\n\nIt's market day in Bellhaven, and Mrs. Greta has sent an order for her stall.\n\nWill you help me load the cart? It's a long road to the city!",
+	"signature": "Mrs. Hannah, at the farm",
+	"suggests": "farm_market_cart",
+	"summary": "Load the market cart for Bellhaven.",
+	"done": "The cart is on its way!",
+	"tasks": [
+		{
+			"text": "Load the market cart",
+			"activity": "farm_market_cart",
+			"icon": "note",
+			"where": "at Mrs. Hannah's farm (walk the farm road, or take the map)"
+		},
+		{
+			"text": "Collect the eggs",
+			"activity": "home_eggs",
+			"icon": "egg",
+			"where": "at the coop by your house"
+		},
+		{
+			"text": "Set the table",
+			"activity": "home_set_table",
+			"icon": "table",
+			"where": "at home"
+		}
+	]
+}

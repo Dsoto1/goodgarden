@@ -1,0 +1,29 @@
+{
+	"id": "inv_day_213",
+	"from": "mara",
+	"body": "Hello, shipmate!\n\nThe tide is out, and the rock pools are full of surprises. Some of them are alive!\n\nCome and explore with me. Bring a bucket, and gentle hands.",
+	"signature": "Captain Mara",
+	"suggests": "sea_rock_pool",
+	"summary": "Sort what you find in the rock pool.",
+	"done": "Every creature is safe!",
+	"tasks": [
+		{
+			"text": "Explore the rock pool",
+			"activity": "sea_rock_pool",
+			"icon": "lens",
+			"where": "at the coast (walk the coast road, or take the map)"
+		},
+		{
+			"text": "Collect the eggs",
+			"activity": "home_eggs",
+			"icon": "egg",
+			"where": "at the coop by your house"
+		},
+		{
+			"text": "Fill the bird feeders",
+			"activity": "grove_bird_feeders",
+			"icon": "bird",
+			"where": "in the grove behind the chapel"
+		}
+	]
+}

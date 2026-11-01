@@ -1,0 +1,29 @@
+{
+	"id": "inv_day_197",
+	"from": "elias",
+	"body": "Dear friend,\n\nAll spring, the brothers have been copying a new book of stories for the library in Bellhaven. It's nearly finished!\n\nThe very last page needs a border. Will you come and paint it with me?",
+	"signature": "Brother Elias",
+	"suggests": "book_border",
+	"summary": "Paint a border in the monastery's new book.",
+	"done": "The book is finished!",
+	"tasks": [
+		{
+			"text": "Paint the border",
+			"activity": "book_border",
+			"icon": "paint",
+			"where": "in the scriptorium at the monastery (walk the road, or take the map)"
+		},
+		{
+			"text": "Collect the eggs",
+			"activity": "home_eggs",
+			"icon": "egg",
+			"where": "at the coop by your house"
+		},
+		{
+			"text": "Pour water for supper",
+			"activity": "home_pour_water",
+			"icon": "water",
+			"where": "from the jug in your kitchen"
+		}
+	]
+}

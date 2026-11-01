@@ -1,0 +1,29 @@
+{
+	"id": "inv_day_207",
+	"from": "greta",
+	"body": "Dear friend,\n\nThe fair is tomorrow, and there's bunting to hang all round the square!\n\nCome to Bellhaven and help. Bring your best eye for patterns.",
+	"signature": "Mrs. Greta, in Bellhaven",
+	"suggests": "city_fair_bunting",
+	"summary": "Hang bunting for the summer fair.",
+	"done": "The square is ready for the fair!",
+	"tasks": [
+		{
+			"text": "Hang the bunting",
+			"activity": "city_fair_bunting",
+			"icon": "flag",
+			"where": "in Bellhaven (walk the north road, or take the map)"
+		},
+		{
+			"text": "Pour water for supper",
+			"activity": "home_pour_water",
+			"icon": "water",
+			"where": "from the jug in your kitchen"
+		},
+		{
+			"text": "Set the table",
+			"activity": "home_set_table",
+			"icon": "table",
+			"where": "at home"
+		}
+	]
+}

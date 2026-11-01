@@ -1,0 +1,29 @@
+{
+	"id": "inv_day_221",
+	"from": "finn",
+	"body": "Good morning!\n\nThe boat crews slept by the lake, and they've woken up hungry as bears.\n\nMr. Tobias sent bread. Will you help share it out?",
+	"signature": "Mr. Finn, at the lake",
+	"suggests": "lake_crew_breakfast",
+	"summary": "Share breakfast among the boat crews.",
+	"done": "Everyone has had breakfast!",
+	"tasks": [
+		{
+			"text": "Share the crews' breakfast",
+			"activity": "lake_crew_breakfast",
+			"icon": "bread",
+			"where": "at the lake (walk the lake road, or take the map)"
+		},
+		{
+			"text": "Pour water for supper",
+			"activity": "home_pour_water",
+			"icon": "water",
+			"where": "from the jug in your kitchen"
+		},
+		{
+			"text": "Set the table",
+			"activity": "home_set_table",
+			"icon": "table",
+			"where": "at home"
+		}
+	]
+}

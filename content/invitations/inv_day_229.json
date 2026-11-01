@@ -1,0 +1,34 @@
+{
+	"id": "inv_day_229",
+	"from": "elias",
+	"body": "Good morning!\n\nThe monastery garden is buzzing with life this autumn: bees, butterflies, and more in the pond.\n\nCome and meet them all with me.",
+	"signature": "Brother Elias",
+	"suggests": "abbey_flower_visitors",
+	"summary": "Sort the creatures of the monastery garden.",
+	"done": "Everyone is in the right place!",
+	"tasks": [
+		{
+			"text": "Meet the garden creatures",
+			"activity": "abbey_flower_visitors",
+			"icon": "bird",
+			"where": "at the monastery (walk the road, or take the map)"
+		},
+		{
+			"text": "Collect the eggs",
+			"activity": "home_eggs",
+			"icon": "egg",
+			"where": "at the coop by your house"
+		},
+		{
+			"text": "Feed the hens",
+			"done_when": [
+				{
+					"fact": "home.hens_fed_day",
+					"is_today": true
+				}
+			],
+			"icon": "hen",
+			"where": "by the coop at home"
+		}
+	]
+}

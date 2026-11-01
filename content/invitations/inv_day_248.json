@@ -1,0 +1,29 @@
+{
+	"id": "inv_day_248",
+	"from": "tobias",
+	"body": "Dear friend,\n\nTwo days until Harvest Home, and I'm baking every kind of loaf there is!\n\nCome into the bakery and help me load the oven.",
+	"signature": "Mr. Tobias, the baker",
+	"suggests": "harvest_loaves",
+	"summary": "Load the oven with the harvest loaves.",
+	"done": "The loaves are baking!",
+	"tasks": [
+		{
+			"text": "Bake the harvest loaves",
+			"activity": "harvest_loaves",
+			"icon": "bread",
+			"where": "in the bakery"
+		},
+		{
+			"text": "Collect the eggs",
+			"activity": "home_eggs",
+			"icon": "egg",
+			"where": "at the coop by your house"
+		},
+		{
+			"text": "Fill the bird feeders",
+			"activity": "grove_bird_feeders",
+			"icon": "bird",
+			"where": "in the grove behind the chapel"
+		}
+	]
+}

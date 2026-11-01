@@ -1,0 +1,24 @@
+{
+	"id": "day_206",
+	"day": 206,
+	"week": 30,
+	"arc": "Books & Bells",
+	"invitation": "inv_day_206",
+	"npcs": {
+		"miriam": "garden_miriam"
+	},
+	"primary_activity": "city_fair_shopping",
+	"free_work": [
+		"home_set_table"
+	],
+	"chapel": [
+		"good_samaritan",
+		"mustard_seed",
+		"leaven",
+		"lost_sheep",
+		"fishers",
+		"five_thousand",
+		"good_shepherd"
+	],
+	"season": "Summer"
+}

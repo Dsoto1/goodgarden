@@ -1,0 +1,29 @@
+{
+	"id": "inv_day_234",
+	"from": "elias",
+	"body": "Dear friend,\n\nThe orchard is so full this year that the branches are bending. The brothers can't pick it all alone!\n\nWill you come and help?",
+	"signature": "Brother Elias",
+	"suggests": "abbey_orchard",
+	"summary": "Pick apples in the monastery orchard.",
+	"done": "The apples are picked!",
+	"tasks": [
+		{
+			"text": "Pick apples",
+			"activity": "abbey_orchard",
+			"icon": "apple",
+			"where": "at the monastery (walk the road, or take the map)"
+		},
+		{
+			"text": "Collect the eggs",
+			"activity": "home_eggs",
+			"icon": "egg",
+			"where": "at the coop by your house"
+		},
+		{
+			"text": "Fill the bird feeders",
+			"activity": "grove_bird_feeders",
+			"icon": "bird",
+			"where": "in the grove behind the chapel"
+		}
+	]
+}

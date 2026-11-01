@@ -1,0 +1,141 @@
+{
+	"id": "harvest_home_invitations",
+	"title": "Invitations to Harvest Home",
+	"mode": "task",
+	"location": "home",
+	"surface": "wood_table",
+	"readiness": {
+		"ages": [
+			5,
+			9
+		],
+		"math": "none",
+		"reading": "choosing and reading words to write a letter"
+	},
+	"concepts": [
+		"writing a letter",
+		"reading words",
+		"sentences"
+	],
+	"formation_themes": [
+		"hospitality",
+		"friendship"
+	],
+	"prerequisites": [
+		{
+			"fact": "season3.harvest_home_invitations_day",
+			"exists": false
+		}
+	],
+	"intro": [
+		{
+			"speaker": "miriam",
+			"text": "Harvest Home is next week! This year, we want every one of our friends to come: from the farm, the lake, the city, the monastery, the sea and the mountain."
+		},
+		{
+			"speaker": "miriam",
+			"text": "Will you write the invitation? I'll copy it for everyone."
+		}
+	],
+	"steps": [
+		{
+			"id": "letter",
+			"primitive": "compose_letter",
+			"speaker": "miriam",
+			"prompt": "Write the invitation: choose a word for each coloured space.",
+			"hint": "Show me",
+			"lines": [
+				"Dear friend,",
+				"Please come to {event}.",
+				"It is in the {place}.",
+				"Walk the {way} to find us!"
+			],
+			"choices": {
+				"event": [
+					{
+						"word": "Harvest Home",
+						"icon": "wheat"
+					},
+					{
+						"word": "our feast",
+						"icon": "bread"
+					}
+				],
+				"place": [
+					{
+						"word": "village square",
+						"icon": "home"
+					},
+					{
+						"word": "valley",
+						"icon": "tree"
+					}
+				],
+				"way": [
+					{
+						"word": "road",
+						"icon": "map"
+					},
+					{
+						"word": "signposts",
+						"icon": "flag"
+					}
+				]
+			},
+			"signature": "from all of us in the valley",
+			"older": {
+				"lines": [
+					"Dear friend,",
+					"You are invited to {event}",
+					"in the {place}, next {day}.",
+					"Follow the {way} into the valley.",
+					"Please bring {bring}!"
+				],
+				"choices": {
+					"event": [
+						"Harvest Home",
+						"our harvest feast"
+					],
+					"place": [
+						"village square",
+						"heart of the valley"
+					],
+					"day": [
+						"Friday",
+						"week"
+					],
+					"way": [
+						"signposts",
+						"milestones",
+						"road"
+					],
+					"bring": [
+						"a happy heart",
+						"a story to tell",
+						"your appetite"
+					]
+				}
+			},
+			"feedback": {
+				"all_good": "A perfect invitation. Now, to the post!"
+			}
+		}
+	],
+	"outro": [
+		{
+			"speaker": "miriam",
+			"text": "I'll copy it six times. The carriers will take them down every road out of the valley."
+		}
+	],
+	"world_effects": [
+		{
+			"op": "set",
+			"fact": "season3.harvest_home_invitations_day",
+			"value": "$day"
+		}
+	],
+	"replay": "once",
+	"real_world_invitation": "rw_write_letter",
+	"journal_line": "I wrote the invitation to Harvest Home for all our friends.",
+	"unavailable_text": "That's all done. Thank you!"
+}

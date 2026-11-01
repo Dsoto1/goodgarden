@@ -1,0 +1,90 @@
+{
+	"id": "mtn_flock_down",
+	"title": "Down from the High Pasture",
+	"mode": "task",
+	"location": "mountains",
+	"surface": "wood_table",
+	"readiness": {
+		"ages": [
+			5,
+			9
+		],
+		"math": "equal groups of 3 (older: of 4)",
+		"reading": "pre-reader friendly"
+	},
+	"concepts": [
+		"counting in threes",
+		"equal groups",
+		"multiplication (older)"
+	],
+	"formation_themes": [
+		"care for animals",
+		"faithfulness"
+	],
+	"prerequisites": [
+		{
+			"fact": "season3.mtn_flock_down_day",
+			"exists": false
+		}
+	],
+	"intro": [
+		{
+			"speaker": "silas",
+			"text": "Welcome up, friend! Feel that wind? Autumn's coming to the mountain. Time to bring the flock down from the high pasture."
+		},
+		{
+			"speaker": "silas",
+			"text": "Will you help me count them into the pens? Three in each: a ewe and her two half-grown lambs."
+		}
+	],
+	"steps": [
+		{
+			"id": "pens",
+			"primitive": "count_into_slots",
+			"speaker": "silas",
+			"prompt": "Put three sheep in each pen. Count as you go.",
+			"hint": "Find a pen with an empty dip, and put a sheep there.",
+			"slots": 4,
+			"per_slot": 3,
+			"piece": "sheep",
+			"container": "trough",
+			"supply_label": "the flock",
+			"spare": 2,
+			"older": {
+				"slots": 5,
+				"per_slot": 4,
+				"show_dimples": false,
+				"prompt": "Four sheep in each of five pens. No dips this time: count in fours. How many in all?"
+			},
+			"feedback": {
+				"full": "That pen is full. Try the next one.",
+				"all_good": "Four pens of three: twelve sheep, safe and sound!"
+			}
+		}
+	],
+	"outro": [
+		{
+			"speaker": "silas",
+			"text": "Look how big the spring lambs have grown! You settled them into pens when they were tiny, remember?"
+		}
+	],
+	"world_effects": [
+		{
+			"op": "set",
+			"fact": "season3.mtn_flock_down_day",
+			"value": "$day"
+		}
+	],
+	"replay": "once",
+	"real_world_invitation": "rw_count_out",
+	"journal_line": "I helped Mr. Silas bring the flock down from the high pasture.",
+	"older": {
+		"outro": [
+			{
+				"speaker": "silas",
+				"text": "Five pens of four: twenty sheep! And every one of them a friend of mine."
+			}
+		]
+	},
+	"unavailable_text": "That's all done. Thank you!"
+}

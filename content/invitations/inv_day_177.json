@@ -1,0 +1,29 @@
+{
+	"id": "inv_day_177",
+	"from": "hannah",
+	"body": "Hello, friend!\n\nThe drovers are coming down the farm road today with a big flock, on their way to market. They'll rest at my farm tonight.\n\nWould you walk down and help me count them in?",
+	"signature": "Mrs. Hannah, at the farm",
+	"suggests": "road_drovers",
+	"summary": "Count the drovers' sheep into pens.",
+	"done": "Every sheep is counted!",
+	"tasks": [
+		{
+			"text": "Count the drovers' sheep",
+			"activity": "road_drovers",
+			"icon": "sheep",
+			"where": "at Mrs. Hannah's farm (walk the road, or take the map)"
+		},
+		{
+			"text": "Set the table",
+			"activity": "home_set_table",
+			"icon": "table",
+			"where": "at home"
+		},
+		{
+			"text": "Feed the lambs",
+			"activity": "sheepfold_hay",
+			"icon": "sheep",
+			"where": "at the sheepfold"
+		}
+	]
+}

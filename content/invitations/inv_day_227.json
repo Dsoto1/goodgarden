@@ -1,0 +1,29 @@
+{
+	"id": "inv_day_227",
+	"from": "silas",
+	"body": "Hello, friend!\n\nMy hut needs getting ready for winter, and my old labels have all faded away.\n\nWill you come inside and write me some new ones?",
+	"signature": "Mr. Silas, on the mountain",
+	"suggests": "mtn_hut_labels",
+	"summary": "Write new labels for Mr. Silas's hut.",
+	"done": "The hut is labelled!",
+	"tasks": [
+		{
+			"text": "Label the hut",
+			"activity": "mtn_hut_labels",
+			"icon": "letters",
+			"where": "in Mr. Silas's hut on the mountain (walk the mountain road, or take the map)"
+		},
+		{
+			"text": "Collect the eggs",
+			"activity": "home_eggs",
+			"icon": "egg",
+			"where": "at the coop by your house"
+		},
+		{
+			"text": "Fill the bird feeders",
+			"activity": "grove_bird_feeders",
+			"icon": "bird",
+			"where": "in the grove behind the chapel"
+		}
+	]
+}

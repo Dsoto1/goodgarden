@@ -1,0 +1,29 @@
+{
+	"id": "inv_day_206",
+	"from": "greta",
+	"body": "Hello!\n\nOn Friday it's the Bellhaven summer fair, and Sam and I are packing a picnic.\n\nWill you come and do some shopping for us at the stalls?",
+	"signature": "Mrs. Greta, in Bellhaven",
+	"suggests": "city_fair_shopping",
+	"summary": "Buy things for the summer fair.",
+	"done": "The picnic basket is full!",
+	"tasks": [
+		{
+			"text": "Shop for the fair",
+			"activity": "city_fair_shopping",
+			"icon": "coin",
+			"where": "in Bellhaven (walk the north road, or take the map)"
+		},
+		{
+			"text": "Collect the eggs",
+			"activity": "home_eggs",
+			"icon": "egg",
+			"where": "at the coop by your house"
+		},
+		{
+			"text": "Fill the bird feeders",
+			"activity": "grove_bird_feeders",
+			"icon": "bird",
+			"where": "in the grove behind the chapel"
+		}
+	]
+}

@@ -1,0 +1,94 @@
+{
+	"id": "farm_pantry_labels",
+	"title": "The Summer Pantry",
+	"mode": "task",
+	"location": "farmlands",
+	"surface": "wood_table",
+	"readiness": {
+		"ages": [
+			5,
+			9
+		],
+		"math": "none",
+		"reading": "building three-letter words"
+	},
+	"concepts": [
+		"sounds in words",
+		"spelling short words"
+	],
+	"formation_themes": [
+		"helpfulness",
+		"order"
+	],
+	"prerequisites": [
+		{
+			"fact": "season3.farm_pantry_labels_day",
+			"exists": false
+		}
+	],
+	"intro": [
+		{
+			"speaker": "hannah",
+			"text": "My pantry is full to the brim with summer things! But I can never remember what's in which jar."
+		},
+		{
+			"speaker": "hannah",
+			"text": "Will you write a label for each one? Listen to each word, and put its sounds in order."
+		}
+	],
+	"steps": [
+		{
+			"id": "labels",
+			"primitive": "build_word",
+			"speaker": "hannah",
+			"prompt": "Listen to the word. Which sounds do you hear? Put each letter in its place.",
+			"hint": "Show me the next sound.",
+			"words": [
+				"fig",
+				"jam",
+				"nut"
+			],
+			"pictures": {
+				"fig": "fig",
+				"jam": "jam",
+				"nut": "nut",
+				"cup": "cup"
+			},
+			"show_letters": true,
+			"extra_letters": 0,
+			"older": {
+				"words": [
+					"fig",
+					"jam",
+					"nut",
+					"cup"
+				],
+				"show_letters": false,
+				"extra_letters": 3,
+				"prompt": "Listen to the word. Which sounds do you hear, first to last? Find each letter in the box."
+			},
+			"feedback": {
+				"wrong": "Listen again: {word}. That sound goes somewhere else.",
+				"word_done": "{word}! That jar has its label.",
+				"all_good": "Every jar is labelled. My pantry has never been so tidy!"
+			}
+		}
+	],
+	"outro": [
+		{
+			"speaker": "hannah",
+			"text": "Thank you, friend. What a fortnight: hay, milk, jam and eggs! The farm couldn't have done without you."
+		}
+	],
+	"world_effects": [
+		{
+			"op": "set",
+			"fact": "season3.farm_pantry_labels_day",
+			"value": "$day"
+		}
+	],
+	"replay": "once",
+	"real_world_invitation": "rw_kitchen_labels",
+	"journal_line": "I labelled the jars in Mrs. Hannah's summer pantry.",
+	"unavailable_text": "That's all done. Thank you!"
+}

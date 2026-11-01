@@ -1,0 +1,34 @@
+{
+	"id": "inv_day_187",
+	"from": "hannah",
+	"body": "Hello!\n\nThe last of the hay comes in today. When it's done, we all eat lunch together under the big tree.\n\nWill you come and help share it out?",
+	"signature": "Mrs. Hannah, at the farm",
+	"suggests": "farm_lunch",
+	"summary": "Share lunch with the haymakers.",
+	"done": "Everyone has had lunch!",
+	"tasks": [
+		{
+			"text": "Share the haymakers' lunch",
+			"activity": "farm_lunch",
+			"icon": "bread",
+			"where": "at Mrs. Hannah's farm (walk the farm road, or take the map)"
+		},
+		{
+			"text": "Collect the eggs",
+			"activity": "home_eggs",
+			"icon": "egg",
+			"where": "at the coop by your house"
+		},
+		{
+			"text": "Feed the hens",
+			"done_when": [
+				{
+					"fact": "home.hens_fed_day",
+					"is_today": true
+				}
+			],
+			"icon": "hen",
+			"where": "by the coop at home"
+		}
+	]
+}

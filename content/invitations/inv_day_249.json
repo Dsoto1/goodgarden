@@ -1,0 +1,29 @@
+{
+	"id": "inv_day_249",
+	"from": "ruth",
+	"body": "Hello, friend!\n\nTomorrow is Harvest Home! Mrs. Hannah sent the milk ahead, and there are jugs to fill for every table.\n\nWill you come to the square and help?",
+	"signature": "Mrs. Ruth",
+	"suggests": "harvest_jugs",
+	"summary": "Fill the milk jugs for the feast.",
+	"done": "The jugs are full!",
+	"tasks": [
+		{
+			"text": "Fill the jugs",
+			"activity": "harvest_jugs",
+			"icon": "water",
+			"where": "in the village square"
+		},
+		{
+			"text": "Pour water for supper",
+			"activity": "home_pour_water",
+			"icon": "water",
+			"where": "from the jug in your kitchen"
+		},
+		{
+			"text": "Set the table",
+			"activity": "home_set_table",
+			"icon": "table",
+			"where": "at home"
+		}
+	]
+}

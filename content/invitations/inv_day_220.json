@@ -1,0 +1,29 @@
+{
+	"id": "inv_day_220",
+	"from": "finn",
+	"body": "Hello, friend!\n\nTonight everyone from the regatta is coming to supper, and I'm making my famous fish cakes.\n\nWill you help me weigh the flour?",
+	"signature": "Mr. Finn, at the lake",
+	"suggests": "lake_fish_cakes",
+	"summary": "Weigh flour for Mr. Finn's fish cakes.",
+	"done": "The fish cakes are frying!",
+	"tasks": [
+		{
+			"text": "Make fish cakes",
+			"activity": "lake_fish_cakes",
+			"icon": "scales",
+			"where": "at the lake (walk the lake road, or take the map)"
+		},
+		{
+			"text": "Collect the eggs",
+			"activity": "home_eggs",
+			"icon": "egg",
+			"where": "at the coop by your house"
+		},
+		{
+			"text": "Fill the bird feeders",
+			"activity": "grove_bird_feeders",
+			"icon": "bird",
+			"where": "in the grove behind the chapel"
+		}
+	]
+}

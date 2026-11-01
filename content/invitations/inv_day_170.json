@@ -1,0 +1,29 @@
+{
+	"id": "inv_day_170",
+	"from": "amos",
+	"body": "Good morning!\n\nThe signposts are up. Today, let's set little stones along the farm road, so walkers can count how far they've come.\n\nMeet me where the farm road leaves the valley, south past your house.",
+	"signature": "Mr. Amos",
+	"suggests": "road_milestones",
+	"summary": "Set milestones along the farm road.",
+	"done": "The road can be counted now!",
+	"tasks": [
+		{
+			"text": "Set the milestones",
+			"activity": "road_milestones",
+			"icon": "stone",
+			"where": "where the farm road leaves the valley"
+		},
+		{
+			"text": "Set the table",
+			"activity": "home_set_table",
+			"icon": "table",
+			"where": "at home"
+		},
+		{
+			"text": "Feed the lambs",
+			"activity": "sheepfold_hay",
+			"icon": "sheep",
+			"where": "at the sheepfold"
+		}
+	]
+}

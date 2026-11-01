@@ -1,0 +1,29 @@
+{
+	"id": "inv_day_226",
+	"from": "silas",
+	"body": "Good morning!\n\nThe summer's wool is washed and bundled, ready for the brothers at the monastery to spin.\n\nCome up to the mountain, and I'll show you the trail down.",
+	"signature": "Mr. Silas, on the mountain",
+	"suggests": "mtn_wool_trail",
+	"summary": "Carry the wool down to the monastery.",
+	"done": "The wool is delivered!",
+	"tasks": [
+		{
+			"text": "Carry the wool",
+			"activity": "mtn_wool_trail",
+			"icon": "map",
+			"where": "on the mountain (walk the mountain road, or take the map)"
+		},
+		{
+			"text": "Set the table",
+			"activity": "home_set_table",
+			"icon": "table",
+			"where": "at home"
+		},
+		{
+			"text": "Feed the lambs",
+			"activity": "sheepfold_hay",
+			"icon": "sheep",
+			"where": "at the sheepfold"
+		}
+	]
+}

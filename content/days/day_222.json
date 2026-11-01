@@ -1,0 +1,24 @@
+{
+	"id": "day_222",
+	"day": 222,
+	"week": 32,
+	"arc": "Summer Sea",
+	"invitation": "inv_day_222",
+	"npcs": {
+		"miriam": "garden_miriam"
+	},
+	"primary_activity": "letter_to_mara_summer",
+	"free_work": [
+		"home_set_table"
+	],
+	"chapel": [
+		"good_samaritan",
+		"mustard_seed",
+		"leaven",
+		"lost_sheep",
+		"fishers",
+		"five_thousand",
+		"good_shepherd"
+	],
+	"season": "Summer"
+}

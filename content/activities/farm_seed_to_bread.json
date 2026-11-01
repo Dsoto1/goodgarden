@@ -1,0 +1,84 @@
+{
+	"id": "farm_seed_to_bread",
+	"title": "From Seed to Bread",
+	"mode": "task",
+	"location": "farmlands",
+	"surface": "wood_table",
+	"readiness": {
+		"ages": [
+			5,
+			9
+		],
+		"math": "ordering",
+		"reading": "pre-reader friendly"
+	},
+	"concepts": [
+		"sequencing",
+		"how food is made"
+	],
+	"formation_themes": [
+		"gratitude",
+		"wonder at creation"
+	],
+	"prerequisites": [
+		{
+			"fact": "season3.farm_seed_to_bread_day",
+			"exists": false
+		}
+	],
+	"intro": [
+		{
+			"speaker": "hannah",
+			"text": "Look out of the window: the wheat is turning gold! Soon it will be harvest."
+		},
+		{
+			"speaker": "hannah",
+			"text": "Do you know how a little seed becomes a loaf of bread? Put these cards in order, and see."
+		}
+	],
+	"steps": [
+		{
+			"id": "order",
+			"primitive": "sequence_cards",
+			"speaker": "hannah",
+			"prompt": "Put the cards in order: from a seed to a loaf.",
+			"hint": "First the seed is sown, and it grows. What comes after?",
+			"cards": [
+				"card_icon:seedling",
+				"card_icon:wheat",
+				"card_icon:mill",
+				"card_icon:bread"
+			],
+			"labels": [
+				"sown",
+				"grown",
+				"ground",
+				"baked"
+			],
+			"older": {
+				"show_dots": false
+			},
+			"feedback": {
+				"out_of_order": "Some cards came back. What happens after the wheat grows?",
+				"all_good": "Sown, grown, ground and baked! Every loaf began as a tiny seed."
+			}
+		}
+	],
+	"outro": [
+		{
+			"speaker": "hannah",
+			"text": "The farmer sows, the miller grinds, the baker bakes, and God gives the growth. Every loaf is a gift from many hands."
+		}
+	],
+	"world_effects": [
+		{
+			"op": "set",
+			"fact": "season3.farm_seed_to_bread_day",
+			"value": "$day"
+		}
+	],
+	"replay": "once",
+	"real_world_invitation": "rw_bake_together",
+	"journal_line": "I learned how a seed becomes a loaf of bread with Mrs. Hannah.",
+	"unavailable_text": "That's all done. Thank you!"
+}

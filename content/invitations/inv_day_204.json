@@ -1,0 +1,29 @@
+{
+	"id": "inv_day_204",
+	"from": "greta",
+	"body": "Good morning!\n\nThe library has a new shelf, just for books about nature. Sam has drawn a picture on every cover.\n\nWill you come and help sort them?",
+	"signature": "Mrs. Greta, in Bellhaven",
+	"suggests": "book_sort_nature",
+	"summary": "Sort the nature books in the library.",
+	"done": "The nature shelf is sorted!",
+	"tasks": [
+		{
+			"text": "Sort the nature books",
+			"activity": "book_sort_nature",
+			"icon": "book",
+			"where": "in the library in Bellhaven (walk the north road, or take the map)"
+		},
+		{
+			"text": "Collect the eggs",
+			"activity": "home_eggs",
+			"icon": "egg",
+			"where": "at the coop by your house"
+		},
+		{
+			"text": "Pour water for supper",
+			"activity": "home_pour_water",
+			"icon": "water",
+			"where": "from the jug in your kitchen"
+		}
+	]
+}

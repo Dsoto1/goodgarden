@@ -1,0 +1,29 @@
+{
+	"id": "inv_day_198",
+	"from": "elias",
+	"body": "Good morning!\n\nThe new book is bound and wrapped in cloth. It's ready to go to Bellhaven, and I'd like you to carry it.\n\nCome to the scriptorium, and I'll show you the way on the map.",
+	"signature": "Brother Elias",
+	"suggests": "book_journey",
+	"summary": "Carry the new book toward Bellhaven.",
+	"done": "The book is on its way!",
+	"tasks": [
+		{
+			"text": "Carry the book",
+			"activity": "book_journey",
+			"icon": "book",
+			"where": "in the scriptorium at the monastery (walk the road, or take the map)"
+		},
+		{
+			"text": "Set the table",
+			"activity": "home_set_table",
+			"icon": "table",
+			"where": "at home"
+		},
+		{
+			"text": "Feed the lambs",
+			"activity": "sheepfold_hay",
+			"icon": "sheep",
+			"where": "at the sheepfold"
+		}
+	]
+}

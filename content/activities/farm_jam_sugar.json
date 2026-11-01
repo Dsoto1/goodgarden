@@ -1,0 +1,95 @@
+{
+	"id": "farm_jam_sugar",
+	"title": "Plum Jam",
+	"mode": "task",
+	"location": "farmlands",
+	"surface": "wood_table",
+	"readiness": {
+		"ages": [
+			5,
+			9
+		],
+		"math": "comparing weights",
+		"reading": "pre-reader friendly"
+	},
+	"concepts": [
+		"weighing",
+		"balance",
+		"equal amounts"
+	],
+	"formation_themes": [
+		"diligence",
+		"gratitude"
+	],
+	"prerequisites": [
+		{
+			"fact": "season3.farm_jam_sugar_day",
+			"exists": false
+		}
+	],
+	"intro": [
+		{
+			"speaker": "hannah",
+			"text": "The plum tree is so heavy with fruit, its branches touch the ground! Today we make plum jam."
+		},
+		{
+			"speaker": "hannah",
+			"text": "Jam needs just the right amount of sugar. Will you weigh it on the scales?"
+		}
+	],
+	"steps": [
+		{
+			"id": "weigh",
+			"primitive": "balance_scale",
+			"speaker": "hannah",
+			"prompt": "Add scoops of sugar until the beam hangs level.",
+			"hint": "Is the beam tipping? Add a scoop, or take one out.",
+			"weight": 6,
+			"scoops": [
+				{
+					"kind": "flour_scoop",
+					"weight": 1,
+					"count": 8
+				}
+			],
+			"weight_label": "the plums",
+			"supply_label": "sugar",
+			"older": {
+				"weight": 13,
+				"scoops": [
+					{
+						"kind": "flour_scoop",
+						"weight": 1,
+						"count": 5
+					},
+					{
+						"kind": "flour_scoop_big",
+						"weight": 2,
+						"count": 6
+					}
+				]
+			},
+			"feedback": {
+				"heavy": "Too much! Take a scoop out.",
+				"all_good": "Level! Plums and sugar, just right."
+			}
+		}
+	],
+	"outro": [
+		{
+			"speaker": "hannah",
+			"text": "Now it bubbles in the pot, and the whole kitchen smells of plums. We'll have jam all winter!"
+		}
+	],
+	"world_effects": [
+		{
+			"op": "set",
+			"fact": "season3.farm_jam_sugar_day",
+			"value": "$day"
+		}
+	],
+	"replay": "once",
+	"real_world_invitation": "rw_heavy_light",
+	"journal_line": "I weighed sugar for plum jam in Mrs. Hannah's kitchen.",
+	"unavailable_text": "That's all done. Thank you!"
+}

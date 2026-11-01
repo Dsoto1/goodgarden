@@ -1,0 +1,90 @@
+{
+	"id": "lake_crew_breakfast",
+	"title": "Breakfast for the Crews",
+	"mode": "task",
+	"location": "lake",
+	"surface": "wood_table",
+	"readiness": {
+		"ages": [
+			5,
+			9
+		],
+		"math": "sharing into equal groups",
+		"reading": "pre-reader friendly"
+	},
+	"concepts": [
+		"sharing equally",
+		"division",
+		"remainders (older)"
+	],
+	"formation_themes": [
+		"fairness",
+		"hospitality"
+	],
+	"prerequisites": [
+		{
+			"fact": "season3.lake_crew_breakfast_day",
+			"exists": false
+		}
+	],
+	"intro": [
+		{
+			"speaker": "finn",
+			"text": "The boat crews camped by the lake last night. This morning they're hungry!"
+		},
+		{
+			"speaker": "finn",
+			"text": "Mr. Tobias sent bread rolls. Will you share them so every crew has the same?"
+		}
+	],
+	"steps": [
+		{
+			"id": "share",
+			"primitive": "share_equally",
+			"speaker": "finn",
+			"prompt": "Share the rolls so every crew has the same.",
+			"hint": "Show me",
+			"piece": "bread_roll",
+			"total": 15,
+			"plates": 3,
+			"names": [
+				"the red boat",
+				"the blue boat",
+				"the green boat"
+			],
+			"older": {
+				"total": 22,
+				"plates": 5,
+				"leftover": true,
+				"names": [
+					"the red boat",
+					"the blue boat",
+					"the green boat",
+					"the yellow boat",
+					"the white boat"
+				],
+				"prompt": "Share twenty-two rolls among five crews. What about any left over?"
+			},
+			"feedback": {
+				"all_good": "Five each. Fair winds and full tummies!"
+			}
+		}
+	],
+	"outro": [
+		{
+			"speaker": "finn",
+			"text": "Everyone fed, and everyone the same. That's how a regatta should end."
+		}
+	],
+	"world_effects": [
+		{
+			"op": "set",
+			"fact": "season3.lake_crew_breakfast_day",
+			"value": "$day"
+		}
+	],
+	"replay": "once",
+	"real_world_invitation": "rw_share_bread",
+	"journal_line": "I shared breakfast with the boat crews at the lake.",
+	"unavailable_text": "That's all done. Thank you!"
+}

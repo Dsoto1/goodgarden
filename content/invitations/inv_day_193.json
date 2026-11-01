@@ -1,0 +1,29 @@
+{
+	"id": "inv_day_193",
+	"from": "hannah",
+	"body": "Hello, friend!\n\nThe wheat in the fields is turning from green to gold. Harvest is coming!\n\nCome into my kitchen, and I'll show you how a seed becomes your bread.",
+	"signature": "Mrs. Hannah, at the farm",
+	"suggests": "farm_seed_to_bread",
+	"summary": "Learn how a seed becomes bread.",
+	"done": "Now you know where bread comes from!",
+	"tasks": [
+		{
+			"text": "From seed to bread",
+			"activity": "farm_seed_to_bread",
+			"icon": "wheat",
+			"where": "in Mrs. Hannah's farmhouse (walk the farm road, or take the map)"
+		},
+		{
+			"text": "Collect the eggs",
+			"activity": "home_eggs",
+			"icon": "egg",
+			"where": "at the coop by your house"
+		},
+		{
+			"text": "Feed the lambs",
+			"activity": "sheepfold_hay",
+			"icon": "sheep",
+			"where": "at the sheepfold"
+		}
+	]
+}

@@ -1,0 +1,29 @@
+{
+	"id": "inv_day_185",
+	"from": "hannah",
+	"body": "Good morning, friend!\n\nThe orchard and the garden have given us so much this summer! Tomorrow it goes to market.\n\nWould you help me sort it all? Come to the farm.",
+	"signature": "Mrs. Hannah, at the farm",
+	"suggests": "farm_fruit_veg",
+	"summary": "Sort fruit and vegetables for market.",
+	"done": "Everything is sorted!",
+	"tasks": [
+		{
+			"text": "Sort fruit and vegetables",
+			"activity": "farm_fruit_veg",
+			"icon": "apple",
+			"where": "at Mrs. Hannah's farm (walk the farm road, or take the map)"
+		},
+		{
+			"text": "Collect the eggs",
+			"activity": "home_eggs",
+			"icon": "egg",
+			"where": "at the coop by your house"
+		},
+		{
+			"text": "Fill the bird feeders",
+			"activity": "grove_bird_feeders",
+			"icon": "bird",
+			"where": "in the grove behind the chapel"
+		}
+	]
+}

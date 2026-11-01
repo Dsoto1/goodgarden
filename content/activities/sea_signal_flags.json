@@ -1,0 +1,93 @@
+{
+	"id": "sea_signal_flags",
+	"title": "Signal Flags",
+	"mode": "task",
+	"location": "coast",
+	"surface": "wood_table",
+	"readiness": {
+		"ages": [
+			5,
+			9
+		],
+		"math": "repeating patterns",
+		"reading": "pre-reader friendly"
+	},
+	"concepts": [
+		"patterns",
+		"repeating units",
+		"signals"
+	],
+	"formation_themes": [
+		"joy",
+		"trustworthiness"
+	],
+	"prerequisites": [
+		{
+			"fact": "season3.sea_signal_flags_day",
+			"exists": false
+		}
+	],
+	"intro": [
+		{
+			"speaker": "mara",
+			"text": "We're home! As we sail into harbour, we fly a pattern of flags. It tells everyone ashore: all safe, all well."
+		},
+		{
+			"speaker": "mara",
+			"text": "Will you run up the flags? Mind the pattern, or they'll think we're in trouble!"
+		}
+	],
+	"steps": [
+		{
+			"id": "flags",
+			"primitive": "continue_pattern",
+			"speaker": "mara",
+			"look": "bunting",
+			"prompt": "Carry on the pattern of flags. What comes next?",
+			"hint": "Show me",
+			"unit": [
+				"flag_red",
+				"flag_blue"
+			],
+			"length": 10,
+			"given": 2,
+			"names": {
+				"flag_red": "red",
+				"flag_blue": "blue",
+				"flag_yellow": "yellow"
+			},
+			"older": {
+				"unit": [
+					"flag_red",
+					"flag_blue",
+					"flag_blue",
+					"flag_yellow"
+				],
+				"length": 12,
+				"given": 4,
+				"prompt": "Carry on the pattern: red, blue, blue, yellow. What comes next?"
+			},
+			"feedback": {
+				"wrong": "Listen to the pattern: {pattern}",
+				"all_good": "All safe, all well! Look, they're waving from the quay."
+			}
+		}
+	],
+	"outro": [
+		{
+			"speaker": "mara",
+			"text": "Welcome home, shipmate. You're a real sailor now: you've sailed, fished, explored and signalled. Thank you."
+		}
+	],
+	"world_effects": [
+		{
+			"op": "set",
+			"fact": "season3.sea_signal_flags_day",
+			"value": "$day"
+		}
+	],
+	"replay": "once",
+	"real_world_invitation": "rw_patterns",
+	"journal_line": "I flew the signal flags as Captain Mara's ship came home.",
+	"unavailable_text": "That's all done. Thank you!"
+}

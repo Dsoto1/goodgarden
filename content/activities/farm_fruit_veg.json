@@ -1,0 +1,178 @@
+{
+	"id": "farm_fruit_veg",
+	"title": "Fruit or Vegetable?",
+	"mode": "task",
+	"location": "farmlands",
+	"surface": "wood_table",
+	"readiness": {
+		"ages": [
+			5,
+			9
+		],
+		"math": "none",
+		"reading": "pre-reader friendly"
+	},
+	"concepts": [
+		"sorting",
+		"fruit and vegetables",
+		"how plants grow"
+	],
+	"formation_themes": [
+		"wonder at creation",
+		"order"
+	],
+	"prerequisites": [
+		{
+			"fact": "season3.farm_fruit_veg_day",
+			"exists": false
+		}
+	],
+	"intro": [
+		{
+			"speaker": "hannah",
+			"text": "Look at all this from the garden and the orchard! It's going to market tomorrow."
+		},
+		{
+			"speaker": "hannah",
+			"text": "Fruit goes in the baskets, and vegetables in the sacks. Will you sort them for me?"
+		}
+	],
+	"steps": [
+		{
+			"id": "sort",
+			"primitive": "sort_into_bins",
+			"speaker": "hannah",
+			"prompt": "Put the fruit in the basket, and the vegetables in the sack.",
+			"hint": "Fruit grows from a flower, and holds its seeds. Apples and pears are fruit. Carrots and onions are vegetables.",
+			"piece_size": [
+				56,
+				46
+			],
+			"pieces": [
+				{
+					"kind": "apple",
+					"count": 2
+				},
+				{
+					"kind": "pear",
+					"count": 1
+				},
+				{
+					"kind": "plum",
+					"count": 1
+				},
+				{
+					"kind": "carrot",
+					"count": 2
+				},
+				{
+					"kind": "onion",
+					"count": 1
+				},
+				{
+					"kind": "potato",
+					"count": 1
+				}
+			],
+			"bins": [
+				{
+					"kind": "",
+					"label": "fruit",
+					"look": "basket",
+					"group": "fruit",
+					"pos": [
+						280,
+						170
+					]
+				},
+				{
+					"kind": "",
+					"label": "vegetables",
+					"look": "sack",
+					"group": "veg",
+					"pos": [
+						720,
+						170
+					]
+				}
+			],
+			"groups": {
+				"apple": "fruit",
+				"pear": "fruit",
+				"plum": "fruit",
+				"grapes": "fruit",
+				"melon": "fruit",
+				"carrot": "veg",
+				"onion": "veg",
+				"potato": "veg",
+				"turnip": "veg",
+				"cabbage": "veg"
+			},
+			"older": {
+				"pieces": [
+					{
+						"kind": "apple",
+						"count": 1
+					},
+					{
+						"kind": "pear",
+						"count": 1
+					},
+					{
+						"kind": "plum",
+						"count": 1
+					},
+					{
+						"kind": "grapes",
+						"count": 1
+					},
+					{
+						"kind": "melon",
+						"count": 1
+					},
+					{
+						"kind": "carrot",
+						"count": 1
+					},
+					{
+						"kind": "onion",
+						"count": 1
+					},
+					{
+						"kind": "potato",
+						"count": 1
+					},
+					{
+						"kind": "turnip",
+						"count": 1
+					},
+					{
+						"kind": "cabbage",
+						"count": 1
+					}
+				]
+			},
+			"feedback": {
+				"mismatch": "Hmm, is that a fruit or a vegetable? Does it hold seeds inside?",
+				"all_good": "All sorted! The market folk will find just what they want."
+			}
+		}
+	],
+	"outro": [
+		{
+			"speaker": "hannah",
+			"text": "Fruit and vegetables, all from one little patch of earth, with rain and sun. What a gift!"
+		}
+	],
+	"world_effects": [
+		{
+			"op": "set",
+			"fact": "season3.farm_fruit_veg_day",
+			"value": "$day"
+		}
+	],
+	"replay": "once",
+	"real_world_invitation": "rw_shape_hunt",
+	"journal_line": "I sorted fruit and vegetables for market at the farm.",
+	"unavailable_text": "That's all done. Thank you!"
+}

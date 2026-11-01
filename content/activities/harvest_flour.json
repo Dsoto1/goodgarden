@@ -1,0 +1,95 @@
+{
+	"id": "harvest_flour",
+	"title": "The New Flour",
+	"mode": "task",
+	"location": "village",
+	"surface": "wood_table",
+	"readiness": {
+		"ages": [
+			5,
+			9
+		],
+		"math": "comparing weights",
+		"reading": "pre-reader friendly"
+	},
+	"concepts": [
+		"weighing",
+		"balance",
+		"equal amounts"
+	],
+	"formation_themes": [
+		"gratitude",
+		"diligence"
+	],
+	"prerequisites": [
+		{
+			"fact": "season3.harvest_flour_day",
+			"exists": false
+		}
+	],
+	"intro": [
+		{
+			"speaker": "tobias",
+			"text": "The mill's been grinding all week: the first flour from this year's wheat! Smell it."
+		},
+		{
+			"speaker": "tobias",
+			"text": "For Harvest Home I'll bake the biggest loaf you've ever seen. Will you weigh the flour?"
+		}
+	],
+	"steps": [
+		{
+			"id": "weigh",
+			"primitive": "balance_scale",
+			"speaker": "tobias",
+			"prompt": "Add scoops of flour until the beam hangs level.",
+			"hint": "Is the beam tipping? Add a scoop, or take one out.",
+			"weight": 9,
+			"scoops": [
+				{
+					"kind": "flour_scoop",
+					"weight": 1,
+					"count": 11
+				}
+			],
+			"weight_label": "the big loaf",
+			"supply_label": "new flour",
+			"older": {
+				"weight": 15,
+				"scoops": [
+					{
+						"kind": "flour_scoop",
+						"weight": 1,
+						"count": 5
+					},
+					{
+						"kind": "flour_scoop_big",
+						"weight": 2,
+						"count": 8
+					}
+				]
+			},
+			"feedback": {
+				"heavy": "Too much! Take a scoop out.",
+				"all_good": "Level! The harvest loaf is under way."
+			}
+		}
+	],
+	"outro": [
+		{
+			"speaker": "tobias",
+			"text": "From Mrs. Hannah's fields, through the mill, into my bakery. And soon onto everyone's plate."
+		}
+	],
+	"world_effects": [
+		{
+			"op": "set",
+			"fact": "season3.harvest_flour_day",
+			"value": "$day"
+		}
+	],
+	"replay": "once",
+	"real_world_invitation": "rw_heavy_light",
+	"journal_line": "I weighed the new flour for the harvest loaf with Mr. Tobias.",
+	"unavailable_text": "That's all done. Thank you!"
+}

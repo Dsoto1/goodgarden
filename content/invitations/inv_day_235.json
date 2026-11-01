@@ -1,0 +1,29 @@
+{
+	"id": "inv_day_235",
+	"from": "amos",
+	"body": "Hello, friend!\n\nBrother Elias has asked me to build a winter house for the wild bees, and I'm walking out to the monastery with my tools.\n\nWill you meet me there and help?",
+	"signature": "Mr. Amos",
+	"suggests": "abbey_bee_house",
+	"summary": "Build a house for the wild bees.",
+	"done": "The bee house is built!",
+	"tasks": [
+		{
+			"text": "Build a bee house",
+			"activity": "abbey_bee_house",
+			"icon": "birdhouse",
+			"where": "at the monastery (walk the road, or take the map)"
+		},
+		{
+			"text": "Pour water for supper",
+			"activity": "home_pour_water",
+			"icon": "water",
+			"where": "from the jug in your kitchen"
+		},
+		{
+			"text": "Set the table",
+			"activity": "home_set_table",
+			"icon": "table",
+			"where": "at home"
+		}
+	]
+}

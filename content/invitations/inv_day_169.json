@@ -1,0 +1,29 @@
+{
+	"id": "inv_day_169",
+	"from": "amos",
+	"body": "Hello, friend!\n\nSummer has come, and the roads out of the valley are open and dry. You can walk all the way to the farm, the lake, even the sea!\n\nBut walkers need signposts. Come to my workshop, and we'll paint some together.",
+	"signature": "Mr. Amos",
+	"suggests": "road_signposts",
+	"summary": "Paint words on the signposts with Mr. Amos.",
+	"done": "The signposts are painted!",
+	"tasks": [
+		{
+			"text": "Paint the signposts",
+			"activity": "road_signposts",
+			"icon": "road",
+			"where": "in Mr. Amos's workshop in the village"
+		},
+		{
+			"text": "Collect the eggs",
+			"activity": "home_eggs",
+			"icon": "egg",
+			"where": "at the coop by your house"
+		},
+		{
+			"text": "Pour water for supper",
+			"activity": "home_pour_water",
+			"icon": "water",
+			"where": "from the jug in your kitchen"
+		}
+	]
+}

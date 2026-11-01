@@ -1,0 +1,29 @@
+{
+	"id": "inv_day_239",
+	"from": "miriam",
+	"body": "My dear friend,\n\nThe bean row you planted in the spring is ready to pick! The pods are fat and green.\n\nCome to my garden, and bring a basket.",
+	"signature": "Miss Miriam",
+	"suggests": "harvest_bean_row",
+	"summary": "Pick the beans from the spring row.",
+	"done": "The beans are picked!",
+	"tasks": [
+		{
+			"text": "Pick the beans",
+			"activity": "harvest_bean_row",
+			"icon": "seedling",
+			"where": "in Miss Miriam's garden"
+		},
+		{
+			"text": "Collect the eggs",
+			"activity": "home_eggs",
+			"icon": "egg",
+			"where": "at the coop by your house"
+		},
+		{
+			"text": "Pour water for supper",
+			"activity": "home_pour_water",
+			"icon": "water",
+			"where": "from the jug in your kitchen"
+		}
+	]
+}

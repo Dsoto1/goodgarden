@@ -1,0 +1,29 @@
+{
+	"id": "inv_day_212",
+	"from": "mara",
+	"body": "Good morning, shipmate!\n\nWe've dropped anchor at a little fishing village, and the boats are coming in full of fish.\n\nCome down to the water and help count the catch.",
+	"signature": "Captain Mara",
+	"suggests": "sea_catch",
+	"summary": "Count the morning catch into baskets.",
+	"done": "The catch is counted!",
+	"tasks": [
+		{
+			"text": "Count the catch",
+			"activity": "sea_catch",
+			"icon": "fish",
+			"where": "at the coast (walk the coast road, or take the map)"
+		},
+		{
+			"text": "Set the table",
+			"activity": "home_set_table",
+			"icon": "table",
+			"where": "at home"
+		},
+		{
+			"text": "Feed the lambs",
+			"activity": "sheepfold_hay",
+			"icon": "sheep",
+			"where": "at the sheepfold"
+		}
+	]
+}

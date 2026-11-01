@@ -1,0 +1,29 @@
+{
+	"id": "inv_day_183",
+	"from": "hannah",
+	"body": "Dear friend,\n\nThe grass in the meadow is cut, the sun is hot, and it's haymaking time! Every pair of hands helps.\n\nWill you walk down the farm road and help me bring it in? Count the milestones on the way!",
+	"signature": "Mrs. Hannah, at the farm",
+	"suggests": "farm_haymaking",
+	"summary": "Help Mrs. Hannah bring in the hay.",
+	"done": "The hay is in!",
+	"tasks": [
+		{
+			"text": "Help with the hay",
+			"activity": "farm_haymaking",
+			"icon": "wheat",
+			"where": "at Mrs. Hannah's farm (walk the farm road, or take the map)"
+		},
+		{
+			"text": "Collect the eggs",
+			"activity": "home_eggs",
+			"icon": "egg",
+			"where": "at the coop by your house"
+		},
+		{
+			"text": "Pour water for supper",
+			"activity": "home_pour_water",
+			"icon": "water",
+			"where": "from the jug in your kitchen"
+		}
+	]
+}

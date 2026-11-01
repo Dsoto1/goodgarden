@@ -1,0 +1,29 @@
+{
+	"id": "inv_day_178",
+	"from": "greta",
+	"body": "Dear friend,\n\nSummer in Bellhaven! Travellers come up the road every day now, and we hang flags over the gate to welcome them.\n\nWould you walk up the north road and help me? Look out for the old watchtower on the way.",
+	"signature": "Mrs. Greta, in Bellhaven",
+	"suggests": "road_city_flags",
+	"summary": "Hang welcome flags over Bellhaven's gate.",
+	"done": "The gate is hung with flags!",
+	"tasks": [
+		{
+			"text": "Hang the gate flags",
+			"activity": "road_city_flags",
+			"icon": "flag",
+			"where": "in Bellhaven (walk the road, or take the map)"
+		},
+		{
+			"text": "Collect the eggs",
+			"activity": "home_eggs",
+			"icon": "egg",
+			"where": "at the coop by your house"
+		},
+		{
+			"text": "Fill the bread baskets",
+			"activity": "bakery_baskets",
+			"icon": "bread",
+			"where": "at the bakery"
+		}
+	]
+}

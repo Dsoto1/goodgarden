@@ -1,0 +1,24 @@
+{
+	"id": "day_247",
+	"day": 247,
+	"week": 36,
+	"arc": "Harvest Home",
+	"invitation": "inv_day_247",
+	"npcs": {
+		"miriam": "garden_miriam"
+	},
+	"primary_activity": "harvest_pies",
+	"free_work": [
+		"home_set_table"
+	],
+	"chapel": [
+		"good_samaritan",
+		"mustard_seed",
+		"leaven",
+		"lost_sheep",
+		"fishers",
+		"five_thousand",
+		"good_shepherd"
+	],
+	"season": "Autumn"
+}

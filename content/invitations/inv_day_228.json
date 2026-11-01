@@ -1,0 +1,29 @@
+{
+	"id": "inv_day_228",
+	"from": "elias",
+	"body": "Dear friend,\n\nThank you for bringing the wool! Today we take honey from our hives. The bees have been busy all summer long.\n\nCome and help me fill the jars.",
+	"signature": "Brother Elias",
+	"suggests": "abbey_honey",
+	"summary": "Pour honey into jars at the monastery.",
+	"done": "The honey is in its jars!",
+	"tasks": [
+		{
+			"text": "Pour the honey",
+			"activity": "abbey_honey",
+			"icon": "pot",
+			"where": "at the monastery (walk the road, or take the map)"
+		},
+		{
+			"text": "Pour water for supper",
+			"activity": "home_pour_water",
+			"icon": "water",
+			"where": "from the jug in your kitchen"
+		},
+		{
+			"text": "Set the table",
+			"activity": "home_set_table",
+			"icon": "table",
+			"where": "at home"
+		}
+	]
+}

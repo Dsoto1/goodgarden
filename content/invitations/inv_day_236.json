@@ -1,0 +1,29 @@
+{
+	"id": "inv_day_236",
+	"from": "miriam",
+	"body": "Dear friend,\n\nWhat a fortnight on the mountain and at the monastery!\n\nWhen the snow comes, Mr. Silas will be alone up there. Why not write him a letter to keep him company?",
+	"signature": "Miss Miriam",
+	"suggests": "letter_to_silas",
+	"summary": "Write a letter to Mr. Silas.",
+	"done": "Your letter is on its way up the mountain!",
+	"tasks": [
+		{
+			"text": "Write to Mr. Silas",
+			"activity": "letter_to_silas",
+			"icon": "letter",
+			"where": "at home"
+		},
+		{
+			"text": "Collect the eggs",
+			"activity": "home_eggs",
+			"icon": "egg",
+			"where": "at the coop by your house"
+		},
+		{
+			"text": "Set the table",
+			"activity": "home_set_table",
+			"icon": "table",
+			"where": "at home"
+		}
+	]
+}

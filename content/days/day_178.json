@@ -1,0 +1,24 @@
+{
+	"id": "day_178",
+	"day": 178,
+	"week": 26,
+	"arc": "The Open Road",
+	"invitation": "inv_day_178",
+	"npcs": {
+		"miriam": "garden_miriam"
+	},
+	"primary_activity": "road_city_flags",
+	"free_work": [
+		"home_set_table"
+	],
+	"chapel": [
+		"good_samaritan",
+		"mustard_seed",
+		"leaven",
+		"lost_sheep",
+		"fishers",
+		"five_thousand",
+		"good_shepherd"
+	],
+	"season": "Summer"
+}

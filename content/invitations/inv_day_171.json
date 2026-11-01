@@ -1,0 +1,29 @@
+{
+	"id": "inv_day_171",
+	"from": "tobias",
+	"body": "Good morning!\n\nThis week I'm taking my bread along the coast road, all the way to the harbour. Will you help me pack the cart?\n\nCome to the bakery. I've written a list.",
+	"signature": "Mr. Tobias, the baker",
+	"suggests": "road_cart",
+	"summary": "Pack Mr. Tobias's cart for the road.",
+	"done": "The cart is packed!",
+	"tasks": [
+		{
+			"text": "Pack the cart",
+			"activity": "road_cart",
+			"icon": "bread",
+			"where": "by the bakery"
+		},
+		{
+			"text": "Collect the eggs",
+			"activity": "home_eggs",
+			"icon": "egg",
+			"where": "at the coop by your house"
+		},
+		{
+			"text": "Fill the bird feeders",
+			"activity": "grove_bird_feeders",
+			"icon": "bird",
+			"where": "in the grove behind the chapel"
+		}
+	]
+}

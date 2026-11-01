@@ -1,0 +1,29 @@
+{
+	"id": "inv_day_199",
+	"from": "greta",
+	"body": "Dear friend,\n\nThe new book has arrived safely, thanks to you! Sam is reading it to everyone who'll listen.\n\nHe's making picture cards for the little ones. Will you come to the library and help him?",
+	"signature": "Mrs. Greta, in Bellhaven",
+	"suggests": "book_labels",
+	"summary": "Help Sam label his picture cards.",
+	"done": "Sam's cards are ready!",
+	"tasks": [
+		{
+			"text": "Help Sam in the library",
+			"activity": "book_labels",
+			"icon": "card",
+			"where": "in the library in Bellhaven (walk the north road, or take the map)"
+		},
+		{
+			"text": "Collect the eggs",
+			"activity": "home_eggs",
+			"icon": "egg",
+			"where": "at the coop by your house"
+		},
+		{
+			"text": "Fill the bird feeders",
+			"activity": "grove_bird_feeders",
+			"icon": "bird",
+			"where": "in the grove behind the chapel"
+		}
+	]
+}

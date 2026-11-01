@@ -1,0 +1,89 @@
+{
+	"id": "farm_egg_boxes",
+	"title": "Boxes of Eggs",
+	"mode": "task",
+	"location": "farmlands",
+	"surface": "wood_table",
+	"readiness": {
+		"ages": [
+			5,
+			9
+		],
+		"math": "equal groups of 6",
+		"reading": "pre-reader friendly"
+	},
+	"concepts": [
+		"counting in sixes",
+		"equal groups"
+	],
+	"formation_themes": [
+		"care",
+		"diligence"
+	],
+	"prerequisites": [
+		{
+			"fact": "season3.farm_egg_boxes_day",
+			"exists": false
+		}
+	],
+	"intro": [
+		{
+			"speaker": "hannah",
+			"text": "The hens have been busy! Look at all these eggs."
+		},
+		{
+			"speaker": "hannah",
+			"text": "We sell eggs in boxes of six. Will you fill the boxes, carefully?"
+		}
+	],
+	"steps": [
+		{
+			"id": "boxes",
+			"primitive": "count_into_slots",
+			"speaker": "hannah",
+			"prompt": "Put six eggs in each box. Count as you go, gently!",
+			"hint": "Find a box with an empty dip, and put an egg there.",
+			"slots": 3,
+			"per_slot": 6,
+			"piece": "egg",
+			"container": "basket",
+			"supply_label": "eggs",
+			"spare": 2,
+			"older": {
+				"slots": 4,
+				"per_slot": 6,
+				"show_dimples": false,
+				"prompt": "Six eggs in each of four boxes. No dips to help: count carefully. How many eggs is that?"
+			},
+			"feedback": {
+				"full": "That box is full. Try the next one.",
+				"all_good": "Three boxes of six: eighteen eggs, and not one cracked!"
+			}
+		}
+	],
+	"outro": [
+		{
+			"speaker": "hannah",
+			"text": "Eighteen eggs! Some for market, and some for Mr. Tobias's cakes."
+		}
+	],
+	"world_effects": [
+		{
+			"op": "set",
+			"fact": "season3.farm_egg_boxes_day",
+			"value": "$day"
+		}
+	],
+	"replay": "once",
+	"real_world_invitation": "rw_count_out",
+	"journal_line": "I packed eggs into boxes of six at the farm.",
+	"older": {
+		"outro": [
+			{
+				"speaker": "hannah",
+				"text": "Four boxes of six: twenty-four eggs! That's two dozen."
+			}
+		]
+	},
+	"unavailable_text": "That's all done. Thank you!"
+}

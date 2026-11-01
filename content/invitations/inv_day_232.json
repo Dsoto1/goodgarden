@@ -1,0 +1,29 @@
+{
+	"id": "inv_day_232",
+	"from": "elias",
+	"body": "Dear friend,\n\nThe honey is sealed in its jars, and the cart for Bellhaven leaves tomorrow.\n\nWill you help me pack the crates?",
+	"signature": "Brother Elias",
+	"suggests": "abbey_honey_crates",
+	"summary": "Pack honey jars into crates for market.",
+	"done": "The honey is packed!",
+	"tasks": [
+		{
+			"text": "Pack the honey",
+			"activity": "abbey_honey_crates",
+			"icon": "box",
+			"where": "at the monastery (walk the road, or take the map)"
+		},
+		{
+			"text": "Collect the eggs",
+			"activity": "home_eggs",
+			"icon": "egg",
+			"where": "at the coop by your house"
+		},
+		{
+			"text": "Pour water for supper",
+			"activity": "home_pour_water",
+			"icon": "water",
+			"where": "from the jug in your kitchen"
+		}
+	]
+}

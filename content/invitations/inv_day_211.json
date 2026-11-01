@@ -1,0 +1,29 @@
+{
+	"id": "inv_day_211",
+	"from": "mara",
+	"body": "Ahoy, shipmate!\n\nThe summer winds are fair, and this week my ship sails along the coast to the fishing villages. Will you sail with me?\n\nCome down the coast road to the harbour. First, we load the provisions!",
+	"signature": "Captain Mara",
+	"suggests": "sea_provisions",
+	"summary": "Load provisions for Captain Mara's voyage.",
+	"done": "The hold is full!",
+	"tasks": [
+		{
+			"text": "Load the ship",
+			"activity": "sea_provisions",
+			"icon": "boat",
+			"where": "at the coast (walk the coast road, or take the map)"
+		},
+		{
+			"text": "Collect the eggs",
+			"activity": "home_eggs",
+			"icon": "egg",
+			"where": "at the coop by your house"
+		},
+		{
+			"text": "Pour water for supper",
+			"activity": "home_pour_water",
+			"icon": "water",
+			"where": "from the jug in your kitchen"
+		}
+	]
+}

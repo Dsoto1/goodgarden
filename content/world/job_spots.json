@@ -1278,6 +1278,732 @@
 			"from_day": 167,
 			"look": "basket",
 			"until_day": 9999
+		},
+		{
+			"region": "village_workshop",
+			"at": [
+				-2.2,
+				0,
+				1.2
+			],
+			"prompt": "Paint the signposts",
+			"activity": "road_signposts",
+			"from_day": 169,
+			"look": "table"
+		},
+		{
+			"region": "valley",
+			"at": [
+				7.0,
+				0,
+				10.0
+			],
+			"prompt": "Set the milestones",
+			"activity": "road_milestones",
+			"from_day": 170,
+			"look": "none"
+		},
+		{
+			"region": "village",
+			"at": [
+				1.9,
+				0,
+				-11.8
+			],
+			"prompt": "Pack the cart",
+			"activity": "road_cart",
+			"from_day": 171,
+			"look": "crate"
+		},
+		{
+			"region": "home",
+			"at": [
+				-2.4,
+				0,
+				7.4
+			],
+			"prompt": "Read the road map",
+			"activity": "road_map",
+			"from_day": 172,
+			"look": "table"
+		},
+		{
+			"region": "lake",
+			"at": [
+				2.0,
+				0,
+				3.5
+			],
+			"prompt": "Share the picnic",
+			"activity": "road_picnic",
+			"from_day": 173,
+			"look": "basket"
+		},
+		{
+			"region": "valley",
+			"at": [
+				1.6,
+				0,
+				-17.6
+			],
+			"prompt": "Mend the footbridge",
+			"activity": "road_footbridge",
+			"from_day": 176,
+			"look": "none"
+		},
+		{
+			"region": "farmlands",
+			"at": [
+				3.8,
+				0,
+				4.2
+			],
+			"prompt": "Count the sheep",
+			"activity": "road_drovers",
+			"from_day": 177,
+			"look": "none"
+		},
+		{
+			"region": "city",
+			"at": [
+				0.0,
+				0,
+				-15.0
+			],
+			"prompt": "Hang the flags",
+			"activity": "road_city_flags",
+			"from_day": 178,
+			"look": "crate"
+		},
+		{
+			"region": "village_bakery",
+			"at": [
+				-3.0,
+				0,
+				1.0
+			],
+			"prompt": "Load the oven",
+			"activity": "road_bread_trays",
+			"from_day": 179,
+			"look": "crate"
+		},
+		{
+			"region": "home",
+			"at": [
+				-2.4,
+				0,
+				7.4
+			],
+			"prompt": "Write to Mrs. Hannah",
+			"activity": "road_letter",
+			"from_day": 180,
+			"look": "table",
+			"until_day": 181
+		},
+		{
+			"region": "farmlands",
+			"at": [
+				12.5,
+				0,
+				-8.5
+			],
+			"prompt": "Bundle the hay",
+			"activity": "farm_haymaking",
+			"from_day": 183,
+			"look": "none"
+		},
+		{
+			"region": "farmhouse",
+			"at": [
+				2.0,
+				0,
+				-1.2
+			],
+			"prompt": "Pour the milk",
+			"activity": "farm_milk",
+			"from_day": 184,
+			"look": "table"
+		},
+		{
+			"region": "farmlands",
+			"at": [
+				-3.6,
+				0,
+				-11.0
+			],
+			"prompt": "Sort for market",
+			"activity": "farm_fruit_veg",
+			"from_day": 185,
+			"look": "crate"
+		},
+		{
+			"region": "farmhouse",
+			"at": [
+				-3.0,
+				0,
+				1.6
+			],
+			"prompt": "Weigh the sugar",
+			"activity": "farm_jam_sugar",
+			"from_day": 186,
+			"look": "table"
+		},
+		{
+			"region": "farmlands",
+			"at": [
+				-6.6,
+				0,
+				-7.0
+			],
+			"prompt": "Share the lunch",
+			"activity": "farm_lunch",
+			"from_day": 187,
+			"look": "basket"
+		},
+		{
+			"region": "farmlands",
+			"at": [
+				7.5,
+				0,
+				-4.2
+			],
+			"prompt": "Box the eggs",
+			"activity": "farm_egg_boxes",
+			"from_day": 190,
+			"look": "crate"
+		},
+		{
+			"region": "farmlands",
+			"at": [
+				-2.4,
+				0,
+				-2.4
+			],
+			"prompt": "Load the cart",
+			"activity": "farm_market_cart",
+			"from_day": 191,
+			"look": "crate"
+		},
+		{
+			"region": "farmlands",
+			"at": [
+				-2.6,
+				0,
+				7.0
+			],
+			"prompt": "Set the fence posts",
+			"activity": "farm_fence_posts",
+			"from_day": 192,
+			"look": "none"
+		},
+		{
+			"region": "farmhouse",
+			"at": [
+				2.0,
+				0,
+				-1.2
+			],
+			"prompt": "From seed to bread",
+			"activity": "farm_seed_to_bread",
+			"from_day": 193,
+			"look": "table"
+		},
+		{
+			"region": "farmhouse",
+			"at": [
+				-3.0,
+				0,
+				1.6
+			],
+			"prompt": "Label the jars",
+			"activity": "farm_pantry_labels",
+			"from_day": 194,
+			"look": "table"
+		},
+		{
+			"region": "scriptorium",
+			"at": [
+				0.0,
+				0,
+				-1.4
+			],
+			"prompt": "Paint the border",
+			"activity": "book_border",
+			"from_day": 197,
+			"look": "table"
+		},
+		{
+			"region": "scriptorium",
+			"at": [
+				-1.6,
+				0,
+				0.2
+			],
+			"prompt": "Take the book",
+			"activity": "book_journey",
+			"from_day": 198,
+			"look": "table"
+		},
+		{
+			"region": "city_library",
+			"at": [
+				2.6,
+				0,
+				1.6
+			],
+			"prompt": "Label Sam's cards",
+			"activity": "book_labels",
+			"from_day": 199,
+			"look": "table"
+		},
+		{
+			"region": "city",
+			"at": [
+				-6.0,
+				0,
+				-7.0
+			],
+			"prompt": "Mind the stall",
+			"activity": "city_summer_stall",
+			"from_day": 200,
+			"look": "none"
+		},
+		{
+			"region": "city",
+			"at": [
+				6.0,
+				0,
+				-7.0
+			],
+			"prompt": "Fill the singing glasses",
+			"activity": "city_bell_glasses",
+			"from_day": 201,
+			"look": "table"
+		},
+		{
+			"region": "city_library",
+			"at": [
+				2.6,
+				0,
+				1.6
+			],
+			"prompt": "Sort the nature books",
+			"activity": "book_sort_nature",
+			"from_day": 204,
+			"look": "table"
+		},
+		{
+			"region": "monastery",
+			"at": [
+				12.0,
+				0,
+				4.0
+			],
+			"prompt": "Measure the sunflowers",
+			"activity": "abbey_sunflowers",
+			"from_day": 205,
+			"look": "table"
+		},
+		{
+			"region": "city",
+			"at": [
+				2.2,
+				0,
+				3.0
+			],
+			"prompt": "Shop for the fair",
+			"activity": "city_fair_shopping",
+			"from_day": 206,
+			"look": "none"
+		},
+		{
+			"region": "city",
+			"at": [
+				-2.2,
+				0,
+				11.0
+			],
+			"prompt": "Hang the bunting",
+			"activity": "city_fair_bunting",
+			"from_day": 207,
+			"look": "crate"
+		},
+		{
+			"region": "home",
+			"at": [
+				-2.4,
+				0,
+				7.4
+			],
+			"prompt": "Write to Sam",
+			"activity": "letter_to_sam_summer",
+			"from_day": 208,
+			"look": "table",
+			"until_day": 209
+		},
+		{
+			"region": "coast",
+			"at": [
+				6.0,
+				0,
+				1.0
+			],
+			"prompt": "Load the provisions",
+			"activity": "sea_provisions",
+			"from_day": 211,
+			"look": "crate"
+		},
+		{
+			"region": "coast",
+			"at": [
+				13.0,
+				0,
+				5.2
+			],
+			"prompt": "Count the catch",
+			"activity": "sea_catch",
+			"from_day": 212,
+			"look": "none"
+		},
+		{
+			"region": "coast",
+			"at": [
+				16.0,
+				0,
+				-1.2
+			],
+			"prompt": "Explore the rock pool",
+			"activity": "sea_rock_pool",
+			"from_day": 213,
+			"look": "none"
+		},
+		{
+			"region": "ship_cabin",
+			"at": [
+				1.4,
+				0,
+				-1.4
+			],
+			"prompt": "Fill the water casks",
+			"activity": "sea_water_casks",
+			"from_day": 214,
+			"look": "table"
+		},
+		{
+			"region": "coast",
+			"at": [
+				8.0,
+				0,
+				6.0
+			],
+			"prompt": "Fly the signal flags",
+			"activity": "sea_signal_flags",
+			"from_day": 215,
+			"look": "crate"
+		},
+		{
+			"region": "lake",
+			"at": [
+				-2.0,
+				0,
+				10.5
+			],
+			"prompt": "Race in the regatta",
+			"activity": "lake_regatta",
+			"from_day": 218,
+			"look": "none"
+		},
+		{
+			"region": "lake",
+			"at": [
+				-10.0,
+				0,
+				-2.0
+			],
+			"prompt": "Mind the regatta stall",
+			"activity": "lake_regatta_stall",
+			"from_day": 219,
+			"look": "none"
+		},
+		{
+			"region": "lake",
+			"at": [
+				0.0,
+				0,
+				-3.0
+			],
+			"prompt": "Weigh the flour",
+			"activity": "lake_fish_cakes",
+			"from_day": 220,
+			"look": "table"
+		},
+		{
+			"region": "lake",
+			"at": [
+				5.4,
+				0,
+				-2.2
+			],
+			"prompt": "Share breakfast",
+			"activity": "lake_crew_breakfast",
+			"from_day": 221,
+			"look": "basket"
+		},
+		{
+			"region": "home",
+			"at": [
+				-2.4,
+				0,
+				7.4
+			],
+			"prompt": "Write to Captain Mara",
+			"activity": "letter_to_mara_summer",
+			"from_day": 222,
+			"look": "table",
+			"until_day": 223
+		},
+		{
+			"region": "mountains",
+			"at": [
+				9.0,
+				0,
+				15.5
+			],
+			"prompt": "Pen the flock",
+			"activity": "mtn_flock_down",
+			"from_day": 225,
+			"look": "none"
+		},
+		{
+			"region": "mountains",
+			"at": [
+				-5.2,
+				0,
+				3.8
+			],
+			"prompt": "Take the wool down",
+			"activity": "mtn_wool_trail",
+			"from_day": 226,
+			"look": "crate"
+		},
+		{
+			"region": "shepherd_hut",
+			"at": [
+				-2.2,
+				0,
+				0.4
+			],
+			"prompt": "Write the labels",
+			"activity": "mtn_hut_labels",
+			"from_day": 227,
+			"look": "table"
+		},
+		{
+			"region": "monastery",
+			"at": [
+				-9.0,
+				0,
+				1.0
+			],
+			"prompt": "Pour the honey",
+			"activity": "abbey_honey",
+			"from_day": 228,
+			"look": "table"
+		},
+		{
+			"region": "monastery",
+			"at": [
+				12.0,
+				0,
+				-1.0
+			],
+			"prompt": "Sort the garden creatures",
+			"activity": "abbey_flower_visitors",
+			"from_day": 229,
+			"look": "none"
+		},
+		{
+			"region": "monastery",
+			"at": [
+				-9.0,
+				0,
+				-5.5
+			],
+			"prompt": "Pack the honey",
+			"activity": "abbey_honey_crates",
+			"from_day": 232,
+			"look": "crate"
+		},
+		{
+			"region": "scriptorium",
+			"at": [
+				0.0,
+				0,
+				-1.4
+			],
+			"prompt": "Make copy cards",
+			"activity": "abbey_copy_words",
+			"from_day": 233,
+			"look": "table"
+		},
+		{
+			"region": "monastery",
+			"at": [
+				6.6,
+				0,
+				11.6
+			],
+			"prompt": "Pick the apples",
+			"activity": "abbey_orchard",
+			"from_day": 234,
+			"look": "crate"
+		},
+		{
+			"region": "monastery",
+			"at": [
+				12.0,
+				0,
+				4.0
+			],
+			"prompt": "Build the bee house",
+			"activity": "abbey_bee_house",
+			"from_day": 235,
+			"look": "table"
+		},
+		{
+			"region": "home",
+			"at": [
+				-2.4,
+				0,
+				7.4
+			],
+			"prompt": "Write to Mr. Silas",
+			"activity": "letter_to_silas",
+			"from_day": 236,
+			"look": "table",
+			"until_day": 237
+		},
+		{
+			"region": "garden",
+			"at": [
+				-1.2,
+				0,
+				1.8
+			],
+			"prompt": "Pick the beans",
+			"activity": "harvest_bean_row",
+			"from_day": 239,
+			"look": "none"
+		},
+		{
+			"region": "village_bakery",
+			"at": [
+				-3.0,
+				0,
+				1.0
+			],
+			"prompt": "Weigh the flour",
+			"activity": "harvest_flour",
+			"from_day": 240,
+			"look": "crate"
+		},
+		{
+			"region": "village",
+			"at": [
+				-6.3,
+				0,
+				-7.4
+			],
+			"prompt": "Fill the harvest baskets",
+			"activity": "harvest_baskets",
+			"from_day": 241,
+			"look": "basket"
+		},
+		{
+			"region": "home",
+			"at": [
+				-2.4,
+				0,
+				7.4
+			],
+			"prompt": "Write the invitations",
+			"activity": "harvest_home_invitations",
+			"from_day": 242,
+			"look": "table",
+			"until_day": 243
+		},
+		{
+			"region": "village",
+			"at": [
+				2.4,
+				0,
+				-5.2
+			],
+			"prompt": "Make the garland",
+			"activity": "harvest_garland",
+			"from_day": 243,
+			"look": "crate"
+		},
+		{
+			"region": "home",
+			"at": [
+				-2.4,
+				0,
+				7.4
+			],
+			"prompt": "Follow Mr. Silas's map",
+			"activity": "harvest_silas_way",
+			"from_day": 246,
+			"look": "table",
+			"until_day": 247
+		},
+		{
+			"region": "village",
+			"at": [
+				3.4,
+				0,
+				-4.4
+			],
+			"prompt": "Share the pies",
+			"activity": "harvest_pies",
+			"from_day": 247,
+			"look": "basket"
+		},
+		{
+			"region": "village_bakery",
+			"at": [
+				-3.0,
+				0,
+				1.0
+			],
+			"prompt": "Load the oven",
+			"activity": "harvest_loaves",
+			"from_day": 248,
+			"look": "crate"
+		},
+		{
+			"region": "village",
+			"at": [
+				-3.4,
+				0,
+				-4.4
+			],
+			"prompt": "Fill the jugs",
+			"activity": "harvest_jugs",
+			"from_day": 249,
+			"look": "table"
+		},
+		{
+			"region": "village",
+			"at": [
+				0.0,
+				0,
+				-6.2
+			],
+			"prompt": "Join Harvest Home",
+			"activity": "harvest_home",
+			"from_day": 250,
+			"look": "none"
 		}
 	]
 }

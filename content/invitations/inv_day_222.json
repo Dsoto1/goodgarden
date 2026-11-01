@@ -1,0 +1,29 @@
+{
+	"id": "inv_day_222",
+	"from": "miriam",
+	"body": "Dear friend,\n\nA voyage and a regatta! You must have sea legs by now.\n\nWhy not write and thank Captain Mara? I've left paper on your table.",
+	"signature": "Miss Miriam",
+	"suggests": "letter_to_mara_summer",
+	"summary": "Write a thank-you letter to Captain Mara.",
+	"done": "Your letter is on its way to the coast!",
+	"tasks": [
+		{
+			"text": "Write to Captain Mara",
+			"activity": "letter_to_mara_summer",
+			"icon": "letter",
+			"where": "at home"
+		},
+		{
+			"text": "Collect the eggs",
+			"activity": "home_eggs",
+			"icon": "egg",
+			"where": "at the coop by your house"
+		},
+		{
+			"text": "Set the table",
+			"activity": "home_set_table",
+			"icon": "table",
+			"where": "at home"
+		}
+	]
+}

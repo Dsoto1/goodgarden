@@ -1,0 +1,29 @@
+{
+	"id": "inv_day_247",
+	"from": "tobias",
+	"body": "Good morning!\n\nThe harvest pies are baked and sliced! Now they must be shared out fairly for our guests.\n\nCome to the square and help me.",
+	"signature": "Mr. Tobias, the baker",
+	"suggests": "harvest_pies",
+	"summary": "Share the harvest pies for the guests.",
+	"done": "The pies are shared!",
+	"tasks": [
+		{
+			"text": "Share the harvest pies",
+			"activity": "harvest_pies",
+			"icon": "pie",
+			"where": "in the village square"
+		},
+		{
+			"text": "Set the table",
+			"activity": "home_set_table",
+			"icon": "table",
+			"where": "at home"
+		},
+		{
+			"text": "Feed the lambs",
+			"activity": "sheepfold_hay",
+			"icon": "sheep",
+			"where": "at the sheepfold"
+		}
+	]
+}

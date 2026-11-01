@@ -1,0 +1,163 @@
+{
+	"id": "harvest_home",
+	"title": "Harvest Home",
+	"mode": "task",
+	"location": "village",
+	"surface": "wood_table",
+	"readiness": {
+		"ages": [
+			5,
+			9
+		],
+		"math": "none",
+		"reading": "choosing and reading words"
+	},
+	"concepts": [
+		"writing a prayer of thanks",
+		"reading words"
+	],
+	"formation_themes": [
+		"gratitude",
+		"community",
+		"joy"
+	],
+	"prerequisites": [
+		{
+			"fact": "season3.harvest_home_day",
+			"exists": false
+		}
+	],
+	"intro": [
+		{
+			"speaker": "miriam",
+			"text": "They walked! Every one of them walked the roads to get here: Mrs. Hannah up the farm road, Mr. Finn from the lake, Mrs. Greta and Sam down from Bellhaven, Brother Elias over the bridge, Captain Mara along the coast road, and Mr. Silas all the way down the mountain!"
+		},
+		{
+			"speaker": "miriam",
+			"text": "Before we eat, we say thank you. Will you say it for us, one more time?"
+		}
+	],
+	"steps": [
+		{
+			"id": "thanks",
+			"primitive": "compose_letter",
+			"speaker": "miriam",
+			"prompt": "Write the thank-you: choose a word for each coloured space.",
+			"hint": "Show me",
+			"lines": [
+				"Thank you, God,",
+				"for {harvest},",
+				"for the {roads} that bring us together,",
+				"and for {gift}.",
+				"Amen."
+			],
+			"choices": {
+				"harvest": [
+					{
+						"word": "the harvest",
+						"icon": "wheat"
+					},
+					{
+						"word": "our bread",
+						"icon": "bread"
+					},
+					{
+						"word": "the summer",
+						"icon": "sun"
+					}
+				],
+				"roads": [
+					{
+						"word": "roads",
+						"icon": "map"
+					},
+					{
+						"word": "paths",
+						"icon": "tree"
+					}
+				],
+				"gift": [
+					{
+						"word": "each other",
+						"icon": "heart"
+					},
+					{
+						"word": "this feast",
+						"icon": "pie"
+					},
+					{
+						"word": "our friends",
+						"icon": "heart"
+					}
+				]
+			},
+			"signature": "",
+			"older": {
+				"lines": [
+					"Thank you, God,",
+					"for the {harvest} and the {harvest2},",
+					"for every {roads} we walked this year,",
+					"for friends who came from {where},",
+					"and most of all for {gift}.",
+					"Amen."
+				],
+				"choices": {
+					"harvest": [
+						"wheat",
+						"hay",
+						"honey"
+					],
+					"harvest2": [
+						"apples",
+						"beans",
+						"plum jam"
+					],
+					"roads": [
+						"road",
+						"path",
+						"mile"
+					],
+					"where": [
+						"near and far",
+						"the farm and the sea",
+						"the city and the mountain"
+					],
+					"gift": [
+						"each other",
+						"your love",
+						"this whole wide land"
+					]
+				}
+			},
+			"feedback": {
+				"all_good": "Beautiful. Everyone is listening."
+			}
+		}
+	],
+	"outro": [
+		{
+			"speaker": "miriam",
+			"text": "Amen! Now, let's eat!"
+		},
+		{
+			"speaker": "miriam",
+			"text": "This year you walked every road out of our valley, and now every road has brought a friend back to you."
+		},
+		{
+			"speaker": "miriam",
+			"text": "Thank you, my dear friend. Happy Harvest Home! Come back tomorrow: the feast goes on, and Mrs. Greta has brought her market.",
+			"button": "Happy Harvest Home!"
+		}
+	],
+	"world_effects": [
+		{
+			"op": "set",
+			"fact": "season3.harvest_home_day",
+			"value": "$day"
+		}
+	],
+	"replay": "once",
+	"real_world_invitation": "rw_give_thanks_share",
+	"journal_line": "At Harvest Home, friends from every corner of the land walked the roads to our valley, and I said the thank-you.",
+	"unavailable_text": "That's all done. Thank you!"
+}

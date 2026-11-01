@@ -1,0 +1,29 @@
+{
+	"id": "inv_day_233",
+	"from": "elias",
+	"body": "Hello, friend!\n\nBrother Thomas is teaching the village children their letters, and he needs copy cards for them.\n\nCome to the scriptorium and help us make them.",
+	"signature": "Brother Elias",
+	"suggests": "abbey_copy_words",
+	"summary": "Make copy cards in the scriptorium.",
+	"done": "The copy cards are ready!",
+	"tasks": [
+		{
+			"text": "Make copy cards",
+			"activity": "abbey_copy_words",
+			"icon": "letters",
+			"where": "in the scriptorium at the monastery (walk the road, or take the map)"
+		},
+		{
+			"text": "Set the table",
+			"activity": "home_set_table",
+			"icon": "table",
+			"where": "at home"
+		},
+		{
+			"text": "Feed the lambs",
+			"activity": "sheepfold_hay",
+			"icon": "sheep",
+			"where": "at the sheepfold"
+		}
+	]
+}

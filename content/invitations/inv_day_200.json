@@ -1,0 +1,29 @@
+{
+	"id": "inv_day_200",
+	"from": "greta",
+	"body": "Hello, friend!\n\nIt's the summer market today, and the square is packed! Folk have walked up the roads from every direction.\n\nI could use a helper at my stall. Will you come?",
+	"signature": "Mrs. Greta, in Bellhaven",
+	"suggests": "city_summer_stall",
+	"summary": "Mind Mrs. Greta's stall at the summer market.",
+	"done": "Everything sold!",
+	"tasks": [
+		{
+			"text": "Mind the market stall",
+			"activity": "city_summer_stall",
+			"icon": "coin",
+			"where": "in Bellhaven (walk the north road, or take the map)"
+		},
+		{
+			"text": "Pour water for supper",
+			"activity": "home_pour_water",
+			"icon": "water",
+			"where": "from the jug in your kitchen"
+		},
+		{
+			"text": "Set the table",
+			"activity": "home_set_table",
+			"icon": "table",
+			"where": "at home"
+		}
+	]
+}

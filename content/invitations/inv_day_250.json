@@ -1,0 +1,29 @@
+{
+	"id": "inv_day_250",
+	"from": "miriam",
+	"body": "My dear friend,\n\nToday is Harvest Home! Listen: footsteps on every road, and voices coming closer.\n\nOur friends have walked from every corner of the land. Come to the square!",
+	"signature": "Miss Miriam",
+	"suggests": "harvest_home",
+	"summary": "Join Harvest Home in the village square.",
+	"done": "Happy Harvest Home!",
+	"tasks": [
+		{
+			"text": "Go to Harvest Home",
+			"activity": "harvest_home",
+			"icon": "wheat",
+			"where": "in the village square"
+		},
+		{
+			"text": "Collect the eggs",
+			"activity": "home_eggs",
+			"icon": "egg",
+			"where": "at the coop by your house"
+		},
+		{
+			"text": "Set the table",
+			"activity": "home_set_table",
+			"icon": "table",
+			"where": "at home"
+		}
+	]
+}

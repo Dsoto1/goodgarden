@@ -1,0 +1,29 @@
+{
+	"id": "inv_day_194",
+	"from": "hannah",
+	"body": "Dear friend,\n\nMy pantry is bursting with summer: figs, jam, nuts and more. But the jars all look alike!\n\nWill you come and help me label them? It's the last job of our farm fortnight.",
+	"signature": "Mrs. Hannah, at the farm",
+	"suggests": "farm_pantry_labels",
+	"summary": "Label the jars in the summer pantry.",
+	"done": "The pantry is labelled!",
+	"tasks": [
+		{
+			"text": "Label the pantry jars",
+			"activity": "farm_pantry_labels",
+			"icon": "letters",
+			"where": "in Mrs. Hannah's farmhouse (walk the farm road, or take the map)"
+		},
+		{
+			"text": "Pour water for supper",
+			"activity": "home_pour_water",
+			"icon": "water",
+			"where": "from the jug in your kitchen"
+		},
+		{
+			"text": "Set the table",
+			"activity": "home_set_table",
+			"icon": "table",
+			"where": "at home"
+		}
+	]
+}

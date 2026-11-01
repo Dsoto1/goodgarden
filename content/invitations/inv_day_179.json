@@ -1,0 +1,29 @@
+{
+	"id": "inv_day_179",
+	"from": "tobias",
+	"body": "Good morning!\n\nI'm home from the harbour, and the sailors want more bread already! I'll need help to bake it all.\n\nCome into the bakery and help me load the oven.",
+	"signature": "Mr. Tobias, the baker",
+	"suggests": "road_bread_trays",
+	"summary": "Load the oven with bread for the harbour.",
+	"done": "The bread is baking!",
+	"tasks": [
+		{
+			"text": "Bake bread for the harbour",
+			"activity": "road_bread_trays",
+			"icon": "bread",
+			"where": "in the bakery"
+		},
+		{
+			"text": "Pour water for supper",
+			"activity": "home_pour_water",
+			"icon": "water",
+			"where": "from the jug in your kitchen"
+		},
+		{
+			"text": "Fill the bird feeders",
+			"activity": "grove_bird_feeders",
+			"icon": "bird",
+			"where": "in the grove behind the chapel"
+		}
+	]
+}

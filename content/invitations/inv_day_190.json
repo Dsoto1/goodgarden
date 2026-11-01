@@ -1,0 +1,29 @@
+{
+	"id": "inv_day_190",
+	"from": "hannah",
+	"body": "Good morning!\n\nThe hens have laid so many eggs this week, I've run out of baskets! We'll pack them in boxes for market.\n\nCome down the farm road and help me.",
+	"signature": "Mrs. Hannah, at the farm",
+	"suggests": "farm_egg_boxes",
+	"summary": "Pack the eggs into boxes of six.",
+	"done": "The eggs are boxed!",
+	"tasks": [
+		{
+			"text": "Box the eggs",
+			"activity": "farm_egg_boxes",
+			"icon": "egg",
+			"where": "at Mrs. Hannah's farm (walk the farm road, or take the map)"
+		},
+		{
+			"text": "Pour water for supper",
+			"activity": "home_pour_water",
+			"icon": "water",
+			"where": "from the jug in your kitchen"
+		},
+		{
+			"text": "Feed the lambs",
+			"activity": "sheepfold_hay",
+			"icon": "sheep",
+			"where": "at the sheepfold"
+		}
+	]
+}

@@ -1,0 +1,29 @@
+{
+	"id": "inv_day_241",
+	"from": "ruth",
+	"body": "Dear friend,\n\nEvery harvest, we make a basket for each neighbour who can't get out to the fields.\n\nWill you help me fill them? Come to the village square.",
+	"signature": "Mrs. Ruth",
+	"suggests": "harvest_baskets",
+	"summary": "Share out harvest baskets for the neighbours.",
+	"done": "Every neighbour has a basket!",
+	"tasks": [
+		{
+			"text": "Fill the harvest baskets",
+			"activity": "harvest_baskets",
+			"icon": "apple",
+			"where": "in the village square"
+		},
+		{
+			"text": "Collect the eggs",
+			"activity": "home_eggs",
+			"icon": "egg",
+			"where": "at the coop by your house"
+		},
+		{
+			"text": "Fill the bird feeders",
+			"activity": "grove_bird_feeders",
+			"icon": "bird",
+			"where": "in the grove behind the chapel"
+		}
+	]
+}

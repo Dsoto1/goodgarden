@@ -1,0 +1,29 @@
+{
+	"id": "inv_day_192",
+	"from": "amos",
+	"body": "Good morning!\n\nThe cows pushed down part of Mrs. Hannah's fence in the night. Nobody was hurt, but it needs mending.\n\nI'm walking down the farm road with my tools. Will you meet me there?",
+	"signature": "Mr. Amos",
+	"suggests": "farm_fence_posts",
+	"summary": "Put up new fence posts with Mr. Amos.",
+	"done": "The fence is mended!",
+	"tasks": [
+		{
+			"text": "Mend the farm fence",
+			"activity": "farm_fence_posts",
+			"icon": "hammer",
+			"where": "at Mrs. Hannah's farm (walk the farm road, or take the map)"
+		},
+		{
+			"text": "Pour water for supper",
+			"activity": "home_pour_water",
+			"icon": "water",
+			"where": "from the jug in your kitchen"
+		},
+		{
+			"text": "Fill the bird feeders",
+			"activity": "grove_bird_feeders",
+			"icon": "bird",
+			"where": "in the grove behind the chapel"
+		}
+	]
+}

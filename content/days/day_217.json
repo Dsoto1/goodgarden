@@ -1,0 +1,26 @@
+{
+	"id": "day_217",
+	"day": 217,
+	"week": 31,
+	"arc": "Summer Sea",
+	"invitation": "inv_day_217",
+	"npcs": {
+		"miriam": "chapel_miriam",
+		"tobias": "chapel_tobias",
+		"ruth": "chapel_ruth",
+		"amos": "chapel_amos"
+	},
+	"free_work": [
+		"home_set_table"
+	],
+	"chapel": [
+		"good_samaritan",
+		"mustard_seed",
+		"leaven",
+		"lost_sheep",
+		"fishers",
+		"five_thousand",
+		"good_shepherd"
+	],
+	"season": "Summer"
+}

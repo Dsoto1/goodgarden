@@ -1,0 +1,29 @@
+{
+	"id": "inv_day_186",
+	"from": "hannah",
+	"body": "Dear friend,\n\nThe plum tree is bending under all its fruit, so today is jam day!\n\nCome into the farmhouse kitchen. I'll need a careful helper for the scales.",
+	"signature": "Mrs. Hannah, at the farm",
+	"suggests": "farm_jam_sugar",
+	"summary": "Weigh the sugar for plum jam.",
+	"done": "The jam is bubbling!",
+	"tasks": [
+		{
+			"text": "Make plum jam",
+			"activity": "farm_jam_sugar",
+			"icon": "scales",
+			"where": "in Mrs. Hannah's farmhouse (walk the farm road, or take the map)"
+		},
+		{
+			"text": "Pour water for supper",
+			"activity": "home_pour_water",
+			"icon": "water",
+			"where": "from the jug in your kitchen"
+		},
+		{
+			"text": "Set the table",
+			"activity": "home_set_table",
+			"icon": "table",
+			"where": "at home"
+		}
+	]
+}

@@ -1,0 +1,29 @@
+{
+	"id": "inv_day_246",
+	"from": "miriam",
+	"body": "My dear friend,\n\nA letter has come from Mr. Silas, with a little map of his road down the mountain! He's coming to Harvest Home.\n\nCome and follow it with me.",
+	"signature": "Miss Miriam",
+	"suggests": "harvest_silas_way",
+	"summary": "Follow Mr. Silas's road on his map.",
+	"done": "Mr. Silas is on his way!",
+	"tasks": [
+		{
+			"text": "Follow Mr. Silas's map",
+			"activity": "harvest_silas_way",
+			"icon": "map",
+			"where": "at home"
+		},
+		{
+			"text": "Collect the eggs",
+			"activity": "home_eggs",
+			"icon": "egg",
+			"where": "at the coop by your house"
+		},
+		{
+			"text": "Pour water for supper",
+			"activity": "home_pour_water",
+			"icon": "water",
+			"where": "from the jug in your kitchen"
+		}
+	]
+}

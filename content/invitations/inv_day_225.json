@@ -1,0 +1,29 @@
+{
+	"id": "inv_day_225",
+	"from": "silas",
+	"body": "Dear friend,\n\nThe wind's turning cold on the high pasture, and it's time to bring the flock down for the autumn.\n\nWill you walk up the mountain road and help me? The lambs you met in spring are nearly grown!",
+	"signature": "Mr. Silas, on the mountain",
+	"suggests": "mtn_flock_down",
+	"summary": "Help Mr. Silas pen the flock.",
+	"done": "The flock is safe!",
+	"tasks": [
+		{
+			"text": "Bring the flock down",
+			"activity": "mtn_flock_down",
+			"icon": "sheep",
+			"where": "on the mountain (walk the mountain road, or take the map)"
+		},
+		{
+			"text": "Collect the eggs",
+			"activity": "home_eggs",
+			"icon": "egg",
+			"where": "at the coop by your house"
+		},
+		{
+			"text": "Pour water for supper",
+			"activity": "home_pour_water",
+			"icon": "water",
+			"where": "from the jug in your kitchen"
+		}
+	]
+}

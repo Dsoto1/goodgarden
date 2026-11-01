@@ -1,0 +1,29 @@
+{
+	"id": "inv_day_208",
+	"from": "miriam",
+	"body": "Dear friend,\n\nWhat a time you've had in Bellhaven! Books, bells, the market and the fair.\n\nWhy not write to Sam to say thank you? I've left paper on your table.",
+	"signature": "Miss Miriam",
+	"suggests": "letter_to_sam_summer",
+	"summary": "Write a thank-you letter to Sam.",
+	"done": "Your letter is on its way to Bellhaven!",
+	"tasks": [
+		{
+			"text": "Write to Sam",
+			"activity": "letter_to_sam_summer",
+			"icon": "letter",
+			"where": "at home"
+		},
+		{
+			"text": "Collect the eggs",
+			"activity": "home_eggs",
+			"icon": "egg",
+			"where": "at the coop by your house"
+		},
+		{
+			"text": "Set the table",
+			"activity": "home_set_table",
+			"icon": "table",
+			"where": "at home"
+		}
+	]
+}

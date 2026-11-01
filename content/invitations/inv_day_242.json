@@ -1,0 +1,29 @@
+{
+	"id": "inv_day_242",
+	"from": "miriam",
+	"body": "My dear friend,\n\nHarvest Home is coming! This year, we're inviting every friend we've made, from every corner of the land.\n\nWill you write the invitation? I've left paper on your table.",
+	"signature": "Miss Miriam",
+	"suggests": "harvest_home_invitations",
+	"summary": "Write the invitation to Harvest Home.",
+	"done": "The invitations are on their way!",
+	"tasks": [
+		{
+			"text": "Write the invitations",
+			"activity": "harvest_home_invitations",
+			"icon": "letter",
+			"where": "at home"
+		},
+		{
+			"text": "Pour water for supper",
+			"activity": "home_pour_water",
+			"icon": "water",
+			"where": "from the jug in your kitchen"
+		},
+		{
+			"text": "Set the table",
+			"activity": "home_set_table",
+			"icon": "table",
+			"where": "at home"
+		}
+	]
+}

@@ -1,0 +1,29 @@
+{
+	"id": "inv_day_180",
+	"from": "miriam",
+	"body": "Dear friend,\n\nWhat a fortnight! Signposts, milestones, picnics and bridges. You've walked further than ever.\n\nWhy not end the week by writing to a friend at the end of one of those roads?",
+	"signature": "Miss Miriam",
+	"suggests": "road_letter",
+	"summary": "Write a letter to Mrs. Hannah.",
+	"done": "Your letter is on its way down the road!",
+	"tasks": [
+		{
+			"text": "Write to Mrs. Hannah",
+			"activity": "road_letter",
+			"icon": "letter",
+			"where": "at home"
+		},
+		{
+			"text": "Collect the eggs",
+			"activity": "home_eggs",
+			"icon": "egg",
+			"where": "at the coop by your house"
+		},
+		{
+			"text": "Set the table",
+			"activity": "home_set_table",
+			"icon": "table",
+			"where": "at home"
+		}
+	]
+}

@@ -1,0 +1,24 @@
+{
+	"id": "day_234",
+	"day": 234,
+	"week": 34,
+	"arc": "Wool & Honey",
+	"invitation": "inv_day_234",
+	"npcs": {
+		"miriam": "garden_miriam"
+	},
+	"primary_activity": "abbey_orchard",
+	"free_work": [
+		"home_set_table"
+	],
+	"chapel": [
+		"good_samaritan",
+		"mustard_seed",
+		"leaven",
+		"lost_sheep",
+		"fishers",
+		"five_thousand",
+		"good_shepherd"
+	],
+	"season": "Autumn"
+}
