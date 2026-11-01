@@ -26,6 +26,9 @@ func build(area: Rect2, clearings: Array[Dictionary], density: float, seed_value
 	noise.frequency = 0.045
 	var rng := RandomNumberGenerator.new()
 	rng.seed = seed_value
+	# Only the clearings near this area, then near each chunk, are checked.
+	var near := _clearings_in(clearings, area.grow(1.0))
+	var per_cell := {}
 	for layer: Array in LAYERS:
 		var id: String = layer[0]
 		var parts := _mesh_for(id)
@@ -36,13 +39,17 @@ func build(area: Rect2, clearings: Array[Dictionary], density: float, seed_value
 		while x < area.end.x:
 			var z := area.position.y
 			while z < area.end.y:
+				var key := Vector2(x, z)
+				if not per_cell.has(key):
+					per_cell[key] = _clearings_in(near, Rect2(x, z, CHUNK, CHUNK).grow(0.5))
+				var local: Array[Dictionary] = per_cell[key]
 				var transforms: Array[Transform3D] = []
 				for i in per_chunk:
 					var p := Vector2(x + rng.randf() * CHUNK, z + rng.randf() * CHUNK)
 					# Meadows: accept more where the noise is high, fewer elsewhere.
 					if (noise.get_noise_2dv(p) + 1.0) * 0.5 < float(layer[2]) * rng.randf_range(0.6, 1.4):
 						continue
-					if _cleared(p, clearings) or Terrain.river_bank_distance(p.x, p.y) < 0.9:
+					if _cleared(p, local) or Terrain.river_bank_distance(p.x, p.y) < 0.9:
 						continue
 					var s := rng.randf_range(layer[3].x, layer[3].y)
 					var place := Transform3D(Basis(Vector3.UP, rng.randf() * TAU).scaled(Vector3.ONE * s), Vector3(p.x, Terrain.height(p.x, p.y), p.y))
@@ -138,6 +145,20 @@ func _mesh_for(id: String) -> Dictionary:
 	var result := {"mesh": mesh, "local": Props.relative_transform(source, probe)}
 	probe.free()
 	return result
+
+
+## The clearings that reach into `box`.
+static func _clearings_in(clearings: Array[Dictionary], box: Rect2) -> Array[Dictionary]:
+	var out: Array[Dictionary] = []
+	for c in clearings:
+		var r: Rect2
+		if c.has("rect"):
+			r = c["rect"]
+		else:
+			r = Rect2(c["a"], Vector2.ZERO).expand(c["b"]).grow(float(c["width"]) * 0.5)
+		if r.intersects(box):
+			out.append(c)
+	return out
 
 
 static func _cleared(p: Vector2, clearings: Array[Dictionary]) -> bool:

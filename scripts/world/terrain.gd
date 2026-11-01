@@ -151,7 +151,32 @@ static func outside(x: float, z: float) -> float:
 
 
 static func height(x: float, z: float) -> float:
+	# The valley floor is level; only the river shapes it (the hills, sites
+	# and roads all leave it as it is).
+	if outside(x, z) <= 0.0:
+		return _with_river(x, z, 0.0)
 	return _with_roads(x, z, _with_river(x, z, _with_sites(x, z, _land(x, z))))
+
+
+## Heights at whole-metre points of the land's mesh, remembered: the visible
+## mesh and the roads' ground both ask for the same corners.
+const _GRID_HALF := 320
+static var _grid_cache := PackedFloat32Array()
+static func _grid_height(x: float, z: float) -> float:
+	var ix := int(x) + _GRID_HALF
+	var iz := int(z) + _GRID_HALF
+	if float(int(x)) != x or float(int(z)) != z or ix < 0 or iz < 0 or ix > 2 * _GRID_HALF or iz > 2 * _GRID_HALF:
+		return height(x, z)
+	var n := 2 * _GRID_HALF + 1
+	if _grid_cache.is_empty():
+		_grid_cache.resize(n * n)
+		_grid_cache.fill(NAN)
+	var k := iz * n + ix
+	var h := _grid_cache[k]
+	if is_nan(h):
+		h = height(x, z)
+		_grid_cache[k] = h
+	return h
 
 
 ## The land before the roads are cut into it.
@@ -263,7 +288,7 @@ static func _roads() -> Array:
 			for k in range(n - 2, -1, -1):
 				if not fixed[k]:
 					bed[k] = clampf(bed[k], bed[k + 1] - grade, bed[k + 1] + grade)
-		cache.append({"pts": pts, "along": along, "box": box.grow(ROAD_BLEND + ROAD_SHOULDER + 1.0), "bed": bed, "grade": grade, "branch": branch})
+		cache.append({"pts": pts, "along": along, "box": box.grow(ROAD_BLEND + ROAD_SHOULDER + 1.0), "seg_boxes": _segment_boxes(pts), "bed": bed, "grade": grade, "branch": branch})
 	_road_cache = cache
 	return cache
 
@@ -294,6 +319,13 @@ static func _road_bed(road: Dictionary, s: float) -> float:
 	var f := clampf(s, 0.0, bed.size() - 1.0)
 	var k := mini(int(f), bed.size() - 2)
 	return lerpf(bed[k], bed[k + 1], f - k)
+
+
+static func _segment_boxes(pts: Array[Vector2]) -> Array[Rect2]:
+	var out: Array[Rect2] = [Rect2()]
+	for i in range(1, pts.size()):
+		out.append(Rect2(pts[i - 1], Vector2.ZERO).expand(pts[i]).grow(ROAD_BLEND + ROAD_SHOULDER))
+	return out
 
 
 ## On the valley floor or a place's level ground, which the roads leave as it is.
@@ -339,7 +371,10 @@ static func _with_roads(x: float, z: float, h: float) -> float:
 		# stretches at once) the land blends between them rather than jumping.
 		var pts: Array[Vector2] = road["pts"]
 		var along: PackedFloat32Array = road["along"]
+		var seg_boxes: Array[Rect2] = road["seg_boxes"]
 		for i in range(1, pts.size()):
+			if not seg_boxes[i].has_point(p):
+				continue
 			var c := Geometry2D.get_closest_point_to_segment(p, pts[i - 1], pts[i])
 			var d := p.distance_to(c)
 			nearest = minf(nearest, d)
@@ -521,7 +556,7 @@ static func build_mesh(size := 640.0, step := 4.0) -> ArrayMesh:
 	heights.resize((cells + 1) * (cells + 1))
 	for j in cells + 1:
 		for i in cells + 1:
-			heights[j * (cells + 1) + i] = height(-half + i * step, -half + j * step)
+			heights[j * (cells + 1) + i] = _grid_height(-half + i * step, -half + j * step)
 	var at := func(i: int, j: int) -> Vector3:
 		return Vector3(-half + i * step, heights[j * (cells + 1) + i], -half + j * step)
 	# Cells near the river are split 4 x 4 so its banks can curve. Where a fine
@@ -588,7 +623,7 @@ static func cell_faces(st: SurfaceTool, i: int, j: int, size := 640.0, step := 4
 	var at := func(ii: int, jj: int) -> Vector3:
 		var x := -half + ii * step
 		var z := -half + jj * step
-		return Vector3(x, height(x, z), z)
+		return Vector3(x, _grid_height(x, z), z)
 	var fine := func(ii: int, jj: int) -> bool:
 		return _is_fine(ii, jj, size, step)
 	var a: Vector3 = at.call(i, j)
@@ -615,7 +650,7 @@ static func _fine_cell(st: SurfaceTool, a: Vector3, b: Vector3, c: Vector3, d: V
 			var fv := float(v) / N
 			var x := a.x + fu * step
 			var z := a.z + fv * step
-			var y := height(x, z)
+			var y := _grid_height(x, z)
 			if u == 0 and coarse_left:
 				y = lerpf(a.y, c.y, fv)
 			elif u == N and coarse_right:

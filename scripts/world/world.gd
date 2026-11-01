@@ -35,6 +35,9 @@ func _ready() -> void:
 	waysides.name = "Waysides"
 	add_child(waysides)
 	waysides.build()
+	# Hundreds of small pieces along the roads: merged into a few meshes per
+	# patch, as the places are (the map's landmarks stay apart).
+	StaticBatch.merge(waysides, 40.0)
 	var forest := Forest.new()
 	forest.name = "Forest"
 	add_child(forest)

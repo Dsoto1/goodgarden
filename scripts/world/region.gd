@@ -184,4 +184,4 @@ static func _sync_group_collision(n: Node3D) -> void:
 		var b := body as StaticBody3D
 		if not b.has_meta(&"shown_layer"):
 			b.set_meta(&"shown_layer", b.collision_layer)
-		b.collision_layer = int(b.get_meta(&"shown_layer")) if n.is_visible_in_tree() else 0
+		b.collision_layer = int(b.get_meta(&"shown_layer")) if n.visible else 0

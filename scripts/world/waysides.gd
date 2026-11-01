@@ -29,7 +29,14 @@ const LANDMARKS := [
 ]
 
 
+var _map_only: Node3D # the map's painted landmarks, kept apart from the merge
+
+
 func build() -> void:
+	_map_only = Node3D.new()
+	_map_only.name = "MapLandmarks"
+	StaticBatch.mark_live(_map_only)
+	add_child(_map_only)
 	for w: Array in Terrain.WAYSIDES:
 		var at: Vector2 = w[0]
 		var kind := str(w[1])
@@ -73,7 +80,7 @@ static func bridge_transform(w: Array) -> Transform3D:
 ## A map-only copy of a prop, enlarged: no collision, no shadow, drawn only
 ## by the map's camera.
 func _landmark(kind: String, pos: Vector3, yaw: float, scale_mul: float) -> void:
-	var root := Props.place(self, kind, pos, yaw, scale_mul)
+	var root := Props.place(_map_only, kind, pos, yaw, scale_mul)
 	for body in root.find_children("*", "CollisionObject3D", true, false):
 		body.queue_free()
 	for vi in root.find_children("*", "VisualInstance3D", true, false):
