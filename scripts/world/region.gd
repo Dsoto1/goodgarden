@@ -173,4 +173,15 @@ func group_node(node_name: String) -> Node3D:
 	n.name = node_name
 	StaticBatch.mark_live(n) # shown and hidden by the story, so never merged
 	add_child(n)
+	# What the story hides must not block the way either (the feast table on
+	# an ordinary day): its colliders switch off with it.
+	n.visibility_changed.connect(func() -> void: _sync_group_collision(n))
 	return n
+
+
+static func _sync_group_collision(n: Node3D) -> void:
+	for body in n.find_children("*", "StaticBody3D", true, false):
+		var b := body as StaticBody3D
+		if not b.has_meta(&"shown_layer"):
+			b.set_meta(&"shown_layer", b.collision_layer)
+		b.collision_layer = int(b.get_meta(&"shown_layer")) if n.is_visible_in_tree() else 0

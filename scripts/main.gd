@@ -73,17 +73,57 @@ func show_title() -> void:
 	GameState.reset(GameState.Mode.TITLE)
 	AudioService.set_ambience("outdoor", 1.0)
 	title = TitleScreen.new()
-	title.continue_pressed.connect(continue_game)
+	title.continue_pressed.connect(func() -> void: _with_loading(continue_game))
 	title.new_pressed.connect(func() -> void:
 		if SaveService.has_save():
 			var c := ConfirmCard.new()
 			_overlay_root.add_child(c)
-			c.ask(tr("Start a brand new garden? Your old garden will be gone."), tr("Yes, start over"), tr("Go back"), start_new_game)
+			c.ask(tr("Start a brand new garden? Your old garden will be gone."), tr("Yes, start over"), tr("Go back"), func() -> void: _with_loading(start_new_game))
 		else:
-			start_new_game())
+			_with_loading(start_new_game))
 	title.settings_pressed.connect(open_settings)
 	title.close_pressed.connect(quit_game)
 	_overlay_root.add_child(title)
+
+
+## Builds the world behind a "getting ready" screen, so the wait after
+## pressing a button is never a frozen title. While the screen is up, the
+## camera looks round the valley once, so everything outdoors is drawn (and
+## its shaders prepared) before play begins, not on first stepping outside.
+func _with_loading(work: Callable) -> void:
+	var cover := _loading_cover()
+	_overlay_root.add_child(cover)
+	for i in 3:
+		await get_tree().process_frame # let the cover show before the long build
+	work.call()
+	if is_instance_valid(world) and world.rig and world.player:
+		var at := world.player.global_position + Vector3(0, 1.0, 0)
+		for yaw: float in [0.0, 90.0, 180.0, 270.0]:
+			world.rig.focus_on(at, 26.0, 22.0, yaw)
+			world.rig.snap()
+			for i in 3:
+				await get_tree().process_frame
+		world.rig.release_focus()
+		world.rig.snap()
+		await get_tree().process_frame
+	cover.queue_free()
+
+
+func _loading_cover() -> Control:
+	var cover := ColorRect.new()
+	cover.name = "Loading"
+	cover.color = Color("a9cf8c")
+	cover.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	cover.mouse_filter = Control.MOUSE_FILTER_STOP
+	var label := Label.new()
+	label.text = tr("Getting the garden ready…")
+	label.add_theme_font_size_override("font_size", 40)
+	label.add_theme_color_override("font_color", Color("3b3430"))
+	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	label.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	cover.add_child(label)
+	return cover
 
 
 func start_new_game() -> void:
