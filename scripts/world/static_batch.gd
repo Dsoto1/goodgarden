@@ -17,7 +17,7 @@ extends RefCounted
 const LIVE_META := &"batch_live"
 ## Uniforms that the merge bakes into vertices instead of keeping per material:
 ## the colour, and the colour grade (saturation and tint) applied to it.
-const BAKED := ["albedo_color", "use_vertex_color", "ignore_vertex_color", "saturation", "tint"]
+const BAKED := ["albedo_color", "use_vertex_color", "ignore_vertex_color", "saturation", "tint", "pattern", "pattern_strength", "vertex_pattern"]
 
 static var _uniform_names: Dictionary = {} # Shader -> Array[String]
 
@@ -112,7 +112,9 @@ static func _take(mi: MeshInstance3D, xform: Transform3D, solid: Shader, cell: f
 		var m := mats[s]
 		var bake: bool = m.get_shader_parameter("use_texture") != true
 		# Flat materials group by everything except colour; textured ones by identity.
-		var look := _signature(m) if bake else str(m.get_instance_id())
+		# (Textured ones: by everything they hold, so the same texture and
+		# settings from different models share one mesh.)
+		var look := _signature(m) if bake else "tex|" + _full_signature(m)
 		var key := "%s|%d|%s" % [look, shadow, patch]
 		if not groups.has(key):
 			var shared := m
@@ -122,6 +124,7 @@ static func _take(mi: MeshInstance3D, xform: Transform3D, solid: Shader, cell: f
 				shared.set_shader_parameter("use_vertex_color", true)
 				shared.set_shader_parameter("saturation", 1.0)
 				shared.set_shader_parameter("tint", Vector3.ONE)
+				shared.set_shader_parameter("vertex_pattern", true) # each piece's pattern rides in UV2
 			groups[key] = {"material": shared, "shadow": shadow, "bake": bake, "items": []}
 		groups[key]["items"].append([mesh, s, xform, m])
 	merged.append(mi)
@@ -154,6 +157,14 @@ static func _instance_foliage(root: Node3D, groups: Dictionary) -> Array[MeshIns
 	return done
 
 
+static func _full_signature(m: ShaderMaterial) -> String:
+	var parts := PackedStringArray([str(m.shader.get_instance_id())])
+	for u: Dictionary in m.shader.get_shader_uniform_list():
+		var v: Variant = m.get_shader_parameter(u["name"])
+		parts.append(str(v.get_instance_id()) if v is Object else str(v))
+	return "|".join(parts)
+
+
 static func _signature(m: ShaderMaterial) -> String:
 	if not _uniform_names.has(m.shader):
 		var names: Array[String] = []
@@ -175,6 +186,7 @@ static func _build(items: Array, bake: bool) -> ArrayMesh:
 	var normals := PackedVector3Array()
 	var colors := PackedColorArray()
 	var uvs := PackedVector2Array()
+	var uv2s := PackedVector2Array()
 	var indices := PackedInt32Array()
 	for item: Array in items:
 		var arrays: Array = (item[0] as Mesh).surface_get_arrays(item[1])
@@ -199,6 +211,9 @@ static func _build(items: Array, bake: bool) -> ArrayMesh:
 			grade_tint = t if t is Vector3 else Vector3.ONE
 			keep_vertex_color = src_c != null and (m.get_shader_parameter("use_vertex_color") == true) and not (m.get_shader_parameter("ignore_vertex_color") == true)
 		var flat := _grade(albedo, saturation, grade_tint) if bake else Color.WHITE
+		var pat_v: Variant = m.get_shader_parameter("pattern")
+		var pat_s: Variant = m.get_shader_parameter("pattern_strength")
+		var pattern := Vector2(float(pat_v) if pat_v != null else 0.0, float(pat_s) if pat_s != null else 1.0)
 		var base := verts.size()
 		for i in src_v.size():
 			verts.append(xform * src_v[i])
@@ -210,6 +225,7 @@ static func _build(items: Array, bake: bool) -> ArrayMesh:
 			else:
 				colors.append(flat)
 			uvs.append((src_uv as PackedVector2Array)[i] if src_uv != null else Vector2.ZERO)
+			uv2s.append(pattern)
 		if src_i != null:
 			for idx in (src_i as PackedInt32Array):
 				indices.append(base + idx)
@@ -222,6 +238,7 @@ static func _build(items: Array, bake: bool) -> ArrayMesh:
 	arrays[Mesh.ARRAY_NORMAL] = normals
 	arrays[Mesh.ARRAY_COLOR] = colors
 	arrays[Mesh.ARRAY_TEX_UV] = uvs
+	arrays[Mesh.ARRAY_TEX_UV2] = uv2s
 	arrays[Mesh.ARRAY_INDEX] = indices
 	var out := ArrayMesh.new()
 	if verts.is_empty():

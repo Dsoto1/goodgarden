@@ -9,6 +9,9 @@ render_mode specular_disabled, cull_back;
 // 0 none, 1 wood, 2 stone, 3 shingles, 4 thatch, 5 plaster, 6 path, 7 soil, 8 cloth, 9 cobble, 10 awning stripes.
 uniform int pattern = 0;
 uniform float pattern_strength = 1.0;
+// Merged scenery (StaticBatch) carries each piece's pattern in its vertices
+// (UV2: pattern, strength), so pieces with different patterns share a mesh.
+uniform bool vertex_pattern = false;
 // Grass and low plants (set by their grade): frosted all over on a frosty
 // morning, rather than only on their flat tops.
 uniform bool up_normals = false;
@@ -32,12 +35,18 @@ void fragment() {
 	if (use_vertex_color) {
 		c *= COLOR;
 	}
+	int pat = pattern;
+	float pat_strength = pattern_strength;
+	if (vertex_pattern) {
+		pat = int(UV2.x + 0.5);
+		pat_strength = UV2.y;
+	}
 	float detail = 1.0;
-	if (pattern > 0) {
-		detail = mix(1.0, pattern_value(pattern, world_pos, world_normal), pattern_strength);
+	if (pat > 0) {
+		detail = mix(1.0, pattern_value(pat, world_pos, world_normal), pat_strength);
 	}
 	ALBEDO = grade(c.rgb) * detail;
-	if (pattern == 10) {
+	if (pat == 10) {
 		// Market awning stripes: alternate the colour with cream.
 		vec3 a = abs(world_normal);
 		float across = a.x > a.z ? world_pos.z : world_pos.x;
@@ -46,7 +55,7 @@ void fragment() {
 	}
 	if (up_normals && !snow_free(world_pos)) {
 		ALBEDO = mix(ALBEDO, vec3(0.86, 0.91, 0.98), clamp(gg_snow * 2.2, 0.0, 0.9) * 0.8 * snow_cover);
-	} else if (pattern != 6 && pattern != 7 && pattern != 9) {
+	} else if (pat != 6 && pat != 7 && pat != 9) {
 		ALBEDO = mix(ALBEDO, SNOW, snow_amount(world_pos, world_normal));
 	}
 	EMISSION = emission_color;
