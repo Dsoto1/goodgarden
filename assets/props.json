@@ -11,7 +11,8 @@
 		"kenney_survival": "res://assets/third_party/kenney/survival_kit/",
 		"farm": "res://assets/third_party/quaternius/farm_buildings/",
 		"fish": "res://assets/third_party/quaternius/fish/",
-		"fantasy": "res://assets/third_party/quaternius/fantasy_props/"
+		"fantasy": "res://assets/third_party/quaternius/fantasy_props/",
+		"food": "res://assets/third_party/food_mega_pack/"
 	},
 	"grades": {
 		"hex": {"saturation": 1.0, "tint": [1.03, 1.0, 0.95]},
@@ -327,6 +328,30 @@
 		"mushroom": {"pack": "nature", "model": "Mushroom_Common", "scale": 0.5},
 		"stepping_stone": {"pack": "nature", "model": "RockPath_Round_Small_1", "scale": 0.7},
 		"stepping_stone_b": {"pack": "nature", "model": "RockPath_Round_Small_2", "scale": 0.7},
-		"stone_pad": {"pack": "nature", "model": "RockPath_Round_Wide", "scale": 0.8}
+		"stone_pad": {"pack": "nature", "model": "RockPath_Round_Wide", "scale": 0.8},
+		"food_loaf": {"pack": "food", "model": "Loaf_01", "scale": 0.525, "ext": ".glb"},
+		"food_bread_round": {"pack": "food", "model": "Bread_Round_01", "scale": 0.525, "ext": ".glb"},
+		"food_baguette": {"pack": "food", "model": "Baguette", "scale": 0.45, "ext": ".glb"},
+		"food_pretzel": {"pack": "food", "model": "Pretzel", "scale": 0.45, "ext": ".glb"},
+		"food_cheese_wheel": {"pack": "food", "model": "Yellow_Cheese_01", "scale": 0.6, "ext": ".glb"},
+		"food_apple_red": {"pack": "food", "model": "Apple_01", "scale": 0.525, "ext": ".glb"},
+		"food_apple_green": {"pack": "food", "model": "Apple_02", "scale": 0.525, "ext": ".glb"},
+		"food_pear": {"pack": "food", "model": "Pear_01", "scale": 0.525, "ext": ".glb"},
+		"food_plum": {"pack": "food", "model": "Plum_01", "scale": 0.45, "ext": ".glb"},
+		"food_grapes": {"pack": "food", "model": "Grapes_Dark_01", "scale": 0.525, "ext": ".glb"},
+		"food_carrot": {"pack": "food", "model": "Carrot_01", "scale": 0.525, "ext": ".glb"},
+		"food_potato": {"pack": "food", "model": "Potato_01", "scale": 0.525, "ext": ".glb"},
+		"food_onion": {"pack": "food", "model": "Onion_01", "scale": 0.525, "ext": ".glb"},
+		"food_cabbage": {"pack": "food", "model": "Cabbage_01", "scale": 0.675, "ext": ".glb"},
+		"food_pumpkin": {"pack": "food", "model": "Pumpkin", "scale": 0.55, "ext": ".glb"},
+		"food_turnip": {"pack": "food", "model": "Turnip_01", "scale": 0.525, "ext": ".glb"},
+		"food_corn": {"pack": "food", "model": "Corn_01", "scale": 0.525, "ext": ".glb"},
+		"food_honey": {"pack": "food", "model": "Honey_01", "scale": 0.6, "ext": ".glb"},
+		"food_jam": {"pack": "food", "model": "Jam_Round_01", "scale": 0.6, "ext": ".glb"},
+		"food_salmon": {"pack": "food", "model": "Salmon_01", "scale": 0.6, "ext": ".glb"},
+		"food_bluegill": {"pack": "food", "model": "Bluegill", "scale": 0.6, "ext": ".glb"},
+		"food_mushroom": {"pack": "food", "model": "Bell_Mushroom_01", "scale": 0.45, "ext": ".glb"},
+		"food_cake": {"pack": "food", "model": "Cake_01", "scale": 0.675, "ext": ".glb"},
+		"food_melon": {"pack": "food", "model": "Melon_01", "scale": 0.6, "ext": ".glb"}
 	}
 }

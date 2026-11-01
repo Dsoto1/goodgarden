@@ -9,9 +9,9 @@ const SQUARE_RADIUS := 7.4
 ## [position, awning, goods on the counter].
 const STALLS := [
 	[Vector3(-4.6, 0, -2.3), "awning_blue", ["bread"]],
-	[Vector3(-4.6, 0, 2.3), "awning_red", ["crate_carrots", "crate_lettuce"]],
-	[Vector3(4.6, 0, -2.3), "awning_green", ["crate_carrots", "crate_open"]],
-	[Vector3(4.6, 0, 2.3), "awning_red", ["crate_lettuce", "crate_carrots"]],
+	[Vector3(-4.6, 0, 2.3), "awning_red", ["food_cabbage", "food_pumpkin", "food_carrot", "food_onion"]],
+	[Vector3(4.6, 0, -2.3), "awning_green", ["food_apple_red", "food_pear", "food_apple_green", "food_plum", "food_grapes"]],
+	[Vector3(4.6, 0, 2.3), "awning_red", ["food_cheese_wheel", "food_honey", "food_jam", "food_honey"]],
 ]
 
 var _pantry_labels: Node3D # labels on Mrs. Ruth's pantry shelf, once made
@@ -357,8 +357,11 @@ func _stall(at: Vector3, rot: float, awning: String, goods: Array) -> void:
 			_start_job(BREAD_STALL_JOBS, root.global_position + Vector3(0, 1.0, 0), tr("Mr. Tobias has everything in hand today.")), 0.7, 1.6)
 		help.conditions = [{"day_at_least": 37}]
 		return
+	# The produce, spread along the counter (crates a little smaller).
 	for i in goods.size():
-		Props.place(root, goods[i], Vector3(-0.45 + i * 0.9, 0.8, 0.05), 0.0, 0.75)
+		var x := -0.6 + i * 1.2 / maxf(goods.size() - 1, 1)
+		var food := str(goods[i]).begins_with("food_")
+		Props.place(root, goods[i], Vector3(x, 0.8, 0.05 + (0.08 if i % 2 else -0.06)), i * 0.7, 1.0 if food else 0.75)
 
 
 ## Little card labels hung on the front of Tobias's stall, one under each
@@ -566,12 +569,14 @@ func _harvest_square() -> void:
 		MeshKit.cylinder(_place_settings, 0.15, 0.15, 0.02, t + Vector3(x, 0.81, z), "cloth_cream", 12)
 		MeshKit.cylinder(_place_settings, 0.04, 0.035, 0.1, t + Vector3(x + 0.22, 0.85, z), "cloth_blue", 8)
 	_feast = group_node("Feast")
+	# The feast on the long table: a cake in the middle, bread, cheese and fruit.
 	for k in 3:
 		var at := t + Vector3(-1.6 + k * 1.6, 0.8, 0)
 		MeshKit.cylinder(_feast, 0.2, 0.16, 0.08, at + Vector3(0, 0.04, 0), "wood_light", 10)
-		MeshKit.sphere(_feast, 0.16, at + Vector3(0, 0.1, 0), ["cloth_gold", "leaf", "cloth_red"][k], Vector3(1, 0.5, 1), 8, 3)
-	for k in 2:
-		MeshKit.sphere(_feast, 0.14, t + Vector3(-0.8 + k * 1.6, 0.86, 0.05), "cloth_gold", Vector3(1.4, 0.7, 1), 8, 3)
+		Props.place(_feast, ["food_loaf", "food_cake", "food_cheese_wheel"][k], at + Vector3(0, 0.08, 0), k * 0.6)
+	for p: Array in [["food_grapes", Vector3(-0.8, 0.8, 0.05)], ["food_bread_round", Vector3(0.8, 0.8, 0.05)],
+			["food_apple_red", Vector3(-2.1, 0.8, 0.12)], ["food_pear", Vector3(2.1, 0.8, -0.1)], ["food_honey", Vector3(-0.4, 0.8, -0.2)]]:
+		Props.place(_feast, str(p[0]), t + (p[1] as Vector3), 0.4)
 	_flags_up = group_node("Bunting")
 	var poles := [Vector3(-5.4, 0, -5.4), Vector3(5.4, 0, 5.4), Vector3(5.4, 0, -5.4), Vector3(-5.4, 0, 5.4)]
 	for p: Vector3 in poles:

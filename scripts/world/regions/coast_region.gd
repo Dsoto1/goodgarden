@@ -43,6 +43,12 @@ func build() -> void:
 			["crate_bottles", Vector3(q + 2.6, 0, -3.2)], ["sea_chest", Vector3(q + 9.4, 0, -1.6)], ["rope_coil", Vector3(shore - 0.5, 0.42, 1.8)], ["wood_bucket", Vector3(shore - 1.0, 0.42, -0.2)], ["apple_barrel", Vector3(q + 4.4, 0, 4.8)],
 			["crate_big", Vector3(1.0, 0, -6.0)], ["barrel", Vector3(-1.2, 0, -6.6)]]:
 		Props.place(self, str(p[0]), p[1], p[1].x)
+	# The morning's catch laid out on the quay.
+	MeshKit.box(self, Vector3(1.4, 0.06, 0.7), Vector3(q + 1.0, 0.72, 2.2), "wood", true)
+	for x: float in [-0.7, -0.2, 0.3]:
+		MeshKit.box(self, Vector3(0.08, 0.72, 0.6), Vector3(q + 1.0 + x * 1.2 + 0.24, 0.36, 2.2), "wood_dark")
+	for k in 3:
+		Props.place(self, "food_salmon" if k != 1 else "food_bluegill", Vector3(q + 0.6 + k * 0.45, 0.76, 2.2), 0.3 + k * 0.2)
 	CraftedProps.net_rack(self, Vector3(q - 1.0, 0, 8.5), 0.2)
 	CraftedProps.net_rack(self, Vector3(q + 3.0, 0, 9.5), -0.2)
 	CraftedProps.creel_and_rope(self, Vector3(q + 3.0, 0, 6.8), 0.5)

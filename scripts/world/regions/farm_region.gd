@@ -27,6 +27,10 @@ func build() -> void:
 	Props.place(self, "farm_well", Vector3(4.0, 0, -12.0), 0.4)
 	for c: Array in [["apple_crate", Vector3(3.4, 0, -4.4)], ["carrot_crate", Vector3(4.6, 0, -4.2)], ["apple_barrel", Vector3(2.4, 0, -4.8)], ["town_cart_high", Vector3(9.0, 0, -11.0)], ["firewood", Vector3(16.0, 0, -12.0)]]:
 		Props.place(self, str(c[0]), c[1], c[1].x)
+	# The autumn's pumpkins and cabbages, piled by the farmyard path.
+	for p: Array in [["food_pumpkin", Vector3(11.0, 0, -5.0)], ["food_pumpkin", Vector3(11.7, 0, -4.4)], ["food_pumpkin", Vector3(11.3, 0.62, -4.7)],
+			["food_cabbage", Vector3(10.2, 0, -4.2)], ["food_cabbage", Vector3(12.4, 0, -5.3)]]:
+		Props.place(self, str(p[0]), p[1], (p[1] as Vector3).x * 2.0, 1.6)
 	Props.fence(self, "fence_wood", Vector3(3.0, 0, -9.5), Vector3(3.0, 0, -5.4))
 	Props.fence(self, "fence_wood", Vector3(3.0, 0, -9.5), Vector3(9.0, 0, -9.5))
 	for h: Vector3 in [Vector3(-6.0, 0, 6.0), Vector3(-6.5, 0, 9.5), Vector3(22.0, 0, 8.0)]:

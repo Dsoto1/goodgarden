@@ -71,17 +71,60 @@ func _exit_tree() -> void:
 	SaveService.player_provider = Callable()
 
 
+## The land below the horizon (the sky shader's ground_color).
+const GROUND_BELOW := Color("7f9f68")
+
+
+## A painted sky with soft drifting clouds (Binbun Skies, adapted: see
+## assets/third_party/binbun/skies), in the storybook's colours. Its cloud
+## noise is generated here at a modest size, so it is quick to make on tablets.
+func _painted_sky() -> ShaderMaterial:
+	var m := ShaderMaterial.new()
+	m.shader = load("res://assets/third_party/binbun/skies/sky.gdshader")
+	m.set_shader_parameter("sky_day", Color("4d8ed8"))
+	m.set_shader_parameter("horizon_day", Color("f3dfbf"))
+	# Always day: the low afternoon sun mustn't turn the horizon to sunset.
+	m.set_shader_parameter("sky_sunset", Color("4d8ed8"))
+	m.set_shader_parameter("horizon_sunset", Color("f3dfbf"))
+	m.set_shader_parameter("horizon_exponent", 14.0)
+	m.set_shader_parameter("use_directional_light", true)
+	m.set_shader_parameter("cloud_color", Color(1.0, 0.98, 0.94))
+	m.set_shader_parameter("cloud_tiling", Vector2(0.35, 0.35))
+	m.set_shader_parameter("wind_speed", Vector2(0.05, 0.05) if not Settings.get_value("reduced_motion") else Vector2.ZERO)
+	m.set_shader_parameter("cloud_density", 0.55)
+	m.set_shader_parameter("cloud_depth", 0.0)
+	m.set_shader_parameter("cloud_shape_exponent", 0.2)
+	m.set_shader_parameter("cloud_occlude_exponent", 1.6)
+	m.set_shader_parameter("sun_scale", 0.04)
+	m.set_shader_parameter("sun_strength", 3.0)
+	m.set_shader_parameter("sun_color", Color(1, 0.93, 0.6))
+	m.set_shader_parameter("ground_color", GROUND_BELOW)
+	m.set_shader_parameter("cloud_tex_01", _cloud_noise(FastNoiseLite.TYPE_SIMPLEX, 4, 6, 0.2))
+	m.set_shader_parameter("cloud_tex_02", _cloud_noise(FastNoiseLite.TYPE_PERLIN, 0, 8, 0.4))
+	var dark := _cloud_noise(FastNoiseLite.TYPE_VALUE, 1, 1, 0.2, 64)
+	m.set_shader_parameter("night_noise_01", dark)
+	m.set_shader_parameter("night_noise_02", dark)
+	return m
+
+
+static func _cloud_noise(kind: FastNoiseLite.NoiseType, seed_value: int, octaves: int, skirt: float, size := 512) -> NoiseTexture2D:
+	var noise := FastNoiseLite.new()
+	noise.noise_type = kind
+	noise.seed = seed_value
+	noise.fractal_octaves = octaves
+	var tex := NoiseTexture2D.new()
+	tex.width = size
+	tex.height = size
+	tex.seamless = true
+	tex.seamless_blend_skirt = skirt
+	tex.noise = noise
+	return tex
+
+
 func _build_environment() -> void:
 	environment = Environment.new()
-	var sky_mat := ProceduralSkyMaterial.new()
-	sky_mat.sky_top_color = Color("4d8ed8")
-	sky_mat.sky_horizon_color = Color("f3dfbf")
-	sky_mat.sky_curve = 0.12
-	sky_mat.ground_horizon_color = Color("e9d9bd")
-	sky_mat.ground_bottom_color = Color("7f9f68")
-	sky_mat.sun_angle_max = 20.0
 	var sky := Sky.new()
-	sky.sky_material = sky_mat
+	sky.sky_material = _painted_sky()
 	environment.background_mode = Environment.BG_SKY
 	environment.sky = sky
 	environment.ambient_light_source = Environment.AMBIENT_SOURCE_COLOR
@@ -308,8 +351,8 @@ func _apply_snow() -> void:
 	var snow := Days.snow()
 	RenderingServer.global_shader_parameter_set(&"gg_snow", snow)
 	# The land below the horizon, beyond the edge of the world, is snowy too.
-	var sky_mat := environment.sky.sky_material as ProceduralSkyMaterial
-	sky_mat.ground_bottom_color = Color("7f9f68").lerp(Color("cfd6e2"), snow)
+	var sky_mat := environment.sky.sky_material as ShaderMaterial
+	sky_mat.set_shader_parameter("ground_color", GROUND_BELOW.lerp(Color("cfd6e2"), snow))
 	for cover in find_children("GroundCover*", "GroundCover", false, false):
 		(cover as Node3D).visible = snow < 0.5
 	if _snowfall:

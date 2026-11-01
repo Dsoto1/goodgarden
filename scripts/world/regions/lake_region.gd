@@ -23,6 +23,8 @@ func build() -> void:
 	Props.place(self, "wood_bucket", start + Vector3(-1.2, 0, 1.2), 0.0)
 	MeshKit.box(self, Vector3(1.6, 0.45, 0.5), Vector3(shore - 4.0, 0.22, -6.5), "wood", true)
 	Props.place(self, "fish_small", Vector3(shore - 4.0, 0.46, -6.5), 0.4)
+	Props.place(self, "food_bluegill", Vector3(shore - 4.4, 0.46, -6.4), 1.1)
+	Props.place(self, "food_bluegill", Vector3(shore - 3.6, 0.46, -6.6), 2.6)
 	# Mr. Finn's hut back from the water, nets drying, a bench to watch from.
 	CraftedProps.cottage(self, Vector3(-6.0, 0, -8.0), 0.0, 11, Vector2(3.6, 4.0), "roof_thatch")
 	CraftedProps.woodpile(self, Vector3(-9.0, 0, -8.6), PI / 2.0)

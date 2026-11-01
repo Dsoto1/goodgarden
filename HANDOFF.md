@@ -75,7 +75,7 @@ comes from a test that checks future saves are refused.
 
 - **Ages 5–10.** Plain, warm wording.
 - **"We don't stroke pets, we pet them."**
-- **Free CC0 assets only.** Record every third-party asset in
+- **Free CC0 assets only,** except packs the owner has bought and cleared (so far the Food Mega Pack Pro). Record every third-party asset in
   `assets/third_party/manifest.json` and `docs/design/THIRD_PARTY_ASSETS.md`.
 - **Artlist AI generation** is shared across four games. Get the exact
   price and the owner's go-ahead before every generation, and log it in

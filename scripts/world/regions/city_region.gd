@@ -35,10 +35,10 @@ func build() -> void:
 	_sign(Vector3(-11.7, 3.0, 6.5), PI / 2.0, "The Bell Inn")
 	# The square: fountain in the middle, stalls round it.
 	Props.place(self, "town_fountain", Vector3(0, 0, -7.0), 0.0, 1.5)
-	_stall(Vector3(-7.0, 0, -3.0), PI / 2.0, "awning_red", ["crate_carrots", "crate_lettuce"])
+	_stall(Vector3(-7.0, 0, -3.0), PI / 2.0, "awning_red", ["food_bread_round", "food_pretzel", "food_baguette", "food_loaf"])
 	Props.place(self, "stall_green", Vector3(7.0, 0, -3.0), -PI / 2.0)
 	Props.place(self, "stall_red", Vector3(-7.0, 0, -11.0), PI / 2.0)
-	_stall(Vector3(7.0, 0, -11.0), -PI / 2.0, "awning_blue", ["crate_open", "crate_carrots"])
+	_stall(Vector3(7.0, 0, -11.0), -PI / 2.0, "awning_blue", ["food_cheese_wheel", "food_jam", "food_honey", "food_jam"])
 	Props.place(self, "market_cart", Vector3(-4.5, 0, 9.5), PI / 2.0)
 	for p: Array in [["apple_crate", Vector3(-7.4, 0.78, -2.6)], ["coin_pile", Vector3(-6.6, 0.82, -3.6)], ["apple_barrel", Vector3(8.8, 0, -1.2)],
 			["carrot_crate", Vector3(-9.0, 0, -4.6)], ["barrel", Vector3(9.4, 0, -12.6)], ["crate_big", Vector3(-9.2, 0, -12.4)], ["sack", Vector3(9.0, 0, -9.4)],
@@ -91,5 +91,8 @@ func _stall(at: Vector3, rot: float, awning: String, goods: Array) -> void:
 		MeshKit.box(root, Vector3(0.08, 1.8, 0.08), Vector3(x, 0.9, 0.55), "wood_dark")
 	var canopy := MeshKit.box(root, Vector3(2.1, 0.06, 1.3), Vector3(0, 2.0, 0.1), awning)
 	canopy.rotation.x = -0.32
+	# The goods, spread along the counter (crates a little smaller).
 	for i in goods.size():
-		Props.place(root, str(goods[i]), Vector3(-0.45 + i * 0.9, 0.8, 0.05), 0.0, 0.75)
+		var x := -0.6 + i * 1.2 / maxf(goods.size() - 1, 1)
+		var food := str(goods[i]).begins_with("food_")
+		Props.place(root, str(goods[i]), Vector3(x, 0.8, 0.05 + (0.08 if i % 2 else -0.06)), i * 0.7, 1.0 if food else 0.75)
