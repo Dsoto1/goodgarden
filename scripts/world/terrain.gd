@@ -271,6 +271,12 @@ static func _land(x: float, z: float) -> float:
 	var lake := Vector2(x, z).distance_to(LAKE)
 	h *= lerpf(0.3, 1.0, smoothstep(LAKE_RADIUS + 8.0, LAKE_RADIUS + 70.0, lake)) # a broad, open basin
 	h = lerpf(LAKE_LEVEL - 2.5, h, smoothstep(LAKE_RADIUS - 3.0, LAKE_RADIUS + 9.0, lake))
+	# South of the river, the hills roll down to the sea in gentle green
+	# slopes instead of rocky cliffs: the land may rise only so fast from
+	# the shore (a soft minimum, so no crease where it starts).
+	var cap := 1.2 + maxf(shore - x, 0.0) * 0.6
+	var soft := -log(exp(-0.25 * h) + exp(-0.25 * cap)) / 0.25
+	h = lerpf(h, soft, smoothstep(10.0, 50.0, z))
 	return h
 
 

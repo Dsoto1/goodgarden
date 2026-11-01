@@ -146,15 +146,12 @@ squares (see the guide).
 These are the open threads, roughly in the order the owner would likely
 want them. Confirm with the owner before starting anything large.
 
-1. **Map polish.** A pale rocky hill sits in the bottom-right corner of the
-   wider-world map, south of the coast. Soften it, for example by lowering
-   or greening the southern hills near the sea.
-2. **A third season** could follow the same pattern as the second.
-3. **Interiors.** The Bellhaven library, the monastery scriptorium and
+1. **A third season** could follow the same pattern as the second.
+2. **Interiors.** The Bellhaven library, the monastery scriptorium and
    Captain Mara's ship.
-4. **Walking between places.** Travel is by the map today. The painted
+3. **Walking between places.** Travel is by the map today. The painted
    roads could become walkable.
-5. **Alongside work**, listed in `docs/ROADMAP.md` under "Alongside, when
+4. **Alongside work**, listed in `docs/ROADMAP.md` under "Alongside, when
    it fits": identity art, tablet performance, translation, and the
    theological, educational and child-privacy reviews before release.
 
