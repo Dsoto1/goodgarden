@@ -86,15 +86,26 @@ static func _take(mi: MeshInstance3D, xform: Transform3D, solid: Shader, cell: f
 		elif sh != solid:
 			return
 		mats.append(m)
+	# Shadows only where they show: nothing flat on the ground casts one, and
+	# on the lighter tiers nothing lower than a metre (as for props).
+	var shadow := mi.cast_shadow
+	var box := xform * mesh.get_aabb()
+	# (Scenery only: a character, merged as one small piece, keeps its shadow.)
+	if is_inf(cell):
+		pass
+	elif box.size.y < 0.3 and box.position.y < 0.35:
+		shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	elif not Quality.value("small_shadows") and box.end.y < 1.0:
+		shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 	var at := xform.origin
 	var patch := "" if is_inf(cell) else "%d:%d" % [floori(at.x / cell), floori(at.z / cell)]
 	if foliage:
 		var ids := PackedStringArray()
 		for m in mats:
 			ids.append(str(m.get_instance_id()))
-		var fkey := "foliage|%d|%s|%d|%s" % [mesh.get_instance_id(), ",".join(ids), mi.cast_shadow, patch]
+		var fkey := "foliage|%d|%s|%d|%s" % [mesh.get_instance_id(), ",".join(ids), shadow, patch]
 		if not groups.has(fkey):
-			groups[fkey] = {"foliage": true, "mesh": mesh, "materials": mats, "shadow": mi.cast_shadow, "items": []}
+			groups[fkey] = {"foliage": true, "mesh": mesh, "materials": mats, "shadow": shadow, "items": []}
 		groups[fkey]["items"].append([mi, xform])
 		return
 	for s in mesh.get_surface_count():
@@ -102,7 +113,7 @@ static func _take(mi: MeshInstance3D, xform: Transform3D, solid: Shader, cell: f
 		var bake: bool = m.get_shader_parameter("use_texture") != true
 		# Flat materials group by everything except colour; textured ones by identity.
 		var look := _signature(m) if bake else str(m.get_instance_id())
-		var key := "%s|%d|%s" % [look, mi.cast_shadow, patch]
+		var key := "%s|%d|%s" % [look, shadow, patch]
 		if not groups.has(key):
 			var shared := m
 			if bake:
@@ -111,7 +122,7 @@ static func _take(mi: MeshInstance3D, xform: Transform3D, solid: Shader, cell: f
 				shared.set_shader_parameter("use_vertex_color", true)
 				shared.set_shader_parameter("saturation", 1.0)
 				shared.set_shader_parameter("tint", Vector3.ONE)
-			groups[key] = {"material": shared, "shadow": mi.cast_shadow, "bake": bake, "items": []}
+			groups[key] = {"material": shared, "shadow": shadow, "bake": bake, "items": []}
 		groups[key]["items"].append([mesh, s, xform, m])
 	merged.append(mi)
 

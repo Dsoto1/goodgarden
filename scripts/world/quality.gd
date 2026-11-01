@@ -15,12 +15,12 @@ const TIERS := {
 	},
 	"medium": {
 		"cover_density": 0.6, "cover_range": 26.0, "forest_density": 0.75,
-		"shadow_distance": 28.0, "shadow_size": 2048, "msaa": Viewport.MSAA_2X,
+		"shadow_distance": 24.0, "shadow_size": 2048, "msaa": Viewport.MSAA_2X,
 		"render_scale": 0.85, "mist": 0.6, "face_range": 15.0, "small_shadows": false, "lod_threshold": 2.5,
 	},
 	"low": {
 		"cover_density": 0.3, "cover_range": 20.0, "forest_density": 0.5,
-		"shadow_distance": 18.0, "shadow_size": 1024, "msaa": Viewport.MSAA_DISABLED,
+		"shadow_distance": 16.0, "shadow_size": 1024, "msaa": Viewport.MSAA_DISABLED,
 		"render_scale": 0.7, "mist": 0.3, "face_range": 11.0, "small_shadows": false, "lod_threshold": 5.0,
 	},
 }
