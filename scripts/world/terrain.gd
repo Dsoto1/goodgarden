@@ -56,7 +56,7 @@ const ROADS := [
 	[Vector2(30, 18), Vector2(29, 30), Vector2(33, 42), Vector2(37, 50)], # lake
 	[Vector2(38, -4), Vector2(62, -3), Vector2(86, 2), Vector2(112, 4), Vector2(134, 12), Vector2(150, 24), Vector2(156, 29)], # coast
 	[Vector2(98, 1), Vector2(104, -10), Vector2(103, -20), Vector2(111, -25), Vector2(115, -33), Vector2(108, -45)], # monastery, winding up its hill
-	[Vector2(103, -21), Vector2(94, -32), Vector2(88, -42), Vector2(80, -58), Vector2(82, -80), Vector2(88, -104), Vector2(96, -128)], # mountains, forking past the bridge
+	[Vector2(103, -21), Vector2(94, -32), Vector2(86, -42), Vector2(76, -56), Vector2(72, -74), Vector2(78, -94), Vector2(88, -108), Vector2(96, -128)], # mountains, forking past the bridge and keeping clear of the monastery's hill
 	[Vector2(6, -47), Vector2(6.8, -56), Vector2(10, -66), Vector2(18, -82), Vector2(24, -96), Vector2(26, -104)], # Bellhaven
 ]
 ## Scenery along the roads (world x/z, kind, yaw): see Waysides.
@@ -67,7 +67,7 @@ const WAYSIDES := [
 	[Vector2(68, -7), "watermill", PI], [Vector2(78, 12), "windmill", -0.4], [Vector2(113, 14), "house_b_blue", 3.0], [Vector2(127, 19), "house_yellow", 2.6],
 	[Vector2(119, 27), "field", 0.2], [Vector2(130, 0), "house_tall_red", 2.9], # mill, windmill and hamlet along the coast road
 	[Vector2(103.5, -14.2), "bridge", 0.0], # the monastery road over the river
-	[Vector2(71, -62), "cottage", 1.0], [Vector2(73, -67), "woodpile", 0.5], # shepherd's hut on the mountain road
+	[Vector2(61, -66), "cottage", 1.4], [Vector2(63, -71), "woodpile", 0.9], # shepherd's hut on the mountain road
 	[Vector2(-2, -72), "tower_red", 0.4], [Vector2(19, -64), "house_b_yellow", -0.8], [Vector2(15, -60), "house_blue", -0.6], # a watchtower and cottages on the Bellhaven road
 ]
 const PEAKS := Vector2(135, -200)
@@ -166,6 +166,10 @@ const ROAD_GRADE := 0.28
 const BRIDGE_REACH := 7.0
 const ROAD_BED := 2.5
 const ROAD_BLEND := 8.0
+## Where a road runs above the land (along a ridge or over a dip), its
+## shoulder eases down further, so it never stands on a narrow bank: a
+## little more width for every metre of height, up to this much more.
+const ROAD_SHOULDER := 24.0
 
 ## Per road: its points, the distance along it at each point, its bounds
 ## (grown by the blend) and its bed height every metre.
@@ -259,7 +263,7 @@ static func _roads() -> Array:
 			for k in range(n - 2, -1, -1):
 				if not fixed[k]:
 					bed[k] = clampf(bed[k], bed[k + 1] - grade, bed[k + 1] + grade)
-		cache.append({"pts": pts, "along": along, "box": box.grow(ROAD_BLEND + 1.0), "bed": bed, "grade": grade, "branch": branch})
+		cache.append({"pts": pts, "along": along, "box": box.grow(ROAD_BLEND + ROAD_SHOULDER + 1.0), "bed": bed, "grade": grade, "branch": branch})
 	_road_cache = cache
 	return cache
 
@@ -311,9 +315,12 @@ static func _with_roads(x: float, z: float, h: float) -> float:
 		return h
 	# A place's level ground stays level; at its edge the road eases in.
 	var keep := 1.0
+	var keep_wide := 1.0 # the broad shoulders stop well short of a place
 	for id: String in SITES:
 		var s: Array = SITES[id]
-		keep = minf(keep, smoothstep(float(s[1]) - 6.0, float(s[1]), p.distance_to(s[0])))
+		var sd := p.distance_to(s[0])
+		keep = minf(keep, smoothstep(float(s[1]) - 6.0, float(s[1]), sd))
+		keep_wide = minf(keep_wide, smoothstep(float(s[1]), float(s[1]) + 10.0, sd))
 	if keep <= 0.0:
 		return h
 	# The road keeps its level up to the water's edge, where a bridge carries
@@ -324,6 +331,7 @@ static func _with_roads(x: float, z: float, h: float) -> float:
 	var num := 0.0
 	var den := 0.0
 	var pull := 0.0
+	var nearest := INF
 	for road: Dictionary in _roads():
 		if not (road["box"] as Rect2).has_point(p):
 			continue
@@ -334,22 +342,32 @@ static func _with_roads(x: float, z: float, h: float) -> float:
 		for i in range(1, pts.size()):
 			var c := Geometry2D.get_closest_point_to_segment(p, pts[i - 1], pts[i])
 			var d := p.distance_to(c)
-			if d >= ROAD_BLEND:
+			nearest = minf(nearest, d)
+			if d >= ROAD_BLEND + ROAD_SHOULDER:
 				continue
 			# Distance along the road, measured along this stretch's own line
 			# (past its ends too), so neighbouring stretches agree at a bend.
 			var dir := (pts[i] - pts[i - 1]).normalized()
 			var s := clampf(along[i - 1] + (p - pts[i - 1]).dot(dir), 0.0, along[along.size() - 1])
-			var w := 1.0 - smoothstep(ROAD_BED, ROAD_BLEND, d)
+			var bed := _road_bed(road, s)
+			# A broad, gentle shoulder where the road stands above the land
+			# (about one in three), a little wider where it cuts into a hill.
+			var extra := (bed - h) * 2.8 if bed > h else (h - bed) * 0.8
+			var w := 1.0 - smoothstep(ROAD_BED, ROAD_BLEND + minf(extra, ROAD_SHOULDER), d)
+			if w <= 0.0:
+				continue
 			if road["branch"]:
 				w *= smoothstep(0.0, 8.0, s) # a branch fades in as it leaves its road
 			var sharp := pow(w, 4.0)
-			num += sharp * _road_bed(road, s)
+			num += sharp * bed
 			den += sharp
 			pull = maxf(pull, w)
 	if den <= 0.0:
 		return h
-	return lerpf(h, num / den, pull * dry * keep)
+	# Near the road the place's own edge decides; out on the shoulder, the
+	# wider fade, so a shoulder never piles land up against a place's edge.
+	var site := lerpf(keep, minf(keep, keep_wide), smoothstep(ROAD_BED, ROAD_BLEND, nearest))
+	return lerpf(h, num / den, pull * dry * site)
 
 
 ## The roads as segments (a.x, a.y, b.x, b.y) for the ground shader.
