@@ -115,7 +115,11 @@ comes from a test that checks future saves are refused.
   - update its road's last points and any landmarks or waysides near it;
   - check the test "…'s ground lies level under its walkable area";
   - make sure sites stay apart: their flat ground plus about 20 m of slope
-    shouldn't overlap a neighbour's, especially when their levels differ.
+    shouldn't overlap a neighbour's, especially when their levels differ;
+  - check the roads still walk (tests "the … road climbs gently" and "the
+    child can walk the … road from the valley"). A place's level ground
+    reaches only half a metre past its walkable area, so a road passing close
+    by never meets a step.
 
 ## Writing days
 
@@ -147,8 +151,10 @@ These are the open threads, roughly in the order the owner would likely
 want them. Confirm with the owner before starting anything large.
 
 1. **A third season** could follow the same pattern as the second.
-2. **Walking between places.** Travel is by the map today. The painted
-   roads could become walkable.
+2. **Along the roads.** The roads are walkable now (see `Roads` in
+   `docs/ARCHITECTURE.md`); things to meet and do along them could follow.
+   After moving a road or a place, check the tests "the … road climbs
+   gently" and "the child can walk the … road from the valley".
 3. **More rooms** can follow the `RoomRegion` pattern. Built so far: the
    library, the scriptorium, Captain Mara's cabin, the village bakery and
    workshop, Mrs. Hannah's farmhouse and Mr. Silas's hut.

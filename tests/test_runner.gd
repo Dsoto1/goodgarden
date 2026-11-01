@@ -1652,6 +1652,25 @@ func test_vertical_slice_end_to_end() -> void:
 	check(at_coast.distance_to(Terrain.site_center("coast")) < 22.0 and absf(at_coast.y - Terrain.site_level("coast")) < 0.3, "the child stands on the harbour's ground (at %s)" % at_coast)
 	var to_mara := NavigationServer3D.map_get_path(world.get_world_3d().navigation_map, at_coast, world.anchor("coast_mara").global_position, true)
 	check(to_mara.size() > 1 and to_mara[to_mara.size() - 1].distance_to(world.anchor("coast_mara").global_position) < 1.0, "and can walk over to Captain Mara")
+	# Every road out of the valley climbs gently, and the walking ground leads
+	# along it from the valley (or the road it leaves) into its place.
+	var nav_map := world.get_world_3d().navigation_map
+	for i in Terrain.ROADS.size():
+		var line := Roads.walk_line(i)
+		var steepest := 0.0
+		for seg in range(1, line.size()):
+			var n := int(ceil(line[seg - 1].distance_to(line[seg])))
+			for s in n:
+				var a := line[seg - 1].lerp(line[seg], float(s) / n)
+				var b := line[seg - 1].lerp(line[seg], float(s + 1) / n)
+				if Terrain.river_bank_distance(a.x, a.y) > 3.0:
+					steepest = maxf(steepest, absf(Terrain.height(b.x, b.y) - Terrain.height(a.x, a.y)) / a.distance_to(b))
+		check(steepest < 0.6, "the %s road climbs gently (steepest %.2f)" % [Roads.PLACES[i], steepest])
+		var from := Vector3(32, 0, -4) if Roads.is_branch(i) else Vector3(line[0].x, Terrain.height(line[0].x, line[0].y), line[0].y)
+		var end := line[line.size() - 1]
+		var goal := Vector3(end.x, Terrain.height(end.x, end.y), end.y)
+		var way := NavigationServer3D.map_get_path(nav_map, from, goal, true)
+		check(way.size() > 1 and way[way.size() - 1].distance_to(goal) < 1.0, "the child can walk the %s road from the valley" % Roads.PLACES[i])
 	world.travel_to("home")
 	await frames(2)
 	# Save and stop through the real buttons, as a child or parent would.

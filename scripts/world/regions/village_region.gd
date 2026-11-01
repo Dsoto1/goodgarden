@@ -138,7 +138,10 @@ func build() -> void:
 
 	# North road between the bakery and workshop to the overlook.
 	path([Vector3(0.2, 0, -6.6), Vector3(0.3, 0, -10.5), Vector3(-0.2, 0, -13.0), Vector3(0, 0, -15.2)], 2.0, "cobble")
-	MeshKit.box(self, Vector3(12, 0.7, 0.6), Vector3(0, 0.35, -17.2), "stone", true)
+	# A low wall along the overlook, open in the middle where the road to
+	# Bellhaven goes on north.
+	for x: float in [-3.85, 3.85]:
+		MeshKit.box(self, Vector3(4.3, 0.7, 0.6), Vector3(x, 0.35, -17.2), "stone", true)
 	add_clearing(Vector3(0, 0, -15.6), Vector2(8, 2.6))
 	MeshKit.box(self, Vector3(1.6, 0.45, 0.5), Vector3(-2.5, 0.22, -15.8), "wood", true)
 	var sign_post := MeshKit.box(self, Vector3(0.12, 1.8, 0.12), Vector3(2.0, 0.9, -14.2), "wood")
@@ -626,7 +629,7 @@ func _sync_harvest() -> void:
 	_tables.visible = WorldState.has_fact("project.tables")
 	_place_settings.visible = WorldState.has_fact("harvest.table_set")
 	_feast.visible = WorldState.has_fact("harvest.pies")
-	var festival := Days.current_day in [166, 167]
+	var festival := Days.current_day in [166, 167, 250, 251] # the Spring Festival and Harvest Home
 	_sam.visible = (WorldState.has_fact("harvest.invitations") and Days.current_day >= 82 and Days.current_day <= 84) or festival
 	_guests.visible = festival
 	var flags: Variant = WorldState.get_fact("harvest.bunting")

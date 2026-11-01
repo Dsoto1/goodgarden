@@ -532,21 +532,24 @@ func _reeds_on_bends() -> void:
 
 func _boundary() -> void:
 	var b := BOUNDS
-	var edge := MeshKit.LAYER_INVISIBLE
-	MeshKit.solid(self, Vector3(1, 6, b.size.y), Vector3(b.position.x, 3, b.position.y + b.size.y / 2.0), 0.0, edge)
-	MeshKit.solid(self, Vector3(1, 6, b.size.y), Vector3(b.end.x, 3, b.position.y + b.size.y / 2.0), 0.0, edge)
-	MeshKit.solid(self, Vector3(b.size.x, 6, 1), Vector3(b.position.x + b.size.x / 2.0, 3, b.end.y), 0.0, edge)
-	MeshKit.solid(self, Vector3(b.size.x, 6, 1), Vector3(b.position.x + b.size.x / 2.0, 3, b.position.y), 0.0, edge)
+	# The valley's edge, open where the roads lead out.
+	var corners := [Vector3(b.position.x, 0, b.position.y), Vector3(b.end.x, 0, b.position.y), Vector3(b.end.x, 0, b.end.y), Vector3(b.position.x, 0, b.end.y)]
+	for k in 4:
+		Roads.edge(self, corners[k], corners[(k + 1) % 4])
 	var rng := RandomNumberGenerator.new()
 	rng.seed = 5
 	var groves := ["grove_a_medium", "grove_b_medium", "grove_a_small", "grove_b_small"]
 	var x := b.position.x
+	# Groves round the edge (not across the roads out), and a low stone wall
+	# along the north so the overlook can see Bellhaven.
+	var grove := func(kind: String, at: Vector3, yaw: float) -> void:
+		if Roads.distance(Vector2(at.x, at.z)) > 5.0:
+			Props.place(self, kind, at, yaw)
 	while x <= b.end.x:
-		Props.place(self, groves[rng.randi() % 4], Vector3(x + rng.randf_range(-1, 1), 0, b.end.y + 2.5 + rng.randf_range(0, 2)), rng.randf() * TAU)
-		# Keep the north edge low so the overlook can see Bellhaven.
+		grove.call(groves[rng.randi() % 4], Vector3(x + rng.randf_range(-1, 1), 0, b.end.y + 2.5 + rng.randf_range(0, 2)), rng.randf() * TAU)
 		if x < -6 or x > 22:
-			Props.place(self, groves[rng.randi() % 4], Vector3(x + rng.randf_range(-1, 1), 0, b.position.y - 2.5 - rng.randf_range(0, 2)), rng.randf() * TAU)
-		else:
+			grove.call(groves[rng.randi() % 4], Vector3(x + rng.randf_range(-1, 1), 0, b.position.y - 2.5 - rng.randf_range(0, 2)), rng.randf() * TAU)
+		elif Roads.distance(Vector2(x, b.position.y - 0.8)) > 4.0:
 			Props.place(self, "fence_stone", Vector3(x, 0, b.position.y - 0.8), PI / 2.0, 1.0).scale.z = 3.5 / 1.6
 		x += 4.0
 	var z := b.position.y
@@ -554,7 +557,7 @@ func _boundary() -> void:
 		for side_x: float in [b.position.x - 2.5, b.end.x + 2.5]:
 			if absf(z - Terrain.river_z(side_x)) < 7.0:
 				continue # the river runs out through here
-			Props.place(self, groves[rng.randi() % 4], Vector3(side_x + rng.randf_range(-1, 1), 0, z + rng.randf_range(-1, 1)), rng.randf() * TAU)
+			grove.call(groves[rng.randi() % 4], Vector3(side_x + rng.randf_range(-1, 1), 0, z + rng.randf_range(-1, 1)), rng.randf() * TAU)
 		z += 4.0
 	# Hills and mountains beyond the edges come from Terrain (see World).
 

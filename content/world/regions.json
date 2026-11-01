@@ -76,6 +76,13 @@
 		{"id": "atrium", "name": "The Story Room"},
 		{"id": "library", "name": "The Library"},
 		{"id": "fishing_spot", "name": "The Fishing Spot"},
-		{"id": "grove", "name": "The Grove"}
+		{"id": "grove", "name": "The Grove"},
+		{"id": "road_wilderness", "name": "The Wilderness Road"},
+		{"id": "road_farmlands", "name": "The Farm Road"},
+		{"id": "road_lake", "name": "The Lake Road"},
+		{"id": "road_coast", "name": "The Coast Road"},
+		{"id": "road_monastery", "name": "The Monastery Road"},
+		{"id": "road_mountains", "name": "The Mountain Road"},
+		{"id": "road_city", "name": "The Road to Bellhaven"}
 	]
 }

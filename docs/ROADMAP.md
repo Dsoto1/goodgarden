@@ -201,8 +201,12 @@ village, Mrs. Hannah's farmhouse kitchen (a new farmhouse by the farm lane)
 and Mr. Silas's hut on the mountain. The winter porridge and lantern buns,
 the sled, the snug window, the store labels and the hut's stores happen in
 them.
-Next for these places: walking along the roads between them (the roads, farmsteads, mills and the
-river bridge are there to see; travel is still by the map).
+The roads are walkable too: from the valley the child can walk out to every
+place (a gate stays shut until the place opens), up the mountain road, over
+the stone bridge to the monastery and along the coast road past the mill;
+the map still travels there in a moment. Next for these places: more to do
+along the roads between them (the farmsteads, mills, the watchtower and the
+river bridge are there to see).
 
 ## Season two: the wider world ✓
 

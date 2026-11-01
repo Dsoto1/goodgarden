@@ -28,6 +28,7 @@ func _ready() -> void:
 	_water_bodies()
 	for entry: Dictionary in Content.get_world("regions").get("regions", []):
 		_load_region(entry)
+	_build_roads()
 	_bake_navigation()
 	_grow_ground_cover()
 	var waysides := Waysides.new()
@@ -196,6 +197,19 @@ func _grow_ground_cover() -> void:
 			far_cover.name = "GroundCover_" + far.region_id
 			add_child(far_cover)
 			far_cover.build(Rect2(Vector2(far.position.x, far.position.z) + a.position, a.size).grow(4.0), clearings, density, far.region_id.hash())
+
+
+## The roads out of the valley, walkable to each place (see Roads).
+func _build_roads() -> void:
+	var areas: Array[Rect2] = []
+	for far: Region in regions.values():
+		if far is FarRegion and not far is RoomRegion:
+			var a := (far as FarRegion).area
+			areas.append(Rect2(Vector2(far.position.x, far.position.z) + a.position, a.size))
+	var roads := Roads.new()
+	roads.name = "Roads"
+	add_child(roads)
+	roads.build(areas)
 
 
 ## Bakes walkable ground from the static colliders of every region, so tap-to-walk

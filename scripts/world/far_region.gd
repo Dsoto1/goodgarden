@@ -21,17 +21,18 @@ func lay_ground(arrive_at: Vector3, arrive_facing := 0.0) -> void:
 	ground.collision_mask = 0
 	var shape := CollisionShape3D.new()
 	var box := BoxShape3D.new()
-	box.size = Vector3(area.size.x + 8, 1, area.size.y + 8)
+	# Just past the edge (where its invisible wall stands), so a road passing
+	# close by never meets a step of this place's ground.
+	box.size = Vector3(area.size.x + 1, 1, area.size.y + 1)
 	shape.shape = box
 	shape.position = Vector3(area.get_center().x, -0.5, area.get_center().y)
 	ground.add_child(shape)
 	add_child(ground)
-	var edge := MeshKit.LAYER_INVISIBLE
 	var c := area.get_center()
-	MeshKit.solid(self, Vector3(1, 6, area.size.y), Vector3(area.position.x, 3, c.y), 0.0, edge)
-	MeshKit.solid(self, Vector3(1, 6, area.size.y), Vector3(area.end.x, 3, c.y), 0.0, edge)
-	MeshKit.solid(self, Vector3(area.size.x, 6, 1), Vector3(c.x, 3, area.position.y), 0.0, edge)
-	MeshKit.solid(self, Vector3(area.size.x, 6, 1), Vector3(c.x, 3, area.end.y), 0.0, edge)
+	# The edge all round, open where a road comes in.
+	var corners := [Vector3(area.position.x, 0, area.position.y), Vector3(area.end.x, 0, area.position.y), Vector3(area.end.x, 0, area.end.y), Vector3(area.position.x, 0, area.end.y)]
+	for k in 4:
+		Roads.edge(self, corners[k], corners[(k + 1) % 4])
 	add_discovery_zone(Vector3(c.x, 1, c.y), Vector3(area.size.x, 4, area.size.y))
 	if arrive_facing != 0.0:
 		add_camera_zone(Vector3(c.x, 1, c.y), Vector3(area.size.x, 4, area.size.y), {"yaw": rad_to_deg(arrive_facing)})
@@ -74,7 +75,11 @@ func ring_of_trees(kinds: Array, count: int, inset := 1.5, seed_value := 1) -> v
 	for i in count:
 		var t := float(i) / count
 		var p := _on_edge(t, inset + rng.randf_range(0.0, 2.0))
-		Props.place(self, str(kinds[i % kinds.size()]), p, rng.randf() * TAU, rng.randf_range(0.9, 1.25))
+		var yaw := rng.randf() * TAU
+		var s := rng.randf_range(0.9, 1.25)
+		if Roads.distance(Vector2(position.x + p.x, position.z + p.z)) < 4.5:
+			continue # the road comes in here
+		Props.place(self, str(kinds[i % kinds.size()]), p, yaw, s)
 
 
 ## A point `inset` metres inside the area's edge, `t` (0..1) of the way round.

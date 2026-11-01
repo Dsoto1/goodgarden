@@ -45,9 +45,9 @@ func build() -> void:
 			"field":
 				CraftedProps.grain_field(self, pos, Vector2(12, 7), yaw, int(at.x + at.y * 3))
 			"bridge":
-				var bank := minf(Terrain.height(at.x, at.y - 5.0), Terrain.height(at.x, at.y + 5.0))
-				var b := StoneBridge.build(self, Vector3(at.x, bank - 0.1, at.y), yaw)
-				b.scale = Vector3.ONE * 1.5
+				var t := bridge_transform(w)
+				var b := StoneBridge.build(self, t.origin, yaw)
+				b.scale = Vector3.ONE * BRIDGE_SCALE
 			_:
 				Props.place(self, kind, pos, yaw, 1.25)
 				_landmark(kind, pos, yaw, 2.8)
@@ -59,6 +59,15 @@ func build() -> void:
 		elif l[4] == "lake":
 			y = Terrain.LAKE_LEVEL - 0.2 * float(l[3])
 		_landmark(str(l[1]), Vector3(at.x, y, at.y), l[2], l[3])
+
+
+## Where a road bridge stands (a WAYSIDES entry): on the lower bank, scaled.
+const BRIDGE_SCALE := 1.5
+static func bridge_transform(w: Array) -> Transform3D:
+	var at: Vector2 = w[0]
+	var end := StoneBridge.LENGTH * BRIDGE_SCALE / 2.0 + 0.1
+	var bank := minf(Terrain.height(at.x, at.y - end), Terrain.height(at.x, at.y + end))
+	return Transform3D(Basis(Vector3.UP, w[2]).scaled(Vector3.ONE * BRIDGE_SCALE), Vector3(at.x, bank - 0.1, at.y))
 
 
 ## A map-only copy of a prop, enlarged: no collision, no shadow, drawn only
