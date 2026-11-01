@@ -64,6 +64,9 @@ func build() -> void:
 	passerby(sailor2, Vector3(-4.0, 0, -2.0), 802, 2.5)
 	neighbour("mara", Vector3(shore - 3.4, 0, 2.6), 0.6)
 	add_anchor("coast_mara", Vector3(shore - 3.4, 0, 2.6), -PI / 2.0)
+	# Captain Mara's ship lies alongside the end of the quay: step aboard.
+	RoomRegion.door(self, Vector3(shore - 1.0, 0, 3.6), "Go aboard Captain Mara's ship", "ship_cabin")
+	add_anchor("coast_ship_door", Vector3(shore - 2.4, 0, 3.6), -PI / 2.0)
 	for t: Array in [["pine_wide", Vector3(-18.0, 0, -14.0)], ["tree_b", Vector3(-18.5, 0, 14.0)], ["pine_wide", Vector3(8.0, 0, -14.5)], ["tree_b", Vector3(-3.0, 0, 14.5)], ["pine_wide", Vector3(4.0, 0, 13.5)]]:
 		Props.place(self, str(t[0]), t[1], t[1].x, 1.1)
 	SoundSpot.looping(self, "river", Vector3(shore + 4.0, 0.2, 0), 26.0, -8.0)

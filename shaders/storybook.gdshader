@@ -44,7 +44,7 @@ void fragment() {
 		float stripe = step(0.5, fract(across / 0.5));
 		ALBEDO = mix(grade(c.rgb), vec3(0.96, 0.93, 0.86), stripe);
 	}
-	if (up_normals) {
+	if (up_normals && !snow_free(world_pos)) {
 		ALBEDO = mix(ALBEDO, vec3(0.86, 0.91, 0.98), clamp(gg_snow * 2.2, 0.0, 0.9) * 0.8 * snow_cover);
 	} else if (pattern != 6 && pattern != 7 && pattern != 9) {
 		ALBEDO = mix(ALBEDO, SNOW, snow_amount(world_pos, world_normal));

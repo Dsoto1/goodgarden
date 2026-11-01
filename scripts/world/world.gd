@@ -190,7 +190,7 @@ func _grow_ground_cover() -> void:
 	cover.build(area, clearings, density, 2024)
 	cover.fringe_paths(clearings, density, 2025)
 	for far: Region in regions.values():
-		if far is FarRegion:
+		if far is FarRegion and not far is RoomRegion:
 			var a := (far as FarRegion).area
 			var far_cover := GroundCover.new()
 			far_cover.name = "GroundCover_" + far.region_id

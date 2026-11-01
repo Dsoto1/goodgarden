@@ -11,7 +11,7 @@
 			"text": "Copy the old page",
 			"activity": "abbey_copy_page",
 			"icon": "book",
-			"where": "at the monastery (take the map)"
+			"where": "in the scriptorium at the monastery (take the map)"
 		},
 		{
 			"text": "Collect the eggs",

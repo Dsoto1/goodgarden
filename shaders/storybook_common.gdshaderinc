@@ -70,12 +70,17 @@ global uniform vec4 gg_snow_hole_2;
 global uniform vec4 gg_snow_hole_3;
 const vec3 SNOW = vec3(0.84, 0.88, 0.95);
 
+// The rooms indoors stand far off the map (x beyond 900): never any snow.
+bool snow_free(vec3 p) {
+	return p.x > 900.0;
+}
+
 bool in_snow_hole(vec3 p, vec4 r) {
 	return p.x > r.x && p.x < r.z && p.z > r.y && p.z < r.w && p.y < 3.2;
 }
 
 float snow_amount(vec3 p, vec3 world_normal) {
-	if (gg_snow <= 0.0 || snow_cover <= 0.0) {
+	if (gg_snow <= 0.0 || snow_cover <= 0.0 || snow_free(p)) {
 		return 0.0;
 	}
 	if (in_snow_hole(p, gg_snow_hole_0) || in_snow_hole(p, gg_snow_hole_1) || in_snow_hole(p, gg_snow_hole_2) || in_snow_hole(p, gg_snow_hole_3)) {

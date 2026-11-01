@@ -11,7 +11,7 @@
 			"text": "Sail around the bay",
 			"activity": "coast_ships_log",
 			"icon": "boat",
-			"where": "at the coast (take the map)"
+			"where": "aboard Captain Mara's ship, at the coast (take the map)"
 		},
 		{
 			"text": "Collect the eggs",

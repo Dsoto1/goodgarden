@@ -192,8 +192,11 @@ Each has someone to meet and two jobs (free work, any day after it opens):
 | The Mountains (north-east) | day 71 | Mr. Silas | mark the trail with a pattern of stones; climb the trail map to the peak |
 
 The landscape now has a sea beyond the river's mouth and a lake in the
-south-eastern hills. Next for these places: interiors (the library, the scriptorium, the ship), and
-walking along the roads between them (the roads, farmsteads, mills and the
+south-eastern hills. Three of them have a room to step into through a door:
+the Bellhaven library (from day 50), the monastery's scriptorium (day 57) and
+Captain Mara's cabin aboard her ship (day 64). Sam's card catalogue, copying
+a page, the seasons, the sea chart and the ship's log now happen indoors.
+Next for these places: walking along the roads between them (the roads, farmsteads, mills and the
 river bridge are there to see; travel is still by the map).
 
 ## Season two: the wider world ✓

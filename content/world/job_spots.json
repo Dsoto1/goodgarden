@@ -689,11 +689,11 @@
 			"look": "none"
 		},
 		{
-			"region": "city",
+			"region": "city_library",
 			"at": [
-				9.6,
+				2.6,
 				0,
-				6.5
+				1.6
 			],
 			"prompt": "Sort the reading cards",
 			"activity": "city_library",
@@ -785,11 +785,11 @@
 			"look": "none"
 		},
 		{
-			"region": "monastery",
+			"region": "scriptorium",
 			"at": [
-				3.0,
+				0.0,
 				0,
-				9.5
+				-1.4
 			],
 			"prompt": "Copy the old page",
 			"activity": "abbey_copy_page",
@@ -845,11 +845,11 @@
 			"look": "table"
 		},
 		{
-			"region": "monastery",
+			"region": "scriptorium",
 			"at": [
-				3.0,
+				-1.6,
 				0,
-				9.5
+				0.2
 			],
 			"prompt": "Order the seasons",
 			"activity": "abbey_seasons",
@@ -1037,11 +1037,11 @@
 			"look": "crate"
 		},
 		{
-			"region": "coast",
+			"region": "ship_cabin",
 			"at": [
-				-4.0,
+				1.4,
 				0,
-				6.5
+				-1.4
 			],
 			"prompt": "Read the sea chart",
 			"activity": "coast_chart",
@@ -1073,11 +1073,11 @@
 			"look": "crate"
 		},
 		{
-			"region": "coast",
+			"region": "ship_cabin",
 			"at": [
-				16.0,
+				-1.4,
 				0,
-				-1.2
+				-0.6
 			],
 			"prompt": "Write the ship's log",
 			"activity": "coast_ships_log",

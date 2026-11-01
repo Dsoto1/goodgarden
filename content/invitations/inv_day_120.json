@@ -11,7 +11,7 @@
 			"text": "Order the seasons",
 			"activity": "abbey_seasons",
 			"icon": "seedling",
-			"where": "at the monastery (take the map)"
+			"where": "in the scriptorium at the monastery (take the map)"
 		},
 		{
 			"text": "Collect the eggs",

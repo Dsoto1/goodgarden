@@ -1633,6 +1633,10 @@ func test_vertical_slice_end_to_end() -> void:
 	# or buried ground).
 	for far: Node in world.find_children("*", "FarRegion", true, false):
 		var region := far as FarRegion
+		if region is RoomRegion:
+			# Rooms stand on their own floor far off the map, away from the land.
+			check(region.global_position.x > 900.0, "%s stands off the map, where no land or snow reaches" % region.region_id)
+			continue
 		var worst := 0.0
 		var inner := region.area.grow(-1.0)
 		for gx in range(int(inner.position.x), int(inner.end.x) + 1, 3):

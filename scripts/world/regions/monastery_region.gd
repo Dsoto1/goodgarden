@@ -19,6 +19,9 @@ func build() -> void:
 		_cypress(Vector3(2.2, 0, z))
 	Props.place(self, "church_yellow", Vector3(0, 0, -12.5), 0.0, 1.45)
 	Props.place(self, "house_b_yellow", Vector3(-12.5, 0, -9.0), PI / 2.0)
+	# The scriptorium, where the brothers copy books: its door faces the cloister.
+	RoomRegion.door(self, Vector3(-10.4, 0, -9.0), "Go into the scriptorium", "scriptorium")
+	add_anchor("monastery_scriptorium_door", Vector3(-9.2, 0, -9.0), -PI / 2.0)
 	Props.place(self, "house_yellow", Vector3(-12.5, 0, -1.0), PI / 2.0)
 	Props.place(self, "tower_blue", Vector3(12.0, 0, -10.5), 0.0, 0.8)
 	# The cloister garden: low stone walls, gravel walks and herb beds.

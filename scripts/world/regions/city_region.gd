@@ -32,6 +32,8 @@ func build() -> void:
 	for h: Array in east:
 		Props.place(self, str(h[0]), Vector3(14.5, 0, h[1]), -PI / 2.0)
 	_sign(Vector3(11.6, 3.2, 6.5), -PI / 2.0, "Library")
+	RoomRegion.door(self, Vector3(12.0, 0, 6.5), "Go into the library", "city_library")
+	add_anchor("city_library_door", Vector3(10.8, 0, 6.5), PI / 2.0)
 	_sign(Vector3(-11.7, 3.0, 6.5), PI / 2.0, "The Bell Inn")
 	# The square: fountain in the middle, stalls round it.
 	Props.place(self, "town_fountain", Vector3(0, 0, -7.0), 0.0, 1.5)
