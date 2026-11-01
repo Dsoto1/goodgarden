@@ -61,12 +61,15 @@
 					"words": "buns"
 				},
 				{
-					"item": "apple",
-					"count": 2
+					"item": "honey",
+					"count": 2,
+					"word": "honey pot",
+					"words": "honey pots"
 				}
 			],
 			"extra": [
-				"shell"
+				"shell",
+				"carrot"
 			],
 			"pictures": true,
 			"older": {
@@ -84,14 +87,16 @@
 						"words": "buns"
 					},
 					{
-						"item": "apple",
-						"count": 6
+						"item": "honey",
+						"count": 3,
+						"word": "honey pot",
+						"words": "honey pots"
 					},
 					{
-						"item": "loaf_long",
+						"item": "cheese",
 						"count": 2,
-						"word": "long loaf",
-						"words": "long loaves"
+						"word": "cheese",
+						"words": "cheeses"
 					}
 				],
 				"pictures": false,

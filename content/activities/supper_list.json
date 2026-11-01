@@ -61,14 +61,15 @@
 					"count": 4
 				},
 				{
-					"item": "jam_jar",
-					"count": 2,
-					"word": "jar of jam",
-					"words": "jars of jam"
+					"item": "cheese",
+					"count": 1,
+					"word": "cheese",
+					"words": "cheeses"
 				}
 			],
 			"extra": [
-				"egg"
+				"jam_jar",
+				"carrot"
 			],
 			"pictures": true,
 			"older": {
@@ -84,14 +85,16 @@
 						"count": 8
 					},
 					{
-						"item": "jam_jar",
-						"count": 3,
-						"word": "jar of jam",
-						"words": "jars of jam"
+						"item": "pear",
+						"count": 5,
+						"word": "pear",
+						"words": "pears"
 					},
 					{
-						"item": "egg",
-						"count": 6
+						"item": "cheese",
+						"count": 2,
+						"word": "cheese",
+						"words": "cheeses"
 					}
 				],
 				"extra": [],

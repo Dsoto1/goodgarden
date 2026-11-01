@@ -55,8 +55,10 @@
 					"words": "loaves"
 				},
 				{
-					"item": "egg",
-					"count": 5
+					"item": "cheese",
+					"count": 1,
+					"word": "cheese",
+					"words": "cheeses"
 				},
 				{
 					"item": "apple",
@@ -76,18 +78,20 @@
 						"words": "loaves"
 					},
 					{
-						"item": "egg",
-						"count": 9
+						"item": "cheese",
+						"count": 2,
+						"word": "cheese",
+						"words": "cheeses"
 					},
 					{
 						"item": "apple",
 						"count": 6
 					},
 					{
-						"item": "jam_jar",
-						"count": 2,
-						"word": "jar of jam",
-						"words": "jars of jam"
+						"item": "honey",
+						"count": 3,
+						"word": "honey pot",
+						"words": "honey pots"
 					}
 				],
 				"pictures": false,

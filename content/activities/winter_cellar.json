@@ -49,45 +49,54 @@
 			"hint": "Show me",
 			"order": [
 				{
-					"item": "apple",
-					"count": 3
+					"item": "potato",
+					"count": 4,
+					"word": "potato",
+					"words": "potatoes"
+				},
+				{
+					"item": "onion",
+					"count": 3,
+					"word": "onion",
+					"words": "onions"
 				},
 				{
 					"item": "jam_jar",
 					"count": 2,
 					"word": "jar of jam",
 					"words": "jars of jam"
-				},
-				{
-					"item": "egg",
-					"count": 4
 				}
 			],
 			"extra": [
-				"minnow"
+				"minnow",
+				"pear"
 			],
 			"pictures": true,
 			"older": {
 				"order": [
 					{
-						"item": "apple",
-						"count": 6
+						"item": "potato",
+						"count": 7,
+						"word": "potato",
+						"words": "potatoes"
+					},
+					{
+						"item": "onion",
+						"count": 5,
+						"word": "onion",
+						"words": "onions"
+					},
+					{
+						"item": "cabbage",
+						"count": 2,
+						"word": "cabbage",
+						"words": "cabbages"
 					},
 					{
 						"item": "jam_jar",
 						"count": 3,
 						"word": "jar of jam",
 						"words": "jars of jam"
-					},
-					{
-						"item": "egg",
-						"count": 8
-					},
-					{
-						"item": "loaf_round",
-						"count": 2,
-						"word": "loaf",
-						"words": "loaves"
 					}
 				],
 				"pictures": false,
@@ -102,7 +111,7 @@
 	"outro": [
 		{
 			"speaker": "hannah",
-			"text": "A full cellar! Whatever the weather does, we'll have plenty to share."
+			"text": "Potatoes, onions and jam, tucked away in the cool and dark. Whatever the weather does, we'll have plenty to share."
 		}
 	],
 	"world_effects": [

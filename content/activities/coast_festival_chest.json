@@ -53,16 +53,16 @@
 					"count": 4
 				},
 				{
-					"item": "minnow",
+					"item": "salmon",
 					"count": 2,
-					"word": "fish",
-					"words": "fish"
+					"word": "salmon",
+					"words": "salmon"
 				},
 				{
-					"item": "jam_jar",
+					"item": "honey",
 					"count": 1,
-					"word": "jar of jam",
-					"words": "jars of jam"
+					"word": "honey pot",
+					"words": "honey pots"
 				}
 			],
 			"extra": [
@@ -76,16 +76,16 @@
 						"count": 7
 					},
 					{
-						"item": "minnow",
-						"count": 5,
-						"word": "fish",
-						"words": "fish"
+						"item": "salmon",
+						"count": 4,
+						"word": "salmon",
+						"words": "salmon"
 					},
 					{
-						"item": "jam_jar",
+						"item": "honey",
 						"count": 3,
-						"word": "jar of jam",
-						"words": "jars of jam"
+						"word": "honey pot",
+						"words": "honey pots"
 					},
 					{
 						"item": "pebble",

@@ -14,7 +14,7 @@
 	},
 	"concepts": [
 		"sorting",
-		"classifying"
+		"classifying: fruit, vegetables and fish"
 	],
 	"formation_themes": [
 		"friendship",
@@ -41,70 +41,126 @@
 			"id": "sort",
 			"primitive": "sort_into_bins",
 			"speaker": "mara",
-			"prompt": "Sort the cargo: each kind in its own place.",
-			"hint": "Look at the picture on each place.",
+			"prompt": "Sort the cargo: fruit, vegetables and fish, each in its own place.",
+			"hint": "Does it grow on a tree, grow in the ground, or swim in the sea?",
 			"piece_size": [
-				54,
-				50
+				58,
+				52
 			],
 			"pieces": [
 				{
 					"kind": "apple",
-					"count": 3
+					"count": 2
+				},
+				{
+					"kind": "pear",
+					"count": 1
+				},
+				{
+					"kind": "carrot",
+					"count": 2
+				},
+				{
+					"kind": "onion",
+					"count": 1
 				},
 				{
 					"kind": "minnow",
-					"count": 3
+					"count": 2
 				},
 				{
-					"kind": "shell",
-					"count": 3
+					"kind": "salmon",
+					"count": 1
 				}
 			],
 			"bins": [
 				{
-					"kind": "apple",
+					"kind": "",
 					"label": "fruit",
 					"look": "sack",
+					"group": "fruit",
 					"pos": [
 						200,
 						170
 					]
 				},
 				{
-					"kind": "minnow",
-					"label": "fish",
+					"kind": "",
+					"label": "vegetables",
 					"look": "basket",
+					"group": "veg",
 					"pos": [
 						500,
 						170
 					]
 				},
 				{
-					"kind": "shell",
-					"label": "shells",
+					"kind": "",
+					"label": "fish",
 					"look": "basket",
+					"group": "fish",
 					"pos": [
 						800,
 						170
 					]
 				}
 			],
+			"groups": {
+				"apple": "fruit",
+				"pear": "fruit",
+				"plum": "fruit",
+				"grapes": "fruit",
+				"carrot": "veg",
+				"onion": "veg",
+				"potato": "veg",
+				"cabbage": "veg",
+				"minnow": "fish",
+				"salmon": "fish"
+			},
 			"older": {
 				"pieces": [
 					{
 						"kind": "apple",
-						"count": 5
+						"count": 2
+					},
+					{
+						"kind": "pear",
+						"count": 2
+					},
+					{
+						"kind": "plum",
+						"count": 1
+					},
+					{
+						"kind": "grapes",
+						"count": 1
+					},
+					{
+						"kind": "carrot",
+						"count": 2
+					},
+					{
+						"kind": "onion",
+						"count": 1
+					},
+					{
+						"kind": "potato",
+						"count": 2
+					},
+					{
+						"kind": "cabbage",
+						"count": 1
 					},
 					{
 						"kind": "minnow",
-						"count": 6
+						"count": 2
 					},
 					{
-						"kind": "shell",
-						"count": 4
+						"kind": "salmon",
+						"count": 2
 					}
-				]
+				],
+				"hint": "Fruit holds the seeds; vegetables are leaves, roots and bulbs; fish swim."
 			},
 			"feedback": {
 				"mismatch": "That doesn't belong there. Look again.",
@@ -115,7 +171,7 @@
 	"outro": [
 		{
 			"speaker": "mara",
-			"text": "Apples from the islands, fish from the deep, and shells from a beach far away. Every voyage brings home treasure!"
+			"text": "Apples and pears from the islands, carrots and onions from the farms across the bay, and fish from the deep. Every voyage brings home treasure!"
 		},
 		{
 			"speaker": "mara",
