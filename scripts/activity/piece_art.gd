@@ -15,8 +15,29 @@ static func draw_at(ci: CanvasItem, kind: String, r: Rect2, outline := false) ->
 	ci.draw_set_transform(Vector2.ZERO)
 
 
+## Pieces photographed from the 3D food models (tools/piece_sprites.tscn), so
+## the bread and fish on a board look like the ones on the market stall.
+const SPRITES := "res://assets/pieces/%s.png"
+static var _sprites := {}
+
+
+static func sprite(kind: String) -> Texture2D:
+	if not _sprites.has(kind):
+		var path := SPRITES % kind
+		_sprites[kind] = load(path) if ResourceLoader.exists(path) else null
+	return _sprites[kind]
+
+
 static func draw(ci: CanvasItem, kind: String, size: Vector2, outline: bool, data: Dictionary = {}) -> void:
 	var c := size / 2.0
+	var tex := sprite(kind)
+	if tex:
+		# The picture fills the piece's place, keeping its shape; as an outline
+		# it is the piece's own soft shadow, so piece and place always agree.
+		var fit := minf(size.x / tex.get_width(), size.y / tex.get_height()) * 1.2
+		var drawn := Vector2(tex.get_width(), tex.get_height()) * fit
+		ci.draw_texture_rect(tex, Rect2(c - drawn / 2.0, drawn), false, Color(0.36, 0.26, 0.17, 0.4) if outline else Color.WHITE)
+		return
 	if kind.begins_with("figure:"):
 		_figure(ci, size, outline, data)
 		return

@@ -156,6 +156,8 @@ Positions are in **board units** (1000 × 560); the workspace scales the board t
 
 **Piece kinds:** use the kinds `PieceArt` draws as pieces (apple, egg, minnow, swallow, sheep, bird, coin, hay, shell, crab, pebble, flags, flowers, stones, leaves, loaves, bean_seed and so on). A few story-figure shapes (`seed`, `sprout`, `fish`, `flour`, `flock`...) draw only on story figures and show as grey squares on a board: use `bean_seed` and `minnow` instead. Check new boards with `tools/board_gallery.tscn -- --only=<ids>` (any ids, at both levels with `--older`).
 
+**Food pieces from the 3D models:** `apple`, `loaf_round`, `loaf_long`, `jam_jar` and `minnow` are pictures of the same food models that stand on the market stalls, and these kinds are available too: `pear`, `plum`, `grapes`, `carrot`, `potato`, `onion`, `turnip`, `cabbage`, `pumpkin`, `corn`, `melon`, `cheese`, `honey`, `cake`, `pretzel`, `baguette`, `salmon`, `mushroom`. Their outline is the piece's own soft shadow. To add another, map a kind to a prop in `tools/piece_sprites.gd` and run it (it writes `assets/pieces/<kind>.png`).
+
 ## Atrium shelf — `content/world/atrium_shelf.json`
 
 `{"items": [{"activity", "label", "tray_color"}]}`. Each item adds a tray to the Chapel shelf. Only `reflection` activities may be listed.
