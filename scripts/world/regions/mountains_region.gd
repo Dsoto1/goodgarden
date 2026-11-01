@@ -18,6 +18,7 @@ func build() -> void:
 	Props.place(self, "town_cart", Vector3(15.5, 0, -9.6), 0.6)
 	# Mr. Silas's hut with his camp beside it: tent, fire, firewood, bench.
 	CraftedProps.cottage(self, Vector3(-11.0, 0, -6.0), PI / 2.0 + 0.3, 31, Vector2(3.4, 3.8), "roof_slate")
+	RoomRegion.cottage_door(self, Vector3(-11.0, 0, -6.0), PI / 2.0 + 0.3, Vector2(3.4, 3.8), "Go into Mr. Silas's hut", "shepherd_hut", "mountains_hut_door")
 	Props.place(self, "camp_tent", Vector3(-4.0, 0, -11.0), 0.4)
 	Props.place(self, "campfire", Vector3(-4.6, 0, -6.6), 0.0)
 	Props.place(self, "firewood", Vector3(-6.0, 0, -7.4), 0.6)

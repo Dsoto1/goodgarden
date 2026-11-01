@@ -581,11 +581,11 @@
 			"look": "basket"
 		},
 		{
-			"region": "farmlands",
+			"region": "farmhouse",
 			"at": [
-				-4.0,
+				2.0,
 				0,
-				-6.0
+				-1.2
 			],
 			"prompt": "Mend the window",
 			"activity": "winter_window",
@@ -593,11 +593,11 @@
 			"look": "table"
 		},
 		{
-			"region": "farmlands",
+			"region": "farmhouse",
 			"at": [
-				-2.4,
+				-3.0,
 				0,
-				-2.4
+				1.6
 			],
 			"prompt": "Label the store boxes",
 			"activity": "winter_labels",
@@ -629,11 +629,11 @@
 			"look": "none"
 		},
 		{
-			"region": "village",
+			"region": "village_workshop",
 			"at": [
-				12.2,
+				2.6,
 				0,
-				-11.2
+				0.4
 			],
 			"prompt": "Fetch things for the sled",
 			"activity": "winter_sled",
@@ -641,11 +641,11 @@
 			"look": "crate"
 		},
 		{
-			"region": "village",
+			"region": "village_bakery",
 			"at": [
-				-5.6,
+				-3.0,
 				0,
-				-11.0
+				1.0
 			],
 			"prompt": "Weigh the oats",
 			"activity": "winter_porridge",
@@ -761,11 +761,11 @@
 			"look": "table"
 		},
 		{
-			"region": "village",
+			"region": "village_bakery",
 			"at": [
-				-5.6,
+				-3.0,
 				0,
-				-11.0
+				1.0
 			],
 			"prompt": "Bake the buns",
 			"activity": "lantern_buns",
@@ -1170,11 +1170,11 @@
 			"look": "crate"
 		},
 		{
-			"region": "mountains",
+			"region": "shepherd_hut",
 			"at": [
-				-12.0,
+				-2.2,
 				0,
-				9.0
+				0.4
 			],
 			"prompt": "Stock the hut",
 			"activity": "mountain_hut_stores",

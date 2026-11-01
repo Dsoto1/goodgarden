@@ -196,6 +196,11 @@ south-eastern hills. Three of them have a room to step into through a door:
 the Bellhaven library (from day 50), the monastery's scriptorium (day 57) and
 Captain Mara's cabin aboard her ship (day 64). Sam's card catalogue, copying
 a page, the seasons, the sea chart and the ship's log now happen indoors.
+More rooms followed: Mr. Tobias's bakery and Mr. Amos's workshop in the
+village, Mrs. Hannah's farmhouse kitchen (a new farmhouse by the farm lane)
+and Mr. Silas's hut on the mountain. The winter porridge and lantern buns,
+the sled, the snug window, the store labels and the hut's stores happen in
+them.
 Next for these places: walking along the roads between them (the roads, farmsteads, mills and the
 river bridge are there to see; travel is still by the map).
 

@@ -46,6 +46,15 @@ static func door(region: Region, at: Vector3, prompt: String, room_id: String) -
 	return d
 
 
+## The door into a room at the front of a `CraftedProps.cottage` built at
+## `pos`, turned `rot`, of `size`: the way in, and the anchor outside the
+## child comes back out to, facing away from the door.
+static func cottage_door(region: Region, pos: Vector3, rot: float, size: Vector2, prompt: String, room_id: String, anchor: String) -> void:
+	var x := -size.x * 0.18
+	door(region, pos + Vector3(x, 0, size.y / 2.0 + 0.6).rotated(Vector3.UP, rot), prompt, room_id)
+	region.add_anchor(anchor, pos + Vector3(x, 0, size.y / 2.0 + 1.8).rotated(Vector3.UP, rot), rot + PI)
+
+
 ## A window on the back wall, letting in the daylight.
 func window(at: Vector3, size := Vector2(1.2, 1.0)) -> void:
 	MeshKit.box(self, Vector3(size.x + 0.2, size.y + 0.2, 0.08), at, trim_color)

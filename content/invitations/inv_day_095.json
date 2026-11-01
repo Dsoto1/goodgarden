@@ -11,7 +11,7 @@
 			"text": "Weigh the oats",
 			"activity": "winter_porridge",
 			"icon": "scales",
-			"where": "at the bakery"
+			"where": "in the bakery"
 		},
 		{
 			"text": "Collect the eggs",

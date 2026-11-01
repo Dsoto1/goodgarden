@@ -18,6 +18,11 @@ func build() -> void:
 		add_clearing(f[0], Vector2(12.5, 7.5))
 	Props.place(self, "grain_field", Vector3(-2.0, 0, 18.0), 0.2)
 	Props.place(self, "windmill", Vector3(-20.0, 0, -19.0), 0.6)
+	# Mrs. Hannah's farmhouse by the lane, its door facing the farmyard.
+	var house := Vector3(-6.5, 0, -17.8)
+	CraftedProps.cottage(self, house, PI / 2.0, 41, Vector2(5.0, 4.4), "roof_red")
+	add_clearing(house, Vector2(6.0, 7.0))
+	RoomRegion.cottage_door(self, house, PI / 2.0, Vector2(5.0, 4.4), "Go into the farmhouse", "farmhouse", "farmlands_house_door")
 	# The farmyard north-east of the lane: the big barn and silo, the hen
 	# house, the well and the farm cart.
 	Props.place(self, "barn_big", Vector3(12.0, 0, -17.0), PI)

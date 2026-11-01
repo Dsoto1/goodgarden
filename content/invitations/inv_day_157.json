@@ -11,7 +11,7 @@
 			"text": "Stock the hut",
 			"activity": "mountain_hut_stores",
 			"icon": "note",
-			"where": "on the mountain (take the map)"
+			"where": "in Mr. Silas's hut on the mountain (take the map)"
 		},
 		{
 			"text": "Collect the eggs",

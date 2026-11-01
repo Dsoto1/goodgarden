@@ -149,8 +149,9 @@ want them. Confirm with the owner before starting anything large.
 1. **A third season** could follow the same pattern as the second.
 2. **Walking between places.** Travel is by the map today. The painted
    roads could become walkable.
-3. **More rooms** can follow the `RoomRegion` pattern (the library,
-   the scriptorium and Captain Mara's cabin are built).
+3. **More rooms** can follow the `RoomRegion` pattern. Built so far: the
+   library, the scriptorium, Captain Mara's cabin, the village bakery and
+   workshop, Mrs. Hannah's farmhouse and Mr. Silas's hut.
 4. **Alongside work**, listed in `docs/ROADMAP.md` under "Alongside, when
    it fits": identity art, tablet performance, translation, and the
    theological, educational and child-privacy reviews before release.

@@ -11,7 +11,7 @@
 			"text": "Bake lantern buns",
 			"activity": "lantern_buns",
 			"icon": "bread",
-			"where": "at the bakery"
+			"where": "in the bakery"
 		},
 		{
 			"text": "Pour water for supper",

@@ -11,7 +11,7 @@
 			"text": "Mend the window",
 			"activity": "winter_window",
 			"icon": "window",
-			"where": "at Mrs. Hannah's farm (take the map)"
+			"where": "in Mrs. Hannah's farmhouse, at the farm (take the map)"
 		},
 		{
 			"text": "Pour water for supper",

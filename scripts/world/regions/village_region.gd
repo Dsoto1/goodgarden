@@ -79,7 +79,8 @@ func build() -> void:
 		var corner: Vector2 = square[k]
 		_lantern(Vector3(corner.x, 0, corner.y) * 0.92)
 
-	_building("market", Vector3(-7.5, 0, -12.5), 0.0, "Bakery", 3.2)
+	var bakery := _building("market", Vector3(-7.5, 0, -12.5), 0.0, "Bakery", 3.2)
+	_room_door(bakery, -0.6, "Go into the bakery", "village_bakery", "village_bakery_door")
 	# Tobias's work outside the bakery: the kneading trough, and the
 	# neighbours' bread baskets waiting on a plank table.
 	CraftedProps.kneading_trough(self, Vector3(-9.6, 0, -9.4), 0.0)
@@ -96,7 +97,8 @@ func build() -> void:
 	for i in 3:
 		CraftedProps.bread_basket(self, table + Vector3(0, 0.65, 0) + Vector3(-0.62 + i * 0.62, 0, 0).rotated(Vector3.UP, -0.2), i * 0.9).scale = Vector3.ONE * 0.62
 	# Buildings stand back from the square, so there is a little stroll to each door.
-	_building("workshop", Vector3(8.0, 0, -13.0), 0.0, "Workshop", 3.6)
+	var workshop := _building("workshop", Vector3(8.0, 0, -13.0), 0.0, "Workshop", 3.6)
+	_room_door(workshop, -0.8, "Go into the workshop", "village_workshop", "village_workshop_door")
 	# Houses close round the square at easy angles, as in a village that grew.
 	_building("house_yellow", Vector3(-12.4, 0, -0.3), PI / 2.0 - 0.1, "")
 	_building("house_blue", Vector3(13.0, 0, -0.8), -PI / 2.0 + 0.08, "")
@@ -268,13 +270,13 @@ func _bench(at: Vector3, yaw: float) -> void:
 
 
 ## A KayKit building with an optional painted sign over its front.
-func _building(prop: String, at: Vector3, rot: float, sign_text: String, sign_height := 3.0) -> void:
+func _building(prop: String, at: Vector3, rot: float, sign_text: String, sign_height := 3.0) -> Node3D:
 	var b := Props.place(self, prop, at, rot)
 	var box := Props.bounds(b)
 	var span := maxf(box.size.x, box.size.z) + 0.6
 	add_clearing(at, Vector2(span, span))
 	if sign_text.is_empty():
-		return
+		return b
 	var front := Props.bounds(b).end.z + 0.08
 	var board := MeshKit.box(b, Vector3(1.9, 0.45, 0.05), Vector3(0, sign_height, front), "wood_light")
 	board.name = "SignBoard"
@@ -285,6 +287,15 @@ func _building(prop: String, at: Vector3, rot: float, sign_text: String, sign_he
 	l.modulate = Color("3b3430")
 	l.position = Vector3(0, sign_height, front + 0.04)
 	b.add_child(l)
+	return b
+
+
+## The way into a building's room (see RoomRegion), at its front, `offset`
+## along it, with the anchor the child comes back out to.
+func _room_door(b: Node3D, offset: float, prompt: String, room_id: String, anchor: String) -> void:
+	var front := b.position + Vector3(offset, 0, Props.bounds(b).end.z + 0.5).rotated(Vector3.UP, b.rotation.y)
+	RoomRegion.door(self, front, prompt, room_id)
+	add_anchor(anchor, front + Vector3(0, 0, 1.2).rotated(Vector3.UP, b.rotation.y), b.rotation.y + PI)
 
 
 ## Tiered stone fountain, the heart of the plaza.

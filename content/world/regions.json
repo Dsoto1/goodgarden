@@ -64,7 +64,11 @@
 		{"id": "mountains", "name": "The Mountains", "scene": "res://scenes/world/regions/mountains.tscn", "site": "mountains", "world_map": true, "icon": "mountain", "arrive": "mountains_arrive", "open_when": [{"day_at_least": 71}]},
 		{"id": "city_library", "name": "The Library", "scene": "res://scenes/world/regions/library_room.tscn", "origin": [2000, 0, 0], "arrive": "city_library_arrive", "open_when": [{"day_at_least": 50}]},
 		{"id": "scriptorium", "name": "The Scriptorium", "scene": "res://scenes/world/regions/scriptorium_room.tscn", "origin": [2000, 0, 60], "arrive": "scriptorium_arrive", "open_when": [{"day_at_least": 57}]},
-		{"id": "ship_cabin", "name": "Captain Mara's Cabin", "scene": "res://scenes/world/regions/ship_cabin.tscn", "origin": [2000, 0, 120], "arrive": "ship_cabin_arrive", "open_when": [{"day_at_least": 64}]}
+		{"id": "ship_cabin", "name": "Captain Mara's Cabin", "scene": "res://scenes/world/regions/ship_cabin.tscn", "origin": [2000, 0, 120], "arrive": "ship_cabin_arrive", "open_when": [{"day_at_least": 64}]},
+		{"id": "village_bakery", "name": "The Bakery", "scene": "res://scenes/world/regions/bakery_room.tscn", "origin": [2000, 0, 180], "arrive": "village_bakery_arrive", "open_when": [{"day_at_least": 1}]},
+		{"id": "village_workshop", "name": "The Workshop", "scene": "res://scenes/world/regions/workshop_room.tscn", "origin": [2000, 0, 240], "arrive": "village_workshop_arrive", "open_when": [{"day_at_least": 1}]},
+		{"id": "farmhouse", "name": "Mrs. Hannah's Farmhouse", "scene": "res://scenes/world/regions/farmhouse_room.tscn", "origin": [2000, 0, 300], "arrive": "farmhouse_arrive", "open_when": [{"day_at_least": 36}]},
+		{"id": "shepherd_hut", "name": "Mr. Silas's Hut", "scene": "res://scenes/world/regions/shepherd_hut.tscn", "origin": [2000, 0, 360], "arrive": "shepherd_hut_arrive", "open_when": [{"day_at_least": 71}]}
 	],
 	"places": [
 		{"id": "river", "name": "The River"},
